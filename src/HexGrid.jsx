@@ -71,6 +71,7 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
         const hex = garden.hexes[key];
         const condition = simulation.conditions[key][overlay];
         const fill = PALETTES[overlay][overlay === 'Material' ? hex.material : condition];
+        const label = overlay === 'Material' ? hex.material : condition;
         const object = garden.objects[key];
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
@@ -88,8 +89,9 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.47},${c.y-4+(y-(c.y-4))*.47}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
               <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text>
             </>}
-            <text x={c.x} y={c.y + (object ? 19 : 5)} textAnchor="middle" className={`hex-label ${object ? 'hex-label-small' : ''}`}>
-              {overlay === 'Material' ? hex.material : condition}
+            <text x={c.x} y={c.y + (object ? 19 : 5)} textAnchor="middle" className={`hex-label ${object ? 'hex-label-small' : ''}`}
+              style={label.length >= 8 ? { fontSize: object ? '6.5px' : '7.5px', letterSpacing: 0 } : undefined}>
+              {label}
             </text>
           </g>
         );
