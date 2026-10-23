@@ -27,7 +27,7 @@ The existing Environmental System v1.1 rules remain unchanged in the live Protot
 - The earlier term **Variant** is retired as an identity layer. Mandrabra, Mandrakadabra, and Mandrakazam are three different Herbs in the same Family, not a base Herb plus variants.
 - A **Herb Instance** is a particular growing plant occupying a hex. A **Herb** is its named species/type; the **Family** groups related Herb types.
 - Family membership matters: the **same fungal Influence can produce different Responses in different Herb Families** (including no Response or an adverse one).
-- Families need to share some meaningful characteristics, but exactly **which** traits they share is still **open**. Do **not** assume shared environmental preferences, timing, yields, or identical Responses within the family without a further decision.
+- Families need to share **a couple of meaningful characteristics**, but these can be **different kinds of traits for different families**: requirements, benefits, disadvantages, fungal relationships, seed behavior, and special Responses. We do **not** want a standardized pattern where every Family is defined by a single favorable environmental Condition or Material. Exact shared traits remain **open**.
 - A particular Herb may have a distinctive trait that enables a difficult interaction its family would usually struggle with. Such exceptions should have interesting trade-offs, not simply be stronger.
 
 ### Five provisional family names and seven known Herbs
@@ -43,6 +43,20 @@ These family labels are based on the real plants and are **working names**, not 
 | Thorn | Tanglethorn |
 
 **Current known count:** five families, seven named Herb types. The eventual number of Herbs per family is open. Do not introduce a separate Variant layer.
+
+### Nonuniform family identities — illustrative brainstorming, NOT established traits
+
+Different families might be related through entirely different mechanics. Possible *directions*, not assignments:
+
+| Family | Possible signature to explore |
+| --- | --- |
+| Dill | Related Leaf harvest timing and productive windows, with varied individual trade-offs |
+| Thyme | Shared sensitivity or unusual timing interactions with a certain fungal Influence |
+| Chamomile | A common adaptation/Transformation relationship, despite individual needs |
+| Mandrake | The previously explored specialized reproduction / Seed identity chain among Mandrabra, Mandrakadabra, and Mandrakazam |
+| Thorn | Shared ability to tolerate a hazardous fungus or overlay, but different drawbacks or production goals |
+
+Do **not** force these examples into a uniform one-family/one-specialty formula. A family might share a benefit, another a requirement, another a disadvantage, and another a dependency on fungi; traits need not correspond to the same category. Species-level exceptions may enable otherwise difficult interactions. Designing related Herbs and Fungi in **small connected batches**, starting perhaps with the known Mandrake trio, should reveal useful family commonalities.
 
 ### Working product terms
 
@@ -63,6 +77,7 @@ The original **automatic 0–200%** lifecycle remains the **standard design**, n
 - Growth does **not automatically stop at 100%**. The harvest timing remains a player decision.
 - **Growth Rate and Ripening Rate are independent** and fungi can accelerate or slow each separately.
 - A change to Ripening **speed** is not automatically the same as changing the **Leaf-to-Seed conversion curve** at a given percentage; keep those concepts distinguishable.
+- **Standard Herb harvesting is a one-time, plant-consuming action:** harvest when something is available, collect **all currently harvestable Leaves and Seeds**, and remove the Herb Instance from its hex. Exceptionally interesting Herbs might break this rule, but do not presume repeatable harvesting is standard.
 
 ### Original illustrative yield curve — not approved balance
 
@@ -108,6 +123,8 @@ These are valuable examples of different cultivation roles and seed dependency c
 - Their herb-targeting Influences use the **shared existing propagation architecture** (Range-based or Spread Budget), not a separate fungal travel engine.
 - A Fungus can potentially emit several Influences, including environmental and herb-targeting ones.
 - A Fungus grows **0–100%** before it can be harvested, and its harvested product is **Seeds only**. It does not use the Herb's 100–200% Leaf-to-Seed Ripening phase.
+- A Fungus begins emitting its Influences **immediately after successful germination**, rather than only at 100%, provided its environmental/habitat needs permit emission.
+- **Standard Fungus harvest is one-time:** at 100%, collect its Seeds and remove the Fungus Instance from its hex.
 - No number of Fungi or formal Fungus Family structure has been agreed. One useful design approach is to distinguish their **roles** first, without forcing fungus families.
 
 ### Potential roles — design vocabulary, not an exclusive taxonomy
@@ -158,6 +175,10 @@ If one particular species grants **+10 percentage points per Seed**, 1 Seed give
 | Death | Kill a Herb following sustained adverse exposure |
 
 **Open:** Which of these become actual effect types; how Responses stack or cancel; family defaults versus Herb-specific exceptions; whether immediate or event-triggered Responses are also needed; numerical units and final names.
+
+### Transformation continuity — agreed design direction
+
+A Transformation changes the **living Herb's identity** but **normally preserves its current Growth/Ripening percentage**. For instance, an eligible Herb at 75% Growth becomes the transformed Herb at 75%, not 0%. The new identity's habitat needs, Responses, and production rules then apply. **Open:** how to handle existing exposure timers, already available products, and rare transformations that explicitly change progress.
 
 ### A compelling family-versus-exception example — illustrative
 
@@ -262,7 +283,19 @@ Possible species-defined reactions include:
 - **Stop emitting Influences** while the requirement is unsatisfied (especially relevant to Fungi acting as Sources).
 - **Die after a specified duration** under the unsuitable Condition/overlay state.
 
-These are both permitted design behaviors; particular organisms and required durations are **not** assigned yet. The behavior of any organism might depend on which requirement failed.
+These are both permitted design behaviors; particular organisms and required durations are **not** assigned yet. The behavior of any organism might depend on which requirement failed. Some organisms can be **tolerant or immune** to a hazard that affects their relatives, perhaps at a cost in productivity or convenience; such trade-offs are species-design possibilities, **not** a universal mandatory penalty.
+
+### Proposed palette for unsuitable-habitat Responses (not yet locked)
+
+| Potential Response | What it means |
+| --- | --- |
+| Reduced productivity | Survival continues, but Leaf/Seed Yield or growth speed decreases |
+| Paused development | Growth or Ripening stops until the habitat becomes suitable |
+| Suppressed emissions | A Fungus stops acting as a Source while its requirement is unmet; resumes when suitable |
+| Delayed death | A hazard begins a continuous-exposure countdown toward death, rather than killing immediately |
+| Tolerance or immunity | A species is unaffected by one particular adverse habitat state; a separate Fungus might also grant tolerance |
+
+A resistance trait might trade off maximum Leaves, Seeds, Ripening window, germination chance, or compatibility with another organism, but not every resistant organism should pay the **same** cost. **Proposed conceptual distinction:** a *preference* reduces performance when absent, while a *hard requirement* may cause suppression or eventual death. Neither is yet a locked universal rule.
 
 **Open:** Whether an ordinary Herb also stops Growth or Ripening, whether failing conditions have a grace period before emissions stop, whether the death timer follows the same Continuous Exposure/reset rule, and the precise sequence when habitat loss switches off an emission that had been sustaining another organism.
 
@@ -284,7 +317,7 @@ The environmental file is intentionally **not rewritten in this design pass**. A
 
 ### Work to design before implementation
 
-1. Define which traits Herb Families truly share and which exceptions individual Herbs may have.
+1. Define which **unevenly selected** traits each Herb Family truly shares, including potential fungal relationships, and which exceptions individual Herbs may have.
 2. Clarify ordinary Herb/Fungus lifecycle numbers, germination and harvest rules.
 3. Choose a small, meaningful vocabulary/catalog of fungal Influences and possible Herb Responses.
 4. Define timing and resolution of Continuous Exposure, habitat failure, Transformation, and death.
