@@ -115,7 +115,7 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
         const p = edgeSegment(a, b);
         const active = selection.type === 'edge' && selection.id === id;
         return <g key={id} className={`edge-group ${blocker ? 'is-blocked' : ''}`}>
-          {(blocker || active) && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' ? '#f0ad8d' : '#cbb4e9'} strokeWidth={active ? 8 : 6} strokeLinecap="round" pointerEvents="none"/>}
+          {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' ? '#f0ad8d' : '#cbb4e9'} strokeWidth={active ? 8 : 6} strokeLinecap="round" pointerEvents="none"/>}
           {tool === 'edge' && !blocker && <line {...p} stroke="#f4e6bf" strokeWidth="2" strokeDasharray="2 5" opacity=".42" pointerEvents="none"/>}
           <line {...p} stroke="transparent" strokeWidth="15" className="edge-hit" style={{ pointerEvents: tool === 'edge' || blocker ? 'stroke' : 'none' }} onClick={(event) => { event.stopPropagation(); onEdgeClick(a, b); }} />
         </g>;
