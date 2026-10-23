@@ -64,4 +64,10 @@ The GitHub Actions workflow validates and builds the project and deploys `dist/`
 - Waterborne Influences do **not** modify Moisture under the current resolution order.
 - Herbs, Fungi, transformations, balance, and permanent item catalogs are deliberately deferred.
 
-The working game-design source is *Companion Cultivation — Environmental System v1.1*, including the later Spread Budget extension notes. The sample Sources and Influence strengths in this prototype are configurable test data, not finalized game items.
+The sample Sources and Influence strengths in Prototype 1 are configurable test data, not finalized game items.
+
+## Design references
+
+- [Environmental System v1.1](docs/environmental-system-v1.1.md) — implemented Prototype 1 foundation, agreed propagation and environmental rules.
+- [Herbs, Fungi & Cultivation Design](docs/herbs-and-fungi-design.md) — separate, **text-only** record of agreed directions, illustrative interactions, open questions, and the proposed independent Mycelial / Enchanted hex overlays. **Not yet implemented.**
+
