@@ -4,11 +4,12 @@
 **Updated:** 23 October 2026  
 **Supersedes:** Environmental System v1 (consolidated edition)
 
-This document collects the environmental rules agreed during design, including the later decisions about Sources, Blockers, object occupancy, and fungi. It is intended to be a reliable foundation for Prototype 1 and later herb and fungus design.
+This document collects the environmental rules agreed during design, including Sources, Blockers, object occupancy, fungi, and the later agreement on a second propagation system. It distinguishes what Prototype 1 already implements from agreed future mechanics.
 
 ## Conventions
 
 - **Locked:** An agreed rule for the current design. Changes require an explicit new decision.
+- **Agreed future:** A design decision accepted for later implementation, not active in Prototype 1.
 - **Illustrative:** An example used to explain a rule, not an assigned item, statistic, or balance value.
 - **Reserved:** A possible future mechanic, not active in the current rules.
 - **Undefined:** A question intentionally left for a later design layer.
@@ -29,7 +30,11 @@ We avoid **effect** and **status** as formal system terms because they are too a
 | **Source** | An object capable of originating one or more Influences. |
 | **Influence** | Something emitted by a Source, propagated to reachable hexes, and applied to its intended target there. |
 | **Influence Kind** | A classification of an Influence, usable for selective blocking. |
-| **Propagation** | The rules that determine which hexes an Influence reaches. |
+| **Propagation** | The existing Range-based system: an Influence travels in all valid directions, reaching hexes within its Range. |
+| **Spread Budget Propagation** | An agreed future alternative: the player selects an initial direction, then a Source-specific Movement Rule controls subsequent crossings and possible branching. |
+| **Spread Budget** | The total number of successful edge crossings available to one emitted Influence, shared by all of its branches. |
+| **Movement Rule** | The Source-specific behavior that chooses a Spread Budget Influence's next edge(s). |
+| **Starting Direction** | The one of six outgoing sides selected by the player when configuring a Spread Budget Influence. |
 | **Propagation Mode** | The method of travel; currently Airborne or Waterborne. |
 | **Range** | The maximum number of adjacent-hex crossings an Influence can traverse. |
 | **Blocker** | An object restricting the movement of applicable Influences. |
@@ -104,7 +109,7 @@ No percentage modifiers, permanent baseline changes, non-additive stacking rules
 ### General behavior — locked
 
 - A **Source** can emit **multiple Influences**.
-- Each emitted Influence has an **Influence Kind**, **Propagation Mode**, and **Range**, as well as its defined target and outcome.
+- In Prototype 1, each emitted Influence has an **Influence Kind**, **Propagation Mode**, and **Range**, as well as its defined target and outcome. The agreed future Spread Budget system substitutes its own budget, starting direction, and Movement Rule for Range-based reach (Section 6A).
 - For current **environmental** Influences, the outcome is a signed Modifier to **exactly one** environmental Property.
 - An environmental Influence means the same thing wherever it arrives: its Modifier does **not** vary because the destination is Dirt, Sand, Clay, or Stone.
 - Sources determine the strength of their emitted environmental Influences; for example, two Sources might both emit Warming at different strengths.
@@ -132,12 +137,12 @@ The following directional names and Kind names are **illustrative starting vocab
 
 - A Source occupies one hex as an object, and can be placed on any Material.
 - It cannot share the hex with any other object.
-- Its separate Influences can have different Kinds, strengths, Modes, and Ranges.
+- Its separate Influences can have different Kinds, strengths, Modes, and Ranges. In the agreed future design, each emission may instead be configured for Spread Budget Propagation.
 - Sources are not consumed by emitting Influences.
 
 **Prototype 1 tool:** A **Configurable Source** allows a tester to select its Influence(s), strength(s), Mode(s), and Range(s) without first defining a permanent catalog of fantasy items.
 
-## 6. Propagation — locked
+## 6. Propagation (Range-based) — locked for Prototype 1
 
 ### Shared rules
 
@@ -171,6 +176,42 @@ The following directional names and Kind names are **illustrative starting vocab
 | Illumination | No propagation effect. |
 
 In particular, **Freezing Temperature does not currently freeze water or interrupt Waterborne propagation**. A future rule could make frozen water non-flowing, and the existing flooded-connection rule could then naturally stop Waterborne travel. That future behavior is *reserved*, not active.
+
+## 6A. Spread Budget Propagation — agreed future system (not in Prototype 1)
+
+This is a **second propagation system**, not a replacement or reinterpretation of the existing **Propagation** system in Section 6. The original Propagation rules, including Range, Airborne/Waterborne connectivity, shortest valid routes, and blocker behavior, remain unchanged in Prototype 1.
+
+### Shared behavior — agreed future
+
+- Each emission uses either **Propagation** (Range-based) or **Spread Budget Propagation**, according to its Source configuration. Different Sources—and potentially different emissions from one Source—may use different systems.
+- For a Spread Budget emission, the **player chooses one Starting Direction** from the six sides of the Source hex. The player does **not** choose each subsequent turn or branch.
+- Each Source defines a **Movement Rule** for that emission. This rule determines which outgoing edge(s) a moving branch attempts next and what it does when obstructed.
+- A Spread Budget is **one shared pool across all branches of one emission**. Each successful crossing of one shared hex edge costs **1** from that pool. Creating two advancing branches across two edges costs **2**, not one per independently replenished branch. An attempted but blocked crossing spends nothing.
+- Branches must obey applicable Hex and Edge Blockers: a matching Influence cannot enter a blocked hex or cross a blocked edge. As with existing Influences, ordinary occupied hexes do not automatically block passage.
+- Reaching a hex uses the same Influence target and outcome rules as other propagation. One emission from one Source must not apply its outcome repeatedly to the same hex merely because multiple branches reach it.
+- Multiple Movement Rules are intended for different Sources. The routing behavior is an attribute of the Source/emission, not a universal rule for all Spread Budget emissions.
+
+### First Movement Rule: Straight Until Blocked — agreed future
+
+1. The chosen Starting Direction defines the forward exit from the Source hex.
+2. When a branch enters another hex, its **forward exit is opposite the edge it entered through**.
+3. If that forward exit is open and leads to a valid adjacent hex, the branch crosses it and continues straight, spending 1 shared Spread Budget.
+4. If the forward edge is blocked, the branch attempts to split toward the **two edges immediately adjacent to that forward edge**, one on each side. Each successful outgoing crossing spends 1 from the same shared budget.
+5. Each resulting branch repeats this behavior using its own incoming edge to determine its next forward direction.
+6. No branch can cross a blocked edge, enter a matching blocked hex, or spend beyond the remaining shared budget.
+
+This rule corresponds to the directional, blocker-deflected branching path in the design sketch discussed on 23 October 2026. A deliberately placed Edge Blocker can therefore **redirect or split** the Influence rather than merely preventing it from reaching a destination.
+
+### Details still undefined
+
+The principles above are agreed; these implementation details remain open and must not be invented silently:
+
+- **Insufficient budget at a fork:** When two exits are valid but only one crossing remains, whether no branch advances, one gets priority, or another consistent rule applies.
+- **Branch scheduling and collisions:** The deterministic ordering of simultaneous branches, reconverging routes, revisiting hexes, and avoiding loops while sharing one budget.
+- **Mode interactions:** Whether and how a Spread Budget emission also uses Airborne/Waterborne connectivity restrictions. In particular, a future routed **Wetting** Source cannot be assumed to wet Dry hexes through the current Waterborne rules, which require pre-existing Flooded connections and exclude Waterborne Moisture changes.
+- **Catalog and balance:** Which actual Sources use this system, their starting budgets, costs, and any additional Movement Rules.
+
+Do not implement Spread Budget Propagation or change current Range-based propagation in Prototype 1 merely because these future rules are now documented.
 
 ## 7. Blockers — locked
 
@@ -207,7 +248,7 @@ Each tool offers Full or Selective blocking, configured by Kind or Mode. Neither
 
 - **Fungi and Herbs are objects** and follow the one-object-per-hex rule.
 - **Fungi can themselves be Sources**. “Fungus” describes an object; “Source” describes a capability of that object. This is the same relationship as a Torch being both an object and a Source.
-- Fungi can emit Influences that travel using the **existing Airborne/Waterborne propagation rules**, rather than a separate fungal propagation engine.
+- In Prototype 1, Fungi can emit Influences using the **existing Airborne/Waterborne Propagation rules**, rather than a separate fungal engine. In the agreed future design, a fungus may also use Spread Budget Propagation with its own Movement Rule.
 - Some Influences target the **environment**, while others target **Herbs** and change herb behavior. The distinction is about what happens on arrival, not about how an Influence travels.
 - An herb-targeting Influence may pass through an empty hex or through a hex with an ordinary nonblocking object; if no Herb is present there, no Herb receives an outcome in that hex.
 - A Fungus could eventually emit both environmental and herb-targeting Influences, just as a Torch can emit multiple environmental ones.
@@ -233,7 +274,11 @@ Emitted Influence(s):
     Target Property:
     Modifier:
     Propagation Mode:
-    Range:
+    Range:  (current Propagation system)
+    Future alternative — Spread Budget Propagation:
+      Spread Budget:
+      Starting Direction:
+      Movement Rule:
 ```
 
 For a Herb or Fungus design, keep cultivation-specific choices separate until their rules are established:
@@ -261,7 +306,7 @@ For now, **Waterborne Influences do not modify Moisture**. Otherwise an Influenc
 
 ## 10. Prototype 1 — Environmental Sandbox
 
-The intended prototype tests the **environmental** system before final Herb or Fungus mechanics exist.
+The intended prototype tests the **environmental** system before final Herb or Fungus mechanics exist. **Prototype 1 implements only the existing Range-based Propagation system.** Spread Budget Propagation is an agreed future design, not an additional Prototype 1 requirement.
 
 ### Agreed test objects
 
@@ -292,7 +337,7 @@ These ideas are **not current mechanics**:
 - Environmental outcomes that change by destination Material or Condition.
 - Waterborne Moisture changes that alter their own transmission network.
 - Amplifiers, filters, converters, absorbers, conduits, or more complex blocker behavior beyond the agreed Full/Selective rules.
-- Directed emission, attenuation, variable movement costs, extra Propagation Modes, or range extensions along walls/corridors.
+- Attenuation, variable movement costs, extra Propagation Modes, or range extensions along walls/corridors. **Directed Spread Budget Propagation is no longer merely reserved; its agreed future rules are in Section 6A.**
 - Self-propagating environmental changes and other feedback loops.
 - Additional Materials or Properties (for example Gravel, Ash, Magical Saturation, or Contamination).
 - Permanent environmental alterations, complex Modifier stacking, or percentage modifiers.
@@ -308,6 +353,8 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 3. **Prototype testing tools** specified: one Configurable Source plus **two separate** blocker tools (Configurable Hex Blocker and Configurable Edge Blocker).
 4. **Object occupancy** established: at most one object in each hex; Herbs and Fungi are objects too, while Edge Blockers occupy boundaries.
 5. **Fungi-as-Sources architecture** established: future herb-targeting Influences reuse propagation, but their arrival outcomes are not yet defined.
+6. **Agreed future propagation system** recorded on 23 October 2026: keep existing Range-based Propagation intact; add Spread Budget Propagation with one player-selected Starting Direction, Source-specific Movement Rules, and one shared budget across all branches.
+7. **Straight Until Blocked** named as the first future Movement Rule: continue through the opposite edge, or attempt to fork through the two adjacent edges when forward movement is blocked; fork-priority details remain undefined.
 
 ---
 
@@ -322,7 +369,8 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 **Temperature:** Freezing → Cold → Temperate → Warm → Hot  
 **Illumination:** Dark → Dim → Lit → Bright  
 **Modifier math:** `Condition = clamp(Baseline + sum(active Modifiers))`  
-**Propagation:** Airborne through unblocked hexes; Waterborne through connected Flooded hexes  
+**Propagation:** Existing Range-based spread in all valid directions; Airborne through unblocked hexes, Waterborne through connected Flooded hexes  
+**Spread Budget Propagation (agreed future):** Player-selected Starting Direction; Source-specific Movement Rule; one shared crossing budget across branches; first rule: Straight Until Blocked  
 **Blocking:** Hex or Edge placement; Full or Selective restriction  
 **Occupancy:** At most one object per hex; Edge Blockers occupy shared boundaries  
 **Fungi:** Objects that can act as Sources and use the same propagation system
