@@ -1,6 +1,8 @@
 import { CONDITIONS, PROPERTIES, neighborsOf, edgeKey } from './grid.js';
 import { isBlocked } from './blocking.js';
 import { propagateSpread } from './spread.js';
+import { anchoredCondition } from './influences.js';
+import { applyEnvironmentalAdjacency } from './adjacency.js';
 
 export { isBlocked } from './blocking.js';
 
@@ -75,7 +77,8 @@ export function calculateEnvironment(garden) {
 
   collect('airborne', null);
   for (const [key, hex] of Object.entries(garden.hexes)) {
-    moisture[key] = conditionFrom(hex.baselines.Moisture, 'Moisture', modifiers[key].Moisture);
+    moisture[key] = anchoredCondition(garden.objects[key], 'Moisture')
+      ?? conditionFrom(hex.baselines.Moisture, 'Moisture', modifiers[key].Moisture);
   }
   collect('waterborne', moisture);
 
@@ -83,8 +86,10 @@ export function calculateEnvironment(garden) {
   for (const [key, hex] of Object.entries(garden.hexes)) {
     conditions[key] = Object.fromEntries(PROPERTIES.map((property) => [
       property,
-      conditionFrom(hex.baselines[property], property, modifiers[key][property]),
+      anchoredCondition(garden.objects[key], property)
+        ?? conditionFrom(hex.baselines[property], property, modifiers[key][property]),
     ]));
   }
-  return { conditions, modifiers, coverage, routes };
+  const withAdjacency = applyEnvironmentalAdjacency(garden, conditions);
+  return { conditions: withAdjacency.conditions, adjacency: withAdjacency.adjacency, modifiers, coverage, routes };
 }

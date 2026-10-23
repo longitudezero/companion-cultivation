@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import HexGrid, { PALETTES } from './HexGrid.jsx';
 import './spread.css';
+import './adjacency.css';
 import {
   CONDITIONS, MATERIALS, PROPERTIES, INFLUENCE_TYPES, KINDS, MODES,
   calculateEnvironment, createGarden, createDemoGarden, isGarden, edgeKey, keyAt,
   resizeGarden, setMaterial, setBaseline, placeObject, removeObject, updateObject,
-  placeEdgeBlocker, removeEdgeBlocker, makeInfluence, makeSpreadInfluence, makeSource, makeBlocker,
+  placeEdgeBlocker, removeEdgeBlocker, makeInfluence, makeSpreadInfluence, makeSource, makeAnchoredSource, makeBlocker,
   STARTING_DIRECTIONS, MOVEMENT_RULES,
 } from './core/index.js';
 
@@ -32,7 +33,7 @@ function SectionTitle({ eyebrow, title, right }) {
   return <div className="section-title"><div><span className="eyebrow">{eyebrow}</span><h2>{title}</h2></div>{right}</div>;
 }
 
-function ConditionRow({ property, baseline, current, contributors, onChange }) {
+function ConditionRow({ property, baseline, current, contributors, adjacencyEntry, anchoredAt, onChange }) {
   const steps = CONDITIONS[property];
   const currentIndex = steps.indexOf(current);
   const baselineIndex = steps.indexOf(baseline);
@@ -41,8 +42,10 @@ function ConditionRow({ property, baseline, current, contributors, onChange }) {
     <div className="condition-heading"><span>{property}</span><strong>{current}</strong></div>
     <div className="condition-steps">{steps.map((name, index) => <div key={name} className={`condition-step ${index <= currentIndex ? 'is-filled' : ''} ${index === baselineIndex ? 'is-baseline' : ''}`} title={name} />)}</div>
     <div className="condition-meta"><label>Baseline <select aria-label={`${property} baseline`} value={baseline} onChange={(event) => onChange(property, event.target.value)}>{steps.map((value) => <option key={value}>{value}</option>)}</select></label>
-      <span className={`delta ${total > 0 ? 'positive' : total < 0 ? 'negative' : ''}`}>{total === 0 ? '±0' : total > 0 ? `+${total}` : total} modifier</span>
+      <span className={`delta ${total > 0 ? 'positive' : total < 0 ? 'negative' : ''}`}>{total === 0 ? '±0' : total > 0 ? `+${total}` : total} source modifier</span>
     </div>
+    {anchoredAt && <div className="condition-note anchor-note">◆ Anchored at {anchoredAt}; incoming modifiers and adjacency cannot change this Condition.</div>}
+    {adjacencyEntry && <div className="condition-note adjacency-note">↝ Adjacency {adjacencyEntry.modifier > 0 ? '+' : ''}{adjacencyEntry.modifier}: {adjacencyEntry.before} → {adjacencyEntry.after} ({adjacencyEntry.from.length} neighboring {adjacencyEntry.trigger} {adjacencyEntry.from.length === 1 ? 'hex' : 'hexes'})</div>}
   </div>;
 }
 
@@ -100,6 +103,21 @@ export default function App() {
       return makeInfluence(next.name, Math.abs(next.modifier), range, mode);
     });
     changeGarden((previous) => updateObject(previous, selection.key, { ...selectedObject, emissions }));
+  }
+
+  function updateSourceType(value) {
+    if (selectedObject?.type !== 'source') return;
+    const next = value === 'anchored'
+      ? makeAnchoredSource('Temperature', 'Hot', selectedObject.emissions)
+      : makeSource(selectedObject.emissions);
+    changeGarden((previous) => updateObject(previous, selection.key, next));
+  }
+
+  function updateSourceAnchor(field, value) {
+    if (selectedObject?.type !== 'source' || !selectedObject.anchor) return;
+    const property = field === 'property' ? value : selectedObject.anchor.property;
+    const condition = field === 'property' ? CONDITIONS[property].at(-1) : value;
+    changeGarden((previous) => updateObject(previous, selection.key, makeAnchoredSource(property, condition, selectedObject.emissions)));
   }
 
   function updateSelectedBlocker(field, value) {
@@ -193,8 +211,11 @@ export default function App() {
         <SectionTitle eyebrow="FIELD NOTES" title="Inspector" right={<span className="inspector-tag">{selection.type === 'hex' ? 'HEX' : 'EDGE'}</span>}/>
         {selection.type === 'hex' && selectedHex ? <>
           <div className="selected-summary"><div className="selected-illustration" style={{ background: PALETTES.Material[selectedHex.material] }}>⬡</div><div><span className="mini-heading">SELECTED HEX</span><h3>{selectedHex.material} ground</h3><p>Coordinate {selection.key}</p></div></div>
-          {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{selectedObject.type === 'source' ? '✦ Influence Source' : '▣ Hex Blocker'}</strong></div><button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button></div>
+          {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{selectedObject.type === 'source' ? selectedObject.anchor ? '✥ Anchored Source' : '✦ Influence Source' : '▣ Hex Blocker'}</strong></div><button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button></div>
             {selectedObject.type === 'source' ? <>
+              <div className="source-config"><label>Source type<select aria-label="Source type" value={selectedObject.anchor ? 'anchored' : 'regular'} onChange={(event) => updateSourceType(event.target.value)}><option value="regular">Regular Source</option><option value="anchored">Anchored Source</option></select></label>
+                {selectedObject.anchor && <><div className="field-pair"><label>Anchored Property<select aria-label="Anchored Property" value={selectedObject.anchor.property} onChange={(event) => updateSourceAnchor('property', event.target.value)}>{PROPERTIES.map((property) => <option key={property}>{property}</option>)}</select></label><label>Anchored Condition<select aria-label="Anchored Condition" value={selectedObject.anchor.condition} onChange={(event) => updateSourceAnchor('condition', event.target.value)}>{CONDITIONS[selectedObject.anchor.property].map((condition) => <option key={condition}>{condition}</option>)}</select></label></div><div className="anchor-summary">◆ {selectedObject.anchor.property} stays {selectedObject.anchor.condition} on this hex.</div></>}
+              </div>
               {selectedObject.emissions.map((emission, index) => <div key={index} className="emission-editor"><div className="emission-title"><span>INFLUENCE {index + 1}</span><button aria-label="Remove influence" onClick={() => changeGarden((previous) => updateObject(previous, selection.key, { ...selectedObject, emissions: selectedObject.emissions.filter((_, i) => i !== index) }))}>×</button></div>
                 <label>Influence<select value={emission.name} onChange={(event) => updateEmission(index, 'name', event.target.value)}>{INFLUENCE_TYPES.map((type) => <option key={type.name}>{type.name}</option>)}</select></label>
                 <label>Propagation system<select aria-label={`Influence ${index + 1} propagation`} value={emission.propagation === 'spread-budget' ? 'spread-budget' : 'range'} onChange={(event) => updateEmission(index, 'propagation', event.target.value)}><option value="range">Propagation · Range</option><option value="spread-budget">Spread Budget Propagation</option></select></label>
@@ -213,14 +234,16 @@ export default function App() {
               <button className="add-influence" onClick={() => changeGarden((previous) => updateObject(previous, selection.key, { ...selectedObject, emissions: [...selectedObject.emissions, makeInfluence('Brightening')] }))}>＋ Add another Influence</button>
             </> : <BlockerFields blocker={selectedObject} onChange={updateSelectedBlocker}/>}
           </div>}
-          <div className="inspector-conditions"><div className="mini-heading">PROPERTY CONDITIONS <span>BASELINE + MODIFIERS</span></div>{PROPERTIES.map((property) => <ConditionRow key={property} property={property} baseline={selectedHex.baselines[property]} current={simulation.conditions[selection.key][property]} contributors={simulation.modifiers[selection.key][property]} onChange={(name, value) => changeGarden((previous) => setBaseline(previous, selection.key, name, value))}/>)}</div>
-          <div className="influence-notes"><div className="mini-heading">REACHING THIS HEX</div>{PROPERTIES.flatMap((property) => simulation.modifiers[selection.key][property].map((entry, index) => <div className="contribution" key={`${property}-${index}`}><span className="contribution-symbol">↝</span><div><strong>{entry.influence}</strong><small>From {entry.source} · {entry.propagation === 'spread-budget' ? 'routed' : entry.mode} · {entry.distance} steps</small></div><b className={entry.modifier > 0 ? 'positive' : 'negative'}>{entry.modifier > 0 ? '+' : ''}{entry.modifier}</b></div>))}{PROPERTIES.every((property) => simulation.modifiers[selection.key][property].length === 0) && <p className="empty-hint">No Sources currently reach this hex. Its Conditions match its Baselines.</p>}</div>
+          <div className="inspector-conditions"><div className="mini-heading">PROPERTY CONDITIONS <span>BASELINE → FINAL</span></div>{PROPERTIES.map((property) => <ConditionRow key={property} property={property} baseline={selectedHex.baselines[property]} current={simulation.conditions[selection.key][property]} contributors={simulation.modifiers[selection.key][property]} adjacencyEntry={simulation.adjacency[selection.key]?.find((entry) => entry.property === property)} anchoredAt={selectedObject?.type === 'source' && selectedObject.anchor?.property === property ? selectedObject.anchor.condition : null} onChange={(name, value) => changeGarden((previous) => setBaseline(previous, selection.key, name, value))}/>)}</div>
+          <div className="influence-notes"><div className="mini-heading">REACHING THIS HEX</div>{PROPERTIES.flatMap((property) => simulation.modifiers[selection.key][property].map((entry, index) => <div className="contribution" key={`${property}-${index}`}><span className="contribution-symbol">↝</span><div><strong>{entry.influence}</strong><small>From {entry.source} · {entry.propagation === 'spread-budget' ? 'routed' : entry.mode} · {entry.distance} steps</small></div><b className={entry.modifier > 0 ? 'positive' : 'negative'}>{entry.modifier > 0 ? '+' : ''}{entry.modifier}</b></div>))}{PROPERTIES.every((property) => simulation.modifiers[selection.key][property].length === 0) && <p className="empty-hint">No emitted Source Influences currently reach this hex.</p>}
+            {(simulation.adjacency[selection.key]?.length ?? 0) > 0 && <div className="adjacency-contributions"><div className="mini-heading">ENVIRONMENTAL ADJACENCY</div>{simulation.adjacency[selection.key].map((entry) => <div className="contribution adjacency-contribution" key={entry.property}><span className="contribution-symbol">⌁</span><div><strong>{entry.property}: {entry.before} → {entry.after}</strong><small>Neighboring {entry.trigger} at {entry.from.join(', ')}</small></div><b className={entry.modifier > 0 ? 'positive' : 'negative'}>{entry.modifier > 0 ? '+' : ''}{entry.modifier}</b></div>)}</div>}
+          </div>
         </> : selection.type === 'edge' ? <div className="edge-inspector"><div className="edge-inspector-icon">╱</div><h3>Shared hex edge</h3><p>{selection.a} ↔ {selection.b}</p><p className="empty-hint">One edge belongs to both adjacent hexes. Blocking works in both directions.</p>{selectedEdge ? <div className="object-card"><BlockerFields blocker={selectedEdge} onChange={updateSelectedBlocker}/><button className="danger-outline" onClick={() => changeGarden((previous) => removeEdgeBlocker(previous, selection.a, selection.b))}>Remove edge blocker</button></div> : <button className="add-influence" onClick={() => changeGarden((previous) => placeEdgeBlocker(previous, selection.a, selection.b, makeBlocker()))}>＋ Place edge blocker</button>}</div> : null}
         <div className="data-actions"><button onClick={exportGarden}>↓ Export JSON</button><button onClick={() => fileInput.current?.click()}>↑ Import JSON</button><input ref={fileInput} type="file" accept=".json,application/json" hidden onChange={importGarden}/></div>
       </aside>
     </div>
 
-    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the Environmental Sandbox works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 01</span><h2>A living system of influences</h2><p>Every hex has a permanent Material, four environmental Properties, and a Baseline for each. Sources emit Influences that adjust Conditions only while they reach a hex.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose Source, Hex Blocker, or Edge Blocker from the workbench and click the garden.</p></div><div><b>02 · Configure</b><p>Each Source emission can use familiar Range-based Propagation or Spread Budget Propagation with a starting direction and Movement Rule.</p></div><div><b>03 · Observe</b><p>Select a routed Source to see its arrows and remaining budget. Switch overlays to inspect the Conditions it changes.</p></div><div><b>04 · Experiment</b><p>Blockers redirect routed Influences, and routes are stable until you edit Sources or blockers. Routed Wetting can create Flooded paths for Waterborne Influences.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the Environmental Sandbox works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 01</span><h2>A living system of influences</h2><p>Every hex has a permanent Material, four environmental Properties, and a Baseline for each. Sources emit Influences that adjust Conditions only while they reach a hex.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose Source, Hex Blocker, or Edge Blocker from the workbench and click the garden.</p></div><div><b>02 · Configure</b><p>Sources can be Regular or Anchored to one fixed Condition. Each emission can use Range or Spread Budget Propagation.</p></div><div><b>03 · Observe</b><p>Flooded, Hot, Freezing, Bright, and Dark hexes influence adjacent Conditions in one simultaneous pass, without stacking or chains.</p></div><div><b>04 · Experiment</b><p>Blockers redirect propagated Influences. Adjacency currently crosses blockers; blocking adjacency is reserved for a later phase.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
   </div>;
 }
 

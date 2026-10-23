@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   createGarden, createDemoGarden, keyAt, edgeKey, distanceBetween, neighborsOf,
   setBaseline, setMaterial, placeObject, placeEdgeBlocker, resizeGarden,
-  makeInfluence, makeSpreadInfluence, makeSource, makeBlocker, calculateEnvironment,
+  makeInfluence, makeSpreadInfluence, makeSource, makeAnchoredSource, makeBlocker, calculateEnvironment,
   propagateSpread, removeEdgeBlocker, STARTING_DIRECTIONS,
 } from '../src/core/index.js';
 
@@ -219,4 +219,151 @@ test('existing Range propagation is unchanged and old saved emissions remain val
   const result = calculateEnvironment(garden);
   assert.equal(result.coverage[`${origin}:0`].length, 7);
   assert.equal(result.routes[`${origin}:0`], undefined);
+});
+
+test('Flooded neighbors make Dry hexes Damp once, never Flooded or chained farther', () => {
+  let garden = createGarden(7, 7);
+  const middle = keyAt(3, 3);
+  const [first, second] = [neighborsOf(middle)[0], neighborsOf(middle)[1]];
+  garden = setBaseline(garden, first, 'Moisture', 'Flooded');
+  garden = setBaseline(garden, second, 'Moisture', 'Flooded');
+  garden = setBaseline(garden, neighborsOf(first)[0], 'Moisture', 'Damp');
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[middle].Moisture, 'Damp');
+  assert.equal(result.adjacency[middle].length, 1);
+  assert.equal(result.adjacency[middle][0].from.length, 2);
+  const twoCrossings = neighborsOf(middle)[3];
+  assert.equal(result.conditions[twoCrossings].Moisture, 'Dry');
+  assert.ok(Object.values(result.conditions).every((entry) => entry.Moisture !== 'Flooded' || entry === result.conditions[first] || entry === result.conditions[second]));
+});
+
+test('Temperature extreme neighbors shift targets without creating new extremes', () => {
+  let garden = createGarden(7, 7);
+  const hot = keyAt(2, 2);
+  const freezing = keyAt(5, 4);
+  garden = setBaseline(garden, hot, 'Temperature', 'Hot');
+  garden = setBaseline(garden, freezing, 'Temperature', 'Freezing');
+  const nextToHot = neighborsOf(hot)[0];
+  const nextToFreezing = neighborsOf(freezing)[3];
+  garden = setBaseline(garden, nextToHot, 'Temperature', 'Freezing');
+  garden = setBaseline(garden, nextToFreezing, 'Temperature', 'Hot');
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[nextToHot].Temperature, 'Cold');
+  assert.equal(result.conditions[nextToFreezing].Temperature, 'Warm');
+  assert.equal(result.conditions[hot].Temperature, 'Warm', 'an ordinary Hot hex can be cooled by an adjacent Freezing hex');
+  assert.equal(result.conditions[freezing].Temperature, 'Cold', 'an ordinary Freezing hex can be warmed by an adjacent Hot hex');
+});
+
+test('Hot and Freezing hexes change each other through adjacency', () => {
+  let garden = createGarden(5, 5);
+  const hot = keyAt(1, 2);
+  const cold = neighborsOf(hot)[0];
+  garden = setBaseline(garden, hot, 'Temperature', 'Hot');
+  garden = setBaseline(garden, cold, 'Temperature', 'Freezing');
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[hot].Temperature, 'Warm');
+  assert.equal(result.conditions[cold].Temperature, 'Cold');
+});
+
+test('same-direction neighbors do not stack and opposing Temperature extremes cancel', () => {
+  let garden = createGarden(7, 7);
+  const middle = keyAt(3, 3);
+  for (const direction of [0, 1, 2]) garden = setBaseline(garden, neighborsOf(middle)[direction], 'Temperature', 'Hot');
+  let result = calculateEnvironment(garden);
+  assert.equal(result.conditions[middle].Temperature, 'Warm');
+  garden = setBaseline(garden, neighborsOf(middle)[3], 'Temperature', 'Freezing');
+  result = calculateEnvironment(garden);
+  assert.equal(result.conditions[middle].Temperature, 'Temperate');
+  assert.equal(result.adjacency[middle].filter((entry) => entry.property === 'Temperature').length, 0);
+});
+
+test('Temperature adjacency does not chain from neighbors warmed in the same pass', () => {
+  let garden = createGarden(7, 7);
+  const hot = keyAt(1, 3);
+  const warmNeighbor = neighborsOf(hot)[0];
+  const beyond = neighborsOf(warmNeighbor)[0];
+  garden = setBaseline(garden, hot, 'Temperature', 'Hot');
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[warmNeighbor].Temperature, 'Warm');
+  assert.equal(result.conditions[beyond].Temperature, 'Temperate');
+  assert.deepEqual(calculateEnvironment(garden), result, 'ordinary recalculation is stable');
+});
+
+test('Fertility has no adjacency interactions', () => {
+  let garden = createGarden(5, 5);
+  const target = keyAt(2, 2), neighbor = neighborsOf(target)[0];
+  garden = setBaseline(garden, neighbor, 'Fertility', 'Rich');
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[target].Fertility, 'Normal');
+  assert.equal(result.adjacency[target].length, 0);
+});
+
+test('Bright and Dark adjacency is capped, simultaneous, and cancels when opposed', () => {
+  let garden = createGarden(7, 7);
+  const middle = keyAt(3, 3);
+  const bright = neighborsOf(middle)[0];
+  const dark = neighborsOf(middle)[3];
+  garden = setBaseline(garden, middle, 'Illumination', 'Dim');
+  garden = setBaseline(garden, bright, 'Illumination', 'Bright');
+  for (const adjacent of neighborsOf(middle)) {
+    if (adjacent !== bright) garden = setBaseline(garden, adjacent, 'Illumination', 'Lit');
+  }
+  let result = calculateEnvironment(garden);
+  assert.equal(result.conditions[middle].Illumination, 'Lit');
+  assert.equal(result.conditions[bright].Illumination, 'Lit', 'a Bright hex can be dimmed by adjacent Dark hexes');
+  garden = setBaseline(garden, dark, 'Illumination', 'Dark');
+  result = calculateEnvironment(garden);
+  assert.equal(result.conditions[middle].Illumination, 'Dim');
+  assert.equal(result.adjacency[middle].filter((entry) => entry.property === 'Illumination').length, 0);
+});
+
+test('Anchored Sources lock exactly one Condition, but remain reachable by other Influences', () => {
+  let garden = createGarden(7, 7);
+  const origin = keyAt(2, 3);
+  const next = neighborsOf(origin)[0];
+  garden = placeObject(garden, origin, makeAnchoredSource('Temperature', 'Hot', []));
+  garden = placeObject(garden, next, makeSource([
+    makeInfluence('Cooling', 3, 1), makeInfluence('Wetting', 1, 1),
+  ]));
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[origin].Temperature, 'Hot');
+  assert.equal(result.conditions[origin].Moisture, 'Damp');
+  assert.equal(result.modifiers[origin].Temperature[0].modifier, -3);
+  assert.equal(result.conditions[next].Temperature, 'Freezing', 'the regular Source is not anchored');
+  assert.equal(result.adjacency[next].length, 0, 'opposing adjacent extremes cancel on the regular Source');
+});
+
+test('Anchored Flooded Source establishes Waterborne connectivity before adjacency', () => {
+  let garden = createGarden(5, 3);
+  const origin = keyAt(0, 1), channel = keyAt(1, 1), target = keyAt(2, 1);
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 4, 'waterborne')]));
+  garden = placeObject(garden, channel, makeAnchoredSource('Moisture', 'Flooded', [makeInfluence('Drying', 3, 0)]));
+  garden = setBaseline(garden, target, 'Moisture', 'Flooded');
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[channel].Moisture, 'Flooded');
+  assert.equal(result.conditions[target].Fertility, 'Rich');
+  assert.equal(result.conditions[origin].Moisture, 'Damp', 'flooded adjacency does not create another Flooded hex');
+  assert.equal(result.adjacency[channel].length, 0);
+});
+
+test('Adjacency crosses blockers in phase one without altering Source propagation rules', () => {
+  let garden = createGarden(5, 5);
+  const hot = keyAt(1, 2), neighbor = neighborsOf(hot)[0];
+  garden = setBaseline(garden, hot, 'Temperature', 'Hot');
+  garden = placeEdgeBlocker(garden, hot, neighbor, makeBlocker());
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[neighbor].Temperature, 'Warm');
+  assert.equal(result.adjacency[neighbor][0].trigger, 'Hot');
+});
+
+test('Anchored Sources obey one-object occupancy, validate Property and survive resizing', () => {
+  let garden = createGarden(4, 4);
+  const position = keyAt(1, 1);
+  garden = placeObject(garden, position, makeAnchoredSource('Illumination', 'Dark', []));
+  assert.throws(() => placeObject(garden, position, makeBlocker()), /already contains/);
+  assert.throws(() => makeAnchoredSource('Temperature', 'Flooded'), /Invalid anchored/);
+  const larger = resizeGarden(garden, 6, 6);
+  assert.equal(larger.objects[position].anchor.property, 'Illumination');
+  assert.equal(larger.objects[position].anchor.condition, 'Dark');
+  assert.deepEqual(calculateEnvironment(larger), calculateEnvironment(JSON.parse(JSON.stringify(larger))));
 });

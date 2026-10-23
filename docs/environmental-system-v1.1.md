@@ -1,6 +1,6 @@
 # Companion Cultivation — Environmental System v1.1
 
-**Status:** Agreed rules reference; the original Propagation system and first Spread Budget extension are both implemented in Prototype 1  
+**Status:** Agreed rules reference; both propagation systems, Environmental Adjacency, and Anchored Sources are implemented in Prototype 1  
 **Updated:** 23 October 2026  
 **Supersedes:** Environmental System v1 (consolidated edition)
 
@@ -28,6 +28,7 @@ We avoid **effect** and **status** as formal system terms because they are too a
 | **Modifier** | A signed numerical step adjustment to exactly one Property. |
 | **State** | The complete collection of a hex's current Conditions; not another individual Condition. |
 | **Source** | An object capable of originating one or more Influences. |
+| **Anchored Source** | A Source that also fixes one selected Property at one selected Condition on its own hex. |
 | **Influence** | Something emitted by a Source, propagated to reachable hexes, and applied to its intended target there. |
 | **Influence Kind** | A classification of an Influence, usable for selective blocking. |
 | **Propagation** | The existing Range-based system: an Influence travels in all valid directions, reaching hexes within its Range. |
@@ -38,6 +39,7 @@ We avoid **effect** and **status** as formal system terms because they are too a
 | **Propagation Mode** | The method of travel; currently Airborne or Waterborne. |
 | **Range** | The maximum number of adjacent-hex crossings an Influence can traverse. |
 | **Blocker** | An object restricting the movement of applicable Influences. |
+| **Environmental Adjacency** | A separate, simultaneous one-neighbor environmental adjustment based on extreme Conditions, without Source emissions or chaining. |
 | **Object** | A placeable occupant such as a Herb, Fungus, Torch, or Hex Blocker. Some objects are also Sources. |
 
 The **State** of a hex is not an additional Property or Condition. The distinction between an individual Condition and the complete State was present in the original rules.
@@ -102,7 +104,7 @@ Examples:
 - Fertility Baseline Rich plus `+2` remains Rich.
 - When all Modifiers disappear, the Condition returns to the Baseline.
 
-No percentage modifiers, permanent baseline changes, non-additive stacking rules, or override priorities are part of v1.1.
+Normal Source Modifiers remain additive. Environmental Adjacency is a separate, non-stacking calculation, and Anchored Sources explicitly override one local Property/Condition (Section 6B). These do not introduce percentage modifiers or permanent Baseline changes.
 
 ## 5. Influences and Sources
 
@@ -140,7 +142,7 @@ The following directional names and Kind names are **illustrative starting vocab
 - Its separate Influences can have different Kinds, strengths, Modes, and Ranges. Each emission may instead use Spread Budget Propagation.
 - Sources are not consumed by emitting Influences.
 
-**Prototype 1 tool:** A **Configurable Source** allows a tester to select its Influence(s), strength(s), Mode(s), and Range(s) without first defining a permanent catalog of fantasy items.
+**Prototype 1 tool:** A **Configurable Source** allows a tester to select its Influence(s), strength(s), Mode(s), Range(s), or Spread Budget settings without first defining a permanent catalog of fantasy items. A Source may be toggled between Regular and Anchored, with its anchor Property and Condition configured independently of its emissions (Section 6B).
 
 ## 6. Propagation (Range-based) — locked for Prototype 1
 
@@ -220,6 +222,53 @@ This rule corresponds to the directional, blocker-deflected branching path in th
 - Material-specific interactions, variable costs, and Herb/Fungus outcomes.
 
 The route resolver is separate from the React presentation and ships in the CommonJS-compatible rules core.
+
+## 6B. Environmental Adjacency and Anchored Sources — implemented Prototype 1 extension
+
+Environmental Adjacency is an **environmental calculation**, not a new emitted Influence or a substitute for either propagation system. It does not occupy an object slot or spend a Source's Range/Spread Budget. The ordinary Source Modifier system remains additive.
+
+### Environmental Adjacency — locked
+
+- The calculation looks at the **six immediately neighboring hexes**.
+- All adjustments use a single, pre-adjacency snapshot of Conditions. Apply them **simultaneously**, once per recalculation. Adjusted Conditions cannot trigger further adjustments in that pass: **no chain reactions**.
+- Multiple neighbors at the same extreme trigger a given Property's adjustment **at most once**; their contributions do not stack.
+- Opposing extreme Conditions (Hot and Freezing, or Bright and Dark) among the neighbors **cancel** for that target Property, irrespective of their respective counts.
+- Extreme target Conditions are **not immune**. An ordinary Hot hex next to a Freezing hex becomes Warm; that Freezing hex becomes Cold, unless other neighbors cause cancellation.
+- An adjacency adjustment is distinct from an emitted Source Modifier. The inspector reports it separately.
+- **Phase 1:** Hex and Edge Blockers do **not** block adjacency, even though they continue to block ordinary propagated Influences exactly as before.
+- **Agreed phase 2:** Blockers will restrict adjacency. The details of mapping selective blockers to adjacency Properties are deferred.
+
+| Property | Trigger in an adjacent hex | Change on the target hex |
+| --- | --- | --- |
+| Moisture | Flooded | Dry becomes Damp; Damp does not become Flooded. |
+| Temperature | Hot | One step warmer, without changing Warm to Hot through adjacency. |
+| Temperature | Freezing | One step colder, without changing Cold to Freezing through adjacency. |
+| Illumination | Bright | One step brighter, without changing Lit to Bright through adjacency. |
+| Illumination | Dark | One step darker, without changing Dim to Dark through adjacency. |
+| Fertility | None | No adjacency response. |
+
+The limits prevent adjacency from **creating new extreme Conditions**; they do not protect existing extremes from a change in the opposite direction. Adjacent Hot and Freezing hexes therefore influence each other unless an anchor or cancellation applies.
+
+### Anchored Sources — locked
+
+- Every Source remains a **single object occupying one hex**. Regular Sources retain their current behavior; an Anchored Source is a configurable Source subtype, not an additional occupant.
+- An Anchored Source fixes **exactly one selected Property to one selected Condition on its own hex**. Its anchor is independent of its configured emitted Influences, which still use ordinary propagation and blocker rules.
+- Incoming Source Modifiers may still reach and pass through the anchored hex, but cannot change its anchored Condition. Environmental Adjacency likewise cannot change the anchored Condition.
+- Its other three Properties remain fully reactive, including to adjacency.
+- An anchor changes the computed current Condition, **not** the permanent Baseline. Removing the anchor reveals the ordinary recalculated Condition.
+- Any defined Condition may be selected, including Flooded, Hot, Dark, or Rich; the system is not restricted to extremes.
+- An **Anchored Flooded** Source counts as Flooded when Waterborne connectivity is determined. An anchor is applied before Waterborne traversal and respected in final Conditions.
+- Prototype 1 uses the existing Source placement tool with a Regular/Anchored toggle and separate Property/Condition selectors.
+
+### Calculation order — implemented
+
+1. Resolve normal Airborne and routed emissions and their additive Modifiers.
+2. Resolve Moisture, honoring any Source anchor on Moisture, and use that snapshot for Waterborne connectivity.
+3. Resolve Waterborne emissions and calculate Conditions for all Properties, honoring anchors.
+4. Take one simultaneous snapshot of these Conditions and compute Environmental Adjacency.
+5. Apply capped, non-stacking adjacency adjustments only to non-anchored Properties. The result is the displayed final Conditions.
+
+Adjacency cannot create Flooded hexes, so the phase-one adjacency pass does not introduce a Waterborne connectivity feedback loop. For now all six neighbors count, irrespective of Materials and Blockers.
 
 ## 7. Blockers — locked
 
@@ -304,23 +353,24 @@ The templates define **information to record**, not additional game mechanics.
 
 Waterborne paths depend on knowing which hexes are already Flooded. Resolve environmental calculations in this order:
 
-1. Start with each Property's **Baseline** and any applicable **direct local Modifiers**.
-2. Calculate **Airborne Influences**, including any that modify Moisture.
-3. Resolve **Moisture Conditions** and determine which hexes are **Flooded**.
-4. Calculate **Waterborne Influences** using the resulting Flooded connections.
-5. Sum all active applicable Modifiers and calculate final Conditions for every Property.
+1. Start from each Property's **Baseline** and active additive Source Modifiers.
+2. Calculate **Airborne Influences** and routed emissions, including any that modify Moisture.
+3. Resolve **Moisture Conditions** (including Anchored Moisture) and determine which hexes are **Flooded**.
+4. Calculate **Waterborne Influences** using those Flooded connections.
+5. Resolve every Property from Baselines and Source Modifiers, honoring one anchored Property/Condition per Anchored Source.
+6. Apply the single simultaneous **Environmental Adjacency** pass to non-anchored Properties, without feedback or chaining (Section 6B).
 
 For now, **Waterborne Influences do not modify Moisture**. Otherwise an Influence could create the very Flooded path it needs, which would require new resolution rules. Herb-targeting outcomes, once designed, can be evaluated after their propagation paths are known.
 
 ## 10. Prototype 1 — Environmental Sandbox
 
-The prototype tests the **environmental** system before final Herb or Fungus mechanics exist. **Prototype 1 now implements both the original Range-based Propagation and Straight Until Blocked Spread Budget Propagation.**
+The prototype tests the **environmental** system before final Herb or Fungus mechanics exist. **Prototype 1 now implements both propagation systems, Environmental Adjacency, and Anchored Sources.**
 
 ### Agreed test objects
 
 | Tool | Purpose |
 | --- | --- |
-| Configurable Source | Test individual or multiple emitted Influences, strengths, Modes, and Ranges. |
+| Configurable Source | Test Regular or Anchored Sources, a fixed Property/Condition, and individual or multiple emitted Influences with Range or Spread Budget. |
 | Configurable Hex Blocker | Test complete or selective blocking of a hex. |
 | Configurable Edge Blocker | Test complete or selective blocking of a single shared hex edge. |
 
@@ -346,7 +396,7 @@ These ideas are **not current mechanics**:
 - Waterborne Moisture changes that alter their own transmission network.
 - Amplifiers, filters, converters, absorbers, conduits, or more complex blocker behavior beyond the agreed Full/Selective rules.
 - Attenuation, variable movement costs, extra Propagation Modes, or range extensions along walls/corridors. **Spread Budget Propagation and its first Movement Rule are implemented in the prototype extension (Section 6A).**
-- Self-propagating environmental changes and other feedback loops.
+- Self-propagating environmental changes and other feedback loops. The implemented one-pass Environmental Adjacency does **not** chain (Section 6B).
 - Additional Materials or Properties (for example Gravel, Ash, Magical Saturation, or Contamination).
 - Permanent environmental alterations, complex Modifier stacking, or percentage modifiers.
 - A fixed catalog and balance values for fantasy Source objects.
@@ -364,6 +414,9 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 6. **Second propagation system** recorded on 23 October 2026 and implemented in the prototype extension: preserve Range-based Propagation; add Spread Budget Propagation with a player-selected Starting Direction, Source-specific Movement Rules, and one shared budget across branches.
 7. **Straight Until Blocked** is the first implemented Movement Rule: continue through the opposite edge or attempt adjacent exits when obstructed; reproducible random arbitration resolves insufficient budget.
 8. **Routed Wetting** uses the ordinary Moisture Modifier and resolves before conventional Waterborne connectivity; it needs no existing Flooded path.
+9. **Environmental Adjacency** implemented on 23 October 2026 as a one-pass, non-stacking, cancellable neighbor adjustment affecting Moisture, Temperature, and Illumination; Fertility is excluded.
+10. **Anchored Sources** implemented as one-Property/Condition overrides at a Source's own hex; normal Source emissions remain unchanged.
+11. **Adjacency-aware Blockers** agreed for a later phase and deliberately not active in the current prototype.
 
 ---
 
@@ -377,9 +430,11 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 **Fertility:** Barren → Poor → Normal → Rich  
 **Temperature:** Freezing → Cold → Temperate → Warm → Hot  
 **Illumination:** Dark → Dim → Lit → Bright  
-**Modifier math:** `Condition = clamp(Baseline + sum(active Modifiers))`  
+**Source Modifier math:** Ordinary base Condition = `clamp(Baseline + sum(active Source Modifiers))`; an Anchored Source fixes one local Condition  
 **Propagation:** Existing Range-based spread in all valid directions; Airborne through unblocked hexes, Waterborne through connected Flooded hexes  
 **Spread Budget Propagation (implemented extension):** Player-selected Starting Direction; Source-specific Movement Rule; one shared crossing budget across branches; first rule: Straight Until Blocked  
-**Blocking:** Hex or Edge placement; Full or Selective restriction  
+**Environmental Adjacency:** One simultaneous capped neighbor pass; Flooded → Damp, Hot/Freezing ±1 Temperature, Bright/Dark ±1 Illumination; opposite triggers cancel, no stacking or chaining, no Fertility response
+**Anchored Source:** Regular Source emission behavior plus one fixed local Property/Condition
+**Blocking:** Hex or Edge placement; Full or Selective for propagated Influences. Adjacency blocking is phase two  
 **Occupancy:** At most one object per hex; Edge Blockers occupy shared boundaries  
 **Fungi:** Objects that can act as Sources and use the same propagation system

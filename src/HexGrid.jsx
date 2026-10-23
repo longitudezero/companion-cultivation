@@ -86,8 +86,9 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
             <polygon points={polygonFor(c)} fill={fill} stroke={active ? '#ffe4a8' : '#243b32'} strokeWidth={active ? '2.3' : '2.5'} className="hex-surface"/>
             <polygon points={polygonFor(c)} fill="url(#grain)" pointerEvents="none"/>
             {object?.type === 'source' && <>
+              {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
               <circle cx={c.x} cy={c.y - 7} r="12" fill="#203e31" stroke="#e7cd88" strokeWidth="1.4"/>
-              <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">✦</text>
+              <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{object.anchor ? '✥' : '✦'}</text>
             </>}
             {object?.type === 'blocker' && <>
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.47},${c.y-4+(y-(c.y-4))*.47}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>

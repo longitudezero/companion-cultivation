@@ -1,3 +1,5 @@
+import { CONDITIONS } from './grid.js';
+
 export const INFLUENCE_TYPES = Object.freeze([
   { name: 'Wetting', kind: 'Aqueous', property: 'Moisture', direction: 1 },
   { name: 'Drying', kind: 'Aqueous', property: 'Moisture', direction: -1 },
@@ -40,6 +42,18 @@ export function makeSpreadInfluence(name = 'Wetting', strength = 2, budget = 6, 
 
 export function makeSource(emissions = [makeInfluence()]) {
   return { type: 'source', emissions };
+}
+
+export function makeAnchoredSource(property = 'Temperature', condition = 'Hot', emissions = [makeInfluence()]) {
+  if (!CONDITIONS[property]?.includes(condition)) throw new Error('Invalid anchored Property or Condition.');
+  return { ...makeSource(emissions), anchor: { property, condition } };
+}
+
+export function anchoredCondition(object, property) {
+  if (object?.type !== 'source' || !object.anchor) return null;
+  const { property: anchoredProperty, condition } = object.anchor;
+  if (!CONDITIONS[anchoredProperty]?.includes(condition)) throw new Error('Invalid anchored Property or Condition.');
+  return anchoredProperty === property ? condition : null;
 }
 
 export function makeBlocker(rule = 'full', value = '') {
