@@ -49,6 +49,9 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
       for (const entry of simulation.coverage[`${selectedSource}:${i}`] || []) highlighted.add(entry.key);
     });
   }
+  const routedSegments = selectedSource
+    ? garden.objects[selectedSource].emissions.flatMap((_, i) => simulation.routes[`${selectedSource}:${i}`]?.segments || [])
+    : [];
   const edges = [];
   const visited = new Set();
   for (const key of keys) {
@@ -66,6 +69,7 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
     <svg className={`garden-svg ${tool === 'edge' ? 'edge-mode' : ''}`} viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Interactive hexagonal garden" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="grain" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.55" fill="#f4eee0" opacity=".18"/><circle cx="9" cy="10" r=".5" fill="#17291d" opacity=".15"/></pattern>
+        <marker id="route-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 z" fill="#e9f0b4"/></marker>
       </defs>
       {keys.map((key) => {
         const hex = garden.hexes[key];
@@ -96,6 +100,17 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
           </g>
         );
       })}
+      {routedSegments.length > 0 && <g className="route-flow" pointerEvents="none">
+        {routedSegments.map(({ from, to }, index) => {
+          const a = centerFor(from), b = centerFor(to);
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const line = { x1: a.x + dx * .28, y1: a.y + dy * .28, x2: b.x - dx * .24, y2: b.y - dy * .24 };
+          return <g key={`${from}-${to}-${index}`}>
+            <line {...line} stroke="#213c33" strokeWidth="7" strokeLinecap="round" opacity=".8" />
+            <line {...line} stroke="#e9f0b4" strokeWidth="3" strokeLinecap="round" markerEnd="url(#route-arrow)" />
+          </g>;
+        })}
+      </g>}
       {edges.map(({ id, a, b, blocker }) => {
         const p = edgeSegment(a, b);
         const active = selection.type === 'edge' && selection.id === id;

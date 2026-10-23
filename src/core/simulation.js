@@ -1,12 +1,8 @@
 import { CONDITIONS, PROPERTIES, neighborsOf, edgeKey } from './grid.js';
+import { isBlocked } from './blocking.js';
+import { propagateSpread } from './spread.js';
 
-export function isBlocked(blocker, influence) {
-  if (!blocker) return false;
-  if (blocker.rule === 'full') return true;
-  if (blocker.rule === 'kind') return blocker.value === influence.kind;
-  if (blocker.rule === 'mode') return blocker.value === influence.mode;
-  return false;
-}
+export { isBlocked } from './blocking.js';
 
 export function propagate(garden, origin, influence, moisture = null) {
   if (!garden.hexes[origin]) return [];
@@ -39,6 +35,7 @@ export function conditionFrom(baseline, property, modifiers) {
 export function calculateEnvironment(garden) {
   const modifiers = {};
   const coverage = {};
+  const routes = {};
   const moisture = {};
   for (const key of Object.keys(garden.hexes)) {
     modifiers[key] = Object.fromEntries(PROPERTIES.map((property) => [property, []]));
@@ -49,18 +46,25 @@ export function calculateEnvironment(garden) {
       if (object.type !== 'source') continue;
       for (let i = 0; i < object.emissions.length; i += 1) {
         const influence = object.emissions[i];
-        if (influence.mode !== mode) continue;
+        const routed = influence.propagation === 'spread-budget';
+        if (routed && influence.mode !== 'airborne') {
+          throw new Error('Spread Budget Influences currently use open-terrain traversal, not Waterborne connectivity.');
+        }
+        if ((routed ? 'airborne' : influence.mode) !== mode) continue;
         if (mode === 'waterborne' && influence.property === 'Moisture') {
           throw new Error('Waterborne Moisture Influences are not part of Environmental System v1.');
         }
-        const reached = propagate(garden, origin, influence, resolvedMoisture);
+        const propagation = routed ? propagateSpread(garden, origin, influence, i) : null;
+        const reached = propagation ? propagation.reached : propagate(garden, origin, influence, resolvedMoisture);
         coverage[`${origin}:${i}`] = reached;
+        if (propagation) routes[`${origin}:${i}`] = propagation;
         for (const { key, distance } of reached) {
           modifiers[key][influence.property].push({
             source: origin,
             influence: influence.name,
             kind: influence.kind,
             mode: influence.mode,
+            propagation: routed ? 'spread-budget' : 'range',
             modifier: influence.modifier,
             distance,
           });
@@ -82,5 +86,5 @@ export function calculateEnvironment(garden) {
       conditionFrom(hex.baselines[property], property, modifiers[key][property]),
     ]));
   }
-  return { conditions, modifiers, coverage };
+  return { conditions, modifiers, coverage, routes };
 }

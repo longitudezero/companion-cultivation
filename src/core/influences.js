@@ -21,7 +21,20 @@ export function makeInfluence(name = 'Warming', strength = 1, range = 2, mode = 
   return {
     name, kind: type.kind, property: type.property,
     modifier: type.direction * Math.max(1, Math.abs(Math.round(strength))),
-    mode, range: Math.max(0, Math.round(range)),
+    mode, range: Math.max(0, Math.round(range)), propagation: 'range',
+  };
+}
+
+export function makeSpreadInfluence(name = 'Wetting', strength = 2, budget = 6, heading = 5, rule = 'straight-until-blocked') {
+  // Routed influences do not require pre-existing Flooded paths. 'airborne'
+  // preserves the current open-terrain blocking semantics; a future medium
+  // is deliberately not added to Environmental System v1.1 here.
+  return {
+    ...makeInfluence(name, strength, 0, 'airborne'),
+    propagation: 'spread-budget',
+    budget: Math.max(0, Math.round(budget)),
+    heading,
+    rule,
   };
 }
 

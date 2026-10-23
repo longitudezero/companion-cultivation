@@ -47,7 +47,7 @@ export function createGarden(columns = 9, rows = 7) {
       hexes[keyAt(column, row)] = defaultHex();
     }
   }
-  return { schemaVersion: 1, columns, rows, hexes, objects: {}, edges: {} };
+  return { schemaVersion: 1, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0 };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -63,6 +63,7 @@ export function resizeGarden(garden, columns, rows) {
     const [a, b] = key.split('|');
     if (next.hexes[a] && next.hexes[b]) next.edges[key] = value;
   }
+  next.routeNonce = (garden.routeNonce || 0) + 1;
   return next;
 }
 
@@ -86,31 +87,33 @@ export function placeObject(garden, key, object) {
   if (!garden.hexes[key]) throw new Error('Objects require an existing hex.');
   if (garden.objects[key]) throw new Error('This hex already contains an object. Remove it first.');
   if (!['source', 'blocker'].includes(object.type)) throw new Error('Unknown prototype object type.');
-  return { ...garden, objects: { ...garden.objects, [key]: object } };
+  return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, objects: { ...garden.objects, [key]: object } };
 }
 
 export function updateObject(garden, key, object) {
   if (!garden.objects[key]) throw new Error('No object to configure on this hex.');
-  return { ...garden, objects: { ...garden.objects, [key]: object } };
+  return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, objects: { ...garden.objects, [key]: object } };
 }
 
 export function removeObject(garden, key) {
+  if (!garden.objects[key]) return garden;
   const objects = { ...garden.objects };
   delete objects[key];
-  return { ...garden, objects };
+  return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, objects };
 }
 
 export function placeEdgeBlocker(garden, a, b, blocker) {
   if (!garden.hexes[a] || !garden.hexes[b] || distanceBetween(a, b) !== 1) {
     throw new Error('An Edge Blocker requires two adjacent hexes.');
   }
-  return { ...garden, edges: { ...garden.edges, [edgeKey(a, b)]: blocker } };
+  return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, edges: { ...garden.edges, [edgeKey(a, b)]: blocker } };
 }
 
 export function removeEdgeBlocker(garden, a, b) {
+  if (!garden.edges[edgeKey(a, b)]) return garden;
   const edges = { ...garden.edges };
   delete edges[edgeKey(a, b)];
-  return { ...garden, edges };
+  return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, edges };
 }
 
 export function isGarden(value) {

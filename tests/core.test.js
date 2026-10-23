@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {
   createGarden, createDemoGarden, keyAt, edgeKey, distanceBetween, neighborsOf,
   setBaseline, setMaterial, placeObject, placeEdgeBlocker, resizeGarden,
-  makeInfluence, makeSource, makeBlocker, calculateEnvironment,
+  makeInfluence, makeSpreadInfluence, makeSource, makeBlocker, calculateEnvironment,
+  propagateSpread, removeEdgeBlocker, STARTING_DIRECTIONS,
 } from '../src/core/index.js';
 
 test('grid has stable hex IDs and one shared edge ID', () => {
@@ -113,4 +114,109 @@ test('demo contains all three test object forms', () => {
   assert.ok(Object.values(garden.objects).some((item) => item.type === 'source'));
   assert.ok(Object.values(garden.objects).some((item) => item.type === 'blocker'));
   assert.ok(Object.keys(garden.edges).length);
+});
+
+test('six starting directions match the axial hex neighbors', () => {
+  const origin = keyAt(2, 2);
+  assert.deepEqual(STARTING_DIRECTIONS, ['E', 'NE', 'NW', 'W', 'SW', 'SE']);
+  for (let heading = 0; heading < 6; heading += 1) {
+    const influence = makeSpreadInfluence('Wetting', 2, 1, heading);
+    const result = propagateSpread(createGarden(6, 6), origin, influence);
+    assert.deepEqual(result.reached.map(({ key }) => key), [origin, neighborsOf(origin)[heading]]);
+    assert.equal(result.remaining, 0);
+  }
+});
+
+test('Straight Until Blocked crosses opposite edges and forks into both adjacent exits', () => {
+  let garden = createGarden(7, 7);
+  const origin = keyAt(2, 3);
+  const next = neighborsOf(origin)[0];
+  const blocked = neighborsOf(next)[0];
+  garden = placeEdgeBlocker(garden, next, blocked, makeBlocker());
+  const result = propagateSpread(garden, origin, makeSpreadInfluence('Wetting', 2, 3, 0));
+  const [left, right] = [neighborsOf(next)[1], neighborsOf(next)[5]];
+  assert.equal(result.spent, 3);
+  assert.equal(result.remaining, 0);
+  assert.ok(result.reached.some(({ key }) => key === next));
+  assert.ok(result.reached.some(({ key }) => key === left));
+  assert.ok(result.reached.some(({ key }) => key === right));
+  assert.ok(!result.reached.some(({ key }) => key === blocked));
+});
+
+test('one remaining budget chooses exactly one of two branches reproducibly', () => {
+  let garden = createGarden(7, 7);
+  const origin = keyAt(2, 3);
+  const first = neighborsOf(origin)[0];
+  garden = placeEdgeBlocker(garden, first, neighborsOf(first)[0], makeBlocker());
+  const influence = makeSpreadInfluence('Wetting', 2, 2, 0);
+  const options = [neighborsOf(first)[1], neighborsOf(first)[5]];
+  const firstPass = propagateSpread(garden, origin, influence);
+  const secondPass = propagateSpread(garden, origin, influence);
+  assert.deepEqual(firstPass, secondPass);
+  assert.equal(firstPass.reached.length, 3);
+  assert.ok(options.includes(firstPass.reached[2].key));
+  const observed = new Set();
+  for (let revision = 0; revision < 32; revision += 1) {
+    observed.add(propagateSpread({ ...garden, routeNonce: revision }, origin, influence).reached[2].key);
+  }
+  assert.equal(observed.size, 2, 'new attempts eventually yield either branch');
+});
+
+test('editing a blocker changes the saved propagation attempt even when restored', () => {
+  let garden = createGarden(5, 5);
+  const a = keyAt(1, 1), b = keyAt(2, 1);
+  garden = placeEdgeBlocker(garden, a, b, makeBlocker());
+  const revision = garden.routeNonce;
+  garden = removeEdgeBlocker(garden, a, b);
+  garden = placeEdgeBlocker(garden, a, b, makeBlocker());
+  assert.equal(garden.routeNonce, revision + 2);
+});
+
+test('grid boundaries behave as obstructions and allow a fork', () => {
+  const garden = createGarden(5, 5);
+  const origin = keyAt(4, 2);
+  const influence = makeSpreadInfluence('Warming', 1, 2, 0);
+  const result = propagateSpread(garden, origin, influence);
+  assert.equal(result.spent, 2);
+  assert.deepEqual(new Set(result.segments.map(({ heading }) => heading)), new Set([1, 5]));
+});
+
+test('routed paths spend at most one shared budget and never revisit reached hexes', () => {
+  let garden = createGarden(5, 5);
+  const source = keyAt(2, 2);
+  for (const heading of [0, 1, 5]) {
+    garden = placeEdgeBlocker(garden, source, neighborsOf(source)[heading], makeBlocker());
+  }
+  const result = propagateSpread(garden, source, makeSpreadInfluence('Wetting', 1, 30, 0));
+  const keys = result.reached.map(({ key }) => key);
+  assert.equal(new Set(keys).size, keys.length);
+  assert.equal(result.spent, result.segments.length);
+  assert.equal(result.spent, keys.length - 1);
+  assert.ok(result.spent <= 30);
+});
+
+test('routed Wetting floods Dry hexes, then opens existing Waterborne propagation', () => {
+  let garden = createGarden(5, 4);
+  const source = keyAt(0, 1);
+  const waterborne = keyAt(0, 0);
+  const target = keyAt(2, 1);
+  garden = placeObject(garden, source, makeSource([makeSpreadInfluence('Wetting', 2, 3, 0)]));
+  garden = placeObject(garden, waterborne, makeSource([makeInfluence('Enrichment', 1, 4, 'waterborne')]));
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[target].Moisture, 'Flooded');
+  assert.equal(result.conditions[target].Fertility, 'Rich');
+  assert.equal(result.routes[`${source}:0`].spent, 3);
+  assert.equal(result.modifiers[target].Moisture[0].modifier, 2);
+  assert.equal(result.modifiers[target].Moisture[0].propagation, 'spread-budget');
+});
+
+test('existing Range propagation is unchanged and old saved emissions remain valid', () => {
+  let garden = createGarden(5, 5);
+  const origin = keyAt(2, 2);
+  const oldEmission = makeInfluence('Brightening', 1, 1);
+  delete oldEmission.propagation;
+  garden = placeObject(garden, origin, makeSource([oldEmission]));
+  const result = calculateEnvironment(garden);
+  assert.equal(result.coverage[`${origin}:0`].length, 7);
+  assert.equal(result.routes[`${origin}:0`], undefined);
 });
