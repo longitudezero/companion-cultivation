@@ -346,14 +346,134 @@ test('Anchored Flooded Source establishes Waterborne connectivity before adjacen
   assert.equal(result.adjacency[channel].length, 0);
 });
 
-test('Adjacency crosses blockers in phase one without altering Source propagation rules', () => {
+function gardenWithAdjacentExtremes() {
+  let garden = createGarden(7, 7);
+  const origin = keyAt(3, 3);
+  const target = neighborsOf(origin)[0];
+  // Remove unrelated Dark neighbors so a lone Bright trigger isn't canceled.
+  for (const neighbor of neighborsOf(target)) {
+    if (garden.hexes[neighbor]) garden = setBaseline(garden, neighbor, 'Illumination', 'Lit');
+  }
+  garden = setBaseline(garden, target, 'Illumination', 'Dim');
+  garden = setBaseline(garden, origin, 'Moisture', 'Flooded');
+  garden = setBaseline(garden, origin, 'Temperature', 'Hot');
+  garden = setBaseline(garden, origin, 'Illumination', 'Bright');
+  return { garden, origin, target };
+}
+
+test('Full Edge Blocker stops all Adjacency on its single edge, bidirectionally', () => {
+  let { garden, origin, target } = gardenWithAdjacentExtremes();
+  let result = calculateEnvironment(garden);
+  assert.equal(result.conditions[target].Moisture, 'Damp');
+  assert.equal(result.conditions[target].Temperature, 'Warm');
+  assert.equal(result.conditions[target].Illumination, 'Lit');
+  garden = placeEdgeBlocker(garden, origin, target, makeBlocker());
+  result = calculateEnvironment(garden);
+  assert.equal(result.conditions[target].Moisture, 'Dry');
+  assert.equal(result.conditions[target].Temperature, 'Temperate');
+  assert.equal(result.conditions[target].Illumination, 'Dim');
+  assert.equal(result.adjacency[target].length, 0);
+  const stillAdjacent = neighborsOf(origin).find((neighbor) => garden.hexes[neighbor] && neighbor !== target);
+  assert.equal(result.conditions[stillAdjacent].Temperature, 'Warm', 'other edges remain open');
+  garden = removeEdgeBlocker(garden, origin, target);
+  result = calculateEnvironment(garden);
+  assert.equal(result.conditions[target].Moisture, 'Damp', 'removing an Edge Blocker immediately restores adjacency');
+});
+
+test('Full Hex Blocker isolates its Condition from neighboring adjacency in both directions', () => {
   let garden = createGarden(5, 5);
-  const hot = keyAt(1, 2), neighbor = neighborsOf(hot)[0];
+  const hot = keyAt(2, 2), freezing = neighborsOf(hot)[0];
   garden = setBaseline(garden, hot, 'Temperature', 'Hot');
-  garden = placeEdgeBlocker(garden, hot, neighbor, makeBlocker());
+  garden = setBaseline(garden, freezing, 'Temperature', 'Freezing');
+  assert.equal(calculateEnvironment(garden).conditions[hot].Temperature, 'Warm');
+  assert.equal(calculateEnvironment(garden).conditions[freezing].Temperature, 'Cold');
+  for (const isolated of [hot, freezing]) {
+    const blocked = placeObject(garden, isolated, makeBlocker());
+    const result = calculateEnvironment(blocked);
+    assert.equal(result.conditions[hot].Temperature, 'Hot');
+    assert.equal(result.conditions[freezing].Temperature, 'Freezing');
+  }
+});
+
+test('Kind-selective Edge Blockers stop only the matching Adjacency Property', () => {
+  for (const [kind, expected] of [
+    ['Aqueous', ['Dry', 'Warm', 'Lit']],
+    ['Thermal', ['Damp', 'Temperate', 'Lit']],
+    ['Luminous', ['Damp', 'Warm', 'Dim']],
+    ['Nutrient', ['Damp', 'Warm', 'Lit']],
+  ]) {
+    let { garden, origin, target } = gardenWithAdjacentExtremes();
+    garden = placeEdgeBlocker(garden, origin, target, makeBlocker('kind', kind));
+    const result = calculateEnvironment(garden);
+    assert.deepEqual([
+      result.conditions[target].Moisture,
+      result.conditions[target].Temperature,
+      result.conditions[target].Illumination,
+    ], expected, kind);
+  }
+});
+
+test('Mode-selective Edge Blockers distinguish Airborne heat/light from Waterborne dampening', () => {
+  for (const [mode, expected] of [
+    ['airborne', ['Damp', 'Temperate', 'Dim']],
+    ['waterborne', ['Dry', 'Warm', 'Lit']],
+  ]) {
+    let { garden, origin, target } = gardenWithAdjacentExtremes();
+    garden = placeEdgeBlocker(garden, origin, target, makeBlocker('mode', mode));
+    const result = calculateEnvironment(garden);
+    assert.deepEqual([
+      result.conditions[target].Moisture,
+      result.conditions[target].Temperature,
+      result.conditions[target].Illumination,
+    ], expected, mode);
+    for (const entry of result.adjacency[target]) {
+      assert.notEqual(entry.mode, mode, 'the inspector only reports successfully transmitted effects');
+    }
+  }
+});
+
+test('Selective Hex Blockers use the same Kind and Mode filters for incoming and outgoing adjacency', () => {
+  for (const isolated of ['origin', 'target']) {
+    let { garden, origin, target } = gardenWithAdjacentExtremes();
+    garden = placeObject(garden, isolated === 'origin' ? origin : target, makeBlocker('kind', 'Thermal'));
+    let result = calculateEnvironment(garden);
+    assert.equal(result.conditions[target].Temperature, 'Temperate');
+    assert.equal(result.conditions[target].Moisture, 'Damp');
+    assert.equal(result.conditions[target].Illumination, 'Lit');
+
+    ({ garden, origin, target } = gardenWithAdjacentExtremes());
+    garden = placeObject(garden, isolated === 'origin' ? origin : target, makeBlocker('mode', 'waterborne'));
+    result = calculateEnvironment(garden);
+    assert.equal(result.conditions[target].Moisture, 'Dry');
+    assert.equal(result.conditions[target].Temperature, 'Warm');
+    assert.equal(result.conditions[target].Illumination, 'Lit');
+  }
+});
+
+test('Only unblocked opposing extremes participate in Adjacency cancellation', () => {
+  let garden = createGarden(7, 7);
+  const middle = keyAt(3, 3);
+  const hot = neighborsOf(middle)[0];
+  const freezing = neighborsOf(middle)[3];
+  garden = setBaseline(garden, hot, 'Temperature', 'Hot');
+  garden = setBaseline(garden, freezing, 'Temperature', 'Freezing');
+  assert.equal(calculateEnvironment(garden).conditions[middle].Temperature, 'Temperate');
+  garden = placeEdgeBlocker(garden, middle, freezing, makeBlocker('kind', 'Thermal'));
   const result = calculateEnvironment(garden);
-  assert.equal(result.conditions[neighbor].Temperature, 'Warm');
-  assert.equal(result.adjacency[neighbor][0].trigger, 'Hot');
+  assert.equal(result.conditions[middle].Temperature, 'Warm');
+  assert.deepEqual(result.adjacency[middle].find((entry) => entry.property === 'Temperature').from, [hot]);
+});
+
+test('Adjacency Mode tags only filter blockers and never require Flooded-path connectivity', () => {
+  const { garden, target } = gardenWithAdjacentExtremes();
+  const result = calculateEnvironment(garden);
+  const dampening = result.adjacency[target].find((entry) => entry.property === 'Moisture');
+  assert.equal(dampening.kind, 'Aqueous');
+  assert.equal(dampening.mode, 'waterborne');
+  assert.equal(dampening.before, 'Dry');
+  assert.equal(dampening.after, 'Damp');
+  assert.equal(result.adjacency[target].find((entry) => entry.property === 'Temperature').mode, 'airborne');
+  assert.equal(result.adjacency[target].find((entry) => entry.property === 'Illumination').kind, 'Luminous');
 });
 
 test('Anchored Sources obey one-object occupancy, validate Property and survive resizing', () => {

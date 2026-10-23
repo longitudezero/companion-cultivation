@@ -1,6 +1,6 @@
 # Companion Cultivation — Environmental System v1.1
 
-**Status:** Agreed rules reference; both propagation systems, Environmental Adjacency, and Anchored Sources are implemented in Prototype 1  
+**Status:** Agreed rules reference; both propagation systems, Environmental Adjacency, blocker-aware adjacency, and Anchored Sources are implemented in Prototype 1  
 **Updated:** 23 October 2026  
 **Supersedes:** Environmental System v1 (consolidated edition)
 
@@ -232,11 +232,12 @@ Environmental Adjacency is an **environmental calculation**, not a new emitted I
 - The calculation looks at the **six immediately neighboring hexes**.
 - All adjustments use a single, pre-adjacency snapshot of Conditions. Apply them **simultaneously**, once per recalculation. Adjusted Conditions cannot trigger further adjustments in that pass: **no chain reactions**.
 - Multiple neighbors at the same extreme trigger a given Property's adjustment **at most once**; their contributions do not stack.
-- Opposing extreme Conditions (Hot and Freezing, or Bright and Dark) among the neighbors **cancel** for that target Property, irrespective of their respective counts.
+- Opposing extreme Conditions (Hot and Freezing, or Bright and Dark) among the **unblocked neighbors** **cancel** for that target Property, irrespective of their respective counts.
 - Extreme target Conditions are **not immune**. An ordinary Hot hex next to a Freezing hex becomes Warm; that Freezing hex becomes Cold, unless other neighbors cause cancellation.
 - An adjacency adjustment is distinct from an emitted Source Modifier. The inspector reports it separately.
-- **Phase 1:** Hex and Edge Blockers do **not** block adjacency, even though they continue to block ordinary propagated Influences exactly as before.
-- **Agreed phase 2:** Blockers will restrict adjacency. The details of mapping selective blockers to adjacency Properties are deferred.
+- **Implemented:** Hex and Edge Blockers prevent matching adjacency effects from crossing in either direction. A Hex Blocker isolates its occupied hex for matching effects; an Edge Blocker stops only the single shared edge it occupies.
+- Full Blockers stop every adjacency effect. Selective Kind and Mode Blockers use the **same matching filter** as ordinary propagated Influences.
+- Apply blockers **before deciding whether opposing extreme neighbors cancel**. A blocked Hot or Freezing neighbor does not participate, so blocking one side can reveal the influence of the other.
 
 | Property | Trigger in an adjacent hex | Change on the target hex |
 | --- | --- | --- |
@@ -247,7 +248,17 @@ Environmental Adjacency is an **environmental calculation**, not a new emitted I
 | Illumination | Dark | One step darker, without changing Dim to Dark through adjacency. |
 | Fertility | None | No adjacency response. |
 
-The limits prevent adjacency from **creating new extreme Conditions**; they do not protect existing extremes from a change in the opposite direction. Adjacent Hot and Freezing hexes therefore influence each other unless an anchor or cancellation applies.
+#### Transmission tags for selective blockers — locked
+
+| Adjacency effect | Kind | Mode |
+| --- | --- | --- |
+| Flooded → Damp | Aqueous | Waterborne |
+| Hot → warmer / Freezing → colder | Thermal | Airborne |
+| Bright → brighter / Dark → darker | Luminous | Airborne |
+
+These tags belong to **the adjacency effect**, not to the Source or Influence that created the triggering Condition. They determine which selective blocker stops the one-hex effect. They **do not invoke Range or Spread Budget movement rules**: Waterborne-tagged Flooded → Damp can affect a neighboring Dry hex without a Flooded transmission path. Adjacency still travels only one shared edge, once, with no chain reactions.
+
+The limits prevent adjacency from **creating new extreme Conditions**; they do not protect existing extremes from a change in the opposite direction. Adjacent Hot and Freezing hexes therefore influence each other unless a matching blocker, an anchor, or cancellation applies.
 
 ### Anchored Sources — locked
 
@@ -265,30 +276,30 @@ The limits prevent adjacency from **creating new extreme Conditions**; they do n
 1. Resolve normal Airborne and routed emissions and their additive Modifiers.
 2. Resolve Moisture, honoring any Source anchor on Moisture, and use that snapshot for Waterborne connectivity.
 3. Resolve Waterborne emissions and calculate Conditions for all Properties, honoring anchors.
-4. Take one simultaneous snapshot of these Conditions and compute Environmental Adjacency.
+4. Take one simultaneous snapshot of these Conditions and compute Environmental Adjacency only across shared edges permitted by the Kind/Mode-matching Hex and Edge Blockers.
 5. Apply capped, non-stacking adjacency adjustments only to non-anchored Properties. The result is the displayed final Conditions.
 
-Adjacency cannot create Flooded hexes, so the phase-one adjacency pass does not introduce a Waterborne connectivity feedback loop. For now all six neighbors count, irrespective of Materials and Blockers.
+Adjacency cannot create Flooded hexes, so the adjacency pass does not introduce a Waterborne connectivity feedback loop. Up to six neighbors are considered, but **only across edges allowed by their Kind/Mode-matching Hex and Edge Blockers**. Materials do not filter adjacency yet.
 
 ## 7. Blockers — locked
 
-Blockers restrict propagation; they do not inherently alter Materials, Properties, Baselines, or Conditions.
+Blockers restrict ordinary propagation and matching one-hex Environmental Adjacency; they do not inherently alter Materials, Properties, Baselines, or Conditions.
 
 ### Two placements
 
 | Object | Position | Behavior |
 | --- | --- | --- |
-| **Hex Blocker** | One hex's object slot | Matching Influences **cannot enter** that hex or pass through it. |
-| **Edge Blocker** | Exactly one shared edge between adjacent hexes | Matching Influences **cannot cross** that edge, in **either** direction. |
+| **Hex Blocker** | One hex's object slot | Matching propagated Influences **cannot enter** or cross that hex; matching adjacency cannot enter **or leave** it. |
+| **Edge Blocker** | Exactly one shared edge between adjacent hexes | Matching propagated Influences and adjacency effects **cannot cross** that edge, in **either** direction. |
 
 An Edge Blocker on the east side of Hex A is the **same single blocker** as the one on the west side of adjoining Hex B. It does not need to be duplicated. To block more than one side, place more Edge Blockers, one per affected edge. Blocked routes can be bypassed when Range and connectivity allow.
 
 ### Two restrictions, available to both placements
 
-- **Full Blocker:** Blocks all Influences.
-- **Selective Blocker:** Blocks only Influences matching selected **Influence Kinds** or **Propagation Modes** (for example, Thermal-only or Waterborne-only).
+- **Full Blocker:** Blocks all emitted Influences and Environmental Adjacency effects.
+- **Selective Blocker:** Blocks only propagated Influences or adjacency effects matching the selected **Kind** or **Mode** (for example, Thermal-only or Waterborne-only). Adjacency tags are defined in Section 6B.
 
-The placement type (Hex or Edge) and the restriction type (Full or Selective) are independent. There is no need for separately invented blocking algorithms.
+The placement type (Hex or Edge) and the restriction type (Full or Selective) are independent. Both ordinary Influences and Adjacency share the same matching filter; only their movement/reachability rules differ.
 
 ### Prototype 1 blocker tools — locked
 
@@ -364,7 +375,7 @@ For now, **Waterborne Influences do not modify Moisture**. Otherwise an Influenc
 
 ## 10. Prototype 1 — Environmental Sandbox
 
-The prototype tests the **environmental** system before final Herb or Fungus mechanics exist. **Prototype 1 now implements both propagation systems, Environmental Adjacency, and Anchored Sources.**
+The prototype tests the **environmental** system before final Herb or Fungus mechanics exist. **Prototype 1 now implements both propagation systems, blocker-aware Environmental Adjacency, and Anchored Sources.**
 
 ### Agreed test objects
 
@@ -416,7 +427,7 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 8. **Routed Wetting** uses the ordinary Moisture Modifier and resolves before conventional Waterborne connectivity; it needs no existing Flooded path.
 9. **Environmental Adjacency** implemented on 23 October 2026 as a one-pass, non-stacking, cancellable neighbor adjustment affecting Moisture, Temperature, and Illumination; Fertility is excluded.
 10. **Anchored Sources** implemented as one-Property/Condition overrides at a Source's own hex; normal Source emissions remain unchanged.
-11. **Adjacency-aware Blockers** agreed for a later phase and deliberately not active in the current prototype.
+11. **Adjacency-aware Blockers** implemented on 23 October 2026: matching Hex or shared-edge Blockers prevent adjacency transmission in both directions, with Full, Kind, and Mode restrictions. Opposing extremes cancel only after blocked neighbors are excluded.
 
 ---
 
@@ -435,6 +446,6 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 **Spread Budget Propagation (implemented extension):** Player-selected Starting Direction; Source-specific Movement Rule; one shared crossing budget across branches; first rule: Straight Until Blocked  
 **Environmental Adjacency:** One simultaneous capped neighbor pass; Flooded → Damp, Hot/Freezing ±1 Temperature, Bright/Dark ±1 Illumination; opposite triggers cancel, no stacking or chaining, no Fertility response
 **Anchored Source:** Regular Source emission behavior plus one fixed local Property/Condition
-**Blocking:** Hex or Edge placement; Full or Selective for propagated Influences. Adjacency blocking is phase two  
+**Blocking:** Hex or Edge placement; Full or Selective by Kind/Mode for both propagated Influences and one-hex Environmental Adjacency  
 **Occupancy:** At most one object per hex; Edge Blockers occupy shared boundaries  
 **Fungi:** Objects that can act as Sources and use the same propagation system
