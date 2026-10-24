@@ -217,7 +217,7 @@ If one particular species grants **+10 percentage points per Seed**, 1 Seed give
 - The **Influence** is what a Source emits and how it reaches a hex.
 - The **Response** is what a particular Herb does when reached by that Influence or when it experiences a relevant habitat Condition/material overlay.
 - **Response** is an accepted useful term for this cultivation layer; it is **not** a new environmental Property and does not force all Responses to be numerical step Modifiers.
-- The same Influence can trigger **different, neutral, beneficial, or harmful Responses** based on the receiving Herb/Family.
+- The same Influence can trigger **different, neutral, beneficial, or harmful Responses** based on the receiving Herb/Family. **Later agreed refinement (see §16): Responses cannot arbitrarily reverse an Influence's own direct directional effect; negative outcomes instead arise through distinct conditions, hazards, or coherent transformation interactions.**
 - Fungi are not intrinsically "good" or "bad": one may help Leaf production but hinder Seed production, or enable Transformation while requiring a dangerous environment.
 - Fungi can modify **existing characteristics** and, more exceptionally, enable **new behavior**. Some unusual behaviors may instead belong to a specific Herb; fungal exposure could alternatively grant a capability such as resistance.
 
@@ -765,6 +765,37 @@ Thymely (Base)
 - Final universal non-Seed harvest term (**Leaves** remains temporary; **Produce** is a candidate, not locked).
 - Exact fungal catalogue and stats; later evaluation of whether Fertility and Material mechanics remain worthwhile.
 - No changes to the game implementation now.
+
+
+## 16. Fungal consistency and learnability — agreed refinement
+
+**Agreed:** Players should be able to **memorize what each fungus broadly does**. Although Plants have species-specific **Responses**, those Responses must respect each fungal Influence's recognizable mechanical identity. Cross-family flexibility is not permission for arbitrary or contradictory one-off effects.
+
+### Direction consistency
+
+- A fungal Influence that **accelerates Growth** can accelerate Growth by different amounts on eligible Plants, be conditional (e.g. only while Warm), or do **nothing** on incompatible Plants. It must **never directly slow Growth** on another Plant.
+- Likewise, an Influence that slows Ripening cannot directly accelerate it elsewhere; one that boosts ordinary output cannot directly lower that same output as its corresponding Response. The **meaning and direction of each advertised effect remain consistent**.
+- The *recipient's environment* may still yield indirect harm. A fungus that **always raises Illumination** can disadvantage a Dark-loving Plant if the resulting Bright Condition is unsuitable. That is a **separate environmental Response**, not a reversed Luminous or Growth effect. Explain/display the causal distinction to players.
+- Species-specific Transformation destinations remain essential. Their triggers should be **thematically/mechanically consistent with the fungus's known Influence**, not inexplicable powers added to one otherwise unrelated Plant.
+- Distinguish a fungus's **emitted Influences** from individual Plant Responses. A fungus may emit more than one coherent Influence, but avoid sprawling lists of unrelated powers.
+
+### Avoid arbitrary one-off abilities
+
+- Do **not** give an otherwise general Growth-accelerating fungus an unrelated **harvest-window extension on exactly one Plant** purely to make that Plant special.
+- Prefer a small number of **clear, cohesive functional signatures per fungus**. If a fungus genuinely affects bloom timing, that should be an established part of its identity, usable/recognizable across a meaningful class of responsive Plants; if its unique purpose is Growth acceleration, keep it focused.
+- Favor combinations of known Effects, conditional applicability, different strengths, environmental consequences, and species-specific transformation paths over unrelated exceptions. **Fungus consistency and player learnability take priority over maximal variety in individual Responses.**
+- This refines and narrows earlier language that "the same Influence can be beneficial on one Plant and harmful on another": negative outcomes can arise from **habitat/environment shifts, transformation risk, or interaction with separately defined effects**, but **not from reversing an Influence's direct mechanical direction**.
+
+### Examples — design guidance, not assigned final stats
+
+| Candidate signature | Permitted | Not permitted |
+| --- | --- | --- |
+| Rushroom accelerates Growth | Stronger/weaker acceleration or immunity depending on Plant | Slowing Growth on a different Plant |
+| Veilcap reduces Illumination | Shade-loving Plants benefit and Bright-loving Plants suffer *because of changed Illumination* | Veilcap directly brightening a Plant's hex |
+| Echomorel improves second-bloom production | An eligible Flower receives bloom-related improvements; another non-blooming Plant ignores it | Unrelated Growth or Seed effect on one isolated Plant without a coherent fungus identity |
+| Glimmergill increases Illumination | Different recipients prefer different final light Conditions | Emitting darkening in one family for convenience |
+
+**Roster status:** The latest 13-fungus roster (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel, Emberbolete, Chillanterelle, Rainmorel, Droughtcap, Rushroom, Echomorel, Wakemorel, Hushroom, Mycelord) is **only a proposed candidate**, not locked or yet integrated into exact recipes. User especially likes the name **Sim'mushro'dim** for a fungus tied to **Enchanted**. Review any proposed multi-function assignments against this consistency principle before accepting them.
 
 
 ---
