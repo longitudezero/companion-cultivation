@@ -407,6 +407,8 @@ The player's Woodlands transformation sketch proposed **one unnamed Base Plant**
 Unnamed Base Aquatic Plant
   ├─> Kelpfull
   │     ├─> Kelpergeist            (proposed specialist)
+  │     │     ├─> Kelpless         (loss of Flooded after exposure; agreed route)
+  │     │     └─> Starlotus        (alternative origin; Flooded attunement)
   │     └─> Kelpless               (undesirable)
   │           └─> Wild Watercress  (redemption route, favored)
   ├─> Sunken Lotus
@@ -419,17 +421,17 @@ Unnamed Base Aquatic Plant
               └─> Pearlily         (new short alternative route, favored)
 ~~~
 
-**Other provisional cross-route:** Kelpergeist → Starlotus via a different, specialized fungal transformation. All routes need final fungal and environmental rules.
+**Alternative cross-route:** Kelpergeist → Starlotus via a specialized fungal transformation is a favored part of the two-origin Starlotus design, not just a placeholder link. Exact fungi and environmental requirements remain open.
 
 ### First-pass possible Plant roles (all tentative except the directional preferences above)
 
 | Plant | Possible cultivation purpose |
 | --- | --- |
 | Unnamed Base Aquatic Plant | Starting access to all Aquatic branches |
-| Kelpfull | Produces many Base Plant Seeds while Flooded |
+| Kelpfull | **Straightforward early transformation**; candidate for producing many Base Plant Seeds while Flooded, without requiring a more elaborate personal mechanic |
 | Kelpergeist | Reliable harvest in Dark/Flooded conditions |
 | Kelpless | Unwanted transformation after habitat disruption; redeemable into Watercress |
-| Sunken Lotus | Waterborne-connected starting point for Lotus transformations |
+| Sunken Lotus | **Straightforward early transformation**; Waterborne-connected entry to the Lotus branch, without requiring a further special complication |
 | Moonlit Lotus | Intermediate whose next Transformation depends on water level during Ripening |
 | Starlotus | Harder, highly desirable form obtained after drainage or an alternative specialist route |
 | Pearlily | Accessible, useful but not top-tier outcome, reachable from Moonlit Lotus or Cresscent |
@@ -441,20 +443,25 @@ Unnamed Base Aquatic Plant
 
 ### Aquatic family signature and latest refinements — agreed direction, details open
 
+**Scope decision for the initial Plants:**
+
+- **Kelpfull and Sunken Lotus are already sufficiently interesting as early, accessible Plants in the network.** Do not add elaborate individual tricks just to make them as mechanically complex as later specializations. Their connections, simple production role (Kelpfull), and Flooded/Waterborne entry role (Sunken Lotus) are enough at this stage; exact numbers and fungi remain open.
+
 **Shared Aquatic identity:**
 
 - **Moisture transitions are the family's signature mechanic.** Multiple Aquatic transformations and growth strategies should use **Flooded → Damp** or **Damp → Flooded**, not just require a static amount of water. There is no requirement for all Plants to use the same transition or timing.
 - **All Aquatic Plants dislike Dry conditions.** **Damp** and/or **Flooded** are preferred. This is a family-level environmental commonality, **not** an agreed universal rule that Dry instantly kills every Aquatic Plant. Species-specific response to Dry (loss of productivity, dormancy, delayed death, etc.) remains open.
 - Other shared traits or family-specific drawbacks can be unrelated to Moisture. Keep cultivation roles and Responses deliberately nonuniform.
 
-**Kelpergeist → Kelpless added to the graph.** Losing **Flooded** conditions can cause Kelpergeist to transform into Kelpless. The Kelpless → Wild Watercress redemption route remains. Exactly *how long* the condition must be lost before Transformation occurs is **not yet agreed**; a short grace/exposure period would be one possible design choice.
+**Kelpergeist → Kelpless added to the graph.** Losing **Flooded** conditions can cause Kelpergeist to transform into Kelpless. The Kelpless → Wild Watercress redemption route remains. Use **Continuous Exposure to the loss of Flooded conditions** before the unwanted Transformation, rather than an instantaneous change: the farmer gets a grace period to restore Flooded and prevent the transformation. Exposure interruption resets that timer under our standard rule. The **duration remains open**.
 
 **Starlotus — origin-dependent Moisture preference:**
 
 - Moonlit Lotus → Starlotus is associated with **draining from Flooded to Damp**. The resulting Starlotus benefits from remaining **Damp**.
 - Kelpergeist → Starlotus uses the alternative route in a **Flooded** environment. The resulting Starlotus gets **the same kind of benefit** from remaining **Flooded**, not Damp.
 - The Plant **dislikes subsequent Moisture changes**. This is a property of the obtained Starlotus, not an entirely separate named species, and suggests the working term **Moisture Attunement**: the transformation route establishes the preferred current Moisture.
-- **Proposed, not yet decided:** Moving away from the attuned Moisture removes the benefit rather than immediately killing the Plant. Whether returning to the original condition restores the benefit, whether a change incurs its own penalty, and what exactly the benefit modifies are open.
+- **Agreed:** Moving away from the attuned Moisture **removes the special Starlotus benefit; it does not kill Starlotus merely for losing its attunement**. The challenge is preserving an optimization bonus, not a lethal maintenance requirement. Ordinary family-wide aversion to Dry is a separate concern.
+- **Open:** Whether returning to the original attuned condition restores the special benefit, exactly what the bonus modifies, and whether unrelated hazards still impose their own species-specific consequences. Do not invent an additional penalty for changing the attuned Moisture.
 - This is an intentional case where a **Transformation's context leaves a persistent cultivation characteristic**, while ordinary Transformation still preserves lifecycle progress.
 
 **Silvercress — simple to obtain; difficult to optimize, not to survive:**
@@ -487,7 +494,7 @@ The Cresscent → Pearlily shortcut, the Lotus Flooded/drain fork, and all earli
 - Does Pearlily produce its own Seeds, Base Plant Seeds, or other Seeds? Cresscent's high germination and self-Seeds are intended, but exact yields/rates are open.
 - Which Plants are genuinely "best" for a specific purpose, and which are intentionally safer or worse? Avoid overall strict rankings.
 - How does the Kelpless recovery process work? What are its time/environment costs and trade-offs?
-- Which environmental/Seed-production traits should become shared Aquatic family traits, as opposed to specific Plant traits?
+- Shared family traits already agreed: **Aquatic Plants dislike Dry**, and **Moisture transitions are a recurring signature**. Any additional shared environmental, reproductive, or fungal traits can be considered only if they serve a useful puzzle.
 - Exact durations, germination rates, yields, transformation timings, assigned fungi, effect combination rules, and final names (including the unnamed Base Plant) remain unassigned.
 
 
