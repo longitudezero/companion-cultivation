@@ -24,6 +24,9 @@ The existing Environmental System v1.1 rules remain unchanged in the live Protot
 ### Agreed direction
 
 - There are **five Herb Families**. Each can contain any number of distinct, named **Herbs**.
+- **Every Family has one Base Herb** that is the player's entry point to that lineage. The player is **given access to Seeds of the Base Herb only**; the other Herbs must initially be **created by Transformation**, not provided as separate starter plants/Seeds.
+- **All non-Base Herbs in a Family are obtainable through Transformation**. Some transformations may start from the Base Herb; others may require transforming an already transformed Herb. Direct and chained transformations can coexist, with paths decided individually rather than enforcing the same pattern in every family.
+- A Family is therefore also a **transformation lineage**. This doesn't mean every member must have the same preferred terrain or identical Responses; the previously agreed uneven family traits still apply.
 - The earlier term **Variant** is retired as an identity layer. Mandrabra, Mandrakadabra, and Mandrakazam are three different Herbs in the same Family, not a base Herb plus variants.
 - A **Herb Instance** is a particular growing plant occupying a hex. A **Herb** is its named species/type; the **Family** groups related Herb types.
 - Family membership matters: the **same fungal Influence can produce different Responses in different Herb Families** (including no Response or an adverse one).
@@ -43,6 +46,18 @@ These family labels are based on the real plants and are **working names**, not 
 | Thorn | Tanglethorn |
 
 **Current known count:** five families, seven named Herb types. The eventual number of Herbs per family is open. Do not introduce a separate Variant layer.
+
+**Provisional Base Herb assignments to confirm during species design:** Mandrabra for Mandrake; Dilly-Dally Dill for Dill; Thymeless for Thyme; Chamomeleon for Chamomile; Tanglethorn for Thorn. These are natural candidates from our presently known names, **not yet expressly approved** as the final Base Herb for each Family.
+
+### Transformation access and Seed inheritance — key distinction
+
+The player being **given only Base Herb Seeds** does **not itself decide** which Seeds transformed Herbs may generate or how players reproduce a discovery later.
+
+**Open:** After a player transforms a Herb, can it produce Seeds that directly grow the transformed Herb, Seeds that grow its Base Herb, Seeds of another transformed Herb, or no Seeds at all? Different species-specific outcomes are consistent with the existing Mandrake brainstorming. Also open: whether players can later obtain/trade non-Base Seeds through gameplay, as opposed to receiving only Base Seeds as starting access.
+
+If transformed Herbs can generate non-Base Seeds, this can be a valuable **propagation reward** for discovering a Transformation, rather than bypassing the initial discovery requirement. We should choose intentionally whether some transformations must be performed anew every crop cycle.
+
+**Illustrative, not finalized:** Mandrabra might transform into Mandrakadabra or Mandrakazam, while other lineages could require an intermediate Herb first. The Mandrakazam-to-Mandrakadabra Seed production example remains available for consideration; no actual transformation recipe is established.
 
 ### Nonuniform family identities — illustrative brainstorming, NOT established traits
 
