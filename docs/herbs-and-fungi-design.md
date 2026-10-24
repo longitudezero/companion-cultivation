@@ -664,7 +664,12 @@ These are **working roles**, not a fixed count of fungi or universally beneficia
 
 ### Next focus
 
-**Food** is the remaining family to design. One promising, not-yet-approved direction is **Fertility engineering and high-throughput crop rotations** using existing Nutrient-type Sources and species-specific Responses; avoid introducing automatic soil depletion or mandatory crop rotation rules before discussing them.
+**Food** is the remaining family to design. **User-proposed new direction:** specialize in **Illumination, light/shade placement, and harvest efficiency**, *not* Fertility engineering. The old Fertility-centered suggestion is superseded.
+
+- Candidate design roles: Plants preferring Bright versus Dim/Dark; a fungus that affects illumination while also enabling a transformation; different transformations or harvest optimizations depending on Illumination; and useful Seed producers supporting high-Leaf-yield crops. These are illustrative examples, not confirmed Food species or recipes.
+- The potential distinctiveness from Aquatic is **spatial light management** (overlapping Luminous Sources, Airborne propagation, Blockers, gradients, and different recipient Responses) rather than simply shifting a Condition from Growth to Ripening. Do not invent a periodic day/night cycle to make this work.
+- **Fertility and permanent Base Material may ultimately be removed from the game** if they do not add enough meaningful puzzles. They are **not removed or deprecated yet**. **Defer that decision until the complete Plant/Fungus roster, environmental interactions, numerical balance, and harvest windows are designed**; then assess their actual usefulness.
+- Existing environmental code and [Environmental System v1.1](environmental-system-v1.1.md) remain authoritative in the meantime. Future removal would require reviewing the baseline/Source model and proposed material-overlay eligibility and propagation. **Do not add Material or Fertility interactions just to justify preserving those systems.**
 
 
 ---
