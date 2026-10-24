@@ -49,15 +49,31 @@ These family labels are based on the real plants and are **working names**, not 
 
 **Provisional Base Herb assignments to confirm during species design:** Mandrabra for Mandrake; Dilly-Dally Dill for Dill; Thymeless for Thyme; Chamomeleon for Chamomile; Tanglethorn for Thorn. These are natural candidates from our presently known names, **not yet expressly approved** as the final Base Herb for each Family.
 
-### Transformation access and Seed inheritance — key distinction
+### Transformation access and Seed inheritance — agreed core, open assignments
 
 The player being **given only Base Herb Seeds** does **not itself decide** which Seeds transformed Herbs may generate or how players reproduce a discovery later.
 
-**Open:** After a player transforms a Herb, can it produce Seeds that directly grow the transformed Herb, Seeds that grow its Base Herb, Seeds of another transformed Herb, or no Seeds at all? Different species-specific outcomes are consistent with the existing Mandrake brainstorming. Also open: whether players can later obtain/trade non-Base Seeds through gameplay, as opposed to receiving only Base Seeds as starting access.
+**Agreed: Different Herbs can have different Seed inheritance behavior.** We do not impose a single default across all Herbs within a Family. All four of the following are valid *individual Herb* behaviors:
 
-If transformed Herbs can generate non-Base Seeds, this can be a valuable **propagation reward** for discovering a Transformation, rather than bypassing the initial discovery requirement. We should choose intentionally whether some transformations must be performed anew every crop cycle.
+1. **Base Seeds:** A transformed Herb produces Seeds that grow the Family's Base Herb.
+2. **Own Seeds:** A transformed Herb produces Seeds that grow that same transformed Herb.
+3. **Other Herb Seeds:** A transformed Herb produces Seeds for a different named Herb (e.g., Mandrakazam yielding Mandrakadabra Seeds).
+4. **No Seeds:** The Herb is sterile and can only be obtained through some other route, such as Transformation from another Herb.
 
-**Illustrative, not finalized:** Mandrabra might transform into Mandrakadabra or Mandrakazam, while other lineages could require an intermediate Herb first. The Mandrakazam-to-Mandrakadabra Seed production example remains available for consideration; no actual transformation recipe is established.
+These are permitted possibilities, **not assignments to the seven currently named Herbs**. A successful Transformation is still required to obtain non-Base Herbs initially, but some transformed Herbs may then produce their own Seeds, rewarding discovery. Others might need to be transformed again for every generation.
+
+**New family-identity proposal under discussion:** One Family might be uniquely identified by a **shared Seed inheritance rule**, rather than by common habitat requirements. Possible examples include:
+
+- **Reverting lineage:** All transformed Herbs in that Family yield only Base Herb Seeds; the player must recreate each Transformation.
+- **Stable lineage:** All transformed Herbs yield their own Seeds; successfully discovered transformations can be cultivated directly in later generations.
+- **Mixed lineage:** Transformed Herbs yield a **mix of Base and transformed Herb Seeds** from one harvest (e.g., seven of one and three of the other, illustrative). Mixing Seed identities within one harvest is an **additional proposed fifth behavior**, not yet established as an ordinary rule.
+- A Family could also share a more unusual cross-Herb Seed production pattern, such as the exploratory Mandrakazam → Mandrakadabra chain.
+
+**No family is yet assigned any of these signatures.** If one family uniquely has mixed Seed inheritance, other families can still exhibit individual Base/Own/Other/None behaviors without having to conform to parallel family-wide rules. Family identities should remain deliberately **uneven**, not a checklist where every family is assigned a different Seed pattern. Ideally the unique rule supports a particular gameplay puzzle.
+
+**Open:** Whether mixed Seed output should use deterministic quantities/proportions, what controls any mix, whether seed-enhancing fungal Responses can change composition, and whether players can later obtain/trade non-Base Seeds directly. Also open: whether Base Herb Seeds can ever be produced by non-Base Herbs of other families via exceptional interactions.
+
+**Illustrative, not finalized:** Mandrabra might transform into Mandrakadabra or Mandrakazam, while other lineages could require an intermediate Herb first. The Mandrakazam-to-Mandrakadabra Seed production idea remains available; no actual transformation recipe is established.
 
 ### Nonuniform family identities — illustrative brainstorming, NOT established traits
 
