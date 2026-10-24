@@ -367,6 +367,88 @@ The environmental file is intentionally **not rewritten in this design pass**. A
 - Whether cumulative exposure, independent triggered events, or other exceptional behaviors earn a role.
 - Material overlay expansion beyond **Mycelial** and **Enchanted** (currently **not** intended).
 
+
+## 11. Subsequent terminology and family-design direction — agreed
+
+This section supersedes older "Herb" terminology where they conflict; a full editorial rename of earlier sections is deferred to the eventual documentation consolidation.
+
+- **Plant** replaces **Herb** as the general term, and **Plant Family / Plant Instance / Plant Response** replace their Herb counterparts. The term "Leaves" for ordinary non-Seed harvested product is **provisional** and needs a name suitable for roots, flowers, aquatic plants, etc.
+- The five broad groupings under current consideration are **Woodlands, Aquatic, Food, Flowers, and Desert** rather than five mandatory real-world botanical taxa. These are useful botanical themes and name pools, **not requirements that all members prefer one environmental Condition**. Aquatic Plants may often favor Flooded terrain; Desert Plants may often favor Sand; individual traits, fungi, transformations, and costs must remain varied.
+- We favor a **family-interactions-first** workflow: map several branching/cross-connected transformations, alternative routes, desirable or undesirable outcomes, and different reproduction choices first; define the individual Plants and fungi and numerical balance afterward. Design species in connected batches, revisit the graph when discoveries emerge, and don't enforce equal family sizes or a fixed number of transformed Plants.
+- The uploaded "Plant names.txt" is a **name pool**; not every name must be used, and names should generally follow the mechanics rather than dictate them.
+- Each Family has one initial **Base Plant** whose Seeds are offered to the player; other members of its transformation network must be discovered through Transformation. The graph should not be a compulsory straight line.
+- **Transformation redundancy is desirable:** two fungi may produce the same transformation while providing different environmental Influences, habitat constraints, time costs, or hazards. The same fungi may play roles across different Families.
+- Not every destination is equally strong: reliable/safe Plants, high-output/risky Plants, inferior outcomes, rescue transformations, and Seed-production shortcuts can coexist.
+
+### Woodlands — recorded design sketch, no numeric balance locked
+
+The player's Woodlands transformation sketch proposed **one unnamed Base Plant** leading to branches associated with Bamboo, Mandrake, and Tanglethorn, with cross-branch routes:
+
+- **Mandrabra → Mandrakadabra → Mandrakazam**, with additional possible routes indicated in the sketch. Mandrakadabra has the best potential non-Seed harvest output in Woodlands but is difficult to transform into safely: exposure long enough for Transformation can become fatal if left too long. A **Mandrakazam Seed route** is a longer but safer way to cultivate Mandrakadabra away from the dangerous Influence.
+- **Bamboom → Bamboozeling → Bamboozled** under continued exposure to a transforming fungus. **Bamboom** is an excellent Base-Plant Seed producer; **Bamboozeling** is inferior; **Bamboozled** produces no ordinary harvest or Seeds but yields an odd **Bamboo Steel** trophy when harvested (for flavor/achievement, not a normal productivity reward). The mention of "Bamboozle" as a best Plant alongside "Bamboom" in the sketch needs a **name confirmation**; do not silently treat them as two different Plants.
+- **Tanglethorn → Mistlefoe / Bramblewraith** is a safer, lower-maintenance direction. **Bramblewraith** is highly desirable for resilience and a large harvest window, not necessarily maximum yield.
+- **Mistlefoe → Mandrabra** is a pivot into the more demanding Mandrake path, requiring a **new transforming fungus and removal of a fungus beneficial to Mistlefoe**. Keeping the beneficial and transforming fungi both active instead causes **Mistlefoe → Mistlewoe**, an unwanted result. The sketch also visually suggests a Mistlewoe-to-Tanglethorn link; its exact recipe should be confirmed before fixing it as a rule.
+
+**Status:** Strong candidate family network from the user's original sketch, not finalized organism statistics or exact fungal Influence definitions.
+
+## 12. Aquatic — first family-interactions design pass
+
+### Points explicitly favored or accepted
+
+- **Flooded → drain → alternative transformation** is a **strong core Aquatic mechanic**. A Plant may need Flooded habitat or a Waterborne Influence to reach an intermediate form; draining during Ripening can select a different Transformation from remaining Flooded. The precise Plant identities and fungal requirements below are still first-pass proposals.
+- **Kelpless redemption** is desirable: an undesirable transformation should be recoverable through a route to a worthwhile other Plant, instead of being a permanent dead end.
+- Add **Cresscent → Pearlily** as an alternate, **shorter route to Pearlily**. Cresscent is useful as a self-reproducing Plant with **good Seed germination**, while a Cresscent Plant can alternatively be **transformed into Pearlily**. This makes a manageable two-Plant production chain, rather than requiring the entire Lotus progression.
+- **Neither Cresscent nor Pearlily needs to be an Aquatic "best" Plant.** This shortcut should give a practical, accessible result **without trivializing the harder-to-obtain specialists**.
+- Standard harvesting is plant-consuming: a single Cresscent Instance can be **harvested for Cresscent Seeds OR transformed into Pearlily**; it cannot do both as the same Instance in one crop cycle. Multiple planted Instances allow the player to maintain a Seed supply and transform others.
+
+### Provisional full graph from the assistant's first sketch (not all edges adopted)
+
+~~~text
+Unnamed Base Aquatic Plant
+  ├─> Kelpfull
+  │     ├─> Kelpergeist            (proposed specialist)
+  │     └─> Kelpless               (undesirable)
+  │           └─> Wild Watercress  (redemption route, favored)
+  ├─> Sunken Lotus
+  │     └─> Moonlit Lotus
+  │           ├─> Starlotus        (drain during Ripening; favored concept)
+  │           └─> Pearlily         (remain Flooded; favored concept)
+  └─> Wild Watercress
+        ├─> Silvercress
+        └─> Cresscent
+              └─> Pearlily         (new short alternative route, favored)
+~~~
+
+**Other provisional cross-route:** Kelpergeist → Starlotus via a different, specialized fungal transformation. All routes need final fungal and environmental rules.
+
+### First-pass possible Plant roles (all tentative except the directional preferences above)
+
+| Plant | Possible cultivation purpose |
+| --- | --- |
+| Unnamed Base Aquatic Plant | Starting access to all Aquatic branches |
+| Kelpfull | Produces many Base Plant Seeds while Flooded |
+| Kelpergeist | Reliable harvest in Dark/Flooded conditions |
+| Kelpless | Unwanted transformation after habitat disruption; redeemable into Watercress |
+| Sunken Lotus | Waterborne-connected starting point for Lotus transformations |
+| Moonlit Lotus | Intermediate whose next Transformation depends on water level during Ripening |
+| Starlotus | Harder, highly desirable form obtained after drainage or an alternative specialist route |
+| Pearlily | Accessible, useful but not top-tier outcome, reachable from Moonlit Lotus or Cresscent |
+| Wild Watercress | Accessible Damp-oriented branch entry, including the Kelpless rescue |
+| Silvercress | Potentially excellent ordinary harvest output in a controlled Damp habitat |
+| Cresscent | Seeds with good germination; can be harvested to replenish its own stock **or** transformed into Pearlily |
+
+**Important design implication:** If a proposed fungal Influence for the Moonlit Lotus → Starlotus route must remain active after water is drained, its propagation must still reach the Plant (e.g. Airborne, or another specifically justified solution). A Waterborne path may cease when Flooded connectivity breaks. No exception to existing propagation is silently established.
+
+### Open questions for a later Aquatic pass
+
+- What exact Source/Influence and conditions permit **Cresscent → Pearlily**? Does it reuse the Fungus used for Moonlit Lotus → Pearlily or provide a genuinely different route?
+- Does Pearlily produce its own Seeds, Base Plant Seeds, or other Seeds? Cresscent's high germination and self-Seeds are intended, but exact yields/rates are open.
+- Which Plants are genuinely "best" for a specific purpose, and which are intentionally safer or worse? Avoid overall strict rankings.
+- How does the Kelpless recovery process work? What are its time/environment costs and trade-offs?
+- Which environmental/Seed-production traits should become shared Aquatic family traits, as opposed to specific Plant traits?
+- Exact durations, germination rates, yields, transformation timings, assigned fungi, effect combination rules, and final names (including the unnamed Base Plant) remain unassigned.
+
+
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
