@@ -17,6 +17,15 @@ This document records agreed cultivation directions, ideas under consideration, 
 - **Open:** A decision we have intentionally not settled.
 - **Reserved:** An optional mechanic to revisit only if it adds meaningful gameplay.
 
+### Core cultivation objective — agreed
+
+**The ultimate reason to farm Plants is to obtain their non-Seed harvested product (currently called \"Leaves\", but the name is temporary).** The game is about optimizing ongoing **planting-and-harvesting rotations**, not collecting strange Plant identities as ends in themselves.
+
+- Seeds, germination, transformation chains, fungi, habitat manipulation, dormancy, and recovery are enjoyable **tools for maximizing sustained Leaves production** over repeated crop cycles.
+- High-Leaf-Yield Plants should remain a desirable end goal; **prestigious species do not each require a completely different exotic reward**. Two Plants can both be high-output but differ in setup costs, timing, risk, sustainability, or the supporting Seeds/fungi they require.
+- Plants specializing in Seeds or resilience are worthwhile when they help sustain or improve future Leaf harvests, reduce costs, or make crop rotations reliable.
+- Avoid adding complexity for its own sake. Where a simple high-output harvest is a satisfying reward, keep it.
+
 The existing Environmental System v1.1 rules remain unchanged in the live Prototype 1. Any implementation of these proposals must explicitly reconcile new mechanics with the environmental rules rather than silently modifying them.
 
 ## 1. Herb identity and families
@@ -573,6 +582,89 @@ These are broad **Influence/Response concept labels**, not universal effects gua
 - Detailed balancing of extremely slow but nonzero progress and any lower-bound thresholds or caps; the no-accrual-while-stalled rule is already agreed.
 - Whether a particular fungal combination changes output directly, causes Transformation, changes environmental Conditions, or all three on a species-dependent basis.
 - No new lifecycle counter or multiple-harvest system is intended. The normal **0–200%** Plant lifecycle remains the foundation.
+
+
+## 14. Desert — accepted first-pass family plan
+
+**Status:** The first-pass Desert network, each Plant's broad role, the Temperature-oriented family identity, and recovery/dormancy puzzle direction are **accepted as our Desert design plan**. Names, exact fungal recipes, environmental exposure thresholds, stat numbers, and time values are **not locked**. This remains design text, not implemented gameplay.
+
+### Desert identity — agreed
+
+- **Extreme Temperature Adaptation** is the signature: many Desert Plants can derive useful benefits from **Hot and/or Freezing** Conditions that are commonly dangerous to other families.
+- **Dormancy, stress endurance, and recovery** are supporting mechanics. Some species become dormant to survive extremes; some stay productive in Hot or Freezing conditions; others require surviving a continuous stressful period before a valuable recovery transformation.
+- The family's identity is **not** that every species likes Hot or every species likes Freezing. A Plant can prefer only one extreme, exploit both differently, or find one detrimental.
+- **Sand** is often attractive to Desert Plants, but not universally a strict requirement. Do **not** create a rule that every non-Desert Plant dies in Hot or Freezing conditions; effects remain species-specific, with cross-family exceptions.
+- The **farming purpose remains Leaf output across planting/harvest rotations**. High-yield specialists are legitimate final rewards; Seed specialists exist primarily to make Leaf production sustainable or more efficient.
+
+### Agreed first-pass transformation network
+
+~~~text
+Jadeheart (Base Desert Plant)
+  ├─[Hot + Ember fungus]─> Ember Aloe
+  │                        ├─[sufficient Heat exposure, then recovery]─> Aloemancer
+  │                        │                                           └─[Mirage fungus]─> Mirage Rose
+  │                        └─[attempt recovery too early]─> Ashen Rose
+  │                                                            └─[recovery fungus]─> Sandrose
+  │                                                                                     └─[Hot + Shelter]─> Cactopus
+  ├─[Freezing + Rime fungus]─> Moonjade
+  │                             ├─[survive Freezing, then thaw]─> Jadewisp
+  │                             │                                  └─[Mirage fungus]─> Mirage Rose
+  │                             └─[recovery + Mirage fungus]─> Pearadox
+  └─[Sand + Shelter fungus]─> Cactopus
+                                ├─[Hot + fungal combination]─> Cactaclysm
+                                └─[Hot + Mirage fungus]─> Pearadox
+~~~
+
+All bracketed paths are **provisional recipes**, not final Source/Influence definitions. The **dual-route** access to Pearadox and Mirage Rose, and the **Ashen Rose → Sandrose → Cactopus** recovery connection, are intentionally part of the network.
+
+### Accepted Plant identities, with detailed balance open
+
+| Plant | Role / strategic decision |
+| --- | --- |
+| **Jadeheart** | Accessible Base Desert Plant leading to three distinct initial branches; keep it straightforward |
+| **Ember Aloe** | Benefits from Hot conditions and produces its own Seeds; useful ordinarily, or can prepare for recovery |
+| **Aloemancer** | Successful recovery from sufficient Heat exposure unlocks valuable production/Seed benefits |
+| **Ashen Rose** | Undesirable transformation when attempting recovery **too early**, rather than from simply removing Heat; not a dead end |
+| **Sandrose** | Low-maintenance, Sand-friendly, drought-tolerant redemption Plant; provides a route back to Cactopus |
+| **Moonjade** | Survives Freezing by **Dormancy**: no Growth/Ripening progress or Time-based production while dormant |
+| **Jadewisp** | Obtained upon correctly thawing/recovering Moonjade; a strong **Moonjade Seed** producer |
+| **Cactopus** | Reliable, comparatively easy Desert producer; continues developing in Hot conditions |
+| **Cactaclysm** | Prestigious **high-Leaves / zero-Seeds** Plant reached by a demanding fungal combination; high output is a worthwhile reward, no exotic ability required |
+| **Pearadox** | Hot improves ordinary harvest yield; Freezing benefits **Seed production** while Plant continues developing instead of entering Dormancy |
+| **Mirage Rose** | Rare shared endpoint of Aloemancer/Jadewisp routes; produces a **mix of Ember Aloe Seeds and Moonjade Seeds**, not its own Seeds, supporting future harvest rotations |
+
+Some Plants provide Seeds, some provide large Leaf harvests, and some reduce risk or simplify access. Their different paths and maintenance costs are meaningful even when the player's eventual optimization target is still **Leaves**. Whether actual named species keep these roles after detailed balancing remains revisitable.
+
+### Provisional multi-use fungal roles
+
+| Working fungus concept | Role |
+| --- | --- |
+| **Ember** | Thermal warming; helps establish Hot conditions for Ember Aloe, Cactaclysm and other responses |
+| **Rime** | Thermal cooling; supports Freezing routes such as Moonjade or Pearadox |
+| **Awakener / recovery fungus** | Enables species-specific recovery, successful transformations, and redemption |
+| **Shelter** | Helps make the Cactopus/Sandrose route viable, possibly with a distinct non-Thermal habitat effect |
+| **Mirage** | Participates in unusual or branching transformations, including Pearadox and Mirage Rose |
+
+These are **working roles**, not a fixed count of fungi or universally beneficial Influences. We should seek cross-family use, including Thermal Influences that help Desert while disadvantaging some Flowers or aiding exceptional Food Plants.
+
+### Dormancy, exposure, and recovery semantics
+
+- **Dormancy pauses Growth/Ripening** and therefore, under the agreed anti-stall rule, also pauses **Time-based output bonuses**. It need not prevent separate **Continuous Exposure** timers from advancing while their conditions remain satisfied; e.g., a dormant Moonjade can still endure Freezing.
+- **Proposed trigger-resolution detail to retain for implementation design:** A recovery transformation can check whether a survival exposure threshold was fulfilled **immediately before** the stress condition ends. If the needed fungus is present at that event, the transformation succeeds; otherwise the exposure resets normally. This allows "endure stress, then recover" without an indefinite banked stress meter.
+- **Example:** Moonjade maintains the Freezing exposure threshold while Dormant; then on thaw with the Awakening Influence present it transforms to Jadewisp. For Ember Aloe, invoking a recovery-triggering fungus too early creates Ashen Rose instead of Aloemancer.
+- The exact evaluation order between condition changes, ending exposure, and attempted transformations requires explicit future definition and testing; none of this changes existing implemented propagation rules today.
+
+### Deliberately deferred
+
+- Exact duration of extreme Temperature exposure and individual death/dormancy requirements; no universal mortality rule.
+- Which non-Seed harvest curves and Seed yields maximize rotation throughput, and the cost-benefit of a sterile Cactaclysm crop compared with retaining reproducible Cactopus.
+- Whether Dormancy suppresses a particular Plant's emission or affects other sources, and how reawakening affects speed and growth progress.
+- Specific fungus objects, habitat requirements, ranges, secondary environmental effects, and final transformation recipes.
+- All numerical stats and thresholds. Do not implement these design concepts yet.
+
+### Next focus
+
+**Food** is the remaining family to design. One promising, not-yet-approved direction is **Fertility engineering and high-throughput crop rotations** using existing Nutrient-type Sources and species-specific Responses; avoid introducing automatic soil depletion or mandatory crop rotation rules before discussing them.
 
 
 ---
