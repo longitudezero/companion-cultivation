@@ -767,35 +767,53 @@ Thymely (Base)
 - No changes to the game implementation now.
 
 
-## 16. Fungal consistency and learnability — agreed refinement
+## 16. Fungal consistency and learnability — agreed, with clarification on multiple Effects
 
-**Agreed:** Players should be able to **memorize what each fungus broadly does**. Although Plants have species-specific **Responses**, those Responses must respect each fungal Influence's recognizable mechanical identity. Cross-family flexibility is not permission for arbitrary or contradictory one-off effects.
+**Agreed:** Players should be able to **memorize a fungus's Effects**. Consistency applies **to each defined Effect individually**, not to the fungus having just one Effect or to all its Effects sharing a theme. **A fungus may have two or more entirely independent Effects**—environmental, Plant-targeting, or overlay-related—and they do **not** need an underlying thematic relationship. The important restriction is that these Effects are **stable, defined abilities**, rather than arbitrary one-Plant surprises.
 
-### Direction consistency
+### Clear, repeatable Effect identity
 
-- A fungal Influence that **accelerates Growth** can accelerate Growth by different amounts on eligible Plants, be conditional (e.g. only while Warm), or do **nothing** on incompatible Plants. It must **never directly slow Growth** on another Plant.
-- Likewise, an Influence that slows Ripening cannot directly accelerate it elsewhere; one that boosts ordinary output cannot directly lower that same output as its corresponding Response. The **meaning and direction of each advertised effect remain consistent**.
-- The *recipient's environment* may still yield indirect harm. A fungus that **always raises Illumination** can disadvantage a Dark-loving Plant if the resulting Bright Condition is unsuitable. That is a **separate environmental Response**, not a reversed Luminous or Growth effect. Explain/display the causal distinction to players.
-- Species-specific Transformation destinations remain essential. Their triggers should be **thematically/mechanically consistent with the fungus's known Influence**, not inexplicable powers added to one otherwise unrelated Plant.
-- Distinguish a fungus's **emitted Influences** from individual Plant Responses. A fungus may emit more than one coherent Influence, but avoid sprawling lists of unrelated powers.
+- **Environmental Effects are not Plant-dependent.** A fungus emitting a negative Luminous Influence always contributes darkening wherever that Influence reaches according to the environmental system; it does not switch to brightening around another Plant.
+- **Plant-targeting Effects have consistent meaning and direction.** An Influence that accelerates Growth can accelerate it by different magnitudes on different recipients, be inactive on certain Plants, or be modified by a condition; **it must not directly slow Growth**. The same applies to Ripening slowdown, yield boosts, etc.
+- **Different Effects on the same fungus can be unrelated.** For example, a single fungus may **always darken illuminated hexes** and **always apply a Ripening slowdown to Plants receiving that cultivation Influence**. Neither ability needs to justify the other.
+- **Each Effect can have a standard/default strength**, with defined family-specific, species-specific, and environmental **modifiers or activation conditions**. Changing the **number**, not the Effect's nature, is allowed and encouraged.
+- **Indirect consequences may differ.** Darkening can benefit a shade-loving Plant but harm a Bright-loving Plant **through the altered Illumination Condition**. This does not mean the darkening Effect itself reversed.
+- **Species-specific Transformation endpoints are allowed** if enabled by a fungus's established transformation Influence and clear conditions; a fungus must not acquire inexplicable **new non-transformation Effects** only when affecting one particular Plant.
+- No arbitrary requirement that all a fungus's Effects be **cohesive** or **related**. Avoid unnecessary effect bloat for clarity, but do **not** discard a perfectly legible multi-effect fungus simply because its abilities are unrelated.
 
-### Avoid arbitrary one-off abilities
+### Worked example — Veilcap (illustrative stats, design endorsed)
 
-- Do **not** give an otherwise general Growth-accelerating fungus an unrelated **harvest-window extension on exactly one Plant** purely to make that Plant special.
-- Prefer a small number of **clear, cohesive functional signatures per fungus**. If a fungus genuinely affects bloom timing, that should be an established part of its identity, usable/recognizable across a meaningful class of responsive Plants; if its unique purpose is Growth acceleration, keep it focused.
-- Favor combinations of known Effects, conditional applicability, different strengths, environmental consequences, and species-specific transformation paths over unrelated exceptions. **Fungus consistency and player learnability take priority over maximal variety in individual Responses.**
-- This refines and narrows earlier language that "the same Influence can be beneficial on one Plant and harmful on another": negative outcomes can arise from **habitat/environment shifts, transformation risk, or interaction with separately defined effects**, but **not from reversing an Influence's direct mechanical direction**.
+Veilcap has **two independent Effects**:
 
-### Examples — design guidance, not assigned final stats
+1. **Environmental:** a negative Luminous Influence; it consistently darkens the environment wherever it reaches.
+2. **Cultivation:** a **Ripening slowdown**. The type of effect stays the same for every Plant that receives it. **It never accelerates Ripening.**
 
-| Candidate signature | Permitted | Not permitted |
-| --- | --- | --- |
-| Rushroom accelerates Growth | Stronger/weaker acceleration or immunity depending on Plant | Slowing Growth on a different Plant |
-| Veilcap reduces Illumination | Shade-loving Plants benefit and Bright-loving Plants suffer *because of changed Illumination* | Veilcap directly brightening a Plant's hex |
-| Echomorel improves second-bloom production | An eligible Flower receives bloom-related improvements; another non-blooming Plant ignores it | Unrelated Growth or Seed effect on one isolated Plant without a coherent fungus identity |
-| Glimmergill increases Illumination | Different recipients prefer different final light Conditions | Emitting darkening in one family for convenience |
+**Illustrative rate modifiers, not locked balance:**
 
-**Roster status:** The latest 13-fungus roster (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel, Emberbolete, Chillanterelle, Rainmorel, Droughtcap, Rushroom, Echomorel, Wakemorel, Hushroom, Mycelord) is **only a proposed candidate**, not locked or yet integrated into exact recipes. User especially likes the name **Sim'mushro'dim** for a fungus tied to **Enchanted**. Review any proposed multi-function assignments against this consistency principle before accepting them.
+| Recipient / condition | Veilcap Ripening slowdown |
+| --- | ---: |
+| Default affected Plant | **30%** |
+| Aquatic Plant in qualifying **Lit** conditions **or** Flooded | **50%** |
+| Woodlands Plant while **Warm** | **50%** |
+| A particular Plant with a defined stronger compatibility bonus | **70%** |
+
+- The extra **70%** species-specific effect is *not* a one-off ability: it is simply a larger magnitude of the **same slowdown**.
+- The Aquatic "**light or Flooded**" condition is a conceptual example. The exact Illumination label ("light" vs Lit or Bright), applicability, and numbers will be chosen during balancing; no special case is yet a final plant recipe.
+- **Two conditions being met does not automatically imply stacked bonuses**. Whether modifiers stack, replace one another, or use a maximum is a separate later rule.
+- Consistency applies to the effects each fungus **actually emits and propagates**. Different modes/ranges for independent environmental and Plant-targeting emissions are possible, so confirm which effects reach a given hex rather than assuming exposure to one guarantees exposure to all.
+
+### What counts as an undesirable one-off?
+
+- **Avoid:** A generally Growth-accelerating fungus *secretly* extends just one Plant's harvest window without a **separately defined, general harvest-window Effect**.
+- **Fine:** That fungus has **Growth acceleration and harvest-window extension as two explicitly listed Effects**, with recipient eligibility and different magnitudes stated consistently—even if these powers seem unrelated.
+- **Fine:** One Plant has an extraordinary +70% compatibility while most get +30% or +50%, as long as the **identity of the underlying Effect stays constant**.
+- **Fine:** The same fungus changes Illumination, and a Plant suffers from its newly unsuitable light Condition; that is an **indirect environmental consequence**, not a reversed direct Effect.
+
+### Implications for the proposed roster
+
+**Veilcap is valid as originally proposed:** retain **both darkening and Ripening slowdown**, without needing to explain one through the other or split it into separate fungi.
+
+The latest **13-fungus roster** (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel, Emberbolete, Chillanterelle, Rainmorel, Droughtcap, Rushroom, Echomorel, Wakemorel, Hushroom, Mycelord) is **still only a candidate**; effects, numeric values, conditions, emitted ranges/modes, and fungi-to-transformation mappings remain unassigned. The user favors **Sim'mushro'dim** as the name of an Enchanted-linked fungus. Audit proposed fungi by **consistency of each stated Effect**, not by forcing unrelated abilities to be separated.
 
 
 ---
