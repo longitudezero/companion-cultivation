@@ -192,7 +192,7 @@ These are valuable examples of different cultivation roles and seed dependency c
 
 - **Environmental Source:** Changes Moisture, Temperature, Fertility, or Illumination using the existing system.
 - **Habitat Engineer:** Creates a temporary material overlay such as Mycelial or Enchanted.
-- **Cultivation Source:** Emits Influences that elicit Herb Responses such as Growth, Yield, Transformation, or death.
+- **Cultivation Source:** Emits Influences that elicit Plant Responses such as Growth and Yield changes, or that satisfy part of a **Plant-defined Transformation recipe**. **Later refinement (§17): no separate transformation-triggering Influence type exists.** Death or other hazards may also be caused by the environment/overlays.
 
 A fungus may combine roles. Some fungi or Herbs may need particular environments/overlays to function or survive.
 
@@ -778,7 +778,7 @@ Thymely (Base)
 - **Different Effects on the same fungus can be unrelated.** For example, a single fungus may **always darken illuminated hexes** and **always apply a Ripening slowdown to Plants receiving that cultivation Influence**. Neither ability needs to justify the other.
 - **Each Effect can have a standard/default strength**, with defined family-specific, species-specific, and environmental **modifiers or activation conditions**. Changing the **number**, not the Effect's nature, is allowed and encouraged.
 - **Indirect consequences may differ.** Darkening can benefit a shade-loving Plant but harm a Bright-loving Plant **through the altered Illumination Condition**. This does not mean the darkening Effect itself reversed.
-- **Species-specific Transformation endpoints are allowed** if enabled by a fungus's established transformation Influence and clear conditions; a fungus must not acquire inexplicable **new non-transformation Effects** only when affecting one particular Plant.
+- **Species-specific Transformations are governed by the Plant's own recipes and conditions**, **not** by a fungus emitting a special transformation Influence. A recipe may test the presence of a fungus, receipt of any named fungus's otherwise-normal Influence, the current environmental state, overlays, and continuous time. See §17; all non-transformation fungal Effects still retain their consistent identities.
 - No arbitrary requirement that all a fungus's Effects be **cohesive** or **related**. Avoid unnecessary effect bloat for clarity, but do **not** discard a perfectly legible multi-effect fungus simply because its abilities are unrelated.
 
 ### Worked example — Veilcap (illustrative stats, design endorsed)
@@ -814,6 +814,40 @@ Veilcap has **two independent Effects**:
 **Veilcap is valid as originally proposed:** retain **both darkening and Ripening slowdown**, without needing to explain one through the other or split it into separate fungi.
 
 The latest **13-fungus roster** (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel, Emberbolete, Chillanterelle, Rainmorel, Droughtcap, Rushroom, Echomorel, Wakemorel, Hushroom, Mycelord) is **still only a candidate**; effects, numeric values, conditions, emitted ranges/modes, and fungi-to-transformation mappings remain unassigned. The user favors **Sim'mushro'dim** as the name of an Enchanted-linked fungus. Audit proposed fungi by **consistency of each stated Effect**, not by forcing unrelated abilities to be separated.
+
+
+## 17. Transformation ownership — Plant-defined recipes, no Transformation Influence
+
+**Agreed design direction (supersedes earlier 'transformation Influence' wording):** A fungus **never needs an Effect or Influence whose job is to activate Transformation**. **Transformations belong to Plants.** Each transformable Plant defines a collection of conditions that, when satisfied together for the required duration or transition event, change that Plant's identity.
+
+### What a Plant recipe may check
+
+- **Receiving any emitted Influence from named Fungus A and named Fungus B at the same time** for X uninterrupted hours. These are **ordinary, separately defined emissions** (e.g. darkening, Ripening slowdown, an environmental Source contribution) rather than special Transform Effects. The recipe checks which fungal Sources reach the Plant.
+- **Current environmental Conditions**—e.g., Flooded, Warm, Lit, Dark—potentially including required combinations or changes between states.
+- **Physical adjacency to Fungus C**, a separate spatial requirement from an Influence reaching the Plant. Example: a Plant stays **Flooded and adjacent to Fungus C** for X uninterrupted hours, then transforms; Fungus C does **not** have to direct an Influence toward that Plant to count for adjacency.
+- **Hex overlay states** such as Enchanted or Mycelial, where these prospective overlays are retained.
+- **Lifecycle progress/stage, current Plant identity, and Continuous Exposure** conditions.
+- **Change/event triggers** for the Desert recovery model (e.g. previously sustained Freezing, then thawing while another condition/fungus is present). Evaluation at transition boundaries requires future exact ordering rules; the ordinary Continuous Exposure reset still applies.
+
+### Consequences of moving responsibility to Plants
+
+- **Fungi keep only their declared environmental, cultivation, and overlay Effects**; effects remain consistent in type/direction, with family/species/condition-dependent magnitudes as described in §16.
+- **A Fungus can be used in multiple transformation recipes without gaining a unique power for every recipient.** The same fungus pair may transform different eligible Plants to different destinations, or have no transformation on another Plant.
+- **No Transformation Effect** needs to be emitted by Wakemorel, Prismorel, Rushroom, or any other fungus. Provisional descriptions of a fungus 'enabling a transformation' should be read as shorthand for **satisfying a condition in the Plant's recipe**, including an ordinary Influence reaching it or physical proximity.
+- **Fungi still may affect how feasible or dangerous a recipe is**, because they change environmental states and Growth/Ripening Rates, or sustain overlays. A transformation can occur from a conjunction of conditions without any special cultivation-only Influence.
+- **Source attribution may be important:** two opposite Luminous Source contributions can cancel in net Illumination while a Plant's recipe still requires the presence/reach of both named sources. An implementation must be able to distinguish **which Source emissions reach a hex** from only the computed final environment level. This need does not change existing Environmental System v1.1 arithmetic.
+- **Recipes are species-defined; no transformations for Ingredients**, which is the explicit sixth-family exception.
+
+### Examples, illustrative rather than fixed recipes
+
+| Plant-defined recipe | Transform |
+| --- | --- |
+| Plant A receives any qualifying Influence from Fungus A **and** B continuously for X hours | A → B |
+| Plant A remains **Flooded** and physically adjacent to Fungus C continuously for X hours | A → C |
+| Sunrice receives contributions from Glimmergill and Veilcap **while final Illumination is Lit** for a specified duration | Sunrice → Pum'king |
+| Moonjade has endured sufficient Freezing, then thaws while the required fungus/conditions are present (transition checks to be specified) | Moonjade → Jadewisp |
+
+All recipe time values, overlap handling, competing recipe priority, target identities, and source-attribution details remain open until the later mechanics pass. **No fungus requires a generic 'Transformation Influence' category or payload.**
 
 
 ---
