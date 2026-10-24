@@ -28,6 +28,27 @@ This document records agreed cultivation directions, ideas under consideration, 
 
 The existing Environmental System v1.1 rules remain unchanged in the live Prototype 1. Any implementation of these proposals must explicitly reconcile new mechanics with the environmental rules rather than silently modifying them.
 
+## Current six-family architecture — agreed (supersedes early five-Herb-Family drafts)
+
+**Current terminology is Plant / Plant Family / Plant Instance**, not Herb / Herb Family / Herb Instance. Parts of this document retain earlier historical wording and examples until a full editorial consolidation. The older five-family count, botanical Dill/Thyme/Chamomile/Mandrake/Thorn grouping, and blanket requirement that *every* Family has exactly one Base Plant with all others unlocked by Transformation are superseded by this architecture.
+
+| Current Family | Primary design identity | Transformation model |
+| --- | --- | --- |
+| **Woodlands** | Risky transformation networks, alternate routes, and Seed chains | Branching transformations from a Base Plant |
+| **Aquatic** | Flooded/Damp transitions and Waterborne positioning | Branching transformations from a Base Plant |
+| **Flowers** | Bloom/harvest timing and progress-/time-based fungal production effects | Branching transformations from a Base Plant |
+| **Desert** | Extreme Hot/Freezing adaptation, Dormancy, and recovery | Branching transformations from a Base Plant |
+| **Spices** | Illumination engineering, spatial fungus overlap, and efficient Leaf yield | **Keep the originally drafted Food network intact; rename species to cooking spices later** |
+| **Ingredients** | Straightforward, recognizable cooking ingredients; Growth, Ripening, harvest, and Seed sustainability | **No Transformations, ever, for this family** |
+
+**Spices / Ingredients are separate for cross-game clarity:** the Spices family yields recognizable RPG cooking spices; Ingredients supplies ordinary cooking staples that RPG players can understand without ever playing the cultivation game. **Mechanics do not have to be redesigned to suit names.** The original Food Plant names (Thymely, Sunrice, Moonrice, Shadow Onion, Starberry, Pum'king, Thymekeeper, Ghost Rice, Dillusion, Glass Apple) remain *working design identifiers*, not locked names; the prior suggested spice-themed replacements are **proposals only**.
+
+**The Ingredients exception:** each Ingredient species stays that species throughout its lifecycle; fungi may still affect its Growth, Ripening, Seed production, or normal non-Seed harvest, **but do not transform it into another Plant**. Its species' Seeds must have a direct availability/unlock route, because no transformation chain exists. Exactly which Ingredient Seeds are given initially or unlocked later is **open**. Ingredients don't have a single required transformation-Base-Plant lineage.
+
+**One shared farming objective:** maximum useful non-Seed harvest over sustainable planting/harvesting rotations (currently called **Leaves**, pending a more suitable universal name). Seeds and fungi support this goal. Do not add unneeded magical abilities just to make premium crops mechanically distinct.
+
+**Deferred environmental-scope decision:** Fertility and Base Materials remain in the implemented environment for now, but may be removed after full Plant/Fungus and balance design if they do not earn their complexity. The six-family direction does **not** authorize changes to existing environmental game code or the Environmental System v1.1 document.
+
 ## 1. Herb identity and families
 
 ### Agreed direction
@@ -662,14 +683,88 @@ These are **working roles**, not a fixed count of fungi or universally beneficia
 - Specific fungus objects, habitat requirements, ranges, secondary environmental effects, and final transformation recipes.
 - All numerical stats and thresholds. Do not implement these design concepts yet.
 
-### Next focus
+### Next focus — updated six-family decision
 
-**Food** is the remaining family to design. **User-proposed new direction:** specialize in **Illumination, light/shade placement, and harvest efficiency**, *not* Fertility engineering. The old Fertility-centered suggestion is superseded.
+**Food has been replaced by Spices and Ingredients as two separate Families.** Spices keeps Food's approved *first-pass Illumination network and mechanics*, with spice-themed species names to choose later. Ingredients adds a simple non-transforming family for RPG cooking staples. The older Fertility-centered suggestion remains superseded.
 
 - Candidate design roles: Plants preferring Bright versus Dim/Dark; a fungus that affects illumination while also enabling a transformation; different transformations or harvest optimizations depending on Illumination; and useful Seed producers supporting high-Leaf-yield crops. These are illustrative examples, not confirmed Food species or recipes.
 - The potential distinctiveness from Aquatic is **spatial light management** (overlapping Luminous Sources, Airborne propagation, Blockers, gradients, and different recipient Responses) rather than simply shifting a Condition from Growth to Ripening. Do not invent a periodic day/night cycle to make this work.
 - **Fertility and permanent Base Material may ultimately be removed from the game** if they do not add enough meaningful puzzles. They are **not removed or deprecated yet**. **Defer that decision until the complete Plant/Fungus roster, environmental interactions, numerical balance, and harvest windows are designed**; then assess their actual usefulness.
 - Existing environmental code and [Environmental System v1.1](environmental-system-v1.1.md) remain authoritative in the meantime. Future removal would require reviewing the baseline/Source model and proposed material-overlay eligibility and propagation. **Do not add Material or Fertility interactions just to justify preserving those systems.**
+
+
+## 15. Spices and Ingredients — accepted direction after the Food sketch
+
+### Spices — preserve the Food draft mechanically
+
+**Agreed:** Preserve the 10-Plant Food first-pass network and all its Illumination, fungal-placement, Leaf-production, and Seed-support interactions; **rename the species to spices later** so they make intuitive sense as cooking items in the separate RPG. The family name is now **Spices**, *not* Food or Lightbound. No proposed spice-species names are final. The rest of this section uses the original Food sketch names as **temporary identifiers** so the network cannot be lost during renaming.
+
+**Signature:** Shape Bright/Lit/Dim/Dark zones with Luminous Sources and Blockers; position fungal effects so some Plants receive complementary Influences while others avoid detrimental light; create repeatable, highly productive harvest rotations with specialist Seed sources.
+
+**Preserved first-pass transformation network** (the exact fungus labels and environmental thresholds are still proposals):
+
+~~~text
+Thymely (Base)
+  ├─[Bright + Glimmer]─> Sunrice
+  │                        ├─[Bright + Prism]─> Starberry
+  │                        │                         └─[Bright + Prism + Veil]─> Glass Apple
+  │                        └─[Lit + Glimmer + Veil]─> Pum'king
+  ├─[Dim + Veil]─> Moonrice
+  │                   ├─[Dim + Prism]─> Thymekeeper
+  │                   └─[Dark + Gloam]─> Ghost Rice
+  │                                              └─[Lit + Prism]─> Glass Apple
+  └─[Dark + Gloam]─> Shadow Onion
+                            └─[Lit + Prism]─> Dillusion
+                                                   └─[Lit + Glimmer + Veil]─> Pum'king
+~~~
+
+**Provisional Plant roles, preserved without relabeling abilities prematurely:**
+
+| Original draft Plant name (to be renamed) | First-pass gameplay role |
+| --- | --- |
+| **Thymely** | Straightforward Base Plant, own Seeds and reasonable output |
+| **Sunrice** | Sustainable, productive Bright-field crop, own Seeds |
+| **Moonrice** | Dim-zone Seed producer, own Seeds, supports multiple branches |
+| **Shadow Onion** | Simple Dark-field crop, own Seeds, transformation gateway to Dillusion |
+| **Starberry** | Strong Bright + Prism Leaf producer, produces **Sunrice Seeds** |
+| **Pum'king** | High-yield **sterile** specialist requiring **Glimmer + Veil concurrently while final Illumination remains Lit**; two routes |
+| **Thymekeeper** | Dim-area Seed supplier that produces large amounts of **Sunrice Seeds**, supporting productive bright fields |
+| **Ghost Rice** | More productive Dark-field crop, produces **Moonrice Seeds**; can transition into Glass Apple |
+| **Dillusion** | Flexible Dim/Lit, self-Seed-producing Plant; alternative route to Pum'king |
+| **Glass Apple** | Very high non-Seed harvest while Bright + Prism; **Starberry Seeds** instead of self-Seeds; alternate routes via Starberry and Ghost Rice |
+
+**Current balancing decision about Ghost Rice vs Shadow Onion:** **Do not redesign their roles merely out of fear they are too alike.** Both may use Dark habitats, but their Seed identities, production efficiency, cultivation costs, and eventual precise numerical profiles can make them more distinct during the later balancing pass. The user expects balancing to *increase*, not reduce, their differences.
+
+**Illustrative fungus roles:**
+
+- **Glimmer:** Positive Luminous environmental Influence plus species-dependent cultivation/Transformation Effects.
+- **Veil:** Negative Luminous environmental Influence; can be useful or harmful depending on recipient.
+- **Gloam:** Stronger darkening influence for Dark specialization.
+- **Prism:** Cultivation/Transformation Influence without necessarily changing Illumination.
+
+**Key spatial puzzle:** Pum'king's candidate recipe requires overlapping Glimmer and Veil while **net final Illumination is Lit**. Their opposing Luminous contributions can cancel numerically while both independent cultivation Influences still reach the Plant. Real net conditions must respect existing environmental clamping, neighboring Illuminations, and Blockers. This is not permission to bypass the environment system.
+
+**Cross-branch planning:** Moonrice → Thymekeeper → Sunrice Seeds supports Bright Sunrice / Starberry / Glass Apple crop rotations. Sterile Pum'king and high-output Glass Apple are alternative optimization objectives with different fungus, Seed, and layout costs. **Getting maximum Leaves across cycles remains the primary purpose**, not acquiring prestige species as collectibles.
+
+**Food-sketch status:** The user likes the system strongly, and its mechanics are being **retained intentionally**. Exact numbers, assignments, transformations, spice-themed names, and RPG ingredient mappings still require a later pass. Earlier recipe descriptions are a **first-pass design**, not final implementation instructions.
+
+### Ingredients — sixth family without transformations
+
+**Agreed architectural exception:** Ingredients has **no transformations**, but retains the ordinary 0–200% Growth/Ripening lifecycle, ordinary Seed production, species-specific Growth/Ripening Rates, and a one-time plant-consuming harvest yielding non-Seed output and Seeds as appropriate.
+
+- Recognizable RPG cooking staples (e.g., Potato, Rice, Carrot, Onion, Apple, Pumpkin, Strawberry) are **illustrative candidate species**, not a confirmed roster.
+- Each Ingredient always remains its own species. Fungi can potentially improve or worsen Growth, Ripening, Seed production, or normal non-Seed yield, but **cannot trigger a Transformation Response** in Ingredients.
+- Each Ingredient must have some **direct Seed access / unlock mechanism** (exact starting roster and later unlock mechanism open). This is an explicit exception to the five transformation-based Families' Base-Plant-only starting access.
+- Ingredients should be useful as a relatively straightforward and sustainable growing option, **not automatically useless or inferior** to magical transformed Plants.
+- The RPG cooking loop should be understandable to someone who has never played the farming game. Treat what an individual fantasy Plant yields as an RPG item mapping or identity choice **without assuming a shared inventory or production-conversion mechanic** until that separate game's integration is designed.
+
+### Open items
+
+- Final **Spices** species names that evoke usable cooking spices while keeping all ten roles and edges.
+- Ingredients species roster, Seed availability/unlock model, and eventual yield targets compared with the transformation families.
+- Final universal non-Seed harvest term (**Leaves** remains temporary; **Produce** is a candidate, not locked).
+- Exact fungal catalogue and stats; later evaluation of whether Fertility and Material mechanics remain worthwhile.
+- No changes to the game implementation now.
 
 
 ---
