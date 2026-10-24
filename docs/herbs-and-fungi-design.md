@@ -498,6 +498,83 @@ The Cresscent → Pearlily shortcut, the Lotus Flooded/drain fork, and all earli
 - Exact durations, germination rates, yields, transformation timings, assigned fungi, effect combination rules, and final names (including the unnamed Base Plant) remain unassigned.
 
 
+## 13. Flowers — first family-interactions design pass
+
+**Status:** Family identity and the distinction between Progress-based and Time-based bonuses are agreed directions. The proposed network and named Plant/Fungus roles have been positively received but **are not final recipes, final statistics, or an implementation mandate**. We are content to leave Flowers at this design depth and return for balancing/integration after exploring more families.
+
+### Family identity — agreed direction
+
+- The family specializes in **unusual bloom/harvest-production curves**, including early or late peaks, forgiving or very narrow harvest windows, and **second blooms within the existing 0–200% lifecycle**.
+- **Fungal synergies and combinations** can change those curves and enable transformations. Two concurrent fungal Influences may have a qualitatively new Response; fungi are not globally restricted to one effect or one Family.
+- A third central mechanic is **time spent within productive lifecycle windows**: a slower Plant can benefit more from an hourly bonus while it remains within a specified progress interval.
+- Unlike Aquatic and Woodlands, the Flowers signature is primarily **production timing and harvesting decisions**, rather than a shared environmental preference or lethal transformation risk.
+- **Harvest remains a single, Plant-consuming action**. A second bloom is a second **potential harvest peak**, not an additional harvest of the same Instance.
+
+### Progress-based vs Time-based bonuses — both agreed
+
+- **Progress-based bonus:** A Plant's output or production behavior depends on its current lifecycle percentage (e.g., what it produces around 100% or 175%, or a bloom curve changing shape).
+- **Time-based bonus:** A Plant accumulates additional harvestable output **per hour** while it remains in a specified lifecycle window and under qualifying fungal Influence. An example window was **159%–175%**, at a hypothetical **X output per hour**; this window and amount are **illustrative only**.
+- These are **distinct, permitted effect types** and can interact. Slow Ripening can increase the amount of real time available for a Time-based bonus. In a Flower that normally has a late peak, this may create especially valuable fungal synergy.
+- **Agreed terminal rule:** Upon reaching **200%**, a Plant is **done producing**. It cannot continue increasing a Time-based bonus just because the player leaves it planted at 200%. Harvesting is still a one-time action.
+- **Proposed anti-stall rule (awaiting explicit agreement):** Time-based output accumulates **only while lifecycle progress is actually advancing**. If Ripening is entirely paused at an eligible percentage, hourly accumulation pauses; slowing Ripening to a positive rate still extends the productive window. This avoids infinite production from a completely stalled Plant prior to 200%.
+- **Open:** Precision/rounding of elapsed-time accrual, interaction with interrupted fungal exposure and source maintenance, possible extreme low-but-nonzero rate exploits, and whether any effect needs a cap. Do not assign numbers yet.
+
+### First proposed Flowers transformation network
+
+The candidate **Base Plant is Daisydaze**, followed by several branch and cross-branch routes. All fungus labels and recipes below remain **working examples**:
+
+~~~text
+Daisydaze (Base Plant)
+  ├─(A)─> Charmomile
+  │         ├─(A + B)─> Daisyspell
+  │         │             └─(C + D)─> Orchidemon
+  │         └─(C + Dim)─> Marigloom
+  │                         └─(D)─> Rosewraith
+  ├─(B)─> Lavendream
+  │         ├─(B + C)─> Lavendread
+  │         │             └─(D)─> Dream Poppy
+  │         └─(B + D)─> Orchidemon
+  └─(C)─> Poppycock
+            └─(B)─> Dream Poppy
+                        └─(A + D)─> Rosewraith
+~~~
+
+The **alternative routes** to both **Orchidemon** and **Rosewraith** are intentional. Names are drawn from the user's Plant-name pool and may be changed after mechanics are developed.
+
+### Provisional Plant roles and proposed Seed outputs
+
+| Plant | Cultivation role or trade-off |
+| --- | --- |
+| **Daisydaze** | Straightforward Base Flower; produces its own Seeds and has an ordinary production curve |
+| **Charmomile** | Early bloomer; accessible quick non-Seed harvest, with some Seeds |
+| **Daisyspell** | **Extremely short/fast lifecycle**, an early and fleeting productive peak; possible Charmomile Seeds instead of self-Seeds |
+| **Marigloom** | **Exceptionally slow/long lifecycle**, unusually late bloom and relatively narrow peak; extra effective with a time-accruing second-bloom Influence |
+| **Lavendream** | Slow but forgiving; a **wide** productive harvest window, distinct from Marigloom's long wait until a late peak |
+| **Lavendread** | Sacrifices most ordinary output for high **Lavendream Seed** production |
+| **Poppycock** | Accessible self-Seed specialist with low ordinary output |
+| **Dream Poppy** | Late productive window; potentially produces **Poppycock Seeds** |
+| **Rosewraith** | **Two distinct potential peaks** in one lifecycle; the second potentially more productive with maintained fungal Influence and trade-offs against Seeds |
+| **Orchidemon** | High maximum single-peak ordinary output, but **sterile**; optimized by a difficult fungal combination |
+
+**Daisyspell and Marigloom are not considered underdeveloped.** Their contrasting lifecycle speeds give them distinctive roles without forced extra Material requirements. Material-specific influences may be explored only if interesting, **not mandatory**.
+
+### Proposed functional fungal vocabulary (not locked organisms)
+
+- **A — Hurry:** Advances/accelerates or shifts blooming earlier in responding Plants.
+- **B — Linger:** Extends or slows productive windows, including slowing Ripening for certain Plants.
+- **C — Dusk:** Changes bloom timing, and may emit a Luminous Influence to create Dim conditions.
+- **D — Echo:** Can support second blooms, including potentially **per-hour extra yield** in a late progress window; may trade against Seed production.
+
+These are broad **Influence/Response concept labels**, not universal effects guaranteed for all recipients. For example, **Echo + Linger** can be especially useful on **Marigloom**: it spends longer in a late productive window and gets more from hourly accumulation. Accelerating Ripening could be counterproductive in that combination.
+
+### What remains intentionally open
+
+- Every exact growth/ripening duration, output curve and total yield, timing threshold, progress window, germination/Seed quantity, relative strength and fungal recipe.
+- Whether the anti-stall proposal above is adopted and how it should account for pausing or extremely slow progress.
+- Whether a particular fungal combination changes output directly, causes Transformation, changes environmental Conditions, or all three on a species-dependent basis.
+- No new lifecycle counter or multiple-harvest system is intended. The normal **0–200%** Plant lifecycle remains the foundation.
+
+
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
