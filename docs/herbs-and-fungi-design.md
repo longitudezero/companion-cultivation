@@ -439,6 +439,48 @@ Unnamed Base Aquatic Plant
 
 **Important design implication:** If a proposed fungal Influence for the Moonlit Lotus → Starlotus route must remain active after water is drained, its propagation must still reach the Plant (e.g. Airborne, or another specifically justified solution). A Waterborne path may cease when Flooded connectivity breaks. No exception to existing propagation is silently established.
 
+### Aquatic family signature and latest refinements — agreed direction, details open
+
+**Shared Aquatic identity:**
+
+- **Moisture transitions are the family's signature mechanic.** Multiple Aquatic transformations and growth strategies should use **Flooded → Damp** or **Damp → Flooded**, not just require a static amount of water. There is no requirement for all Plants to use the same transition or timing.
+- **All Aquatic Plants dislike Dry conditions.** **Damp** and/or **Flooded** are preferred. This is a family-level environmental commonality, **not** an agreed universal rule that Dry instantly kills every Aquatic Plant. Species-specific response to Dry (loss of productivity, dormancy, delayed death, etc.) remains open.
+- Other shared traits or family-specific drawbacks can be unrelated to Moisture. Keep cultivation roles and Responses deliberately nonuniform.
+
+**Kelpergeist → Kelpless added to the graph.** Losing **Flooded** conditions can cause Kelpergeist to transform into Kelpless. The Kelpless → Wild Watercress redemption route remains. Exactly *how long* the condition must be lost before Transformation occurs is **not yet agreed**; a short grace/exposure period would be one possible design choice.
+
+**Starlotus — origin-dependent Moisture preference:**
+
+- Moonlit Lotus → Starlotus is associated with **draining from Flooded to Damp**. The resulting Starlotus benefits from remaining **Damp**.
+- Kelpergeist → Starlotus uses the alternative route in a **Flooded** environment. The resulting Starlotus gets **the same kind of benefit** from remaining **Flooded**, not Damp.
+- The Plant **dislikes subsequent Moisture changes**. This is a property of the obtained Starlotus, not an entirely separate named species, and suggests the working term **Moisture Attunement**: the transformation route establishes the preferred current Moisture.
+- **Proposed, not yet decided:** Moving away from the attuned Moisture removes the benefit rather than immediately killing the Plant. Whether returning to the original condition restores the benefit, whether a change incurs its own penalty, and what exactly the benefit modifies are open.
+- This is an intentional case where a **Transformation's context leaves a persistent cultivation characteristic**, while ordinary Transformation still preserves lifecycle progress.
+
+**Silvercress — simple to obtain; difficult to optimize, not to survive:**
+
+- Silvercress should be **easy to transform into / obtain**.
+- During **Growth (0–100%)**, it benefits from being **Flooded**.
+- During **Ripening (100–200%)**, it benefits from being **Damp**.
+- **Missing either beneficial condition gives no extra negative effect**; it simply misses that benefit. The challenge is managing Moisture to optimize performance, not keeping the Plant alive.
+- The type and strength of the two benefits remain open (Growth Rate, Leaf Yield, Seed Yield, timing, etc.).
+- This deliberately contrasts with Starlotus: **Silvercress rewards changing water levels at the right stage**, whereas **Starlotus rewards stable Moisture after acquiring its preferred state**.
+
+**Revision to the Aquatic graph (added edge):**
+
+~~~text
+Kelpergeist --(loses Flooded; timing TBD)--> Kelpless
+Kelpless --(redemption; recipe TBD)--> Wild Watercress
+
+Moonlit Lotus --(Flooded → Damp / drain)--> Starlotus [benefits while Damp]
+Kelpergeist --(specialist alternative; stays Flooded)--> Starlotus [benefits while Flooded]
+
+Wild Watercress --> Silvercress [accessible; recipe TBD]
+Silvercress: Flooded during Growth + Damp during Ripening -> benefits, neither mandatory for survival
+~~~
+
+The Cresscent → Pearlily shortcut, the Lotus Flooded/drain fork, and all earlier proposed paths remain in consideration. These refinements **do not finalize** a detailed fungus roster or numeric balance.
+
 ### Open questions for a later Aquatic pass
 
 - What exact Source/Influence and conditions permit **Cresscent → Pearlily**? Does it reuse the Fungus used for Moonlit Lotus → Pearlily or provide a genuinely different route?
