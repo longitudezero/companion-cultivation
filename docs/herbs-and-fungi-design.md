@@ -3556,9 +3556,9 @@ Each of these four is **a fungus with 0–100% Growth followed by 100–200% Spo
 **Next step underway:** Continue with Rainmorel, Droughtcap, Prismorel and Rushroom (§49), then the remaining candidates, the fungal numerical pass, and finally the explicit **separate full Plant-owned transformation-recipe pass** across every Family. We may note feasibility along the way, but **no recipe, duration, priority or transformation-specific activation Effect is assigned here**. No game code changed.
 
 
-## 49. Fungi — second ordinary fungus batch: Rainmorel, Droughtcap, Prismorel, Rushroom (PROPOSED for review)
+## 49. Fungi — second ordinary fungus batch: Rainmorel, Droughtcap, Prismorel, Rushroom (APPROVED first-pass bundles)
 
-**Status:** The user **APPROVED §48's four fungal pairings**, including the **situational but valid +8pp LATER Leaf Peak Timing Shift on Glimmergill**, then asked for the next batch. **All four named fungi and their exact Effect packages in THIS §49 are newly PROPOSED, pending review.** Design for interesting player-created cross-fungus solutions, not two already synergistic optimization effects packaged on a single fungus. **Mycelord alone produces the Mycelial overlay** (§47 approved); it emits nothing else. Exact Plant-owned transformation recipes, priority, and exposure durations remain strictly **reserved for the dedicated later pass after fungal designs and numbers**.
+**Status:** The user **APPROVED §48's four fungal pairings**, including the **situational but valid +8pp LATER Leaf Peak Timing Shift on Glimmergill**, then asked for the next batch. **All four named fungi and their first-pass Effect packages in §49 were APPROVED by the user** ("ok these sound good"), including Rainmorel's Growth slowdown, Droughtcap's Harvest Window widening, Prismorel's earlier Leaf timing, and Mycelial-dependent Rushroom Growth acceleration. Full fungal numerical balancing, exact Spore economics and Mycelial propagation feasibility remain deferred. Design for interesting player-created cross-fungus solutions, not two already synergistic optimization effects packaged on a single fungus. **Mycelord alone produces the Mycelial overlay** (§47 approved); it emits nothing else. Exact Plant-owned transformation recipes, priority, and exposure durations remain strictly **reserved for the dedicated later pass after fungal designs and numbers**.
 
 ### A. Proposed four emitted-Effect bundles
 
@@ -3571,7 +3571,7 @@ Each of these four is **a fungus with 0–100% Growth followed by 100–200% Spo
 
 These are **proposed source-side values**, not compat-adjusted Plant bonuses or an approved complete fungus numerical pass. All four still follow the agreed fungus lifecycle: **0–100% Growth, 100–200% Sporulation, own Spores ONLY, immediate emission from germination, continued emission after maturity while viable, and one destructive Spore harvest that removes the Source**. No fungus produces Plant Leaves/Seeds, another species' Spores, or Mycelial except Mycelord. Exact growing days, total maturation days, per-Spore chance, Spore amount, earlier partial Spore curve, survival/timer rules and final Source numeric balancing remain deferred.
 
-### B. Rainmorel — PROPOSED first-pass profile
+### B. Rainmorel — APPROVED first-pass profile
 
 **Role:** A **directed water-layout engineer** with a separate (often inconvenient) Growth slowdown. It can help create Flooded corridors without giving the player an automatic Growth speed boost for every Aquatic crop in its footprint.
 
@@ -3586,7 +3586,7 @@ These are **proposed source-side values**, not compat-adjusted Plant bonuses or 
 
 **Crucial propagation detail:** §Environmental System v1.1 explicitly resolves **routed Wetting before ordinary Waterborne traversal**. A Wetting Source must be able to affect **currently Dry or Damp** targets; **do not naively make its environmental Wetting itself Waterborne-only** or it could fail to create the first Flooded path. The proposed **Airborne routed +1** obeys already implemented semantics. Once Rainmorel creates Flooded connectivity, some separate fungus's existing Waterborne cultivation Influence may subsequently exploit that path. This is cross-fungus synergy, not a secretly bundled Waterborne acceleration effect on Rainmorel.
 
-### C. Droughtcap — PROPOSED first-pass profile
+### C. Droughtcap — APPROVED first-pass profile
 
 **Role:** A **drainage / harvest-timing engineering tool**. It makes the percentage-based interval around existing Leaf peaks more forgiving, while its broad Drying Source may damage the very Plants whose harvest windows it improves unless the player manages placement.
 
@@ -3601,7 +3601,7 @@ These are **proposed source-side values**, not compat-adjusted Plant bonuses or 
 
 **Specific numerical sanity example, not final curve shape:** With Strawberry's approved **2.3× Harvest Window compatibility**, +25% base widening yields **+57.5% widening** of an existing **20-progress-point** nominal 105–125% interval (width ~31.5 points if width scaling is proportional). This adds timing forgiveness **but no direct Leaves or Seeds**; the exact left/right redistribution is a later curve-shape decision. Keeping Strawberry productive and alive requires its own Moisture to remain suitable: widening doesn't override a Dry penalty or 48-hour continuous Dry lethality.
 
-### D. Prismorel — PROPOSED first-pass profile
+### D. Prismorel — APPROVED first-pass profile
 
 **Role:** A **precision/directional Brightening source** whose secondary cultivation Effect is an **earlier** Leaf peak. It is an intentional alternative to, rather than a strictly stronger version of, Glimmergill.
 
@@ -3616,7 +3616,7 @@ These are **proposed source-side values**, not compat-adjusted Plant bonuses or 
 
 **Reason for apparent overlap with Glimmergill:** Both emit fixed +1 Luminous Brightening, but **omnidirectional Range 2 vs user-routed Spread Budget 3** are distinct spatial tools, while **later vs earlier Leaf Timing Shift** offer opposite, occasionally valuable scheduling strategies. This kind of alternative is acceptable when it enables different garden layouts rather than giving a unilateral stronger Source. If later tester playtesting finds one strictly worse in real setups, revise balance or footprint, not an automatic new gameplay mechanic.
 
-### E. Rushroom — PROPOSED first-pass profile
+### E. Rushroom — APPROVED first-pass profile
 
 **Role:** A **powerful early Growth accelerator** with a real Mycelial setup requirement and a Cooling emission. This is the first proposed normal fungal **Mycelial-DEPENDENT** species, rather than a fungus that manufactures its own habitat.
 
@@ -3642,7 +3642,87 @@ These are **proposed source-side values**, not compat-adjusted Plant bonuses or 
 7. **Fungal names and roster size still tentative** except Mycelord's agreed first-pass role. This four-fungus batch is proposed for separate user review, then **Echomorel, Wakemorel, Hushroom, Sim'mushro'dim** remain from the original 13-name pool (alongside already approved Mycelord and four earlier ordinary fungi). Not every name must survive, and additional fungi may be added to cover meaningful missing Effects rather than filler.
 8. **Dedicated later transformation pass remains reserved after fungal design, fungal numbers and feasibility checks**. Mentioning potential relevant Conditions or Sources now does not assign any specific outgoing edge or duration. Text-only; no game code.
 
-**Approval status:** All six Plant families' first-pass profiles/numerics, §46's general fungal rules, §47 Mycelord's sole-creator role, and §48's four bundles **are APPROVED**. **§49 Rainmorel/Droughtcap/Prismorel/Rushroom environmental emissions, cultivation Effects, Mycelial classes, nominal magnitudes and propagation footprints are NEW PROPOSALS awaiting user approval**. Full fungal numerical pass and complete Plant-owned transformation recipes remain deferred. No implementation.
+**Approval status:** All six Plant families' first-pass profiles/numerics, §46's general fungal rules, §47 Mycelord's sole-creator role, and §48's four bundles **are APPROVED**. **§49 Rainmorel/Droughtcap/Prismorel/Rushroom environmental emissions, cultivation Effects, Mycelial classes, first-pass nominal magnitudes and proposed propagation footprints are APPROVED as first-pass bundles**, subject to fungal-wide numerical balancing and system feasibility checks. §50 introduces the next four candidates. Full fungal numerical pass and complete Plant-owned transformation recipes remain deferred. No implementation.
+
+
+## 50. Fungi — Echomorel, Wakemorel, Hushroom, Sim'mushro'dim (PROPOSED third batch)
+
+**Status:** The user approved all four §49 fungus designs and requested the next batch. The agreed initial roles now comprise **eight ordinary fungi (§§48–49) plus single-purpose Mycelord (§47)**. This §50 introduces the final four names from the earlier 13-name candidate pool, but **none of the four new specific packages is approved yet**. Their numbers, environment reaches, Mycelial preference and production windows below are **proposed first-pass values**, not a finalized global fungus numeric pass. Fungal species always **grow from 0–100%, sporulate from 100–200%, emit immediately after germination and continue emitting indefinitely at 200% while viable**; a one-time destructive Fungus harvest yields its own **Spores only**, removing the Source. **Mycelord alone creates Mycelial**. Complex Plant Temperature/Moisture/Illumination preferences do not return as fungal habitat requirements. **Precise Plant-owned transformation recipes remain completely deferred to a clean pass AFTER all fungi and their numerical balance**.
+
+### A. Four proposed Effect combinations
+
+| Fungus | Environmental Influence | Independent Plant-development Effect | Fungus Mycelial relationship | Deliberate puzzle or trade-off |
+| --- | --- | --- | --- | --- |
+| **Echomorel** | **Cooling −1 Temperature**, Thermal | **Time-based Leaf Production +0.15 Leaves/hour** during **160–190%** progress | **Preferring**, fully functional without it | Does not slow Ripening: combine another fungus to extend elapsed time; Cooling can also compromise fragile/Heat-preferring Plants |
+| **Wakemorel** | **Drying −1 Moisture**, Aqueous | **Ripening Rate +25%** during 100–200% | **Independent** | Speeds late harvests but dries Damp farms and reduces time available for other fungi's hourly production |
+| **Hushroom** | **Darkening −1 Illumination**, Luminous | **Germination Adjustment +8 percentage points PER SEED** on a planting attempt | **Independent** | Saves scarce Seeds at sowing but may darken the just-planted crop into an unsuitable environment |
+| **Sim'mushro'dim** | **Warming +1 Temperature**, Thermal | **Time-based Seed Production +0.15 Seeds/hour** during **160–195%** progress | **Preferring**, fully functional without it; no Enchanted dependency | Creates additional Seeds, but cannot itself slow Ripening, shift Seed timing, or increase ordinary Seed Yield; Warming can hurt cold seed farms |
+
+All signs stay the same across recipients and all cultivation magnitudes are multiplied by species-specific compatibility. Environmental modifiers retain existing ordered Conditions and integer signed steps, additive resolution and final clamping. Each ordinary fungus emits the environmental and Plant cultivation effects **independently** with separate footprints. Initial proposal: **Airborne Range 2 for environmental emissions, Airborne Range 1 for cultivation emissions**; source-side reach/strength remains subject to feasibility and the global fungus numerical pass. No fungus gains a universal Transformation Effect, Secondary Bloom, Environmental Tolerance, extra Seed identity, or fungal Leaf harvest.
+
+### B. Echomorel — PROPOSED fungal profile
+
+| Category | Proposed definition |
+| --- | --- |
+| **Lifecycle / Spores** | Normal fungus 0–200% Growth/Sporulation, always producing only its own **Echomorel Spores** via one destructive harvest. Emits both Effects from successful germination, including at 200% if left standing; exact stage days, Spore harvest and germination deferred. |
+| **Environmental emission** | **Thermal Cooling −1 Temperature**, Airborne Range 2. It can make Temperate→Cold or Cold→Freezing depending on other active Sources and Baseline. It does not automatically become stronger in discrete steps on Mycelial. |
+| **Plant effect** | **Time-based Leaf Production +0.15 Leaves/hour during progress 160–190%**, Airborne Range 1; the Plant's Time-based Leaf compatibility multiplies the source rate. **Only accumulates during positive lifecycle progress** and while the relevant Source is actively reaching the Plant in the declared progress window. No production when progress stalls or after 200%; no extra bloom/second harvest. |
+| **Mycelial** | **Preferring**: its own occupied fungus hex being Mycelial modestly strengthens its positive hourly Leaf-production emission; it still works off Mycelial. **Exact source-side bonus magnitude is deferred**; any Cool environmental step remains a fixed −1. Only Mycelord can create Mycelial. |
+| **Purpose / trade-off** | Supports **Marigloom**'s approved late **160–177%** productive window, and **Rosewraith**'s innate second peak around 180%, as well as **Dream Poppy**. It **does not itself slow Ripening**; Veilcap or another independent rate Source can create more positive-progress hours. Cooling may expose Flowers to Freezing if background Conditions/other cooling already place them at Cold. |
+| **Transformation relevance** | Ordinary cooling/source presence could later matter to Plant-owned conditions. **No Plant route, fungal requirement or duration assigned now.** |
+
+**Concrete sanity check:** Marigloom occupies its native **160–177%** productive segment for roughly **1.7 in-game days = 40.8 hours** in normal conditions, and has **3.0× late Time-based Leaf Production compatibility while Dim**. If Echomorel's effect reaches it throughout that interval, +0.15/h becomes **+0.45 Leaves/h**, generating about **18.36 additional Leaves before rounding** (plus its natural output), with uninterrupted positive progress and otherwise unchanged rates. This is a promising reward but may become too large when combined with severe *nonzero* Ripening slowdown. **Review near-stall exploits in the global numerical pass; a full stall never accrues Leaves**. We do not assume Cooling can make Marigloom remain in its preferred Temperature under every starting Baseline.
+
+### C. Wakemorel — PROPOSED fungal profile
+
+| Category | Proposed definition |
+| --- | --- |
+| **Lifecycle / Spores** | Usual 0–200% fungus cycle; own Wakemorel Spores on destructive harvest; immediate/continuous emissions, no Plant Seeds/Leaves. Exact fungus stage times and germination later. |
+| **Environmental emission** | **Aqueous Drying −1 Moisture**, Airborne Range 2. May turn Flooded→Damp or Damp→Dry, without a new irreversible drain mechanic. Retains one-step source arithmetic. |
+| **Plant effect** | **Ripening Rate +25%**, Airborne Range 1, during progress 100–200% only, scaled by recipient Ripening Rate compatibility. It does not accelerate Growth, widen progress-interval harvest windows, or modify natural peak position. Faster Ripening can REDUCE the amount of positive-progress time spent benefiting from Echomorel or Sim'mushro'dim. |
+| **Mycelial** | Independent of Mycelial; does not create it. No additional fungus own Temperature/Moisture/Illumination preference. |
+| **Purpose / trade-off** | **Pumpkin** has 1.7× approved Ripening acceleration compatibility, so +25% becomes +42.5% rate, but Wakemorel may Dry its Damp patch (where Pumpkin has only **0.70×** rate/output and eventual Dry death). It may help **Aquatic** growers drain Flooded→Damp during Ripening while rushing through a late harvest. Unlike Droughtcap, it gives **NO Harvest Window widening**. Helps rapid Seed turnaround in principle, but decreases the time for hourly Seed Production effects. |
+| **Transformation relevance** | May contribute ordinary Flooded→Damp change in future Aquatic Plant recipes, with full source/duration specifics later. |
+
+### D. Hushroom — PROPOSED fungal profile
+
+| Category | Proposed definition |
+| --- | --- |
+| **Lifecycle / Spores** | Usual fungal 0–200% cycle, own Hushroom Spores only, destructive harvest, emits from germination and after maturity while standing. Exact fungus numbers later. |
+| **Environmental emission** | **Luminous Darkening −1 Illumination**, Airborne Range 2. Redundancy with Veilcap is intentional: Hushroom has an entirely different developmental role; its Darkening may suit Moonrice's Dim or Dark-preferring crops but can harm Bright crops. |
+| **Plant effect** | **Germination Adjustment +8 PERCENTAGE POINTS per Seed**, Airborne Range 1, **evaluated when the Seed stack is planted into an empty target hex**, before a living Plant exists. The specific Seed species' approved germination compatibility multiplies +8pp; the existing additive stack model still caps success at 100% and **consumes every Seed committed** on success or failure. No effect on already-growing Plants, no spontaneous Seed creation, and no bonus to Fungus Spore planting unless separately agreed later. |
+| **Mycelial** | Independent, no Mycelial generation or old forbidden Environmental Tolerance power. |
+| **Purpose / trade-off** | **Starberry Seeds** come only from Glass Apple and have an approved **18% per Seed** chance at 1.0× fungal germination compatibility. With Hushroom's +8pp/Seed, Starberry becomes **26% per Seed**, guaranteeing one Starberry Plant for **4 Seeds instead of 6**. However, Darkening may degrade a Bright crop's subsequent yield and speed; other Brightening sources or selectively blocking its Luminous emission might be needed. Does not create Starberry Seeds or change their target species. |
+| **Transformation relevance** | Ordinary Darkening may later matter to Plant-owned Source-presence/Illumination recipes; it emits no special Transformation effect. |
+
+**Sowing-event feasibility:** Germination Adjustment targets the **sowing attempt at the chosen empty hex**, not an already occupied Plant. The runtime later needs a consistent event-time reach check using the existing source geometry. This is the agreed catalogue's existing germination dimension, **not a new effect category**. A fungus's own Spores are a different item economy: this proposal does not confer Spore germination adjustment, which would be a separately reviewed behavior.
+
+### E. Sim'mushro'dim — PROPOSED fungal profile
+
+| Category | Proposed definition |
+| --- | --- |
+| **Lifecycle / Spores** | Own Sim'mushro'dim Spores only after destructive fungus harvest, normal 0–200% fungus life, immediate emissions and persistent mature Source. Spore chances, counts and durations to be quantified later. |
+| **Environmental emission** | **Thermal Warming +1 Temperature**, Airborne Range 2, ordinary consistent one-step Modifier. It **does not depend on Enchanted ground**; the previously discussed Enchanted overlay can still be removed from eventual design without invalidating this fungus's name or role. |
+| **Plant effect** | **Time-based Seed Production +0.15 Seeds/hour**, Airborne Range 1, during **160–195%** progress **only while positive progress continues**, scaled by receiver Time-based Seed compatibility. Generated Seeds retain the Plant's own preexisting harvested **Seed identity**, not the fungus species. **No Seeds from a sterile Plant**, no change of Seed identity, no Seed Yield/Germination boost bundled in this fungus. No accrual during a full stall or beyond 200%. |
+| **Mycelial** | Preferring, functioning normally without Mycelial. On a Mycelial **fungus source hex**, outgoing hourly Seed rate receives a modest boost (exact number deferred). Its environmental +1 Temperature remains a discrete +1; only Mycelord creates Mycelial. The Plant need not itself occupy dangerous Mycelial ground to receive the cultivation Influence. |
+| **Purpose / trade-off** | **Thymekeeper** (approved 2.5× time-based Seed compatibility) can grow **additional Sunrice Seeds**, and **Rice** can increase own Seed inventory if they maintain positive-progress exposure during the late interval. But **Warming may move a Cold-favoring Seed farm outside its productive Temperature**, and a Mycelial support colony can threaten nearby Plants. Separate **Emberbolete** is needed for direct Seed Yield, and separate **Veilcap** for sustained slower Ripening; Sim'mushro'dim supplies neither. |
+| **Transformation relevance** | Source presence, Warming or standard Plant-side Seed accrual could enter future Plant-owned recipes, but no final Ingredient/Desert/Spices mapping is assigned. |
+
+**Example:** At Dim, a Thymekeeper has **2.5× Seed time-based compatibility**, so Sim'mushro'dim's **+0.15 Seeds/hour** delivers **+0.375 SUNRICE Seeds/hour** during active progress from 160–195% (if that separately propagated Effect actually reaches it). Thymekeeper makes Sunrice Seeds, not its own. Sterile Pum'king and Cactaclysm never gain Seeds from this emitter. Accrued Seed counts, rounding, mixed timing and compatibility stacking need normal future balancing.
+
+### F. Why the four do not package complete optimization puzzles
+
+| Cross-fungus situation | Player-created payoff | Obstacles/costs |
+| --- | --- | --- |
+| Echomorel + **Veilcap** | Extra late Leaves per eligible real hour; slower Ripening increases available hours | TWO Sources; Veilcap darkens, Echomorel cools, and environmental changes may harm the chosen late Flower |
+| Wakemorel + **Echomorel / Sim'mushro'dim** | Quicker access to 200% Seed/late Leaf harvest | Ripening acceleration actually **reduces** possible hourly accumulation; choose speed or extra output |
+| Hushroom + **Glimmergill / Prismorel** | Spend fewer expensive Starberry Seeds while keeping next crop Bright | Darkening and Brightening must be engineered/blocked; extra output not bundled |
+| Sim'mushro'dim + **Veilcap** | More hourly Seeds while progress is positive but slower, including Sunrice Seeds via Thymekeeper | Need separate source; maintaining Dim/Cold/Damp can conflict with emitted Warming and Darkening |
+| Mycelord + Echomorel / Sim'mushro'dim | A stronger outgoing **fungus** hourly-production emission on a Mycelial Source hex | Mycelord consumes a hex; Mycelial is hazardous **on Plant hexes**; no free Plant productivity from the overlay itself |
+
+**Important effect coverage to audit after this batch:** Existing approved Plant compatibility matrices also include **Seed Timing Shift** and **Leaf–Seed Allocation**. Neither of those has been assigned to any named fungus in §§48–50, so a roster-wide follow-up may need **one or two additional fungus species** or non-automatically-synergistic third effects. There is **NO obligation to stop at 13 fungi**, and no justification for reopening forbidden Secondary Bloom, Environmental Tolerance, generic Transformation Influence, or the potentially removable Enchanted overlay. The other relevant catalogue Effects would now be represented: Growth increase/decrease, Ripening increase/decrease, Leaf Yield, Seed Yield, Germination, Harvest Window, Leaf timing earlier/later, time-based Leaf/Seed production; environments ±Moisture, ±Temperature, ±Illumination, plus sole Mycelial from Mycelord. Fungus names and exact numerical values remain first-pass.
+
+**User-review status:** §47 Mycelord and §48/§49 eight ordinary fungus packages are **APPROVED**. **§50 Echomorel/Wakemorel/Hushroom/Sim'mushro'dim are NEW PROPOSALS**, pending user review. If approved, first perform an **effect-coverage audit** (especially Seed Timing Shift and Allocation), then a complete fungus numeric pass (durations, Spores, germination, effect powers, footprint/overlays), and **after all fungal design** a fully separated complete Plant-owned Transformation recipe pass. No code changed.
 
 
 ---
