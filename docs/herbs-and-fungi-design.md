@@ -2613,10 +2613,10 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 | --- | --- |
 | **Natural lifecycle** | **Ordinary-to-slightly-slow Growth** and ordinary Ripening, longer to establish than the relatively quick Sunrice but still a practical repeat crop through repeated transformations. No Dormancy or new stage. |
 | **Natural harvest** | **Very strong single Leaf peak around 135%** with a **moderately narrow 125–150% productive interval**; higher maximum than Sunrice but less forgiving harvest timing. Near 200%, provides a **respectable number of Sunrice Seeds** rather than Starberry Seeds. Existing Seed availability may overlap falling Leaves near late Ripening; one harvest takes all available output. |
-| **Germination** | **No Starberry Seeds exist** in the current established network. Obtain Starberry through **Sunrice → Starberry**. The **Sunrice Seeds** that Starberry yields use Sunrice's Seed germination probability regardless of which living Plant produced them. |
+| **Germination** | **Starberry does not produce Starberry Seeds itself**; its initial access is **Sunrice → Starberry**. However, the later **Glass Apple produces Starberry Seeds**, allowing direct Starberry planting after Glass Apple is unlocked (as clarified by approved §39). The **Sunrice Seeds** that Starberry itself yields use Sunrice's per-Seed germination probability. |
 | **Environment** | **Bright, Damp, Temperate/Warm** optimal. Lit remains viable but imposes a **substantial natural Leaf penalty**, sharper than Sunrice's ordinary nonideal light penalty; Dim/Dark strongly suppress Growth and Leaves, but lack a separate magical instant-death condition. Dry/Flooded inefficient; Hot, Freezing and sustained Mycelial hazardous/lethal. Starberry is Bright-specialized, not Hot-adapted. |
-| **Farming purpose** | **High-value Bright Leaf specialist and Sunrice Seed return** for sustaining repeated Sunrice → Starberry attempts. Also opens one route to **Glass Apple**. Different from self-sustaining Sunrice: Starberry's *species* cannot reproduce directly from its harvest. |
-| **Effect compatibility** | **Strong fungal Leaf Yield response while Bright**, stronger than Sunrice's, and **useful response to Harvest Window widening** because its native peak is more demanding. Moderate response to Harvest Peak Timing Shift, ordinary Seed Yield and Seed Timing Effects on the available **Sunrice Seeds**, and somewhat reduced Growing speed compatibility if necessary to preserve its premium trade-off. No Effect generates Starberry Seeds, and no fungus has to emit a 'Bright-field harvest' Effect: the Plant responds to ordinary resolved Illumination. |
+| **Farming purpose** | **High-value Bright Leaf specialist and Sunrice Seed return** for sustaining repeated Sunrice → Starberry attempts. Also opens one route to **Glass Apple**. Different from self-sustaining Sunrice: Starberry cannot reproduce directly from its **own** harvest; its Seeds become available later through Glass Apple. |
+| **Effect compatibility** | **Strong fungal Leaf Yield response while Bright**, stronger than Sunrice's, and **useful response to Harvest Window widening** because its native peak is more demanding. Moderate response to Harvest Peak Timing Shift, ordinary Seed Yield and Seed Timing Effects on the available **Sunrice Seeds**, and somewhat reduced Growing speed compatibility if necessary to preserve its premium trade-off. Effects cannot turn Starberry's **own Sunrice Seed harvest** into Starberry Seeds; Glass Apple's separately established late Seed harvest does produce Starberry Seeds. No fungus has to emit a 'Bright-field harvest' Effect: the Plant responds to ordinary resolved Illumination. |
 
 **First-pass shape choice:** **135% Leaf peak, main productive band 125–150%**, lower speed and narrower Leaf opportunity than Sunrice, but meaningfully higher natural Leaves. The exact maximum height and Bright/Lit response multipliers will be assigned in the Spices numeric pass. The older sketch's **Bright + Prism** characterization is preserved as a **potential future Transformation/Effect synergy**, not a named assignment now.
 
@@ -2682,9 +2682,9 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 - **Approval:** This second batch is **APPROVED as first-pass design** by the user. The final Spices batch (§39) covers **Pum'king and Glass Apple**; no game code or fungus identities were assigned.
 
 
-## 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (PROPOSED for review)
+## 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (APPROVED first-pass profiles)
 
-**Status:** The user approved **all four §38 Spices intermediates** (Starberry, Thymekeeper, Ghost Rice, and Dillusion) without requesting changes and asked for the next batch. This is the final **PROPOSED six-part profile** batch for the two high-value shared endpoints **Pum'king** and **Glass Apple**. All ten Spices names are still **temporary mechanical names from the former Food network**; choose cooking-spice-appropriate names separately without retconning the approved roles or transformation graph. The entire batch is a **proposal pending review**, with complete numerical stage times/Leaf values/Seed counts/germination/Effect compatibility/hazard thresholds following approval.
+**Status:** The user approved **all four §38 Spices intermediates** (Starberry, Thymekeeper, Ghost Rice, and Dillusion) without requesting changes and asked for the next batch. This final six-part profile batch for the two shared high-value endpoints **Pum'king** and **Glass Apple** was **APPROVED by the user** without changes. All ten Spices names are still **temporary mechanical names from the former Food network**; choose cooking-spice-appropriate names separately without retconning the approved roles or transformation graph. The entire batch is **APPROVED first-pass Plant identity**, and the complete proposed numerical stage times/Leaf values/Seed counts/germination/Effect compatibility/hazard thresholds follow in §40.
 
 ### Preserved branches and environmental challenge
 
@@ -2703,7 +2703,7 @@ Ghost Rice ───────┘
 - Both endpoints retain lifecycle progress on Transformation and the same species identity regardless of origin. No route-based hidden attunement or source memory.
 - The Source reaching a hex and the **resolved Illumination after all Source contributions** are different mechanical observations. The proposed Pum'king transformation puzzle can require both while respecting the environment's existing propagation, blockers, falloff, and clamping—not pretend opposing Sources always sum neatly to Lit everywhere.
 
-### Pum'king — PROPOSED six-part first-pass Plant profile
+### Pum'king — APPROVED six-part first-pass Plant profile
 
 **Core identity:** A valuable **Leaf-only, sterile, net-Lit specialist**. Its major setup challenge is **spatially overlapping opposing lighting Influences**, not simply making everything as Bright as possible. It should be noticeably more rewarding than ordinary Sunrice or Dillusion, while standing apart from Glass Apple's Bright optimization and Starberry Seed feedback.
 
@@ -2722,7 +2722,7 @@ Ghost Rice ───────┘
 
 **After Transformation:** Pum'king remains a Pum'king even if the qualifying sources later stop reaching it, unless a separate future Plant-owned recipe says otherwise (none is proposed). Its ordinary Leaf yield depends on the **current resolved Illumination** (Lit optimal). We are **not** imposing a new rule requiring both transformation sources to remain active throughout Ripening just to keep it productive. Any actual independent Leaf Yield fungal Effects continue to operate only if their sources remain active.
 
-### Glass Apple — PROPOSED six-part first-pass Plant profile
+### Glass Apple — APPROVED six-part first-pass Plant profile
 
 **Core identity:** A **very-high-Leaf Bright-field endpoint** that, unlike sterile Pum'king, produces **Starberry Seeds** at a late harvest. The two incoming routes—**Starberry → Glass Apple** and **Ghost Rice → Glass Apple**—provide very different **Light engineering costs** but create the **same Plant**. It should be extraordinarily productive at its optimized Bright peak and have a strategically significant Seed payoff if harvested later instead of Leaves.
 
@@ -2769,7 +2769,185 @@ Pum'king ──[Leaf harvest only]──> 0 Seeds
 
 **No additional system invented:** All effects here are either **ordinary Plant environmental responses, harvest curves, standard Seed identities, or compatibility with the established fungal Effect catalogue**. No universal secondary bloom, Seed-type replacement, environmental tolerance, Light-charge accumulation, periodic day/night cycle, or generic transformation Influence.
 
-**User-review status:** §37–38's first eight Spices profiles are **APPROVED**. The two §39 profiles are **PROPOSED and await user approval**. Then all ten Spices species will be ready for **one bold complete numerical pass** covering stage times, natural harvest and Seed yields, germination (including Starberry!), core/advanced fungal Effect compatibility, Light/other habitat response multipliers, and continuous hazards. After numerical review the next Family is Ingredients, whose nontransforming architecture will require direct Seed access decisions. **No code changes; no fungus roster/final transformation recipes assigned.**
+**User-review status:** All ten Spices profiles in §§37–39 are **APPROVED as first-pass species identities**, including Pum'king's Lit overlap challenge/sterility and Glass Apple's Bright peak/Starberry Seed production. §40 contains the numerical balance **PROPOSED for user review**. After numerical approval the next Family is Ingredients (nontransforming, direct Seed access still open). **No code changes; no fungus roster/final transformation recipes assigned.**
+
+
+## 40. Spices — complete numerical pass (PROPOSED for review)
+
+**Status:** The user **approved all ten Spices Plant profiles** (§§37–39), including Pum'king and Glass Apple, and requested the **full first-pass numerical balance**. All values in this section are **new proposals awaiting the user's approval**. The historical Food-derived Spices names remain **TEMPORARY MECHANICAL IDENTIFIERS**; a later cooking-spice naming pass must preserve these ten species, the graph and the mechanics. The user prefers bold numerical differentiation followed by eventual **tester playtesting**, not preemptive conservative balancing. **No code implementation, new fungus roster, Effect assignment or final Transformation recipe is authorized.**
+
+**Global comparison:** One ordinary Plant has roughly **10 Leaves near 100%, 10 own Seeds at 200%, four in-game days to finish Growth (100%), eight TOTAL in-game days to finish Ripening (200%)**, without fungal Effects and under preferred habitat Conditions. **All transformations preserve progress**, and a Plant has **one consuming harvest**, at which it collects all eligible Leaves and Seeds *at that progress*, not one exclusive output selector. Peak Leaf and 200% Seed maxima are usually **alternative harvest timings**, not simultaneous full payouts. Existing fungally emitted Growth/Ripening/Leaf/Seed/Window/Timing/Time-based Production/Allocation Effects keep consistent directions and source behavior; recipient compatibilities adjust only their magnitude. Do not add an Illumination-charge mechanic, day/night clock or generic Transformation Effect.
+
+### A. Natural stage durations, Leaf curves and Seed identities
+
+These duration values describe a species from **0%**, before fungal rate Effects, in its preferred resolved Illumination, Moisture and Temperature. They are comparison baselines even for species initially accessible *only by transformation*. **Days to 200% INCLUDE days to 100%**. Natural Leaves below 100% may be harvested as with other families. All plants may carry partial quantities of Seeds and Leaves at intermediate phases as their existing harvest curves permit.
+
+| Species (working name) | Days 0–100% Growth | Days 0–200% TOTAL | Natural Leaf peak / preferred progress | Seeds at 200% | Seed identity |
+| --- | ---: | ---: | --- | ---: | --- |
+| **Thymely (Base)** | **4.0** | **8.0** | **10 at 100%**, standard broad-ish early bloom | **10** | Thymely (own) |
+| **Sunrice** | **3.25** | **7.0** | **18 at 125%**, manageable mid-Ripening window | **10** | Sunrice (own) |
+| **Moonrice** | **4.0** | **9.0** | **6 at 110%**, weak ordinary Leaves | **20** | Moonrice (own) |
+| **Shadow Onion** | **3.5** | **7.5** | **11 at 115%**, broad forgiving curve | **11** | Shadow Onion (own) |
+| **Starberry** | **4.5** | **9.0** | **31 at 135%**, narrowish ~125–150% | **8** | Sunrice |
+| **Thymekeeper** | **4.0** | **10.0** | **5 at 115%**, weak Leaves | **28** | Sunrice |
+| **Ghost Rice** | **4.5** | **8.5** | **24 at 145%**, ~130–160% | **11** | Moonrice |
+| **Dillusion** | **3.5** | **7.5** | **14 at 135%**, broad ~120–165% plateau | **12** | Dillusion (own) |
+| **Pum'king** | **4.5** | **9.5** | **46 at 145%**, broad ~130–170% | **0** | None, absolutely sterile |
+| **Glass Apple** | **5.0** | **10.0** | **58 at 155%**, narrower ~145–170% | **24** | **Starberry** |
+
+**The same crop cannot be harvested twice.** Seeds and Leaves available at the chosen progress are collected together. Example: choosing a Leaf peak at 135% collects its 135%-available Seeds too, but **not** its future 200% Seed maximum.
+
+**Deliberately strong contrasts and arithmetic:**
+- **Sunrice** is a **3.25-day fast Bright Growth / 18-Leaf / 10-own-Seed** repeatable crop; **Starberry** is slower, peaks at **31 Leaves**, but gives **8 Sunrice Seeds**, not its own, making repeated transformation necessary until a later Glass Apple harvest supplies directly plantable Starberry Seeds.
+- **Ghost Rice's 24 natural Dark Leaves versus Shadow Onion's 11** is a more-than-2× output distinction. Ghost Rice returns **Moonrice Seeds**, while Shadow Onion is direct self-Seeding and a simpler Dark farm.
+- **Moonrice's 20 own Seeds** maintain Dim-area planting; **Thymekeeper's 28 Sunrice Seeds** instead fund Bright-field Sunrice and Starberry cultivation from a Dim area.
+- **Pum'king's 46 Leaves** are a single broad premium net-**Lit** peak and **zero Seeds at every stage**; its transformation puzzle may require opposing environmental Source influences reaching the same hex while resolved Illumination is Lit.
+- **Glass Apple's 58 Leaves** at a Bright 155% peak are a large late-game reward; its **24 Starberry Seeds** at 200% are a distinct, equally important reproductive improvement, permitting **Starberry to be grown from Starberry Seeds** even though Starberry itself yields Sunrice Seeds.
+- No source-origin memory for the two Pum'king routes or two Glass Apple routes. Exact final Transformation requirements are deferred; progress remains fixed during an identity change.
+
+### B. Germination and actual Seed availability
+
+Use the **approved additive per-Seed chance model** from other families: **P(success) = min(100%, number of Seeds committed × chance-per-Seed)**; all Seeds committed to the attempt are consumed whether germination succeeds or fails. Probabilities are attached to the **Seed species**, not the species producing that Seed. **—** denotes no presently produced Seeds of the target species, not a 0%-chance Seed.
+
+| Species to plant | Chance with 1 Seed | Minimum Seeds for guaranteed germination | Sources of its Seeds |
+| --- | ---: | ---: | --- |
+| **Thymely** | **28%** | **4** | Thymely (Base Seed access) |
+| **Sunrice** | **25%** | **4** | Sunrice, Starberry, Thymekeeper |
+| **Moonrice** | **32%** | **4** | Moonrice, Ghost Rice |
+| **Shadow Onion** | **30%** | **4** | Shadow Onion |
+| **Starberry** | **18%** | **6** | **Glass Apple ONLY**; initial Starberry from Sunrice transformation |
+| **Thymekeeper** | — | — | None; Moonrice Transformation |
+| **Ghost Rice** | — | — | None; Moonrice Transformation |
+| **Dillusion** | **28%** | **4** | Dillusion |
+| **Pum'king** | — | — | None; Sunrice / Dillusion Transformations, absolutely sterile |
+| **Glass Apple** | — | — | None; Starberry / Ghost Rice Transformations |
+
+**Crucial source reconciliation:** **Starberry Seeds ARE actually obtainable from Glass Apple**; the initial Starberry is transformed from Sunrice and Starberry's own harvest yields only Sunrice Seeds. The earlier §38 phrasing is editorially clarified to preserve these two true facts simultaneously. A 24-Starberry-Seed Glass Apple harvest at 18% germination per Seed yields **four guaranteed Starberry plantings** at 6 Seeds each. **Thymekeeper** harvesting 28 Sunrice Seeds with 25%/Seed yields **seven guaranteed Sunrice plantings**; Moonrice's 20 own Seeds with 32%/Seed guarantee **five Moonrice plantings**. These are deliberately substantial Seed economy improvements.
+
+### C. Core fungal Effect compatibility multipliers
+
+**Compatibility definition:** Number **M× multiplies the magnitude of a signed emitted cultivation Effect**. For example, an ordinary +20% Leaf Yield fungus on a 2.6× compatible Plant produces **+52% Leaf Yield**, applied to existing eligible Leaves. It does **not** multiply total Leaves by 2.6 automatically. Conditional values are based on **currently resolved Illumination**; different recipients do not change a fungus's Source strength, emission direction, range or propagated footprint. Source-driven environmental Illumination changes remain **universal**. Negative emissions stay negative, not sign-inverted.
+
+| Species | Growth Rate | Ripening Rate | Leaf Yield | Seed Yield | Germination Adjustment |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Thymely | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Sunrice | **1.3×** | 1.1× | **1.3× ordinary / 2.0× Bright** | 1.0× | 1.0× |
+| Moonrice | 1.0× | 1.1× | 0.8× | **1.4× ordinary / 2.2× Dim** | **1.2×** |
+| Shadow Onion | **1.0× ordinary / 1.5× Dark** | 1.0× | 1.1× | 1.2× | 1.0× |
+| Starberry | 0.9× | 1.0× | **1.3× ordinary / 2.6× Bright** | 1.0× | **1.0×** |
+| Thymekeeper | 1.0× | **1.3×** | **0.5×** | **1.6× ordinary / 2.8× Dim** | — |
+| Ghost Rice | 0.9× | 1.0× | **1.3× ordinary / 2.5× Dark** | 0.9× | — |
+| Dillusion | **1.2×** | 1.1× | **1.2×** | 1.1× | **1.2×** |
+| Pum'king | 1.1× | 1.1× | **1.0× ordinary / 2.8× Lit** | **0×** | — |
+| Glass Apple | 0.9× | 1.1× | **1.2× ordinary / 3.0× Bright** | **1.8×** | — |
+
+**Compatibility examples; these are NOT assignments of actual fungi:**
+- A hypothetical **+20% Leaf Yield** emitter increases **Bright Glass Apple's 58 Leaves by +60%** (3.0× response), to **92.8 Leaves** before rounding. **Bright Starberry** responds at 2.6×: its 31 Leaves reach **47.12**. **Lit Pum'king** gets +56% (2.8×), raising 46 Leaves to **71.76**.
+- A hypothetical **+20% Seed Yield** emitter acts at **2.8× Dim Thymekeeper**: 28 Sunrice Seeds × 1.56 = **43.68** before rounding. Moonrice under Dim (2.2×) becomes 20 × 1.44 = **28.8 Moonrice Seeds**.
+- The same Light-shifting fungus may make one recipient's **resolved Illumination** more productive and another's less productive even though its emission direction is unchanged. **Recipient compatibility** and **native Illumination suitability** are distinct multipliers/concepts.
+- **Starberry Germination compatibility is available (1.0×)** because its species' Seeds **are** obtainable via Glass Apple; this is distinct from Thymekeeper, Ghost Rice, Pum'king or Glass Apple, none of whose own species Seeds are obtainable. Germination Adjustment applies at **planting**, not directly to the living producer Plant.
+- **Pum'king's Seed Yield response 0×** stays 0 across all fungal Effects and lighting states. Glass Apple's **Seed Yield affects its existing Starberry Seeds only**, never creates Glass Apple Seeds.
+
+### D. Advanced harvest-curve and Seed timing compatibility
+
+As above, each value scales the magnitude of the corresponding **pre-existing fungal Effect**. All effects are emitted by future fungi with their **own consistent definition and progress-eligibility windows**, not by these Plants merely because they have a high compatibility multiplier. Time-based Production only accrues while lifecycle progress advances positively, never while fully stalled or after 200%.
+
+| Species | Harvest Window width | Leaf Peak Timing Shift | Seed Timing Shift | Time-based Production | Leaf–Seed Allocation |
+| --- | ---: | ---: | ---: | --- | ---: |
+| Thymely | 1.0× | 1.0× | 1.0× | 1.0× Leaves / 1.0× Seeds | 1.0× |
+| Sunrice | **1.2×** | 1.1× | 1.0× | **1.2× Leaves** / 1.0× Seeds | 1.0× |
+| Moonrice | 0.9× | 1.0× | **1.5×** | 0.7× Leaves / **1.8× Seeds** | **1.4×** |
+| Shadow Onion | 0.8× | 1.0× | 1.0× | 1.0× Leaves / 1.0× Seeds | 1.0× |
+| Starberry | **1.7×** | **1.3×** | 1.0× | **1.5× Leaves** / 0.7× Seeds | 0.9× |
+| Thymekeeper | 0.7× | 0.8× | **1.8×** | 0.4× Leaves / **2.5× Seeds** | **1.7×** |
+| Ghost Rice | **1.5×** | **1.4×** | 1.0× | **1.6× Leaves** / 0.8× Seeds | 0.9× |
+| Dillusion | **1.3×** | 1.1× | 1.0× | 1.0× Leaves / 1.0× Seeds | 1.1× |
+| Pum'king | **1.0×** | 1.2× | **0×** | **1.8× Leaves** / **0× Seeds** | **0×** |
+| Glass Apple | **1.5×** | **1.3×** | **1.6×** | **1.6× Leaves** / **1.8× Seeds** | 1.2× |
+
+**Rules:**
+- **Starberry's 1.7× Window compatibility** is more useful than Sunrice's 1.2× because Starberry's native 125–150% peak is narrower. **Pum'king's 130–170% broad window** keeps an ordinary 1.0× response instead of Orchidemon-like extreme widening, while **Glass Apple's 145–170%** premium Bright peak merits 1.5×.
+- **Moonrice and Thymekeeper** respond strongly to Seed Timing shifts and hourly Seed Production. This reflects their desired logistics function, but no such output occurs unless a **named future fungus** emits the corresponding existing Effect.
+- **Dillusion** gets the same compatible ordinary Effects under **Dim and Lit**; no special timed switch, transition memory or invented photocharge.
+- **Pum'king produces NO Seeds**, so even a Time-based Seed Production emitter or Leaf–Seed Allocation cannot make new Pum'king Seeds or any other Seed kind. Similarly, Glass Apple always produces **Starberry Seeds** and never Glass Apple Seeds.
+- These window/timing Effects reshape **existing natural curves**. They do not create a second bloom, grant a second harvest, change a producer's Seed identity, or extend production past the lifecycle's final 200%.
+
+### E. Resolved Illumination performance table (primary Spices balance)
+
+**Central Spices identity:** The existing environmental system resolves which Illumination condition each hex has, using **Dark / Dim / Lit / Bright**. These numbers represent **species-specific native multiplier responses** to that final Condition; each cell is **lifecycle rate / ordinary Leaf AND Seed harvest output**. These are separate from emitted fungal rate/yield compatibilities. **No Plant instantly dies from a nonpreferred light state**; even a strong adverse result is a productivity penalty. These are *not* per-species modifications to source emission, falloff or propagation.
+
+| Species | Dark: rate/output | Dim: rate/output | Lit: rate/output | Bright: rate/output |
+| --- | --- | --- | --- | --- |
+| **Thymely** | **0.70× / 0.65×** | 0.90× / 0.90× | **1.00× / 1.00×** | 0.90× / 0.90× |
+| **Sunrice** | **0.35× / 0.20×** | 0.55× / 0.40× | **0.75× / 0.65×** | **1.00× / 1.00×** |
+| **Moonrice** | 0.85× / 0.80× | **1.00× / 1.00×** | 0.85× / 0.75× | **0.55× / 0.40×** |
+| **Shadow Onion** | **1.00× / 1.00×** | 0.80× / 0.75× | 0.60× / 0.45× | **0.40× / 0.30×** |
+| **Starberry** | **0.30× / 0.15×** | 0.40× / 0.25× | **0.70× / 0.50×** | **1.00× / 1.00×** |
+| **Thymekeeper** | 0.80× / 0.75× | **1.00× / 1.00×** | 0.70× / 0.55× | **0.40× / 0.30×** |
+| **Ghost Rice** | **1.00× / 1.00×** | 0.75× / 0.60× | **0.55× / 0.40×** | **0.30× / 0.20×** |
+| **Dillusion** | 0.75× / 0.75× | **1.00× / 1.00×** | **1.00× / 1.00×** | 0.75× / 0.75× |
+| **Pum'king** | **0.40× / 0.25×** | 0.75× / 0.60× | **1.00× / 1.00×** | **0.70× / 0.50×** |
+| **Glass Apple** | **0.25× / 0.20×** | 0.40× / 0.30× | **0.70× / 0.60×** | **1.00× / 1.00×** |
+
+**Concrete consequences:**
+- **Bright Sunrice** has an 18-Leaf native peak; just **Lit** gives **18 × 0.65 = 11.7 Leaves** plus slower lifecycle, before ordinary fungal Effects. **Bright Starberry** has 31 Leaves, but **Lit Starberry** only 15.5; losing Bright hurts its narrow high-value crop substantially.
+- **Dark Ghost Rice** has 24 Leaves; **Dim Ghost Rice** has only **14.4** and **Lit Ghost Rice** has **9.6** before rounding. It remains alive and may eventually transform toward Glass Apple during a deliberately engineered lighting transition.
+- **Dim Moonrice** yields 20 own Seeds; **Bright Moonrice** yields just 8 and progresses at 0.55× speed. **Dim Thymekeeper** yields 28 Sunrice Seeds; **Bright Thymekeeper** yields just 8.4 pre-rounding, so a Sunrice Seed-support hex should be kept Dim.
+- **Dillusion** remains **fully productive at both Dim and Lit**, making it a stable crop near Source boundaries. This is an innate two-condition optimum, not a reward for changing light as in Aquatic's stage-conditional Silvercress.
+- **Lit Pum'king** yields 46 Leaves but **Bright Pum'king** only 23. Its optimum is specifically net Lit, validating the Source overlap puzzle. The former overlapping Sources do not need to remain active for the species identity to persist after Transformation, unless they are still needed as ordinary environmental engineering.
+- **Bright Glass Apple** yields 58 Leaves, but **Lit Glass Apple** yields 34.8, and its eventual Starberry Seed output is also reduced to 60% under merely Lit by this default harvest multiplier. Bright zones matter for both of its production routes.
+- All light penalties are responsive to **current resolved Illumination**, not immutable source-origin 'attunements', plant species changes, instant death, or an invented Light Charge.
+
+### F. Moisture and Temperature conditions, hazard thresholds
+
+**Species use the usual resolved conditions:** Moisture **Dry / Damp / Flooded**, Temperature **Freezing / Cold / Temperate / Warm / Hot**, and the independent **Mycelial material overlay**. This pass does not add a mandatory Sand/Clay/Dirt/Fertility interaction, as those environmental Properties remain under review. A fungus adjusting Temperature, Moisture or Illumination affects the **same resolved environment** regardless of what Plant is there; Plants respond differently without changing emission rules.
+
+**Moisture multipliers**, in an otherwise ideal Temperature and Light. Each cell is **lifecycle rate / ordinary output**; Damp = 1.0× baseline across the Spices family:
+
+| Species | Dry: rate/output | Damp: rate/output | Flooded: rate/output | Continuous Dry death |
+| --- | --- | --- | --- | ---: |
+| Thymely | 0.55× / 0.55× | 1.0× / 1.0× | 0.80× / 0.80× | **72 h** |
+| Sunrice | 0.45× / 0.50× | 1.0× / 1.0× | 0.70× / 0.70× | **48 h** |
+| Moonrice | 0.55× / 0.55× | 1.0× / 1.0× | 0.75× / 0.75× | **72 h** |
+| Shadow Onion | 0.60× / 0.60× | 1.0× / 1.0× | 0.75× / 0.75× | **72 h** |
+| Starberry | 0.40× / 0.40× | 1.0× / 1.0× | 0.70× / 0.65× | **48 h** |
+| Thymekeeper | 0.50× / 0.50× | 1.0× / 1.0× | 0.75× / 0.75× | **72 h** |
+| Ghost Rice | 0.50× / 0.50× | 1.0× / 1.0× | 0.65× / 0.65× | **72 h** |
+| Dillusion | **0.65× / 0.65×** | 1.0× / 1.0× | 0.80× / 0.80× | **96 h** |
+| Pum'king | 0.45× / 0.45× | 1.0× / 1.0× | 0.70× / 0.70× | **48 h** |
+| Glass Apple | 0.40× / 0.40× | 1.0× / 1.0× | 0.65× / 0.65× | **48 h** |
+
+**Temperature and Mycelial exposure limits** (all are **continuous** in-game hours, resetting when the corresponding harmful condition actually ends, not when a fungus Source is merely removed while an overlay remains):
+
+| Species | Preferred nonextreme Temperature | Hot death | Freezing death | Mycelial death |
+| --- | --- | ---: | ---: | ---: |
+| Thymely | **Temperate** | **72 h** | **72 h** | **48 h** |
+| Sunrice | **Temperate / Warm** | 72 h | 72 h | 48 h |
+| Moonrice | **Temperate / Cold** | 72 h | 72 h | 48 h |
+| Shadow Onion | **Temperate / Cold** | 72 h | 72 h | 48 h |
+| Starberry | **Temperate / Warm** | **48 h** | **48 h** | **36 h** |
+| Thymekeeper | **Temperate / Cold** | 72 h | 72 h | 48 h |
+| Ghost Rice | **Temperate / Cold** | 72 h | 72 h | **36 h** |
+| Dillusion | **Temperate / Warm** | **96 h** | 72 h | **72 h** |
+| Pum'king | **Temperate / Warm** | **48 h** | **48 h** | **36 h** |
+| Glass Apple | **Temperate / Warm** | **48 h** | **48 h** | **36 h** |
+
+**Shared first-pass quantitative consequences:** Hot and Freezing each multiply **lifecycle rate and ordinary output by 0.5×** until resolved temperature changes or a continuous lethal threshold is reached; they are harmful **extreme Temperatures** for every Spices Plant (no Desert-style extreme adaptation). For a nonideal **Cold/Temperate/Warm** condition *outside* a Plant's listed preferred Temperature states, use **0.85× rate and ordinary harvest output**, replacing (not stacking with) any other moderate-temperature penalty; preferred states are 1.0×. **Mycelial** multiplies both normal lifecycle rate and ordinary output by **0.5×**, while also advancing the independent fatal exposure clock. Hazard timers continue counting even when progress is fully stalled; Time-based Production requires positive lifecycle progress. **Flooded** imposes its listed penalties without inventing an extra universal Flooded death clock in this first pass.
+
+**Stacking clarification:** Species environmental factors (e.g., Lit × Dry × Cold) alter natural rate/output before separately emitted fungus cultivation Effects are applied according to their defined direction and compatibility; do not silently use a single generic light factor to replace the detailed Spices table. The exact rounding of fractional Leaves or Seeds and extreme stacking safeguards belong to the later implementation/testing pass; no artificial balance cap is asserted here. **No Spices Plant gets a native Mycelial benefit.**
+
+### G. Transformation/network feasibility and pending game design decisions
+
+1. **Pum'king** can originate from **Sunrice OR Dillusion**. The conserved first-pass Plant-owned recipe direction is **two appropriate, oppositely directed Luminous Source influences simultaneously reaching the target while the resolved hex state is Lit**. Historical names **Glimmer and Veil** are NOT assignments, and the recipe's source ranges, source types, duration, and event priority are still open. The later fungus/recipe pass must prove that **net Lit is reachable under the actual environment's clamping, blockers and propagation**; do not mistake Source presence for final resolved Illumination. Pum'king's **46-Leaf** plateau should remain reachable *after* transformation without resetting progress.
+2. **Glass Apple** comes from **Starberry OR Ghost Rice**. Both become the same **Bright-optimized 58-Leaf Glass Apple**, with **24 Starberry Seeds** at late harvest. **Ghost Rice is happiest in Dark**, yet it must be able to survive and complete the specified future Dark→Lit/Bright engineering pathway while retaining progress. Later recipes must be reachable before the 155% Glass Apple Leaf peak or still allow a deliberately later Seed harvest. **No origin-dependent attunement**.
+3. **Starberry**'s own **8 Sunrice Seeds** and **Glass Apple's 24 Starberry Seeds** form a two-stage reproductive loop. The **Starberry germination chance is a real 18%/Seed**, not N/A. At first unlock the player still transforms Sunrice into Starberry; Glass Apple eventually makes direct Starberry planting possible. Future fungi may improve or hinder Seed Yield and Seed Timing, but **never change the Plant's established Seed species**.
+4. **Thymekeeper** grows **28 Sunrice Seeds in Dim**; **Moonrice** grows **20 Moonrice Seeds in Dim**. Those distinct Seed identities are the reason Moonrice → Thymekeeper creates cross-light farming support instead of a redundant Dim Seed farmer.
+5. **Ghost Rice** makes **11 Moonrice Seeds**, contrasting with **Shadow Onion** yielding **11 Shadow Onion Seeds** from its simpler Dark crop. Both keep their Dark habitat identities; do not redesign roles just because both like Dark.
+6. **One Plant-consuming harvest** at a chosen progress; no extra Leaf/Seed harvest toggles, Light conversion currencies, third progress stage or fungal Secondary Bloom. Fungal Time-based Production only accrues with advancing lifecycle and only inside the emitter's window, not because of compatible plant traits alone.
+7. **Names are temporary**. The future Spices naming pass should produce believable game cooking spices and preserve the species graph, Seed identities, traits, stage times, environment responses and transformation feasibility. The separate Ingredients family must remain a **non-transforming direct-Seed-access** family, with a future user review of its roster/unlock economy.
+8. **No code changes** until all Plant, Fungus and Transformation design passes and explicit implementation request. First numerical extremes deliberately strong: Bright Glass Apple 58 Leaves / 24 Starberry Seeds, Lit Pum'king 46 Leaves / 0 Seeds, Bright Starberry 31 Leaves / 8 Sunrice Seeds, Dark Ghost Rice 24 Leaves / 11 Moonrice Seeds, Dim Thymekeeper 28 Sunrice Seeds, and sharp off-optimal Light penalties. Evaluate **sustained useful Leaves per occupied hex-day** including Seed sinks, fungus hex occupancy, failed transformations, and harvest timing in eventual tester playtests.
+
+**Approval status:** All ten Spices Plant six-part profiles (§§37–39) are **APPROVED**. The complete lifecycle, production, Seed/germination, core and advanced Effect compatibility, Illumination/Moisture/Temperature, and continuous fatal-exposure figures in **§40 are PROPOSED pending the user's review**. No fungi, final transformations, implementation, or ingredient species were assigned.
 
 
 ---
