@@ -1399,9 +1399,9 @@ Unnamed Aquatic Base
 **First batch status:** The user **approved all four six-part first-pass Plant profiles**—Aquatic Base, Kelpfull, Kelpergeist, and Kelpless—without immediate changes. The Aquatic network and agreed Moisture identity remain unchanged. Continue Aquatic in batches (Lotus route; Cress route), then assign whole-family numeric Growth/Ripening, harvest curves, germination, and Effect-compatibility values as in Woodlands.
 
 
-## 26. Aquatic Plant profiles — Lotus branch (PROPOSED for review)
+## 26. Aquatic Plant profiles — Lotus branch (APPROVED first-pass profiles)
 
-**Status:** User approved all four first-batch Aquatic profiles (§25). This is the next requested **four-Plant, six-characteristic first pass** for **Sunken Lotus, Moonlit Lotus, Starlotus, and Pearlily**. These entries are **complete qualitative profile proposals with concrete species identities**, not approved yet. Numeric output curves, chance percentages, and full compatibility matrices are assigned in the Aquatic family-wide numbers pass after Plant roles are accepted. Do not prematurely name fungi, assign their effects, or specify actual Transformation recipes. The existing §12 **two Starlotus routes and Cresscent shortcut** stay unchanged.
+**Status:** User approved all four first-batch Aquatic profiles (§25). This is the next requested **four-Plant, six-characteristic first pass** for **Sunken Lotus, Moonlit Lotus, Starlotus, and Pearlily**. These entries were **approved by the user**, including the concrete Starlotus attunement rules and +60% native Leaf bonus. Numeric output curves, chance percentages, and full compatibility matrices are assigned in the Aquatic family-wide numbers pass after Plant roles are accepted. Do not prematurely name fungi, assign their effects, or specify actual Transformation recipes. The existing §12 **two Starlotus routes and Cresscent shortcut** stay unchanged.
 
 ### Branch structure and constraints
 
@@ -1415,7 +1415,7 @@ Cresscent ───────────────────────�
 
 The user already established that **draining during Ripening** selects the Starlotus route from Moonlit Lotus, while **remaining Flooded** favors Pearlily; the exact required Source/Influence proximity, duration, and timing recipe are Phase 3 work. Ordinary Waterborne spread remains broken if its Flooded connection is lost; do not promise a Waterborne effect persists after drainage.
 
-### Sunken Lotus — PROPOSED first-pass profile
+### Sunken Lotus — APPROVED first-pass profile
 
 | Category | Proposed direction |
 | --- | --- |
@@ -1426,7 +1426,7 @@ The user already established that **draining during Ripening** selects the Starl
 | **Farming purpose** | **Easy, self-sustaining flooded entry** to the Lotus branch and consistent small-to-medium Leaf/Seed crop; gateway to Moonlit Lotus. Flooded compatibility is more important than any elaborate innate trick. |
 | **Effect compatibility** | **Ordinary 1.0× behavior** across Growth/Ripening, Leaf/Seed, timing/window, and germination effects. Slightly above-average **Seed Timing Shift** response while Flooded is acceptable for this draft (final number in family matrix); not essential to obtain or cultivate it. |
 
-### Moonlit Lotus — PROPOSED first-pass profile
+### Moonlit Lotus — APPROVED first-pass profile
 
 | Category | Proposed direction |
 | --- | --- |
@@ -1437,7 +1437,7 @@ The user already established that **draining during Ripening** selects the Starl
 | **Farming purpose** | **Fork/intermediate crop with a meaningful choice:** harvest or reproduce Moonlit Lotus under Flooded conditions; remain Flooded to pursue Pearlily; or drain during Ripening to pursue a **Damp-attuned Starlotus**. |
 | **Effect compatibility** | **Stronger response to Ripening slowdown while Flooded**, a useful existing effect for maintaining its relatively generous window when planning a fork; **good Seed Yield compatibility while Flooded**. Otherwise ordinary Leaf, Growth, Germination, and timing responses. This does not itself trigger the transformation. |
 
-### Starlotus — PROPOSED first-pass profile
+### Starlotus — APPROVED first-pass profile
 
 **Crucial approved family concept retained:** One species with **origin-set Moisture Attunement**, not two new species. A Starlotus transformed from **Moonlit Lotus** is *Damp-attuned*. A Starlotus transformed from **Kelpergeist** is *Flooded-attuned*. Losing its preferred state **removes its attunement bonus, never directly kills it**. It still experiences normal Dry/temperature/Mycelial environmental hazards.
 
@@ -1452,7 +1452,7 @@ The user already established that **draining during Ripening** selects the Starl
 
 **Specific non-fungus trait decision in this proposed profile:** When attuned, **+60% native Leaf yield**. This is a natural Plant Response to its attuned Moisture, not a new fungus Effect; numerical magnitude can be tested in the later playtest pass. Additional emitted fungal Yield multipliers must still be defined consistently across recipients during fungus design. The persisted attunement is the reason the Plant's two origins matter.
 
-### Pearlily — PROPOSED first-pass profile
+### Pearlily — APPROVED first-pass profile
 
 **Existing routes retained:** Reachable from either **Moonlit Lotus** (remaining Flooded route) or **Cresscent** (shorter, accessible shortcut). **Not** meant to be the Aquatic family's top Leaf or Seed producer.
 
@@ -1471,7 +1471,69 @@ The user already established that **draining during Ripening** selects the Starl
 - **Starlotus** is intentionally **sterile**, has the same **+60% native Leaf bonus** in the correct attuned state regardless of origin, **restores the bonus on returning to that state**, and receives no new lethal response merely from losing attunement.
 - **Pearlily** is a reliable self-sustaining crop, no persistent origin-variant rules and no extreme premium status; **Cresscent → Pearlily remains the meaningful shortcut**.
 - **No fungi, exact Transformation recipes, additional resource types, or new effect categories are being committed.** Numerical duration/yield/germination/compatibility values beyond specific proposed innate attunement bonus will be specified with the rest of Aquatic after the Plant profiles are accepted.
-- These four profiles are **PROPOSED for the user to review**, and are not marked approved.
+- All four Lotus profiles are **APPROVED for the first Plant-design pass** (user endorsed them without changes). Fine tuning still belongs to the numerical balance and later playtest passes.
+
+
+## 27. Aquatic Plant profiles — Cress branch (PROPOSED for review)
+
+**Status:** The user approved the Lotus four (§26), including **sterile Starlotus**, reversible **+60% attuned Leaf bonus**, and Pearlily's dual route. This third Aquatic batch covers **Wild Watercress**, **Silvercress**, and **Cresscent**. The existing **Woodlands-style six profile areas** are followed. No named fungus or exact fungal Transformation recipe is assigned.
+
+**Existing network preserved:**
+
+~~~text
+Aquatic Base ───────────┐
+                        ├─> Wild Watercress ──┬─> Silvercress
+Kelpless ──(redemption)─┘                     └─> Cresscent ──> Pearlily (shortcut)
+~~~
+
+**Established core:** Silvercress is **easy to obtain** but rewards **Flooded during Growth** and **Damp during Ripening**, with *no extra penalty* if either stage bonus is missed. Cresscent **reproduces itself** with **unusually good Seed germination**, but a Plant instance must be *harvested for Seeds OR transformed into Pearlily*, never both.
+
+### Wild Watercress — PROPOSED first-pass profile
+
+| Category | Concrete first-pass direction |
+| --- | --- |
+| **Natural lifecycle** | **Fairly quick Growth and ordinary Ripening**. Faster to establish than the Aquatic Base, without becoming a dedicated ultra-fast crop. |
+| **Natural harvest** | **Respectable but unspectacular Leaves** in a **broad early/mid-Ripening peak**, plus a **moderate number of Wild Watercress Seeds** late in Ripening. One harvest only. |
+| **Germination** | Produces **its own Seeds** with **ordinary-to-good** germination. Not a starter Seed; initial access is from Aquatic Base or redeemed Kelpless, after which it can sustain its own planting rotations. |
+| **Environment** | Prefers **Damp + Temperate + Lit**, tolerates **Dim**. **Flooded is acceptable but slightly less productive** than Damp; unlike the Lotus branch, flooding isn't its core requirement. **Dry** seriously reduces Growth/Leaves, with death after prolonged continuous exposure; Hot/Freezing and Mycelial can kill. Cold/Warm are workable with mild penalties. |
+| **Farming purpose** | **Accessible, forgiving Damp-oriented entry** to the Cress branch; a meaningful recovery destination for Kelpless and a solid crop to farm even without a further Transformation. It is not a premium Leaf or Seed specialist. |
+| **Effect compatibility** | **Ordinary Growth/Ripening/Leaf/Seed/Germination Effects** at roughly 1.0×. **Slightly elevated Germination compatibility** is a possible minor convenience, but no dramatic bespoke power. Environmental Sources always resolve their normal universal environmental change. |
+
+**Chosen Seed identity:** Wild Watercress Seeds (its own); not Aquatic Base Seeds. Maintains a simple, direct branch sustain loop.
+
+### Silvercress — PROPOSED first-pass profile
+
+| Category | Concrete first-pass direction |
+| --- | --- |
+| **Natural lifecycle** | **Average natural Growth and Ripening rates** at stable suitable conditions. An **innate +60% Growth Rate while Flooded during 0–100%**, and otherwise normal Growth. This is an additive *rate change relative to its own natural progression*, not +60 percentage points of lifecycle progress. |
+| **Natural harvest** | **Good Leaf output** at a **moderately concentrated mid-Ripening peak**, with **modest Silvercress Seeds** late in Ripening. During **100–200% Ripening while Damp**, gains an **innate +50% Leaf Yield** at its existing peak/curve. One harvest; no additional bloom. |
+| **Germination** | **Produces Silvercress Seeds** with **ordinary/moderate** germination; initial access is the easy Wild Watercress → Silvercress transformation route, then it can be seeded normally. |
+| **Environment** | Both **Damp and Flooded are viable**. Flooded gives the special **Growth-stage speed bonus**, Damp gives the special **Ripening-stage Leaf bonus**. **Missing a preferred stage has no special penalty**: it only forgoes the relevant stage's benefit. These are independent; no requirement to complete an exact Flooded→Damp transition, although changing at ~100% earns both. **Dry is harmful** (no bonuses and lower natural performance; eventually lethal), Hot/Freezing and long Mycelial exposure remain hazardous. Prefers Temperate and Lit/Dim. |
+| **Farming purpose** | **Easy-to-unlock, rewarding-to-optimize Leaf farmer**. Correct water timing creates a large output/turnaround advantage, but a player who ignores the water-change puzzle still obtains a functional Plant. Distinct from Starlotus's fixed *origin-set* preference and Pearlily's flexible water conditions. |
+| **Effect compatibility** | **Strong response to Growth acceleration while Flooded** and to **Leaf Yield bonuses while Damp during Ripening**. Ordinary Ripening rate and Seed Yield responses. Environmental Source arithmetic is not magnified by species; the resolved moisture state activates intrinsic bonuses. Harvest timing/window Effects operate normally. |
+
+**Precise trait choices:** **+60% intrinsic Growth Rate in Flooded** *while Growing*; **+50% intrinsic Leaf Yield in Damp** *while Ripening*. Two separate species traits, **not fungus Effects** and **not transformation rules**. Neither benefit carries a punishment for failing to satisfy its condition; returning to the qualifying state restores the relevant benefit. The exact fungal *compatibility multipliers* will be assigned in the whole Aquatic numbers table. **No necessary environmental transition is checked by the Plant to receive either bonus**.
+
+### Cresscent — PROPOSED first-pass profile
+
+| Category | Concrete first-pass direction |
+| --- | --- |
+| **Natural lifecycle** | **Quick-to-average Growth and ordinary Ripening**. Somewhat efficient turnover; does not try to beat the fastest Plants in the whole game. |
+| **Natural harvest** | **Modest Leaves** but **high Cresscent Seed production near 200%**, skewing the player toward reproductive harvests. One Plant instance may instead be transformed to Pearlily, but **cannot also be harvested for its Seeds**. |
+| **Germination** | **Exceptional natural germination:** proposed **40 percentage points per Cresscent Seed** under the agreed additive one-Seed probability model. **Three Seeds guarantee germination** (capped at 100%); a single Seed has a real 40% chance. This is a Plant/Seed species characteristic, not a fungal one. |
+| **Environment** | Favors **Damp, Temperate, Lit/Dim**, with **Flooded fully survivable but modestly less efficient** for Seed production. **Dry** strongly damages Growth/Seed productivity and eventually kills; Hot/Freezing and prolonged Mycelial lethal risks. Cold/Warm less productive, with no special extreme/overlay benefits. |
+| **Farming purpose** | **Efficient self-sustaining Seed engine and accessible Pearlily shortcut.** Its strong Seed germination makes repeated Cresscent/ Pearlily cultivation cost-effective, even though Cresscent itself isn't a premium Leaf producer. The choice is to harvest for many Seeds, or transform that **same living instance** for a Pearlily crop. |
+| **Effect compatibility** | **Above-average Seed Yield and Germination Adjustment responses**, especially in Damp. Ordinary-to-slightly-reduced Leaf Yield response. Strong positive Seed Timing or time-based Seed production response can become attractive in a later fungus pass, still constrained by lifecycle advancement and one-time harvest. |
+
+**Chosen Seed identity:** Cresscent Seeds only, rather than Pearlily Seeds on a Seed harvest. Otherwise harvesting Cresscent would short-circuit its own Transform-or-Harvest decision.
+
+### Three-Plant relationship and future numeric pass
+
+- **Wild Watercress** is an uncomplicated self-Seeding **Damp branch foundation** and redeemable **Kelpless** destination.
+- **Silvercress** is a **nonpunitive Flooded-Growth/Damp-Ripening optimization challenge**, with explicitly proposed **+60% Growth speed** and **+50% Leaf Yield** innate bonuses and its own moderately reliable Seeds.
+- **Cresscent** is a **high-germination Seed multiplier** with explicitly proposed **40% chance per Seed / 3 Seeds guaranteed** and its own Seeds, supporting the **Cresscent → Pearlily** shorter route.
+
+No new fungal roster, emission, Transformation Effect, stage, or permanent origin variant is added here. The three profiles are **PROPOSED**, not yet user-approved. After approval, the **whole Aquatic family numerical pass** should apply the agreed bold **10-unit, 4–8-day baseline**, and supply all Leaf/Seed peaks, total lifecycle durations, germination values for available Seeds, conditional Effect-compatibility matrices, and any environment-hazard numbers required for consistency. As with Woodlands, real playtesting happens once the design is implemented, not during this text-only pass.
 
 
 ---
