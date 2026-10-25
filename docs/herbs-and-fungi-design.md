@@ -2145,9 +2145,9 @@ The **36-hour Heat endurance**, **Ember Aloe innate +30% Hot Growth/+50% Hot Lea
 **Approval status:** The user **APPROVED** all four profiles and their concrete first-pass trait/exposure decisions. The next batch (§34) covers **Moonjade, Jadewisp, Pearadox and Sandrose**. Later complete the Cactopus/rare-endpoint route and the whole-family numeric pass.
 
 
-## 34. Desert — second Plant-profile batch, Freezing and redemption lines (PROPOSED for review)
+## 34. Desert — second Plant-profile batch, Freezing and redemption lines (APPROVED first-pass profiles)
 
-**Status:** The user **approved** all §33 Heat/recovery profiles (including Ember Aloe's 36-hour Hot endurance requirement, the mistaken Ashen Rose recovery outcome, and Ember Aloe/Aloemancer Seed identities). This new **unapproved** batch proposes the complete six-part profiles for **Moonjade, Jadewisp, Pearadox, and Sandrose**. Preserve all agreed Desert routes and the global Plant-first workflow. Define **intrinsic Plant traits and exposure logic** concretely now, but **do not assign named fungi, Effect packages, or complete Transformation recipes**. Leaf/Seed quantities, baseline stage durations and full germination/compatibility tables come with the whole-family numerical pass. No game code changes.
+**Status:** The user **approved** all §33 Heat/recovery profiles (including Ember Aloe's 36-hour Hot endurance requirement, the mistaken Ashen Rose recovery outcome, and Ember Aloe/Aloemancer Seed identities). The user **APPROVED all four six-part profiles for Moonjade, Jadewisp, Pearadox, and Sandrose**, including the proposed 48-hour Moonjade Freezing threshold, Pearadox dual-temperature bonuses, and Sandrose's indefinite Dry tolerance. Preserve all agreed Desert routes and the global Plant-first workflow. Define **intrinsic Plant traits and exposure logic** concretely now, but **do not assign named fungi, Effect packages, or complete Transformation recipes**. Leaf/Seed quantities, baseline stage durations and full germination/compatibility tables come with the whole-family numerical pass. No game code changes.
 
 ### Relevant parts of the agreed transformation network
 
@@ -2160,7 +2160,7 @@ Ashen Rose ──> Sandrose ─────────────────�
 
 **Moonjade → Jadewisp** is the **sustained Freezing then thaw/recovery** route. **Moonjade → Pearadox** is an alternative recovery pathway; **Cactopus → Pearadox** is the separate Hot-branch origin. A Pearadox from either route is **exactly the same Plant** with the same traits, no source-dependent attunement. **Ashen Rose → Sandrose → Cactopus** remains the intentionally recoverable bad Heat-recovery path. The arrows denote species links, **not final fungal recipes**.
 
-### Moonjade — PROPOSED six-part Plant profile
+### Moonjade — APPROVED first-pass six-part Plant profile
 
 **Core identity:** The Desert survivor that can withstand **Freezing by going completely Dormant**, patiently building uninterrupted Cold exposure for an eventual, deliberately arranged thaw into Jadewisp. Freezing does **not** advance Moonjade's lifecycle or give it bonus output.
 
@@ -2175,7 +2175,7 @@ Ashen Rose ──> Sandrose ─────────────────�
 
 **Specific intrinsic Dormancy rule:** Moonjade enters full Dormancy **immediately at Freezing** and remains alive there with **0% lifecycle progress per hour**. It does not accumulate Time-based production, though the **separate Freezing exposure timer still runs**. If it was at 62% progress when frozen, it remains at 62%; after thaw, it resumes from 62% unless a qualifying Plant-owned Transformation occurs. If Mycelial simultaneously covers its hex, that continuous Mycelial death exposure still advances. No immortal protection from every kind of damage is implied.
 
-### Jadewisp — PROPOSED six-part Plant profile
+### Jadewisp — APPROVED first-pass six-part Plant profile
 
 **Core identity:** An **unfrozen, successfully recovered Moonjade** becomes a valuable **Moonjade Seed supplier**, rather than an instantly superior frost-resistant Leaf specialist. This is a reward for completing the Freezing puzzle and gives the player the resources for more attempts.
 
@@ -2190,7 +2190,7 @@ Ashen Rose ──> Sandrose ─────────────────�
 
 **Seed identity decision:** Jadewisp exclusively produces **Moonjade Seeds**, not its own. Like Aloemancer producing Ember Aloe Seeds, this keeps the survival/recovery transformation relevant without making repeated full-chain transformations mandatory for every Moonjade instance.
 
-### Pearadox — PROPOSED six-part Plant profile
+### Pearadox — APPROVED first-pass six-part Plant profile
 
 **Core identity:** A high-value Plant that can **thrive in two opposing Temperature extremes, but for different harvest purposes**. This is deliberately **not** Moonjade Dormancy. Pearadox keeps growing and Ripening in both Hot and Freezing.
 
@@ -2208,7 +2208,7 @@ Ashen Rose ──> Sandrose ─────────────────�
 - **Freezing:** +80% innate natural Seed Yield, **0.75× natural lifecycle rate**, no native Leaf bonus; **never Dormant**.
 - **Other viable Temperature:** no special multiplier. **No new attunement or state persistence** after temperature changes. The bonus belongs to the *current* Temperature at harvest and is applied to the existing harvest curve for that Plant's current progress. Any optimization that involves switching shortly before harvest can be examined in the actual eventual playtest rather than inventing a complex new exposure rule here.
 
-### Sandrose — PROPOSED six-part Plant profile
+### Sandrose — APPROVED first-pass six-part Plant profile
 
 **Core identity:** The **low-maintenance, drought-tolerant redemption Plant** obtained by rescuing Ashen Rose. It offers an ordinary useful harvest and returns the player to **Cactopus**, rather than turning a bad recovery outcome into a separate elite harvest species.
 
@@ -2233,7 +2233,7 @@ Choose an explicit first-pass threshold now so the central Cold recovery puzzle 
 4. **Moonjade → Pearadox** remains the already agreed **alternative** Moonjade recovery route, using additional qualifying conditions and a separate recipe that will be decided in Phase 3. The Jadewisp route must not automatically preempt the player when those alternate conditions are satisfied; later recipe work must resolve their priority/selection explicitly.
 5. **Directly Seed-grown Moonjade starts with 0 hours Freezing exposure**. Jadewisp Seed harvests propagate Moonjade rather than prequalified Jadewisp.
 
-**Why 48h instead of Ember Aloe's 36h:** Freezing is safe for dormant Moonjade but **makes zero progress**, whereas productive Ember Aloe benefits by remaining Hot. Forty-eight hours creates a visible waiting investment with zero Flower-style per-hour benefit, making post-thaw high Moonjade Seed production a real reward. The exact threshold is a **proposal for review** and can be changed later after tester feedback.
+**Why 48h instead of Ember Aloe's 36h:** Freezing is safe for dormant Moonjade but **makes zero progress**, whereas productive Ember Aloe benefits by remaining Hot. Forty-eight hours creates a visible waiting investment with zero Flower-style per-hour benefit, making post-thaw high Moonjade Seed production a real reward. The 48-hour threshold is **approved first-pass balance**, subject to eventual tester playtesting and revision.
 
 ### Batch-wide distinctions and next work
 
@@ -2244,7 +2244,90 @@ Choose an explicit first-pass threshold now so the central Cold recovery puzzle 
 | **Pearadox** | Keep growing in **Hot +70% Leaves** or **Freezing +80% Seeds at 0.75× rate** | **Pearadox**, own |
 | **Sandrose** | **Indefinite Dry survival with normal productivity**, recover Ashen Rose, reopen Cactopus access | **Sandrose**, own |
 
-**Status:** The four six-part profiles and the explicit **Moonjade 48-hour exposure**, **Pearadox dual-temperature mode bonuses**, and **Sandrose indefinite Dry tolerance** are **PROPOSED, not yet user-approved**. The final Desert group should cover **Cactopus, Cactaclysm, and Mirage Rose** (including Mirage Rose's required **mixed Ember Aloe and Moonjade Seeds**), followed by the Desert family-wide numerical pass of baseline durations, yields, germination rates, all compatibility effects, and species-specific hazard thresholds. No fungi named/assigned, complete recipes set, nor any gameplay code changed.
+**Status:** The user **APPROVED the four profiles**, including the **Moonjade 48-hour uninterrupted Freezing qualification**, **Pearadox Hot +70% Leaf / Freezing +80% Seed bonus at 75% rate**, and **Sandrose indefinite Dry tolerance**. The final Desert group (§35) covers **Cactopus, Cactaclysm, and Mirage Rose**, followed by the Desert family-wide numerical pass. No fungi assigned, complete recipes set, or game code changed.
+
+
+## 35. Desert — third and final Plant-profile batch, Cactopus / Cactaclysm / Mirage Rose (PROPOSED for review)
+
+**Status:** The user **approved §34's Moonjade, Jadewisp, Pearadox, and Sandrose profiles**, including the precise Moonjade exposure, Pearadox temperature-mode and Sandrose drought traits. This final **unapproved** Desert batch supplies six-part species profiles for **Cactopus, Cactaclysm, and Mirage Rose**. The existing §14 network and approved §33–34 Plant identities remain intact. **Do not pick specific fungi, define final Transformation recipes, implement code, or turn Transformations into a fungus Effect**. Following the accepted family workflow, full lifecycle/yield/Seed-germination/Effect-compatibility numeric matrices come after all eleven Desert profiles are accepted. Bold first-pass differences are preferable to conservative prebalancing; a later tester playtest pass will tune them.
+
+### Existing routes, not final recipes
+
+~~~text
+Jadeheart ───────────────────────────┐
+                                     ├──> Cactopus ─┬──> Cactaclysm
+Ashen Rose ──> Sandrose ─────────────┘             └──> Pearadox
+
+Ember Aloe ──> Aloemancer ──┐
+                             ├──> Mirage Rose
+Moonjade ──> Jadewisp ──────┘
+~~~
+
+The already accepted alternative **Moonjade → Pearadox** route remains, even though it is outside this diagram's Cactopus focus. Mirage Rose's two sources are **Aloemancer and Jadewisp**, not Ember Aloe and Moonjade directly. The latter two are the **Seed species that Mirage Rose produces**. A given Mirage Rose instance has **no persistent origin-based attunement or extra trait**; both routes produce the same species.
+
+### Cactopus — PROPOSED six-part Plant profile
+
+**Core identity:** The **accessible, reliable, naturally Hot-and-Dry farm crop**. It must be meaningfully useful even if players never proceed to sterile Cactaclysm or temperature-switching Pearadox. Its two incoming routes are **Jadeheart → Cactopus** and the **Sandrose → Cactopus** redemption path.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Somewhat fast Growth** and **ordinary-to-slightly-fast Ripening** in **Hot or Warm**. Unlike Ember Aloe, its temperature advantage is primarily that it **continues at full normal speed in Hot** rather than receiving a large additional Hot Growth accelerator; no Dormancy and no extreme-exposure counter. |
+| **Natural harvest** | **Good but not premium natural Leaves** with a **broad productive plateau around 115–160%**, and **respectable Cactopus Seeds** near 200%. The generous window gives a reliable repeatable harvest, contrasting with the high peak of Cactaclysm. **Own Seed species**; one Plant-consuming harvest at any chosen productive progress, taking whatever Leaves and Seeds coexist. |
+| **Germination** | Cactopus produces **Cactopus Seeds** with **good/reliable germination**; the very first Cactopus must come through one of its two incoming Transformations, but afterward direct Seed-grown planting supports ordinary rotations. |
+| **Environment** | Prefers **Dry or Damp, Hot/Warm, and Lit/Bright**. **Hot and Dry are indefinitely survivable and fully productive** for Cactopus; **Hot does not grant an extra large conditional innate +Yield power** (Ember Aloe fills the Hot-bonus niche). Temperate is workable at reduced output; **Freezing harms and eventually kills**, Flooded greatly reduces performance, prolonged Mycelial eventually lethal. Sand Material may be usable but is **not mandatory or specially rewarded** given its possible future removal. |
+| **Farming purpose** | **Dependable, relatively quick, self-reproducing Heat farm** and accessible route to **Cactaclysm's Leaf-only prestige crop** or **Pearadox's two-temperature specialization**. Also gives Ashen Rose → Sandrose redemption a fully functioning branch rather than just a consolation harvest. |
+| **Effect compatibility** | **Good response to Growth and Ripening accelerators**, modestly above-average Leaf Yield and normal Seed Yield compatibility; **weakish Harvest Window widening response** since its native plateau is forgiving. Fungus environment shifting into Hot may create or preserve a favorable habitat, but **environmental Source arithmetic is not multiplied** by recipient. Hot doesn't reverse any fungus's signed direct effect. |
+
+**Important distinction from Sandrose and Ember Aloe:** **Sandrose** is fully productive in Dry but only **tolerates Hot at a penalty**; **Cactopus** is fully productive in **both Dry and Hot**; **Ember Aloe** specifically gets **+30% innate Growth and +50% native Leaves while Hot**. A stable Hot garden can therefore support Cactopus continuously without duplicating Ember Aloe's exact conditional Yield formula.
+
+### Cactaclysm — PROPOSED six-part Plant profile
+
+**Core identity:** A **very-high-Leaf, completely sterile endpoint** that rewards cultivating Cactopus and solving a demanding Hot-plus-fungal-combination Transformation. Unlike Flowers' Orchidemon, Cactaclysm's high Leaves should be **relatively forgiving to harvest after acquiring it**: difficult to achieve, straightforward to collect. It does **not** need a new effect category, source emission, special explosive harvest, or second bloom.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Average-to-somewhat-slow Growth**, **ordinary Ripening**. The main difficulty is **acquisition and continued Heat habitat**, not an extremely long lifecycle or novel production stage. A Cactopus → Cactaclysm Transformation preserves its existing lifecycle progress. |
+| **Natural harvest** | **Exceptionally high natural Leaf production at a single broad mid-Ripening peak around 140%**, with a strong **120–165% harvest window**; this is *one broad peak*, not multiple blooms. **Zero Seeds of any species at every percentage**, including 200%. No Bamboo Steel-like trophy: Leaves are the sole reward. The eventual numeric peak should be comfortably above ordinary Desert Plants and below/around other prestige endpoint scales according to setup difficulty, not a token gain. |
+| **Germination** | **No Cactaclysm Seeds exist** in the currently established network and ordinary fungal Seeds effects cannot produce them. Obtain only via Cactopus Transformation; this preserves the long-term value of the required puzzle. |
+| **Environment** | **Hot, Dry/Damp, Lit or Bright** ideal. Remaining **Hot is indefinitely survivable and gives full native production**; switching to **Warm** retains viability but **reduces natural Leaf output to roughly 65%** of the Hot result, so maintaining the extreme Temperature matters. **Freezing is harmful/lethal**, Flooded strongly reduces Growth/output, prolonged Mycelial harmful/lethal. Unlike Pearadox, it does **not** thrive in Freezing. No special material/fertility dependence or inherent Mycelial tolerance. |
+| **Farming purpose** | **Prestige Leaf-only crop** for players who can repeatedly establish the Cactopus → Cactaclysm Hot/fungus interaction. Its broad optimum favors maximizing yield and the transformation success rate rather than racing to a razor-thin timing target. Its complete Seed sterility makes Cactopus's own Seed supply crucial. |
+| **Effect compatibility** | **Very strong Leaf Yield Adjustment compatibility while Hot** and above-average Growth/ Ripening-rate response; **weaker Harvest Window widening payoff** because the native 120–165% peak window is already generous. **Seed Yield, Seed Timing, Time-based Seed Production, Germination Adjustment for unobtainable Cactaclysm Seeds, and Leaf–Seed Allocation cannot create Seed output.** Time-based Leaf Production may add Leaves only if an actual future fungus emits it and lifecycle progress advances. |
+
+**Specific natural temperature performance:** While **Hot**, its normal high-Leaf curve is at 100% of its species' intended premium yield. While **Warm**, the peak is ~**65%** of the same curve, before independently emitted fungus Effects. This is **an environmental Plant Response**, not a new fungally emitted Effect. Avoid also adding a duplicate +50% innate Hot Leaf effect. Keeping its existing Hot habitat should feel valuable; the later numeric pass will define its full base peak in Hot. Its harvest window is **deliberately broad 120–165%**, contrasting with Orchidemon's narrow 137–153% Light puzzle.
+
+**Transformation feasibility requirement:** Cactopus must be able to become Cactaclysm **early enough to still reach ~140%** with time to harvest within 120–165%. The final recipe should never make the prize's normal optimum unreachable merely because progress is preserved. Do not decide the fungal combination yet.
+
+### Mirage Rose — PROPOSED six-part Plant profile
+
+**Core identity:** Rare **shared success endpoint** of the Heat-recovery and Freezing-recovery branches, with the unusual payoff of **producing both Ember Aloe Seeds and Moonjade Seeds in one harvest**. The natural Seed mixture economically bridges two different Desert cultivation chains. The mixed Seeds are a normal one-time Seed harvest with two identified item stacks, **not an extra harvest action** or a fungus's new universal Seed-identity effect.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary Growth and moderately long Ripening**, giving its eventual mixed Seed payout some investment time but not another extreme 16-day Marigloom-style wait. Its species rates are the same whether it came from Aloemancer or Jadewisp; transformation preserves progress. |
+| **Natural harvest** | **Good, worthwhile Leaves** at a single **mid-to-late Ripening peak near 145%**, but lower maximum Leaf potential than Cactaclysm. At 200%, harvest provides **two Seed stacks together: Ember Aloe Seeds and Moonjade Seeds**, in a proposed **1:1 natural ratio**. The total mixed Seed quantity should be **high** enough to justify a rare shared endpoint while financing both lines; exact even counts set in the Desert numbers pass. **No Mirage Rose Seeds**. Intermediate lifecycle percentages can provide partial quantities of each of the two Seeds according to the natural curves, subject to one consuming harvest. |
+| **Germination** | No source of Mirage Rose Seeds: obtain through **Aloemancer → Mirage Rose** or **Jadewisp → Mirage Rose**. Ember Aloe Seeds harvested from Mirage Rose germinate using **Ember Aloe's** chance; Moonjade Seeds using **Moonjade's** chance. The route that produced the Mirage Rose does **not** affect the composition or germination of the harvest. |
+| **Environment** | Best in **Damp or Dry, Temperate, and Lit/Dim**. **Warm and Cold both workable at moderately reduced rate/output**, but **Hot and Freezing become hazardous** to the transformed species, even though its precursors specialize in those extremes. Flooded inefficient, prolonged Mycelial lethal; no special material/Fertility dependence. **No origin-based Temp attunement, memory, or branch-dependent seeds.** |
+| **Farming purpose** | A desirable **cross-branch Seed supply** with worthwhile fallback Leaves: an optimized Mirage Rose Seed harvest replenishes **Heat Ember Aloe** and **Freezing Moonjade** crop pipelines at the same time. Reaching Mirage Rose through either recovery branch should feel valuable, while repeat Mirage Roses still require transformations because it cannot reproduce itself. |
+| **Effect compatibility** | **Strong Seed Yield Adjustment and Time-based Seed Production compatibility**, with Seed Timing Shift and Ripening-rate response useful for more efficient Seed turnaround. When a fungal Seed Yield Effect increases/decreases the mixed output, the **same signed adjustment applies proportionally to both existing Seed stacks**, preserving the naturally **1:1 output ratio** before integer rounding. Leaf Yield Effects work ordinarily; **Germination Adjustment cannot create Mirage Rose Seeds** in the network, and Leaf–Seed Allocation cannot swap either of the two defined Seed identities for a new one. |
+
+**Specific mixed-Seed rule:** A successful 200% Mirage Rose Seed harvest includes **both** Seed types at once, in a **50% Ember Aloe / 50% Moonjade** composition by Seed count before integer rounding. This is **fixed across both origins and temperature states**. Avoid a new generic "mixed-seed Effect" and avoid a complex conditionally drifting mix just to add mechanics: the already unusual two-Seed payoff is sufficient. Choose an **even total Seed count** in the family numerical pass, so each Seed stack is a whole number without a fractional-split ambiguity in the natural baseline. Actual Effect-induced rounding can follow the game's eventual normal Seed rounding policy.
+
+**Feasibility safeguard:** Aloemancer → Mirage Rose and Jadewisp → Mirage Rose must both remain accessible at a stage that permits enough remaining Ripening time to achieve the two-Seed harvest by 200%, even with progress-preserving Transformation. Any specific qualifying fungi and trigger order are deferred to the later Transformation-recipe pass.
+
+### Summary, inherited rules, and next step
+
+| Plant | Natural farming role | Seeds at late Ripening |
+| --- | --- | --- |
+| **Cactopus** | Quick, forgiving **Hot + Dry** crop; two onward routes; can farm repeatedly | **Cactopus Seeds (own)** |
+| **Cactaclysm** | Difficult-to-obtain **very-high-Leaf single-bloom**, fairly broad window; entirely sterile | **None** |
+| **Mirage Rose** | Rare recovery-branch endpoint for **two Seed economies** and worthwhile Leaves | **Ember Aloe + Moonjade Seeds (1:1)** |
+
+These proposals preserve the rest of the approved Desert roster:
+- **Jadeheart** baseline with own Seeds; **Ember Aloe** Hot specialist with +30% native Growth/+50% Leaves and a 36h Heat-then-recovery success test; **Aloemancer** recovered Leaf/Ember Seed source; **Ashen Rose** failed attempt/Sandrose recovery.
+- **Moonjade** survives Freezing via full Dormancy and a 48h exposure qualifying thaw; **Jadewisp** supplies Moonjade Seeds; **Pearadox** grows in Hot (+70% Leaves) or Freezing (+80% Seeds at 75% rate); **Sandrose** remains fully productive in Dry.
+- **No Plant** has intrinsically beneficial Mycelial in this family; no universal Environmental Tolerance Effect or generic Transformation Effect is introduced, and no new Material/Fertility necessity is invented.
+- All Plant instances keep existing lifecycle progress upon Transformation; one harvest collects all eligible Leaves and Seeds currently available and consumes the Plant, even when the one Seed harvest generates two types as on Mirage Rose.
+- The **three profiles above are PROPOSED, not user-approved yet**. Once accepted, **all eleven Desert Plants** will have approved first-pass profiles and the next requested task can be a single numerical pass: stage times, Leaf peaks/curves, Seed yields and species, one-Seed chances, core/advanced fungus Effect compatibility, ordinary habitat-rate/output multipliers, and danger/exposure times. After implementation, test with players and adjust. No gameplay code should be touched now.
 
 
 ---
