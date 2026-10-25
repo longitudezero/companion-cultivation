@@ -1664,9 +1664,9 @@ The profiles already specify **which Moisture states are favorable**. The follow
 - As for Woodlands, **do not design or implement fungi or Transformation recipes here**. First finish Plant profiles/numbers across all families, then a fungus roster, then decide fungus-supported Plant-owned transformations, adjust fungi and Plants, and conduct an actual player **playtest and balancing pass** afterward. No code changes were requested or made.
 
 
-## 29. Flowers — first Plant-profile batch (PROPOSED for review)
+## 29. Flowers — first Plant-profile batch (APPROVED first-pass profiles)
 
-**Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch is **proposed pending user review**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
+**Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch was **approved by the user**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
 
 ### Family identity and confirmed design guardrails
 
@@ -1684,7 +1684,7 @@ Daisydaze (Base)
  └─→ Poppycock ─────────────────→ [later batch]
 ~~~
 
-### Daisydaze — PROPOSED first-pass profile
+### Daisydaze — APPROVED first-pass profile
 
 | Category | Proposed definition |
 | --- | --- |
@@ -1695,7 +1695,7 @@ Daisydaze (Base)
 | **Farming purpose** | **Plain reference farmer** and access point to the three Flowers branches; a dependable 10/10 crop rather than competition for best output or special timings. |
 | **Effect compatibility** | **Standard 1.0× magnitude** of applicable Growth, Ripening, Harvest Yield, harvest-window/timing, Seed, Germination and Time-based Production modifiers. Environmental Source arithmetic remains global and unscaled. |
 
-### Charmomile — PROPOSED first-pass profile
+### Charmomile — APPROVED first-pass profile
 
 **Distinct role:** An accessible **early-blooming** intermediate that is productive **before Growth has fully completed**, useful even if the player never transforms it.
 
@@ -1710,7 +1710,7 @@ Daisydaze (Base)
 
 **First-pass curve decision:** **90%** is its natural early Leaf peak. This is a deliberate character choice rather than leaving "early" undefined. The exact peak height/window breadth are set later in the same whole-Family numeric matrix.
 
-### Daisyspell — PROPOSED first-pass profile
+### Daisyspell — APPROVED first-pass profile
 
 **Distinct role:** Extreme **speed** and a **fleeting, earlier Leaf peak**. A skilled player can harvest it efficiently, but arriving late sacrifices the advantage. Its confirmed onward edge to **Orchidemon** remains.
 
@@ -1725,7 +1725,7 @@ Daisydaze (Base)
 
 **Timing feasibility requirement for later transformation design:** Since transformation preserves progress, the recipe **Charmomile → Daisyspell** must allow a player to reach Daisyspell **before about 75% progress** to exploit its spectacular early Leaf peak, rather than silently making the optimal harvest impossible. **Do not assign the recipe yet.** This is a concrete cross-pass feasibility test, not an additional Transformation Effect.
 
-### Marigloom — PROPOSED first-pass profile
+### Marigloom — APPROVED first-pass profile
 
 **Distinct role:** The polar opposite of Daisyspell—**very slow Growth and especially slow Ripening, with a strikingly late, fairly narrow Leaf harvest peak**. Its onward path to **Rosewraith** remains. An existing fungus's hourly Time-based Production may be a powerful optimization choice but is not an intrinsic output mechanic.
 
@@ -1747,7 +1747,94 @@ Daisydaze (Base)
 - **Daisyspell**: **75% fleeting peak**, exceptionally fast, modest **Charmomile Seeds**, strong Bright/acceleration/window synergy; ensure it can be transformed into early enough for its crop payoff.
 - **Marigloom**: **170% late peak in 160–177% band**, very slow, low **own Seeds**, unusually strong compatibility with existing hourly Leaf Production rather than an invented fungal Secondary Bloom.
 
-As for Aquatic and Woodlands, remaining numerical values (peak heights, total times beyond Base, germination chances, detailed Condition hazard time, and Effect multipliers) will be specified **for all Flowers together after every Plant has a complete profile**; no reason to conceal its defining natural peak positions during this first role pass. **All four profiles are PROPOSED, not user-approved**, and subject to revision after implementation/playtesting.
+As for Aquatic and Woodlands, remaining numerical values (peak heights, total times beyond Base, germination chances, detailed Condition hazard time, and Effect multipliers) will be specified **for all Flowers together after every Plant has a complete profile**; no reason to conceal its defining natural peak positions during this first role pass. **All four profiles are APPROVED as the initial Plant identities**, and subject to revision after implementation/playtesting.
+
+
+## 30. Flowers — Lavendream / Lavendread / Poppycock / Dream Poppy (PROPOSED)
+
+**Status:** The user **approved** §29's Daisydaze, Charmomile, Daisyspell and Marigloom six-part profiles without requested changes. This is the next coherent **four-Plant first pass**, not yet approved. Preserve the established Flower graph and only define the Plant's own farming behavior, Seed identities, and numerical *shape* of its peak when useful. The complete initial Flowers duration/output/germination/Effect-compatibility balance comes after all Plants have profiles. Do **not** assign fungus identities, transformation recipes, or old superseded A/B/C/D Effects.
+
+### Connection layout
+
+~~~text
+Daisydaze ──> Lavendream ──┬──> Lavendread ──┐
+                           └──> Orchidemon  │
+                                            ├──> Dream Poppy ──> Rosewraith
+Daisydaze ──> Poppycock ─────────────────────┘
+~~~
+
+The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally distinct routes to the **same Plant species**; no new route-dependent attunement is proposed. All other Orchidemon/Rosewraith routes remain as established.
+
+### Lavendream — PROPOSED first-pass profile
+
+**Core identity:** The **forgiving, long-harvest-window Flower**; slow and easy to miss *in an overall time-budget sense*, but very hard to miss its profitable Leaf peak once it's ripening. Unlike Bramblewraith, Lavendream is **not** environmentally indestructible; its advantage is a naturally broad harvest curve.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Slow Growth** and **slightly slow Ripening**, but far faster than exceptionally slow Marigloom. It takes real time to establish, then allows relaxed harvest timing. |
+| **Natural harvest** | A **single broad Leaf plateau from about 110–175%**, good sustained natural Leaf availability but a modest maximum compared with narrow-peak specialists. **Moderate Lavendream Seeds** available at late Ripening; own Seeds, so this Plant is self-sustaining after reaching it. Not a two-bloom Plant. |
+| **Germination** | **Ordinary/moderate** Lavendream Seed success; obtainable from Lavendream's own Seed harvest, initial access from Daisydaze Transformation. |
+| **Environment** | Prefers **Damp, Temperate, and Dim/Lit**; tolerates Warm and Cold at some production penalty. **Dry/Flooded** impair output, **Hot/Freezing** are harmful and lethal under sustained exposure, **Mycelial** eventually lethal. No special hazard immunity: this is *harvest-timing* resilience, not environmental tolerance. |
+| **Farming purpose** | **Slow but low-attention Leaf farming** and a steady supply of Lavendream Seeds; its branch also gives access to Lavendread and one of the two Orchidemon routes. |
+| **Effect compatibility** | Standard non-Seed Yield and lifecycle-rate Effects; **low additional response to Harvest Window widening** because its natural plateau is already huge. **Moderately strong response to Harvest Peak Timing Shift** (shifting the broad plateau) and **slightly stronger Time-based Leaf Production** if the future fungus's eligible progress window overlaps its long-lived harvest interval. No special fungus-dependent second bloom. |
+
+**Concrete shape choice:** The natural high Leaf plateau extends approximately **110–175%**, clearly distinguishing it from Bramblewraith by Flower-family role and without copying Bramblewraith's Mycelial tolerance. Its height and exact lifecycle days are assigned later in the Flowers numbers table.
+
+### Lavendread — PROPOSED first-pass profile
+
+**Core identity:** An **inferior Leaf crop but powerful Lavendream Seed producer**; the branch's reproductive engine, with a possible forward route into Dream Poppy. It is a trade-off, not a complete failure state like Bamboozled.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary Growth**, but **longer Ripening** than most non-specialist Flowers. Seed production takes patience; no special Dormancy. |
+| **Natural harvest** | **Very low Leaves** with a weak single peak around **115%**, but **high Lavendream Seed output** near 200%. **Does not produce Lavendread Seeds.** Seed timing strongly favors late Ripening. |
+| **Germination** | **No Lavendread Seeds are produced** in the current network. Obtain by transforming Lavendream; its harvested **Lavendream Seeds** germinate using Lavendream's own rate. No arbitrary direct Seed source is added. |
+| **Environment** | Prefers **Damp, Cold/Temperate, Dim or Dark**. Lit/Warm reduce output, Dry/Flooded inefficient; **Hot and Freezing** and prolonged **Mycelial** eventually lethal. Dark itself is not a damaging state to Lavendread. |
+| **Farming purpose** | **Seed-oriented support crop** that can replenish Lavendream so the player can grow the forgiving Leaf crop without repeating its Base Transformation; alternative use is to continue onward into Dream Poppy. Its trade-off is poor Leaves and a long Seed wait. |
+| **Effect compatibility** | **Very strong Seed Yield Adjustment** and **Time-based Seed Production** compatibility (only if a future fungus actually emits that ordinary Effect). **Strong Seed Timing Shift compatibility** and useful Ripening acceleration; low response to Leaf Yield boosting, ordinary Growth/Germination where applicable. Leaf–Seed Allocation can redistribute eligible output in the emitted direction, but never generate Lavendread Seeds. |
+
+**Concrete Seed identity:** Harvest Lavendread for **Lavendream Seeds**, not its own, ensuring its reproduction role is real rather than a generic Seed bonus.
+
+### Poppycock — PROPOSED first-pass profile
+
+**Core identity:** A readily accessible **self-Seeding Flowers specialist** with a low Leaf return, intended to feed a frequent **Poppycock → Dream Poppy** production route.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Fairly quick Growth** and **ordinary Ripening**. Faster overall than most Lavendream-line Plants; it is an accessible repeatable Seed crop rather than an extreme speed showcase. |
+| **Natural harvest** | **Low Leaves** at one small early/middle peak around **110%**; **very high Poppycock Seeds** near 200%, with useful Seed quantities becoming available somewhat earlier than on average (around 165–175%) even if the best output remains at 200%. No extra bloom. |
+| **Germination** | Produces **its own Seeds**, **above-average germination** relative to an ordinary Flower; starter access is still via Daisydaze Transformation, not free Poppycock Seeds at the beginning. |
+| **Environment** | Prefers **Damp, Temperate/Warm, Lit or Bright**; Dim works less efficiently, Dark reduces production. Dry/Flooded suboptimal; Hot and Freezing harmful and eventually lethal; Mycelial exposure ultimately lethal. Bright is a good condition, not a universal intrinsic +bonus mechanic. |
+| **Farming purpose** | **Efficient Seed replenishment** that supports direct repeat Poppycock farming and furnishing Plants for Dream Poppy Transformations. A simpler and faster alternative to the Lavendread route with a different Seed identity. |
+| **Effect compatibility** | **Strong Seed Yield and Seed Timing Shift magnitudes**, particularly under **Bright**; useful Germination Adjustment susceptibility, modest Leaf Yield response. Existing Time-based Seed Production may be valuable; it still cannot produce after 200% or with stalled progress. |
+
+**Concrete choice:** Poppycock produces **Poppycock Seeds**, with especially good success when planted. This makes it self-sustaining and distinct from Lavendread, whose Seed harvest feeds a different Plant.
+
+### Dream Poppy — PROPOSED first-pass profile
+
+**Core identity:** A **late-blooming, Leaf-producing destination with a useful Seed fallback**, reached via either Lavendread or Poppycock. Distinct from Marigloom: **Dream Poppy is not exceptionally slow** and has a more forgiving late Leaf window; Marigloom has extremely long Ripening and a narrower peak with extraordinary compatibility for Time-based Leaves.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary Growth and moderately slow Ripening**. Takes more time than Poppycock, but not nearly as long as Marigloom; no added lifecycle phase. |
+| **Natural harvest** | One **strong late Leaf peak around 180%**, with a fairly usable productive interval of approximately **165–190%**. At 200%, has **moderate Poppycock Seeds**, **not Dream Poppy Seeds**. This creates tension between late Leaves and waiting a little longer for replenishment Seeds. No second natural peak—Rosewraith is the family's innate two-bloom specialist. |
+| **Germination** | **No Dream Poppy Seeds are produced** by either route in this draft; obtain Dream Poppy by transforming **Lavendread or Poppycock**. The harvested **Poppycock Seeds** germinate with Poppycock's numbers, regardless of which origin yielded Dream Poppy. |
+| **Environment** | Prefers **Damp, Dim, Cold/Temperate**; Lit workable with a modest Leaf penalty, Warm less efficient, Bright/Dark less productive. Dry/Flooded unfavorable; **Hot/Freezing** and long **Mycelial** exposure ultimately lethal. No special tolerance. |
+| **Farming purpose** | **Late harvest alternative** for either Seed branch, with meaningful Poppycock Seed feedback and an onward pathway to Rosewraith. A more manageable late Leaf crop than Marigloom; not a direct Seed-identity copy of the two-bloom Rosewraith outcome. |
+| **Effect compatibility** | **Strong Leaf Peak Timing Shift and Harvest Window widening** (to relocate/broaden an existing late peak); **above-average Leaf Yield susceptibility while Dim**. Ordinary Time-based Leaf Production and Ripening rate response, rather than Marigloom's huge per-hour specialization. Seed Yield/Seed Timing Effect responses operate on its ordinary **Poppycock Seeds**. |
+
+**Concrete late-peak choice:** **180%**, over an approximately **165–190%** productive window. **Seed identity is Poppycock**, making Dream Poppy an alternative Seed-replenishment source for one of its transformation origins, never the source of its own Seed line.
+
+### Relationships, existing constraints, and next steps
+
+- **Lavendream**: *very broad* natural plateau and its own Seeds; slow but forgiving, without Bramblewraith-level environmental survival.
+- **Lavendread**: poor Leaves, strong **Lavendream Seed** output and long Ripening; its own Seed identity intentionally unavailable.
+- **Poppycock**: high **own Seed** output and strong germination; Seeds arrive somewhat early, but 200% remains its maximum.
+- **Dream Poppy**: **180% late Leaf peak** and **Poppycock Seeds**, two legitimate Transformation origins and no origin-specific trait, same single harvest.
+- **Marigloom distinction:** The approved profile has **170%**, *narrow 160–177%* peak, exceptionally slow Ripening and very strong future time-based Leaf compatibility; Dream Poppy has **180%**, broader **165–190%** and a modestly slow Ripening stage.
+- **Rosewraith distinction:** Multiple *intrinsic* natural Leaf peaks, to be specified in the final Flowers batch; none of the four Plants here acquires a second peak from fungus.
+- Exact total days, peak yields, Seed counts, chance percentages, effect compatibility multipliers, and specific continuous environmental exposure hours will be proposed during the complete Flowers numerical pass, as for earlier families. **The identities and peak positions above are concrete proposals**, not missing decisions; do not choose fungus identities or transformation recipes now.
+- These four profiles are **PROPOSED for review**, not approved yet. After approval the remaining two Flowers are **Rosewraith and Orchidemon**, then the whole-family numeric pass.
 
 
 ---
