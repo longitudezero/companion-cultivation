@@ -414,12 +414,23 @@ This section supersedes older "Herb" terminology where they conflict; a full edi
 
 The player's Woodlands transformation sketch proposed **one unnamed Base Plant** leading to branches associated with Bamboo, Mandrake, and Tanglethorn, with cross-branch routes:
 
-- **Mandrabra → Mandrakadabra → Mandrakazam**, with additional possible routes indicated in the sketch. Mandrakadabra has the best potential non-Seed harvest output in Woodlands but is difficult to transform into safely: exposure long enough for Transformation can become fatal if left too long. A **Mandrakazam Seed route** is a longer but safer way to cultivate Mandrakadabra away from the dangerous Influence.
+- **Mandrabra → Mandrakadabra → Mandrakazam** **and Mandrabra → Mandrakazam directly** are both confirmed. Mandrakadabra has the best potential non-Seed harvest output in Woodlands but is difficult to transform into safely: exposure long enough for Transformation can become fatal if left too long. A **Mandrakazam Seed route** is a longer but safer way to cultivate Mandrakadabra away from the dangerous Influence.
 - **Bamboom → Bamboozeling → Bamboozled** under continued exposure to a transforming fungus. **Bamboom** is an excellent Base-Plant Seed producer; **Bamboozeling** is inferior; **Bamboozled** produces no ordinary harvest or Seeds but yields an odd **Bamboo Steel** trophy when harvested (for flavor/achievement, not a normal productivity reward). The mention of "Bamboozle" as a best Plant alongside "Bamboom" in the sketch needs a **name confirmation**; do not silently treat them as two different Plants.
 - **Tanglethorn → Mistlefoe / Bramblewraith** is a safer, lower-maintenance direction. **Bramblewraith** is highly desirable for resilience and a large harvest window, not necessarily maximum yield.
-- **Mistlefoe → Mandrabra** is a pivot into the more demanding Mandrake path, requiring a **new transforming fungus and removal of a fungus beneficial to Mistlefoe**. Keeping the beneficial and transforming fungi both active instead causes **Mistlefoe → Mistlewoe**, an unwanted result. The sketch also visually suggests a Mistlewoe-to-Tanglethorn link; its exact recipe should be confirmed before fixing it as a rule.
+- **Mistlefoe → Mandrabra** is a pivot into the more demanding Mandrake path, requiring a qualifying new fungal presence/condition and **removal of a fungus beneficial to Mistlefoe**. Keeping both fungi present instead causes **Mistlefoe → Mistlewoe**, an unwanted result. **Mistlewoe → Tanglethorn is confirmed**, not tentative. Later phases will define the exact Plant-owned recipes and fungal identities.
 
-**Status:** Strong candidate family network from the user's original sketch, not finalized organism statistics or exact fungal Influence definitions.
+**Status:** Woodlands branching paths and both user-corrected links above are **confirmed layout edges**; exact fungal and environmental requirements and quantitative organism statistics remain unassigned.
+
+~~~text
+Unnamed Woodlands Base Plant
+  ├── Bamboom → Bamboozeling → Bamboozled
+  ├── Mandrabra → Mandrakadabra → Mandrakazam
+  │       └─────────────────────────→ Mandrakazam (direct additional route)
+  └── Tanglethorn → Bramblewraith
+             └──→ Mistlefoe → Mandrabra (pivot)
+                         └──→ Mistlewoe → Tanglethorn (confirmed loop)
+~~~
+
 
 ## 12. Aquatic — first family-interactions design pass
 
@@ -956,6 +967,21 @@ Other candidate Effect dimensions should be reviewed across **Growth Rates, Seed
 For each Plant: define natural Growth and Ripening; Leaf and Seed harvest curves and Seed identities; environmental preferences; **specific reactions to Freezing and Hot**; **specific Mycelial exposure threshold/response**; innate special exceptions; how the agreed catalogue of fungal Effects modifies it (including magnitudes/conditions where necessary); transformation recipes (if not Ingredients); and why it matters for sustained Leaf farming.
 
 **No fungi or new code are being designed/implemented in this step.** The proposed 13-name roster remains nonbinding, and Enchanted and permanent Base Materials remain deferred per earlier decisions.
+
+## 21. Confirmed five-pass workflow for Plant/Fungus design
+
+**Agreed current sequence** (supersedes earlier attempts to finalize fungi before fully specifying Plants):
+
+1. **All Plants first.** Working one Plant at a time, define exactly these six parts: **Natural lifecycle; Natural harvest; Germination; Environment; Farming purpose; Effect compatibility**. This covers innate multiple harvest peaks, Seed identities/curves, favorable and harmful hex states, extreme-temperature/Mycelial Responses, and sensitivity/conditional bonuses to the agreed Effect catalogue. **Do not choose named fungi or settle transformation recipes during this pass.** Do not require an exhaustive environmental bonus checklist when none is useful.
+2. **First fungus pass.** Only after the Plant profiles are drafted, bundle fixed, consistent fungus Effects into candidate fungus species with habitat and propagation considerations.
+3. **Complete Plant-owned transformation recipes.** Decide which named fungi and their **ordinary Influence reach**, physical adjacency, environmental/overlay states, lifecycle stages, and continuous exposure durations satisfy each Plant's transitions. **This is not a return to fungus-emitted Transformation Effects.**
+4. **Adjust fungal designs as necessary** to ensure workable, readable puzzles, multiple useful strategies, and sensible cross-family reuse.
+5. **Adjust Plant designs where necessary** to fix weak or dominant strategies, impossible transformations, or discrepancies exposed by the preceding phases; then balance precise numbers in context.
+
+**Status:** The six-part Plant specification method is agreed. Any proposed first-pass statistics or compatibility profiles produced next remain **proposals until reviewed**, even though the workflow itself is locked.
+
+**Woodlands layout corrections:** The user confirms the arrow **Mistlewoe → Tanglethorn**, previously tentative, and adds **Mandrabra → Mandrakazam** directly in addition to **Mandrabra → Mandrakadabra → Mandrakazam**. These are network facts, not provisional recipe assignments.
+
 
 ---
 
