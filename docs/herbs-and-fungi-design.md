@@ -2330,9 +2330,9 @@ These proposals preserve the rest of the approved Desert roster:
 - The **three profiles above are APPROVED**. **All eleven Desert Plants** have approved first-pass profiles. §36 records the **full proposed numerical pass** (stage times, Leaf and Seed curves, Seed species and germination, core/advanced compatibility, habitat outputs and exposure thresholds), for user review. After implementation, test with players and revise. No gameplay code should be touched now.
 
 
-## 36. Desert — full-family numerical pass (PROPOSED for review)
+## 36. Desert — full-family numerical pass (APPROVED first-pass balance)
 
-**Status:** The user approved **all eleven Desert six-part profiles (§33–35)** and requested a complete first-pass numerical table. All values in §36 are **new first-pass proposals pending user review**, except the previously approved intrinsic species bonuses and exposure qualifications explicitly noted below. Consistent game-wide comparison: roughly **10 Leaves around 100%, 10 Seeds at 200%, 4 in-game days to 100%, 8 in-game days total to 200%** for the standard Plant, in good habitat without fungi. Prefer **dramatic specialization and real trade-offs** now, with a mandatory subsequent tester playtest/balance pass after implementation. **This is text-only design, NOT implementation; no fungi, final transformation recipes, or code changes.**
+**Status:** The user approved **all eleven Desert six-part profiles (§33–35)** and requested a complete first-pass numerical table. The user **APPROVED all §36 numerical values as first-pass Desert balance**, including every lifecycle/harvest row, Seed species and germination probabilities, complete Effect compatibility, Temperature/Moisture/Illumination responses, and hazard exposure times. The previously approved intrinsic Plant bonuses and exposure qualifications remain unchanged. All numbers are subject to later tester playtesting. Consistent game-wide comparison: roughly **10 Leaves around 100%, 10 Seeds at 200%, 4 in-game days to 100%, 8 in-game days total to 200%** for the standard Plant, in good habitat without fungi. Prefer **dramatic specialization and real trade-offs** now, with a mandatory subsequent tester playtest/balance pass after implementation. **This is text-only design, NOT implementation; no fungi, final transformation recipes, or code changes.**
 
 ### A. Lifecycle, Leaf peaks and Seed harvest identities
 
@@ -2486,7 +2486,104 @@ The previously **approved** two transformation-linked exposure rules remain dist
 5. **Fungal Effect compatibility is conditional recipient response**, never source amplification or sign reversal. No generic Transformation Effect, Environmental Tolerance Effect, second-bloom Effect, or Mycelial benefit is introduced.
 6. **First-pass extremes are a feature to test, not preemptively nerf:** Hot Cactaclysm 48 Leaves with a wide window; Hot Pearadox 30.6 Leaves; Freezing Pearadox 27 Seeds at reduced progression; Jadewisp 26 Moonjade Seeds after a zero-progress Freezing investment; Mirage Rose two Seed stacks totaling 28; and Ember Aloe's 36h productive Heat endurance followed by recovered Aloemancer's high Leaf return. Tester playtests should measure throughput after fungus/Seed/hex costs, failure rates and missed harvest windows, not just one Plant's headline Leaf count. Integer rounding and compound-effect caps remain to be specified with implementation, rather than declared without testing.
 
-**Approval status:** All §33–35 six-part Desert Plant profiles are **APPROVED**. All new **§36 numeric tables and baseline exposure penalties are PROPOSED for user review**, and may later change from tester playtesting. Do not modify game code now; follow the agreed family-by-family Plant-first workflow.
+**Approval status:** All §33–35 six-part Desert Plant profiles and all §36 numeric tables and hazard responses are **APPROVED FIRST-PASS BALANCE**. The user explicitly accepted the numbers and asked to move to Spices. Tester playtesting and balancing revisions are still mandatory after implementation; do not modify game code now.
+
+
+## 37. Spices — first Plant-profile batch, Base and three Illumination branches (PROPOSED for review)
+
+**Status:** The user **approved Desert's complete §36 numeric pass as first-pass balance** and asked to begin **Spices**. The approved Spices family architecture, old Food sketch preserved in §15, its ten species and all existing branch/cross-branch routes are retained. This is a first **PROPOSED** six-part profile batch for **Thymely, Sunrice, Moonrice and Shadow Onion**, the Base and three first branches. These are **working identifiers from the older Food sketch**, explicitly **NOT locked names** or settled RPG ingredients; rename all Spices to cooking-spice-appropriate identities during the later naming pass without redesigning their established mechanics. The separate **Ingredients** family covers straightforward recognizable food items with **no transformations**.
+
+**Agreed design sequence:** Specify all ten Spices Plant responses and Seed identities, then a complete numerical pass, then fungus roster and Plant-owned Transformation recipes. Named working fungi (**Glimmer, Veil, Gloam, Prism**) and environmental requirements shown in historical §15 are *provisional examples*, not locked assignments. Fungi can change Illumination using the ordinary global environmental Source model and emit their own separately-defined cultivation Effects; their **spatial overlap and Blockers** matter because each Plant responds differently to the **resolved Dark / Dim / Lit / Bright state**. Do not invent a periodic day/night cycle, a special Light resource, family-wide photocharge meter, Environmental Tolerance Effect, or universal Transformation Effect.
+
+### Existing Spices network (preserved, no final recipes)
+
+~~~text
+Thymely (Base)
+ ├──> Sunrice ──┬──> Starberry ───────────────> Glass Apple
+ │             └──> Pum'king
+ ├──> Moonrice ─┬──> Thymekeeper
+ │             └──> Ghost Rice ──────────────> Glass Apple
+ └──> Shadow Onion ──> Dillusion ────────────> Pum'king
+~~~
+
+The **Sunrice and Moonrice branches are complementary**, not fully isolated economies: **Thymekeeper** will produce **Sunrice Seeds** to sustain productive Bright fields. **Pum'king** retains two routes with the previously sketched challenge of **overlapping opposing light contributions while the final condition is Lit**, subject to actual environmental propagation and clamping. **Glass Apple** retains its Starberry and Ghost Rice origins. All precise recipes (including whether/how the originally illustrated fungi satisfy them) remain deferred.
+
+### Thymely — PROPOSED six-part Plant profile
+
+**Core identity:** Accessible, unspecialized **Base Spices Plant** that introduces placing Light and Dark Sources around a normal field before progressing down different illuminated branches. No special mechanics to crowd out the specialists.
+
+| Area | Concrete proposed design |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary 4 in-game days Growth / 8 total days to 200%** without fungal acceleration, as in other family Base Plants. No Dormancy or temperature-extreme exception. |
+| **Natural harvest** | **10 Leaves around 100%** with one broad-ish early/mid harvest curve, and **10 Thymely Seeds at 200%**. Own Seeds, single consuming harvest collecting both available output types. |
+| **Germination** | **Reliable ordinary additive per-Seed chance**, exact per-Seed percentage reserved for the family numerical pass. Thymely Base Seeds are the Spices starting entry. |
+| **Environment** | Prefers **Damp, Temperate, Lit**, with **Dim and Bright both survivable but less productive** and Dark a sharper production penalty. Dry and Flooded underperform, Hot/Freezing harmful/lethal after prolonged exposure, Mycelial eventually lethal. No exceptional Mycelial or extreme-temperature survivability. |
+| **Farming purpose** | **Straightforward Seed loop and access to all three Illumination paths**. Useful while establishing habitat-engineering infrastructure, but not as productive in tuned extreme lighting as an unlocked specialist. |
+| **Effect compatibility** | Normal **1.0× recipient response** to Growth/Ripening, Leaf/Seed Yield, window/timing, germination, time-based production and allocation; ordinary Direction-preserving interaction with fungal emissions. Environmental Illumination shifts resolve globally before this Plant's habitat response. |
+
+### Sunrice — PROPOSED six-part Plant profile
+
+**Core identity:** The **repeatable, high-Leaf Bright-field crop**. Sunrice must be a sustainable alternative to the prestige endpoints, not just a disposable stepping stone to Starberry or Pum'king.
+
+| Area | Concrete proposed design |
+| --- | --- |
+| **Natural lifecycle** | **Fairly quick Growth** and ordinary Ripening while **Bright**; under merely Lit it continues growing but with noticeably slower natural progression. No extra Growth/Ripening stage and no dependence on a day/night timer. |
+| **Natural harvest** | A **strong single Leaf peak around 125% progress**, with a reasonably usable middle-Ripening interval and **moderate Sunrice Seeds near 200%**. **Own Seeds**, making repeated Bright farming possible once initially transformed. Leaf yield is significantly higher in **Bright than Lit**, using an ordinary recipient habitat multiplier that the family numeric pass will quantify rather than a separate emitted fungus Effect. |
+| **Germination** | **Moderate Sunrice Seed germination**, available after harvesting Sunrice or from the later **Thymekeeper → Sunrice Seed** supply chain. Initial access still requires transformation from Thymely. |
+| **Environment** | Strongly prefers **Bright, Temperate/Warm, Damp**. **Lit** is survivable but substantially less productive; **Dim** sharply suppresses Leaf yield and Growth, **Dark** is strongly adverse but not by itself a new fatal exposure rule. Dry/Flooded underperform, Hot/Freezing and sustained Mycelial can kill. Sunrice is light-specialized, not Heat-specialized. |
+| **Farming purpose** | **Strong, self-sustaining Bright Leaf crop**, precursor to **Starberry** (another Bright-oriented Leaf optimization) and the **Sunrice → Pum'king** route with the eventual requirement to reach a **Lit net condition despite competing Light Sources**. |
+| **Effect compatibility** | **High Leaf Yield adjustment response while Bright**, useful Growth acceleration response in a well-lit crop, ordinary Seed/Ripening compatibility and moderate benefit from Harvest Window widening. Sunrice's distinctiveness comes primarily from its **strong Bright-versus-Lit production differential**, not from an invented special fungally emitted photoboost. A light-emitting Source does not change its own algebra depending on recipient. |
+
+**Precise curve choice:** Natural Leaf peak at **125%**; exact high Leaf quantity, Growth/Ripening days and Bright/Lit numeric ratios come during the full Spices family numeric pass. Both its sustainable Seed identity and existing incoming Thymekeeper Seed support are preserved.
+
+### Moonrice — PROPOSED six-part Plant profile
+
+**Core identity:** The **self-reproducing Dim-area Seed supplier**, the counterpart to Sunrice, feeding two branches—**Thymekeeper** for Sunrice Seeds and **Ghost Rice** for productive Dark fields. It should be economically valuable even if it never becomes another Plant.
+
+| Area | Concrete proposed design |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary Growth and slightly long Ripening**, with useful throughput but an incentive to wait for a strong Seed harvest. No Dormancy or special time counter. |
+| **Natural harvest** | **Modest Leaves** with a single ordinary peak around **110%**, and **high Moonrice Seed output near 200%**. Own Seeds, with a Seed-rich late curve and no invented multiple harvest. Earlier Seed availability can be modest so the late outcome is meaningfully better. |
+| **Germination** | **Reliable-to-good Moonrice Seed germination**, suitable for scaling Dim planting zones and supplying Seed material for later Moonrice → Thymekeeper/Ghost Rice transformations. |
+| **Environment** | Best in **Dim, Temperate or Cold, Damp**. **Lit** is survivable but less effective for Seed output, **Dark** remains viable but less productive than Dim, **Bright** strongly suppresses ordinary performance. Dry/Flooded underperform; Hot/Freezing and prolonged Mycelial lethal after exposure. Crucially, Moonrice's best niche is **Dim**, not Dark, leaving Ghost Rice and Shadow Onion their distinct deeper-shade ecology. |
+| **Farming purpose** | **Accessible Dim Seed engine** whose own Seeds sustain repeated Moonrice rotation and expansion of the Light-manipulation branches. Maintaining efficient Moonrice fields keeps the later Thymekeeper→Sunrice Seed and Ghost Rice routes available. |
+| **Effect compatibility** | **High Seed Yield Adjustment compatibility while Dim**, good **Seed Timing Shift and Time-based Seed Production** responses if an appropriate future fungus emits those existing Effects, ordinary Leaf Yield and Growth effects. Optional slight positive response to Germination Adjustment. Nothing receives a universal 'darkness power' from a fungus: the Plant simply reacts to resolved Dim. |
+
+**Concrete choice:** Self-Seeds, a **110% modest Leaf peak**, and strong **Dim-dependent Seed farming**. This avoids making Moonrice a duplicate Dark Leaf crop competing directly with Shadow Onion and Ghost Rice.
+
+### Shadow Onion — PROPOSED six-part Plant profile
+
+**Core identity:** An **easy, reliable Dark-field Plant**, worth growing directly, with a smooth harvest curve and its own Seeds. Later **Ghost Rice** will also prefer Dark but must clearly outperform it in Leaves while producing **Moonrice Seeds**, preserving the deliberate §15 contrast. Shadow Onion itself is a **gateway into Dillusion** and the second Pum'king route.
+
+| Area | Concrete proposed design |
+| --- | --- |
+| **Natural lifecycle** | **Fairly quick Growth and ordinary Ripening in Dark**, rather than a Moonrice-like long Seed wait or extreme Daisyspell-style speed. Can grow more slowly under Dim, without new Dormancy. |
+| **Natural harvest** | **Moderate Leaves** in a **broad early/middle Ripening peak around 115%** and **moderate Shadow Onion Seeds** near 200%. One Plant-consuming harvest. This is a balanced, forgiving crop rather than a premium Leaf or Seed specialist. |
+| **Germination** | **Ordinary-to-good own-Seed germination**. Once unlocked from Thymely, Shadow Onion is sustainable in Dark without needing fresh Base transformations. |
+| **Environment** | Strongly prefers **Dark, Damp, Temperate/Cold**. **Dim** is tolerable but with a noticeable Leaf/Rate cost; **Lit/Bright** progressively suppress natural farming output, but do not instantly kill it. Dry/Flooded reduce normal production, Hot/Freezing and Mycelial eventually lethal. Actual Dark is required for best farming, even though it may make some nearby Plants perform badly. |
+| **Farming purpose** | **Accessible Dark rotation and self-Seeding foundation**, from which the player can develop **Dillusion** and eventually the alternate Pum'king transformation. It rewards players for creating a Dark pocket, not merely choosing the darkest whole-board state. |
+| **Effect compatibility** | **Good Growth accelerator response while Dark** and ordinary-to-slightly-stronger Seed Yield compatibility. Moderate compatibility with Harvest Window and Leaf Yield adjustments; no unnatural transformation of Seed identity. Darkness is an environmental *condition*, so counteracting a direct Light Source follows normal Source arithmetic, not per-recipient emission rules. |
+
+**Specific identity safeguard:** Shadow Onion must **not** be redesigned simply to distinguish it from Ghost Rice; later **Ghost Rice is a substantially higher-Leaf Dark specialist but produces Moonrice Seeds instead of its own**. The accessible self-Seeding Shadow Onion is still useful through different rotation economy and unlock path. This is exactly the §15 role contrast already preserved.
+
+### Spatial illumination engineering — implementation-agnostic guardrails
+
+- Every hex's **resolved Illumination** comes from the established environmental state and overlapping globally consistent **Luminous Influences** subject to Range/Spread Budget, blockers, falloff/clamping and source propagation rules. A single fungus may emit multiple ordinary Influences, but recipient species merely respond; no species rewrites the influence propagation.
+- **Net Light** is a separate question from **which eligible fungus Influences reach the Plant**. Future Pum'king recipes may require the simultaneous arrival of differently directed ordinary influences while retaining **Lit** as the final resolved state; the historical Glimmer/Veil illustration in §15 is *not* yet a finalized fungus assignment.
+- **No universal light-change cycle** is assumed. Farmers must actively create Light zones through placement/environment interactions rather than timing a periodic sun/day/night mechanic.
+- **Spices names are temporary identifiers**, not RPG ingredient claims. Naming must not silently alter this network; Ingredients remains the unrelated *nontransforming* family.
+- **No exotic intrinsic rule needs to be invented for every early species.** Sunrice's Bright farming, Moonrice's Dim Seed production, and Shadow Onion's Dark farming produce distinct spatial placement problems when combined with the later Seed support and prestige endpoints.
+
+### First batch comparison and next steps
+
+| Plant (temporary ID) | Environmental niche | Main crop | Seed identity |
+| --- | --- | --- | --- |
+| **Thymely (Base)** | **Lit** | Ordinary Leaves / Seeds | **Thymely** (own) |
+| **Sunrice** | **Bright** | **Strong Leaves** | **Sunrice** (own) |
+| **Moonrice** | **Dim** | **Many Seeds** | **Moonrice** (own) |
+| **Shadow Onion** | **Dark** | **Moderate, forgiving Leaves** | **Shadow Onion** (own) |
+
+The first four Spices six-part profiles are **PROPOSED, not yet user-approved**. Full numerical lifecycle durations, Seed quantities, Seed chance, compatibility matrices, and environmental danger thresholds belong to the later Spices family-wide numeric pass, as for all earlier families. The next coherent batch should specify the four accessible intermediates **Starberry, Thymekeeper, Ghost Rice, and Dillusion**, then the two shared endpoints **Pum'king and Glass Apple** before numerical balance. No fungi were assigned and **no code changed**.
 
 
 ---
