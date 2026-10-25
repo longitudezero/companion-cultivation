@@ -3725,6 +3725,71 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 **User-review status:** §47 Mycelord and §48/§49 eight ordinary fungus packages are **APPROVED**. **§50 Echomorel/Wakemorel/Hushroom/Sim'mushro'dim are NEW PROPOSALS**, pending user review. If approved, first perform an **effect-coverage audit** (especially Seed Timing Shift and Allocation), then a complete fungus numeric pass (durations, Spores, germination, effect powers, footprint/overlays), and **after all fungal design** a fully separated complete Plant-owned Transformation recipe pass. No code changed.
 
 
+## 51. Fungi — EFFECT-COVERAGE AUDIT against approved Plants and all fungal candidates (AUDIT COMPLETE; new assignments DEFERRED)
+
+**Prompt and status:** After reviewing §50, the user **explicitly agreed to audit the existing catalog for desired Effects not attached to any fungus**. They stressed there should be **NO EARLY FUNGUS COUNT CAP**: add even ten more fungus species if useful, review whether any can later be merged, and only then balance/prune—without packing self-contained optimal production setups into one fungus. This approves the **audit and open-roster exploration workflow**, NOT §50's four proposed fungus packages or any new Effect assignments. Earlier §47 Mycelord, §48 first four fungi, and §49 second four fungi **remain approved**; §50 (Echomorel, Wakemorel, Hushroom, Sim'mushro'dim) **remains PROPOSED FOR REVIEW**, rather than silently marked approved. All first-pass Plant Effect-compatibility dimensions in six approved Family numeric sections are valid inventory sources.
+
+### A. Exact Plant-development Effect categories: approved vs proposed fungal emitters vs missing
+
+| Pre-existing Plant-development Effect dimension | Named positive emitter(s) if any | Named negative / alternative emitter(s) if any | Coverage assessment |
+| --- | --- | --- | --- |
+| **Growth Rate** | **Rushroom +30% [APPROVED]** | **Rainmorel −15% [APPROVED]** | **Covered both rate directions** |
+| **Ripening Rate** | **Wakemorel +25% [§50 PROPOSED]** | **Veilcap −20% [APPROVED]** | Named both directions, **but acceleration is not approved yet** |
+| **Leaf Yield Adjustment** | **Chillanterelle +20% [APPROVED]** | No named negative direct Leaf Yield emitter | Positive **covered**; harmful negative variant **OPTIONAL**, not categorically missing |
+| **Seed Yield Adjustment** | **Emberbolete +20% [APPROVED]** | No named negative direct Seed Yield emitter | Positive **covered**; harmful variant **OPTIONAL** |
+| **Germination Adjustment** | **Hushroom +8 percentage points per Seed [§50 PROPOSED]** | No named negative germination source | Named **only as §50 proposal**. Event-time effect on *Seed planting* needs later feasibility; negative source optional |
+| **Harvest Window Adjustment** | **Droughtcap +25% widening [APPROVED]** | No named window-narrowing emitter | Positive **covered**; narrowing optional |
+| **Leaf Peak Timing Shift** | **Glimmergill +8pp LATER [APPROVED]** | **Prismorel −8pp EARLIER [APPROVED]** | **Covered both timing directions**; neither alters peak height or introduces blooms |
+| **Seed Timing Shift** | **NONE** | **NONE** | **GENUINELY MISSING**: no current named fungus affects timing of existing Seed availability |
+| **Time-based Leaf Production** | **Echomorel +0.15 Leaves/h while 160–190% progress [§50 PROPOSED]** | No negative hourly emission | Named as **§50 proposal**, not approved. Only positive lifecycle progression qualifies |
+| **Time-based Seed Production** | **Sim'mushro'dim +0.15 Seeds/h while 160–195% progress [§50 PROPOSED]** | No negative hourly emission | Named as **§50 proposal**, not approved. Sterile species and Seed identities unchanged |
+| **Leaf–Seed Allocation** | **NONE (Leaves-favoring direction)** | **NONE (Seeds-favoring direction)** | **GENUINELY MISSING**: both selectable design directions need consideration; they MUST trade one resource for the other, not create Seed identity, extra yield or extra harvest |
+
+**Conclusion A:** The two **unassigned agreed EFFECT DIMENSIONS** are **(1) Seed Timing Shift and (2) Leaf–Seed Allocation**, the latter with two natural directions; **NOT** Growth/Rate or standard Yield, which already have appropriate Source identities. Some other full catalog dimensions have only **proposed** emitters, not *approved* emitters—**Ripening acceleration, Germination Adjustment and hourly Leaf/Seed production**—because the user has not yet explicitly approved the §50 profiles. Treat these as **review-pending**, not "covered and locked".
+
+### B. Environmental Effects and overlay Source coverage
+
+| Existing Property / environmental direction | Named fungus Source(s) | Status |
+| --- | --- | --- |
+| **Moisture +1 Wetting** | Rainmorel (directional routed) | **APPROVED** |
+| **Moisture −1 Drying** | Droughtcap; Wakemorel proposed | **APPROVED + a §50 proposal** |
+| **Temperature +1 Warming** | Emberbolete; Sim'mushro'dim proposed | **APPROVED + a §50 proposal** |
+| **Temperature −1 Cooling** | Chillanterelle and Rushroom; Echomorel proposed | **APPROVED + a §50 proposal** |
+| **Illumination +1 Brightening** | Glimmergill (Range) and Prismorel (directional routed) | **APPROVED** |
+| **Illumination −1 Darkening** | Veilcap; Hushroom proposed | **APPROVED + a §50 proposal** |
+| **Mycelial overlay creation / maintenance** | **Mycelord ONLY**, no Plant-development Effect | **APPROVED sole Mycelial-creating fungus** |
+| **Fertility +1 Enrichment / −1 Depletion** | **NONE** among fungi | **CONDITIONAL ENVIRONMENTAL GAP**, not an agreed need for new fungi. These Environmental System v1.1 baseline Properties/illustrative Source directions still exist in the currently implemented environment, but Fertility might be removed after Plant/Fungus design if it does not earn its complexity. Do NOT add Fertility fungi or detailed Plant Fertility interactions just to preserve the Property. |
+
+**Conclusion B:** Ordinary Temperature/Moisture/Illumination direction coverage is already broad, Mycelial has exactly its approved one-source identity, and the **only environmental source dimension without a fungal representative is Fertility**. **Fertility has never been approved as mandatory fungus roster content**, and Plant design deliberately did not force Fertility preferences. The Enchanted overlay is itself under possible removal, so its lack of an Enchanted-fungus emission is not a roster oversight. Physical Materials and special Plant resilience/Dormancy are also **not universal fungal Effect dimensions**.
+
+### C. Important delivery / propagation gap (NOT a new Effect category)
+
+**Every current §48–§50 ordinary fungus Influence is specified as Airborne or directed open-terrain "Airborne" propagation. No proposed or approved NAMES fungus has an actual Waterborne cultivation-emission assignment.** This is a **gameplay/toolkit gap, not a missing Effect**: Environmental System v1.1 already implements **Waterborne** Range propagation along **connected Flooded hexes**, and Rainmorel can create flooded connection using routed open-terrain Wetting. Some Aquatic family puzzles explicitly consider receiving a Waterborne fungal Influence and losing that reach when the area drains. Without at least one ordinary fungus utilizing **Waterborne** mode, this distinction may remain practically unused by named fungi and the promised Wetting + Flooded-traversal spatial puzzle will be underserved.
+
+**Prioritize explicitly designing at least one Waterborne fungus Influence**, either on a **NEW named species** or by reviewing an existing fungus's one independent cultivation emission/footprint. Do not make **Rainmorel's own environmental Wetting** require Waterborne connectivity: it must first reach Dry/Damp land to establish Flooded. A separate (other fungus) **Waterborne Seed Timing Shift or Allocation influence** could be a promising new two-part puzzle, but **do not assign or lock a specific bundle in this audit**. One fungus can have an ordinary Airborne environmental step and an independent Waterborne cultivation Effect if it is spatially feasible; keep each emission's Kind/Mode and reach separately inspectable.
+
+### D. Meaningful options to explore; NOT already approved additional Effects
+
+1. **Seed Timing Shift EARLIER:** Highest-priority missing dimension. Changes when a Plant's existing Seeds begin appearing within 0–200%, without changing Ripening Rate or Seed quantity by itself. Particularly interesting for Flowers/Spices Seed specialists such as **Poppycock** (approved **13 Poppycock Seeds already available at 175%**, **22 at 200%**), **Lavendread** (makes Lavendream Seeds), **Thymekeeper** (makes Sunrice Seeds), **Rice**, and **Cresscent**. Does not create an extra harvest or new Seed species; potential to align Seed access with a Leaf harvest.
+2. **Seed Timing Shift LATER:** Mechanically permitted opposite direction but needs a gameplay reason: delayed Seeds alone are punitive. Could be an unwanted side Effect paired with a meaningfully useful unrelated emission; if no good puzzle emerges, **do NOT force a fungus solely for it**. This is a potential **directional variant**, NOT another missing category.
+3. **Allocation favoring Leaves at a Seed cost** and **allocation favoring Seeds at a Leaf cost:** Second highest-priority gap; both directions deserve separately proposed designs. Cannot create a Seed supply for sterile Plants, retype Seeds, generate more total material as disguised Yield, or let the same Plant harvest twice. The exact trade/exchange rate, curve stage eligibility and zero-output behavior will require a careful global balance/system pass to avoid effectively bypassing rare Seed-production pathways.
+4. **Alternate production-window coverage:** §50 hourly Leaf and hourly Seed proposals are both late (160–190/195%). This **does not constitute another missing effect type**, but may leave early-bloom, pre-100% or mid-Ripening Plants underserved. A future fungus with an **EARLY or MID progress eligibility window** for an already existing Time-based Effect could diversify timing puzzles without creating a new catalogue category. It should respect positive progression, one harvest and all approved Plant Compatibility Responses.
+5. **Negative Yield / narrowing / germination penalties:** These are possible **signed variants** of existing effects, not separate unassigned categories. Include only when their pairing creates a clear player-solvable challenge; random punitive fungus emissions do not automatically improve design. Hushroom germination's positive direction is §50 proposed, and negative germination is not needed merely for symmetry.
+6. **Fertility Enrichment/Depletion:** Only revisit if the **later explicit environmental-scope decision** retains Fertility and proves it enhances actual cross-family farming. Until then, not a target for new fungi; no invented Fertility-sensitive Plants during this audit.
+7. **Fungal-Spore germination enhancements:** The current catalogue's **Germination Adjustment is Plant-Seed oriented**, and the proposed Hushroom explicitly evaluates the *target Plant's Seed stack at an empty destination*. Applying it to Fungus Spores is a separate future scope choice; **not a missing approved category**.
+8. **No automatic Enchanted/Secondary Bloom/Environmental Tolerance/Transformation Influence:** Removed or deferred by §§17–20; do NOT restore them just to fill roster slots or enable a name.
+
+### E. Recommended design workflow after this audit (approach AGREED, assignments open)
+
+- **Freely add candidate fungi**—two, four, ten or more—until every **wanted** gameplay dimension and delivery mode has interesting, viable tool coverage. Do **not** impose the historical roster count of 13 or an advance numerical cap.
+- **First design possible new species** for **early Seed Timing, Leaf-favoring Allocation, Seed-favoring Allocation**, and at least one **Waterborne cultivation Influence**. Allow these to be different species initially; do not pre-merge just to reduce species count. Consider later additional timing directions and early/mid hourly variants if they create good puzzles.
+- **Second perform a completeness/interaction audit** over the expanded set: who emits environment changes, who emits cultivation, what conflicts, whether multiple ways to solve difficult Garden configurations, and whether layout/Blockers create real choices. Then **merge or move Effects carefully** only when the result does **not** deliver a fully solved top-tier harvest/transformation optimization as one easy fungus. Two or three unrelated Effects per fungus remain acceptable.
+- **Only after design review and optional consolidation,** perform the **fungus-wide numerical pass** (fungal 0–200% stage times, Spores/germination/suppression, environmental source strengths/footprints, Mycelial magnitude boosts, hourly-yield safeguards), then the **dedicated full Plant-owned Transformation recipe pass** with explicit recipes and feasibility tests. Full Plant rebalancing and actual human-tester playtesting follow implementation, not code now.
+- **Fungi must still have species' own Spores and maintain emission after 200%; Mycelord remains sole Mycelial creator**; no new universal environmental tolerance, fungus-added bloom, or Transformation Effect.
+
+**Review boundaries:** The user explicitly requested this audit and endorsed a **no-count-cap expand-then-consolidate approach**. **Audit findings (§51) are recorded as analysis and recommendations, NOT user approval of newly introduced fungi, Effect bundles or missing-effect decisions. §50 four fungus profiles remain PROPOSED until explicitly accepted.** Existing first-pass Plant numerical balances and the nine agreed fungal roles (Mycelord + eight ordinary) stay as before. No code was modified.
+
+
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
