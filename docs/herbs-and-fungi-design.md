@@ -1238,9 +1238,9 @@ Mistlefoe ─────────────────┘                
 - Exact continuous curves, germination percentages/Seed-cost curves, species-specific thermal/Mycelial thresholds not yet specified, and all **fungal Effects/Transformations** still require subsequent numerical/mechanics choices.
 
 
-## 24. Woodlands numerical pass II — germination and Effect compatibility (PROPOSED for review)
+## 24. Woodlands numerical pass II — germination and Effect compatibility (APPROVED first pass)
 
-**Status:** The user endorsed the previous **Woodlands harvest/lifecycle numeric table (§23)** and requested explicit **germination values and Effect compatibility numbers** next. The entries in this section are a **fresh first-pass proposal**, not yet approved. Preference: meaningful/exaggerated specialist differentiation; *after design/implementation, actual gameplay testing with testers is mandatory* and can rein in overstrong combinations.
+**Status:** The user **approved the entire Woodlands first-pass germination and Effect compatibility numbers below**, including the per-Seed chance model, both numeric compatibility tables, conditional modifiers, zero-output exclusions and the bold specialization differences. These are **accepted initial balance numbers, not final tuned values**. After implementation there must be an actual **playtesting pass with testers** and further balance revisions based on observed emergent behavior. Preference: exciting, memorable, even exaggerated specialist rewards now; rein in overshoots only if tests justify it.
 
 ### Germination mechanics proposal
 
@@ -1322,9 +1322,81 @@ These create significant differences in resource investment: Base Seeds are inex
 ### Approval and future-pass discipline
 
 - The **old 13 named fungi remain only proposals**; do not assign any effect or production bonus to a particular named fungus during this pass.
-- The **Germination formula**, per-Seed chances, and the two compatibility tables are a **concrete first-pass numerical proposal** requiring user review before approval.
+- The **Germination formula**, per-Seed chances, and the two compatibility tables are **APPROVED first-pass numbers**, subject to subsequent playtesting/revision, not hard limits to prevent interesting combinations.
 - Prioritize **pronounced, memorable effects over tiny differentials**; conduct a separate real **playtest and tester-feedback balancing pass after implementation**. Tester findings may justify toning down overpowered plants/fungi; the immediate goal is not perfection.
 - Full exact output curves, precise environmental hazard penalties other than Mandrakadabra's approved Mycelial six-hour death threshold, and rounding/stacking of concurrent fungal Effects are additional numerical refinements. Do not silently commit nonexistent fungal mechanics or pretend these are implemented.
+
+
+## 25. Aquatic Plant profiles — first batch (PROPOSED for review)
+
+**Context:** The user has now **approved Woodlands germination and Effect-compatibility numbers** as first-pass balance and directed work to move to **Aquatic**. The numerical philosophy carries over: approximately **10 Leaves / 10 Seeds**, **4 in-game days to 100% / 8 total days to 200%** as ordinary benchmarks, but strong, meaningful species differences are encouraged. Detailed numeric Aquatic balance can be assigned after identifying family roles, as for Woodlands; do not design fungi or transformation recipes in this pass.
+
+**Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist into Kelpless**, but the actual transformation recipe, fungus assignment and exposure durations belong to the later third pass. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
+
+### Confirmed network view (no recipes assigned in this profile batch)
+
+~~~text
+Unnamed Aquatic Base
+ ├─ Kelpfull ─┬─ Kelpergeist ─┬─ Kelpless ─────> Wild Watercress
+ │           │              └─ Starlotus [Flooded attunement]
+ │           └─ Kelpless
+ ├─ Sunken Lotus ─ Moonlit Lotus ─┬─ Starlotus [Damp attunement]
+ │                               └─ Pearlily
+ └─ Wild Watercress ─┬─ Silvercress
+                     └─ Cresscent ─ Pearlily
+~~~
+
+### Aquatic Base (name undecided) — PROPOSED profile
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Average 4-day Growth and 4-day Ripening** baseline; not a specialist. |
+| **Natural harvest** | **10 Leaves around 100%** and **10 own Seeds around 200%**, with broad ordinary decline/rise curves. Single plant-consuming harvest. |
+| **Germination** | **Ordinary/reliable**, its own Seeds available at start. Establish a concrete per-Seed germination rate during the Aquatic numeric pass. |
+| **Environment** | Prefers **Damp / Temperate / Lit**; tolerates Flooded reasonably well without outperforming true Flooded specialists. **Dry sharply reduces Growth and output**, rather than instant death. Cold/Warm manageable, Hot and Freezing increasingly harmful and lethal after prolonged exposure; Mycelial eventually lethal. |
+| **Farming purpose** | Simple starting Seed loop and gateway to the Kelp, Lotus and Cress branches; dependable but not a competitive specialist. |
+| **Effect compatibility** | **1.0× ordinary response** to Growth, Ripening, Leaf Yield, Seed Yield, germination and curve-shaping Effects; environment Sources use universally consistent behavior. No special multiplication or tolerance. |
+
+### Kelpfull — PROPOSED profile
+
+**Keep it simple:** Kelpfull is the first **Flooded-oriented accessible Seed producer**, rather than another elaborate puzzle. It branches toward **Kelpergeist** and the unwanted **Kelpless** outcome; no named fungi chosen.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Somewhat faster Growth** than Aquatic Base and ordinary-to-slightly-fast Ripening. |
+| **Natural harvest** | **Low-to-moderate Leaves**, with **high Aquatic Base Seed** output toward 200%. Its direct harvest role resembles Woodlands' Bamboom but belongs to Aquatic's Flooded economy. No own Kelpfull Seeds. |
+| **Germination** | **No current source of Kelpfull Seeds**; obtained via transformation from Aquatic Base. Aquatic Base Seeds it produces use the Base's germination rates. |
+| **Environment** | Strongly prefers **Flooded**, **Temperate or Cold**, and **Lit/Dim**. Damp is survivable but substantially poorer for output; **Dry suspends progress** and is dangerous over sustained exposure. Hot/Freezing and prolonged Mycelial exposure are harmful/lethal. There is no benefit from either extreme or Mycelial. |
+| **Farming purpose** | **Efficient Aquatic Base Seed supplier**; gives the player Seed fuel for repeated moisture-branch experiments, with fewer Leaves than more specialized Aquatic crops. |
+| **Effect compatibility** | **Strong Seed Yield compatibility while Flooded** and useful Ripening-rate/Seed Timing response; weaker-than-average Leaf Yield compatibility. No special transformation-dependent Effect. |
+
+### Kelpergeist — PROPOSED profile
+
+**Existing role:** Valuable **Dark + Flooded specialist**. When **Flooded is continuously lost**, it can become **Kelpless**; interruption restores its opportunity to remain a Kelpergeist. Its alternative transformation to **Flooded-attuned Starlotus** is a separate pathway, but conditions are deferred.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Slower Growth** and fairly ordinary Ripening; becomes worthwhile after investment into a stable dark, flooded setup. |
+| **Natural harvest** | **High Leaves in a fairly narrow middle-to-late Ripening peak**, with **a few own Kelpergeist Seeds** toward 200%; harvest timing or maintaining a Flooded/Dark habitat is more important than easy Seed multiplication. |
+| **Germination** | **Kelpergeist Seeds** germinate at a relatively difficult rate compared to Aquatic Base; still permit direct cultivation of the specialist if a Seed supply is maintained. |
+| **Environment** | Best at **Flooded + Dark + Cold/Temperate**. Damp substantially reduces Growth and output; **Dry pauses development** (rather than instantly killing it), and triggers the established **loss-of-Flooded Transformation risk**. Lit/Bright reduces its specialist Leaf performance. Hot and Freezing remain harmful, and Mycelial is eventually lethal. |
+| **Farming purpose** | Distinctive **dark-water high-Leaf producer**, with a premium reward for preserving Flooded, plus a risk of slipping into undesirable Kelpless if water is lost; can alternatively be used to obtain Flooded-attuned Starlotus. |
+| **Effect compatibility** | **Strong Leaf Yield compatibility while both Dark and Flooded**; ordinary or slightly reduced Seed Yield and Growth/Ripening compatibility. Yield shifts and harvest-window changes work normally; changing Illumination/Moisture through global environment effects has its indirect expected consequences. |
+
+### Kelpless — PROPOSED profile
+
+**Existing role:** Negative transformation reachable from either **Kelpfull or Kelpergeist**, with a **confirmed redemption route → Wild Watercress**. Keep it harvestable but clearly inferior to its precursor.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Slow Growth and Ripening**, giving it poor production throughput; transformation retains existing lifecycle progress. |
+| **Natural harvest** | **Very few Leaves** and **a small amount of Aquatic Base Seeds** late in Ripening; no Kelpless Seeds. The Seed output allows a small salvage harvest without replacing the more valuable Wild Watercress redemption path. |
+| **Germination** | No Kelpless Seed source; obtained only through Transformation. Any Aquatic Base Seeds it harvests use the Base germination rate. |
+| **Environment** | Fares best at **Damp / Temperate / Dim–Lit**, not Flooded; **Dry remains bad** despite its name/origin. Cold/Warm underperform, Hot/Freezing and prolonged Mycelial can kill. No Mycelial tolerance bonus. |
+| **Farming purpose** | **Recoverable mistake:** a meager emergency Seed/Leaf harvest or transform it into **Wild Watercress** for a fresh useful branch. Does not need an invented personal fungal bonus. |
+| **Effect compatibility** | **Weak Leaf and Seed Yield compatibility** and mildly reduced Growth/Ripening response; ordinary direction-preserving behavior when influenced. No unusual new effect. |
+
+**First batch status:** These are **proposed six-part Plant profiles** for Aquatic Base, Kelpfull, Kelpergeist, Kelpless, not approved facts. The Aquatic network and agreed Moisture identity remain unchanged. After these are accepted, continue Aquatic in batches (Lotus route; Cress route), then assign whole-family numeric Growth/Ripening, harvest curves, germination, and Effect-compatibility values as in Woodlands.
 
 
 ---
