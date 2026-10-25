@@ -1000,7 +1000,7 @@ For each Plant: define natural Growth and Ripening; Leaf and Seed harvest curves
 
 The user accepted this six-part direction as stated; no precise durations, probability figures, death timers, or yield curves have been committed. Base-Plant name remains open.
 
-### Bamboom — PROPOSED first-pass profile, pending review
+### Bamboom — APPROVED first-pass profile
 
 **Existing established role that must be preserved:** Bamboom is a strong producer of **Woodlands Base Plant Seeds**. The sequence **Bamboom → Bamboozeling → Bamboozled** is confirmed; it is not a reason to assign fungi or specific transformation timers during Phase 1. The earlier ambiguity with a possible name "Bamboozle" remains separate.
 
@@ -1013,7 +1013,40 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Farming purpose** | **Base-Seed amplifier:** grows and harvests relatively efficiently to replenish Seeds for multiple Woodlands branches, at the opportunity cost of sacrificing some Leaf output and occupying a field with a reproductive crop. Its value is farming throughput over repeated rotations, not unique rewards. |
 | **Effect compatibility** | **Strong response to Seed Yield increases**, especially under **Damp** conditions (a possible conditional strength bonus rather than a new Effect). Ordinary response to Growth acceleration and Germination increases; **Ripening acceleration is valuable** because Seeds arrive later. Standard response to other effects unless later species-specific needs emerge. No reversed fungal Effect directions. |
 
-**Not decided:** Exact rates, Leaf/Seed curves, the size or precise habitat for its extra Seed Yield compatibility, Mycelial/thermal death thresholds, and the identity/recipe of the influence conditions that transform it to Bamboozeling. These choices are proposals for user review; **not approved**.
+**Approved direction:** User endorsed the Bamboom profile as proposed, including strong production of **Woodlands Base Plant Seeds**, fairly fast Growth, lower Leaves, Damp/Temperate–Warm affinity, and strong Seed Yield compatibility. Exact rates, Leaf/Seed curves, the size of conditional Seed Yield bonuses, death thresholds, and transformation conditions remain unassigned.
+
+
+### Bamboozeling — PROPOSED first-pass profile (paired with Bamboozled for review)
+
+**Established role:** Bamboozeling is the **inferior-but-still-harvestable intermediate** in the confirmed **Bamboom → Bamboozeling → Bamboozled** transformation route. Sustained qualifying conditions make it important to act within a harvest window; the actual fungal identities and transformation recipes will be designed in Phase 3.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | Similar to Bamboom, but **slightly slower overall** (especially Ripening). Continue using the normal 0–200% lifecycle and preserve existing progress on transformation. Do not add an extra stage. |
+| **Natural harvest** | **Modest Leaves** and **fewer Woodlands Base Plant Seeds than Bamboom**, with Seeds concentrated toward later Ripening. Still a worthwhile emergency harvest if the player missed Bamboom's preferred window; distinctly worse efficiency than Bamboom, but **not** zero output. **No Bamboozeling Seeds** proposed. |
+| **Germination** | No directly harvested Bamboozeling Seeds in this draft. It is primarily obtained by transforming an already germinated Woodlands Plant. If it is ever directly plantable by Seeds, use ordinary germination; **direct access isn't being added now**. |
+| **Environment** | Prefers **Damp, Temperate, Lit**, with Warm/Dim acceptable at some cost. Cold slows/reduces performance; Hot or Freezing harmful and potentially lethal after prolonged exposure. Mycelial dangerous and eventually lethal. No special temperature or Mycelial benefits. |
+| **Farming purpose** | **Salvageable warning stage** in a risky productive chain. Gives the player a reason to harvest before further unwanted transformation; inferior output is an intentional consequence, not a new premium crop. |
+| **Effect compatibility** | Normal direction-consistent responses to catalogue Growth, Ripening, Leaf, Seed, and germination Effects. **No inherited exceptional Seed Yield bonus from Bamboom**; effects may improve harvest but do not by themselves reverse the innate inferior role or create a special Seed identity. |
+
+**Open:** Whether modestly slower Ripening is the best gameplay contrast with Bamboom; precise deterioration in yield and exposure thresholds; if any Seed identity is later changed, make it explicit. The target of the next transformation is confirmed; its recipe remains deferred.
+
+### Bamboozled — PROPOSED first-pass profile (paired with Bamboozeling for review)
+
+**Established role:** A **bad endpoint for repeated exposure**. **Zero Leaves, zero ordinary Seeds**. Harvesting yields an unusual **Bamboo Steel trophy**—a flavor/achievement reward, **not a normal farming production resource** or an alternative dominant Leaf-production strategy. It has no further approved transformation route.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | Remains within the **ordinary 0–200% Plant lifecycle**, with no productive Leaf/Seed peak. The exact speed is economically unimportant; use ordinary continuation from preserved Growth/Ripening progress on transformation rather than a special extra counter. |
+| **Natural harvest** | **Always zero Leaves and zero ordinary Seeds**. The established one-time **Bamboo Steel trophy** can be collected through the normal plant-consuming harvest at eligible maturity. Timing/eligibility for the trophy is still to be fixed; don't invent a new permanent resource economy. |
+| **Germination** | Produces **no Seeds**, therefore offers **no self-propagating Seed/germination loop**. Obtain by transforming Bamboozeling; no direct Bamboozled Seed source assumed. |
+| **Environment** | No favorable **production** habitat, because there is no standard output to optimize. Ordinary survivability in Damp/Temperate/Lit, with Hot/Freezing and Mycelial still harmful and potentially fatal after sustained exposure. Don't add a novel environment preference just to decorate the failure state. |
+| **Farming purpose** | **Unwanted transformation consequence and optional trophy discovery**; its inability to return regular Seeds or Leaves makes continued exposure a meaningful farming mistake. Trophy is not an economically preferable fallback. |
+| **Effect compatibility** | No ordinary **Leaf Yield, Seed Yield, Seed Timing, Harvest Window, or time-based production** can conjure output from the Plant's zero baseline in this draft. Growth/Ripening adjustments may change *when it can be harvested*; environmental modifiers/hazards still apply normally. Bamboo Steel trophy quantity is **not increased** by ordinary Leaf/Seed bonuses. |
+
+**Open:** Trophy harvesting eligibility and how long a Bamboozled instance can survive in adverse conditions. Its core "no Leaves, no Seeds, Bamboo Steel trophy" identity is **existing agreed design**, not a new proposal. Avoid introducing fungally induced exotic bonus production here merely to rescue a purposely bad outcome.
+
+**Paired design intent:** Bamboom remains a desirable repeatable **Base Seed** crop → Bamboozeling is an inferior but usable **last-chance crop** → Bamboozled yields **no normal farming output**, only the non-economic trophy. Their transitions and exposure timing must remain a challenge for the later transformation-recipe/fungal passes, **without changing the six-part Plant profiles just to accommodate a specific fungus**.
 
 
 ---
