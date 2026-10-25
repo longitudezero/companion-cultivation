@@ -39,11 +39,11 @@ The existing Environmental System v1.1 rules remain unchanged in the live Protot
 | **Flowers** | Bloom/harvest timing and progress-/time-based fungal production effects | Branching transformations from a Base Plant |
 | **Desert** | Extreme Hot/Freezing adaptation, Dormancy, and recovery | Branching transformations from a Base Plant |
 | **Spices** | Illumination engineering, spatial fungus overlap, and efficient Leaf yield | **Keep the originally drafted Food network intact; rename species to cooking spices later** |
-| **Ingredients** | Straightforward, recognizable cooking ingredients; Growth, Ripening, harvest, and Seed sustainability | **No Transformations, ever, for this family** |
+| **Ingredients** | Straightforward, recognizable cooking ingredients; Growth, Ripening, harvest, and Seed sustainability | **One Base Plant transforms DIRECTLY into any other Ingredient; all other Ingredients cannot transform** |
 
 **Spices / Ingredients are separate for cross-game clarity:** the Spices family yields recognizable RPG cooking spices; Ingredients supplies ordinary cooking staples that RPG players can understand without ever playing the cultivation game. **Mechanics do not have to be redesigned to suit names.** The original Food Plant names (Thymely, Sunrice, Moonrice, Shadow Onion, Starberry, Pum'king, Thymekeeper, Ghost Rice, Dillusion, Glass Apple) remain *working design identifiers*, not locked names; the prior suggested spice-themed replacements are **proposals only**.
 
-**The Ingredients exception:** each Ingredient species stays that species throughout its lifecycle; fungi may still affect its Growth, Ripening, Seed production, or normal non-Seed harvest, **but do not transform it into another Plant**. Its species' Seeds must have a direct availability/unlock route, because no transformation chain exists. Exactly which Ingredient Seeds are given initially or unlocked later is **open**. Ingredients don't have a single required transformation-Base-Plant lineage.
+**The Ingredients exception (revised and AGREED after Spices numerical approval):** Ingredients has **exactly one Base Plant**, given as the family's starter Seed species. **Only that Base Plant may transform**, and it may transform **directly into every other Ingredient species**—a star-shaped network with no intermediate steps. Every non-Base Ingredient is a **terminal species** and can **never transform further or back into the Base**. Fungi may still affect every Ingredient's ordinary Growth, Ripening and harvested Leaves/Seeds. Seed output identities for each Ingredient, including possible own Seeds supporting future direct planting, will be specified in their Plant profiles. The earlier no-transformations/direct-Seed-unlocks exception is **superseded**. Recipes are Plant-owned and not assigned until after Plant/fungal design.
 
 **One shared farming objective:** maximum useful non-Seed harvest over sustainable planting/harvesting rotations (currently called **Leaves**, pending a more suitable universal name). Seeds and fungi support this goal. Do not add unneeded magical abilities just to make premium crops mechanically distinct.
 
@@ -696,7 +696,7 @@ These are **working roles**, not a fixed count of fungi or universally beneficia
 
 ### Next focus — updated six-family decision
 
-**Food has been replaced by Spices and Ingredients as two separate Families.** Spices keeps Food's approved *first-pass Illumination network and mechanics*, with spice-themed species names to choose later. Ingredients adds a simple non-transforming family for RPG cooking staples. The older Fertility-centered suggestion remains superseded.
+**Food has been replaced by Spices and Ingredients as two separate Families.** Spices keeps Food's approved *first-pass Illumination network and mechanics*, with spice-themed species names to choose later. Ingredients adds a simple, **single-Base-to-all terminal species** family for RPG cooking staples, per the newer approved §41 architecture; the old no-transformation proposal is superseded. The older Fertility-centered suggestion remains superseded.
 
 - Candidate design roles: Plants preferring Bright versus Dim/Dark; a fungus that affects illumination while also enabling a transformation; different transformations or harvest optimizations depending on Illumination; and useful Seed producers supporting high-Leaf-yield crops. These are illustrative examples, not confirmed Food species or recipes.
 - The potential distinctiveness from Aquatic is **spatial light management** (overlapping Luminous Sources, Airborne propagation, Blockers, gradients, and different recipient Responses) rather than simply shifting a Condition from Growth to Ripening. Do not invent a periodic day/night cycle to make this work.
@@ -759,20 +759,30 @@ Thymely (Base)
 
 **Food-sketch status:** The user likes the system strongly, and its mechanics are being **retained intentionally**. Exact numbers, assignments, transformations, spice-themed names, and RPG ingredient mappings still require a later pass. Earlier recipe descriptions are a **first-pass design**, not final implementation instructions.
 
-### Ingredients — sixth family without transformations
+### Ingredients — sixth family with one universal transforming Base (REVISED AND AGREED)
 
-**Agreed architectural exception:** Ingredients has **no transformations**, but retains the ordinary 0–200% Growth/Ripening lifecycle, ordinary Seed production, species-specific Growth/Ripening Rates, and a one-time plant-consuming harvest yielding non-Seed output and Seeds as appropriate.
+**Current agreed architecture (supersedes the original "no transformations ever" Ingredients idea):** Ingredients has **one Base Plant** whose Seeds are the family's initial Seeds. The Base alone can transform **directly into every other Ingredient species**, without intermediate species transformations. **All non-Base Ingredient species are terminal: no transformations out of them, including into each other or back to the Base.** Their ordinary 0–200% Growth/Ripening lifecycle, Seed production, one-time consuming harvest and compatible fungal cultivation Effects stay unchanged. A Transformation preserves its current lifecycle percentage.
 
-- Recognizable RPG cooking staples (e.g., Potato, Rice, Carrot, Onion, Apple, Pumpkin, Strawberry) are **illustrative candidate species**, not a confirmed roster.
-- Each Ingredient always remains its own species. Fungi can potentially improve or worsen Growth, Ripening, Seed production, or normal non-Seed yield, but **cannot trigger a Transformation Response** in Ingredients.
-- Each Ingredient must have some **direct Seed access / unlock mechanism** (exact starting roster and later unlock mechanism open). This is an explicit exception to the five transformation-based Families' Base-Plant-only starting access.
-- Ingredients should be useful as a relatively straightforward and sustainable growing option, **not automatically useless or inferior** to magical transformed Plants.
-- The RPG cooking loop should be understandable to someone who has never played the farming game. Treat what an individual fantasy Plant yields as an RPG item mapping or identity choice **without assuming a shared inventory or production-conversion mechanic** until that separate game's integration is designed.
+~~~text
+One Ingredient Base ──┬──> Ingredient A [terminal]
+                     ├──> Ingredient B [terminal]
+                     ├──> Ingredient C [terminal]
+                     ├──> Ingredient D [terminal]
+                     └──> ... every other Ingredient directly [terminal]
+~~~
+
+- The family should yield recognizable **RPG cooking staples**, not the renamed magical Spices. Prior illustrative candidates were Potato, Rice, Carrot, Onion, Apple, Pumpkin and Strawberry; **the actual seven-species proposal and choice of Base follow in §42, not yet accepted.**
+- **Only Base Seeds are initially available**. After first reaching a transformed Ingredient, its ordinary Seed harvest **may** provide own Seeds, another established identity, or none depending on that species' profile; no separate non-Base Seed-unlock system is required. Producing own Seeds lets players sustainably grow terminal species directly without giving them any transformation ability.
+- Fungi may influence **all** Ingredients' normal growth, Ripening, Yield, Seed output and habitat through the established ordinary Effects/Influences. Only the **Base** may have Plant-owned species-transformation recipes. There is **no fungus-emitted generic Transformation Effect**.
+- Transformations remain **single-stage and direct** rather than cross-branch puzzles: the simplicity lies in the graph, not necessarily in identical environmental preferences or perfectly equal output stats.
+- Ingredients should remain practical sustainable farming choices, not automatically weaker than magical Plants. The separate RPG's produced item mapping remains to be designed independently; **"Leaves" is still the universal temporary non-Seed yield term** and does not imply edible potato leaves.
+- No gameplay code has been modified.
+
 
 ### Open items
 
 - Final **Spices** species names that evoke usable cooking spices while keeping all ten roles and edges.
-- Ingredients species roster, Seed availability/unlock model, and eventual yield targets compared with the transformation families.
+- Ingredients roster/Base identity, terminal species' Seed identities and eventual yield targets; **the single transforming Base and Base-only starter Seed access are agreed** (see §41).
 - Final universal non-Seed harvest term (**Leaves** remains temporary; **Produce** is a candidate, not locked).
 - Exact fungal catalogue and stats; later evaluation of whether Fertility and Material mechanics remain worthwhile.
 - No changes to the game implementation now.
@@ -847,7 +857,7 @@ The latest **13-fungus roster** (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel
 - **No Transformation Effect** needs to be emitted by Wakemorel, Prismorel, Rushroom, or any other fungus. Provisional descriptions of a fungus 'enabling a transformation' should be read as shorthand for **satisfying a condition in the Plant's recipe**, including an ordinary Influence reaching it or physical proximity.
 - **Fungi still may affect how feasible or dangerous a recipe is**, because they change environmental states and Growth/Ripening Rates, or sustain overlays. A transformation can occur from a conjunction of conditions without any special cultivation-only Influence.
 - **Source attribution may be important:** two opposite Luminous Source contributions can cancel in net Illumination while a Plant's recipe still requires the presence/reach of both named sources. An implementation must be able to distinguish **which Source emissions reach a hex** from only the computed final environment level. This need does not change existing Environmental System v1.1 arithmetic.
-- **Recipes are species-defined; no transformations for Ingredients**, which is the explicit sixth-family exception.
+- **Recipes are species-defined; for Ingredients, recipes can exist ONLY on its single Base Plant, with a separate direct edge to every terminal Ingredient**. Terminal Ingredients never transform. This supersedes the older sixth-family no-transformation exception.
 
 ### Examples, illustrative rather than fixed recipes
 
@@ -964,7 +974,7 @@ Other candidate Effect dimensions should be reviewed across **Growth Rates, Seed
 
 ### Plant-specification checklist for the next sessions
 
-For each Plant: define natural Growth and Ripening; Leaf and Seed harvest curves and Seed identities; environmental preferences; **specific reactions to Freezing and Hot**; **specific Mycelial exposure threshold/response**; innate special exceptions; how the agreed catalogue of fungal Effects modifies it (including magnitudes/conditions where necessary); transformation recipes (if not Ingredients); and why it matters for sustained Leaf farming.
+For each Plant: define natural Growth and Ripening; Leaf and Seed harvest curves and Seed identities; environmental preferences; **specific reactions to Freezing and Hot**; **specific Mycelial exposure threshold/response**; innate special exceptions; how the agreed catalogue of fungal Effects modifies it (including magnitudes/conditions where necessary); transformation recipes (for all transforming species, including the single Ingredients Base, but NOT its terminal Ingredients); and why it matters for sustained Leaf farming.
 
 **No fungi or new code are being designed/implemented in this step.** The proposed 13-name roster remains nonbinding, and Enchanted and permanent Base Materials remain deferred per earlier decisions.
 
@@ -2491,7 +2501,7 @@ The previously **approved** two transformation-linked exposure rules remain dist
 
 ## 37. Spices — first Plant-profile batch, Base and three Illumination branches (APPROVED first-pass profiles)
 
-**Status:** The user **approved Desert's complete §36 numeric pass as first-pass balance** and asked to begin **Spices**. The approved Spices family architecture, old Food sketch preserved in §15, its ten species and all existing branch/cross-branch routes are retained. This first six-part profile batch for **Thymely, Sunrice, Moonrice and Shadow Onion**—the Base and three first branches—was **APPROVED by the user** without changes. These are **working identifiers from the older Food sketch**, explicitly **NOT locked names** or settled RPG ingredients; rename all Spices to cooking-spice-appropriate identities during the later naming pass without redesigning their established mechanics. The separate **Ingredients** family covers straightforward recognizable food items with **no transformations**.
+**Status:** The user **approved Desert's complete §36 numeric pass as first-pass balance** and asked to begin **Spices**. The approved Spices family architecture, old Food sketch preserved in §15, its ten species and all existing branch/cross-branch routes are retained. This first six-part profile batch for **Thymely, Sunrice, Moonrice and Shadow Onion**—the Base and three first branches—was **APPROVED by the user** without changes. These are **working identifiers from the older Food sketch**, explicitly **NOT locked names** or settled RPG ingredients; rename all Spices to cooking-spice-appropriate identities during the later naming pass without redesigning their established mechanics. The separate **Ingredients** family covers recognizable food items via **one universal transforming Base and terminal nontransforming outputs** (§41 supersedes the earlier note).
 
 **Agreed design sequence:** Specify all ten Spices Plant responses and Seed identities, then a complete numerical pass, then fungus roster and Plant-owned Transformation recipes. Named working fungi (**Glimmer, Veil, Gloam, Prism**) and environmental requirements shown in historical §15 are *provisional examples*, not locked assignments. Fungi can change Illumination using the ordinary global environmental Source model and emit their own separately-defined cultivation Effects; their **spatial overlap and Blockers** matter because each Plant responds differently to the **resolved Dark / Dim / Lit / Bright state**. Do not invent a periodic day/night cycle, a special Light resource, family-wide photocharge meter, Environmental Tolerance Effect, or universal Transformation Effect.
 
@@ -2571,7 +2581,7 @@ The **Sunrice and Moonrice branches are complementary**, not fully isolated econ
 - Every hex's **resolved Illumination** comes from the established environmental state and overlapping globally consistent **Luminous Influences** subject to Range/Spread Budget, blockers, falloff/clamping and source propagation rules. A single fungus may emit multiple ordinary Influences, but recipient species merely respond; no species rewrites the influence propagation.
 - **Net Light** is a separate question from **which eligible fungus Influences reach the Plant**. Future Pum'king recipes may require the simultaneous arrival of differently directed ordinary influences while retaining **Lit** as the final resolved state; the historical Glimmer/Veil illustration in §15 is *not* yet a finalized fungus assignment.
 - **No universal light-change cycle** is assumed. Farmers must actively create Light zones through placement/environment interactions rather than timing a periodic sun/day/night mechanic.
-- **Spices names are temporary identifiers**, not RPG ingredient claims. Naming must not silently alter this network; Ingredients remains the unrelated *nontransforming* family.
+- **Spices names are temporary identifiers**, not RPG ingredient claims. Naming must not silently alter this network; Ingredients remains a separate **one-Base-to-terminal star-transformation** family (§41), not a Spices sub-branch.
 - **No exotic intrinsic rule needs to be invented for every early species.** Sunrice's Bright farming, Moonrice's Dim Seed production, and Shadow Onion's Dark farming produce distinct spatial placement problems when combined with the later Seed support and prestige endpoints.
 
 ### First batch comparison and next steps
@@ -2588,7 +2598,7 @@ The first four Spices six-part profiles are **APPROVED first-pass designs**. Ful
 
 ## 38. Spices — second Plant-profile batch, Bright/Dim/Dark intermediates (APPROVED first-pass profiles)
 
-**Status:** The user **APPROVED §37's Thymely, Sunrice, Moonrice, and Shadow Onion profiles** without revisions. This four-Plant batch specifies **Starberry, Thymekeeper, Ghost Rice, and Dillusion**, and was **APPROVED by the user** without changes. Preserve the ten-Plant original Food network renamed **Spices**, with all these names **temporary mechanical identifiers**; cooking-spice names will be chosen later, without changing their traits. The sixth **Ingredients** family remains non-transforming. Define six-part species profiles (lifecycle, harvest, germination, environment, farming purpose, and Effect compatibility), while reserving full numerical lifecycle/output/germination matrices until all ten Spices profiles have been reviewed. No specific fungus identities, final environmental Transform recipes, added generic Transformation Effects, or game code are authorized.
+**Status:** The user **APPROVED §37's Thymely, Sunrice, Moonrice, and Shadow Onion profiles** without revisions. This four-Plant batch specifies **Starberry, Thymekeeper, Ghost Rice, and Dillusion**, and was **APPROVED by the user** without changes. Preserve the ten-Plant original Food network renamed **Spices**, with all these names **temporary mechanical identifiers**; cooking-spice names will be chosen later, without changing their traits. The sixth **Ingredients** family now uses one universal transforming Base with all other species terminal (§41 supersedes the former no-transformations design). Define six-part species profiles (lifecycle, harvest, germination, environment, farming purpose, and Effect compatibility), while reserving full numerical lifecycle/output/germination matrices until all ten Spices profiles have been reviewed. No specific fungus identities, final environmental Transform recipes, added generic Transformation Effects, or game code are authorized.
 
 ### Preserved network relevant to this batch
 
@@ -2769,12 +2779,12 @@ Pum'king ──[Leaf harvest only]──> 0 Seeds
 
 **No additional system invented:** All effects here are either **ordinary Plant environmental responses, harvest curves, standard Seed identities, or compatibility with the established fungal Effect catalogue**. No universal secondary bloom, Seed-type replacement, environmental tolerance, Light-charge accumulation, periodic day/night cycle, or generic transformation Influence.
 
-**User-review status:** All ten Spices profiles in §§37–39 are **APPROVED as first-pass species identities**, including Pum'king's Lit overlap challenge/sterility and Glass Apple's Bright peak/Starberry Seed production. §40 contains the numerical balance **PROPOSED for user review**. After numerical approval the next Family is Ingredients (nontransforming, direct Seed access still open). **No code changes; no fungus roster/final transformation recipes assigned.**
+**User-review status:** All ten Spices profiles in §§37–39 are **APPROVED as first-pass species identities**, including Pum'king's Lit overlap challenge/sterility and Glass Apple's Bright peak/Starberry Seed production. §40 contains the numerical balance **PROPOSED for user review**. After numerical approval the next Family is Ingredients (**one universal transforming Base**, Base-only starter Seeds, and all other species terminal; §41 supersedes the earlier architecture). **No code changes; no fungus roster/final transformation recipes assigned.**
 
 
-## 40. Spices — complete numerical pass (PROPOSED for review)
+## 40. Spices — complete numerical pass (APPROVED first-pass balance)
 
-**Status:** The user **approved all ten Spices Plant profiles** (§§37–39), including Pum'king and Glass Apple, and requested the **full first-pass numerical balance**. All values in this section are **new proposals awaiting the user's approval**. The historical Food-derived Spices names remain **TEMPORARY MECHANICAL IDENTIFIERS**; a later cooking-spice naming pass must preserve these ten species, the graph and the mechanics. The user prefers bold numerical differentiation followed by eventual **tester playtesting**, not preemptive conservative balancing. **No code implementation, new fungus roster, Effect assignment or final Transformation recipe is authorized.**
+**Status:** The user **approved all ten Spices Plant profiles** (§§37–39), including Pum'king and Glass Apple, and requested the **full first-pass numerical balance**. All values in this section were **APPROVED by the user** as the complete first-pass Spices numerical balance, including lifecycle/harvest values, Starberry Seed access and germination, core/advanced Effect compatibility, light-response tables, Moisture/Temperature/Hazard numbers. Later testing may adjust them. The historical Food-derived Spices names remain **TEMPORARY MECHANICAL IDENTIFIERS**; a later cooking-spice naming pass must preserve these ten species, the graph and the mechanics. The user prefers bold numerical differentiation followed by eventual **tester playtesting**, not preemptive conservative balancing. **No code implementation, new fungus roster, Effect assignment or final Transformation recipe is authorized.**
 
 **Global comparison:** One ordinary Plant has roughly **10 Leaves near 100%, 10 own Seeds at 200%, four in-game days to finish Growth (100%), eight TOTAL in-game days to finish Ripening (200%)**, without fungal Effects and under preferred habitat Conditions. **All transformations preserve progress**, and a Plant has **one consuming harvest**, at which it collects all eligible Leaves and Seeds *at that progress*, not one exclusive output selector. Peak Leaf and 200% Seed maxima are usually **alternative harvest timings**, not simultaneous full payouts. Existing fungally emitted Growth/Ripening/Leaf/Seed/Window/Timing/Time-based Production/Allocation Effects keep consistent directions and source behavior; recipient compatibilities adjust only their magnitude. Do not add an Illumination-charge mechanic, day/night clock or generic Transformation Effect.
 
@@ -2944,10 +2954,107 @@ As above, each value scales the magnitude of the corresponding **pre-existing fu
 4. **Thymekeeper** grows **28 Sunrice Seeds in Dim**; **Moonrice** grows **20 Moonrice Seeds in Dim**. Those distinct Seed identities are the reason Moonrice → Thymekeeper creates cross-light farming support instead of a redundant Dim Seed farmer.
 5. **Ghost Rice** makes **11 Moonrice Seeds**, contrasting with **Shadow Onion** yielding **11 Shadow Onion Seeds** from its simpler Dark crop. Both keep their Dark habitat identities; do not redesign roles just because both like Dark.
 6. **One Plant-consuming harvest** at a chosen progress; no extra Leaf/Seed harvest toggles, Light conversion currencies, third progress stage or fungal Secondary Bloom. Fungal Time-based Production only accrues with advancing lifecycle and only inside the emitter's window, not because of compatible plant traits alone.
-7. **Names are temporary**. The future Spices naming pass should produce believable game cooking spices and preserve the species graph, Seed identities, traits, stage times, environment responses and transformation feasibility. The separate Ingredients family must remain a **non-transforming direct-Seed-access** family, with a future user review of its roster/unlock economy.
+7. **Names are temporary**. The future Spices naming pass should produce believable game cooking spices and preserve the species graph, Seed identities, traits, stage times, environment responses and transformation feasibility. The separate Ingredients family now has **one Base Plant that can transform directly into every terminal Ingredient**; only Base Seeds start unlocked. §41 supersedes the earlier no-transformations statement. Terminal species Seed identities still need user review.
 8. **No code changes** until all Plant, Fungus and Transformation design passes and explicit implementation request. First numerical extremes deliberately strong: Bright Glass Apple 58 Leaves / 24 Starberry Seeds, Lit Pum'king 46 Leaves / 0 Seeds, Bright Starberry 31 Leaves / 8 Sunrice Seeds, Dark Ghost Rice 24 Leaves / 11 Moonrice Seeds, Dim Thymekeeper 28 Sunrice Seeds, and sharp off-optimal Light penalties. Evaluate **sustained useful Leaves per occupied hex-day** including Seed sinks, fungus hex occupancy, failed transformations, and harvest timing in eventual tester playtests.
 
-**Approval status:** All ten Spices Plant six-part profiles (§§37–39) are **APPROVED**. The complete lifecycle, production, Seed/germination, core and advanced Effect compatibility, Illumination/Moisture/Temperature, and continuous fatal-exposure figures in **§40 are PROPOSED pending the user's review**. No fungi, final transformations, implementation, or ingredient species were assigned.
+**Approval status:** All ten Spices profiles (§§37–39) and the entire §40 numerical pass are **APPROVED as first-pass balance**. The user then revised Ingredients to one universal transforming Base (§41). Tester playtesting remains planned later. No fungal roster, final transformations, or implementation were assigned.
+
+
+## 41. Ingredients — AGREED new one-Base star-transformation architecture
+
+**Status:** After approving **all Spices §40 numerical values**, the user expressly **replaced** the earlier Ingredients exception that banned transformations: **"one base plant that transforms, but this one can turn into all others in the family and no other plant can transform."** This is an **AGREED** family-wide design direction, not a proposal. Update authoritative architecture in the top overview, §15, §17 and relevant later Spices notes accordingly. The Ingredients six-part profiles and concrete species choice that follow remain **new separate proposals subject to review**.
+
+~~~text
+                     ┌──> Ingredient 1 [terminal]
+                     ├──> Ingredient 2 [terminal]
+One Base Ingredient ─┼──> Ingredient 3 [terminal]
+                     ├──> Ingredient 4 [terminal]
+                     ├──> Ingredient 5 [terminal]
+                     └──> ... every other Ingredient [terminal]
+~~~
+
+**Binding implications:**
+1. Exactly **one Base Ingredient species** can transform and it has a **direct eligible route to every other Ingredient**, with no prerequisite Ingredient stages and no transforming non-Base branch.
+2. **Every other Ingredient is terminal**. A terminal Ingredient cannot transform into any species—not even the Base or another Ingredient—even if it is grown later from its own Seeds. The prohibition is about **Plant species' outgoing transformations**, not about Fungi influencing ordinary Growth/Yield/Seed behavior.
+3. **Only the Base Ingredient's Seeds are given initially**, matching the other transforming family starter principle. Species-specific own/other/no Seed harvest behavior is decided separately in profiles; for simple sustainable cooking staples, **own Seeds** are a sensible default proposal but are not forced by the transformation graph.
+4. All Plants retain **0–200% Growth/Ripening**, their unique Leaf/Seed curves, one destructive harvest, incremental Seed planting probabilities, environment Responses and existing fungal Effect compatibility. **Transformation preserves current lifecycle progress.**
+5. **Only Base-owned direct transformation recipes** are to be designed in a future recipe pass, after Plant profiles and fungal roster; no fungus emits a generic Transformation Effect. These recipes may differ in required standard fungus presence, ordinary Influence receipt, resolved Conditions or time, but the user did not lock exact conditions.
+6. Preserve the distinction: **Ingredients yields familiar cooking staples** for the future RPG; **Spices** uses the already-approved older ten-species Illumination puzzle network with later Spice-appropriate naming. Do not conflate their inventories or require cooking-system mechanics now.
+7. The previous statements that Ingredients has *no transformations* or requires separate direct Seed unlocks for every species are **SUPERSEDED**. §41 is the controlling newest architecture. The exact roster/Base identity and numeric balance remain open.
+8. **Design-only: no game code changes** until the user requests implementation.
+
+## 42. Ingredients — first proposed four profiles and roster direction (PROPOSED for review)
+
+**Status:** The user approved the Ingredients architecture (§41), **not** any particular Base species or Ingredient roster. The names below are explicitly **proposals for review** based on the already-known illustrative cooking staples in §15, not claims that Potato, Rice, Carrot or Onion have been accepted. Propose a seven-species family with **Potato as Base** and **Rice, Carrot, Onion, Apple, Pumpkin and Strawberry** as terminal species. We start with **Potato, Rice, Carrot and Onion** to discuss the desired simplicity of the Ingredient line; complete the remaining three afterwards if this roster is liked, then one full numerical pass, consistent with the other families. No fungus assignments or Transformation recipes yet.
+
+### Proposed direct star network (illustrative names)
+
+~~~text
+Potato (proposed Base)
+  ├──> Rice [terminal]
+  ├──> Carrot [terminal]
+  ├──> Onion [terminal]
+  ├──> Apple [terminal; profile later]
+  ├──> Pumpkin [terminal; profile later]
+  └──> Strawberry [terminal; profile later]
+~~~
+
+**Family intent:** These are familiar, productive staples, with variation through lifecycle pacing, ordinary environmental preferences, Leaf/Seed output and compatibilities. They should not require each Plant to gain a new magical ability. **"Leaves" remains a temporary gameplay term for the non-Seed harvested product**; it does not require edible potato leaves. All six terminal Ingredients have **zero outgoing Transformation routes**, irrespective of direct Seed farming.
+
+### Potato — PROPOSED six-part Base profile
+
+| Part | First-pass proposal |
+| --- | --- |
+| **Natural lifecycle** | **Standard 4 days Growth and 8 days total to 200%**, deliberately uncomplicated Base. |
+| **Natural harvest** | **10 non-Seed units around 100%** and **10 Potato Seeds at 200%**. A broad regular harvest curve. |
+| **Germination** | **Reliable normal additive germination**, exact chance later; **only Potato Seeds initially available** for this family. |
+| **Environment** | Prefers **Damp, Temperate, Lit**, tolerates Dim and Warm with modest penalties, Dry survivable briefly at reduced output, Flooded underperforms, and continuous Hot/Freezing/Mycelial eventually lethal. No permanent Material requirement. |
+| **Farming purpose** | Straightforward Seed loop and **single access point to all six proposed other cooking Ingredients**. It shouldn't have a powerful unique fungus-effect multiplier. |
+| **Effect compatibility** | Baseline **1.0×** standard emitted Growth/Ripening, Leaf/Seed Yield, timing/window, time-based production, germination and allocation Effects. **Only Potato's species has outgoing Plant-owned transformations**. |
+
+### Rice — PROPOSED six-part terminal profile
+
+| Part | First-pass proposal |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary-to-slightly-slow Growth**, ordinary Ripening; not an extreme crop. |
+| **Natural harvest** | **Moderate non-Seed produce** near ~110% and **high Rice Seed output** near 200%. Produces **its own Rice Seeds**. One consuming harvest. |
+| **Germination** | **Rice Seeds become available by harvesting Rice** after first transforming Potato → Rice. Ordinary-to-good Rice germination; no Rice Seeds initially awarded. |
+| **Environment** | Best **Flooded/Damp, Temperate/Warm, Lit**; remains viable in Damp but with reduced output relative to Flooded, Dry significantly suppresses progress/output and eventually kills, Mycelial and extreme Temperatures eventually lethal. Flooded preference provides a simple moisture distinction without adding a novel Aquatic-style dormancy/attunement rule. |
+| **Farming purpose** | **Reliable staple Seed supplier** that can be cultivated directly once Rice Seeds are unlocked; meaningful contrast to the fast Leaf-oriented Carrot, without overshadowing Aquatic's exceptional water specialists. |
+| **Effect compatibility** | Moderately enhanced **Seed Yield and Seed Timing Shift** response, ordinary lifecycle and Leaf Yield responses, useful Time-based Seed Production compatibility only if a future named fungus emits it. **No Rice transformations**, ever. |
+
+### Carrot — PROPOSED six-part terminal profile
+
+| Part | First-pass proposal |
+| --- | --- |
+| **Natural lifecycle** | **Quick Growth and relatively quick overall Ripening**, supporting frequent harvest rotations. |
+| **Natural harvest** | **Strong early non-Seed output near 95–100%**, meaning Carrot can be harvested at the Growth/Ripening boundary, with **fewer own Carrot Seeds near 200%** than Potato. |
+| **Germination** | **Good own-Seed germination** once Potato → Carrot is first accomplished; initially no Carrot Seeds. |
+| **Environment** | Prefers **Damp, Temperate, Lit/Bright**, Dry/Flooded reduce output, Hot/Freezing and persistent Mycelial hazardous. No soil Material-specific exception. |
+| **Farming purpose** | **Quick, easy non-Seed produce turnover**, contrasting with Rice's slower Seed-oriented farming. Carrot should be a useful repeat rotation, not an intermediate Ingredient. |
+| **Effect compatibility** | Strong-ish **Growth acceleration and Leaf Yield** compatibility, modest Seed effects, useful Harvest Window adjustment for the early peak. **No outgoing transformations**. |
+
+### Onion — PROPOSED six-part terminal profile
+
+| Part | First-pass proposal |
+| --- | --- |
+| **Natural lifecycle** | **Somewhat slow Growth**, ordinary-to-moderately-slow Ripening; trades speed for a generous harvest. |
+| **Natural harvest** | **Good/high non-Seed produce around 125–135%** with a broad and forgiving window, plus a **moderate number of own Onion Seeds** at 200%. Not a narrow Flower specialist or sterile prestige endpoint. |
+| **Germination** | **Ordinary own-Seed germination**; new Onion Seeds come from Onion's one-time Seed harvest after the initial Potato → Onion unlock. |
+| **Environment** | Prefers **Damp, Temperate/Cold, Dim/Lit**, tolerates Dry better than Rice/Carrot at a noticeable output cost; Flooded bad, Hot/Freezing and Mycelial hazardous. |
+| **Farming purpose** | **Low-attention, broad-window non-Seed farming** at a slower overall pace; useful for ordinary stable harvests rather than a magical environmental puzzle. |
+| **Effect compatibility** | Above-average **Harvest Window/Leaf Yield** compatibility, ordinary Growth, Ripening and Seed responses. **No outgoing transformations**. |
+
+### First proposed batch comparison
+
+| Ingredient | Base/terminal | Natural rotation niche | Seed harvest identity |
+| --- | --- | --- | --- |
+| **Potato** | **Proposed Base** | Standard, self-sustaining, transforms directly to every other Ingredient | Potato |
+| **Rice** | Terminal | Moisture-preferring slower Seed crop | Rice |
+| **Carrot** | Terminal | Quick early produce turnover | Carrot |
+| **Onion** | Terminal | Slower broad-window produce | Onion |
+
+**Approval boundaries:** Only the **one-Base-to-all** architecture, Base-only starting Seed access, lack of terminal transformations, and continuity of ordinary progress/harvest/fungal response are **AGREED**. The **choice of Potato as Base, seven-species roster, four Plant profiles and exact preferences/peak timings are PROPOSED**, not yet approved. If accepted, the next batch is **Apple, Pumpkin, Strawberry**, followed by a complete Ingredients numerical pass. The user may freely choose a different Base or species count without invalidating the approved star-graph rule. No fungi, final recipes or game code changed.
 
 
 ---
