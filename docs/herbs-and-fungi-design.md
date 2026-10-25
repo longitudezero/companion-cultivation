@@ -850,6 +850,45 @@ The latest **13-fungus roster** (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel
 All recipe time values, overlap handling, competing recipe priority, target identities, and source-attribution details remain open until the later mechanics pass. **No fungus requires a generic 'Transformation Influence' category or payload.**
 
 
+## 18. Fungus-roster design criteria — broad Effect coverage and player-created solutions
+
+**Agreed design direction, after the first 13-fungus review:** The roster must support a **broad range of meaningful cultivation Effects**. We should **combine multiple separately defined Effects into individual fungi wherever useful**, rather than introducing a separate fungus for every effect. A fungus's independent Effects need not share a thematic explanation; each Effect stays consistent in direction and identity across recipients as specified in §16.
+
+**The main design test is whether a fungal combination creates a puzzle for the player**, not merely a ready-made package of bonuses that always go together.
+
+### Distinct Effects that must not be conflated
+
+The Ripening/harvest system alone permits at least **five different candidate effects**:
+
+1. **Extend the favorable harvest window** by changing the output curve or peak width **without changing Ripening Rate**.
+2. **Slow Ripening**, extending elapsed time spent at each stage **without automatically expanding the progress-percentage harvest window**.
+3. **Add output through qualifying time-based exposure** during a specific Ripening interval; this requires the Plant's lifecycle to **continue advancing**, and ceases at 200%.
+4. **Accelerate Ripening**; distinct from accelerating Growth or changing the harvest curve.
+5. **Add a second bloom/second productive peak** within the same 0–200% lifecycle; this does **not** add a second harvest action and is not the same as gradual hourly bonus accumulation.
+
+Other candidate Effect dimensions should be reviewed across **Growth Rates, Seed Yield, Seed germination, non-Seed yield, Moisture, Temperature, and Illumination**, plus agreed overlays only if they prove worth retaining. Avoid assigning all interesting effects to only a narrow subset of these dimensions. This is an *effect coverage checklist*, not a commitment to one fungus or fixed quantity per effect.
+
+### Build productive tensions rather than automatically reinforcing packages
+
+- **Weak puzzle by default:** A fungus that enhances late-bloom production and also creates a second bloom is giving a Plant two benefits that usually point in the same direction, without necessarily requiring cultivation planning. This combination is not forbidden, but needs a compelling player decision beyond receiving both.
+- **Promising alternative (proposed, not yet locked as Echomorel's final Effects):** A fungus offers **late-bloom production improvement** **and** emits a **negative Thermal Influence** strong enough to contribute to Cold/Freezing in suitable circumstances.
+- A **Marigloom** that benefits from the late-bloom improvement but is harmed by Freezing would need **spatial management** to exploit the bonus without taking the temperature penalty.
+- A **suitably tolerant Desert Plant** could potentially benefit from both effects, **provided it actually progresses and has a harvest curve that can use the late-window effect**. Dormant Plants do not accumulate time-based bonuses merely by remaining Frozen; immunity/tolerance is not itself enough.
+- Player solutions might use **selective Blockers** that distinguish applicable emitted Kind/Mode tags, or an **independent warming Source** to offset the cooling. Both solutions must obey actual Source propagation, Adjacency, and final environmental resolution. A single indiscriminate blocker would not necessarily isolate the benefit from the cooling.
+- **Do not make "one benefit plus one harm" a mandatory template for every fungus.** Simple fungi, deliberate counters, mutually useful Effects, and synergies are allowed. A real decision can also come from fungally occupied hexes, range, incompatible nearby crops, setup cost, or harvest timing. What matters is giving the player trade-offs and **multiple viable approaches** instead of predetermining the solution.
+
+### How to evaluate the candidate roster
+
+1. First inventory all distinct candidate Effect types. **Do not prematurely cap the roster at 13 fungi**; that number is only the first sketch.
+2. Assign several **clear, separately described, directionally consistent Effects** to a fungus when that combination offers interesting play.
+3. Identify the **problem, constraint, or opportunity cost** the combination creates for different Plants and garden layouts.
+4. Test at least **two distinct useful Plant/family contexts** when practical, without arbitrary one-off new powers or reversing an Effect.
+5. Keep **Plant-defined Transformation recipes** separate. A fungus only contributes its ordinary Effects, environmental conditions, source presence, adjacency, or overlays, per §17.
+6. Leave exact stat percentages, thresholds, spread modes, and final fungus names open for a later balanced pass.
+
+**Echomorel review status:** Its original 'late-bloom bonus + second bloom' package deserves revisiting; the *late-bloom bonus + cooling* counterproposal is promising but **not yet agreed as Echomorel's final specification**. Decide during the roster review, and preserve a separate place in the Effect palette for second blooms rather than silently deleting the concept.
+
+
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
