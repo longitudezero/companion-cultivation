@@ -1750,9 +1750,9 @@ Daisydaze (Base)
 As for Aquatic and Woodlands, remaining numerical values (peak heights, total times beyond Base, germination chances, detailed Condition hazard time, and Effect multipliers) will be specified **for all Flowers together after every Plant has a complete profile**; no reason to conceal its defining natural peak positions during this first role pass. **All four profiles are APPROVED as the initial Plant identities**, and subject to revision after implementation/playtesting.
 
 
-## 30. Flowers — Lavendream / Lavendread / Poppycock / Dream Poppy (PROPOSED)
+## 30. Flowers — Lavendream / Lavendread / Poppycock / Dream Poppy (APPROVED first-pass profiles)
 
-**Status:** The user **approved** §29's Daisydaze, Charmomile, Daisyspell and Marigloom six-part profiles without requested changes. This is the next coherent **four-Plant first pass**, not yet approved. Preserve the established Flower graph and only define the Plant's own farming behavior, Seed identities, and numerical *shape* of its peak when useful. The complete initial Flowers duration/output/germination/Effect-compatibility balance comes after all Plants have profiles. Do **not** assign fungus identities, transformation recipes, or old superseded A/B/C/D Effects.
+**Status:** The user **approved** §29's Daisydaze, Charmomile, Daisyspell and Marigloom six-part profiles without requested changes. This four-Plant first pass was **approved by the user** without requested revisions. Preserve the established Flower graph and only define the Plant's own farming behavior, Seed identities, and numerical *shape* of its peak when useful. The complete initial Flowers duration/output/germination/Effect-compatibility balance comes after all Plants have profiles. Do **not** assign fungus identities, transformation recipes, or old superseded A/B/C/D Effects.
 
 ### Connection layout
 
@@ -1765,7 +1765,7 @@ Daisydaze ──> Poppycock ─────────────────�
 
 The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally distinct routes to the **same Plant species**; no new route-dependent attunement is proposed. All other Orchidemon/Rosewraith routes remain as established.
 
-### Lavendream — PROPOSED first-pass profile
+### Lavendream — APPROVED first-pass profile
 
 **Core identity:** The **forgiving, long-harvest-window Flower**; slow and easy to miss *in an overall time-budget sense*, but very hard to miss its profitable Leaf peak once it's ripening. Unlike Bramblewraith, Lavendream is **not** environmentally indestructible; its advantage is a naturally broad harvest curve.
 
@@ -1780,7 +1780,7 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 
 **Concrete shape choice:** The natural high Leaf plateau extends approximately **110–175%**, clearly distinguishing it from Bramblewraith by Flower-family role and without copying Bramblewraith's Mycelial tolerance. Its height and exact lifecycle days are assigned later in the Flowers numbers table.
 
-### Lavendread — PROPOSED first-pass profile
+### Lavendread — APPROVED first-pass profile
 
 **Core identity:** An **inferior Leaf crop but powerful Lavendream Seed producer**; the branch's reproductive engine, with a possible forward route into Dream Poppy. It is a trade-off, not a complete failure state like Bamboozled.
 
@@ -1795,7 +1795,7 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 
 **Concrete Seed identity:** Harvest Lavendread for **Lavendream Seeds**, not its own, ensuring its reproduction role is real rather than a generic Seed bonus.
 
-### Poppycock — PROPOSED first-pass profile
+### Poppycock — APPROVED first-pass profile
 
 **Core identity:** A readily accessible **self-Seeding Flowers specialist** with a low Leaf return, intended to feed a frequent **Poppycock → Dream Poppy** production route.
 
@@ -1810,7 +1810,7 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 
 **Concrete choice:** Poppycock produces **Poppycock Seeds**, with especially good success when planted. This makes it self-sustaining and distinct from Lavendread, whose Seed harvest feeds a different Plant.
 
-### Dream Poppy — PROPOSED first-pass profile
+### Dream Poppy — APPROVED first-pass profile
 
 **Core identity:** A **late-blooming, Leaf-producing destination with a useful Seed fallback**, reached via either Lavendread or Poppycock. Distinct from Marigloom: **Dream Poppy is not exceptionally slow** and has a more forgiving late Leaf window; Marigloom has extremely long Ripening and a narrower peak with extraordinary compatibility for Time-based Leaves.
 
@@ -1834,7 +1834,70 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 - **Marigloom distinction:** The approved profile has **170%**, *narrow 160–177%* peak, exceptionally slow Ripening and very strong future time-based Leaf compatibility; Dream Poppy has **180%**, broader **165–190%** and a modestly slow Ripening stage.
 - **Rosewraith distinction:** Multiple *intrinsic* natural Leaf peaks, to be specified in the final Flowers batch; none of the four Plants here acquires a second peak from fungus.
 - Exact total days, peak yields, Seed counts, chance percentages, effect compatibility multipliers, and specific continuous environmental exposure hours will be proposed during the complete Flowers numerical pass, as for earlier families. **The identities and peak positions above are concrete proposals**, not missing decisions; do not choose fungus identities or transformation recipes now.
-- These four profiles are **PROPOSED for review**, not approved yet. After approval the remaining two Flowers are **Rosewraith and Orchidemon**, then the whole-family numeric pass.
+- These four profiles are **APPROVED first-pass designs**. The remaining two Flowers are **Rosewraith and Orchidemon**, then the whole-family numeric pass.
+
+
+## 31. Flowers — Rosewraith and Orchidemon, final Plant-profile batch (PROPOSED for review)
+
+**Status:** The user explicitly **approved** §30's Lavendream, Lavendread, Poppycock and Dream Poppy profiles. This is the final Flowers **two-Plant first-pass batch**, covering **Rosewraith** and **Orchidemon**. Both have **two incoming transformation routes** in the established family graph. This pass defines their own six Plant characteristics and distinctive natural harvest curves. Their final lifecycle times, peak heights, Seed quantities, germination chances, fungal Effect compatibility multipliers and hazard thresholds belong to the **family-wide numerical pass after this batch is reviewed**. No fungus identities, old A/B/C/D assignments, or transformation recipes are locked.
+
+### Established last-stage graph connections
+
+~~~text
+Marigloom ────────────────┐
+                          ├──> Rosewraith
+Dream Poppy ──────────────┘
+
+Daisyspell ───────────────┐
+                          ├──> Orchidemon
+Lavendream ───────────────┘
+~~~
+
+The two incoming routes for each are **real routes into the same named species**, not origin-dependent species variants or separate attunements. Transformation retains existing Plant progress, so the final recipe feasibility pass must provide time to reach a valuable natural peak after either route.
+
+### Rosewraith — PROPOSED six-part first-pass profile
+
+**Established distinction:** Rosewraith has **two Leaf-production peaks inherently**, within *one* ordinary 0–200% lifecycle. They do **not** come from a fungus providing a now-discarded Secondary Bloom Effect, and only **one harvest** can be made from each Rosewraith Plant.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary-to-slow Growth** and **longer-than-average Ripening**. The long Ripening interval provides real time to make a choice between the two peaks rather than making both occur almost instantaneously; no extra stage or lifecycle counter. |
+| **Natural harvest** | **Two natural Leaf peaks:** a **moderate first peak at 115%** (productive around **105–125%**), a **clear low-output valley around 145–155%**, and a **stronger second peak at 180%** (productive around **170–190%**). The second peak has a greater raw Leaf maximum than the first, but waiting for it costs time and exposure to hazards. At 200% Rosewraith instead produces **a modest amount of Rosewraith Seeds (own species)**. Harvest at the first peak **or** the second peak **or** for Seeds; never more than one. |
+| **Germination** | **Rosewraith produces its own Seeds** with **moderately difficult germination**, allowing a Seed-grown Rosewraith crop after first access from Marigloom or Dream Poppy. The initial unlock still requires Transformation; no Rosewraith starter Seeds. Source route does **not** change Seed identity or create origin attunement. |
+| **Environment** | Prefers **Damp, Temperate-or-Cold, and Dim**; Lit is viable but reduces normal output, Warm somewhat less productive, Dry/Flooded unfavorable. **Hot and Freezing** harm and can eventually kill; prolonged **Mycelial** kills it. No innate Mycelial tolerance, extreme-temperature bonus, or dependence on a special new environmental overlay. |
+| **Farming purpose** | **Flexible but high-attention dual-bloom Leaf crop.** Gives the player a meaningful decision at two separate harvest opportunities with a valley of weak output between them, plus a late self-Seed alternative. Both Marigloom and Dream Poppy offer access, and Rosewraith can then be cultivated directly from its own Seeds if enough are reserved. The two peaks are *choices*, not two harvests or free cumulative Leaves. |
+| **Effect compatibility** | **Above-average response to ordinary Harvest Yield Adjustment**, boosting the height of **both existing peaks**; **strong response to Harvest Timing Shift and Harvest Window widening**, moving/reshaping both natural peaks but never adding a third peak. **Strong response to Time-based Leaf Production** when a future fungus's declared active window overlaps advancing late Ripening. Moderately strong response to **Ripening slowdown** because it can extend the real-world decision interval and support hourly yield without pausing progress entirely. Ordinary Seed Yield/Germination compatibility; fungus never emits Secondary Bloom. |
+
+**Specific shape choices:** First peak **115%**, second **180%**, low valley **145–155%**, different natural peak heights (late > early). These are explicit choices now, not merely a note that it has "two blooms." A future numeric curve pass must preserve the valley as a genuinely weaker harvest region, even if ordinary window-shaping Effects widen the existing peaks.
+
+**Interaction invariants:** Yield increases apply consistently to **both peaks**; Harvest Timing Shift moves the existing features in the emitter's consistent direction; Window Adjustment changes existing widths but doesn't fabricate output after 200%; a fungus providing Time-based Leaves adds output only within its own declared progress window while lifecycle progress is advancing. It **does not create the second natural peak**. Seed Yield can improve the Rosewraith Seeds it actually makes, without creating another Seed identity.
+
+### Orchidemon — PROPOSED six-part first-pass profile
+
+**Established distinction:** A prestigious **very-high-Leaf, entirely sterile Flower**, obtained by a demanding transformation combination through either **Daisyspell** or **Lavendream**. Its spectacular output is one single natural peak rather than Rosewraith's two smaller opportunities. It must be markedly more valuable at optimal harvest than ordinary Flowers; no tiny 2–5% specialist advantage.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary-to-slightly-long Growth** and **moderately long Ripening**. It is a premium endpoint worth investing in, but not another extremely slow Marigloom; normal progress continues and any Transformation retains the current percentage. |
+| **Natural harvest** | **One extremely tall, very narrow Leaf peak around 145% overall progress**, concentrated approximately **137–153%**. The natural Leaf peak will be among the highest in Flowers, far ahead of baseline Daisydaze, with negligible output far outside the peak. **Absolutely zero ordinary Seeds** at all percentages, including 200%, and no additional special harvest resource. |
+| **Germination** | No **Orchidemon Seeds** are available from Plants in this graph. New Orchidemon instances come through **Daisyspell → Orchidemon** or **Lavendream → Orchidemon**. Do not quietly add a germinable Orchidemon Seed line; its sterility helps make both transformation paths valuable. |
+| **Environment** | Prefers **Damp, Temperate-or-Warm, and Bright**. Lit is survivable but distinctly less productive, Dim/Dark suppress premium Leaf potential strongly; Dry/Flooded impair Growth/yield. **Hot is harmful** and not interchangeable with Warm. **Freezing and prolonged Mycelial** are hazardous and lethal. No additional bespoke lethal exposure like Mandrakadabra's 6-hour Mycelial threshold; the costly transformation, strict lighting and narrow peak already provide risks. |
+| **Farming purpose** | **Prestige high-output Leaf-only endpoint** requiring either a fast, timing-sensitive Daisyspell route or a slower, more forgiving Lavendream route. Powerful reward for arranging Bright and hitting the narrow harvest window, at the cost of obtaining new Plants through transformations because it cannot reproduce itself. |
+| **Effect compatibility** | **Very high response to ordinary Leaf Yield Adjustment while Bright**, with a substantial but lower response when merely Lit; **strong response to Harvest Window widening**, which is valuable given its naturally tiny peak window. Ordinary or slightly higher **Harvest Peak Timing Shift** and Lifecycle Rate response. **Seed Yield, Seed Timing, Time-based Seed Production, Germination for unattainable Seeds, and Produce–Seed Allocation all ineligible to generate Seeds**; full Leaf sterility trade-off is preserved. Time-based Leaf Production applies only if some future fungus emits it and the Plant continues advancing. |
+
+**Specific shape choice:** Its **single natural peak is 145%**, mainly **137–153%**, much narrower than Lavendream's **110–175%** plateau, with a much greater maximum. Precise maximum number belongs to the Flowers family-wide numerical table. Source-route feasibility must ensure Daisyspell can be transformed into Orchidemon without automatically passing this optimum; no fungus's "Transformation Effect" will exist.
+
+### Comparative identity and final Flowers state
+
+| Species | Native Leaf harvest opportunity | Distinguishing trait | Ordinary Seed identity |
+| --- | --- | --- | --- |
+| Rosewraith | **115% and 180%**, low valley between | **Two innate peaks; one harvest choice** | **Rosewraith (own Seeds)**, modest |
+| Orchidemon | **145%**, very narrow | **Exceptionally high single Leaf peak; sterile** | **None** |
+
+- Both **Rosewraith** and **Orchidemon** have two established incoming graph routes. These are not fungal recipes, and neither final Plant receives route-dependent attunement.
+- Rosewraith has **two naturally existing peaks**. Fungal Harvest Yield adjustments can multiply *both*; no Secondary Bloom Effect is introduced.
+- Orchidemon must remain an **extremely valuable but Seeds-sterile endpoint**. Harvesting at 200% does not yield Seeds and neither an emitted Seed Yield Effect nor allocation generates them from zero.
+- All **ten Flowers species** now have **first-pass six-part proposals**, pending the user's approval of this final pair. Then assign a bold first-pass **full-family numerical table**, per-Seed germination chances, core/advanced Effect compatibility multipliers, and explicit environmental penalties/exposure thresholds, as completed for Woodlands and Aquatic. **Do not implement code** yet; eventual playtesting with testers will guide adjustments.
 
 
 ---
