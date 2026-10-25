@@ -3458,6 +3458,47 @@ Similarly, a premium Hot Cactaclysm must combine Emberbolete Warming with anothe
 **Next workflow:** Review/revise the four §45/§46 proposed Fungus bundles against the new AGREED rules before declaring them approved; then take further fungal batches in order, the full Fungi numbers, and **afterwards** a separate full Plant-owned Transformation pass covering all six Families, competing conditions, timing and feasibility. No coding.
 
 
+## 47. Fungi — proposal: one dedicated Mycelial-only fungus (FOR REVIEW)
+
+**Status:** The user suggested: "maybe we start with only one fungus that is capable of creating mycelial ground and it does nothing else?" This is a **PROMISING NEW PROPOSAL**, not yet explicitly approved. Treat this as the leading first-pass Mycelial strategy while assessing the remainder of the fungus roster. Do not silently call the earlier "every fungus starts with both environmental and Plant-development Effects" rule abandoned: this would be **one explicit exception**, consistent with §46's agreed freedom to remove a forced unnecessary Effect. It also does not invent another generic environmental Property or use Mycelial as an innate beneficial Plant habitat.
+
+### Proposed candidate: Mycelord — single-purpose Mycelial engineer
+
+| Property | First-pass proposal |
+| --- | --- |
+| **Fungus species** | **Mycelord**, existing candidate name; name not yet finally locked |
+| **Fungus Source output** | **Creates/maintains Mycelial overlay**, with previously proposed timed adjacent spread beyond direct Source reach; does NOT emit a Temperature, Moisture, Illumination or Fertility Modifier |
+| **Direct cultivation Effects** | **NONE**: no Growth/Ripening Rate, Leaf/Seed Yield, Germination, Window/Timing, hourly Production or Allocation effects |
+| **Other environmental or overlay Effects** | **NONE** other than Mycelial creation/maintenance |
+| **Fungal habitat** | **Mycelial-independent**: can germinate, survive and emit when its own hex is not already Mycelial, solving the bootstrap problem |
+| **Growth and Sporulation** | Normal approved **0–100% Growth / 100–200% Sporulation**, emitting immediately after germination and continuing after 200% while viable |
+| **Spore reproduction** | **Produces its OWN Mycelord Spores only**, destructive harvest that removes the Source; full Spore quantity/timing/germination and lifecycle days decided in fungus numerical pass |
+| **Role** | Dedicated source of hazardous-but-useful **fungal habitat infrastructure**, allowing separately designed Mycelial-preferring or Mycelial-dependent fungi to be situated without adding an automatic Plant Yield bonus |
+
+**"Only one" means only one Mycelial-producing FUNGUS SPECIES in the INITIAL roster, NOT a worldwide limit of one Mycelord Instance.** Players may plant multiple Mycelords if they invest the hex space and Spores. Under this proposal **no other fungus makes Mycelial ground**, but many independent or Mycelial-benefiting fungus types can still be placed there. This is an initial design simplification, not a prohibition against future balance-driven changes.
+
+### Why an Effect-template exception is justified
+
+§46's agreed working procedure is **first try one environmental Influence plus one Plant-development Effect**, allow 2–3 independently consistent Effects if useful, then remove anything creating a self-contained answer or pointless management. **Mycelord is intentionally EXEMPT** because generating a spreading **persistent overlay that is dangerous to Plants** is already a major environmental ability and gameplay role. Adding a token Plant bonus would package habitat construction and optimized cultivation into a single convenient object instead of requiring players to combine it with separate fungus Sources. Mycelord's Mycelial emission is an **overlay creation behavior**, not a standard +1 environmental Property Modifier, so it must be reconciled with the pending Mycelial propagation implementation before coding.
+
+### Critical risks to address during later balance/feasibility
+
+1. **Mycelord as an obligatory tax:** If almost every good fungus needs Mycelial, the player would have to plant Mycelord in almost every effective layout. Avoid by keeping **most fungi Mycelial-independent**, some **Mycelial-preferring with modest stronger outgoing cultivation Effects**, and only a **selected minority Mycelial-dependent**, unless later testing justifies changing those ratios.
+2. **Source/colony continuity:** The initial §7 concept is that Mycelial spreading colonies are **Source-dependent**, with **expansion stopping when Mycelord is removed** and lingering Mycelial retreating after some time, not disappearing instantly. Its harvesting for Spores therefore trades ongoing colony infrastructure against propagation of more Mycelord Instances. Avoid creating a bootstrap trap with excessive costs or an impossible need for pre-existing Mycelial; the first Mycelord must operate without it.
+3. **Severe one-point dependency:** A Mycelial-dependent fungus can stop operating if its underlying Mycelial disappears when its supporting Mycelord is harvested. Multiple Sources, overlapping colonies, strategic replacement and careful planning can make this playable, but exact overlapping-source and retreat rules are deferred. Keep the ability to revise propagation/retreat rather than prematurely defining universal hardness.
+4. **Fungus-placement versus Plant-safety geometry:** Mycelial harms Plants natively. The point is to **place fungal infrastructure ON Mycelial** while allowing its cultivation Influence to reach **Plants OFF Mycelial**, using the existing Source/Blocker architecture; the target Plant should not automatically have to be colonized. If propagation creates no feasible safe boundary, adjust Mycelial spread or eligible fungal ranges later.
+5. **Balance its ability through infrastructure economics** (Source occupation, Spore supply, 0–200% time, expansion/retreat, Plant exposure) rather than artificially giving it a direct bonus or mandatory Temperature/Moisture/Light preferences.
+
+### Open choices, NOT yet assigned
+
+- Mycelial initiation hex eligibility, exact expansion time per neighboring hex, whether blocked edges/hexes stop fungal-colony expansion, how overlapping Mycelord colonies are attributed, retreat delays/ordering, and behavior when the Source is not harvest-removed but suppressed.
+- Whether Mycelord emits from its own hex **as the initial colonization anchor** or colonizes specified nearby hexes before cascade. The source-hex-as-origin model is a simple default proposal, but actual mechanics need a later environmental overlay reconciliation.
+- Precise Spore collection curve, fungal stage durations, per-Spore germination probabilities and Mycelial-dependent Influence magnitude changes. These are fungus quantitative balance, not final recipes.
+- This proposal must be weighed against the **dedicated later Transformation pass**: Mycelord may eventually satisfy a Plant-owned "receiving Mycelial overlay/adjacency" requirement, but **no recipe is fixed now**.
+
+**Review status:** The user has **AGREED** the overarching fungal lifecycle, Spores, default Effect-pair-but-prune method, anti-self-synergy, simpler fungal Mycelial habitat model and separate later transformations (§46). **Mycelord as the sole Mycelial-creator and with NO other emitted Effects is currently a new PROPOSAL awaiting agreement**, and the individual first fungal batch in §§45–46 remains unapproved. No code or final transformation recipe changed.
+
+
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
