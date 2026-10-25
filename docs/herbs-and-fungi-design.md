@@ -1474,7 +1474,7 @@ The user already established that **draining during Ripening** selects the Starl
 - All four Lotus profiles are **APPROVED for the first Plant-design pass** (user endorsed them without changes). Fine tuning still belongs to the numerical balance and later playtest passes.
 
 
-## 27. Aquatic Plant profiles — Cress branch (PROPOSED for review)
+## 27. Aquatic Plant profiles — Cress branch (APPROVED first-pass profiles)
 
 **Status:** The user approved the Lotus four (§26), including **sterile Starlotus**, reversible **+60% attuned Leaf bonus**, and Pearlily's dual route. This third Aquatic batch covers **Wild Watercress**, **Silvercress**, and **Cresscent**. The existing **Woodlands-style six profile areas** are followed. No named fungus or exact fungal Transformation recipe is assigned.
 
@@ -1488,7 +1488,7 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 
 **Established core:** Silvercress is **easy to obtain** but rewards **Flooded during Growth** and **Damp during Ripening**, with *no extra penalty* if either stage bonus is missed. Cresscent **reproduces itself** with **unusually good Seed germination**, but a Plant instance must be *harvested for Seeds OR transformed into Pearlily*, never both.
 
-### Wild Watercress — PROPOSED first-pass profile
+### Wild Watercress — APPROVED first-pass profile
 
 | Category | Concrete first-pass direction |
 | --- | --- |
@@ -1501,7 +1501,7 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 
 **Chosen Seed identity:** Wild Watercress Seeds (its own); not Aquatic Base Seeds. Maintains a simple, direct branch sustain loop.
 
-### Silvercress — PROPOSED first-pass profile
+### Silvercress — APPROVED first-pass profile
 
 | Category | Concrete first-pass direction |
 | --- | --- |
@@ -1514,7 +1514,7 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 
 **Precise trait choices:** **+60% intrinsic Growth Rate in Flooded** *while Growing*; **+50% intrinsic Leaf Yield in Damp** *while Ripening*. Two separate species traits, **not fungus Effects** and **not transformation rules**. Neither benefit carries a punishment for failing to satisfy its condition; returning to the qualifying state restores the relevant benefit. The exact fungal *compatibility multipliers* will be assigned in the whole Aquatic numbers table. **No necessary environmental transition is checked by the Plant to receive either bonus**.
 
-### Cresscent — PROPOSED first-pass profile
+### Cresscent — APPROVED first-pass profile
 
 | Category | Concrete first-pass direction |
 | --- | --- |
@@ -1533,7 +1533,135 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 - **Silvercress** is a **nonpunitive Flooded-Growth/Damp-Ripening optimization challenge**, with explicitly proposed **+60% Growth speed** and **+50% Leaf Yield** innate bonuses and its own moderately reliable Seeds.
 - **Cresscent** is a **high-germination Seed multiplier** with explicitly proposed **40% chance per Seed / 3 Seeds guaranteed** and its own Seeds, supporting the **Cresscent → Pearlily** shorter route.
 
-No new fungal roster, emission, Transformation Effect, stage, or permanent origin variant is added here. The three profiles are **PROPOSED**, not yet user-approved. After approval, the **whole Aquatic family numerical pass** should apply the agreed bold **10-unit, 4–8-day baseline**, and supply all Leaf/Seed peaks, total lifecycle durations, germination values for available Seeds, conditional Effect-compatibility matrices, and any environment-hazard numbers required for consistency. As with Woodlands, real playtesting happens once the design is implemented, not during this text-only pass.
+No new fungal roster, emission, Transformation Effect, stage, or permanent origin variant is added here. The user **APPROVED all three Cress profiles**, including **Silvercress +60% intrinsic Growth rate during Flooded Growth / +50% Leaf Yield during Damp Ripening** and **Cresscent 40 percentage points of germination per Seed**. The whole Aquatic family numerical balance proposal is recorded in §28. Real playtesting follows implementation.
+
+
+## 28. Aquatic numerical pass — proposed lifecycle, harvest, germination, Effect compatibility and hazard responses
+
+**Status:** User approved all **11 Aquatic six-part profiles** (§25–27) and requested this **full numerical pass**. The following are **explicit first-pass numeric proposals requiring review**, not yet approved. Follow the approved Woodlands approach: nominal **10 Leaves near 100%, 10 Seeds near 200%, 4 in-game days to 100%, and 8 total days to 200%** for an ordinary Plant. Favor bold differences that make valuable specialists feel valuable, with a real tester playtest/balance revision pass after implementation. **No fungus identities, effect packages, or exact transformation recipes are being chosen now.**
+
+### A. Natural lifecycle and harvest
+
+**Interpretation:** Values apply to a Seed-grown Plant beginning at 0%, in its usual viable/optimal habitat, without an assigned fungus and **before innate conditional species traits**. If a Plant is reached by Transformation, it **keeps lifecycle progress**, so the listed days describe innate full-stage rates rather than a reset to 0%. "Days to 200%" is the total time including Growth and Ripening. Leaf maxima and Seeds at 200% are two alternative harvest outcomes because **one harvest consumes the Plant**. Exact interpolation between identified anchor points remains an implementation detail, not another Plant feature.
+
+| Species | Days 0–100% | Days 0–200% total | Natural peak Leaves (progress) | Seeds at 200% | Harvest Seed identity |
+| --- | ---: | ---: | --- | ---: | --- |
+| Aquatic Base (unnamed) | **4.0** | **8.0** | **10 at 100%** | **10** | Aquatic Base |
+| Kelpfull | **3.0** | **7.0** | **6 at 105%** | **20** | Aquatic Base |
+| Kelpergeist | **5.0** | **9.0** | **22 at 150%** | **5** | Kelpergeist |
+| Kelpless | **5.5** | **10.0** | **3 at 115%** | **3** | Aquatic Base |
+| Sunken Lotus | **4.5** | **8.5** | **11 at 125%** | **10** | Sunken Lotus |
+| Moonlit Lotus | **4.0** | **9.0** | **15 at 140%** | **8** | Moonlit Lotus |
+| Starlotus | **5.5** | **9.5** | **25 at 150%** | **0** | None (sterile) |
+| Pearlily | **3.5** | **7.5** | **14 on broad 115–170% plateau** | **10** | Pearlily |
+| Wild Watercress | **3.5** | **7.5** | **11 at 120%** | **11** | Wild Watercress |
+| Silvercress | **4.0** | **8.0** | **16 at 140%** | **8** | Silvercress |
+| Cresscent | **3.5** | **7.5** | **6 at 110%** | **18** | Cresscent |
+
+**Locked profile traits honored in this numeric proposal:**
+
+- **Starlotus:** its natural 25-Leaf peak becomes **40 Leaves** when the persisted origin-set Moisture matches the current Moisture (**25 × 1.60**). The two origins remain **Moonlit Lotus → Damp-attuned** and **Kelpergeist → Flooded-attuned**. The matching bonus disappears on a mismatch and is restored when the original Moisture returns; mismatching does not independently kill it. It produces no Seeds.
+- **Silvercress:** **+60% native Growth rate while Flooded in 0–100%**, so its unmodified 4-day Growth stage takes **4 ÷ 1.60 = 2.5 days** if entirely Flooded; then when **Damp in 100–200%**, its 16-Leaf peak becomes **24 Leaves** (**16 × 1.50**). Both intrinsic bonuses are independently conditional; there is **no added punishment** for missing either. An ideal Flooded-Growth/Damp-Ripening 0–200% Silvercress lifecycle takes **6.5 days** rather than 8 before fungal Effects.
+- **Cresscent:** its 18 Cresscent Seeds are specifically **self-Seeds**; if the Plant is instead transformed to Pearlily, it cannot also harvest those Seeds.
+- **Kelpfull** makes Aquatic Base Seeds, **Kelpless** salvages Aquatic Base Seeds, Starlotus remains sterile. Both Moonlit Lotus and Cresscent lead to Pearlily but no hidden origin variants for Pearlily.
+
+### B. Germination — exact first-pass Seed species values
+
+**Same formula as approved Woodlands:** for a Seed species with single-Seed chance \(p\), committing \(n\) Seeds to a slot yields **min(100%, n × p)** germination success. All committed Seeds are consumed on attempt regardless of success. Germination compatibility of fungal Germination Adjustment modifies the *probability contribution per Seed* before cap, using that fungus's signed strength; the normal direction remains unchanged. **Germination is a characteristic of the species planted**, not a characteristic of the Seed-producing parent Plant. No Seed source means this Seed is presently unavailable, **not an assertion that a biological Seed can never germinate**.
+
+| Species to plant | Chance per Seed | Minimum Seeds for 100% | Current Seed source |
+| --- | ---: | ---: | --- |
+| Aquatic Base | **28%** | **4** | Own, Kelpfull, Kelpless |
+| Kelpfull | — | — | None; via Aquatic Base Transformation |
+| Kelpergeist | **15%** | **7** | Own |
+| Kelpless | — | — | None; via Transformation |
+| Sunken Lotus | **22%** | **5** | Own |
+| Moonlit Lotus | **18%** | **6** | Own |
+| Starlotus | — | — | None; via Moonlit Lotus / Kelpergeist Transformation |
+| Pearlily | **26%** | **4** | Own |
+| Wild Watercress | **30%** | **4** | Own |
+| Silvercress | **24%** | **5** | Own |
+| Cresscent | **40%** | **3** | Own |
+
+The previously approved **40% Cresscent chance** is preserved exactly. A Plant producing Seeds of another species follows that receiving species's numbers.
+
+### C. Numeric Effect compatibility — main catalogue
+
+**Reading tables:** Every multiplier scales the **magnitude of the fungal Effect's change, not the entire final harvest or time**. The future fungus's own Effect identity and strength remain constant; Plant condition determines only response intensity. **1× ordinary**, **2× twice the emitted change**, **0× ineligible/no response**. Direction never reverses. Signed slowdowns can be *more adverse* on highly susceptible Plants; strengths are not guaranteed benefits. A slash means ordinary multiplier / special multiplier when the listed condition is met; conditions are evaluated on the receiving Plant's resolved environmental states or persisted attunement. Environmental Influence arithmetic (Moisture/Temperature/Illumination) remains globally consistent and is never multiplied by these compatibility tables.
+
+| Plant | Growth Rate | Ripening Rate | Leaf Yield | Seed Yield | Germination |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Aquatic Base | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Kelpfull | 1.3× | 1.2× | 0.7× | **1.7× / 2.5× when Flooded** | N/A |
+| Kelpergeist | 0.9× | 1.1× | **1.2× / 2.2× when Dark and Flooded** | 0.7× | 0.8× |
+| Kelpless | 0.7× | 0.8× | 0.5× | 0.5× | N/A |
+| Sunken Lotus | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Moonlit Lotus | 1.0× | **1.0× / 1.7× for Ripening *slowdown* while Flooded** | 1.1× | **1.0× / 1.7× when Flooded** | 1.0× |
+| Starlotus | 0.9× | 1.0× | **1.2× / 2.2× when matching attunement** | 0× | N/A |
+| Pearlily | 1.1× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Wild Watercress | 1.1× | 1.0× | 1.0× | 1.0× | 1.1× |
+| Silvercress | **1.0× / 2.0× when Flooded during Growth** | 1.0× | **1.0× / 2.0× when Damp during Ripening** | 0.9× | 1.0× |
+| Cresscent | 1.1× | 1.0× | 0.7× | **1.7× / 2.4× when Damp** | **1.5× / 2.0× when Damp** |
+
+For **Moonlit Lotus**, the unusual 1.7× bonus applies **only to the already-established Ripening Slowdown Effect** while Flooded, **not** to a fungus emitting Ripening acceleration; the latter remains 1.0×. Both effects retain their fixed directions. This is a documented conditional compatibility, **not a reversal**.
+
+**Stacking example:** Silvercress already has innate **1.60× Growth Rate** when Flooded. If a hypothetical fungus has **+20% Growth acceleration**, Silvercress's **2.0× compatible response** turns that into **+40%**. Under a proposed **independent multiplicative** composition of native habitat and fungal rate factors, its 4-day Growth takes **4 ÷ (1.60 × 1.40) ≈ 1.79 days** (about 43 hours). This is an *illustration of intended high-end pace*, not an assigned fungus. The exact composition/stacking implementation can be tested later, but don't silently count innate +60% and fungal +40% as the same effect.
+
+### D. Advanced harvest and Seed Effect compatibility
+
+| Plant | Harvest Window width | Leaf Peak Timing Shift | Seed Timing Shift | Time-based Production | Leaf–Seed Allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Aquatic Base | 1.0× | 1.0× | 1.0× | 1.0× Leaves / 1.0× Seeds | 1.0× |
+| Kelpfull | 0.8× | 1.0× | 1.3× | 0.6× Leaves / **1.6× Seeds** | 1.4× |
+| Kelpergeist | 1.1× | 1.3× | 0.8× | **1.5× Leaves** / 0.6× Seeds | 0.8× |
+| Kelpless | 0.8× | 1.0× | 0.8× | 0.5× Leaves / 0.5× Seeds | 0.6× |
+| Sunken Lotus | 1.0× | 1.0× | **1.0× / 1.3× while Flooded** | 1.0× Leaves / 1.0× Seeds | 1.0× |
+| Moonlit Lotus | 1.2× | 1.1× | 1.1× | 1.0× Leaves / **1.3× Seeds** | 1.0× |
+| Starlotus | 1.0× | **1.4× / 2.0× when matching attunement** | **0×** | **1.8× Leaves / 0× Seeds** | **0×** |
+| Pearlily | **1.5×** | 0.8× | 1.0× | 0.9× Leaves / 1.0× Seeds | 1.0× |
+| Wild Watercress | 1.0× | 1.0× | 1.0× | 1.0× Leaves / 1.0× Seeds | 1.0× |
+| Silvercress | 1.2× | 1.1× | 1.0× | 1.2× Leaves / 0.8× Seeds | 1.0× |
+| Cresscent | 0.8× | 1.0× | **1.4×** | 0.6× Leaves / **1.8× Seeds** | 1.5× |
+
+**Time-based Production** remains an explicit Effect emitted by a future fungus, never an automatic power granted by this table; it accumulates only while actual Growth/Ripening advances inside the fungus's stated active window, never after 200% or during full dormancy. If a particular fungus emits only Leaves/hour, the Seed-side entry does nothing. **Zero ordinary Seeds from sterile Starlotus** remains inviolable under Seed boosts, time-based output and allocation.
+
+**Harvest Window** means changing the *width* of the existing natural yield curve without creating a second bloom. **Timing Shift** means changing when a peak occurs, not how much it produces. **Leaf–Seed Allocation** redistributes output in the emitter's defined direction; it does not change Seed identity, clone a Seed output that doesn't exist, or allow a second harvest.
+
+### E. Primary Moisture Responses and exposure hazards — concrete optional balance numbers
+
+The profiles already specify **which Moisture states are favorable**. The following compact first-pass numbers make those relationships measurable, pending the same user review as the other tables. These describe a Plant's **innate environment response**, separate from emitted fungal Effect compatibility. **The fungal/environmental Source arithmetic is never scaled per Plant.**
+
+- **Damp/Flooded values** in this paragraph are relative Crop Growth and normal yields; where a row favors one state, the other is typically **0.65×–0.90×**. Where both are equally viable (Pearlily, Silvercress, Starlotus before attunement), both are **1.0×**, ignoring their separate species-specific bonuses.
+- **Dry response proposal** below specifies a rate factor and output factor simultaneously. A **0× Growth factor** suspends lifecycle progress; it does not waive adverse exposure time, and therefore Dry can kill after its continuous threshold. Dry thresholds reset when Moisture stops being Dry.
+
+| Plant | Damp baseline vs Flooded (Growth / ordinary yield) | While Dry (Growth / ordinary yield) | Continuous Dry until death | Continuous Mycelial until death |
+| --- | --- | --- | ---: | ---: |
+| Aquatic Base | Damp 1.0×; Flooded 0.9× | 0.5× / 0.5× | 72 h | 48 h |
+| Kelpfull | Flooded 1.0×; Damp 0.65× | **0×** / 0.25× | 48 h | 36 h |
+| Kelpergeist | Flooded 1.0×; Damp 0.60× | **0×** / 0.20× | 72 h | 36 h |
+| Kelpless | Damp 1.0×; Flooded 0.85× | 0.4× / 0.4× | 72 h | 48 h |
+| Sunken Lotus | Flooded 1.0×; Damp 0.70× | **0×** / 0.25× | 48 h | 48 h |
+| Moonlit Lotus | Flooded 1.0×; Damp 0.70× | **0×** / 0.25× | 48 h | 36 h |
+| Starlotus | Damp & Flooded **1.0× base**, plus conditional attunement | 0.2× / 0.2× | 48 h | **24 h** |
+| Pearlily | Damp & Flooded **1.0×** | 0.5× / 0.5× | **96 h** | **72 h** |
+| Wild Watercress | Damp 1.0×; Flooded 0.85× | 0.35× / 0.35× | 72 h | 48 h |
+| Silvercress | Damp & Flooded **1.0× base**, plus stage-specific bonuses | 0.4× / 0.4× | 72 h | 48 h |
+| Cresscent | Damp 1.0×; Flooded **1.0× Growth / 0.85× Seed output** | 0.35× / 0.35× | 72 h | 48 h |
+
+**Important precedence:**
+- Starlotus's **+60%** is conditional **Leaf Yield** while *current* Moisture matches *stored* attunement; losing that state alone does not trigger death or erase stored attunement.
+- Silvercress gets **+60% Growth Rate** during Flooded Growth and **+50% Leaf Yield** during Damp Ripening. Nonpreferred viable Moisture does not impose a **separate loss penalty beyond missing the stated bonus**.
+- Kelpergeist also has an **established Transform-to-Kelpless route from sustained loss of Flooded**. **Do not assign that Transformation duration in this numeric table**: the exact Plant-owned route, priority, presence of other required conditions, and continuity rule are Phase 3 work. The Dry hazard timer and a transformation timer are independent conditions; future recipe tuning must ensure the rescue/wrong-turn opportunity actually functions.
+- For **Hot and Freezing**, none of these 11 Aquatic species has a beneficial exception. As a simple first-pass family response, each imposes **0.5× lifecycle rate and 0.5× ordinary yields**, followed by death after **72 uninterrupted hours** at that extreme. Individual Woodlands' much shorter 6-hour Mandrakadabra Mycelial weakness is a separate Plant-specific rule and is not revised here.
+- Other existing Cold/Warm, Dim/Lit/Bright responses remain as described in the approved species profiles, with small ordinary penalties. **All Aquatic Plants dislike Dry, and Mycelial is never beneficial.** Exposure reset mechanics and hazard handling need playtesting; these numbers are intentionally assertive proposals rather than an engine implementation.
+- **Hazard time** advances with actual time in the harmful condition even if lifecycle progress is fully suspended; no time-based production occurs while suspended. Apply lethal thresholds to actual environmental states, not raw source strength. For continuous Mycelial exposure, timer resets only when the overlay actually disappears from the Plant's hex (not simply when the emitting fungus is removed).
+
+### Testing, decisions, and no premature fungus assignments
+
+- This section has **all numeric fields needed for the Aquatic first balance proposal**; the user prefers making decisions that can be corrected after testing, not postponing a species' distinctive mechanic until fungus design.
+- Intrinsic Starlotus +60%, Silvercress +60%/+50%, and Cresscent 40%/Seed remain part of the user-approved qualitative profiles, **not unapproved novelty invented by this table**.
+- The **new** lifecycle, harvest, Seed-germination (other than Cresscent), compatibility and hazard numbers are *proposed pending approval*. They are intended to be bold and mechanically distinct.
+- As for Woodlands, **do not design or implement fungi or Transformation recipes here**. First finish Plant profiles/numbers across all families, then a fungus roster, then decide fungus-supported Plant-owned transformations, adjust fungi and Plants, and conduct an actual player **playtest and balancing pass** afterward. No code changes were requested or made.
 
 
 ---
