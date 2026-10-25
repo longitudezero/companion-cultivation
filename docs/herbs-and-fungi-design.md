@@ -1900,9 +1900,9 @@ The two incoming routes for each are **real routes into the same named species**
 - All **ten Flowers species** now have **APPROVED first-pass six-part profiles**. The user approved this final pair, including Rosewraith's **two innate peaks** and its **own Seeds**, and Orchidemon's **very high single peak / absolute sterility**. A bold proposed first-pass numerical pass follows in §32. **Do not implement code** yet; eventual playtesting with testers will guide adjustments.
 
 
-## 32. Flowers — full-family numerical pass (PROPOSED for review)
+## 32. Flowers — full-family numerical pass (APPROVED first-pass balance)
 
-**Status:** The user **approved all ten Flowers six-part profiles** (§29–31), including Rosewraith and Orchidemon, and asked for the **full numerical pass**. The complete values below are **bold first-pass proposals, not yet user-approved**, with the same game-wide benchmark as approved Woodlands/Aquatic (approximately 10 Leaves, 10 Seeds, 4 in-game days to 100%, 8 in-game days total to 200%). The game will have an actual playtest pass with testers after implementation; **err toward dramatic differentiation now** and revise findings afterward. Do not name fungi, assign their Effect packages, implement code, or invent Transformation Effects.
+**Status:** The user **approved all ten Flowers six-part profiles** (§29–31), including Rosewraith and Orchidemon, and asked for the **full numerical pass**. The user **approved the complete numeric pass** below as the accepted **first-pass Flowers balance** (subject to eventual playtesting), with the same game-wide benchmark as approved Woodlands/Aquatic (approximately 10 Leaves, 10 Seeds, 4 in-game days to 100%, 8 in-game days total to 200%). The game will have an actual playtest pass with testers after implementation; **err toward dramatic differentiation now** and revise findings afterward. Do not name fungi, assign their Effect packages, implement code, or invent Transformation Effects.
 
 ### A. Flowers lifecycle and harvest table
 
@@ -2045,7 +2045,104 @@ Flowers have **no shared innate special tolerance or preference for Mycelial**. 
 - **Rosewraith is a two-peak Plant, not a two-harvest Plant.** Single harvest collects what is available *at that time*, including Seeds if the curve already provides them. "Harvest Leaves vs Harvest Seeds" is a strategic timing choice, not an item-type lockout.
 - **Sustained Leaves per occupied hex-day** (including Seed production, failed germination, failed transformations, fungal occupancy, and narrow-window harvest failures) matter more than raw 55 vs 38 vs 34. In particular, **Daisyspell's fast 24-Leaf 75% peak** may beat Orchidemon's higher one-time yield for throughput if the transformation chain is easy; keep both distinct by acquisition/precision/setup.
 - **Don't cap or tame the interesting extremes yet.** Tester playtests after implementation are the planned place to adjust overly strong production or overpunishing windows. Round fractional Seeds/Leaves consistently once implementation is being designed; no rounding rule is quietly asserted here.
-- **Status:** All previous Flower profiles are approved; all §32 **numeric values are currently PROPOSED pending user review**. No code, fungi, or recipes changed.
+- **Status:** All ten Flowers profiles and the full §32 numerical pass are **APPROVED as initial balancing values** (including per-Seed germination, all Effect compatibility matrices, Leaf/Seed output, timing and continuous hazard thresholds). Values may change after eventual tester playtests. No code, fungi, or transformation recipes were changed.
+
+
+## 33. Desert — first Plant-profile batch, Hot exposure/recovery line (PROPOSED for review)
+
+**Status:** The user **approved all §32 Flowers numerical first-pass values** and asked to begin **Desert**. Desert's existing network and intent in §14 are accepted. This is a **new, unapproved batch of six-part Plant profiles** covering **Jadeheart, Ember Aloe, Aloemancer, and Ashen Rose**; the next batches will cover Sandrose and the Moonjade and Cactopus branches. As in Woodlands, Aquatic and Flowers, start by defining the Plants, then propose a complete Desert numerical pass; fungi and final Plant-owned transformation recipes follow only later. Prefer bold differentiation now and gameplay-tested balancing after eventual implementation.
+
+### Established network excerpt
+
+~~~text
+Jadeheart (Base) ──┬──> Ember Aloe ──┬──> Aloemancer ───> Mirage Rose
+                   │                └──> Ashen Rose ───> Sandrose ───> Cactopus
+                   ├──> Moonjade ──────────────────────> [Freezing branch]
+                   └──> Cactopus ──────────────────────> [Hot branch]
+~~~
+
+**Established puzzle:** Ember Aloe **endures sufficient Hot stress and is then recovered** to become Aloemancer; a **recovery attempt made too early** instead produces Ashen Rose. **Cooling Ember Aloe by itself does not automatically produce Ashen Rose**. The qualifying recovery Source/fungus conditions are deferred to the Plant-owned Transformation recipe pass; no fungus emits a generic Transformation Effect. The 36-hour exposure criterion below is proposed as an intrinsic Plant-specific qualification **now**, not a named fungus assignment.
+
+### Jadeheart — PROPOSED six-part profile
+
+**Core identity:** Straightforward, reliable Desert Base Plant; gateway to Hot Ember Aloe, Freezing Moonjade, and the accessible Cactopus route. **Do not burden the Base with a novel stress puzzle.**
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary 4-day Growth and 4-day Ripening** (8 total), matching the 10-unit game-wide reference. No Dormancy in its preferred habitat. |
+| **Natural harvest** | **10 Leaves around 100%** and **10 Jadeheart Seeds at 200%**, with a forgiving ordinary early/middle harvest curve and no second peak. Own Seeds. |
+| **Germination** | **Reliable, ordinary** additive per-Seed germination; Jadeheart Seeds are available at the start as the Desert Base. Exact one-Seed chance will be assigned alongside other Desert Seeds in the family numerical pass. |
+| **Environment** | Prefers **Damp, Temperate or Warm, and Lit**; **Dry** is survivable with reduced Growth and output (not an instant death), **Flooded** significantly suppresses both. **Hot and Freezing** are genuine hazards to Jadeheart, never bonuses; prolonged Mycelial is hazardous/lethal. Material **Sand can be usable** but gives no special mandatory benefit because the Material system is still under review. |
+| **Farming purpose** | **Dependable baseline and starter Seed loop** for experimenting with Desert temperature routes. It is not itself a Heat or Frost specialist. |
+| **Effect compatibility** | Baseline **1.0×** magnitude for normal fungal Growth, Ripening, Leaf/Seed Yield, timing/window, germination, time-based production and Leaf–Seed allocation Effects. All environmental Source contributions remain global, not Plant-scaled. |
+
+### Ember Aloe — PROPOSED six-part profile
+
+**Core identity:** A real **Hot-loving productive Plant**, with a high-stakes future **endure-Heat-then-recover** option. It is useful in its own right, even if the farmer decides not to transform it.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Average-to-slightly-fast Growth** and ordinary Ripening when thriving in Hot conditions. As a first-pass innate rule, **Hot increases its natural Growth rate by +30%**; Warm Growth remains functional and ordinary. No Dormancy in Hot. |
+| **Natural harvest** | One **good mid-Ripening Leaf peak**, **innately +50% natural Leaf Yield while Hot** (relative to its own unboosted Warm baseline), plus **moderate-to-good Ember Aloe Seeds** near 200%. **Own Seeds** are the reproductive reward for unlocking the branch, unlike the sterile prestige endpoints later in Desert. |
+| **Germination** | Ember Aloe Seeds have **moderate-to-good germination** in viable Warm or Hot surroundings. The initial Ember Aloe comes from Jadeheart Transformation. Seeds planted directly grow Ember Aloe without automatically having passed a Heat-endurance test. |
+| **Environment** | Best in **Hot, Lit/Bright, and Dry/Damp**; Warm is workable but loses its Hot-specific growth and Leaf bonuses. **Freezing** harms it and eventually kills; **Flooded** sharply impairs Growth/harvest. Temperate/Cold are less productive. Mycelial remains hazardous and eventually lethal, with no Mycelial bonus. **Hot itself must not kill Ember Aloe merely for remaining Hot.** |
+| **Farming purpose** | **Repeatable Heat-adapted Leaf/Seed farming** and precursor for the Aloemancer successful-recovery route or the Ashen Rose failed-recovery route. Staying Hot can remain worthwhile for immediate crops, while recovery sacrifices that ecology for a different Plant. |
+| **Effect compatibility** | **Strong Leaf Yield Adjustment response while Hot**, good **Growth acceleration compatibility while Hot**, otherwise ordinary Ripening and Seed Yield response. Rate effects preserve direction: a fungal Growth slowdown still slows. Hot's innate +30% Growth/+50% Leaf are **Plant Responses to resolved temperature**, not special fungal emissions. |
+
+**Concrete initial trait:** Hot adds **+30% natural Growth rate and +50% natural Leaf Yield** (conditional and reversible if the temperature changes). Their exact combination with future fungal bonuses can be tested in the eventual numeric/system pass. Hot endurance needed for its recovery is a different **continuous-exposure rule**, defined next.
+
+### Aloemancer — PROPOSED six-part profile
+
+**Core identity:** **Successful recovery after sufficient Heat endurance** produces a desirable Leaf crop that is **better in recovered conditions than under continuing Hot**. It also helps sustain the Ember Aloe line, and can transform onward into Mirage Rose.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary-to-slightly-slow Growth and moderately long Ripening**; valuable rather than a rapid-turnover crop. Transformations preserve current lifecycle progress, including when recovering from Ember Aloe. No new stage or progress reset. |
+| **Natural harvest** | One **high mid-to-late Ripening Leaf peak**, and **moderate-to-good Ember Aloe Seeds at 200%**—**not Aloemancer Seeds**. This makes Aloemancer worthwhile to harvest for both purposes at different timings while preserving a reason to repeat the Heat-to-recovery puzzle. No inherent hourly production or second bloom. |
+| **Germination** | **No Aloemancer Seeds** produced in the established line; reach it through Ember Aloe's qualifying recovery route. Its output of **Ember Aloe Seeds** uses Ember Aloe's germination numbers. |
+| **Environment** | Prefers **Warm or Temperate, Damp, and Lit/Dim** after recovery. **Hot no longer gives a reward**: while Hot, Aloemancer's Growth and Leaf output are substantially reduced, and prolonged renewed Hot becomes **lethal**. Dry is survivable at reduced output; Flooded unfavorable. Freezing and Mycelial hazardous/lethal. The Plant has no stored Heat bonus once it transforms. |
+| **Farming purpose** | Reward for **correctly timing recovery**, combining strong Leaves with a meaningful **Ember Aloe Seed supply** and onward access to Mirage Rose. Does not replace the ecological niche of thriving-in-Hot Ember Aloe. |
+| **Effect compatibility** | **Strong Leaf Yield Adjustment under Warm/Temperate** and **strong Seed Yield Adjustment** on its Ember Aloe Seed output. Ordinary Growth/Ripening effects; some extra response to Harvest Window widening is useful but not a new Effect. Environmental influences retain fixed direction. |
+
+**Seed identity decision:** Produces **Ember Aloe Seeds** and **no Aloemancer Seeds**. That makes the recovered crop a powerful way to finance future attempts at the rewarding Heat exposure puzzle, rather than skipping that puzzle forever through a self-reproducing Aloemancer line.
+
+### Ashen Rose — PROPOSED six-part profile
+
+**Core identity:** An **undesirable premature recovery outcome**, with weak direct harvest but a viable **Ashen Rose → Sandrose → Cactopus redemption path**. Importantly, **normal cooling without a qualifying recovery attempt does NOT cause Ashen Rose**.
+
+| Category | Concrete first-pass definition |
+| --- | --- |
+| **Natural lifecycle** | **Slow Growth and slow Ripening**, with progress preserved from Ember Aloe upon a failed attempt. Its direct harvest throughput is intentionally unattractive. |
+| **Natural harvest** | **Very low Leaves** with a weak single mid-Ripening peak and a **few Jadeheart Seeds at 200%**. **No Ashen Rose Seeds**. Its small Seed salvage is materially worse than keeping Ember Aloe or successfully producing Aloemancer. |
+| **Germination** | No obtainable Ashen Rose Seeds; arises only from the failed Ember Aloe recovery. Any **Jadeheart Seeds** it yields use Jadeheart's one-Seed germination rate. |
+| **Environment** | **Damp/Dry, Temperate/Warm, and Dim/Lit** are workable. **Hot becomes harmful**, rather than benefiting it as it benefited Ember Aloe; Freezing hazardous, Flooded unfavorable, Mycelial lethal after prolonged exposure. No exceptional heat or Mycelial tolerance. |
+| **Farming purpose** | **Recoverable strategic mistake** and small emergency base Seed salvage; the far more attractive option is the established transformation into useful **Sandrose**, which in turn can regain access to Cactopus. Not a dead end or a secret high-Leaf specialist. |
+| **Effect compatibility** | **Low Leaf and Seed Yield Adjustment compatibility**; ordinary-to-slightly-reduced lifecycle-rate and germination-related responses. Time-based production remains weak. Standard Effects cannot make it produce Ashen Rose Seeds from its nonexistent own-Seed line. |
+
+### Specific Ember Aloe Heat endurance rule — PROPOSED now, not deferred
+
+To avoid defining a special exposure-based Plant but leaving its defining weakness/qualification vague, make the following **concrete Plant-owned preliminary state rule** now:
+
+1. **Ember Aloe qualifies for successful recovery after 36 uninterrupted in-game hours while Hot.** It continues growing and remains productive in Hot; this is **not** a fatal Heat threshold.
+2. **An eligible recovery attempt before accumulating 36 uninterrupted Hot hours produces Ashen Rose** (the undesirable branch). Merely becoming Warm/Temperate, or losing Hot without a qualifying recovery attempt, **does not** itself produce Ashen Rose.
+3. **An eligible recovery attempt after at least 36 uninterrupted Hot hours produces Aloemancer**, if the eventual additional Plant recipe conditions are met. Do not name the fungus or invent a Transformation Effect yet.
+4. If Hot is broken before a recovery attempt, the ordinary continuous-exposure clock **resets**; no indefinitely stored Heat-endurance bank. The later recipe pass must specify the exact order of detecting an attempt and the transition out of Hot, so both success and premature failure are actually achievable and unambiguous.
+5. **Ember Aloe Seeds directly planted** create ordinary Ember Aloe at zero Heat exposure, not an already qualified recovery Plant. **Aloemancer** is the recovered identity, not an attuned or permanently enhanced Ember Aloe.
+
+**One important caution for later recipe design:** If a recipe simply asks whether an Ember Aloe is Warm now, it would turn innocent cooling into a failure; the premature Ashen Rose outcome specifically requires **a qualifying recovery attempt**, not cooling by itself. The Phase 3 recipe must ensure that early and successful attempts can share a recognizable, deliberate trigger, with Heat exposure deciding their destination. No final source/fungus assignment is made here.
+
+### This batch's relationship, and next work
+
+| Plant | Strategic identity | Seed output |
+| --- | --- | --- |
+| Jadeheart | Ordinary Desert Base and access point | Jadeheart (own) |
+| Ember Aloe | **Hot-growing/hot-yielding** self-sustaining crop; endure Heat to recover | Ember Aloe (own) |
+| Aloemancer | Successful recovery: high Leaves and Ember Aloe supply | Ember Aloe |
+| Ashen Rose | Premature attempted recovery: poor harvest, route to Sandrose | Jadeheart |
+
+The **36-hour Heat endurance**, **Ember Aloe innate +30% Hot Growth/+50% Hot Leaves**, and **Aloemancer/Ashen Rose Seed identities** are deliberate first-pass proposals now, **not left open** merely because full numeric balance will follow. Their exact full harvest yields, germination rates, rate/production compatibility multipliers, and other continuous hazard thresholds will be proposed in the complete Desert numerical pass. Do not assign fungus identities, final Transformation recipes, or code.
+
+**Approval status:** These four profiles are **PROPOSED for the user's review**. Next proposed batch is the Desert **Freezing / dormancy** branch (Moonjade, Jadewisp, Pearadox) plus **Sandrose**, or a similarly coherent grouping. Later complete the Cactopus/rare-endpoint route and numeric pass.
 
 
 ---
