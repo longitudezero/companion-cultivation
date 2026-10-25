@@ -1051,7 +1051,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Approval update:** The user accepted the paired **Bamboozeling** and **Bamboozled** first-pass profiles as proposed. Preserve the distinction between inferior-but-harvestable Bamboozeling and the zero-Leaves/zero-Seeds Bamboo Steel trophy endpoint Bamboozled. Exact numbers and transformation recipes remain later work.
 
-### Tanglethorn — PROPOSED first-pass profile, part of four-Plant branch review
+### Tanglethorn — APPROVED first-pass profile
 
 **Existing role:** Accessible from the unnamed Woodlands Base; branch gateway to **Mistlefoe** or **Bramblewraith**, and the return destination for **Mistlewoe**. It is a stable, useful Plant, not a premium specialist.
 
@@ -1066,7 +1066,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Open:** Exact environmental penalties, germination value, Leaf/Seed curves, and the two forward Transformation recipes.
 
-### Mistlefoe — PROPOSED first-pass profile, part of four-Plant branch review
+### Mistlefoe — APPROVED first-pass profile
 
 **Existing role:** A desirable Plant in its own right and the strategic pivot from the Tanglethorn line into **Mandrabra**. In later phase 3, **removing an otherwise beneficial fungus** is necessary for the desired Mistlefoe → Mandrabra outcome; retaining conflicting qualifying fungi instead leads to **Mistlewoe**. This is **a Plant-owned recipe condition**, not a transformation-emitting fungus Effect. Do not assign named fungi yet.
 
@@ -1081,7 +1081,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Open:** The specific effect strengths and qualification conditions, exact output curve, and fungus identities for the beneficial-versus-conflicting pair.
 
-### Mistlewoe — PROPOSED first-pass profile, part of four-Plant branch review
+### Mistlewoe — APPROVED first-pass profile
 
 **Existing role:** An **undesirable** transformation from Mistlefoe when conflicting required conditions/fungal presences remain active, but **not a dead end**: **Mistlewoe → Tanglethorn** is explicitly confirmed.
 
@@ -1096,7 +1096,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Open:** Whether this modest salvage Seed identity should be Tanglethorn Seeds (proposed) or none; exact damage and numerical Responses. Preserve the **confirmed return edge** regardless.
 
-### Bramblewraith — PROPOSED first-pass profile, part of four-Plant branch review
+### Bramblewraith — APPROVED first-pass profile
 
 **Existing role:** The appealing **safe and forgiving** Woodlands crop, with a **very broad productive harvest window**, **no conventional lethal environmental weakness**, and respectable—but not Mandrakadabra-level—Leaf yield. Its value is **reliability**, not highest possible peak.
 
@@ -1109,7 +1109,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Farming purpose** | **Safe, self-sustaining, low-attention Leaf crop**: less peak output than the demanding Mandrake route, but far lower timing and environmental failure risk. A practical alternative for maximizing reliable output over long rotations. |
 | **Effect compatibility** | Ordinary Leaf Yield, Growth, Seed, and Ripening Effects. **Harvest Window widening has diminished practical room** because Bramblewraith's innate productive plateau is already broad; slowing Ripening can further increase real-world harvesting opportunity but does not create new peaks. No extraordinary fungal compatibility or new effect needed. |
 
-**Key exception for approval:** Bramblewraith is proposed as one of the rare Plants that **survive prolonged Mycelial exposure** without gaining anything from it. Mycelial remains a severe production penalty and can remain dangerous to nearby crops. The user has already established Bramblewraith's general resilience, but **this particular Mycelial tolerance still needs approval**.
+**Approved exception:** Bramblewraith is one of the rare Plants that **survive prolonged Mycelial exposure** without gaining anything from it. Mycelial remains a severe production penalty and can remain dangerous to nearby crops. The user **explicitly approved** Bramblewraith's Mycelial tolerance along with the entire four-Plant branch profile. Exact survival/penalty quantities remain later balance work.
 
 ### Relationship summary — this four-Plant batch
 
@@ -1121,6 +1121,74 @@ Tanglethorn ───> Mistlefoe ───> Mandrabra       (desired pivot)
 ~~~
 
 **Workflow reminder:** During current Phase 1, these are **Plant profiles only**. No fungus roster, named fungal assignments, transformation recipes, or final numerical thresholds are being locked. The approved Bamboo branch and the three remaining Mandrake Plants can be treated separately.
+
+
+### Four-Plant approval update
+
+The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe, and Bramblewraith without immediate edits**, specifically endorsing **Bramblewraith's innate indefinite Mycelial tolerance with significant production penalties but no benefit**. All four are now approved design directions; detailed stats, actual transformation recipes, and fungal assignments remain to be set in later phases.
+
+### Mandrabra — PROPOSED first-pass profile (Mandrake batch)
+
+**Established network position:** The Woodlands Base **and Mistlefoe** can lead to **Mandrabra**, which can transform either **into Mandrakadabra** or **directly into Mandrakazam**. These are confirmed edges; named fungal conditions remain later work.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Steady ordinary Growth** and **ordinary Ripening**; not the extreme specialist, but a reliable junction Plant that players can manage before choosing a Mandrake crop pathway. |
+| **Natural harvest** | **Respectable, moderately concentrated Leaf peak** during middle Ripening; **small-to-moderate Mandrabra Seed** production toward later Ripening. It can replenish its own Seeds without displacing the Bamboom/Base-Seed economy or Mandrakazam's specialist role. No natural second bloom. |
+| **Germination** | **Normal/moderate reliability** when planted from its own harvested Seeds; its initial unlock is still via Transformation, not starter Seed access. |
+| **Environment** | Favors **Damp, Temperate, and Lit**; Dim is workable at a modest cost, Cold/Warm are less effective, Dry/Flooded are suboptimal. **Freezing and Hot** hurt output and can eventually kill; prolonged **Mycelial** exposure can kill. No innate extreme or Mycelial tolerance. |
+| **Farming purpose** | **Flexible gateway** to either the risky premium Leaf grower **Mandrakadabra** or the **Mandrakazam** production path that supplies Mandrakadabra Seeds. Modest own Seed harvest makes repeated preparation feasible without making Mandrabra itself the best crop. |
+| **Effect compatibility** | Ordinary Growth, Ripening, germination, and non-Seed Yield compatibility. **Moderately strong response to Harvest Window Adjustment** when Lit (a magnitude bonus to a known Effect, not an extra ability) is a candidate: gives players an accessible, less high-stakes harvest compared with the later premium Mandrakadabra. Ordinary Seed Yield compatibility otherwise. |
+
+**Open:** Exact harvest, Seed production, and conditional window strengths; whether its own Seed yield is best kept moderate in later balance. Do not assign its two transformation recipes now.
+
+### Mandrakadabra — PROPOSED first-pass profile (Mandrake batch)
+
+**Established role:** **Highest potential normal Leaf harvest in Woodlands**, but obtaining it via the **Mandrabra → Mandrakadabra Transformation** involves an unusually dangerous **continuous qualifying exposure**: exposure must persist long enough for the transformation and can become **lethal if prolonged** while cultivating Mandrakadabra. In this first pass do **not** presume that Mycelial specifically causes the danger, or that fungi emit Transformation Effects.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Somewhat longer Growth** and **ordinary-to-fairly-fast Ripening**. Produces impressive output but does not give the player a completely effortless harvest window. A transformed instance retains lifecycle progress under the standard rule. |
+| **Natural harvest** | One **very high, comparatively narrow Leaf peak** in middle Ripening: the **largest raw Leaf potential in Woodlands**, clearly above Bramblewraith's broad but lower plateau. **Zero ordinary Seed production proposed**; the premium Plant doesn't self-reproduce by default. No second bloom. |
+| **Germination** | Although it **produces no Seeds itself**, it **can be planted directly from Mandrakadabra Seeds produced by Mandrakazam**. Its Seed germination is **ordinary/moderately reliable in suitable habitat**, making the safer Seed-based approach genuinely practical. |
+| **Environment** | Prefers **Damp, Temperate, and Lit**. Dim/Cold/Warm impair output, Dry/Flooded less efficient. **Hot and Freezing** are harmful and can kill after exposure; **Mycelial** is hazardous and eventually lethal. **Additional established hazard:** its *specific prolonged qualifying transformation exposure* can be lethal if maintained for too long. Exact cause, duration, and relationship to fungal presence are deferred to recipe design. |
+| **Farming purpose** | **High-risk, high-reward Leaf specialist.** Players may reach it by transforming Mandrabra under time pressure or instead grow it from **Mandrakazam-supplied Seeds** in a safe field, avoiding the particular hazardous exposure needed for direct transformation. |
+| **Effect compatibility** | **Strong compatibility with ordinary Leaf Yield increases**, potentially even stronger while **Lit** (adjusts magnitude only). **Time-based Leaf Production** can be valuable if the Plant keeps progressing, but extreme slowing/extended exposure can increase practical risk in a hazardous setup. **No Seed Yield Effect generates Seeds** from its innate zero-Seed identity in this draft. Rate and window effects otherwise remain directionally consistent. |
+
+**Important balance distinction:** The **very high Leaf yield is an established role**, but **sterility, peak width, and precise rate/compatibility** are proposals. A direct Seed-grown Mandrakadabra is the *same Plant*, without a mandatory persistent penalty or magic attunement. A high single-harvest peak may not dominate sustained-rotation yields once Seed costs, failure risk, and setup time matter.
+
+### Mandrakazam — PROPOSED first-pass profile (Mandrake batch)
+
+**Established role:** A **safer reproductive pathway** that **harvests Mandrakadabra Seeds**. It is reachable either **directly from Mandrabra** or **via Mandrakadabra**, as confirmed. The Seed route may cost more setup/growing time than a lucky direct premium transformation, even though the direct Mandrabra → Mandrakazam edge uses fewer graph steps; do **not** describe it as necessarily more transformation edges.
+
+| Category | Proposed direction |
+| --- | --- |
+| **Natural lifecycle** | **Slower Growth and somewhat long Ripening**, suitable for a crop the player cultivates to build a future Seed supply instead of a fast immediate Leaf harvest. Normal 0–200% lifecycle and preserved transformation progress apply. |
+| **Natural harvest** | **Low-to-moderate Leaves** and **high Mandrakadabra Seed production**, with the strongest Seed returns during **late Ripening**. Produces **Mandrakadabra Seeds**, not Mandrakazam Seeds. Single ordinary Leaf peak, no second bloom. |
+| **Germination** | No self-produced **Mandrakazam Seeds** planned, so repeat access is through the established transformation network. The **Mandrakadabra Seeds** it yields obey **Mandrakadabra's germination requirements**, not Mandrakazam's. If direct Mandrakazam Seeds are ever introduced, their germination would require a separate decision. |
+| **Environment** | Prefers **Damp, Temperate, Dim or Lit**, with comparatively forgiving light requirements but **not** Bramblewraith-level resilience. Cold/Warm/Dry/Flooded can reduce performance; **Hot or Freezing** cause harmful penalties and eventual death, as can prolonged **Mycelial** exposure. **Does not share Mandrakadabra's special lethal prolonged qualifying exposure** as an innate hazard in this proposal, making Seed farming feasible. |
+| **Farming purpose** | **Dedicated Mandrakadabra Seed supplier:** sacrifices immediate Leaves and some time to sustain future premium Leaf harvests **without repeatedly exposing the premium Plant to the dangerous transformation setup**. A strategically valuable counterpart, not another best Leaf producer. |
+| **Effect compatibility** | **Strong response to Seed Yield Adjustment**, especially while **Dim** (a conditional magnitude increase, in contrast with Bamboom's Damp Seed synergy). Ripening acceleration can improve turnaround toward late Seed returns; Growth acceleration can offset setup cost. Ordinary Harvest Yield and germination compatibility; never turns effects into opposite-direction behavior. |
+
+**Open:** Seed quantities, exact germination, time economics of the two access routes, and whether Mandrakazam needs a different fallback benefit to maintain good cross-branch value. No fungus or recipe is assigned now.
+
+### How the Mandrake three fit together
+
+~~~text
+Woodlands Base ─────> Mandrabra ────────────────> Mandrakazam
+                           │                          │
+Mistlefoe ─────────────────┘                          └── harvest Mandrakadabra Seeds
+                           │                                         │
+                           └──> Mandrakadabra ────────> Mandrakazam  │
+                                   ▲                                 │
+                                   └───── plant harvested Seeds ─────┘
+~~~
+
+- **Mandrabra** is the capable gateway with modest self-sustaining farming.
+- **Mandrakadabra** rewards demanding cultivation with the **highest Woodlands Leaf peak**; its dangerous prolonged exposure is **separate from generic Hot/Freezing/Mycelial rules** until its exact cause is defined.
+- **Mandrakazam** is the **Seed-focused detour** that supports safe, repeatable Mandrakadabra crops.
+
+**Phase 1 status:** This Mandrake batch is **proposed for review, not approved**. Review the six Plant attributes and the three-Plant economic relationship before designing fungus identities or recipes. Exact numbers remain open.
 
 
 ---
