@@ -2983,25 +2983,25 @@ One Base Ingredient ─┼──> Ingredient 3 [terminal]
 7. The previous statements that Ingredients has *no transformations* or requires separate direct Seed unlocks for every species are **SUPERSEDED**. §41 is the controlling newest architecture. The exact roster/Base identity and numeric balance remain open.
 8. **Design-only: no game code changes** until the user requests implementation.
 
-## 42. Ingredients — first proposed four profiles and roster direction (PROPOSED for review)
+## 42. Ingredients — approved Base, seven-species roster, and first four profiles (APPROVED first-pass profiles)
 
-**Status:** The user approved the Ingredients architecture (§41), **not** any particular Base species or Ingredient roster. The names below are explicitly **proposals for review** based on the already-known illustrative cooking staples in §15, not claims that Potato, Rice, Carrot or Onion have been accepted. Propose a seven-species family with **Potato as Base** and **Rice, Carrot, Onion, Apple, Pumpkin and Strawberry** as terminal species. We start with **Potato, Rice, Carrot and Onion** to discuss the desired simplicity of the Ingredient line; complete the remaining three afterwards if this roster is liked, then one full numerical pass, consistent with the other families. No fungus assignments or Transformation recipes yet.
+**Status:** The user **APPROVED the seven-species Ingredients roster**, **Potato as the sole transforming Base**, and the complete first four six-part profiles for **Potato, Rice, Carrot and Onion**, without requested changes. The six terminal species are **Rice, Carrot, Onion, Apple, Pumpkin, and Strawberry**. All six remain directly accessible by **Potato-only outgoing transformations**. The remaining three profiles are proposed for review in §43; a whole-family numerical pass follows their approval. No fungus assignments, recipes or game code.
 
-### Proposed direct star network (illustrative names)
+### Approved direct star network and roster
 
 ~~~text
-Potato (proposed Base)
+Potato (APPROVED Base)
   ├──> Rice [terminal]
   ├──> Carrot [terminal]
   ├──> Onion [terminal]
-  ├──> Apple [terminal; profile later]
-  ├──> Pumpkin [terminal; profile later]
-  └──> Strawberry [terminal; profile later]
+  ├──> Apple [terminal; §43 proposal]
+  ├──> Pumpkin [terminal; §43 proposal]
+  └──> Strawberry [terminal; §43 proposal]
 ~~~
 
 **Family intent:** These are familiar, productive staples, with variation through lifecycle pacing, ordinary environmental preferences, Leaf/Seed output and compatibilities. They should not require each Plant to gain a new magical ability. **"Leaves" remains a temporary gameplay term for the non-Seed harvested product**; it does not require edible potato leaves. All six terminal Ingredients have **zero outgoing Transformation routes**, irrespective of direct Seed farming.
 
-### Potato — PROPOSED six-part Base profile
+### Potato — APPROVED first-pass six-part Base profile
 
 | Part | First-pass proposal |
 | --- | --- |
@@ -3012,7 +3012,7 @@ Potato (proposed Base)
 | **Farming purpose** | Straightforward Seed loop and **single access point to all six proposed other cooking Ingredients**. It shouldn't have a powerful unique fungus-effect multiplier. |
 | **Effect compatibility** | Baseline **1.0×** standard emitted Growth/Ripening, Leaf/Seed Yield, timing/window, time-based production, germination and allocation Effects. **Only Potato's species has outgoing Plant-owned transformations**. |
 
-### Rice — PROPOSED six-part terminal profile
+### Rice — APPROVED first-pass six-part terminal profile
 
 | Part | First-pass proposal |
 | --- | --- |
@@ -3023,7 +3023,7 @@ Potato (proposed Base)
 | **Farming purpose** | **Reliable staple Seed supplier** that can be cultivated directly once Rice Seeds are unlocked; meaningful contrast to the fast Leaf-oriented Carrot, without overshadowing Aquatic's exceptional water specialists. |
 | **Effect compatibility** | Moderately enhanced **Seed Yield and Seed Timing Shift** response, ordinary lifecycle and Leaf Yield responses, useful Time-based Seed Production compatibility only if a future named fungus emits it. **No Rice transformations**, ever. |
 
-### Carrot — PROPOSED six-part terminal profile
+### Carrot — APPROVED first-pass six-part terminal profile
 
 | Part | First-pass proposal |
 | --- | --- |
@@ -3034,7 +3034,7 @@ Potato (proposed Base)
 | **Farming purpose** | **Quick, easy non-Seed produce turnover**, contrasting with Rice's slower Seed-oriented farming. Carrot should be a useful repeat rotation, not an intermediate Ingredient. |
 | **Effect compatibility** | Strong-ish **Growth acceleration and Leaf Yield** compatibility, modest Seed effects, useful Harvest Window adjustment for the early peak. **No outgoing transformations**. |
 
-### Onion — PROPOSED six-part terminal profile
+### Onion — APPROVED first-pass six-part terminal profile
 
 | Part | First-pass proposal |
 | --- | --- |
@@ -3049,12 +3049,90 @@ Potato (proposed Base)
 
 | Ingredient | Base/terminal | Natural rotation niche | Seed harvest identity |
 | --- | --- | --- | --- |
-| **Potato** | **Proposed Base** | Standard, self-sustaining, transforms directly to every other Ingredient | Potato |
+| **Potato** | **APPROVED Base** | Standard, self-sustaining, transforms directly to every other Ingredient | Potato |
 | **Rice** | Terminal | Moisture-preferring slower Seed crop | Rice |
 | **Carrot** | Terminal | Quick early produce turnover | Carrot |
 | **Onion** | Terminal | Slower broad-window produce | Onion |
 
-**Approval boundaries:** Only the **one-Base-to-all** architecture, Base-only starting Seed access, lack of terminal transformations, and continuity of ordinary progress/harvest/fungal response are **AGREED**. The **choice of Potato as Base, seven-species roster, four Plant profiles and exact preferences/peak timings are PROPOSED**, not yet approved. If accepted, the next batch is **Apple, Pumpkin, Strawberry**, followed by a complete Ingredients numerical pass. The user may freely choose a different Base or species count without invalidating the approved star-graph rule. No fungi, final recipes or game code changed.
+**Approval status:** The **Potato Base and seven-species roster are APPROVED**, along with the **Potato, Rice, Carrot and Onion** six-part profiles and their stated approximate natural peak timings/preferences. Apple, Pumpkin and Strawberry have **new proposed profiles in §43**, pending review. Then proceed to the full Ingredients numerical pass. No fungi, final recipes or game code changed.
+
+
+## 43. Ingredients — final three six-part Plant profiles: Apple, Pumpkin, Strawberry (PROPOSED for review)
+
+**Status:** The user approved **Potato as Ingredients Base**, the **seven-species roster Potato/Rice/Carrot/Onion/Apple/Pumpkin/Strawberry**, and all of §42's Potato, Rice, Carrot and Onion first-pass profiles. This final **PROPOSED** batch covers the remaining three Ingredients: **Apple, Pumpkin, Strawberry**. The established family graph is a single star: **Potato may transform directly into all six terminal Ingredients, and no other Ingredient may transform, ever**. As agreed, all seven remain ordinary growing crops with 0–200% progress, one consuming harvest, Seed germination and existing fungal cultivation/environment response. **No invented Ingredient-to-Ingredient transformations**, no new fungus roster or recipes, and no game code.
+
+### Approved transformation graph
+
+~~~text
+Potato (the ONE transforming Base)
+  ├──> Rice [terminal]
+  ├──> Carrot [terminal]
+  ├──> Onion [terminal]
+  ├──> Apple [terminal]
+  ├──> Pumpkin [terminal]
+  └──> Strawberry [terminal]
+~~~
+
+**Identity of the Produce:** The currently universal non-Seed output still has the provisional gameplay name **Leaves**. In the later RPG mapping it can represent edible produce such as an apple, pumpkin or strawberry as appropriate. This does **not** assert that eating the literal plant's leaves is the purpose. No additional ingredient inventory conversion rules are being introduced during the Plant-first design phase.
+
+### Apple — PROPOSED six-part terminal profile
+
+**Core identity:** A **patient mid-to-late harvest specialist** with a rewarding but reasonably forgiving ordinary non-Seed crop and respectable self-Seeding. Apple should feel worth waiting for, rather than duplicating Onion's earlier 125–135% broad harvest or Pumpkin's very late large return.
+
+| Category | Proposed first-pass design |
+| --- | --- |
+| **Natural lifecycle** | **Somewhat slow Growth**, followed by **moderately long Ripening**. An Apple cultivated from newly planted Apple Seeds takes appreciably longer to reach its optimum than the rapid Carrot or Strawberry; the first Potato→Apple transformation keeps the existing lifecycle percentage rather than starting again. |
+| **Natural harvest** | **Strong, sustained non-Seed produce near ~150% lifecycle progress**, across a **fairly generous ~135–175% productive interval**. Produces **good/moderate Apple Seeds at 200%**, rather than none, with existing Seeds and Leaves coharvested if available at the one chosen harvest percentage. The broad mid-late window distinguishes it from Strawberry's shorter sharp peak. |
+| **Germination** | **Own Apple Seeds**, with ordinary-to-good germination. Only Potato Seeds are initially unlocked; a successful first Potato→Apple and late Seed harvest can unlock direct Seed-grown Apples for sustainable future rotations. Apple Seed-grown instances remain terminal; they cannot transform. |
+| **Environment** | Prefers **Damp, Temperate/Cold, Lit/Dim**. **Warm** remains viable with some growth/yield penalty, **Bright** is viable but not optimal, and **Dark** lowers production. **Dry and Flooded** impose real production penalties; prolonged Dry, Hot, Freezing or Mycelial eventually kills. No special Source propagation, Material, Fertility or apple-tree mechanic. |
+| **Farming purpose** | **Good dependable mid-late non-Seed output with a reasonable window**, more patient and higher maximum than early Carrot, without Pumpkin's larger late peak. A repeatable and recognizable kitchen ingredient worth cultivating after its first Base transformation. |
+| **Effect compatibility** | **Good Ripening acceleration and ordinary-to-strong Leaf Yield** response, **moderately enhanced Harvest Window adjustment** despite an already forgiving natural interval, and normal Seed Yield/Germination. Time-based Leaf production is possible **only if a fungus actually emits it while Apple is making positive progress in the emitter's window**; no intrinsic hourly bonus or unneeded new Effect. |
+
+**Concrete first-pass curve:** a single peak centered near **150%**, productive **135–175%**; exact quantity and phase durations are deferred to the complete Ingredients numerical pass. The **Apple Seed species identity is Apple**, not Potato or another Ingredient.
+
+### Pumpkin — PROPOSED six-part terminal profile
+
+**Core identity:** The **slow, heavy late-harvest specialist**: deliberately the family's strongest natural **single-Plant non-Seed yield**, with a substantial time and timing commitment. This must not be a second sterile prestige endpoint: Ingredients are straightforward sustainable food crops, so Pumpkin maintains its **own Seeds**.
+
+| Category | Proposed first-pass design |
+| --- | --- |
+| **Natural lifecycle** | **Slow Growth and notably long Ripening**, the slowest of the proposed seven Ingredients. Growth/Ripening remain the usual 0–100% / 100–200% stages; Pumpkin gets **no new third stage** and no intrinsic timer-based yield. |
+| **Natural harvest** | **Large natural non-Seed harvest at a late single peak around ~170%**, with its main productive interval roughly **155–185%**—a relatively demanding later target. At **200%** it supplies **moderate own Pumpkin Seeds**, sufficient for continued cultivation, but harvesting at 170% sacrifices part or most of the eventual full Seed harvest. One destructive harvest only. |
+| **Germination** | **Pumpkin Seeds produce Pumpkin directly** with ordinary-to-moderate germination, first obtained only after a **Potato→Pumpkin** transformation and subsequent Seed harvest. Because its rotation is slow, direct Pumpkin planting after the unlock is a meaningful convenience; Pumpkin has **no outgoing transformation routes**. |
+| **Environment** | Prefers **Damp, Warm, Lit/Bright**. **Temperate** remains viable at moderately reduced rate/output; **Cold** slows it substantially, **Dry** is survivable but reduces its eventual non-Seed yield, **Flooded** unfavorable. **Hot** is hazardous and eventually lethal (Warm is ideal but extreme Hot is NOT a bonus); **Freezing/Mycelial** are also lethal with prolonged exposure. Material Sand or Fertility are not required. |
+| **Farming purpose** | **High natural yield per successful harvest** for patients who can keep a productive Warm crop alive through a long Ripening stage. A qualitatively different optimization from Carrot's fast turnover, Strawberry's fast precise harvesting, Apple/Onion's more forgiving intervals and Rice's Seed production. |
+| **Effect compatibility** | **Strong Leaf Yield response**, **good Ripening acceleration** (reduces the considerable wait) and **good Harvest Peak Timing Shift** utility for planning the late target; **moderate Harvest Window widening** helps timing without making the window as easy as Onion's. Ordinary Seed Yield/Germination responses. It can benefit from fungus-emitted Time-based Leaf Production within eligible windows but **never emits time-based production intrinsically**. |
+
+**Specific no-preemptive-nerf note:** The eventual full-family numeric pass should give Pumpkin a **clearly highest single-harvest natural yield** among Ingredients to compensate for its much longer lifecycle, without automatically making it best Leaves per occupied hex-day. Its self-Seeds preserve the family goal of sustainable straightforward farming rather than a complicated sterile chain.
+
+### Strawberry — PROPOSED six-part terminal profile
+
+**Core identity:** **Fast, high-output, tightly timed repeat harvesting**, distinct from Carrot's straightforward **95–100% early harvest** and Apple/Pumpkin's later targets. It should offer a strong reward to a player who regularly checks for the correct moment, without becoming a Flower-style multi-peak or transformation-timing puzzle.
+
+| Category | Proposed first-pass design |
+| --- | --- |
+| **Natural lifecycle** | **Very fast Growth and relatively quick Ripening**, probably the quickest start-to-finish Ingredient. Strawberry does not require a new phase; its fast rate simply compresses the time between sowing and harvest. |
+| **Natural harvest** | **High-for-its-speed Leaves/non-Seed produce at a narrow peak around ~115%**, with a main productive interval about **105–125%**. The peak is **later than Carrot's 95–100%** and **significantly narrower**, so it trades harvesting convenience for better natural peak yield. **Modest own Strawberry Seeds** at 200%, with low or absent full Seed quantities at its early Leaf maximum. |
+| **Germination** | **Own Strawberry Seeds** and **good additive per-Seed germination**, allowing direct Strawberry planting once Potato has first become Strawberry and a later harvest has supplied Seeds. Initial Ingredients inventory remains **Potato Seeds only**. All Strawberry instances—including those grown from Seeds—have **no outgoing transformations**. |
+| **Environment** | Best in **Damp, Temperate/Warm, Bright/Lit** with especially good performance at Bright but still viable at Lit. **Dim/Dark** weaken Leaf output appreciably, **Dry and Flooded** hurt production and sustained Dry can kill quickly. **Hot/Freezing/Mycelial** are dangerous/lethal over exposure. No extra illumination-charge or Fruit-Storage resource. |
+| **Farming purpose** | **Fast, high-attention Leaf/Produce turnover**, for a player choosing close monitoring and frequent short rotations rather than a few larger, slower crops. The need to spend a rotation collecting its own Seeds limits permanently harvesting exclusively at the narrow Leaf peak. |
+| **Effect compatibility** | **Strong Growth acceleration and Leaf Yield responses**, **very strong Harvest Window widening compatibility** because its normal 105–125% peak is hard to hit at full speed, and useful Leaf Timing Shift to schedule its rapid harvest. Modest Seed Yield compatibility, ordinary-to-good Germination. Any time-based production is fungus-emitted only during positive advancing progress in the proper window. |
+
+**Distinctness safeguard:** **Carrot's** early 95–100% harvest is **fast and relatively forgiving**, with a strong basic yield. **Strawberry** reaches a slightly later 115% peak in a **much narrower interval**, producing a notably higher natural harvest but requiring precise attention. Its high Window widening response does not create a second bloom or extra harvest.
+
+### Seven-Ingredient species roles, approved versus proposed
+
+| Species | Transformation status | Role | Own Seeds? | Profile status |
+| --- | --- | --- | --- | --- |
+| **Potato** | **ONLY transforming Base** | Ordinary dependable starter, direct access to all other Ingredients | **Yes, Potato** | **APPROVED** |
+| **Rice** | Terminal | Damp/Flooded Seed supplier | **Yes, Rice** | **APPROVED** |
+| **Carrot** | Terminal | Quick early broad Leaf/Produce harvest | **Yes, Carrot** | **APPROVED** |
+| **Onion** | Terminal | Slower, broad, forgiving mid-Ripening produce | **Yes, Onion** | **APPROVED** |
+| **Apple** | Terminal | Patient, mid-late large forgiving produce | **Yes, Apple** | **PROPOSED** |
+| **Pumpkin** | Terminal | Strongest single natural produce, slow late peak | **Yes, Pumpkin** | **PROPOSED** |
+| **Strawberry** | Terminal | Very quick, strong narrowly timed produce | **Yes, Strawberry** | **PROPOSED** |
+
+**Review boundary:** The user has already **APPROVED the Ingredients star network, Potato Base, six terminal species names, and the first four profiles**. The **Apple, Pumpkin and Strawberry six-part profiles, their approximate natural peak percentages and environmental/Effect roles are now PROPOSED pending review**. Following approval, propose the **complete Ingredients numerical pass** (Growth/Ripening days, natural Leaves/Seeds at peaks and 200%, per-Seed chance, core/advanced fungus Effect compatibility, moisture/temperature/light factors and continuous exposure hazard thresholds), preserving the same bold cross-family baseline and future tester playtesting. No fungi/recipes/code changed.
 
 
 ---
