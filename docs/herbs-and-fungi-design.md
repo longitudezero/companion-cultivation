@@ -1197,7 +1197,7 @@ Mistlefoe ─────────────────┘                
 
 ## 23. Woodlands full-family numerical pass — proposed starting balance
 
-**Status:** The user approves the design *approach*: **10** as the typical nominal non-Seed harvest near 100% and **10** Seeds near 200%, with approximately **4 in-game days to 100% Growth and 8 total in-game days to 200% Ripening**. Faster and slower specialists may diverge, and a fully optimized speedy garden may aim for **36–48 in-game hours to 100%**. **The individual Woodlands figures below are the assistant's complete first-pass proposal, not yet user-approved balance.**
+**Status:** The user **approved the Woodlands numerical table below as the first balancing-pass baseline**, including deliberately large differences between ordinary and specialized Plants. **10** is the typical non-Seed harvest near 100% and **10** Seeds near 200%, with about **4 in-game days to 100%** and **8 total in-game days to 200%** as the game-wide reference. A thoroughly optimized quick crop may aim for **36–48 in-game hours to 100%**. This is **not final balance**: actual playtesting and tester feedback will motivate later adjustments. The user explicitly prefers **bold, exciting differentiation now over prematurely conservative balancing**. Germination and compatibility proposals follow in §24.
 
 ### Scope and interpretation
 
@@ -1236,6 +1236,95 @@ Mistlefoe ─────────────────┘                
 - **Bramblewraith** has high reliability because of an unusually broad Leaf window, not because it exceeds **Mandrakadabra's high peak**.
 - Development speeds are based on **in-game elapsed time**, not decided as wall-clock/offline progression. How play time is represented can be settled for the actual game's timing implementation.
 - Exact continuous curves, germination percentages/Seed-cost curves, species-specific thermal/Mycelial thresholds not yet specified, and all **fungal Effects/Transformations** still require subsequent numerical/mechanics choices.
+
+
+## 24. Woodlands numerical pass II — germination and Effect compatibility (PROPOSED for review)
+
+**Status:** The user endorsed the previous **Woodlands harvest/lifecycle numeric table (§23)** and requested explicit **germination values and Effect compatibility numbers** next. The entries in this section are a **fresh first-pass proposal**, not yet approved. Preference: meaningful/exaggerated specialist differentiation; *after design/implementation, actual gameplay testing with testers is mandatory* and can rein in overstrong combinations.
+
+### Germination mechanics proposal
+
+- **Planting a Seed** germinates into the **species named by that Seed**. Germination probabilities therefore belong to the *target Plant's Seeds*, **not** the living Plant that happened to produce them. E.g. **Bamboom produces Base Seeds → use Base's germination rate**. **Mandrakazam produces Mandrakadabra Seeds → use Mandrakadabra's germination rate**.
+- Proposed simple, memorable Seed sink: **chance for n invested Seeds = min(100%, n × one-Seed chance)**. All Seeds committed to that one planting attempt are consumed whether success or failure. This is a proposed first numerical rule, not yet an implementation decision. Extra Seeds beyond 100% are wasted; the player can choose to spread Seeds across slots or concentrate them to guarantee one Plant. Later testers may reveal whether a gentler nonlinear or variable cap is preferable.
+- Entries marked **not obtainable / no Seed supply** are *not* necessarily biologically incapable of germination, but no source currently supplies those Seeds. Do not invent Seed-production routes for them during this stage.
+- Any **Germination Adjustment** fungal Effect would change the *per-Seed probability contribution* by a fixed emitted signed magnitude scaled by the Seed species' **Germination compatibility**. A fungus with a positive effect must never reduce chance directly, or vice versa.
+
+| Species planted (Seed identity) | One-Seed chance | Seeds needed for guaranteed germination | Natural source of Seeds |
+| --- | ---: | ---: | --- |
+| **Woodlands Base** | **28%** | **4** | Base, Bamboom, Bamboozeling |
+| **Bamboom** | — | — | None; transform Base |
+| **Bamboozeling** | — | — | None; transform Bamboom |
+| **Bamboozled** | — | — | None; transform Bamboozeling |
+| **Tanglethorn** | **23%** | **5** | Tanglethorn, Mistlewoe |
+| **Mistlefoe** | **20%** | **5** | Mistlefoe |
+| **Mistlewoe** | — | — | None; transform Mistlefoe |
+| **Bramblewraith** | **20%** | **5** | Bramblewraith |
+| **Mandrabra** | **22%** | **5** | Mandrabra |
+| **Mandrakadabra** | **12%** | **9** | Mandrakazam |
+| **Mandrakazam** | — | — | None; transform Mandrabra or Mandrakadabra |
+
+These create significant differences in resource investment: Base Seeds are inexpensive to guarantee, while premium **Mandrakadabra** planting can be costly without germination aid. Self-Seed-producing Tanglethorn, Mistlefoe, Bramblewraith and Mandrabra remain potentially sustainable; test Seed losses and expected replanting counts in real rotations. A source-less Seed species gets **N/A** compatibility until direct Seeds actually exist.
+
+### How to read the Effect compatibility numbers
+
+- A compatibility of **1.0×** means the Plant reacts to an emitted fungal modifier at **its normal declared strength**; **1.5×** means the **effect change itself is 50% stronger**, not that the Plant's total output is multiplied by 1.5. **0.5×** halves that modifier, and **0×** means no response to that particular Effect.
+- E.g. a *hypothetical* +20% Seed Yield emitter received at **2.5×** becomes **+50% Seed Yield** for that Plant. This is only a calculation illustration: **no specific fungus or emitted effect magnitude is assigned** in the Plant-first design phase.
+- For Growth/Ripening rates, the table indicates **sensitivity of the emitted signed speed change**. It does not change whether an acceleration is positive or a slowdown is negative. For harvest peak shift and Seed timing shift, the sign/direction belongs to the fungus; the multiplier cannot reverse it.
+- Environmental Moisture, Temperature, and Illumination **Influences themselves are globally consistent and non-Plant-dependent**. Plant preferences and risks from the resolved environment are already in individual Plant profiles (§22); **there are no Plant-specific multipliers to the environmental Source arithmetic**.
+- Species' **own Environmental Responses** and natural Harvest curves are distinct from fungus-effect compatibility; the percentage values and preferences already recorded for the Plant still apply.
+
+**Main compatibility matrix** (all numeric values are *multipliers on normal fungal Effect changes*, not final direct buffs):
+
+| Plant | Growth Rate | Ripening Rate | Leaf Yield | Seed Yield | Germination |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Woodlands Base | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Bamboom | **1.3×** | **1.3×** | 0.8× | **2.0× / 2.5× while Damp** | N/A |
+| Bamboozeling | 1.0× | 1.0× | 0.8× | 0.7× | N/A |
+| Bamboozled | 1.0× | 1.0× | **0×** | **0×** | N/A |
+| Tanglethorn | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Mistlefoe | 1.0× | 1.0× | **1.0× / 1.8× while Dim** | 0.9× | 1.0× |
+| Mistlewoe | 0.8× | 1.0× | 0.5× | 0.5× | N/A |
+| Bramblewraith | 0.8× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Mandrabra | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Mandrakadabra | 0.9× | 1.1× | **2.0× / 2.5× while Lit** | **0×** | **1.8×** |
+| Mandrakazam | **1.5×** | **1.4×** | 0.8× | **1.8× / 2.5× while Dim** | N/A |
+
+**Harvest-shaping / advanced compatibility matrix** (multipliers on listed fungal effects):
+
+| Plant | Harvest Window width | Harvest Peak timing shift | Seed Timing shift | Time-based production | Leaf–Seed allocation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Woodlands Base | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Bamboom | 0.8× | 1.0× | 1.2× | **0.6× Leaves / 1.5× Seeds** | 1.4× |
+| Bamboozeling | 1.0× | 1.0× | 1.0× | 0.7× | 0.8× |
+| Bamboozled | **0×** | **0×** | **0×** | **0×** | **0×** |
+| Tanglethorn | 1.0× | 1.0× | 1.0× | 1.0× | 1.0× |
+| Mistlefoe | 1.0× | 1.0× | 1.0× | 1.2× | 1.0× |
+| Mistlewoe | 0.7× | 1.0× | 0.8× | 0.5× | 0.7× |
+| Bramblewraith | **0.3×** | 0.7× | 1.0× | 0.8× | 1.0× |
+| Mandrabra | **1.0× / 1.6× while Lit** | 1.0× | 1.0× | 1.0× | 1.0× |
+| Mandrakadabra | 1.2× | 1.2× | **0×** | **1.8× Leaves / 0× Seeds** | **0×** |
+| Mandrakazam | 0.8× | 1.0× | 1.3× | **0.6× Leaves / 1.5× Seeds** | 1.5× |
+
+**Time-based production definition:** These multipliers apply only when a *future fungus actually emits the corresponding time-based Leaf or Seed Effect*, the Plant is in the Effect's qualifying progress window, and the lifecycle is still advancing. **No production while fully stalled or after 200%**. The Leaf/Seed entries are per output type, *not* a new Plant-specific power; fungi must explicitly advertise which output they accumulate.
+
+**Leaf–Seed allocation definition:** Modifies the strength of a fungus's defined production-shift *in its fixed emitted direction*, with output always subject to availability. This does **not** change Seed identity, invent a second bloom, or create new Seeds on sterile Plants.
+
+**Sterility and trophy invariants:** **Bamboozled always yields 0 ordinary Leaves and 0 Seeds**, including under Time-based Production and Yield Effects; its Bamboo Steel trophy is unaffected. **Mandrakadabra remains 0 Seeds**, even under positive Seed Yield, time-based Seed output or Leaf–Seed allocation. Ordinary Leaf-enhancement remains its main specialization. Such explicit zero-output eligibility is an **intrinsic Plant trait** and not a reversed fungus Effect.
+
+### Key examples for later balancing and playtesting
+
+- **Bamboom** combines 18 Base Seeds at 200% with low Leaf output and **2.5× Seed Yield compatibility while Damp**. A hypothetical +20% standard Seed emitter becomes **+50% to Bamboom's own Seed output** (18 → 27 Seeds before rounding); fungal identities/values are not yet chosen.
+- **Mistlefoe** naturally peaks at 14 Leaves and can make much more of a Leaf Yield emitter **while Dim**. Moving it to Lit sacrifices this compatibility bonus, creating a placement trade-off without an extra one-off ability.
+- **Bramblewraith** reaches a 12-Leaf broad plateau already, so **0.3× harvest widening** leaves minimal added headroom. It retains its rare **Mycelial survival tolerance with severe production penalty**, never a Mycelial advantage.
+- **Mandrakadabra** has a 30-Leaf high peak and **2.5× Leaf Yield compatibility in Lit**. A hypothetical +20% emitter creates +50%, potentially **45 Leaves**, but its narrow window, Seed costs, and 6-hour lethal Mycelial threshold must make high-efficiency farming an earned outcome.
+- **Mandrakazam** supplies 20 Mandrakadabra Seeds over a long 10-day lifecycle; **2.5× Seed Yield compatibility while Dim** can increase Seed returns dramatically, making room for powerful support farms.
+
+### Approval and future-pass discipline
+
+- The **old 13 named fungi remain only proposals**; do not assign any effect or production bonus to a particular named fungus during this pass.
+- The **Germination formula**, per-Seed chances, and the two compatibility tables are a **concrete first-pass numerical proposal** requiring user review before approval.
+- Prioritize **pronounced, memorable effects over tiny differentials**; conduct a separate real **playtest and tester-feedback balancing pass after implementation**. Tester findings may justify toning down overpowered plants/fungi; the immediate goal is not perfection.
+- Full exact output curves, precise environmental hazard penalties other than Mandrakadabra's approved Mycelial six-hour death threshold, and rounding/stacking of concurrent fungal Effects are additional numerical refinements. Do not silently commit nonexistent fungal mechanics or pretend these are implemented.
 
 
 ---
