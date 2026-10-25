@@ -1536,9 +1536,9 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 No new fungal roster, emission, Transformation Effect, stage, or permanent origin variant is added here. The user **APPROVED all three Cress profiles**, including **Silvercress +60% intrinsic Growth rate during Flooded Growth / +50% Leaf Yield during Damp Ripening** and **Cresscent 40 percentage points of germination per Seed**. The whole Aquatic family numerical balance proposal is recorded in §28. Real playtesting follows implementation.
 
 
-## 28. Aquatic numerical pass — proposed lifecycle, harvest, germination, Effect compatibility and hazard responses
+## 28. Aquatic numerical pass — APPROVED first-pass lifecycle, harvest, germination, Effect compatibility and hazard responses
 
-**Status:** User approved all **11 Aquatic six-part profiles** (§25–27) and requested this **full numerical pass**. The following are **explicit first-pass numeric proposals requiring review**, not yet approved. Follow the approved Woodlands approach: nominal **10 Leaves near 100%, 10 Seeds near 200%, 4 in-game days to 100%, and 8 total days to 200%** for an ordinary Plant. Favor bold differences that make valuable specialists feel valuable, with a real tester playtest/balance revision pass after implementation. **No fungus identities, effect packages, or exact transformation recipes are being chosen now.**
+**Status:** User **approved the entire Aquatic numerical pass (§28)**—all 11 lifecycle and harvest rows, Seed identities, additive germination probabilities, Effect-compatibility tables, intrinsic Starlotus/Silvercress bonuses, and proposed Dry/Mycelial/temperature hazards—as the accepted **first-pass balance**, to be revised from eventual tester playtests. Game-wide baseline: nominal **10 Leaves near 100%, 10 Seeds near 200%, 4 in-game days to 100%, and 8 total days to 200%**. Favor bold, memorable species differences over prematurely conservative tuning. **No fungus identities, effect packages, or exact transformation recipes have been assigned.**
 
 ### A. Natural lifecycle and harvest
 
@@ -1660,8 +1660,94 @@ The profiles already specify **which Moisture states are favorable**. The follow
 
 - This section has **all numeric fields needed for the Aquatic first balance proposal**; the user prefers making decisions that can be corrected after testing, not postponing a species' distinctive mechanic until fungus design.
 - Intrinsic Starlotus +60%, Silvercress +60%/+50%, and Cresscent 40%/Seed remain part of the user-approved qualitative profiles, **not unapproved novelty invented by this table**.
-- The **new** lifecycle, harvest, Seed-germination (other than Cresscent), compatibility and hazard numbers are *proposed pending approval*. They are intended to be bold and mechanically distinct.
+- The **new** lifecycle, harvest, Seed-germination (other than Cresscent), compatibility and hazard numbers are now **APPROVED first-pass values**; eventual playtest findings can revise them.
 - As for Woodlands, **do not design or implement fungi or Transformation recipes here**. First finish Plant profiles/numbers across all families, then a fungus roster, then decide fungus-supported Plant-owned transformations, adjust fungi and Plants, and conduct an actual player **playtest and balancing pass** afterward. No code changes were requested or made.
+
+
+## 29. Flowers — first Plant-profile batch (PROPOSED for review)
+
+**Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch is **proposed pending user review**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
+
+### Family identity and confirmed design guardrails
+
+- Flowers are about **shape and timing of natural Leaf harvest curves**, plus the existing **Time-based Production** fungal Effect and harvest-window/rate trade-offs.
+- Early and late blooms are **intrinsic Plant harvest profiles**. Multiple separate peaks (especially **Rosewraith**, later batch) also belong to the Plant's **natural curve**. **No fungus grants a Secondary Bloom Effect**, a previously discarded idea. Yield boosts affect existing curve peaks, and timing/window adjustments reshape existing portions only.
+- **One harvest per Plant** always consumes it, even if a Plant has more than one potential peak.
+- **Time-based Production is NOT automatically present** merely because a Plant has a narrow late harvest window. It applies only while qualifying fungus Effects are active and lifecycle progress is genuinely advancing within that Effect's specified window, never after 200% or during full stall.
+- Other established family edges remain intact: **Daisydaze → Charmomile, Lavendream, Poppycock**; **Charmomile → Daisyspell or Marigloom**; **Daisyspell → Orchidemon**; **Marigloom → Rosewraith**; and later alternate Orchidemon and Rosewraith routes. The old Fungus A/B/C/D labels in §13 are **superseded placeholders**, not assignments.
+
+~~~text
+Daisydaze (Base)
+ ├─→ Charmomile ─┬─→ Daisyspell ──→ Orchidemon
+ │              └─→ Marigloom ───→ Rosewraith
+ ├─→ Lavendream ────────────────→ [later batch]
+ └─→ Poppycock ─────────────────→ [later batch]
+~~~
+
+### Daisydaze — PROPOSED first-pass profile
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Ordinary four-day Growth and four-day Ripening** (8 total) as the Flowers comparison baseline. No innate speed anomaly. |
+| **Natural harvest** | A familiar **single, broad-ish Leaf peak near 100%** with **10 Leaves** at peak and **10 Daisydaze Seeds** near 200%; no natural second peak. Early Leaves can exist before 100% under the established output-curve model. |
+| **Germination** | Reliable, relatively inexpensive self-Seeds initially accessible as the Flowers Base species. Use the ordinary per-Seed additive germination model; its exact percentage will be selected in the Flowers numeric matrix. |
+| **Environment** | Prefers **Damp, Temperate, Lit**; Dim/Warm/Cold viable with milder ordinary penalties, Dry and Flooded inefficient. **Hot/Freezing** hinder and can eventually kill; sustained **Mycelial** is harmful and lethal. No intrinsic Mycelial/extreme bonus. |
+| **Farming purpose** | **Plain reference farmer** and access point to the three Flowers branches; a dependable 10/10 crop rather than competition for best output or special timings. |
+| **Effect compatibility** | **Standard 1.0× magnitude** of applicable Growth, Ripening, Harvest Yield, harvest-window/timing, Seed, Germination and Time-based Production modifiers. Environmental Source arithmetic remains global and unscaled. |
+
+### Charmomile — PROPOSED first-pass profile
+
+**Distinct role:** An accessible **early-blooming** intermediate that is productive **before Growth has fully completed**, useful even if the player never transforms it.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Somewhat faster Growth** than Daisydaze and ordinary Ripening. Fast farming benefit without becoming the extreme speed specialist—that distinction belongs to Daisyspell. |
+| **Natural harvest** | **Strong early Leaf peak around 90%** progress, with a wider/less unforgiving early window than Daisyspell. **Moderate Charmomile Seeds** available later toward 200%. **Own Seed identity**; no separate bonus harvest and no extra bloom. |
+| **Germination** | Moderate-to-good chance from **Charmomile Seeds** earned after the initial Daisydaze → Charmomile transformation; the Flowers Base remains the original starter seed. |
+| **Environment** | Best under **Damp, Warm-or-Temperate, Lit**. Dim/Cold reduce productivity; Dry/Flooded unfavorable. Hot and Freezing are harmful and can eventually kill; Mycelial eventually lethal. It does **not** benefit from Hot as a substitute for Warm. |
+| **Farming purpose** | **Reliable early Leaf harvesting** that gives players a real alternative to keeping the Plant alive to obtain its own Seeds or to transform it into Daisyspell/Marigloom. |
+| **Effect compatibility** | **Strong Harvest Peak Timing Shift and Harvest Window widening** magnitude response, so existing fungal Effects can meaningfully alter/extend its naturally early peak; ordinary Leaf Yield and Ripening responses, moderately above-average Growth accelerator response. No unique invented Effect. |
+
+**First-pass curve decision:** **90%** is its natural early Leaf peak. This is a deliberate character choice rather than leaving "early" undefined. The exact peak height/window breadth are set later in the same whole-Family numeric matrix.
+
+### Daisyspell — PROPOSED first-pass profile
+
+**Distinct role:** Extreme **speed** and a **fleeting, earlier Leaf peak**. A skilled player can harvest it efficiently, but arriving late sacrifices the advantage. Its confirmed onward edge to **Orchidemon** remains.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Exceptionally short natural Growth and Ripening**, substantially faster than both Daisydaze and Charmomile. Its full cycle is compressed, including the interval in real time between early peak and diminishing output. Don't invent a third stage. |
+| **Natural harvest** | A **high but sharply narrow Leaf peak at approximately 75% overall progress**, substantially earlier than Charmomile, followed by a rapid falloff. Late-ripening harvest instead produces **a small number of Charmomile Seeds**, **not Daisyspell Seeds**—a deliberately asymmetric Seed identity supporting access to the branch without trivializing future Daisyspell transformations. One harvest; no second bloom. |
+| **Germination** | **No Daisyspell Seeds are produced** by existing Flowers crops in this first pass. Reach it by transforming Charmomile; the **Charmomile Seeds** it yields use **Charmomile** germination numbers. |
+| **Environment** | Prefers **Damp, Temperate-or-Warm, Bright or Lit**, with Bright preferable for natural Leaf output. Dim/Dark reduce output, Dry/Flooded suboptimal. Hot and Freezing adverse and ultimately lethal; Mycelial quickly harmful and lethal following continuous exposure. No exceptional temperature/overlay tolerance. |
+| **Farming purpose** | **High-throughput early Leaf crop with a narrow decision window**, versus committing a fast Plant to Seed production or an Orchidemon transformation. Good candidate for exceptionally quick optimized rotations, not a safe set-and-forget Plant. |
+| **Effect compatibility** | **Strong Growth acceleration**, **strong Harvest Window widening** (enormously valuable against its intrinsically tiny timing window), **high Leaf Yield compatibility while Bright**. **Ripening slowdowns cannot rescue a missed pre-100% peak**; Growth slowdown can widen the *real-time* interval before the peak while reducing throughput. Ordinary Seed Yield compatibility applies only to its available Charmomile Seeds. |
+
+**Timing feasibility requirement for later transformation design:** Since transformation preserves progress, the recipe **Charmomile → Daisyspell** must allow a player to reach Daisyspell **before about 75% progress** to exploit its spectacular early Leaf peak, rather than silently making the optimal harvest impossible. **Do not assign the recipe yet.** This is a concrete cross-pass feasibility test, not an additional Transformation Effect.
+
+### Marigloom — PROPOSED first-pass profile
+
+**Distinct role:** The polar opposite of Daisyspell—**very slow Growth and especially slow Ripening, with a strikingly late, fairly narrow Leaf harvest peak**. Its onward path to **Rosewraith** remains. An existing fungus's hourly Time-based Production may be a powerful optimization choice but is not an intrinsic output mechanic.
+
+| Category | Proposed definition |
+| --- | --- |
+| **Natural lifecycle** | **Significantly slow Growth**, **exceptionally long Ripening**, making this Plant one of the slowest normal Flowers crops to reach 200%. This gives it a real long-wait cost despite excellent late Leaf returns. |
+| **Natural harvest** | A **strong but narrow single late Leaf peak at 170% progress**, concentrated around approximately **160–177%**. **Few Marigloom Seeds** at 200% (own Seeds) to allow sustained farming once harvested, but obtaining them sacrifices the unusually high Leaf peak on that Plant. No innate second bloom. |
+| **Germination** | Somewhat demanding **Marigloom Seeds**, produced only if an instance survives until its late Seed harvest. Initial access remains via Charmomile Transformation. |
+| **Environment** | Prefers **Damp, Cold-or-Temperate, Dim**. Lit/Warmer conditions reduce ordinary output and rate; Bright/Dark less favorable, Dry/Flooded less efficient. Freezing and Hot are hazardous extremes, with no beneficial exception; prolonged Mycelial eventually lethal. |
+| **Farming purpose** | **High-investment, late-harvest Leaf specialist**. Naturally rewards deliberate waiting, with particularly good future synergy from separately-defined **Time-based Leaf Production** while positive Ripening progress continues through the late productive window. In contrast, a direct Ripening accelerator might increase rotation speed but **reduce cumulative hours available for time-based production**; either can be useful. |
+| **Effect compatibility** | **Very strong response to Time-based Leaf Production in late Ripening**, **strong response to Ripening slowdowns while Dim**, above-average Leaf Yield and Harvest Timing Shift compatibility. No automatic generation of hourly bonus without an actual fungus Effect; no new "Secondary Bloom" mechanism. |
+
+**First-pass concrete productive window:** **160–177%**, with a natural peak at **170%**. A future fungus's eligible hourly production window is part of *that fungus's own stable Effect definition*; it can overlap this range without being arbitrarily assigned as a special Marigloom-only fungal behavior. Production accumulates only while the Plant's lifecycle actually advances and never after 200%.
+
+### Decisions awaiting review
+
+- **Daisydaze**: ordinary 10-Leaf/10-own-Seed, 4/8-day Flower baseline.
+- **Charmomile**: early-but-forgiving **90% peak**, self-Seeds, accessible fast intermediate.
+- **Daisyspell**: **75% fleeting peak**, exceptionally fast, modest **Charmomile Seeds**, strong Bright/acceleration/window synergy; ensure it can be transformed into early enough for its crop payoff.
+- **Marigloom**: **170% late peak in 160–177% band**, very slow, low **own Seeds**, unusually strong compatibility with existing hourly Leaf Production rather than an invented fungal Secondary Bloom.
+
+As for Aquatic and Woodlands, remaining numerical values (peak heights, total times beyond Base, germination chances, detailed Condition hazard time, and Effect multipliers) will be specified **for all Flowers together after every Plant has a complete profile**; no reason to conceal its defining natural peak positions during this first role pass. **All four profiles are PROPOSED, not user-approved**, and subject to revision after implementation/playtesting.
 
 
 ---
