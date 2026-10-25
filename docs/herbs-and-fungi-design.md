@@ -3458,13 +3458,13 @@ Similarly, a premium Hot Cactaclysm must combine Emberbolete Warming with anothe
 **Next workflow:** Review/revise the four §45/§46 proposed Fungus bundles against the new AGREED rules before declaring them approved; then take further fungal batches in order, the full Fungi numbers, and **afterwards** a separate full Plant-owned Transformation pass covering all six Families, competing conditions, timing and feasibility. No coding.
 
 
-## 47. Fungi — proposal: one dedicated Mycelial-only fungus (FOR REVIEW)
+## 47. Fungi — one dedicated Mycelial-only fungus (APPROVED first-pass role)
 
-**Status:** The user suggested: "maybe we start with only one fungus that is capable of creating mycelial ground and it does nothing else?" This is a **PROMISING NEW PROPOSAL**, not yet explicitly approved. Treat this as the leading first-pass Mycelial strategy while assessing the remainder of the fungus roster. Do not silently call the earlier "every fungus starts with both environmental and Plant-development Effects" rule abandoned: this would be **one explicit exception**, consistent with §46's agreed freedom to remove a forced unnecessary Effect. It also does not invent another generic environmental Property or use Mycelial as an innate beneficial Plant habitat.
+**Status:** The user proposed one fungus creating Mycelial ground and doing nothing else, then **APPROVED the Mycelord single-purpose approach** ("ok sounds good"). This is the **APPROVED first-pass Mycelial role** for the fungal roster; exact spread, persistence, spores and numerical details remain open. Do not silently call the earlier "every fungus starts with both environmental and Plant-development Effects" rule abandoned: this would be **one explicit exception**, consistent with §46's agreed freedom to remove a forced unnecessary Effect. It also does not invent another generic environmental Property or use Mycelial as an innate beneficial Plant habitat.
 
-### Proposed candidate: Mycelord — single-purpose Mycelial engineer
+### Mycelord — APPROVED single-purpose Mycelial engineer (numeric details open)
 
-| Property | First-pass proposal |
+| Property | Approved first-pass direction / deferred specifics |
 | --- | --- |
 | **Fungus species** | **Mycelord**, existing candidate name; name not yet finally locked |
 | **Fungus Source output** | **Creates/maintains Mycelial overlay**, with previously proposed timed adjacent spread beyond direct Source reach; does NOT emit a Temperature, Moisture, Illumination or Fertility Modifier |
@@ -3475,7 +3475,7 @@ Similarly, a premium Hot Cactaclysm must combine Emberbolete Warming with anothe
 | **Spore reproduction** | **Produces its OWN Mycelord Spores only**, destructive harvest that removes the Source; full Spore quantity/timing/germination and lifecycle days decided in fungus numerical pass |
 | **Role** | Dedicated source of hazardous-but-useful **fungal habitat infrastructure**, allowing separately designed Mycelial-preferring or Mycelial-dependent fungi to be situated without adding an automatic Plant Yield bonus |
 
-**"Only one" means only one Mycelial-producing FUNGUS SPECIES in the INITIAL roster, NOT a worldwide limit of one Mycelord Instance.** Players may plant multiple Mycelords if they invest the hex space and Spores. Under this proposal **no other fungus makes Mycelial ground**, but many independent or Mycelial-benefiting fungus types can still be placed there. This is an initial design simplification, not a prohibition against future balance-driven changes.
+**"Only one" means only one Mycelial-producing FUNGUS SPECIES in the INITIAL roster, NOT a worldwide limit of one Mycelord Instance.** Players may plant multiple Mycelords if they invest the hex space and Spores. Under the **approved first-pass design**, **no other fungus makes Mycelial ground**, but many independent or Mycelial-benefiting fungus types can still be placed there. This is an initial design simplification, not a prohibition against future balance-driven changes.
 
 ### Why an Effect-template exception is justified
 
@@ -3496,7 +3496,7 @@ Similarly, a premium Hot Cactaclysm must combine Emberbolete Warming with anothe
 - Precise Spore collection curve, fungal stage durations, per-Spore germination probabilities and Mycelial-dependent Influence magnitude changes. These are fungus quantitative balance, not final recipes.
 - This proposal must be weighed against the **dedicated later Transformation pass**: Mycelord may eventually satisfy a Plant-owned "receiving Mycelial overlay/adjacency" requirement, but **no recipe is fixed now**.
 
-**Review status:** The user has **AGREED** the overarching fungal lifecycle, Spores, default Effect-pair-but-prune method, anti-self-synergy, simpler fungal Mycelial habitat model and separate later transformations (§46). **Mycelord as the sole Mycelial-creator and with NO other emitted Effects is currently a new PROPOSAL awaiting agreement**, and the individual first fungal batch in §§45–46 remains unapproved. No code or final transformation recipe changed.
+**Review status:** The user has **APPROVED Mycelord as the sole Mycelial-creating fungus species, emitting no other cultivation or environmental Effects**, and accepted its non-Mycelial-dependent bootstrap role as first-pass design. Overarching fungal lifecycle/Spores, anti-self-synergy, and simpler Mycelial habitat rules are agreed (§46). **The four ordinary environmental shapers in §§45–46 remain proposed and due for reconsideration next.** Mycelial propagation details, fungal numerical pass, and the later dedicated Transformation pass remain unassigned. No code changed.
 
 
 ---
