@@ -4389,6 +4389,58 @@ For each player action, timed completion, or other state-changing event at an ex
 - **Design outgoing alternatives to be mutually exclusive:** For each Plant with multiple possible destinations, define its eventual Plant-owned exposure/event/Source/environment requirements so **no feasible garden state and event timestamp can make more than one outgoing recipe valid at once**. The recipe pass must verify all competing pairs, including cases involving multiple reaching fungi, Blockers, Waterborne paths, simultaneous environmental transitions, and independently elapsed exposure timers.
 - **Different named Sources or different exposure durations alone do not guarantee exclusivity:** A player may supply both Sources and may start their separate uninterrupted timers at different moments. Favor genuinely incompatible eligibility conditions or event predicates when choosing recipes; prove incompatibility under the actual propagation and environmental rules rather than asserting it informally.
 - **Keep earlier rules separate:** A Transformation still replaces the old Plant with a fresh **0%-progress** instance (§58), has **no lifecycle-percent/stage prerequisite** (§59), and wins an **exact same-timestamp tie against that Plant's death** (§60D). The one-Transformation-per-resolution-event safeguard prevents zero-time chaining; it is **not** a substitute for mutually exclusive sibling recipes.
-- **If a guarantee fails, bring it back to the user:** Do not silently force an arbitrary recipe winner or change an approved transformation direction. Revisit the specific overlapping recipes, propose alternative mutually exclusive conditions, or ask whether an explicit conflict rule should exist only if true exclusivity proves infeasible. No final recipe-specific exclusivity proof is claimed yet, because exact recipes are still deliberately deferred.
+- **If a guarantee fails, bring it back to the user:** Do not silently force an arbitrary recipe winner or change an approved transformation direction. Revisit the specific overlapping recipes, propose alternative mutually exclusive conditions, or ask whether an explicit conflict rule should exist only if true exclusivity proves infeasible. **The Ingredients family's six Potato recipes are subsequently approved and shown mutually exclusive in §67**; other families still need their own proofs.
 
 **Scope:** This closes the *generic* competing-Transformation priority discussion provisionally in favor of design-time prevention. The next substantive text-only task is the dedicated **Plant-owned Transformation recipe pass across the six families**, including pairwise exclusivity and physical feasibility checks before Plant/Fungus biology implementation. No gameplay code changes follow from this decision.
+
+---
+
+## 67. Ingredients — six Potato-only Transformation recipes — APPROVED FIRST PASS
+
+**Status (26 October 2026):** The user reviewed all six proposed environmental/Fungus-exposure recipes and said **“yep i like them. ingredients should be simpler than other families. good job”**. Thus the **identities, Condition combinations, generic fungal environmental-emission requirements, and provisional exposure hours below are APPROVED first-pass designs**. They are not implemented; hours remain ordinary playtest-adjustable numbers. This builds on the already approved **Potato→six terminal Ingredients** graph (§§41–44), stage-free recipes (§59), and compulsory mutual exclusivity (§66).
+
+### A. Exact first-pass Potato recipes
+
+Each listed **resolved Condition** and the required **environmental emission from at least one living Fungus actually reaching Potato** must hold together for the entire **uninterrupted** duration. Merely having the right baseline/Condition without a reaching fungal emission does not satisfy the recipe. The fungal emission means an ordinary Aqueous/Thermal/Luminous environmental Source contribution and is **not** a new Transformation Influence or a progress-gated cultivation modifier. Different fungal species emitting the same signed environmental effect can substitute. Breaking any part of a recipe resets its own continuous timer.
+
+| Potato transforms into | Required Conditions on Potato's hex | Required reaching Fungal environmental emission | Uninterrupted exposure |
+| --- | --- | --- | ---: |
+| **Rice** | **Flooded** Moisture | **Wetting +1 Moisture** | **12 hours** |
+| **Carrot** | **Damp, Temperate, Lit** | **Brightening +1 Illumination** | **10 hours** |
+| **Onion** | **Dry, Cold** | **Drying −1 Moisture** | **14 hours** |
+| **Apple** | **Damp, Cold** | **Cooling −1 Temperature** | **20 hours** |
+| **Pumpkin** | **Damp, Warm** | **Warming +1 Temperature** | **24 hours** |
+| **Strawberry** | **Damp, Temperate, Bright** | **Brightening +1 Illumination** | **16 hours** |
+
+**No lifecycle gates:** These exposure timers run at **any Potato lifecycle percentage 0–200**, including Growth, Ripening and fully mature Potato, regardless of whether a fungus's distinct cultivation Effect happens to be progress-eligible at that moment. Successful Transformation consumes/replaces Potato and starts the destination Ingredient as a fresh **0%-progress Plant**, with no prior Leaves, Potato Seeds, timers or hazards (§58). All six destinations are **terminal**: neither transformed nor directly Seed-grown Rice, Carrot, Onion, Apple, Pumpkin or Strawberry has an outgoing Ingredient Transformation. Their harvests yield only their own species' Seeds under §§41–44.
+
+### B. Physical feasibility checks using existing Fungi
+
+From the environmental prototype's ordinary **Dry / Temperate / Dark** starting Conditions, placing the following already-approved **Mycelial-independent Fungi on adjacent unblocked hexes** supplies the necessary Airborne environmental contributions. Each example fits within the six neighbors of the Potato's occupied hex; other emitters and arrangements remain valid substitutes.
+
+| Destination | One feasible sample arrangement | Resolved recipe Conditions |
+| --- | --- | --- |
+| Rice | **Dewmender + Mistruffle** (two Wetting emissions) | Dry → Damp → **Flooded**; other Conditions unrestricted |
+| Carrot | **Dewmender + Lanterncap + Goldgill** | **Damp**, **Temperate**, Dark → Dim → **Lit** |
+| Onion | **Droughtcap + Chillanterelle** | **Dry**, Temperate → **Cold** |
+| Apple | **Dewmender + Chillanterelle** | **Damp**, **Cold** |
+| Pumpkin | **Dewmender + Tickbolete** | **Damp**, **Warm** |
+| Strawberry | **Dewmender + Glimmergill + Lanterncap + Goldgill** | **Damp**, **Temperate**, Dark → Dim → Lit → **Bright** |
+
+This verifies **spatial/environmental feasibility for existing emission profiles**, without inventing new Fungi, baseline-editing privileges, Materials, Fertility, required Mycelial infrastructure, or special fungal Transformation Effects. The wider Spore-acquisition/unlock economy remains a separate future feasibility check, not a new prerequisite for these already-approved recipes.
+
+### C. Pairwise mutual-exclusivity proof (§66)
+
+The six recipes cannot be simultaneously eligible on a single Potato because they require incompatible **current resolved environmental Conditions**:
+
+1. **Rice** requires **Flooded** and **Onion** requires **Dry**; the other four require **Damp**. Only one Moisture Condition can hold.
+2. Among Damp recipes, **Apple requires Cold**, **Pumpkin Warm**, and **Carrot/Strawberry Temperate**. Only one Temperature Condition can hold.
+3. **Carrot requires Lit** whereas **Strawberry requires Bright**. Only one Illumination Condition can hold.
+
+The additional reaching fungal Sources cannot defeat this partition: even if all qualifying fungal emissions are present, the resolved Property combination is singular. Timers reset when their distinct environmental requirements stop holding. There are **no transition-event recipes in Ingredients** that could qualify from a preserved old-state snapshot while another ordinary recipe qualifies in the new state. Thus **no priority winner rule is needed for these six routes**. Revisit §66 only if future changes alter these requirements and break this proof.
+
+### D. Intent and scope
+
+**Ingredients should remain simpler than the other five Plant families**, per the user's explicit preference: readable habitat engineering, one ordinary reaching environmental fungal emission, and an uninterrupted exposure timer. More elaborate source combinations, Flooded→Damp transitions, multi-step chains and hazardous transformations are better reserved for the families designed around those mechanics. The numerical durations and resulting crop economy can be playtested later without changing each recipe's identity or environmental logic.
+
+**Status:** APPROVED first-pass **text only**. No Plant/Fungus/Mycelial runtime, Transformation timers or other game code has been implemented. Future Plant-owned recipe work proceeds to the remaining families, retaining physical feasibility and mutual exclusivity as first-class review checks.
