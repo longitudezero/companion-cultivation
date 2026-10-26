@@ -714,6 +714,9 @@ These are **working roles**, not a fixed count of fungi or universally beneficia
 
 ## 15. Spices and Ingredients — accepted direction after the Food sketch
 
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+
+
 ### Spices — preserve the Food draft mechanically
 
 **Agreed:** Preserve the 10-Plant Food first-pass network and all its Illumination, fungal-placement, Leaf-production, and Seed-support interactions; **rename the species to spices later** so they make intuitive sense as cooking items in the separate RPG. The family name is now **Spices**, *not* Food or Lightbound. No proposed spice-species names are final. The rest of this section uses the original Food sketch names as **temporary identifiers** so the network cannot be lost during renaming.
@@ -2542,6 +2545,9 @@ The previously **approved** two transformation-linked exposure rules remain dist
 
 ## 37. Spices — first Plant-profile batch, Base and three Illumination branches (APPROVED first-pass profiles)
 
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+
+
 **Status:** The user **approved Desert's complete §36 numeric pass as first-pass balance** and asked to begin **Spices**. The approved Spices family architecture, old Food sketch preserved in §15, its ten species and all existing branch/cross-branch routes are retained. This first six-part profile batch for **Thymely, Sunrice, Moonrice and Shadow Onion**—the Base and three first branches—was **APPROVED by the user** without changes. These are **working identifiers from the older Food sketch**, explicitly **NOT locked names** or settled RPG ingredients; rename all Spices to cooking-spice-appropriate identities during the later naming pass without redesigning their established mechanics. The separate **Ingredients** family covers recognizable food items via **one universal transforming Base and terminal nontransforming outputs** (§41 supersedes the earlier note).
 
 **Agreed design sequence:** Specify all ten Spices Plant responses and Seed identities, then a complete numerical pass, then fungus roster and Plant-owned Transformation recipes. Named working fungi (**Glimmer, Veil, Gloam, Prism**) and environmental requirements shown in historical §15 are *provisional examples*, not locked assignments. Fungi can change Illumination using the ordinary global environmental Source model and emit their own separately-defined cultivation Effects; their **spatial overlap and Blockers** matter because each Plant responds differently to the **resolved Dark / Dim / Lit / Bright state**. Do not invent a periodic day/night cycle, a special Light resource, family-wide photocharge meter, Environmental Tolerance Effect, or universal Transformation Effect.
@@ -2639,6 +2645,9 @@ The first four Spices six-part profiles are **APPROVED first-pass designs**. Ful
 
 ## 38. Spices — second Plant-profile batch, Bright/Dim/Dark intermediates (APPROVED first-pass profiles)
 
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+
+
 **Status:** The user **APPROVED §37's Thymely, Sunrice, Moonrice, and Shadow Onion profiles** without revisions. This four-Plant batch specifies **Starberry, Thymekeeper, Ghost Rice, and Dillusion**, and was **APPROVED by the user** without changes. Preserve the ten-Plant original Food network renamed **Spices**, with all these names **temporary mechanical identifiers**; cooking-spice names will be chosen later, without changing their traits. The sixth **Ingredients** family now uses one universal transforming Base with all other species terminal (§41 supersedes the former no-transformations design). Define six-part species profiles (lifecycle, harvest, germination, environment, farming purpose, and Effect compatibility), while reserving full numerical lifecycle/output/germination matrices until all ten Spices profiles have been reviewed. No specific fungus identities, final environmental Transform recipes, added generic Transformation Effects, or game code are authorized.
 
 ### Preserved network relevant to this batch
@@ -2735,6 +2744,9 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 
 ## 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (APPROVED first-pass profiles)
 
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+
+
 **Status:** The user approved **all four §38 Spices intermediates** (Starberry, Thymekeeper, Ghost Rice, and Dillusion) without requesting changes and asked for the next batch. This final six-part profile batch for the two shared high-value endpoints **Pum'king** and **Glass Apple** was **APPROVED by the user** without changes. All ten Spices names are still **temporary mechanical names from the former Food network**; choose cooking-spice-appropriate names separately without retconning the approved roles or transformation graph. The entire batch is **APPROVED first-pass Plant identity**, and the complete proposed numerical stage times/Leaf values/Seed counts/germination/Effect compatibility/hazard thresholds follow in §40.
 
 ### Preserved branches and environmental challenge
@@ -2824,6 +2836,9 @@ Pum'king ──[Leaf harvest only]──> 0 Seeds
 
 
 ## 40. Spices — complete numerical pass (APPROVED first-pass balance)
+
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+
 
 **Status:** The user **approved all ten Spices Plant profiles** (§§37–39), including Pum'king and Glass Apple, and requested the **full first-pass numerical balance**. All values in this section were **APPROVED by the user** as the complete first-pass Spices numerical balance, including lifecycle/harvest values, Starberry Seed access and germination, core/advanced Effect compatibility, light-response tables, Moisture/Temperature/Hazard numbers. Later testing may adjust them. The historical Food-derived Spices names remain **TEMPORARY MECHANICAL IDENTIFIERS**; a later cooking-spice naming pass must preserve these ten species, the graph and the mechanics. The user prefers bold numerical differentiation followed by eventual **tester playtesting**, not preemptive conservative balancing. **No code implementation, new fungus roster, Effect assignment or final Transformation recipe is authorized.**
 
@@ -4744,3 +4759,47 @@ These paths deliberately use opposing Temperature or Illumination emissions. Bal
 - **No changes to Seed identities, harvest curve, Material/Fertility removal, Mycelial biology or updated event order.** All Transformation outcomes start new Plants at 0%, with no old output or exposure. No Plant or Fungus gameplay code has yet been implemented.
 
 **Recipe design progress after this acceptance: Ingredients 6/6 (§67), Aquatic 14/14 (§69), Woodlands 13/13 (§§71–72), Flowers 12/12 (§73), Desert 13/13 (§74) complete; only Spices remains.**
+
+## §75 — Spices Transformation routes: user acceptance and saved light-engineering constraints (26 October 2026)
+
+**APPROVAL CONFIRMATION:** The user said **“yep i like them including the two Pum'king overlap routes and Ghost Rice's Lit-to-Glass-Apple route. please add them in the github repo.”** The agreed **Spices transformation topology has 11 directed Plant-owned routes among 10 Plants**. This section preserves the approval and every independently traceable graphical/spatial constraint, especially the two specified highlights. **Provenance limitation:** The present GitHub files only contain the old schematic proposal in §15 plus accepted Plant profiles in §§37–40; the exact complete subsequently presented 11-row recipe table (named contact alternatives, hours, and every condition) is **not present in retrievable text**. Therefore no new exact fungal assignments or durations are invented or falsely represented as approved here. Once the original table is available, transcribe its exact values into this section; do not quietly fill gaps from historical A/B/C/D or Glimmer/Veil/Prism/Gloam shorthand.
+
+### A. Accepted 11-route topology and recoverable recipe direction
+
+| From | To | Established illumination direction / confirmed special constraint | Parameter status |
+| --- | --- | --- | --- |
+| **Thymely** | **Sunrice** | **Bright** access branch | Exact named contact/continuous hours not recoverable |
+| **Thymely** | **Moonrice** | **Dim** access branch | Exact named contact/continuous hours not recoverable |
+| **Thymely** | **Shadow Onion** | **Dark** access branch | Exact named contact/continuous hours not recoverable |
+| **Sunrice** | **Starberry** | **Bright** specialization | Exact named contact/continuous hours not recoverable |
+| **Sunrice** | **Pum'king** | **Net Lit with simultaneous opposing Brightening and Darkening Source Influences**, actual overlap reaching Sunrice | Exact named contacts/continuous hours not recoverable |
+| **Moonrice** | **Thymekeeper** | **Dim** Seed-supplier specialization | Exact named contact/continuous hours not recoverable |
+| **Moonrice** | **Ghost Rice** | **Dark** specialization | Exact named contact/continuous hours not recoverable |
+| **Shadow Onion** | **Dillusion** | **Lit** destination route from Dark-field precursor | Exact named contact/continuous hours not recoverable |
+| **Starberry** | **Glass Apple** | **Bright** specialist route; final target prefers Bright | Exact named contact/continuous hours not recoverable |
+| **Ghost Rice** | **Glass Apple** | **Lit-to-Glass-Apple route** explicitly endorsed by user; Glass Apple is Bright-preferring **after** Transformation | Exact named contact/transition timing not recoverable |
+| **Dillusion** | **Pum'king** | **Net Lit with simultaneous opposing Brightening and Darkening Source Influences**, actual overlap reaching Dillusion | Exact named contacts/continuous hours not recoverable |
+
+The illumination directions above are grounded in the long-standing accepted §15 first-pass graph, §§37–40 profiles and the user's explicit confirmation of the two Pum'king overlaps and Ghost Rice Lit transition. **Do not treat old working labels “Glimmer”, “Veil”, “Prism” or “Gloam” as already selected particular named Fungi**, or turn this table's unresolved cells into default timings.
+
+### B. Pum'king — BOTH opposing-source overlap routes explicitly accepted
+
+- **Sunrice → Pum'king** and **Dillusion → Pum'king** are **both** intended to be real, separate recipes leading to the **same** Pum'king.
+- At the qualifying setup, the Plant must be **reached by an actual positive Luminous/Brightening emission AND an actual negative Luminous/Darkening emission at the same time**, while the **resolved Illumination remains Lit**. These are real Source footprints after propagation/Blockers, not just the existence of emitting Fungi elsewhere. Net Lit is a distinct test from named contact and source overlap; cancelling contributions can produce Lit in suitable baseline and additional-source arrangements. This is the accepted central spatial puzzle, not a special fungus-emitted Transformation Effect.
+- The final **named fungus identities** and **exposure hours** of the precise recently accepted proposal must be recovered rather than conjectured; future recipes must comply with §68 (contact with **particular named Fungi** via any emitted Influence zone). A positive/negative Source emission condition is an **additional environmental engineering constraint**, not a substitute for the required named contact.
+- The destination Pum'king remains **sterile**, new **0%-Growth**, and prefers **Lit**, with its broad premium Leaf curve intact (§39). The source combination need not be artificially maintained throughout the entire subsequent lifecycle unless it remains useful to farming conditions.
+
+### C. Ghost Rice → Glass Apple — approved Lit route
+
+- The user's latest approval explicitly emphasizes a **Ghost Rice Lit-to-Glass-Apple route**. Preserve **Lit as the route's qualifying lighting state/transition target**, not silently replace it with an always-Bright recipient gate. Ghost Rice prefers Dark while farming, but can survive a player-managed move to **Lit** without immediate death (§38).
+- A successfully transformed **Glass Apple begins at 0%** with its own natural **Bright** farming optimum (§39). The player may subsequently change the environment from Lit toward Bright to optimize its Leaf peak or obtain its **Starberry Seeds**.
+- The exact pre-Lit preparation, named fungus requirements and elapsed hours in the recent proposal are **not verifiable in this stored record**. Preserve the qualitative distinction without assigning invented numbers. This route and **Starberry → Glass Apple** create the same non-attuned species.
+
+### D. General Transformation integrity and exclusivity
+
+- **No growth/production Effects as recipe gates:** named-fungus contact means spatial reach through **either environmental OR cultivation Influence footprint (§68)**, even if a Growth/Timing/Yield Effect has no current stage-appropriate bonus. Recipes use the environment, contact, time and completed transitions without requiring the Plant to reach any percentage. A successful Transformation always replaces the old Plant with a fresh Plant at **0% (§58)**.
+- **No Mycelial-on-Plant prerequisite**, generic Transformation Influence, new Light Charge system, periodic day/night, extra Seed identities or permanent terrain Material requirement.
+- **Sibling-recipe exclusivity (§66):** the intended Thymely branches are Bright / Dim / Dark; Sunrice branches Bright (Starberry) vs net Lit with positive+negative overlaps (Pum'king); Moonrice branches Dim (Thymekeeper) vs Dark (Ghost Rice). Therefore the conceptual routes can have mutually incompatible resolved illumination states. **Final exact formal proof awaits restoration of every complete recipe**, particularly if the original proposed sequence introduces transition checks that can overlap. No arbitrary runtime winner priority.
+- **First-pass Seed/farming economy remains approved:** Thymekeeper produces Sunrice Seeds; Starberry produces Sunrice Seeds; Ghost Rice produces Moonrice Seeds; Dillusion produces its own Seeds; Glass Apple produces **Starberry Seeds**; Pum'king is entirely sterile. Working Spices species names still await the later cooking-spice renaming pass.
+
+**Documentation status:** The user has **expressly accepted the complete proposed Spices pass**, including the named highlighted mechanics, but **some exact proposed parameters cannot be authenticated from available source text**, and are deliberately left unfilled here rather than invented. This section faithfully preserves the accepted network and confirmed constraints. It does **not** represent a fully transcribed/implementation-ready 11-row recipe specification. The other five families (Ingredients §67, Aquatic §69, Woodlands §§71–72, Flowers §73, Desert §74) remain fully recorded with their initial conditions/timings. **No gameplay code has been modified.**
