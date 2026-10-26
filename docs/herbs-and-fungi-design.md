@@ -3943,7 +3943,7 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 **Approval status (updated after subsequent user review):** All six §53 bundles Mistruffle/Crumblecap/Quickshade/Tidegill/Frostfolio/Sunspore are **APPROVED as first-pass species designs**, as are the four §50 fungi and the earlier nine. Exact Allocation exchange ratio, numeric fungus lifecycle/Spore balance, and feasibility of Waterborne Source geometries still require their dedicated passes. §51 audit and §52 many-source principle accepted as working design; no final fungus count or numeric commitments; no final transformation recipes. No code altered.
 
 
-## 54. Fungi — APPROVED asymmetric Leaf–Seed value, plus six MORE alternate-Effect species (NEW PROPOSALS)
+## 54. Fungi — AGREED asymmetric Leaf–Seed value, plus six MORE alternate-Effect species (APPROVED first-pass bundles)
 
 **Status:** The user explicitly **APPROVED all four §50 fungi** (Echomorel, Wakemorel, Hushroom, Sim'mushro'dim) **AND all six §53 fungi** (Mistruffle, Crumblecap, Quickshade, Tidegill, Frostfolio, Sunspore). That raises the accepted first-pass profiles to **19 fungus species including the unique Mycelial-producing species Mycelord**, with no roster count cap and no guarantee all 19 survive later consolidation. The user also gave an **AGREED economic direction** for Leaf–Seed Allocation: **Leaves are more valuable than Seeds, so an extra Leaf must generally cost multiple Seeds**. E.g. a candidate ratio is **3 Seed units per 1 Leaf** (same trade mirrored for Seeds-favoring Allocation); **3:1 is NOT approved as a fixed rate**, and exact species-independent conversion, caps and curve eligibility are deferred to the fungal numerical/system pass. The user asked to **continue developing additional alternatives**, especially where a wanted Effect otherwise forces one mandatory fungus.
 
@@ -3969,9 +3969,9 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 | **Duskleaf** | **Darkening −1 Illumination**, Luminous, **Airborne Range 2** | **Time-based Leaf Production +0.08 Leaves/hour** at **70–125% Plant progress**, **Airborne Range 1**, only during positive progress | **Independent** | Earlier-window lower-rate alternative to approved **Echomorel +0.15 Leaves/h at 160–190%, Cooling −1 and Mycelial-preferring**; might help early-bloom Plants but shade can compromise their Leaf maxima |
 | **Brookrill** | **Cooling −1 Temperature**, Thermal, **Airborne Range 2** | **Time-based Seed Production +0.10 Seeds/hour** at **120–170% Plant progress**, **Waterborne Range 3**, only during positive progress | **Independent** | Mid-Ripening lower-rate Waterborne alternative to approved **Sim'mushro'dim +0.15 Seeds/h at 160–195%, Warming +1 and Mycelial-preferring**; Flooded connectivity is a major positioning cost |
 
-**STATUS:** All six species above are **NEWLY PROPOSED, NOT USER-APPROVED**. Provisional names can change; if two eventually merge without losing player choices, consolidation is fine. The numbers are first-pass candidate emission magnitudes only, not final balance. **No new Effect type** is introduced: positive/negative Ripening rate, Germination Adjustment, Harvest Window width, and Time-based Leaf/Seed Production already exist in the Plant compatibility tables.
+**APPROVAL UPDATE (26 October 2026):** The user reviewed and **APPROVED all six species above as first-pass Effect pairings and design roles**: Dewmender, Lanterncap, Tickbolete, Rilllace, Duskleaf and Brookrill. Provisional names can change; if two eventually merge without losing player choices, consolidation is fine. Their numbers are first-pass candidate emission magnitudes only, not final balance. **No new Effect type** is introduced: positive/negative Ripening rate, Germination Adjustment, Harvest Window width, and Time-based Leaf/Seed Production already exist in the Plant compatibility tables.
 
-### C. Dewmender — proposed alternative Germination support
+### C. Dewmender — APPROVED first-pass alternative Germination support
 
 **Six-part profile:**
 1. **Growth / Sporulation and Spores:** Ordinary relatively short first-stage, ordinary second-stage fungus. Emits immediately and after 200% while alive; one destructive harvest yields **Dewmender Spores only**. All stage days, Spore yield and per-Spore planting odds deferred.
@@ -3983,7 +3983,7 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 
 **Alternative-value check:** If Starberry's approved one-Seed chance is **18%** and Germination compatibility 1.0×, Dewmender brings it to **22%**; five invested Seeds would guarantee germination (5×22%=110% clamped to 100%), versus Hushroom's four at 26%/Seed and baseline six at 18%. This is **not simply inferior** when Hushroom's Darkening could damage a Bright crop, but a Damp field's +1 Moisture may create a similarly serious Flooded cost.
 
-### D. Lanterncap — proposed alternative Ripening slowdown
+### D. Lanterncap — APPROVED first-pass alternative Ripening slowdown
 
 **Six-part profile:**
 1. **Lifecycle/Spores:** Standard 0–200% fungal Growth/Sporulation; produces **Lanterncap Spores**, destructive harvest; constant emissions from viable germination onward; precise days/Spore numbers open.
@@ -3995,7 +3995,7 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 
 **Exploit review:** Any positive-progress hourly-production fungus can combine with Ripening slowdown; two different slowdown sources now exist. Must constrain rate to stay positive unless explicit Plant innate dormancy, and test long accumulation at low nonzero progress during numeric balance. No production when progress stalls or after 200%.
 
-### E. Tickbolete — proposed alternative Ripening acceleration
+### E. Tickbolete — APPROVED first-pass alternative Ripening acceleration
 
 **Six-part profile:**
 1. **Lifecycle/Spores:** Standard fungal 0–200%, maintains emissions at 200%, one consuming harvest for **Tickbolete Spores** only. Exact days/probabilities deferred.
@@ -4005,7 +4005,7 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 5. **Use and trade-off:** More modest but potentially appropriate alternative to Wakemorel's **+25% Ripening and −1 Moisture** in a Damp crop. A Damp Pumpkin wanting to accelerate late progress can avoid Wakemorel's Drying but risks Tickbolete Warming it into inappropriate Hot if other Thermal Sources overlap. Another Plant might prefer the stronger Drying variant to drain Flooded→Damp while accelerating Ripening.
 6. **Recipe relevance:** Ordinary thermal/environment and Ripening rate contributions only; no final Plant transformation details.
 
-### F. Rilllace — proposed Waterborne Harvest Window alternative
+### F. Rilllace — APPROVED first-pass Waterborne Harvest Window alternative
 
 **Six-part profile:**
 1. **Lifecycle/Spores:** Standard fungus cycle; own **Rilllace Spores** via destructive harvest; immediate/ongoing emissions while viable. Fungus numeric details TBD.
@@ -4015,7 +4015,7 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 5. **Use and trade-off:** Droughtcap provides stronger **+25% Window widening** but independently **Dries** the terrain, possibly breaking the flooded Waterborne connections the player wishes to maintain. Rilllace's lower +12% may be superior for **Flooded Aquatic crops** if players already have a connected Flooded canal. Cooling could still push a Cold-preferred Aquatic into Freezing and degrade/kill it.
 6. **Recipe relevance:** Flooded reach and ordinary temperature effects only; no fixed named Plant recipe.
 
-### G. Duskleaf — proposed EARLY hourly Leaf Production alternative
+### G. Duskleaf — APPROVED first-pass EARLY hourly Leaf Production alternative
 
 **Six-part profile:**
 1. **Lifecycle/Spores:** Standard fungal lifecycle and one destructive **Duskleaf Spore** harvest; starts emitting from germination and persists after 200% if not harvested.
@@ -4027,7 +4027,7 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 
 **Balance safeguard:** Duskleaf cannot generate Leaves without **actual positive 0–200% progression**, and accumulations stop on destructive Plant harvest. Test very-low-positive Growth-rate mechanics later, not in this first profile pass.
 
-### H. Brookrill — proposed MID-stage Waterborne hourly Seed Production
+### H. Brookrill — APPROVED first-pass MID-stage Waterborne hourly Seed Production
 
 **Six-part profile:**
 1. **Lifecycle/Spores:** Standard 0–200% fungus and consuming harvest of own **Brookrill Spores**, perpetual viable emission after 200%, stage/germination numbers deferred.
@@ -4050,9 +4050,69 @@ All signs stay the same across recipients and all cultivation magnitudes are mul
 | **Time-based Leaf Production** | Echomorel **+0.15/h, 160–190%, Cooling**, Mycelial-preferring | **Duskleaf +0.08/h, 70–125%, Darkening** | Early versus late lifecycle opportunity, with different environmental compromises |
 | **Time-based Seed Production** | Sim'mushro'dim **+0.15/h, 160–195%, Warming**, Mycelial-preferring | **Brookrill +0.10/h, 120–170%, Cooling**, **Waterborne** | Mid versus late accumulation; aquatic connection vs Airborne propagation |
 
-**Result if new six approved:** Prior approved 19 + six proposed §54 = **25 working candidate fungus species** total, including Mycelord, with **NO roster cap or implied 25-target**. Common primary Effect categories now have at least two source candidates at varying strengths and/or different delivery; still only **one Seed Timing Shift** and **one of each Allocation direction**, all §53 approved. Additional niche variants and consolidation can be explored next; **do NOT premerge now**, and do not add Fertility-only or Enchanted-only fungi unless their parent environmental systems gain a clear role. This is fungal DESIGN work only, not final numeric balancing or implementation.
+**Result after user approval:** Prior approved 19 + six approved in §54 = **25 working candidate fungus species** total, including Mycelord, with **NO roster cap or implied 25-target**. Common primary Effect categories now have at least two source candidates at varying strengths and/or different delivery; still only **one Seed Timing Shift** and **one of each Allocation direction**, all §53 approved. Additional niche variants and consolidation can be explored next; **do NOT premerge now**, and do not add Fertility-only or Enchanted-only fungi unless their parent environmental systems gain a clear role. This is fungal DESIGN work only, not final numeric balancing or implementation.
 
-**User review boundary:** §47 Mycelord and §§48–50 and §53 are **APPROVED first-pass fungus profiles**. The Leaf-over-Seed **economic asymmetry is AGREED** but exact 3:1 (or 2:1 / 4:1) exchange rate, stage eligibility and rounding remain unapproved. **§54's six new named fungus pairings are PROPOSED for user review**, not yet accepted. The dedicated comprehensive Plant-owned transformation pass stays after full fungal roster/design and global fungal numerical balancing. No code changed.
+**User review update (26 October 2026):** §47 Mycelord, §§48–50, §53 and **all six §54 fungus bundles** are **APPROVED first pass**: **25 working species total**, not a cap or global numerical balance. The Leaf-over-Seed **economic asymmetry is AGREED**, but the 3:1 (or 2:1 / 4:1) exchange rate, stage eligibility, bounds and rounding remain **OPEN**. Additional source alternatives may be proposed; they do not become approved without user review. The dedicated Plant-owned transformation pass remains after fungal roster/system balance. No gameplay code changed.
+
+
+## 55. Fungi — three alternative Sources for remaining singleton desirable Effects (NEW PROPOSALS; not yet approved)
+
+**Status (26 October 2026):** The user approved all six §54 fungi, bringing the first-pass approved roster to **25 species including Mycelord**, and reaffirmed the **AGREED §52 principle**: most desirable direct cultivation Effects should be available from multiple meaningfully different fungal Sources so that obtaining Effect A does not mandate Fungus B. **Mycelord remains the sole Mycelial-creating fungus species**. The three new species below are **PROPOSED for review, NOT APPROVED**. If accepted, there would be **28 working candidates**, not a roster cap. No full fungal numerical pass or code changes are authorized by these proposals.
+
+**Scope:** This small batch provides one more **EARLIER Seed Timing Shift** Source, one more **Leaf-favoring Allocation** Source, and one more **Seed-favoring Allocation** Source. Each uses an existing Effect category, one ordinary signed environmental step, and a distinct short-range Airborne cultivation footprint. Crucially, it offers **non-Waterborne routes** to Seed Timing and Seed-favoring Allocation without deleting Tidegill's or Sunspore's advantage along connected Flooded corridors. Exact Allocation exchange units, strength, stacking, curve eligibility and rounding remain **OPEN for the fungus-wide system pass**; this section does not smuggle in a 3:1 ratio.
+
+### A. Three newly proposed Effect bundles
+
+| Fungus (working name) | Environmental emission | Independent Plant-development emission | Fungal habitat | Existing alternative and meaningful difference |
+| --- | --- | --- | --- | --- |
+| **Gloamclock** | **Darkening −1 Illumination**, Luminous, Airborne Range 2 | **Seed Timing Shift −8 progress points EARLIER**, Airborne Range 1 | **Mycelial-independent** | **Tidegill** gives stronger −12 EARLIER via Waterborne Range 3 while Brightening; Gloamclock reaches non-Flooded fields but only locally and may darken a light-dependent crop |
+| **Bristlecap** | **Drying −1 Moisture**, Aqueous, Airborne Range 2 | **Leaf-favoring Leaf–Seed Allocation**, Airborne Range 1 | **Mycelial-independent** | **Frostfolio** uses Cooling and can gain a Mycelial-preferring source-side boost; Bristlecap needs no Mycelial but may Dry a valuable crop or sever a Flooded route |
+| **Goldgill** | **Brightening +1 Illumination**, Luminous, Airborne Range 2 | **Seed-favoring Leaf–Seed Allocation**, Airborne Range 1 | **Mycelial-independent** | **Sunspore** uses Warming and Waterborne Range 3; Goldgill works without a Flooded route but reaches fewer hexes and may over-brighten shade-preferring Plants |
+
+For the two Allocation alternatives, no relative numeric conversion **strength** is asserted. Different environmental side Effects and propagation are meaningful distinctions already; once Allocation semantics are defined, compare per-Source allocation intensity, compatibility, setup economy and viable crop outcomes rather than silently assuming all Allocation emitters are identical.
+
+### B. Gloamclock — PROPOSED Airborne earlier-Seed alternative
+
+1. **Lifecycle/Spores:** Standard 0–100% fungal Growth, 100–200% Sporulation, emission from successful germination and after maturity while viable; one destructive harvest yields **Gloamclock Spores only**. Stage days, Spore quantity and germination odds remain for the fungus-wide pass.
+2. **Environment:** **Darkening −1 Illumination**, Luminous **Airborne Range 2**, fixed signed environmental Property step; no per-Plant reversal or special darkness requirement.
+3. **Plant Influence:** **Seed Timing Shift −8 progress-percentage points EARLIER**, **Airborne Range 1**, multiplied by the recipient Plant's approved Seed Timing compatibility. It shifts the existing Seed-availability curve; it **does not increase Seed count, create Seed identity, accelerate the Plant lifecycle, produce Seeds per hour or work on sterile Plants**. Precise shift composition/clipping stays open.
+4. **Habitat:** **Mycelial-independent**, no extra Temperature/Moisture/Illumination fungal-maintenance matrix.
+5. **Puzzle:** A modest local alternative for Seed-bearing Plants **without a Flooded connection**. A Dim/Dark-preferring Seed crop may welcome Darkening, but a Bright crop may need another Source or selective Luminous blocking to preserve its harvest value. Tidegill's stronger Waterborne Range 3 remains advantageous along actual Flooded corridors; its separate Airborne Brightening is not interchangeable with Gloamclock's darkness. For approved **Rice 1.6× Seed Timing compatibility**, the nominal −8 would be −12.8 points before any eventual curve bounds; this is a response example, **not** a promise that Seeds exist at a particular progress point.
+6. **Transformation:** Existing Illumination and Seed Timing consequences only. No named Plant transformation recipe, additional Source-presence mechanic or exclusive unlock.
+
+**Feasibility question for later audit:** At which harvest stages does earlier Seed availability improve the same destructive harvest as Leaves, instead of merely making no difference to the optimal harvest? Compare non-Flooded placements against Tidegill's flooded routes and verify blockers can separate short-range cultivation from broader Darkening when required.
+
+### C. Bristlecap — PROPOSED Mycelial-free Leaf-favoring Allocation alternative
+
+1. **Lifecycle/Spores:** Standard emitting fungal Growth/Sporulation, persistent emissions at 200%, destructive harvest of **Bristlecap Spores only**; exact biological/economic numbers deferred.
+2. **Environment:** **Drying −1 Moisture**, Aqueous **Airborne Range 2**, a normal additive Property step. Can turn Flooded→Damp or Damp→Dry when not counterbalanced.
+3. **Plant Influence:** **Leaf-favoring Leaf–Seed Allocation**, **Airborne Range 1**, trading an actually eligible Seed budget for additional Leaves on the **same Plant's one harvest**. Must not grant free Leaves to Seedless/sterile Plants, alter the natural Seed identities, convert Fungus Spores or provide a second harvest. No numerical exchange ratio, rounding rule, output cap or progress-overlap rule is proposed here.
+4. **Habitat:** **Mycelial-independent**, unlike Frostfolio's Mycelial-preferring option. Bristlecap emits without Mycelord infrastructure, although it may eventually have a different intensity once global balance assigns one.
+5. **Puzzle:** Bristlecap's Drying may beneficially drain a Flooded crop area toward Damp, but may lower ordinary Damp crops into penalized or lethal Dry. It can also break connected Flooded paths carrying a **different Fungus's Waterborne cultivation Influence** in the same environmental recalculation. Frostfolio instead cools its wider surroundings and may benefit from Mycelial on the Fungus source hex. Neither effect gives Leaves without sacrificing real potential Plant Seeds, so high Leaf output still creates a rotation-sustainability cost.
+6. **Transformation:** Ordinary Drying and trade-off relevance only; no Plant-owned recipe assignment.
+
+**Feasibility question for later audit:** If Leaves and Seeds do not overlap at a Plant's intended harvest progress, does Allocation do nothing or use a narrowly defined eligible budget? That system-wide decision must be settled for both Bristlecap and Frostfolio before claiming exact extra Leaves.
+
+### D. Goldgill — PROPOSED Airborne Seed-favoring Allocation alternative
+
+1. **Lifecycle/Spores:** Ordinary 0–200% fungal Growth/Sporulation and persistent living Source; one destructive harvest of **Goldgill Spores only**; all stage times, Spore rates/counts and survival numbers open.
+2. **Environment:** **Brightening +1 Illumination**, Luminous **Airborne Range 2**, same globally consistent signed step as other Light Sources.
+3. **Plant Influence:** **Seed-favoring Leaf–Seed Allocation**, **Airborne Range 1**, exchanging actually eligible Leaves for more of the Plant's **already valid Seed identity/identities**, subject to a later bounded conversion rule. Absolutely sterile Plants remain sterile; the Effect cannot create a new Seed species or grant repeated harvests. No finalized Leaf→Seed exchange ratio, source intensity, compatibility multiplication or overlap rule.
+4. **Habitat:** **Mycelial-independent**, operating without Flooded or Mycelial under the Source. Its cultivation Influence is locally Airborne, whereas Sunspore's is Waterborne Range 3.
+5. **Puzzle:** Goldgill can serve **non-Flooded Seed-bearing rotations**, where Sunspore's Waterborne route cannot travel. Its +1 Brightening can improve a Dim field that wants Lit, but may compromise a Dark/Dim-preferring Seed crop or interact with other Illumination Sources and blockers. Sunspore keeps the ability to deliver Seed allocation farther along connected Flooded channels while emitting an independently traveling Warming Effect. Because Seed gain costs Leaves—the primary farming objective—Goldgill does not package a free high-value Leaf optimization even when Brightening happens to help the crop.
+6. **Transformation:** Ordinary Light/Allocation roles only. No Plant-specific requirement or named-fungus transformation recipe.
+
+**Feasibility question for later audit:** Compare Goldgill's small local Airborne footprint against a Sunspore Waterborne Range 3 canal, especially where blocking Brightening would also obstruct desirable garden light. Verify any allocation benefits preserve Seed identity/mixes and do not run when the Plant has no eligible Seed-producing possibility.
+
+### E. Coverage and approval boundary
+
+| Desirable Effect direction | Previously approved singleton | NEW PROPOSED alternative | Difference to test |
+| --- | --- | --- | --- |
+| **Seed availability earlier** | Tidegill −12, Waterborne R3, Brightening | **Gloamclock −8, Airborne R1, Darkening** | Higher routed reach/power vs local non-Flooded usability; opposing Light emissions |
+| **Leaves for Seed sacrifice** | Frostfolio, Airborne R1, Cooling, Mycelial-preferring | **Bristlecap, Airborne R1, Drying, independent** | Different environmental hazard and Mycelial/setup cost |
+| **Seeds for Leaf sacrifice** | Sunspore, Waterborne R3, Warming | **Goldgill, Airborne R1, Brightening** | Flooded-network reach vs local use without a water route |
+
+**STATUS: Gloamclock, Bristlecap and Goldgill are PROPOSED ONLY.** Existing 25 Fungus species through §54 are approved first pass; accepting these three would make 28 candidates, **not a cap**. All proposed numbers are provisional. No new environmental Property, Fertility/Enchanted-only content, generic Transformation Influence, Fungal second bloom, or extra Mycelial-creating species. The next step is **user review of these three bundles**, then more alternative exploration if worthwhile, then a full coverage/interaction/feasibility matrix, fungus-wide numerical/system pass, and only afterward the separate Plant-owned transformation recipes.
 
 
 ---
