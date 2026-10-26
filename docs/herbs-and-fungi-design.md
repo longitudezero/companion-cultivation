@@ -2,6 +2,7 @@
 
 **Status:** Active text-only design reference; not implemented in Prototype 1  
 **Started:** 23 October 2026  
+**Latest Transformation status (26 October 2026):** §76 approves all 11 replacement Spices recipe specifications after the original detailed proposal was lost. All six families now have complete first-pass recipes (69 routes total); §75 is historical/incomplete, not the current recipe specification.  
 **Related foundation:** [Environmental System v1.2](environmental-system-v1.2.md) (the older v1.1 file is archival)
 
 This document records agreed cultivation directions, ideas under consideration, and unresolved details. It owns **Plant and Fungus gameplay** and the proposed **timed Mycelial ground overlay**, while Environmental System **v1.2** remains authoritative for the implemented hex environment, its **three** Properties, Conditions, Sources, Influences, Range/Spread Budget Propagation, Blockers, Anchors, and existing Environmental Adjacency. **§61 supersedes the historical Material/Fertility/Enchanted assumptions in earlier design sections.**
@@ -4760,7 +4761,7 @@ These paths deliberately use opposing Temperature or Illumination emissions. Bal
 
 **Recipe design progress after this acceptance: Ingredients 6/6 (§67), Aquatic 14/14 (§69), Woodlands 13/13 (§§71–72), Flowers 12/12 (§73), Desert 13/13 (§74) complete; only Spices remains.**
 
-## §75 — Spices Transformation routes: user acceptance and saved light-engineering constraints (26 October 2026)
+## §75 — Spices Transformation routes: user acceptance and saved light-engineering constraints (HISTORICAL; superseded in detail by §76)
 
 **APPROVAL CONFIRMATION:** The user said **“yep i like them including the two Pum'king overlap routes and Ghost Rice's Lit-to-Glass-Apple route. please add them in the github repo.”** The agreed **Spices transformation topology has 11 directed Plant-owned routes among 10 Plants**. This section preserves the approval and every independently traceable graphical/spatial constraint, especially the two specified highlights. **Provenance limitation:** The present GitHub files only contain the old schematic proposal in §15 plus accepted Plant profiles in §§37–40; the exact complete subsequently presented 11-row recipe table (named contact alternatives, hours, and every condition) is **not present in retrievable text**. Therefore no new exact fungal assignments or durations are invented or falsely represented as approved here. Once the original table is available, transcribe its exact values into this section; do not quietly fill gaps from historical A/B/C/D or Glimmer/Veil/Prism/Gloam shorthand.
 
@@ -4803,3 +4804,57 @@ The illumination directions above are grounded in the long-standing accepted §1
 - **First-pass Seed/farming economy remains approved:** Thymekeeper produces Sunrice Seeds; Starberry produces Sunrice Seeds; Ghost Rice produces Moonrice Seeds; Dillusion produces its own Seeds; Glass Apple produces **Starberry Seeds**; Pum'king is entirely sterile. Working Spices species names still await the later cooking-spice renaming pass.
 
 **Documentation status:** The user has **expressly accepted the complete proposed Spices pass**, including the named highlighted mechanics, but **some exact proposed parameters cannot be authenticated from available source text**, and are deliberately left unfilled here rather than invented. This section faithfully preserves the accepted network and confirmed constraints. It does **not** represent a fully transcribed/implementation-ready 11-row recipe specification. The other five families (Ingredients §67, Aquatic §69, Woodlands §§71–72, Flowers §73, Desert §74) remain fully recorded with their initial conditions/timings. **No gameplay code has been modified.**
+
+## §76 — Spices: complete replacement first-pass Transformation recipes (APPROVED, 26 October 2026)
+
+**Approval and provenance:** After the exact details of the previously accepted Spices proposal could not be recovered, the user reviewed a **newly reconstructed full 11-route proposal** using the original Spices Plant profiles (§§37–40), the approved 31-Fungus roster, and the same principles used for the other five families. The user replied **“i like them”** to the complete proposed roster. Thus the **following named contacts, Condition requirements, first-pass durations, and the two-phase Ghost Rice route are now APPROVED first-pass specifications**. They are a newly approved replacement, **not a purported recovery of the lost original table**. The 11 edges and special Pum'king/Ghost Rice directions were already accepted in §75. §75 is retained as historical provenance; **use this §76 for implementation details wherever §75 was incomplete**.
+
+### A. Common requirements and interpretation
+
+- Each recipe belongs to its source Plant. Other than the explicit two-phase Ghost Rice recipe, maintain the listed **final resolved** Moisture, Temperature and Illumination Conditions plus the listed **living named-Fungus contact** for the full uninterrupted duration. Interrupting any prerequisite resets that recipe's clock.
+- An ordinary named contact is satisfied when **any actual environmental OR cultivation Influence footprint** of the named living Fungus reaches the Plant hex (§68), respecting the individual emission's propagation, Range/network, Mode and applicable Hex/Edge Blockers. A currently inapplicable Growth/Ripening/Yield effect still establishes contact by its footprint. Neither its bonus magnitude nor the Plant's lifecycle percentage is a Transformation gate.
+- **Special Pum'king requirement:** In addition to the named contacts, a genuinely positive **Brightening** Luminous environmental emission and a genuinely negative **Darkening** Luminous environmental emission from the selected opposite-sign groups must **both actually reach the precursor's hex throughout the qualifying interval**. It is not sufficient that the Fungi exist elsewhere or that only their separate cultivation emissions arrive. The resulting **final resolved** Illumination must remain **Lit** throughout, after all Source stacking, clamping and Environmental Adjacency. Additional Sources or Blockers may be used to achieve the net state.
+- Named alternatives linked by **OR** are substitutes; clauses joined by **AND** require an actual contacting Fungus from **each** group. A Fungus with its own source-side habitat dependency would still need that habitat, but **no recipe requires Mycelial on the Plant's hex**. These Spices choices use already approved Fungi, not the obsolete §15 Glimmer/Veil/Gloam/Prism placeholder roles.
+- All successful transformations replace the old Plant with the destination at **0% Growth**, losing old progress, accumulated Leaves/Seeds, hazard and recipe timers (§58). No lifecycle stage/maturity threshold, generic Transformation Influence, new environmental Property, or extra fungal effect is introduced. Hours are deliberately **first-pass, playtest-adjustable** values.
+
+### B. Ordinary sustained-exposure routes (nine routes)
+
+| From | To | Final resolved Conditions on source Plant | Named living Fungus contact | Uninterrupted exposure |
+| --- | --- | --- | --- | ---: |
+| **Thymely** | **Sunrice** | Damp, Temperate, **Bright** | Glimmergill **OR** Lanterncap | **12h** |
+| **Thymely** | **Moonrice** | Damp, Temperate, **Dim** | Veilcap **OR** Fogdial | **14h** |
+| **Thymely** | **Shadow Onion** | Damp, Cold, **Dark** | Hushroom **OR** Gloamclock | **16h** |
+| **Sunrice** | **Starberry** | Damp, Warm, **Bright** | Prismorel **OR** Goldgill | **18h** |
+| **Sunrice** | **Pum'king** | Damp, Temperate, **Lit**, with positive and negative Luminous environmental emissions both reaching | (**Glimmergill OR Goldgill**) **AND** (**Veilcap OR Fogdial**), satisfying the special actual-emission overlap rule | **24h** |
+| **Moonrice** | **Thymekeeper** | Damp, Temperate, **Dim** | Gloamclock **OR** Tidegill | **18h** |
+| **Moonrice** | **Ghost Rice** | Damp, Cold, **Dark** | Quickshade **OR** Duskleaf | **20h** |
+| **Shadow Onion** | **Dillusion** | Damp, Temperate, **Lit** | Lanterncap **OR** Goldgill | **18h** |
+| **Starberry** | **Glass Apple** | Damp, Warm, **Bright** | **Prismorel AND Mistruffle** | **28h** |
+
+**Identity and economy:** Thymely opens Bright/Dim/Dark field specializations; Sunrice and Starberry are successive Bright Leaf crops; Moonrice is a self-Seeding Dim supplier, while Thymekeeper produces **Sunrice Seeds** for the Bright branch; Ghost Rice is a higher-Leaf Dark crop producing **Moonrice Seeds**; Shadow Onion is the accessible self-Seeding Dark crop; Dillusion is genuinely productive under either Dim or Lit without a special intrinsic switching bonus. The stronger destinations are earned through deliberate configurations but retain their already approved crop curves and Seed identities.
+
+### C. Ghost Rice → Glass Apple: two-phase Dark-to-Lit route (tenth route)
+
+This is a **newly approved replacement specification**, rather than a recovered timing table from §75:
+
+1. **Dark preparation:** Maintain **Damp**, **Temperate OR Cold**, and resolved **Dark** on Ghost Rice with named contact from **Gloamclock OR Duskleaf** for **12 uninterrupted hours**. A break before 12h resets preparation.
+2. **Transition window:** After preparation, deliberately **leave Dark**. From that moment, the player has **8 in-game hours to reach resolved Lit**. Passing through Dim is allowed. Continue to maintain Damp and a nonextreme **Temperate OR Cold** condition during the transition. At completion, **Prismorel OR Lanterncap** must actually contact Ghost Rice through one of its ordinary Influence zones. The preparatory darkening Fungus need not remain in contact after preparation, unless required by the final setup for another reason.
+3. **Completion:** On reaching **Lit** within the window with all requirements satisfied, immediately transform Ghost Rice into an ordinary fresh **0%-Growth Glass Apple**. The player may then raise Illumination to **Bright** for Glass Apple's optimal subsequent farming. The resulting species has no origin-specific attunement and has its existing **Starberry Seed** harvest identity.
+4. **Failure:** If the transition misses the eight-hour deadline, or mandatory Moisture/Temperature conditions are lost, the attempt fails and requires a fresh 12h Dark preparation. No partial time is banked. This sequence is stage-independent and respects §64's pre-event and post-event state ordering.
+
+Ghost Rice's established strong Dark production versus weak-but-viable Lit production makes this an intentional engineering transition, not an instant lethal condition or an invented photocharge mechanic.
+
+### D. Dillusion → Pum'king: second net-Lit opposing-source route (eleventh route)
+
+Maintain **Damp, Warm, final resolved Lit** and contact from **(Lanterncap OR Prismorel) AND (Hushroom OR Gloamclock)** for **22 uninterrupted hours**. Crucially, the selected positive Brightening and negative Darkening **environmental emission footprints** must simultaneously reach Dillusion for all 22h under the special rule in A; merely reaching via cultivation footprints alone is insufficient for the opposing-source condition.
+
+This differs from Sunrice's **Damp/Temperate/Lit, 24h** route. Dillusion already tolerates Lit while farming and requires an additional precursor step through Shadow Onion. Both routes produce the **same sterile Pum'king** starting at 0%, with its approved **46-Leaf net-Lit peak and zero Seeds**. The opposite-sign setup is an acquisition condition, **not** a permanent requirement after Transformation, although keeping Lit helps its subsequent output.
+
+### E. Exclusivity and feasibility audit
+
+- **All 11 established directions are covered.** There are no new arrows or species: Thymely has three routes; Sunrice and Moonrice two each; Shadow Onion, Starberry, Ghost Rice and Dillusion one each. Thymekeeper, Pum'king and Glass Apple have no further outgoing Spices Transformations.
+- **Sibling mutual exclusivity (§66):** Thymely's three outgoing routes are Bright vs Dim vs Dark; Sunrice's are Bright vs Lit; Moonrice's are Dim vs Dark. A hex has only one final resolved Illumination Condition at a time. All other precursors have one outgoing route, including the two-phase Ghost Rice. Thus no sibling conflict needs an arbitrary winner priority. Named alternatives and different durations are **not** the basis of the proof.
+- **Source feasibility first pass:** Every named fungus exists in the accepted roster. Glimmergill/Lanterncap/Goldgill/Prismorel/Tidegill supply Brightening via their actual profiles, while Veilcap/Fogdial/Hushroom/Gloamclock/Quickshade/Duskleaf supply Darkening; Mistruffle supplies Wetting. The selected fungi have distinct ordinary cultivation effects and reach patterns, allowing actual choices rather than a fictitious universal Transformation effect. Additional approved Wetting/Warming/Cooling/Brightening sources may be needed to establish the listed states.
+- **Explicit caveat:** Numerical source stacking alone is not a full placement proof: adjacency from neighboring Dark/Bright hexes, blockers, the routed Prismorel footprint, six immediate neighbors and range-two alternatives can change the outcome. In particular, net Lit with both + and − light emissions and Bright with multiple Sources should receive real hex-layout simulation tests during implementation. Do not silently alter emissions, create extra fungi, or ignore adjacency just to force feasibility.
+- **Hazards/economy:** The listed ordinary durations and Ghost Rice's window fit within the stated nonextreme Spices habitat tolerances, subject to separately maintained Dry/Hot/Freezing/Mycelial hazards. The premium endpoints preserve their original identity: **Pum'king** is sterile and best in Lit; **Glass Apple** prefers Bright, yields 58 natural peak Leaves or 24 **Starberry Seeds** near full maturity, with no Glass Apple Seeds. Thymekeeper remains the Dim source of Sunrice Seeds.
+- **Status:** All six Plant families now have approved **first-pass** Transformation directions and specified recipes: Ingredients 6, Aquatic 14, Woodlands 13, Flowers 12, Desert 13 and **Spices 11**, for **69 routes total**. Parameters are ready for implementation planning and later playtesting, **not** final balanced values. No Plant/Fungus/Mycelial runtime has been implemented by this documentation approval.
