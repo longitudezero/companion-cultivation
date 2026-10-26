@@ -1,0 +1,97 @@
+# Plant-owned Transformations — shared rules
+
+> **Migration draft — not yet authoritative.** The original documents remain unchanged. Detailed source sections are carried over intact in this first pass to prevent losing numbers, edge cases or qualifications. Some inherited progress/status wording still describes earlier design phases; it will be moved into the historical reference during the editorial audit. The later approved recipe sections take precedence where they conflict.
+
+**Recipe locations:** [Ingredients](../plants/ingredients.md), [Aquatic](../plants/aquatic.md), [Woodlands](../plants/woodlands.md), [Flowers](../plants/flowers.md), [Desert](../plants/desert.md), [Spices](../plants/spices.md). All 69 edges are approved first-pass designs. This file contains cross-family rules only; the concrete recipes live with each family.
+
+## 58. Transformation RESTARTS every new Plant at 0% — APPROVED; supersedes progress continuity
+
+**Status (26 October 2026): AGREED and explicitly clarified by the user.** The earlier assumption that Transformations preserve 0–200% lifecycle progress was a mistake and is **REJECTED**. Every Transformation replaces the old Plant with a new Plant starting at **0% Growth**, as if freshly placed in that species' first stage. This applies across **all six families, all transformation edges, successful/recovery/unwanted branches, and every species that is obtained exclusively through Transformation**. All previously approved Plant durations, yield curves, environmental Responses, hazards, Seed identities and compatibility values remain first-pass starting values; only the transformation continuity assumption changes. **No code implemented yet.**
+
+1. **Object replacement, not progress mutation:** Remove the old Plant instance and create a new instance of the destination species **on the same hex** at **0%**. This counts as the sole object occupying that hex, not two simultaneous objects. No Seed-planting attempt or germination roll is required by an ordinary Transformation; the source Plant already existed.
+2. **Discard all old transient state:** None of the old Plant's Growth/Ripening progress, already available or banked hourly Leaves/Seeds, Seed inventory at partial progress, hazard/death exposure hours (Freezing, Hot, Mycelial, Dry/Wet etc.), Dormancy flag, source/exposure recipe timers, or other accumulated state carries over. A sterile destination remains sterile; no old Seed identities can leak through.
+3. **Initialize the new species cleanly:** Use its species-specific Growth speed and current resolved environment starting at 0%. Start any newly applicable hazard/exposure clocks from zero. Source Influences currently reaching the hex may begin affecting the new Plant according to its own compatibility and eligibility, but do not retroactively earn output or exposure from the predecessor's past.
+4. **Transformation-context traits are new initialization, not inheritance:** Existing approved origin-defined exceptions, notably Starlotus's Damp/Flooded attunement according to the qualifying source route, may be assigned **freshly at the moment the new species is created**, if that Plant's own established trait requires it. They are not copying the predecessor's accumulated state and do not change the new 0% lifecycle start.
+5. **One destructive harvest still applies:** A transformed Plant is a new unharvested instance that can eventually yield its own single consuming harvest. Nothing from the destroyed predecessor is automatically harvested or awarded. The new species must actually advance through its own eligible Leaf/Seed production windows. A target with Leaves only at **50–120%** can now reach that interval even if its precursor transformed at **150%**.
+
+**Feasibility consequences:** Old warnings that Daisyspell, Cactaclysm, Glass Apple, Orchidemon or Rosewraith must be reached *before the predecessor's peak percentage* no longer apply. The **new species' full Growth/Ripening time matters for harvesting that species, NOT for eligibility to transform it again**. Transformation-chain speed is governed by the exposure durations, event sequences, and Source/environment setups in each Plant-owned recipe, with **no lifecycle percentage/stage gate** (§59). A chain can advance through multiple identities long before any intermediate Plant matures. First-pass lifecycle numbers are not preemptively rebalanced.
+
+**New logic question for the later Plant-owned recipe pass:** If a new 0%-progress Plant immediately meets another transformation condition on the same hex, don't allow an unbounded zero-time cascade or loop. Define a deterministic per-update transformation limit / timer reset and recipe-priority policy before implementation; no concrete species recipe is assigned by this rule.
+
+---
+
+## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED)
+
+**Status (26 October 2026): AGREED.** The user confirmed the global distinction: **lifecycle progress/stage determines a Plant's growth and harvest output; environmental interactions determine what species the Plant can become.** Transformations may occur at **any 0–200% lifecycle progress**, including Growth, Ripening, and 0%, whenever the Plant's own recipe is fulfilled. **No Transformation recipe may require a precise percentage, minimum/maximum maturity, or being in Growth versus Ripening.** This supersedes §17's old permissive “lifecycle progress/stage” recipe check and any earlier Aquatic wording that requires drainage *during Ripening*. All Plant-owned exact recipes and numeric exposure durations remain reserved for the dedicated later pass; no new Fungus Effect or game code is added here.
+
+### A. What counts toward a Transformation
+
+1. **Plant identity and its own permitted outgoing edges** determine which recipes exist. Ingredients terminal Plants remain untransformable.
+2. **Currently resolved environmental Conditions** (e.g. Flooded, Damp, Hot, Freezing, Lit), independent ordinary named fungal Influence reach, physical fungal adjacency, and overlay presence may be combined in a recipe. These are existing system concepts, not a generic emitted Transformation Influence.
+3. **X uninterrupted hours of qualifying exposure** are the ordinary timed prerequisite. Breaking the relevant condition resets that Plant's associated recipe timer; different recipes may have separate timers. No lifecycle-progress gate is implied by duration.
+4. **Ordered environmental events can be requirements:** for example, remain Flooded for X uninterrupted hours and then drain to Damp; or withstand Freezing for X hours and then thaw. Evaluate the just-completed qualifying exposure **immediately before** the environmental change resets its timer; the change event can activate a Plant-owned recipe when its other requirements hold. No permanent historical “bank” is introduced.
+5. On success, §58 applies: replace the precursor with a **fresh 0%-progress new Plant**, clearing its old exposure/recipe/death timers and accumulated output. A next Transformation may begin qualifying immediately with **new exposure time**, without waiting for the new Plant to grow to 100% or any other percentage.
+
+**No lifecycle restriction exception is needed for Aquatic.** Event ordering, simultaneous competing recipes and death-versus-transformation priority still need deterministic global rules before implementation, but none requires consulting Plant maturity.
+
+### B. Aquatic flood-and-drain fork without a stage check
+
+These are **structural recipe sketches**, not finalized fungal assignments, X-hour values or exclusive conditions:
+
+| Existing Aquatic edge | Stage-free environmental sequence / distinction |
+| --- | --- |
+| **Moonlit Lotus → Starlotus** | Sustain qualifying **Flooded** exposure, then trigger **Flooded → Damp** drainage while any additional ordinary source conditions are satisfied; new Starlotus receives **fresh Damp attunement**, starts at **0%**. |
+| **Moonlit Lotus → Pearlily** | Maintain **Flooded** with its own appropriate source/exposure requirements for the Pearlily branch; no drainage event and no Ripening gate; new Pearlily starts at **0%**. |
+| **Kelpergeist → Starlotus** | Qualify with the specialist ordinary fungal influence/condition while remaining **Flooded**; new Starlotus receives **fresh Flooded attunement**, starts at **0%**. |
+| **Kelpergeist → Kelpless** | Sustain **loss of Flooded** for its own continuous X-hour threshold; the undesirable new Kelpless starts at **0%**. Restoring Flooded before expiry resets the timer. |
+
+**Physical feasibility:** A Waterborne cultivation Influence that qualified the Plant while Flooded may stop reaching it as soon as drainage breaks connectivity. A transition recipe may inspect the **pre-change exposure and arriving state** at the event; any Influence required *after* drainage must truly propagate to the new non-Flooded state by its ordinary rules (e.g. independent Airborne reach). Do not create a special Waterborne exception merely to force a route to work.
+
+**Preserve existing Aquatic decisions:** The two Starlotus attunements and their reversible +60% native Leaf benefit remain; Moonlit Lotus's harvest choices, Pearlily's shortcut via Cresscent, and Kelpless's redemption route remain. Their exact recipes are still open. **Silvercress's innate +60% Growth rate while Flooded during Growth and +50% Leaf Yield while Damp during Ripening are NOT Transformation rules**; lifecycle-specific harvest optimization continues to work unchanged.
+
+### C. Economy versus discovery time
+
+**Corrected inference:** Resetting a newly transformed Plant's progress to 0% does **not** intrinsically slow the *next Transformation*. A chain A → B → C can complete after A's X-hour exposure plus B's own Y-hour exposure (and required environmental transitions), even if B never matures. The full new lifecycle matters only when the player chooses to **grow and harvest** B rather than transform it. If exact future recipes include long exposure requirements, that is their environmental setup cost—not a maturity prerequisite.
+
+**Future implementation tests:** A transformation at 0%, 75%, 150% and 200% under otherwise identical qualifying exposure; pre-drain exposure snapshot before timer reset; Waterborne loss at drainage without ghost influence; Flooded-restoration interruption of Kelpless countdown; multiple independent recipe timers; new Plant reset with no inherited timers; no recursive same-instant Transformation; Silvercress's stage-specific non-Transformation bonuses unaffected.
+
+
+---
+
+---
+
+## 66. Each Plant's alternative Transformation recipes must be mutually exclusive — APPROVED DESIGN REQUIREMENT
+
+**Status (26 October 2026):** Asked what should happen when a Plant satisfies two Transformation recipes simultaneously, the user directed: **“we should not make it possible to satisfy two Transformation recipes simultaneously. if we cant guarantee that we should come back to this question.”** Therefore, do **not** invent or approve a generic random, numerical, alphabetical, first-listed, or hidden priority rule to choose a winning destination.
+
+- **Design outgoing alternatives to be mutually exclusive:** For each Plant with multiple possible destinations, define its eventual Plant-owned exposure/event/Source/environment requirements so **no feasible garden state and event timestamp can make more than one outgoing recipe valid at once**. The recipe pass must verify all competing pairs, including cases involving multiple reaching fungi, Blockers, Waterborne paths, simultaneous environmental transitions, and independently elapsed exposure timers.
+- **Different named Sources or different exposure durations alone do not guarantee exclusivity:** A player may supply both Sources and may start their separate uninterrupted timers at different moments. Favor genuinely incompatible eligibility conditions or event predicates when choosing recipes; prove incompatibility under the actual propagation and environmental rules rather than asserting it informally.
+- **Keep earlier rules separate:** A Transformation still replaces the old Plant with a fresh **0%-progress** instance (§58), has **no lifecycle-percent/stage prerequisite** (§59), and wins an **exact same-timestamp tie against that Plant's death** (§60D). The one-Transformation-per-resolution-event safeguard prevents zero-time chaining; it is **not** a substitute for mutually exclusive sibling recipes.
+- **If a guarantee fails, bring it back to the user:** Do not silently force an arbitrary recipe winner or change an approved transformation direction. Revisit the specific overlapping recipes, propose alternative mutually exclusive conditions, or ask whether an explicit conflict rule should exist only if true exclusivity proves infeasible. **The Ingredients family's six Potato recipes are subsequently approved and shown mutually exclusive in §67**; other families still need their own proofs.
+
+**Scope:** This closes the *generic* competing-Transformation priority discussion provisionally in favor of design-time prevention. The next substantive text-only task is the dedicated **Plant-owned Transformation recipe pass across the six families**, including pairwise exclusivity and physical feasibility checks before Plant/Fungus biology implementation. No gameplay code changes follow from this decision.
+
+---
+
+---
+
+## 68. Transformation ingredients: environment plus named fungal contact — APPROVED, with Ingredients exception
+
+**Status (26 October 2026):** The user clarified that **ordinary Plant-development/Growth Effects must not themselves count toward Transformation requirements**. Recipes outside Ingredients should instead use **environmental conditions/events and contact with explicitly named Fungi**, where contact means the Plant is within **any actual Influence zone emitted by that named Fungus**. In follow-up the user clarified that **Ingredients deliberately remain simpler**, retaining their §67 generic environmental-emission requirements. The user explicitly chose **“any influence zone counts”**, not just the environmental one.
+
+### A. Allowed Transformation recipe inputs
+
+- **Environment:** Currently resolved **Moisture, Temperature and Illumination** Conditions, applicable **Mycelial overlay** state, their ordinary transitions (such as Flooded→Damp), and the **X uninterrupted hours** of those environmental prerequisites. The previous pre-transition exposure snapshot and full new-Plant 0% reset remain valid (§§58–59, 64).
+- **Named fungal contact (five other families):** A Plant has contact with an explicitly identified Fungus species if at least one **living instance** of that named species has **any one of its ordinary emitted Influence footprints actually reaching the Plant's hex**. Either its environmental emission zone **or** its cultivation/development emission zone qualifies. Matching Source/Edge/Hex Blockers and its actual Airborne, routed or Waterborne propagation are honored separately per emission. A recipe may explicitly name multiple acceptable species as alternatives, preserving choice where desired.
+- **Stage-independent contact geometry:** A fungus's cultivation emission can establish **contact** through its propagated spatial footprint even when the Plant is outside that cultivation Effect's applicable Growth/Ripening percentage window. The Influence's *bonus magnitude or current developmental applicability* is irrelevant to contact: otherwise recipes would silently acquire forbidden lifecycle-stage gates. Alive Fungi emit their approved Influences from germination until death/harvest, including agreed habitat-loss grace periods (§60C).
+- **No extra radius or adjacency shortcut:** Being physically adjacent to a named Fungus does **not** by itself qualify unless the Plant is actually within one of that Fungus's unblocked emitted Influence zones. There is no separate fictional generic Transformation Influence, and the Plant never has to achieve a particular Growth Rate, Ripening Rate, Leaf/Seed Yield, Window, Timing or hourly-production bonus value to transform.
+
+### B. Explicit Ingredients exception — §67 is unchanged
+
+The six **approved Potato→Ingredients** recipes remain exactly as defined in §67: **resolved environmental Condition signature + an actual reaching environmental emission of a given signed Kind/Property from any living Fungus** for X uninterrupted hours. They do **not** require an individually named fungus species. Thus Potato→Rice still accepts **any reaching fungal Wetting +1** paired with Flooded, and Potato→Apple still accepts **any reaching fungal Cooling −1** paired with Damp/Cold. Their durations, numerical Conditions, demonstration source setups and pairwise-exclusivity proof remain approved and unchanged. This exception is intentional because the user wants **Ingredients easier than other families**.
+
+### C. Remaining implementation/design boundary
+
+- Recipes for **Woodlands, Aquatic, Flowers, Desert and Spices** should use the allowed environmental and **named fungal contact** ingredients, without checking fungal Growth/Yield/Ripening or other developmental bonuses as transformation prerequisites. Exact named fungi, alternative-name sets, durations, transitions and pairwise exclusivity are still to be designed in those families' dedicated passes.
+- **Later supersession (§70): Mycelial ground is NOT a Transformation prerequisite.** Do not use Mycelial overlay presence as a necessary condition in future Plant Transformation recipes. **Mycelord edge case:** Mycelord creates a timed Mycelial overlay but no ordinary environmental/cultivation Influence zones. Recipes can check whether a Plant's hex is currently **Mycelial** as an environmental overlay condition. If a later proposed recipe specifically requires **named Mycelord contact**, return to the user to determine whether overlay connection alone should qualify; do **not** invent an ordinary Mycelord Influence or silently turn all Mycelial into named contact.
+- The rule does **not** change fungal emission strengths/footprints, add a generic Transformation Influence, alter the 31-species roster, relax §66's mutually exclusive outgoing recipes, or implement biology. Maintain the distinction between **contact by zone** and **the actual production bonus applied to a Plant**.
