@@ -543,6 +543,9 @@ The Cresscent → Pearlily shortcut, the Lotus Flooded/drain fork, and all earli
 
 ## 13. Flowers — first family-interactions design pass
 
+**Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
+
+
 **Status:** Family identity and the distinction between Progress-based and Time-based bonuses are agreed directions. The proposed network and named Plant/Fungus roles have been positively received but **are not final recipes, final statistics, or an implementation mandate**. We are content to leave Flowers at this design depth and return for balancing/integration after exploring more families.
 
 ### Family identity — agreed direction
@@ -1687,6 +1690,9 @@ The profiles already specify **which Moisture states are favorable**. The follow
 
 ## 29. Flowers — first Plant-profile batch (APPROVED first-pass profiles)
 
+**Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
+
+
 **Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch was **approved by the user**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
 
 ### Family identity and confirmed design guardrails
@@ -1772,6 +1778,9 @@ As for Aquatic and Woodlands, remaining numerical values (peak heights, total ti
 
 
 ## 30. Flowers — Lavendream / Lavendread / Poppycock / Dream Poppy (APPROVED first-pass profiles)
+
+**Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
+
 
 **Status:** The user **approved** §29's Daisydaze, Charmomile, Daisyspell and Marigloom six-part profiles without requested changes. This four-Plant first pass was **approved by the user** without requested revisions. Preserve the established Flower graph and only define the Plant's own farming behavior, Seed identities, and numerical *shape* of its peak when useful. The complete initial Flowers duration/output/germination/Effect-compatibility balance comes after all Plants have profiles. Do **not** assign fungus identities, transformation recipes, or old superseded A/B/C/D Effects.
 
@@ -1860,6 +1869,9 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 
 ## 31. Flowers — Rosewraith and Orchidemon, final Plant-profile batch (APPROVED first-pass profiles)
 
+**Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
+
+
 **Status:** The user explicitly **approved** §30's Lavendream, Lavendread, Poppycock and Dream Poppy profiles. The user **approved the final Flowers two-Plant first-pass batch**, covering **Rosewraith** and **Orchidemon**, without further changes. Both have **two incoming transformation routes** in the established family graph. This pass defines their own six Plant characteristics and distinctive natural harvest curves. Their final lifecycle times, peak heights, Seed quantities, germination chances, fungal Effect compatibility multipliers and hazard thresholds belong to the **family-wide numerical pass after this batch is reviewed**. No fungus identities, old A/B/C/D assignments, or transformation recipes are locked.
 
 ### Established last-stage graph connections
@@ -1922,6 +1934,9 @@ The two incoming routes for each are **real routes into the same named species**
 
 
 ## 32. Flowers — full-family numerical pass (APPROVED first-pass balance)
+
+**Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
+
 
 **Status:** The user **approved all ten Flowers six-part profiles** (§29–31), including Rosewraith and Orchidemon, and asked for the **full numerical pass**. The user **approved the complete numeric pass** below as the accepted **first-pass Flowers balance** (subject to eventual playtesting), with the same game-wide benchmark as approved Woodlands/Aquatic (approximately 10 Leaves, 10 Seeds, 4 in-game days to 100%, 8 in-game days total to 200%). The game will have an actual playtest pass with testers after implementation; **err toward dramatic differentiation now** and revise findings afterward. Do not name fungi, assign their Effect packages, implement code, or invent Transformation Effects.
 
@@ -4559,3 +4574,68 @@ The user expressly corrected a mistaken inference in §71: **using a Mycelial-de
 **Finalized first-pass Mandrabra → Mandrakadabra recipe:** Maintain **resolved Damp Moisture, Bright Illumination, and named contact with Rushroom OR Siltgill continuously for 12 hours**. No Temperature state needs to be added as a separate recipe condition. Transformation occurs when the 12-hour conditions complete and creates fresh 0%-Growth Mandrakadabra, with **four hours of continuous Bright exposure lethal** and **Lit still its farming optimum** (§70). This is **mutually exclusive** with Mandrabra → Mandrakazam's Dim requirement. Once transformed, the player should alter Bright → Lit promptly to keep the high-Leaf Plant alive; Mycelial interference might need separate management but is not directly prescribed by the recipe. A Fungus can still need Mycelial **at its source**; the rule only disallows mandating Mycelial **on the Plant's own hex** for a Transformation. The proposed Glimmergill/Goldgill substitution from §71 is **withdrawn**, not approved.
 
 **Status:** All **13 Woodlands Transformation recipes are approved first-pass**, completing Woodlands after Ingredients and Aquatic. Exposure hours and normal Mycelial survival thresholds remain playtestable; no biology/runtime code has been changed.
+
+## §73 — Flowers: all 12 Plant-owned Transformation recipes (APPROVED first pass, 26 October 2026)
+
+**USER APPROVAL:** The user reviewed and accepted the entire 12-route Flowers proposal, **expressly including the dusk-to-bright Daisyspell → Orchidemon recipe**. These are initial playtest durations and spatial/environmental recipes, **not** final balance or new biological code. They supersede the unassigned A/B/C/D Fungus placeholders in §13. The established graph, all ten first-pass Plant profiles, numeric bloom peaks, Seed identities, and 0–200% destructive-harvest rules in §§29–32 remain intact.
+
+**Universal reading of recipes:** All normal recipes below require their stated **resolved** Moisture, Temperature, Illumination and contact with the specified **named living fungus or fungi** continuously for the stated number of in-game hours, absent a special transition sequence. A contact may be made through **EITHER** actual environmental or cultivation Influence reach, accounting for Mode, real propagation, Flooded networks and Blockers; effect size, applicability to a particular stage, and Plant-development bonuses are **not** qualification conditions (§68). All transitions work at any Plant lifecycle stage/percentage (§59), and replace the old Plant with a fresh **0%-Growth instance with cleared output, exposure and timers** (§58). Interrupting an ordinary continuous recipe resets its timer. **No recipe requires Mycelial overlay on the Plant**; named fungi retain their own source-habitat constraints separately.
+
+### A. Daisydaze (Base): three exclusive opening branches
+
+| From → To | Resolved environmental requirements | Named fungal contact | Continuous duration |
+| --- | --- | --- | ---: |
+| **Daisydaze → Charmomile** | Damp, Temperate, Lit | Lanterncap **OR** Goldgill | **12h** |
+| **Daisydaze → Lavendream** | Damp, Temperate, Dim | Veilcap **OR** Gloamclock | **20h** |
+| **Daisydaze → Poppycock** | Damp, Warm, Bright | Emberbell **OR** Tickbolete | **16h** |
+
+These routes teach illumination/temperature selection. Charmomile offers an early bloom, Lavendream a forgiving plateau, and Poppycock a strong self-Seed economy. Their resolved environments cannot simultaneously qualify.
+
+### B. Charmomile: early speed versus delayed bloom
+
+| From → To | Resolved environmental requirements | Named fungal contact | Continuous duration |
+| --- | --- | --- | ---: |
+| **Charmomile → Daisyspell** | Damp, Warm, Bright | Prismorel **OR** Glimmergill | **12h** |
+| **Charmomile → Marigloom** | Damp, Cold, Dim | Echomorel **OR** Fogdial | **24h** |
+
+Daisyspell is a fast Plant with an **innate** 75%-progress harvest peak; Marigloom is slow with an **innate** 170%-progress harvest peak. Neither lifecycle percentage is a recipe condition. Their Warm/Bright versus Cold/Dim environments are incompatible.
+
+### C. Lavendream: Seed route or slower Orchidemon route
+
+| From → To | Resolved environmental requirements | Named fungal contact | Continuous duration |
+| --- | --- | --- | ---: |
+| **Lavendream → Lavendread** | Damp, Cold, Dark | Chillanterelle **OR** Brookrill | **22h** |
+| **Lavendream → Orchidemon** | Damp, Warm, Bright | **Glimmergill AND Mistruffle** | **32h** |
+
+The conjunction really requires both named fungus species to reach Lavendream through their existing emitted footprints; it does not require their Leaf Yield/Timing benefits to apply or be any particular magnitude. The two outcomes cannot overlap because their Cold/Dark and Warm/Bright resolved states are incompatible.
+
+### D. Daisyspell → Orchidemon: the approved dusk-to-bright sequence
+
+This is a **transition/time-window** recipe, distinct from the static exposure rows:
+
+1. **Preparation:** Daisyspell remains **Damp, Temperate, Dim** and is contacted by **Veilcap OR Fogdial** for **10 uninterrupted hours**. A break before reaching 10h resets preparation.
+2. **Lighting change:** After preparation, leave **Dim** and change resolved illumination toward **Bright**. **Passing through Lit is allowed.** Preserve **Damp and Temperate** during this completion phase. The clock for the completion window starts **on leaving Dim**, not on entering Bright.
+3. **Completion:** Reach **Bright within 8 hours of leaving Dim**, with **Prismorel OR Glimmergill contact actually reaching Daisyspell at completion**. Successful completion triggers **Daisyspell → Orchidemon immediately**, with a new 0%-Growth Orchidemon. The qualifying preparatory Dim fungus need not continue reaching Daisyspell after the phase change unless an otherwise applicable condition requires it.
+4. **Failure:** Failing to complete the final requirements within the eight-hour window (or losing mandatory Damp/Temperate during the transition) invalidates this attempt, requiring a fresh 10-hour qualifying preparation period; no state from a failed attempt is banked.
+
+This recipe uses ONLY environmental conditions/transitions, named-fungus reach, and elapsed time. **Daisyspell need NOT be in Growth, be 75%, or reach a bloom** to transform. It is the faster but more technical Orchidemon route; Lavendream's route is slower and steadier. Newly transformed Orchidemon can pursue its existing **Bright-preferred, sterile, high-Leaf single peak near 145%** through its full fresh lifecycle.
+
+### E. Lavendread, Poppycock, Marigloom and Dream Poppy
+
+| From → To | Resolved environmental requirements | Named fungal contact | Continuous duration |
+| --- | --- | --- | ---: |
+| **Lavendread → Dream Poppy** | Damp, Cold, Dim | Echomorel **OR** Brookrill | **20h** |
+| **Poppycock → Dream Poppy** | Damp, Temperate, Dim | Veilcap **OR** Gloamclock | **18h** |
+| **Marigloom → Rosewraith** | Damp, Cold, Dim | **Echomorel AND Fogdial** | **18h** |
+| **Dream Poppy → Rosewraith** | Damp, Temperate, Dim | **Duskleaf AND Mistruffle** | **24h** |
+
+Dream Poppy and Rosewraith each have their established **two incoming origins**; the destination Plant is the same species regardless of origin, not two attuned variants. Rosewraith retains **two intrinsic Leaf peaks (~115% and 180%) with a low-output valley**, never a fungal second-bloom mechanic; one Plant still yields one destructive harvest.
+
+### F. Exclusivity, feasibility and implementation guardrails
+
+- **§66 sibling exclusivity:** Daisydaze splits **Temperate/Lit vs Temperate/Dim vs Warm/Bright**; Charmomile splits **Warm/Bright vs Cold/Dim**; Lavendream splits **Cold/Dark vs Warm/Bright**. All other Flowers have only one outgoing Transformation. Distinct elapsed timers and different fungus identities are NOT used as proofs of exclusivity. If future changes introduce new outgoing routes, repeat the pairwise proof.
+- **Physical feasibility at first pass:** Every required named fungus exists in the approved roster. Their environmental/cultivation reach and environmental emissions use existing Airborne, Waterborne, routed emission, Source and Blocker rules. Building net Damp/Temperate/Dim/Bright/Dark may require additional fungi and selective Blockers where an emitter's own environmental modifier would otherwise upset the target state. The Daisyspell transition specifically requires controllable lighting and is earmarked for spatial/playtest verification, not a special new Influence.
+- **Cultivation separation:** A fungus may incidentally change Growth Rate, Yield, harvest window, Seed availability, or hourly production while in reach, but no such effect strength or currently applicable bonus is a Transformation requirement; innate Flower bloom percentages also never gate Transformations.
+- **Balance/implementation:** All 12 durations and the eight-hour final window are approved **first-pass values**, subject to actual playtesting and tuning. Do not modify Plant/Fungus runtime before completing the remaining family recipes and audit. No gameplay code was changed by this approval.
+
+**Recipe-pass status after §73: Ingredients (6), Aquatic (14), Woodlands (13), Flowers (12) complete at first pass; Desert and Spices remain.**
