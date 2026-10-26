@@ -623,6 +623,9 @@ These are broad **Influence/Response concept labels**, not universal effects gua
 
 ## 14. Desert — accepted first-pass family plan
 
+**Current recipe authority (§74, APPROVED on 26 October 2026):** All **13 Desert Plant-owned Transformation recipes** are now approved first pass, with the exact named Fungus alternatives, resolved environmental conditions and exposure durations in §74. The older Ember/Rime/Shelter/Mirage terms and bracketed arrows below are illustrative historical sketches, **not final recipe assignments**. Earlier text saying these recipes are still unassigned is superseded by §74. All legacy Sand/Material references are superseded by §61.
+
+
 **Status:** The first-pass Desert network, each Plant's broad role, the Temperature-oriented family identity, and recovery/dormancy puzzle direction are **accepted as our Desert design plan**. Names, exact fungal recipes, environmental exposure thresholds, stat numbers, and time values are **not locked**. This remains design text, not implemented gameplay.
 
 ### Desert identity — agreed
@@ -2086,6 +2089,9 @@ Flowers have **no shared innate special tolerance or preference for Mycelial**. 
 
 ## 33. Desert — first Plant-profile batch, Hot exposure/recovery line (APPROVED first-pass profiles)
 
+**Current recipe authority (§74, APPROVED on 26 October 2026):** All **13 Desert Plant-owned Transformation recipes** are now approved first pass, with the exact named Fungus alternatives, resolved environmental conditions and exposure durations in §74. The older Ember/Rime/Shelter/Mirage terms and bracketed arrows below are illustrative historical sketches, **not final recipe assignments**. Earlier text saying these recipes are still unassigned is superseded by §74. All legacy Sand/Material references are superseded by §61.
+
+
 **Status:** The user **approved all §32 Flowers numerical first-pass values** and asked to begin **Desert**. Desert's existing network and intent in §14 are accepted. The user **approved the complete first batch of six-part Plant profiles** covering **Jadeheart, Ember Aloe, Aloemancer, and Ashen Rose**, including its proposed **36-hour uninterrupted Heat endurance** threshold and innate +30% Hot Growth / +50% Hot Leaf bonus; the next batches will cover Sandrose and the Moonjade and Cactopus branches. As in Woodlands, Aquatic and Flowers, start by defining the Plants, then propose a complete Desert numerical pass; fungi and final Plant-owned transformation recipes follow only later. Prefer bold differentiation now and gameplay-tested balancing after eventual implementation.
 
 ### Established network excerpt
@@ -2182,6 +2188,9 @@ The **36-hour Heat endurance**, **Ember Aloe innate +30% Hot Growth/+50% Hot Lea
 
 
 ## 34. Desert — second Plant-profile batch, Freezing and redemption lines (APPROVED first-pass profiles)
+
+**Current recipe authority (§74, APPROVED on 26 October 2026):** All **13 Desert Plant-owned Transformation recipes** are now approved first pass, with the exact named Fungus alternatives, resolved environmental conditions and exposure durations in §74. The older Ember/Rime/Shelter/Mirage terms and bracketed arrows below are illustrative historical sketches, **not final recipe assignments**. Earlier text saying these recipes are still unassigned is superseded by §74. All legacy Sand/Material references are superseded by §61.
+
 
 **Status:** The user **approved** all §33 Heat/recovery profiles (including Ember Aloe's 36-hour Hot endurance requirement, the mistaken Ashen Rose recovery outcome, and Ember Aloe/Aloemancer Seed identities). The user **APPROVED all four six-part profiles for Moonjade, Jadewisp, Pearadox, and Sandrose**, including the proposed 48-hour Moonjade Freezing threshold, Pearadox dual-temperature bonuses, and Sandrose's indefinite Dry tolerance. Preserve all agreed Desert routes and the global Plant-first workflow. Define **intrinsic Plant traits and exposure logic** concretely now, but **do not assign named fungi, Effect packages, or complete Transformation recipes**. Leaf/Seed quantities, baseline stage durations and full germination/compatibility tables come with the whole-family numerical pass. No game code changes.
 
@@ -2285,6 +2294,9 @@ Choose an explicit first-pass threshold now so the central Cold recovery puzzle 
 
 ## 35. Desert — third and final Plant-profile batch, Cactopus / Cactaclysm / Mirage Rose (APPROVED first-pass profiles)
 
+**Current recipe authority (§74, APPROVED on 26 October 2026):** All **13 Desert Plant-owned Transformation recipes** are now approved first pass, with the exact named Fungus alternatives, resolved environmental conditions and exposure durations in §74. The older Ember/Rime/Shelter/Mirage terms and bracketed arrows below are illustrative historical sketches, **not final recipe assignments**. Earlier text saying these recipes are still unassigned is superseded by §74. All legacy Sand/Material references are superseded by §61.
+
+
 **Status:** The user **approved §34's Moonjade, Jadewisp, Pearadox, and Sandrose profiles**, including the precise Moonjade exposure, Pearadox temperature-mode and Sandrose drought traits. This final Desert batch of six-part species profiles for **Cactopus, Cactaclysm, and Mirage Rose** was **approved by the user**, including Cactaclysm's broad Hot harvest and complete sterility, and Mirage Rose's 1:1 Ember Aloe/Moonjade Seed mixture. The existing §14 network and approved §33–34 Plant identities remain intact. **Do not pick specific fungi, define final Transformation recipes, implement code, or turn Transformations into a fungus Effect**. Following the accepted family workflow, full lifecycle/yield/Seed-germination/Effect-compatibility numeric matrices come after all eleven Desert profiles are accepted. Bold first-pass differences are preferable to conservative prebalancing; a later tester playtest pass will tune them.
 
 ### Existing routes, not final recipes
@@ -2367,6 +2379,9 @@ These proposals preserve the rest of the approved Desert roster:
 
 
 ## 36. Desert — full-family numerical pass (APPROVED first-pass balance)
+
+**Current recipe authority (§74, APPROVED on 26 October 2026):** All **13 Desert Plant-owned Transformation recipes** are now approved first pass, with the exact named Fungus alternatives, resolved environmental conditions and exposure durations in §74. The older Ember/Rime/Shelter/Mirage terms and bracketed arrows below are illustrative historical sketches, **not final recipe assignments**. Earlier text saying these recipes are still unassigned is superseded by §74. All legacy Sand/Material references are superseded by §61.
+
 
 **Status:** The user approved **all eleven Desert six-part profiles (§33–35)** and requested a complete first-pass numerical table. The user **APPROVED all §36 numerical values as first-pass Desert balance**, including every lifecycle/harvest row, Seed species and germination probabilities, complete Effect compatibility, Temperature/Moisture/Illumination responses, and hazard exposure times. The previously approved intrinsic Plant bonuses and exposure qualifications remain unchanged. All numbers are subject to later tester playtesting. Consistent game-wide comparison: roughly **10 Leaves around 100%, 10 Seeds at 200%, 4 in-game days to 100%, 8 in-game days total to 200%** for the standard Plant, in good habitat without fungi. Prefer **dramatic specialization and real trade-offs** now, with a mandatory subsequent tester playtest/balance pass after implementation. **This is text-only design, NOT implementation; no fungi, final transformation recipes, or code changes.**
 
@@ -4639,3 +4654,93 @@ Dream Poppy and Rosewraith each have their established **two incoming origins**;
 - **Balance/implementation:** All 12 durations and the eight-hour final window are approved **first-pass values**, subject to actual playtesting and tuning. Do not modify Plant/Fungus runtime before completing the remaining family recipes and audit. No gameplay code was changed by this approval.
 
 **Recipe-pass status after §73: Ingredients (6), Aquatic (14), Woodlands (13), Flowers (12) complete at first pass; Desert and Spices remain.**
+
+## §74 — Desert: all 13 Plant-owned Transformation recipes (APPROVED first pass, 26 October 2026)
+
+**Approval:** The user reviewed the complete 13-route Desert proposal and explicitly said **“i like them.”** This approves its named Fungi and alternatives, resolved environmental conditions, first-pass durations, two recovery event mechanisms, and sibling-route exclusivity as described below. §§14 and 33–36 preserve the previously approved graph, intrinsic Plant responses, 36-hour Ember Aloe endurance, 48-hour Moonjade Freezing endurance, dormancy and hazard tables, and Seed identities. Old “Ember/Rime/Awakener/Shelter/Mirage” working Fungus categories and Sand-specific gates are superseded. **No new Fungi, Effects, Mycelial Transformation requirements, or gameplay implementation** are introduced.
+
+### Recipe interpretation
+
+- Plant-owned Transformations may depend on **current resolved environmental Conditions**, **named living Fungus contact through EITHER actual environmental OR cultivation Influence reach (§68)**, elapsed exposure, and/or an explicitly completed environmental **transition event**. Respect propagation, signed Source stacking, Blockers and species habitat viability.
+- **Never gate a Transformation on a Plant's Growth/Ripening stage or percentage, a cultivation effect being active for a particular progress stage, or the magnitude of fungal Growth/Yield/etc.** Ordinary non-transition recipe conditions must hold for the uninterrupted duration; interruption resets the timer. Transformations replace the Plant with the destination **at fresh 0% Growth**, with exposure/output/hazard clocks cleared (§58).
+- If a recipe checks endurance *immediately before* a transition, finish elapsed exposure using the old resolved state before the environment changes (§§59,64). Species-hazard clocks are separate. Named contact at a transition is evaluated on the resulting configuration, unless a recipe explicitly says otherwise.
+- All times below are **approved initial design values**, subject to later testing/balancing. There is one Transformation per event timestamp and no runtime sibling priority or generic fungus-emitted Transformation Effect.
+
+### A. Jadeheart (Base): three starting routes
+
+| Transformation | Continuous resolved Conditions | Named Fungus contact (either) | Exposure |
+| --- | --- | --- | ---: |
+| **Jadeheart → Ember Aloe** | **Damp, Hot, Lit** | **Emberbolete OR Tickbolete** | **18 h** |
+| **Jadeheart → Moonjade** | **Damp, Freezing, Dim** | **Chillanterelle OR Rilllace** | **20 h** |
+| **Jadeheart → Cactopus** | **Dry, Warm, Lit** | **Droughtcap OR Crumblecap** | **16 h** |
+
+The base species' 72h continuous Hot and 48h continuous Freezing lethal thresholds (§36) exceed the applicable 18h/20h Transformation exposures. These sibling routes are pairwise exclusive by the resolved Temperature and Moisture states. Multiple existing fungus emissions can establish stronger temperature shifts (e.g. Temperate → Freezing).
+
+### B. Ember Aloe: deliberate Hot → Warm recovery, good versus premature
+
+These are **event-triggered alternative outcomes**, not automatic reactions to ceasing Hot:
+
+1. An Ember Aloe begins counting **uninterrupted Hot hours** when the Ember Aloe instance is created or subsequently becomes Hot. While Hot, it continues its approved productive growth; Hot exposure is **not** a lethal countdown for Ember Aloe.
+2. **Recovery attempt:** An actual **Hot → Warm resolved Temperature transition** while **Chillanterelle OR Rilllace contact reaches the Ember Aloe at the event** is the qualifying deliberate recovery trigger. Check the **just-completed pre-transition continuous Hot hours** BEFORE resetting exposure. The contact may be through either of the named source's ordinary environmental or cultivation Influence zones; no cultivation Yield/Window magnitude gate.
+3. If that continuous Hot exposure was **less than 36 hours**, the attempted recovery creates **Ashen Rose** (the undesirable premature outcome).
+4. If it was **at least 36 hours (including exactly 36h)**, that same qualifying attempt creates **Aloemancer** (the desirable recovery).
+5. A Hot → Warm transition **without either recovery Fungus reaching** does **not** transform Ember Aloe. Neither does a mere change to a different non-Hot Temperature or loss of Hot without this precise qualifying event. In those cases Ember Aloe remains Ember Aloe and its uninterrupted Hot exposure resets upon leaving Hot. The two recovery outcomes require no separate post-thaw exposure delay.
+
+| Transformation | Pre-transition qualification | Event and named contact | Result |
+| --- | --- | --- | --- |
+| **Ember Aloe → Ashen Rose** | **<36 uninterrupted hours Hot** | **Hot → Warm**, Chillanterelle OR Rilllace reaches | Immediate premature recovery |
+| **Ember Aloe → Aloemancer** | **≥36 uninterrupted hours Hot** | **Hot → Warm**, Chillanterelle OR Rilllace reaches | Immediate successful recovery |
+
+**Design-time exclusivity:** the same completed Hot-exposure history cannot be both below and at least 36h. Check the exposure snapshot at the transition and then replace the Plant; do not invent a winner rule. The previously approved **+30% Hot Growth** and **+50% Hot Leaf production** remain **farming traits only**, NEVER transformation prerequisites.
+
+### C. Ashen Rose → Sandrose → Cactopus: redemption
+
+| Transformation | Continuous resolved Conditions | Named Fungus contact (either) | Exposure |
+| --- | --- | --- | ---: |
+| **Ashen Rose → Sandrose** | **Dry, Temperate, Dim** | **Droughtcap OR Bristlecap** | **12 h** |
+| **Sandrose → Cactopus** | **Dry, Hot, Lit** | **Tickbolete OR Emberbell** | **18 h** |
+
+These are intentional recovery options for an undesirable early Hot-recovery outcome. Sandrose's previously approved indefinite Dry survival and nonlethal Hot tolerance make both transitions survivable; Cactopus is a self-Seeding robust Hot/Dry crop. No obsolete permanent Sand material is required.
+
+### D. Moonjade: Dormant Freezing endurance followed by two exclusive thaw outcomes
+
+1. Moonjade becomes fully **Dormant immediately on resolving Freezing**. Growth, Ripening and time-based output cease during dormancy, but **the separate Freezing exposure clock continues running**. Maintain **48 uninterrupted hours of Freezing** to qualify either subsequent recovery route. Freezing itself does not kill Moonjade; ordinary Mycelial/hazard clocks still operate.
+2. At a **Freezing → Cold** environmental transition, inspect the **48h just-completed Freezing history**, the **new** resolved Moisture = **Damp**, the **new** resolved Illumination, and named fungal contact on the resulting state.
+3. **Moonjade → Jadewisp:** after ≥48h of Freezing, thaw **Freezing → Cold**, with **Damp + Dim** and contact from **Dewmender OR Mistruffle**.
+4. **Moonjade → Pearadox:** after ≥48h of Freezing, thaw **Freezing → Cold**, with **Damp + Lit** and simultaneous named contact from **(Tickbolete OR Emberbell) AND (Gloamclock OR Fogdial)**. One from each set must actually reach Moonjade.
+5. If thaw occurs **before 48h**, into a different Temperature, or without a full route's required new environment/contact, **no Transformation occurs**. Moonjade resumes its retained lifecycle progress if non-Freezing, and the old Freezing exposure resets. On a later re-freeze, 48h must be re-earned; no historical endurance bank.
+
+| Transformation | Prior qualification | Post-transition resolved Conditions | Named Fungus contact at thaw |
+| --- | --- | --- | --- |
+| **Moonjade → Jadewisp** | **≥48h uninterrupted Freezing** | **Freezing → Cold**, **Damp, Dim** | **Dewmender OR Mistruffle** |
+| **Moonjade → Pearadox** | **≥48h uninterrupted Freezing** | **Freezing → Cold**, **Damp, Lit** | **(Tickbolete OR Emberbell) AND (Gloamclock OR Fogdial)** |
+
+**Fork exclusivity:** A just-thawed Moonjade cannot have both resolved **Dim and Lit**, so the two sibling recipes are incompatible even if all named fungus contact groups reach. The named Fungi may require compensating Sources or selective Blockers to achieve the specified **final** net Condition. Both outcomes start new independent 0%-Growth Plants with no inherited Dormancy/Freezing history. Jadewisp's 26 Moonjade Seeds and Pearadox's unique Hot/Freezing growing bonuses are **subsequent farming properties**, not eligibility gates.
+
+### E. Cactopus: broad sterile Leaf route versus dual-temperature Seed route
+
+| Transformation | Continuous resolved Conditions | Named Fungus contact | Exposure |
+| --- | --- | --- | ---: |
+| **Cactopus → Cactaclysm** | **Dry, Hot, Bright** | **Emberbolete AND Goldgill** | **24 h** |
+| **Cactopus → Pearadox** | **Damp, Hot, Dim** | **Veilcap OR Fogdial** | **20 h** |
+
+Cactaclysm remains the **sterile premium Leaf endpoint** (natural peak 48 Leaves in Hot around 140%, broad ~120–165% band), whereas Pearadox remains the same **self-Seeding Hot-Leaf/Freezing-Seed dual-specialist** from either origin. Dry/Bright and Damp/Dim give hard sibling exclusivity; fungal overlap or different timers alone are not treated as proofs.
+
+### F. Mirage Rose: two different origins, same mixed-Seed destination
+
+| Transformation | Continuous resolved Conditions | Named Fungus contacts (both required) | Exposure |
+| --- | --- | --- | ---: |
+| **Aloemancer → Mirage Rose** | **Damp, Temperate, Dim** | **Emberbell AND Chillanterelle** | **24 h** |
+| **Jadewisp → Mirage Rose** | **Damp, Cold, Dim** | **Glimmergill AND Gloamclock** | **24 h** |
+
+These paths deliberately use opposing Temperature or Illumination emissions. Balanced active emission can preserve net Temperate/Dim or Cold/Dim while meeting both named contacts; extra environmental Sources/Blockers may be needed according to the starting Baseline. Both routes produce identical fresh **Mirage Rose**, with no origin attunement. Its approved full Seed harvest remains **14 Ember Aloe Seeds + 14 Moonjade Seeds**, distributed 1:1 (§§35–36,56), and one consuming harvest.
+
+### G. Feasibility / exclusivity audit and preserved constraints
+
+- **Graph coverage:** 13 total routes across **11 approved Desert Plants**; all pre-agreed edges preserved, including the intentional Ashen Rose redemption, Moonjade's Jadewisp/Pearadox split, Pearadox from Cactopus, and Mirage Rose from two precursors.
+- **All sibling recipes mutually exclusive (§66):** Jadeheart branches split on different Temperature/Moisture; Ember Aloe recovery is **<36h versus ≥36h on the same qualified Hot → Warm event**; Moonjade's alternatives split Dim vs Lit on thaw; Cactopus splits Dry/Bright vs Damp/Dim. There is no invented arbitrary winner priority.
+- **Source/condition feasibility:** All named Fungi are in the approved 31-species roster. Environmental signed Source arithmetic and actual Influence-zone reach can be used with compensating Fungi and Blockers. More involved placement checks, especially balancing warmth/darkening around Moonjade → Pearadox at thaw, are deliberately reserved for practical implementation/playtesting. This is a **first-pass feasibility assessment**, not a claim to have exhaustively enumerated every garden configuration.
+- **Independent Plant responses:** Moonjade Dormancy does not stop its 48h Freezing exposure timer; Ember Aloe's Hot productivity never replaces the 36h recovery check; Pearadox remains positively growing in both Hot and Freezing; Sandrose tolerates Dry indefinitely; Cactopus/Cactaclysm thrive while Hot. Those are Plant farming/survival behaviors, not fungal Transformation Effects.
+- **No changes to Seed identities, harvest curve, Material/Fertility removal, Mycelial biology or updated event order.** All Transformation outcomes start new Plants at 0%, with no old output or exposure. No Plant or Fungus gameplay code has yet been implemented.
+
+**Recipe design progress after this acceptance: Ingredients 6/6 (§67), Aquatic 14/14 (§69), Woodlands 13/13 (§§71–72), Flowers 12/12 (§73), Desert 13/13 (§74) complete; only Spices remains.**
