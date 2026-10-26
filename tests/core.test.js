@@ -72,6 +72,63 @@ test('Waterborne paths require connected Flooded hexes', () => {
   assert.equal(result.conditions[origin].Fertility, 'Rich');
 });
 
+test('Waterborne reaches the entire Flooded network and ignores legacy saved Range', () => {
+  let garden = createGarden(12, 3);
+  const origin = keyAt(0, 1), far = keyAt(11, 1);
+  for (let column = 1; column < 12; column += 1) {
+    garden = setBaseline(garden, keyAt(column, 1), 'Moisture', 'Flooded');
+  }
+  const influence = makeInfluence('Enrichment', 1, 1, 'waterborne');
+  assert.equal(influence.range, null, 'new Waterborne emissions have no numeric Range');
+  influence.range = 1; // An old saved garden may still have a finite Range value.
+  garden = placeObject(garden, origin, makeSource([influence]));
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[far].Fertility, 'Rich');
+  assert.equal(result.coverage[`${origin}:0`].find(({ key }) => key === far)?.distance, 11);
+});
+
+test('a non-Flooded Source injects into each adjacent Flooded component', () => {
+  let garden = createGarden(5, 5);
+  const origin = keyAt(2, 2);
+  const [east, west] = [neighborsOf(origin)[0], neighborsOf(origin)[3]];
+  garden = setBaseline(garden, east, 'Moisture', 'Flooded');
+  garden = setBaseline(garden, west, 'Moisture', 'Flooded');
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 0, 'waterborne')]));
+  const result = calculateEnvironment(garden);
+  assert.equal(result.conditions[east].Fertility, 'Rich');
+  assert.equal(result.conditions[west].Fertility, 'Rich');
+  assert.equal(result.coverage[`${origin}:0`].length, 3);
+});
+
+test('Dry gaps and matching Blockers interrupt otherwise unlimited Waterborne reach', () => {
+  let garden = createGarden(12, 3);
+  const origin = keyAt(0, 1), far = keyAt(11, 1);
+  for (let column = 1; column < 12; column += 1) {
+    if (column !== 6) garden = setBaseline(garden, keyAt(column, 1), 'Moisture', 'Flooded');
+  }
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 1, 'waterborne')]));
+  assert.equal(calculateEnvironment(garden).conditions[far].Fertility, 'Normal', 'a Dry gap cuts the path');
+
+  garden = setBaseline(garden, keyAt(6, 1), 'Moisture', 'Flooded');
+  const before = keyAt(5, 1), after = keyAt(6, 1);
+  garden = placeEdgeBlocker(garden, before, after, makeBlocker('mode', 'waterborne'));
+  assert.equal(calculateEnvironment(garden).conditions[far].Fertility, 'Normal', 'a matching edge cuts the path');
+
+  const detour = neighborsOf(before).find((key) => garden.hexes[key]
+    && key !== after && neighborsOf(after).includes(key));
+  assert.ok(detour, 'the grid has an alternate two-edge route');
+  garden = setBaseline(garden, detour, 'Moisture', 'Flooded');
+  assert.equal(calculateEnvironment(garden).conditions[far].Fertility, 'Rich', 'Flooded detours bypass a single blocked edge');
+});
+
+test('Airborne Range remains finite when Waterborne reach becomes unlimited', () => {
+  let garden = createGarden(12, 3);
+  const origin = keyAt(0, 1), far = keyAt(11, 1);
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Warming', 1, 1, 'airborne')]));
+  assert.equal(calculateEnvironment(garden).conditions[far].Temperature, 'Temperate');
+  assert.equal(calculateEnvironment(garden).conditions[keyAt(1, 1)].Temperature, 'Warm');
+});
+
 test('Airborne Wetting establishes Flooded routes before Waterborne evaluation', () => {
   let garden = createGarden(4, 3);
   const channel = keyAt(1, 1);

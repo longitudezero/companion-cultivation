@@ -65,9 +65,9 @@ These family profiles and numerical tables are **first-pass approved**, not fina
 | **Mistruffle** | Moisture +1 | Leaf Yield +12% | Weaker but different-cost alternative to Chillanterelle |
 | **Crumblecap** | Moisture −1 | Seed Yield +12% | Alternative to Emberbolete |
 | **Quickshade** | Illumination −1 | Growth Rate +15% | Independent alternative to Mycelial-dependent Rushroom |
-| **Tidegill** | Illumination +1 | Seed availability **12 points earlier**, **Waterborne Range 3** | Seed Timing Shift; existing Seed count/identity unchanged |
+| **Tidegill** | Illumination +1 | Seed availability **12 points earlier**, **Waterborne unlimited** | Seed Timing Shift; existing Seed count/identity unchanged |
 | **Frostfolio** | Temperature −1 | **Leaf-favoring Leaf–Seed Allocation** | Mycelial-preferring; exact exchange unspecified |
-| **Sunspore** | Temperature +1 | **Seed-favoring Leaf–Seed Allocation**, **Waterborne Range 3** | Cannot create Seeds on sterile Plants |
+| **Sunspore** | Temperature +1 | **Seed-favoring Leaf–Seed Allocation**, **Waterborne unlimited** | Cannot create Seeds on sterile Plants |
 
 The generally proposed environmental footprint is Airborne Range 2 and cultivation footprint Range 1 for many ordinary fungi, **but there are explicit exceptions** (directional effects, Rushroom, Tidegill and others); check species profiles rather than treating this as a universal rule. Emberbolete/Chillanterelle's Mycelial preference and exact source-side multiplier remain test options, not settled final numbers.
 
@@ -80,9 +80,9 @@ The user reviewed **all six** after the previous chat's handoff and said **"they
 | **Dewmender** | Moisture +1 | Germination +4 pp per Plant Seed | Independent, Airborne Range 1 cultivation; weaker Wetting alternative to Hushroom |
 | **Lanterncap** | Illumination +1 | Ripening Rate −12% | Independent, Airborne Range 1; brightening alternative to Veilcap |
 | **Tickbolete** | Temperature +1 | Ripening Rate +12% | Independent, Airborne Range 1; warming alternative to Wakemorel |
-| **Rilllace** | Temperature −1 | Harvest Window width +12% | Independent, **Waterborne Range 3**; alternative to Droughtcap |
+| **Rilllace** | Temperature −1 | Harvest Window width +12% | Independent, **Waterborne unlimited**; alternative to Droughtcap |
 | **Duskleaf** | Illumination −1 | +0.08 Leaves/hour at **70–125%** | Independent, Airborne Range 1; early-window alternative to Echomorel |
-| **Brookrill** | Temperature −1 | +0.10 Seeds/hour at **120–170%** | Independent, **Waterborne Range 3**; mid-window alternative to Sim'mushro'dim |
+| **Brookrill** | Temperature −1 | +0.10 Seeds/hour at **120–170%** | Independent, **Waterborne unlimited**; mid-window alternative to Sim'mushro'dim |
 
 The working **approved first-pass roster now totals 25 candidate Fungus species, including Mycelord**. This is **not a cap**. The full six-part rationale and feasibility caveats are in §54. Exact percentages, hourly rates, windows, reaches and all fungal statistics remain first-pass design values, not final numerical balance.
 
@@ -92,33 +92,33 @@ The user reviewed **Gloamclock, Bristlecap and Goldgill**, saying **"i like them
 
 | Fungus | Environmental emission | Plant-development effect | Contrast with earlier source |
 | --- | --- | --- | --- |
-| **Gloamclock** | Illumination −1 (Darkening), Airborne R2 | Seed Timing Shift **8 points earlier**, Airborne R1 | Tidegill shifts 12 earlier by Waterborne R3 and Brightens; Gloamclock works locally without a Flooded route |
+| **Gloamclock** | Illumination −1 (Darkening), Airborne R2 | Seed Timing Shift **8 points earlier**, Airborne R1 | Tidegill shifts 12 earlier via unlimited Flooded connectivity and Brightens; Gloamclock works locally without a Flooded route |
 | **Bristlecap** | Moisture −1 (Drying), Airborne R2 | **Leaf-favoring Allocation**, Airborne R1 | Frostfolio Cools and is Mycelial-preferring; Bristlecap is independent but can Dry crops or sever flooded paths |
-| **Goldgill** | Illumination +1 (Brightening), Airborne R2 | **Seed-favoring Allocation**, Airborne R1 | Sunspore Warms and uses Waterborne R3; Goldgill reaches non-Flooded fields locally |
+| **Goldgill** | Illumination +1 (Brightening), Airborne R2 | **Seed-favoring Allocation**, Airborne R1 | Sunspore Warms and uses unlimited Waterborne; Goldgill reaches non-Flooded fields locally |
 
-All three use the agreed fungal 0–200% persistent-Source lifecycle and own Spores on a destructive harvest. Their approved first-pass profiles, ecological costs and feasibility caveats are in **§55**. **Allocation conversion/eligibility/stacking and unlimited Waterborne reach are only PROPOSED in §56**, not yet user-approved.
+All three use the agreed fungal 0–200% persistent-Source lifecycle and own Spores on a destructive harvest. Their approved first-pass profiles, ecological costs and feasibility caveats are in **§55**. **Allocation conversion/eligibility/stacking and unlimited Waterborne reach were subsequently APPROVED in §56**; the former is still text-only, while Waterborne has been implemented in the environment prototype.
 
-## Leaf–Seed Allocation: what was agreed, and what remains open
+## Leaf–Seed Allocation: APPROVED first-pass mechanics, numerical balance later
 
-The user explicitly agreed that **Leaves are more valuable than Seeds**, so an extra Leaf should cost several Seeds. **§56 now proposes a deliberately strong implementable first pass**: 3 Seeds → +1 Leaf or 1 Leaf → +3 Seeds, as a **single harvest-time conversion** requiring both whole output streams to be positive; convert a bounded fraction of the donor pool (Frostfolio/Sunspore 80%, Bristlecap/Goldgill 60%, before Plant compatibility), sum opposed source fractions into one capped signed net, and round deterministically. **These exact mechanics and percentages are not yet approved.** Source-side Mycelial amplification for Frostfolio is also proposed there. No free Seeds on sterile Plants, no invented Seed identities, no double harvest, and no mixing Fungus Spores with Plant Seeds.
+The user explicitly agreed that **Leaves are more valuable than Seeds**, so an extra Leaf should cost several Seeds. **§56's deliberately strong first-pass rule is now APPROVED**: 3 Seeds → +1 Leaf or 1 Leaf → +3 Seeds, as a **single harvest-time conversion** requiring both whole output streams to be positive; convert a bounded fraction of the donor pool (Frostfolio/Sunspore 80%, Bristlecap/Goldgill 60%, before Plant compatibility), sum opposed source fractions into one capped signed net, and round deterministically. Frostfolio receives a **source-side 1.25× Allocation-strength multiplier on Mycelial**, reaching 100% from 80%. No free Seeds on sterile Plants, no invented Seed identities, no double harvest, and no mixing Fungus Spores with Plant Seeds. These are **first-pass implementation values**, not a demand for pre-playtest balance.
 
-## Other pending §56 system proposal: unlimited Waterborne reach
+## Unlimited Waterborne reach: APPROVED and implemented in Prototype 1
 
-The user proposed removing numeric Range from **ordinary Waterborne Influences** so one Source reaches **every blocker-reachable Flooded hex in its connected flooded component(s)**. §56 documents a concrete proposed interpretation: Source on Flooded traverses its flooded component; Source not Flooded can inject into any adjacent Flooded hex, then traverse its entire connected network. Dry/Damp gaps and matching Hex/Edge Blockers interrupt reach; routes can go around Blockers if connected. Routed Airborne Wetting may establish the Flooded path first, and Waterborne still cannot modify Moisture. Airborne Ranges and directional Spread Budgets remain finite. Waterborne-tagged one-hex Environmental Adjacency stays local.
+The user **APPROVED removing numeric Range from ordinary Waterborne Influences**, so one Source reaches **every blocker-reachable Flooded hex in its connected flooded component(s)**. §56 records the accepted interpretation: Source on Flooded traverses its flooded component; Source not Flooded can inject into any adjacent Flooded hex, then traverse its entire connected network. Dry/Damp gaps and matching Hex/Edge Blockers interrupt reach; routes can go around Blockers if connected. Routed Airborne Wetting may establish the Flooded path first, and Waterborne still cannot modify Moisture. Airborne Ranges and directional Spread Budgets remain finite. Waterborne-tagged one-hex Environmental Adjacency stays local.
 
-**STATUS: This is an IDEA UNDER REVIEW, not a change to implemented Environmental System v1.1.** If approved, it affects Prototype 1 core code/UI/tests and the previous Waterborne Range 3 profile entries for Tidegill, Sunspore, Rilllace and Brookrill. Its broad payoff is intentional for early playtests; note risk of near-global coverage over large flooded gardens.
+**STATUS: APPROVED and IMPLEMENTED in Environmental System v1.1, Prototype 1 core code, UI and tests.** Previous Waterborne Range 3 profile entries for Tidegill, Sunspore, Rilllace and Brookrill are superseded by unlimited connected-Flooded reach. Existing saved numeric Waterborne Range values are ignored. Broad coverage is intentional; evaluate any near-global Flooded-garden effects in later playtests.
 
 ## Updated collaboration priority
 
-The user now prefers to **define concrete first-pass values quickly, implement a playable slice, and use tests/harvest-per-hex-day calculations to rebalance**. Favor meaningful, even exaggerated numbers over timid barely perceptible Effects. This supersedes the earlier preference to postpone all Plant/Fungus implementation until the complete fungus-wide numeric pass. **Do not silently implement §56 proposals before user review**, but once agreed, advance the deterministic rules core and playable UI in small tested increments while retaining the separate later Plant-owned transformation-recipe design pass.
+The user prefers **bold, meaningful first-pass numbers** and eventual playtest/calculation-driven rebalance, but clarified the sequencing: **finish a more-or-less defined Plant/Fungus roster, audit whether all desired Effects are covered, and read through for logical/feasibility problems BEFORE implementing Plants and Fungi**. This review is easier while changes remain text-only. The user is **not concerned with exact numerical balance**, because values can be adjusted easily later. **Only the Waterborne environmental change was authorized for implementation now.** Continue designing and auditing before adding Plant/Fungus gameplay code; keep Plant-owned transformation recipes separate.
 
 ## What to do next, in order
 
-1. **Review §56's two PROPOSED rules**: the explicit 3:1 signed harvest-time Allocation system and unlimited Flooded-connected Waterborne propagation. Ask the user to approve or adjust; do not treat the proposal as adopted automatically.
-2. If approved, **update Environmental System v1.1 and affected Waterborne Fungus profiles**, then implement the unlimited Waterborne graph traversal in the existing deterministic **src/core/** engine with updated tests and UI labeling.
-3. Build a **small playable Plant/Fungus/Spore/harvest vertical slice** using approved Plants and the four Allocation Fungi, rather than waiting for all 28 complete numeric profiles. Test early Seed Timing interaction, full sustainable rotations and resource trade-offs. Preserve the existing React/Vite + separate core architecture.
-4. Iterate on **playtest metrics and exaggerated first-pass numerical values** (Leaves per hex-day, Seed sustainability, infrastructure costs), then perform the broader Source coverage, interaction, blocker/Waterborne/Mycelial feasibility audit and full fungus balance as needed.
-5. **Keep Plant-owned transformation recipes a separate full design pass** across six families after the basic systems and fungal interactions are available. Do not invent recipes incidentally during this first implementation.
+1. **Waterborne work is done:** keep unlimited connected-Flooded traversal and its tests/inspector UI as the implemented environmental foundation. No Plant/Fungus runtime work yet.
+2. **Finish roster breadth:** with 28 first-pass approved Fungi, examine whether every desired cultivation Effect and direction has multiple practical sources where worthwhile. Consider additional species or Effects without a hard count cap.
+3. **Perform a comprehensive design/logic review while still text-only:** coverage and interaction matrix across all Plants/Fungi, Source footprints, Blockers, new unlimited Waterborne propagation, Mycelial boundaries, survival/production exploits, stacking, compatibility, Seed identities and harvest eligibility. Resolve contradictions and glaring spatial impossibilities before coding.
+4. **Then implement Plants and Fungi** using the existing React/Vite frontend and independent deterministic rules core, with the approved 3:1 Allocation mechanics and strong initial values. Playtest and adjust exact stage durations, yields, rates, strengths and Spore economy using actual Leaves-per-hex-day/Seed-sustainability metrics.
+5. **Keep Plant-owned transformation recipes a separate full pass** across six families; do not invent recipes incidentally during the current roster design or environmental code update.
 6. There is **no fixed fungus roster cap**, no second Mycelial-creating species, no generic fungal Transformation Influence, and no need to make weak values just to appear balanced before testing.
 
 ## How to collaborate with this user
@@ -127,4 +127,4 @@ Work through **small, concrete batches** with named fungi, emitted Effects, habi
 
 **Suggested opening in the next conversation:**
 
-> Companion Cultivation now has **28 approved first-pass Fungi** including sole Mycelial-creator Mycelord; §55's Gloamclock, Bristlecap and Goldgill were approved on 26 October 2026. **§56's concrete 3:1 harvest-time Allocation and unlimited Waterborne propagation are NEW PROPOSALS, not yet accepted.** The user wants bold initial values and earlier playable implementation/playtesting rather than delaying everything until global numerical balance. Review §56, then implement an early tested slice if agreed, keeping Plant transformation recipes a later separate pass.
+> Companion Cultivation has **28 approved first-pass Fungi** including sole Mycelial-creator Mycelord. **§56's 3:1 harvest-time Leaf–Seed Allocation and unlimited Waterborne connected-Flooded reach are APPROVED**; Waterborne is already implemented in Prototype 1 and documented in Environmental System v1.1, while Allocation awaits Plant/Fungus runtime. The user wants **roster Effect coverage and a comprehensive text-only logic/feasibility review BEFORE implementing Plants/Fungi**, but not perfect numerical balance. Continue design/review first, then build and playtest with strong first-pass values. Plant-owned transformation recipes remain a separate later pass.

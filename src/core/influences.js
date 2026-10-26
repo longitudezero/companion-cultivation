@@ -23,7 +23,8 @@ export function makeInfluence(name = 'Warming', strength = 1, range = 2, mode = 
   return {
     name, kind: type.kind, property: type.property,
     modifier: type.direction * Math.max(1, Math.abs(Math.round(strength))),
-    mode, range: Math.max(0, Math.round(range)), propagation: 'range',
+    // null is JSON-safe and means unlimited connectivity for Waterborne.
+    mode, range: mode === 'waterborne' ? null : Math.max(0, Math.round(range)), propagation: 'range',
   };
 }
 

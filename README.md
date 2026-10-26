@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Use the workbench to place configurable Sources, Hex Blockers, and Edge Blockers. Select a Source to switch between **Regular** and **Anchored** (one fixed Property/Condition), and choose **Propagation · Range** or **Spread Budget Propagation** for each emitted Influence. Routed emissions have a starting direction, shared crossing budget, and the **Straight Until Blocked** movement rule. Select a routed Source to see its path arrows. Environmental Adjacency also changes Conditions around Flooded, Hot, Freezing, Bright, and Dark hexes; the inspector explains these neighbor adjustments and their Kind/Mode separately. Blockers can selectively interrupt these effects. The garden saves to browser storage automatically; JSON import/export is also available.
+Use the workbench to place configurable Sources, Hex Blockers, and Edge Blockers. Select a Source to switch between **Regular** and **Anchored** (one fixed Property/Condition), and choose **ordinary Propagation** or **Spread Budget Propagation** for each emitted Influence. Ordinary Airborne Sources have a finite Range; **Waterborne Sources reach every connected Flooded hex without a Range limit**, subject to Blockers. Routed emissions have a starting direction, shared crossing budget, and the **Straight Until Blocked** movement rule. Select a routed Source to see its path arrows. Environmental Adjacency also changes Conditions around Flooded, Hot, Freezing, Bright, and Dark hexes; the inspector explains these neighbor adjustments and their Kind/Mode separately. Blockers can selectively interrupt these effects. The garden saves to browser storage automatically; JSON import/export is also available.
 
 ## Rules engine
 
@@ -24,7 +24,7 @@ All simulation code lives in `src/core/`. It has no React, DOM, browser-storage,
 | `adjacency.js` | Simultaneous, capped neighbor interactions and their inspector explanations |
 | `blocking.js` | Shared Hex/Edge blocker matching rules |
 | `spread.js` | Deterministic, seeded Spread Budget pathfinding and route segments |
-| `simulation.js` | Range-based Airborne/Waterborne propagation, both route types, Modifier aggregation, Anchored Conditions, and final Conditions |
+| `simulation.js` | Finite Airborne Range and unlimited connected-Flooded Waterborne propagation, both route types, Modifier aggregation, Anchored Conditions, and final Conditions |
 | `demo.js` | Example garden data (not additional game rules) |
 
 The UI imports ES modules directly. For the existing CommonJS RPG backend:
@@ -54,7 +54,8 @@ The GitHub Actions workflow validates and builds the project and deploys `dist/`
 - Hex and Edge Blockers stop matching adjacency effects in both directions. A Full Blocker stops every effect; Kind and Mode Blockers use the same matching filters as emitted Influences. A Hex Blocker isolates its hex, while an Edge Blocker interrupts only its shared edge.
 - Adjacency tags are **Aqueous / Waterborne** for Flooded → Damp, **Thermal / Airborne** for Hot/Freezing, and **Luminous / Airborne** for Bright/Dark. There is no Fertility adjacency. These tags select blockers only: a Waterborne adjacency effect can still dampen a Dry neighbor, without requiring a Flooded path.
 - Cancellation only considers neighbors whose effects can cross the blockers. Blocking one of two opposing extremes can allow the other to change a Condition.
-- Airborne travels through all unblocked hexes; Waterborne travels only through connected Flooded hexes.
+- Airborne travels through unblocked hexes up to its numeric Range; Waterborne has **unlimited reach along connected Flooded hexes**, with no numeric Range. A non-Flooded Source may inject into adjacent Flooded hexes. Both respect matching Blockers.
+- Existing saved Waterborne emissions with a numeric Range remain valid; their legacy Range value is ignored. Newly configured Waterborne emissions have no Range slider.
 - Spread Budget Propagation is an alternative path system. The player chooses the initial heading; Source-specific rules move and fork thereafter. One shared budget is spent across all branches, and competing branches are chosen reproducibly at random when the budget is insufficient.
 - **Straight Until Blocked:** continue through the opposite edge; when obstructed (including by a grid boundary), attempt both adjacent exits. Previously reached hexes cannot be entered again.
 - Routed Wetting can modify Dry terrain without pre-existing Flooded connections; its Moisture results are resolved before ordinary Waterborne transmission.

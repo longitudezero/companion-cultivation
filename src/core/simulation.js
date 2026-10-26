@@ -8,12 +8,15 @@ export { isBlocked } from './blocking.js';
 
 export function propagate(garden, origin, influence, moisture = null) {
   if (!garden.hexes[origin]) return [];
+  // Waterborne reach is determined by the connected Flooded network, not a
+  // numeric Range. Ignore saved Range values from older garden files as well.
+  const maxDistance = influence.mode === 'waterborne' ? Infinity : influence.range;
   const distances = new Map([[origin, 0]]);
   const queue = [origin];
   for (let index = 0; index < queue.length; index += 1) {
     const current = queue[index];
     const distance = distances.get(current);
-    if (distance >= influence.range) continue;
+    if (distance >= maxDistance) continue;
     for (const next of neighborsOf(current)) {
       if (!garden.hexes[next] || distances.has(next)) continue;
       if (isBlocked(garden.objects[next]?.type === 'blocker' ? garden.objects[next] : null, influence)) continue;

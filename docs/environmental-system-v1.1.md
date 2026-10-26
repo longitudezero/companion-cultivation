@@ -1,7 +1,7 @@
 # Companion Cultivation — Environmental System v1.1
 
 **Status:** Agreed rules reference; both propagation systems, Environmental Adjacency, blocker-aware adjacency, and Anchored Sources are implemented in Prototype 1  
-**Updated:** 23 October 2026  
+**Updated:** 26 October 2026
 **Supersedes:** Environmental System v1 (consolidated edition)
 
 This document collects the environmental rules agreed during design, including Sources, Blockers, object occupancy, fungi, and the later agreement on a second propagation system. It distinguishes implemented Prototype 1 mechanics from intentionally deferred design decisions.
@@ -31,7 +31,7 @@ We avoid **effect** and **status** as formal system terms because they are too a
 | **Anchored Source** | A Source that also fixes one selected Property at one selected Condition on its own hex. |
 | **Influence** | Something emitted by a Source, propagated to reachable hexes, and applied to its intended target there. |
 | **Influence Kind** | A classification of an Influence, usable for selective blocking. |
-| **Propagation** | The existing Range-based system: an Influence travels in all valid directions, reaching hexes within its Range. |
+| **Propagation** | The ordinary, omnidirectional system: Airborne Influences have a finite Range; Waterborne Influences reach all connected Flooded hexes without a numeric Range. |
 | **Spread Budget Propagation** | The second, implemented propagation system: the player selects an initial direction, then a Source-specific Movement Rule controls subsequent crossings and possible branching. |
 | **Spread Budget** | The total number of successful edge crossings available to one emitted Influence, shared by all of its branches. |
 | **Movement Rule** | The Source-specific behavior that chooses a Spread Budget Influence's next edge(s). |
@@ -111,7 +111,7 @@ Normal Source Modifiers remain additive. Environmental Adjacency is a separate, 
 ### General behavior — locked
 
 - A **Source** can emit **multiple Influences**.
-- In Prototype 1, each emitted Influence has an **Influence Kind**, **Propagation Mode**, and **Range**, as well as its defined target and outcome. The implemented Spread Budget system substitutes its own budget, starting direction, and Movement Rule for Range-based reach (Section 6A).
+- In Prototype 1, each emitted Influence has an **Influence Kind** and **Propagation Mode**, as well as its defined target and outcome. Ordinary Airborne propagation has a numeric **Range**; ordinary Waterborne propagation is unlimited within connected Flooded networks. Spread Budget Propagation uses its own budget, starting direction, and Movement Rule (Section 6A).
 - For current **environmental** Influences, the outcome is a signed Modifier to **exactly one** environmental Property.
 - An environmental Influence means the same thing wherever it arrives: its Modifier does **not** vary because the destination is Dirt, Sand, Clay, or Stone.
 - Sources determine the strength of their emitted environmental Influences; for example, two Sources might both emit Warming at different strengths.
@@ -142,16 +142,16 @@ The following directional names and Kind names are **illustrative starting vocab
 - Its separate Influences can have different Kinds, strengths, Modes, and Ranges. Each emission may instead use Spread Budget Propagation.
 - Sources are not consumed by emitting Influences.
 
-**Prototype 1 tool:** A **Configurable Source** allows a tester to select its Influence(s), strength(s), Mode(s), Range(s), or Spread Budget settings without first defining a permanent catalog of fantasy items. A Source may be toggled between Regular and Anchored, with its anchor Property and Condition configured independently of its emissions (Section 6B).
+**Prototype 1 tool:** A **Configurable Source** allows a tester to select its Influence(s), strength(s), Mode(s), Airborne Range(s), or Spread Budget settings without first defining a permanent catalog of fantasy items. Waterborne reach is controlled by Flooded connectivity rather than a Range slider. A Source may be toggled between Regular and Anchored, with its anchor Property and Condition configured independently of its emissions (Section 6B).
 
-## 6. Propagation (Range-based) — locked for Prototype 1
+## 6. Ordinary Propagation (Airborne Range / Waterborne connectivity) — locked for Prototype 1
 
 ### Shared rules
 
 - The Source's own hex is distance **0**.
-- Each crossing to an adjacent hex costs **1 Range**.
+- Each Airborne crossing to an adjacent hex costs **1 Range**; Waterborne crossings are not subject to a Range budget.
 - Influences spread toward all **six** adjacent directions by default.
-- Propagation can route **around** obstacles if an alternative valid path exists within Range.
+- Propagation can route **around** obstacles if an alternative valid path exists within Airborne Range or the connected Flooded network.
 - If several valid routes lead from the **same Source** to a hex, only the **shortest valid route** matters: a single emission applies **once per hex**, not once per route.
 - Separate Sources can reach the same hex and their Modifiers can stack.
 
@@ -159,13 +159,16 @@ The following directional names and Kind names are **illustrative starting vocab
 
 - Airborne Influences can traverse adjacent hexes regardless of Material or environmental Condition, unless blocked.
 - They require no water connection.
+- Airborne Sources have a finite numeric Range, with each crossing costing one.
 
 ### Waterborne
 
 - Waterborne Influences travel only through **connected Flooded hexes**.
 - **Dry** and **Damp** hexes do not carry Waterborne Influences.
-- A Source can inject a Waterborne Influence directly into an **adjacent Flooded hex** even when the Source's own hex is not Flooded; that first crossing costs Range 1.
+- **Waterborne Influences have no numeric Range limit.** An emission reaches every Flooded hex connected by valid, unblocked Flooded paths. The finite size and topology of the garden, together with matching Blockers, determine reach.
+- A Source can inject a Waterborne Influence directly into **any adjacent Flooded hex** even when the Source's own hex is not Flooded; each injected Flooded component can carry it without a distance cap. The Source's own hex is still reached at distance 0.
 - If a Flooded connection is broken, propagation cannot continue along that route. Other valid paths may still work.
+- Older saved Waterborne emissions with a numeric Range remain loadable; that historical Range is ignored. Newly created Waterborne emissions store no numeric Range.
 
 ### Materials and Conditions
 
@@ -181,11 +184,11 @@ In particular, **Freezing Temperature does not currently freeze water or interru
 
 ## 6A. Spread Budget Propagation — implemented Prototype 1 extension
 
-This is a **second propagation system**, not a replacement or reinterpretation of the existing **Propagation** system in Section 6. The original Range-based rules—including Airborne/Waterborne connectivity, shortest valid routes, and blocker behavior—remain unchanged. Prototype 1 now offers both systems per emission.
+This is a **second propagation system**, not a replacement for the ordinary **Propagation** system in Section 6. Airborne Range, Waterborne Flooded connectivity, shortest valid routes, and blocker behavior remain separate from Spread Budget movement. Waterborne's previously finite Range was explicitly removed on 26 October 2026. Prototype 1 offers both propagation systems per emission.
 
 ### Shared behavior — agreed and implemented
 
-- Each emission uses either **Propagation** (Range-based) or **Spread Budget Propagation**, according to its Source configuration. Different Sources—and potentially different emissions from one Source—may use different systems.
+- Each emission uses either **ordinary Propagation** (finite Airborne Range or unlimited Flooded-connected Waterborne) or **Spread Budget Propagation**, according to its Source configuration. Different Sources—and potentially different emissions from one Source—may use different systems.
 - For a Spread Budget emission, the **player chooses one Starting Direction** from the six sides of the Source hex. The player does **not** choose each subsequent turn or branch.
 - Each Source defines a **Movement Rule** for that emission. This rule determines which outgoing edge(s) a moving branch attempts next and what it does when obstructed.
 - A Spread Budget is **one shared pool across all branches of one emission**. Each successful crossing of one shared hex edge costs **1** from that pool. Creating two advancing branches across two edges costs **2**, not one per independently replenished branch. An attempted but blocked crossing spends nothing.
@@ -428,6 +431,7 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 9. **Environmental Adjacency** implemented on 23 October 2026 as a one-pass, non-stacking, cancellable neighbor adjustment affecting Moisture, Temperature, and Illumination; Fertility is excluded.
 10. **Anchored Sources** implemented as one-Property/Condition overrides at a Source's own hex; normal Source emissions remain unchanged.
 11. **Adjacency-aware Blockers** implemented on 23 October 2026: matching Hex or shared-edge Blockers prevent adjacency transmission in both directions, with Full, Kind, and Mode restrictions. Opposing extremes cancel only after blocked neighbors are excluded.
+12. **Unlimited Waterborne reach** approved and implemented on 26 October 2026: ordinary Waterborne emissions traverse every blocker-reachable connected Flooded hex without a Range cap, retaining adjacent-Flooded injection and ignoring old saved numeric Ranges. Airborne Range, directional Spread Budget and one-hex Environmental Adjacency are unchanged.
 
 ---
 
@@ -442,7 +446,7 @@ The separate **Companion Cultivation — Standalone Farming Game Design Notes** 
 **Temperature:** Freezing → Cold → Temperate → Warm → Hot  
 **Illumination:** Dark → Dim → Lit → Bright  
 **Source Modifier math:** Ordinary base Condition = `clamp(Baseline + sum(active Source Modifiers))`; an Anchored Source fixes one local Condition  
-**Propagation:** Existing Range-based spread in all valid directions; Airborne through unblocked hexes, Waterborne through connected Flooded hexes  
+**Propagation:** Ordinary Airborne has finite Range; ordinary Waterborne reaches all connected Flooded hexes with no Range cap. Both obey matching Blockers and apply once per source/hex
 **Spread Budget Propagation (implemented extension):** Player-selected Starting Direction; Source-specific Movement Rule; one shared crossing budget across branches; first rule: Straight Until Blocked  
 **Environmental Adjacency:** One simultaneous capped neighbor pass; Flooded → Damp, Hot/Freezing ±1 Temperature, Bright/Dark ±1 Illumination; opposite triggers cancel, no stacking or chaining, no Fertility response
 **Anchored Source:** Regular Source emission behavior plus one fixed local Property/Condition
