@@ -1,6 +1,8 @@
 # Companion Cultivation — conversation handoff
 
-**Snapshot:** 26 October 2026  
+**Snapshot:** 26 October 2026
+
+**Latest recipe-pass milestone (§73): ALL 12 Flowers Transformations approved, including 10h Dim preparation + transition to Bright within 8h for Daisyspell → Orchidemon.** Four families have first-pass recipes complete; **Desert and Spices remain**. See §73 of the main design doc and the final handoff section below; earlier 'Flowers pending' status statements are superseded.  
 **Purpose:** Help a new design conversation resume without having to reconstruct a long chat.  
 **Current phase:** Text-only Plant/Fungus interaction and feasibility audit, before implementing either organism type; the environmental prototype has been simplified to three Properties.
 
@@ -238,3 +240,26 @@ The user corrected the assistant: **Mycelial-dependent Rushroom and Siltgill sho
 **Approved route (§72):** **Mandrabra → Mandrakadabra: resolved Damp, Bright; named contact with Rushroom OR Siltgill through any active emitted Influence footprint; 12 uninterrupted hours; immediate fresh 0%-Growth transformation when complete**. No extra Temperate prerequisite. The source may be Mycelial-dependent; Mandrabra need not be Mycelial, and retreat is not a trigger. Upon transformation, the new Mandrakadabra is lethally vulnerable to **4 uninterrupted hours of Bright** and must be moved environmentally to **Lit** to farm optimally (§70). This is exclusive with Mandrabra→Mandrakazam (Dim). The old special six-hour Mycelial lethal rule does not return. **Do not substitute Glimmergill or Goldgill for Rushroom/Siltgill.**
 
 **Recipe pass status: Ingredients 6/6 approved (§67); Aquatic 14/14 approved (§69); Woodlands 13/13 approved (§§71–72). Three families left: Flowers, Desert, Spices.** First-pass hours remain playtestable; no Plant/Fungus runtime code was changed. Older handoff notes describing Woodlands as incomplete are superseded.
+
+## Latest approval — §73: all Flowers Transformation recipes (26 October 2026)
+
+The user said **“i like them including the dusk-to-bright Orchidemon route”**, APPROVING **all 12 Flowers transformation routes** as proposed. This includes the entire named-fungal contact combinations, environmental conditions and first-pass hours; no further review is pending for these recipes at first pass. The authoritative full table and sequence are in [§73 of the Herbs/Fungi design](herbs-and-fungi-design.md). All recipes use **environmental states/transitions plus named-fungus contact through EITHER ordinary Influence zone** (§68); they NEVER require Growth/Ripening bonuses or percentage stages; successful transformations always restart the new Plant at 0% (§58). There is no fungal Secondary Bloom mechanic. All sibling forks have pairwise-incompatible environmental conditions (§66).
+
+| Route | Environment / sequence | Named fungal contact | Hours |
+| --- | --- | --- | ---: |
+| Daisydaze → Charmomile | Damp, Temperate, Lit | Lanterncap OR Goldgill | 12 |
+| Daisydaze → Lavendream | Damp, Temperate, Dim | Veilcap OR Gloamclock | 20 |
+| Daisydaze → Poppycock | Damp, Warm, Bright | Emberbell OR Tickbolete | 16 |
+| Charmomile → Daisyspell | Damp, Warm, Bright | Prismorel OR Glimmergill | 12 |
+| Charmomile → Marigloom | Damp, Cold, Dim | Echomorel OR Fogdial | 24 |
+| Lavendream → Lavendread | Damp, Cold, Dark | Chillanterelle OR Brookrill | 22 |
+| Lavendream → Orchidemon | Damp, Warm, Bright | **Glimmergill AND Mistruffle** | 32 |
+| **Daisyspell → Orchidemon** | **10h Damp/Temperate/Dim preparation, then reach Bright within 8h after leaving Dim, retaining Damp/Temperate; Lit may be traversed** | **Veilcap OR Fogdial** during preparation; **Prismorel OR Glimmergill** at Bright completion | 10 + up to 8 |
+| Lavendread → Dream Poppy | Damp, Cold, Dim | Echomorel OR Brookrill | 20 |
+| Poppycock → Dream Poppy | Damp, Temperate, Dim | Veilcap OR Gloamclock | 18 |
+| Marigloom → Rosewraith | Damp, Cold, Dim | **Echomorel AND Fogdial** | 18 |
+| Dream Poppy → Rosewraith | Damp, Temperate, Dim | **Duskleaf AND Mistruffle** | 24 |
+
+**Dusk-to-bright execution:** Dim + Veilcap/Fogdial contact for **10 uninterrupted hours**, then leave Dim. The **eight-hour completion countdown starts upon leaving Dim**; Damp and Temperate must hold throughout. Reach Bright with Prismorel/Glimmergill contact at completion; otherwise a fresh preparation is required. No stage/75%-bloom requirement. Orchidemon created afresh at 0%, naturally prefers Bright, and remains entirely sterile. All first-pass hours can be adjusted in real playtests. Source reach/compensating environmental emissions should be tested; no new Fungus types or special Transformation Effects are authorized.
+
+**Current family progress:** **Ingredients 6/6; Aquatic 14/14; Woodlands 13/13; Flowers 12/12** APPROVED, totaling **45** approved first-pass Transformation recipes. **Only Desert and Spices remain** in the dedicated recipe-design pass. The full roster of 31 candidate Fungi remains unchanged. **No Plant/Fungus/Mycelial runtime code was modified.** Suggested next family: Desert, then Spices.
