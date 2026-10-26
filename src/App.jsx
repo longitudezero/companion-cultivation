@@ -3,17 +3,17 @@ import HexGrid, { PALETTES } from './HexGrid.jsx';
 import './spread.css';
 import './adjacency.css';
 import {
-  CONDITIONS, MATERIALS, PROPERTIES, INFLUENCE_TYPES, KINDS, MODES,
-  calculateEnvironment, createGarden, createDemoGarden, isGarden, edgeKey, keyAt,
-  resizeGarden, setMaterial, setBaseline, placeObject, removeObject, updateObject,
+  CONDITIONS, PROPERTIES, INFLUENCE_TYPES, KINDS, MODES,
+  calculateEnvironment, createGarden, createDemoGarden, isGarden, migrateGarden, edgeKey, keyAt,
+  resizeGarden, setBaseline, placeObject, removeObject, updateObject,
   placeEdgeBlocker, removeEdgeBlocker, makeInfluence, makeSpreadInfluence, makeSource, makeAnchoredSource, makeBlocker,
   STARTING_DIRECTIONS, MOVEMENT_RULES,
 } from './core/index.js';
 
-const STORAGE_KEY = 'companion-cultivation:sandbox:v1';
+const STORAGE_KEY = 'companion-cultivation:sandbox:v2';
+const LEGACY_STORAGE_KEY = 'companion-cultivation:sandbox:v1';
 const TOOLS = [
   { id: 'inspect', icon: '⌕', title: 'Inspect', hint: 'Select a hex or existing edge' },
-  { id: 'material', icon: '◈', title: 'Material', hint: 'Paint permanent ground material' },
   { id: 'source', icon: '✦', title: 'Source', hint: 'Place a configurable Influence Source' },
   { id: 'hex', icon: '▣', title: 'Hex blocker', hint: 'Block an entire hex' },
   { id: 'edge', icon: '╱', title: 'Edge blocker', hint: 'Click a shared hex edge' },
@@ -22,10 +22,14 @@ const TOOLS = [
 
 const titleCase = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 function initialGarden() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    if (isGarden(saved) && saved.columns >= 3 && saved.columns <= 20 && saved.rows >= 3 && saved.rows <= 20) return saved;
-  } catch { /* fall through to demo */ }
+  for (const key of [STORAGE_KEY, LEGACY_STORAGE_KEY]) {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || 'null');
+      if (isGarden(saved) && saved.columns >= 3 && saved.columns <= 20 && saved.rows >= 3 && saved.rows <= 20) {
+        return migrateGarden(saved);
+      }
+    } catch { /* try another saved version or the demo */ }
+  }
   return createDemoGarden();
 }
 
@@ -53,7 +57,6 @@ export default function App() {
   const [garden, setGarden] = useState(initialGarden);
   const [overlay, setOverlay] = useState('Moisture');
   const [tool, setTool] = useState('inspect');
-  const [materialBrush, setMaterialBrush] = useState('Dirt');
   const [selection, setSelection] = useState({ type: 'hex', key: keyAt(3, 3) });
   const [notice, setNotice] = useState('Select any hex to inspect what is affecting it.');
   const [showGuide, setShowGuide] = useState(false);
@@ -76,7 +79,6 @@ export default function App() {
 
   function onHexClick(key) {
     setSelection({ type: 'hex', key });
-    if (tool === 'material') changeGarden((previous) => setMaterial(previous, key, materialBrush));
     if (tool === 'source') changeGarden((previous) => placeObject(previous, key, makeSource()));
     if (tool === 'hex') changeGarden((previous) => placeObject(previous, key, makeBlocker()));
     if (tool === 'erase') changeGarden((previous) => removeObject(previous, key));
@@ -168,10 +170,11 @@ export default function App() {
     try {
       const imported = JSON.parse(await file.text());
       if (!isGarden(imported) || imported.columns < 3 || imported.columns > 20 || imported.rows < 3 || imported.rows > 20) throw new Error('Unsupported garden file.');
-      calculateEnvironment(imported);
-      setGarden(imported);
+      const upgraded = migrateGarden(imported);
+      calculateEnvironment(upgraded);
+      setGarden(upgraded);
       setSelection({ type: 'hex', key: Object.keys(imported.hexes)[0] });
-      setNotice(`Loaded ${file.name}`);
+      setNotice(imported.schemaVersion === 1 ? `Loaded ${file.name}; obsolete Materials and Fertility were removed.` : `Loaded ${file.name}`);
     } catch (error) { setNotice(`Import failed: ${error.message}`); }
     event.target.value = '';
   }
@@ -187,11 +190,9 @@ export default function App() {
         <SectionTitle eyebrow="YOUR WORKBENCH" title="Garden tools" />
         <div className="tool-list">{TOOLS.map((item) => <button key={item.id} className={`tool-button ${tool === item.id ? 'active' : ''}`} title={item.hint} onClick={() => { setTool(item.id); setNotice(item.hint); }}><span className="tool-icon">{item.icon}</span><span>{item.title}</span><span className="tool-chevron">›</span></button>)}</div>
 
-        {tool === 'material' && <div className="brush-panel"><div className="mini-heading">MATERIAL BRUSH</div><div className="material-options">{MATERIALS.map((value) => <button key={value} onClick={() => setMaterialBrush(value)} className={`material-choice ${materialBrush === value ? 'chosen' : ''}`}><i style={{ background: PALETTES.Material[value] }}/>{value}</button>)}</div></div>}
-
         <div className="section-divider"/>
         <SectionTitle eyebrow="ENVIRONMENT" title="View by property" />
-        <div className="overlay-list">{['Moisture', 'Fertility', 'Temperature', 'Illumination', 'Material'].map((name) => <button key={name} className={`overlay-choice ${overlay === name ? 'chosen' : ''}`} onClick={() => setOverlay(name)}><span className="overlay-dot" style={{ background: Object.values(PALETTES[name])[Math.floor(Object.values(PALETTES[name]).length / 2)] }}/>{name}<span>{overlay === name ? '●' : '○'}</span></button>)}</div>
+        <div className="overlay-list">{PROPERTIES.map((name) => <button key={name} className={`overlay-choice ${overlay === name ? 'chosen' : ''}`} onClick={() => setOverlay(name)}><span className="overlay-dot" style={{ background: Object.values(PALETTES[name])[Math.floor(Object.values(PALETTES[name]).length / 2)] }}/>{name}<span>{overlay === name ? '●' : '○'}</span></button>)}</div>
 
         <div className="legend-card"><div className="mini-heading">{overlay.toUpperCase()} SCALE</div><div className="legend-swatches">{Object.entries(PALETTES[overlay]).map(([name, color]) => <div key={name} title={name} className="legend-item"><i style={{ background: color }}/><span>{name}</span></div>)}</div></div>
       </aside>
@@ -210,7 +211,7 @@ export default function App() {
       <aside className="sidebar sidebar-right">
         <SectionTitle eyebrow="FIELD NOTES" title="Inspector" right={<span className="inspector-tag">{selection.type === 'hex' ? 'HEX' : 'EDGE'}</span>}/>
         {selection.type === 'hex' && selectedHex ? <>
-          <div className="selected-summary"><div className="selected-illustration" style={{ background: PALETTES.Material[selectedHex.material] }}>⬡</div><div><span className="mini-heading">SELECTED HEX</span><h3>{selectedHex.material} ground</h3><p>Coordinate {selection.key}</p></div></div>
+          <div className="selected-summary"><div className="selected-illustration" style={{ background: PALETTES.Moisture[simulation.conditions[selection.key].Moisture] }}>⬡</div><div><span className="mini-heading">SELECTED HEX</span><h3>Hex {selection.key}</h3><p>Three environmental Properties</p></div></div>
           {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{selectedObject.type === 'source' ? selectedObject.anchor ? '✥ Anchored Source' : '✦ Influence Source' : '▣ Hex Blocker'}</strong></div><button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button></div>
             {selectedObject.type === 'source' ? <>
               <div className="source-config"><label>Source type<select aria-label="Source type" value={selectedObject.anchor ? 'anchored' : 'regular'} onChange={(event) => updateSourceType(event.target.value)}><option value="regular">Regular Source</option><option value="anchored">Anchored Source</option></select></label>
@@ -243,7 +244,7 @@ export default function App() {
       </aside>
     </div>
 
-    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the Environmental Sandbox works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 01</span><h2>A living system of influences</h2><p>Every hex has a permanent Material, four environmental Properties, and a Baseline for each. Sources emit Influences that adjust Conditions only while they reach a hex.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose Source, Hex Blocker, or Edge Blocker from the workbench and click the garden.</p></div><div><b>02 · Configure</b><p>Sources can be Regular or Anchored to one fixed Condition. Airborne Influences have Range; Waterborne Influences reach the entire connected Flooded network. Directional Spread Budget remains separate.</p></div><div><b>03 · Observe</b><p>Flooded, Hot, Freezing, Bright, and Dark hexes influence adjacent Conditions in one simultaneous pass, without stacking or chains.</p></div><div><b>04 · Experiment</b><p>Hex and Edge Blockers stop matching adjacency effects in both directions. Full blocks every effect; Kind and Mode filters also work with adjacency.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the Environmental Sandbox works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 01</span><h2>A living system of influences</h2><p>Every hex has three environmental Properties—Moisture, Temperature, and Illumination—with editable Baselines. Sources emit Influences that adjust Conditions only while they reach a hex.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose Source, Hex Blocker, or Edge Blocker from the workbench and click the garden.</p></div><div><b>02 · Configure</b><p>Sources can be Regular or Anchored to one fixed Condition. Airborne Influences have Range; Waterborne Influences reach the entire connected Flooded network. Directional Spread Budget remains separate.</p></div><div><b>03 · Observe</b><p>Flooded, Hot, Freezing, Bright, and Dark hexes influence adjacent Conditions in one simultaneous pass, without stacking or chains.</p></div><div><b>04 · Experiment</b><p>Hex and Edge Blockers stop matching adjacency effects in both directions. Full blocks every effect; Kind and Mode filters also work with adjacency.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
   </div>;
 }
 

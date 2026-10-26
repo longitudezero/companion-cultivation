@@ -1,5 +1,7 @@
 # Companion Cultivation — Environmental System v1.1
 
+> **Historical specification, superseded on 26 October 2026.** See [Environmental System v1.2](environmental-system-v1.2.md) for the current three-Property Prototype 1 rules. v1.2 removes permanent hex Materials and Fertility from the game; every v1.1 reference to them is archival, not a current game requirement. All unaffected propagation, anchoring, blocking, adjacency and Waterborne rules continue under v1.2.
+
 **Status:** Agreed rules reference; both propagation systems, Environmental Adjacency, blocker-aware adjacency, and Anchored Sources are implemented in Prototype 1  
 **Updated:** 26 October 2026
 **Supersedes:** Environmental System v1 (consolidated edition)

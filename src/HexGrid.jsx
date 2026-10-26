@@ -1,14 +1,12 @@
 import React from 'react';
-import { CONDITIONS, MATERIALS, keyAt, neighborsOf, edgeKey, offsetOf } from './core/index.js';
+import { neighborsOf, edgeKey, offsetOf } from './core/index.js';
 
 const SIZE = 33;
 const DX = Math.sqrt(3) * SIZE;
 const Y_STEP = 1.5 * SIZE;
 
 export const PALETTES = {
-  Material: { Dirt: '#777c5f', Sand: '#b6a477', Clay: '#a67363', Stone: '#797d83' },
   Moisture: { Dry: '#b59b75', Damp: '#729e86', Flooded: '#477eac' },
-  Fertility: { Barren: '#746d6a', Poor: '#93836b', Normal: '#749476', Rich: '#509a74' },
   Temperature: { Freezing: '#71a9bd', Cold: '#8aa9ba', Temperate: '#7b9a7c', Warm: '#c69a5e', Hot: '#c46e53' },
   Illumination: { Dark: '#49545c', Dim: '#777e83', Lit: '#b9a36e', Bright: '#ddbc6d' },
 };
@@ -72,15 +70,14 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
         <marker id="route-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 z" fill="#e9f0b4"/></marker>
       </defs>
       {keys.map((key) => {
-        const hex = garden.hexes[key];
         const condition = simulation.conditions[key][overlay];
-        const fill = PALETTES[overlay][overlay === 'Material' ? hex.material : condition];
-        const label = overlay === 'Material' ? hex.material : condition;
+        const fill = PALETTES[overlay][condition];
+        const label = condition;
         const object = garden.objects[key];
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`${hex.material} hex ${key}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
+          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
             {highlighted.has(key) && <polygon points={polygonFor(c)} fill="none" stroke="#efde9b" strokeWidth="5" opacity=".65"/>}
             <polygon points={polygonFor(c)} fill={fill} stroke={active ? '#ffe4a8' : '#243b32'} strokeWidth={active ? '2.3' : '2.5'} className="hex-surface"/>

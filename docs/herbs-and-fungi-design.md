@@ -2,9 +2,9 @@
 
 **Status:** Active text-only design reference; not implemented in Prototype 1  
 **Started:** 23 October 2026  
-**Related foundation:** [Environmental System v1.1](environmental-system-v1.1.md)
+**Related foundation:** [Environmental System v1.2](environmental-system-v1.2.md) (the older v1.1 file is archival)
 
-This document records agreed cultivation directions, ideas under consideration, and unresolved details. It owns **Herb and Fungus gameplay** and the **proposed temporary material-overlay extension**, while the Environmental System document remains the authoritative reference for the implemented hex environment, Properties, Conditions, Sources, Influences, Range/Spread Budget Propagation, Blockers, Anchors, and existing Environmental Adjacency.
+This document records agreed cultivation directions, ideas under consideration, and unresolved details. It owns **Plant and Fungus gameplay** and the proposed **timed Mycelial ground overlay**, while Environmental System **v1.2** remains authoritative for the implemented hex environment, its **three** Properties, Conditions, Sources, Influences, Range/Spread Budget Propagation, Blockers, Anchors, and existing Environmental Adjacency. **§61 supersedes the historical Material/Fertility/Enchanted assumptions in earlier design sections.**
 
 **Do not treat material overlays, herb biology, fungal responses, or time-based colonization as implemented yet.** We will undertake several design passes in text before changing game code. After game design is complete, the documentation can be consolidated into a formal reference/archive.
 
@@ -4248,6 +4248,7 @@ These are **structural recipe sketches**, not finalized fungal assignments, X-ho
 **Future implementation tests:** A transformation at 0%, 75%, 150% and 200% under otherwise identical qualifying exposure; pre-drain exposure snapshot before timer reset; Waterborne loss at drainage without ghost influence; Flooded-restoration interruption of Kelpless countdown; multiple independent recipe timers; new Plant reset with no inherited timers; no recursive same-instant Transformation; Silvercress's stage-specific non-Transformation bonuses unaffected.
 
 
+---
 
 ## 60. Fungus/Plant interaction audit — approved global decisions and tracked Yield; timing details still OPEN
 
@@ -4293,6 +4294,29 @@ The user expressly rejected the audit suggestion to calculate ordinary Leaf/Seed
 **APPROVED — live Leaf Peak Timing and Harvest Window changes are prospective only:** These Effects start modifying the Plant's ongoing production/decline schedule when their Influence **begins reaching** it and stop modifying that schedule when reach **ends**. Their current signed net and width adjustment determine the Plant's **next** ordinary output changes as lifecycle progress advances. Neither gaining nor losing reach instantly adds, subtracts, restores, or backfills output for progress that has already elapsed. If a shifted or widened productive interval includes the Plant's *current and subsequent* progress, its effect operates from that moment forward; if an interval has already passed, that earlier opportunity is gone. Previously earned output remains subject to **subsequent** ordinary lifecycle decline as agreed in Option A. The user regards this as the natural same-rule-as-other-fungal-effects interpretation; it does not require an additional special gameplay system.
 
 **Remaining implementation details, not new design choices:** Exact curve interpolation, fractional production and rounding when the effective curve changes mid-progress, while preserving this no-retroactivity rule; one destructive harvest, Seed identities/sterility, and the separate §56 harvest-time Allocation conversion. No numerical balancing is required now.
+
+---
+
+## 61. Environmental simplification and Flooded Mycelial barrier — APPROVED
+
+**Status (26 October 2026):** The user expressly approved **Flooded as a barrier to Mycelial spread** and requested that **permanent hex Material and Fertility be cut from the game entirely**, because no approved Plant/Fungus gameplay requires them and the remaining garden already has sufficient depth. This supersedes §§7, 9, 14, 19 and earlier provisional references to Dirt/Sand/Clay/Stone, Fertility, or Material-based transformation conditions. The three-Property cleanup is implemented in the existing environmental Prototype 1 (see [Environmental System v1.2](environmental-system-v1.2.md)); **Plant/Fungus runtime and the timed Mycelial system remain unimplemented**.
+
+### A. Only three environmental Properties; no Base Material
+
+- Every hex has **Moisture** (Dry/Damp/Flooded), **Temperature** (Freezing/Cold/Temperate/Warm/Hot), and **Illumination** (Dark/Dim/Lit/Bright). Remove Fertility, its Barren/Poor/Normal/Rich Conditions, Nutrient Kind, Enrichment/Depletion Sources and the Dirt/Sand/Clay/Stone Material field and brush from the game. Approved first-pass Plant habitat tables continue to work without Material checks; old Sand-related Desert *illustrations* are not recipes.
+- Keep **Mycelial** as a future separate temporary state on a hex, not an environment Property or a ground Material replacing some underlying permanent substrate. It may support dependent Fungi and threaten Plants. Multiple Mycelord contributions and their gradual retreat remain (§60F).
+- **Enchanted** was already only a deferred/possibly discarded exploratory overlay with no approved first-pass fungus or meaningful current Plant dependency (§19); there is no reason to retain Material-based Enchanted eligibility. Do not implement Enchanted or replace removed Fertility/Material with a substitute mechanic just to preserve an old draft.
+
+### B. Flooded blocks Mycelial colonization and continuing support
+
+- **APPROVED:** A currently **Flooded** hex cannot be newly colonized by Mycelial, cannot relay Mycelial's timed neighboring spread, and cannot serve as a continuous support link between an extant colony and Mycelord. This is a natural environmental barrier, not ordinary Waterborne Influence propagation.
+- **Flooding an existing Mycelial area does NOT remove its overlay instantly.** Instead, re-evaluate the Mycelord-to-colony connection: contributions with no alternate permitted support path begin **gradual retreat**, using the approved Blocker-severance model from §60F. Other connected paths and overlapping Mycelords can keep a contribution supported. Drainage before decay completes can restore the path and halt the unsupported retreat.
+- This makes Flooded canals useful for containing spreading Mycelial hazards and allows Mycelial-dependent Siltgill on a **non-Flooded Mycelial source hex beside a Flooded network** to inject its separately emitted unlimited Waterborne Leaf-Yield Influence into the canal. The receiving Plant does not need Mycelial. The Mycelial rules **do not impose a numerical Range on Waterborne Influences**.
+- With Base Materials removed, there are **no Material-specific Mycelial colonization rules**. Remaining implementation details: initiation/root eligibility if Mycelord's own occupied hex is Flooded; timed colonization and retreat intervals, progress on multiple neighboring fronts, and exact tie/boundary handling. Do not add an unapproved requirement for Dirt/Sand/Clay/Stone.
+
+### C. Save and scope boundary
+
+Prototype 1 now saves schema v2 with three Baselines and no Material. Supported earlier gardens are migrated: retained garden geometry, valid Sources, anchors and Blockers survive; obsolete Fertility emissions, anchors and Nutrient-only blockers have no remaining role. Original older browser storage is retained separately. The user did **not** authorize implementation of Plants, Fungi, Transformation timers or Mycelial simulation by removing unused environment fields; those stay in the design phase.
 
 ---
 

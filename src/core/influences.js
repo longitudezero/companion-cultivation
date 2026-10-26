@@ -3,8 +3,6 @@ import { CONDITIONS } from './grid.js';
 export const INFLUENCE_TYPES = Object.freeze([
   { name: 'Wetting', kind: 'Aqueous', property: 'Moisture', direction: 1 },
   { name: 'Drying', kind: 'Aqueous', property: 'Moisture', direction: -1 },
-  { name: 'Enrichment', kind: 'Nutrient', property: 'Fertility', direction: 1 },
-  { name: 'Depletion', kind: 'Nutrient', property: 'Fertility', direction: -1 },
   { name: 'Warming', kind: 'Thermal', property: 'Temperature', direction: 1 },
   { name: 'Cooling', kind: 'Thermal', property: 'Temperature', direction: -1 },
   { name: 'Brightening', kind: 'Luminous', property: 'Illumination', direction: 1 },

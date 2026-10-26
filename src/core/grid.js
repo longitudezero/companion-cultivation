@@ -1,7 +1,5 @@
-export const MATERIALS = Object.freeze(['Dirt', 'Sand', 'Clay', 'Stone']);
 export const CONDITIONS = Object.freeze({
   Moisture: Object.freeze(['Dry', 'Damp', 'Flooded']),
-  Fertility: Object.freeze(['Barren', 'Poor', 'Normal', 'Rich']),
   Temperature: Object.freeze(['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']),
   Illumination: Object.freeze(['Dark', 'Dim', 'Lit', 'Bright']),
 });
@@ -33,10 +31,9 @@ export const distanceBetween = (a, b) => {
 };
 export const edgeKey = (a, b) => [a, b].sort().join('|');
 
-export function defaultHex(material = 'Dirt') {
+export function defaultHex() {
   return {
-    material,
-    baselines: { Moisture: 'Dry', Fertility: 'Normal', Temperature: 'Temperate', Illumination: 'Dark' },
+    baselines: { Moisture: 'Dry', Temperature: 'Temperate', Illumination: 'Dark' },
   };
 }
 
@@ -47,7 +44,7 @@ export function createGarden(columns = 9, rows = 7) {
       hexes[keyAt(column, row)] = defaultHex();
     }
   }
-  return { schemaVersion: 1, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0 };
+  return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0 };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -65,11 +62,6 @@ export function resizeGarden(garden, columns, rows) {
   }
   next.routeNonce = (garden.routeNonce || 0) + 1;
   return next;
-}
-
-export function setMaterial(garden, key, material) {
-  if (!garden.hexes[key] || !MATERIALS.includes(material)) throw new Error('Unknown hex or Material.');
-  return { ...garden, hexes: { ...garden.hexes, [key]: { ...garden.hexes[key], material } } };
 }
 
 export function setBaseline(garden, key, property, condition) {
@@ -117,7 +109,7 @@ export function removeEdgeBlocker(garden, a, b) {
 }
 
 export function isGarden(value) {
-  return value?.schemaVersion === 1 && Number.isInteger(value.columns) && Number.isInteger(value.rows)
+  return [1, 2].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
     && value.hexes && typeof value.hexes === 'object' && value.objects && typeof value.objects === 'object'
     && value.edges && typeof value.edges === 'object';
 }

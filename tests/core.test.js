@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   createGarden, createDemoGarden, keyAt, edgeKey, distanceBetween, neighborsOf,
-  setBaseline, setMaterial, placeObject, placeEdgeBlocker, resizeGarden,
+  setBaseline, migrateGarden, PROPERTIES, KINDS, placeObject, placeEdgeBlocker, resizeGarden,
   makeInfluence, makeSpreadInfluence, makeSource, makeAnchoredSource, makeBlocker, calculateEnvironment,
   propagateSpread, removeEdgeBlocker, STARTING_DIRECTIONS,
 } from '../src/core/index.js';
@@ -64,12 +64,12 @@ test('Waterborne paths require connected Flooded hexes', () => {
   const origin = keyAt(0, 1), a = keyAt(1, 1), b = keyAt(2, 1), dry = keyAt(3, 1);
   garden = setBaseline(garden, a, 'Moisture', 'Flooded');
   garden = setBaseline(garden, b, 'Moisture', 'Flooded');
-  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 4, 'waterborne')]));
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Brightening', 1, 4, 'waterborne')]));
   const result = calculateEnvironment(garden);
-  assert.equal(result.conditions[a].Fertility, 'Rich');
-  assert.equal(result.conditions[b].Fertility, 'Rich');
-  assert.equal(result.conditions[dry].Fertility, 'Normal');
-  assert.equal(result.conditions[origin].Fertility, 'Rich');
+  assert.equal(result.conditions[a].Illumination, 'Dim');
+  assert.equal(result.conditions[b].Illumination, 'Dim');
+  assert.equal(result.conditions[dry].Illumination, 'Dark');
+  assert.equal(result.conditions[origin].Illumination, 'Dim');
 });
 
 test('Waterborne reaches the entire Flooded network and ignores legacy saved Range', () => {
@@ -78,12 +78,12 @@ test('Waterborne reaches the entire Flooded network and ignores legacy saved Ran
   for (let column = 1; column < 12; column += 1) {
     garden = setBaseline(garden, keyAt(column, 1), 'Moisture', 'Flooded');
   }
-  const influence = makeInfluence('Enrichment', 1, 1, 'waterborne');
+  const influence = makeInfluence('Brightening', 1, 1, 'waterborne');
   assert.equal(influence.range, null, 'new Waterborne emissions have no numeric Range');
   influence.range = 1; // An old saved garden may still have a finite Range value.
   garden = placeObject(garden, origin, makeSource([influence]));
   const result = calculateEnvironment(garden);
-  assert.equal(result.conditions[far].Fertility, 'Rich');
+  assert.equal(result.conditions[far].Illumination, 'Dim');
   assert.equal(result.coverage[`${origin}:0`].find(({ key }) => key === far)?.distance, 11);
 });
 
@@ -93,10 +93,10 @@ test('a non-Flooded Source injects into each adjacent Flooded component', () => 
   const [east, west] = [neighborsOf(origin)[0], neighborsOf(origin)[3]];
   garden = setBaseline(garden, east, 'Moisture', 'Flooded');
   garden = setBaseline(garden, west, 'Moisture', 'Flooded');
-  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 0, 'waterborne')]));
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Brightening', 1, 0, 'waterborne')]));
   const result = calculateEnvironment(garden);
-  assert.equal(result.conditions[east].Fertility, 'Rich');
-  assert.equal(result.conditions[west].Fertility, 'Rich');
+  assert.equal(result.conditions[east].Illumination, 'Dim');
+  assert.equal(result.conditions[west].Illumination, 'Dim');
   assert.equal(result.coverage[`${origin}:0`].length, 3);
 });
 
@@ -106,19 +106,19 @@ test('Dry gaps and matching Blockers interrupt otherwise unlimited Waterborne re
   for (let column = 1; column < 12; column += 1) {
     if (column !== 6) garden = setBaseline(garden, keyAt(column, 1), 'Moisture', 'Flooded');
   }
-  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 1, 'waterborne')]));
-  assert.equal(calculateEnvironment(garden).conditions[far].Fertility, 'Normal', 'a Dry gap cuts the path');
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Brightening', 1, 1, 'waterborne')]));
+  assert.equal(calculateEnvironment(garden).conditions[far].Illumination, 'Dark', 'a Dry gap cuts the path');
 
   garden = setBaseline(garden, keyAt(6, 1), 'Moisture', 'Flooded');
   const before = keyAt(5, 1), after = keyAt(6, 1);
   garden = placeEdgeBlocker(garden, before, after, makeBlocker('mode', 'waterborne'));
-  assert.equal(calculateEnvironment(garden).conditions[far].Fertility, 'Normal', 'a matching edge cuts the path');
+  assert.equal(calculateEnvironment(garden).conditions[far].Illumination, 'Dark', 'a matching edge cuts the path');
 
   const detour = neighborsOf(before).find((key) => garden.hexes[key]
     && key !== after && neighborsOf(after).includes(key));
   assert.ok(detour, 'the grid has an alternate two-edge route');
   garden = setBaseline(garden, detour, 'Moisture', 'Flooded');
-  assert.equal(calculateEnvironment(garden).conditions[far].Fertility, 'Rich', 'Flooded detours bypass a single blocked edge');
+  assert.equal(calculateEnvironment(garden).conditions[far].Illumination, 'Dim', 'Flooded detours bypass a single blocked edge');
 });
 
 test('Airborne Range remains finite when Waterborne reach becomes unlimited', () => {
@@ -132,34 +132,32 @@ test('Airborne Range remains finite when Waterborne reach becomes unlimited', ()
 test('Airborne Wetting establishes Flooded routes before Waterborne evaluation', () => {
   let garden = createGarden(4, 3);
   const channel = keyAt(1, 1);
-  garden = placeObject(garden, keyAt(0, 1), makeSource([makeInfluence('Enrichment', 1, 2, 'waterborne')]));
+  garden = placeObject(garden, keyAt(0, 1), makeSource([makeInfluence('Brightening', 1, 2, 'waterborne')]));
   garden = placeObject(garden, keyAt(2, 0), makeSource([makeInfluence('Wetting', 2, 1)]));
   const result = calculateEnvironment(garden);
   assert.equal(result.conditions[channel].Moisture, 'Flooded');
-  assert.equal(result.conditions[channel].Fertility, 'Rich');
+  assert.equal(result.conditions[channel].Illumination, 'Dim');
 });
 
 test('Waterborne Moisture Influences are deferred', () => {
   assert.throws(() => makeInfluence('Wetting', 1, 2, 'waterborne'), /deferred/);
 });
 
-test('one object per hex and permanent Material', () => {
+test('one object per hex without ground Material', () => {
   let garden = createGarden(4, 4);
   const key = keyAt(1, 1);
-  garden = setMaterial(garden, key, 'Stone');
   garden = placeObject(garden, key, makeSource());
   assert.throws(() => placeObject(garden, key, makeBlocker()), /already contains/);
-  assert.equal(garden.hexes[key].material, 'Stone');
+  assert.equal(garden.hexes[key].material, undefined);
 });
 
 test('grid resizing preserves objects and edges', () => {
   let garden = createGarden(4, 4);
   const a = keyAt(1, 1), b = keyAt(2, 1);
-  garden = setMaterial(garden, a, 'Clay');
   garden = placeObject(garden, a, makeSource());
   garden = placeEdgeBlocker(garden, a, b, makeBlocker());
   const larger = resizeGarden(garden, 6, 6);
-  assert.equal(larger.hexes[a].material, 'Clay');
+  assert.deepEqual(larger.hexes[a].baselines, garden.hexes[a].baselines);
   assert.ok(larger.objects[a]);
   assert.ok(larger.edges[edgeKey(a, b)]);
 });
@@ -258,10 +256,10 @@ test('routed Wetting floods Dry hexes, then opens existing Waterborne propagatio
   const waterborne = keyAt(0, 0);
   const target = keyAt(2, 1);
   garden = placeObject(garden, source, makeSource([makeSpreadInfluence('Wetting', 2, 3, 0)]));
-  garden = placeObject(garden, waterborne, makeSource([makeInfluence('Enrichment', 1, 4, 'waterborne')]));
+  garden = placeObject(garden, waterborne, makeSource([makeInfluence('Brightening', 1, 4, 'waterborne')]));
   const result = calculateEnvironment(garden);
   assert.equal(result.conditions[target].Moisture, 'Flooded');
-  assert.equal(result.conditions[target].Fertility, 'Rich');
+  assert.equal(result.conditions[target].Illumination, 'Dim');
   assert.equal(result.routes[`${source}:0`].spent, 3);
   assert.equal(result.modifiers[target].Moisture[0].modifier, 2);
   assert.equal(result.modifiers[target].Moisture[0].propagation, 'spread-budget');
@@ -346,13 +344,48 @@ test('Temperature adjacency does not chain from neighbors warmed in the same pas
   assert.deepEqual(calculateEnvironment(garden), result, 'ordinary recalculation is stable');
 });
 
-test('Fertility has no adjacency interactions', () => {
-  let garden = createGarden(5, 5);
-  const target = keyAt(2, 2), neighbor = neighborsOf(target)[0];
-  garden = setBaseline(garden, neighbor, 'Fertility', 'Rich');
+test('environment exposes only the three retained properties and kinds', () => {
+  const garden = createGarden(5, 5);
   const result = calculateEnvironment(garden);
-  assert.equal(result.conditions[target].Fertility, 'Normal');
-  assert.equal(result.adjacency[target].length, 0);
+  assert.deepEqual(PROPERTIES, ['Moisture', 'Temperature', 'Illumination']);
+  assert.deepEqual(KINDS, ['Aqueous', 'Thermal', 'Luminous']);
+  assert.deepEqual(Object.keys(garden.hexes[keyAt(2, 2)].baselines), PROPERTIES);
+  assert.deepEqual(Object.keys(result.conditions[keyAt(2, 2)]), PROPERTIES);
+  assert.throws(() => setBaseline(garden, keyAt(2, 2), 'Fertility', 'Rich'), /Invalid Property/);
+  assert.throws(() => makeInfluence('Enrichment', 1, 2), /Unknown environmental Influence/);
+  assert.throws(() => makeAnchoredSource('Fertility', 'Rich'), /Invalid anchored Property/);
+});
+
+test('legacy gardens migrate without losing retained baselines, Sources, or Blockers', () => {
+  const origin = keyAt(1, 1), blocked = keyAt(2, 1), retired = keyAt(0, 0);
+  let legacy = createGarden(4, 4);
+  legacy = setBaseline(legacy, blocked, 'Moisture', 'Flooded');
+  legacy = placeObject(legacy, origin, makeSource([
+    makeInfluence('Warming', 2, 1),
+    { name: 'Enrichment', kind: 'Nutrient', property: 'Fertility', modifier: 1, mode: 'waterborne', range: 2 },
+  ]));
+  legacy.objects[origin].anchor = { property: 'Fertility', condition: 'Rich' };
+  legacy = placeObject(legacy, retired, makeBlocker('kind', 'Nutrient'));
+  legacy = placeEdgeBlocker(legacy, origin, blocked, makeBlocker('mode', 'waterborne'));
+  legacy = { ...legacy, schemaVersion: 1,
+    hexes: Object.fromEntries(Object.entries(legacy.hexes).map(([key, hex]) => [key, {
+      ...hex, material: key === origin ? 'Clay' : 'Stone', baselines: { ...hex.baselines, Fertility: 'Rich' },
+    }])),
+  };
+
+  const upgraded = migrateGarden(legacy);
+  assert.equal(upgraded.schemaVersion, 2);
+  assert.deepEqual(Object.keys(upgraded.hexes[origin]), ['baselines']);
+  assert.deepEqual(Object.keys(upgraded.hexes[origin].baselines), PROPERTIES);
+  assert.equal(upgraded.hexes[blocked].baselines.Moisture, 'Flooded');
+  assert.equal(upgraded.objects[origin].emissions.length, 1);
+  assert.equal(upgraded.objects[origin].emissions[0].name, 'Warming');
+  assert.equal(upgraded.objects[origin].anchor, undefined);
+  assert.equal(upgraded.objects[retired], undefined, 'removed-kind Blockers no longer obstruct useful effects');
+  assert.deepEqual(upgraded.edges[edgeKey(origin, blocked)], makeBlocker('mode', 'waterborne'));
+  assert.equal(calculateEnvironment(upgraded).conditions[origin].Temperature, 'Hot');
+  assert.equal(legacy.hexes[origin].material, 'Clay', 'migration never mutates the original garden');
+  assert.deepEqual(migrateGarden(upgraded), upgraded, 'migrating a current garden is stable');
 });
 
 test('Bright and Dark adjacency is capped, simultaneous, and cancels when opposed', () => {
@@ -393,12 +426,12 @@ test('Anchored Sources lock exactly one Condition, but remain reachable by other
 test('Anchored Flooded Source establishes Waterborne connectivity before adjacency', () => {
   let garden = createGarden(5, 3);
   const origin = keyAt(0, 1), channel = keyAt(1, 1), target = keyAt(2, 1);
-  garden = placeObject(garden, origin, makeSource([makeInfluence('Enrichment', 1, 4, 'waterborne')]));
+  garden = placeObject(garden, origin, makeSource([makeInfluence('Brightening', 1, 4, 'waterborne')]));
   garden = placeObject(garden, channel, makeAnchoredSource('Moisture', 'Flooded', [makeInfluence('Drying', 3, 0)]));
   garden = setBaseline(garden, target, 'Moisture', 'Flooded');
   const result = calculateEnvironment(garden);
   assert.equal(result.conditions[channel].Moisture, 'Flooded');
-  assert.equal(result.conditions[target].Fertility, 'Rich');
+  assert.equal(result.conditions[target].Illumination, 'Dim');
   assert.equal(result.conditions[origin].Moisture, 'Damp', 'flooded adjacency does not create another Flooded hex');
   assert.equal(result.adjacency[channel].length, 0);
 });
@@ -457,7 +490,6 @@ test('Kind-selective Edge Blockers stop only the matching Adjacency Property', (
     ['Aqueous', ['Dry', 'Warm', 'Lit']],
     ['Thermal', ['Damp', 'Temperate', 'Lit']],
     ['Luminous', ['Damp', 'Warm', 'Dim']],
-    ['Nutrient', ['Damp', 'Warm', 'Lit']],
   ]) {
     let { garden, origin, target } = gardenWithAdjacentExtremes();
     garden = placeEdgeBlocker(garden, origin, target, makeBlocker('kind', kind));
