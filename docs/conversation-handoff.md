@@ -9,7 +9,7 @@
 This is a navigation and decision-status note, **not a replacement** for the two canonical documents:
 
 1. [Environmental System v1.1](environmental-system-v1.1.md) — authoritative for the **implemented Prototype 1** hex environment, Sources, signed Modifiers, Conditions, Airborne/Waterborne propagation, directional Spread Budget, Blockers, Anchors, and Environmental Adjacency.
-2. [Herbs, Fungi & Cultivation Design](herbs-and-fungi-design.md) — the full **text-only Plant/Fungus design record**, including approved first-pass Plant statistics and the detailed fungal profiles. The latest relevant fungus sections are **§§46–54**; older sections often contain superseded proposals or historical status notes. In any conflict, follow the most recent explicit user approval, as recorded below and in the latest document sections.
+2. [Herbs, Fungi & Cultivation Design](herbs-and-fungi-design.md) — the full **text-only Plant/Fungus design record**, including approved first-pass Plant statistics and the detailed fungal profiles. The latest relevant fungus sections are **§§46–55**; older sections often contain superseded proposals or historical status notes. In any conflict, follow the most recent explicit user approval, as recorded below and in the latest document sections.
 
 The [repository README](../README.md) describes Prototype 1 and its tests. **None of the Plant or Fungus rules discussed in this handoff have been implemented in the game.** The existing Prototype 1 environmental sandbox should remain unchanged until the design phase is complete and implementation is separately requested.
 
@@ -43,7 +43,7 @@ These family profiles and numerical tables are **first-pass approved**, not fina
 - Time-based Leaf/Seed Production accumulates only **during positive Plant lifecycle progression within its specified window**. No accumulation while fully stalled, after 200%, or after destructive harvest. Very slow-but-positive progression is a later balance/exploit test.
 - There is no generic fungal Transformation Influence, no automatic fungus-added second bloom, and no restored Environmental Tolerance mechanic. Fertility and an Enchanted overlay are **not reasons to add fungi** unless later retained for a convincing purpose.
 
-## Approved first-pass fungal roster: 19 species
+## Earlier approved first-pass fungal roster: 19 species (§§47–53)
 
 **“Approved” here means the user accepted the first-pass identity, Effect combination, and design role; it does not mean the numeric strength, Source geometry, ecology or Spore economy is globally balanced.** Exact details and edge cases live in §§47–50 and §53 of the main design file.
 
@@ -71,11 +71,11 @@ These family profiles and numerical tables are **first-pass approved**, not fina
 
 The generally proposed environmental footprint is Airborne Range 2 and cultivation footprint Range 1 for many ordinary fungi, **but there are explicit exceptions** (directional effects, Rushroom, Tidegill and others); check species profiles rather than treating this as a universal rule. Emberbolete/Chillanterelle's Mycelial preference and exact source-side multiplier remain test options, not settled final numbers.
 
-## Six more fungi proposed in §54 — NOT yet user-approved
+## Six more fungi in §54 — APPROVED first-pass on 26 October 2026
 
-The latest design document already contains a drafted alternative-source batch. The old chat ended while this expansion was being prepared, **before the user reviewed these six**. Present them as proposals to the user, or revise them together; **do not silently promote them to approved status**.
+The user reviewed **all six** after the previous chat's handoff and said **"they look good we can keep them"**. All six are now **APPROVED first-pass species identities, Effect pairings and design roles**, though their source strengths/footprints and fungal numeric statistics remain subject to global balance. They are not merely pending proposals.
 
-| Proposed fungus | Environmental emission | Plant-development effect | Distinguishing cost / reach |
+| Fungus | Environmental emission | Plant-development effect | Distinguishing cost / reach |
 | --- | --- | --- | --- |
 | **Dewmender** | Moisture +1 | Germination +4 pp per Plant Seed | Independent, Airborne Range 1 cultivation; weaker Wetting alternative to Hushroom |
 | **Lanterncap** | Illumination +1 | Ripening Rate −12% | Independent, Airborne Range 1; brightening alternative to Veilcap |
@@ -84,7 +84,19 @@ The latest design document already contains a drafted alternative-source batch. 
 | **Duskleaf** | Illumination −1 | +0.08 Leaves/hour at **70–125%** | Independent, Airborne Range 1; early-window alternative to Echomorel |
 | **Brookrill** | Temperature −1 | +0.10 Seeds/hour at **120–170%** | Independent, **Waterborne Range 3**; mid-window alternative to Sim'mushro'dim |
 
-If accepted, the working roster would be **25 candidates including Mycelord**, still **not a cap**. The full six-part rationale and feasibility caveats for each are in §54. Their exact percentages, hourly rates, windows, reaches, and all fungus statistics remain first-pass design values, not final numerical balance.
+The working **approved first-pass roster now totals 25 candidate Fungus species, including Mycelord**. This is **not a cap**. The full six-part rationale and feasibility caveats are in §54. Exact percentages, hourly rates, windows, reaches and all fungal statistics remain first-pass design values, not final numerical balance.
+
+## Three more fungi proposed in §55 — NOT yet user-approved
+
+The user asked to explore another small batch providing **alternative Sources for desirable Effect directions that currently have only one approved provider**. These are **PROPOSALS only**; do not promote them to approved until the user reviews them.
+
+| Proposed fungus | Environmental emission | Plant-development effect | Contrast with approved source |
+| --- | --- | --- | --- |
+| **Gloamclock** | Illumination −1 (Darkening), Airborne R2 | Seed Timing Shift **8 points earlier**, Airborne R1 | Tidegill shifts 12 earlier by Waterborne R3 and Brightens; Gloamclock works locally without a Flooded route |
+| **Bristlecap** | Moisture −1 (Drying), Airborne R2 | **Leaf-favoring Allocation**, Airborne R1 | Frostfolio Cools and is Mycelial-preferring; Bristlecap is independent but can Dry crops or sever flooded paths |
+| **Goldgill** | Illumination +1 (Brightening), Airborne R2 | **Seed-favoring Allocation**, Airborne R1 | Sunspore Warms and uses Waterborne R3; Goldgill reaches non-Flooded fields locally |
+
+All three use the agreed fungal 0–200% persistent-Source lifecycle and own Spores on a destructive harvest. Their full proposed profiles, ecological costs and feasibility caveats are in **§55**. **Allocation exchange ratios, output eligibility/overlap, rounding, stacking, and compatibility ordering remain OPEN**; approving a future named species will not imply approving a 3:1 conversion rule.
 
 ## Leaf–Seed Allocation: what was agreed, and what remains open
 
@@ -92,8 +104,8 @@ The user explicitly said **Leaves are the more valuable harvest**, so gaining **
 
 ## What to do next, in order
 
-1. **Resume with §54's six newly proposed fungi.** Explain that their profiles exist in the repository but have not been reviewed. Ask the user whether to accept them, adjust them, or explore different alternatives. Do not quietly treat them as approved.
-2. **Keep exploring alternatives if useful**, especially additional methods for Seed Timing Shift and the two directions of Allocation, which currently have only one approved source each. Vary environmental side effects, numerical strength, Mycelial needs, propagation paths and eligible progress windows only where they yield meaningful choice. There is no need to stop at 25.
+1. **Review §55's three NEW PROPOSED fungi** (Gloamclock, Bristlecap, Goldgill), and explicitly accept, revise or reject their pairings. The **six §54 fungi are already user-approved**; do not repeat that approval question.
+2. **Keep exploring alternatives if useful**, particularly where a desired Effect or same-direction Effect still has one practical provider. Vary environmental side effects, strength, Mycelial needs, propagation and eligible windows only where they create meaningful player choices. **Mycelord remains the sole Mycelial-creator**, and no fungus-count cap exists.
 3. Once the user is satisfied with the breadth of the roster, make a **coverage/interaction/feasibility matrix** across all existing Plant-development Effect categories and environmental emissions; test counterplay with blockers, physical footprints, Waterborne paths and Mycelial boundaries. **Then** consider merges, removals or reassignment of Effects that preserve alternatives and spatial puzzles.
 4. Conduct the **full fungus-wide numerical/system pass**: species Growth/Sporulation days, Spore yield/availability/germination, exact Source strengths/geometry, stacking and compatibility order, Mycelial boosts and loss behavior, timed Mycelial expansion/retreat, hazard/survival rules, Allocation conversion and rounding, hour-based output exploits, and comparative value across Plants. Reconcile with the implemented environmental rules, without silently rewriting them.
 5. **Only after fungi are designed and balanced**, carry out the **separate, comprehensive Plant-owned transformation-recipe pass** for all six families: triggering Sources/Conditions, exposure windows, alternative paths, competing outcomes, and actual spatial feasibility. The main document's earlier network sketches are constraints and directions, not a license to invent final recipes now.
@@ -105,4 +117,4 @@ Work through **small, concrete batches** with named fungi, emitted Effects, habi
 
 **Suggested opening in the next conversation:**
 
-> We're continuing Companion Cultivation's text-only fungal design. I've read `docs/conversation-handoff.md`, `docs/herbs-and-fungi-design.md` (especially §§47–54), and `docs/environmental-system-v1.1.md`. We have 19 approved first-pass fungi, with six additional alternatives proposed in §54 but not yet approved. Let's review those six, then keep expanding alternatives as needed before roster consolidation and numerical balance. No Plant transformation recipes or code changes yet.
+> We're continuing Companion Cultivation's text-only fungal design. The user approved the six §54 alternatives, so **25 fungi are approved first pass** including unique Mycelial-creator Mycelord. **§55 proposes Gloamclock, Bristlecap and Goldgill, but these three are NOT yet user-approved.** Review those three, then explore more alternatives if useful before roster consolidation and numerical balance. No Plant transformation recipes or gameplay-code changes yet.
