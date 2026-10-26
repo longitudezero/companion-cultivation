@@ -4248,6 +4248,46 @@ These are **structural recipe sketches**, not finalized fungal assignments, X-ho
 **Future implementation tests:** A transformation at 0%, 75%, 150% and 200% under otherwise identical qualifying exposure; pre-drain exposure snapshot before timer reset; Waterborne loss at drainage without ghost influence; Flooded-restoration interruption of Kelpless countdown; multiple independent recipe timers; new Plant reset with no inherited timers; no recursive same-instant Transformation; Silvercress's stage-specific non-Transformation bonuses unaffected.
 
 
+
+## 60. Fungus/Plant interaction audit — approved global decisions; production-ledger detail OPEN
+
+**Status (26 October 2026):** The user approved the interaction-audit recommendations on peak stacking, extreme slowdown, dependent-fungus grace emissions, simultaneous death/Transformation, cultivation Blocker Kinds, and overlapping Mycelial sources. **The user explicitly corrected the proposed harvest-time snapshot treatment of ordinary Yield bonuses.** Plants are supposed to earn and track output during their productive lifecycle, with an active Yield fungus improving the amount earned *while it actually reaches the Plant*. The precise way stored output declines or converts during subsequent Ripening requires a targeted follow-up before implementation. None of these additional Plant/Fungus rules is implemented in code.
+
+### A. APPROVED — combine lifecycle-curve modifiers without creating new peaks
+
+- For signed **Leaf Peak Timing** adjustments, sum the signed contributions from all reaching emitters, with the relevant Plant compatibility applied to each magnitude. Earlier and later contributions cancel algebraically. Apply the same net shift to each existing natural peak; e.g., Rosewraith's 115% and 180% peaks move together, without creating/removing a bloom or destroying its distinctive weak valley. Keep peaks in the 0–200% domain; exact boundary-clamping and interpolation remain an implementation/detail pass.
+- **Harvest Window widening** separately increases the breadth of existing productive intervals; it does not shift their centers, create a new peak, or erase Rosewraith's intended weak valley. Its stacking/geometry must honor those invariants.
+
+### B. APPROVED — keep deliberately powerful slow-Ripening/time-production combinations
+
+- Veilcap/Lanterncap slowdown plus Echomorel/Duskleaf or other qualifying hourly production may produce enormous returns and is intentionally available for playtesting; do not prematurely rebalance it out of existence.
+- Ordinary reaching fungal rate slowdowns cannot reverse Growth/Ripening progress or, on their own, drive an otherwise progressing, non-dormant Plant to a negative or exactly zero rate. Enforce a small positive rate floor, value deferred. Species-defined Dormancy and applicable environmental suspension can still fully pause progression. As already agreed, **hourly extra production does not accrue while progress is actually zero**.
+
+### C. APPROVED — Mycelial-dependent fungi keep emitting through habitat-loss grace
+
+- A Mycelial-dependent Fungus (notably Rushroom/Siltgill) must have qualifying Mycelial on its own occupied hex for initial establishment/germination. If that overlay is later lost, the fungus remains alive **and emits its ordinary Effects at full normal strength** throughout its species-specific X-hour continuous grace period, until death. Restore Mycelial before expiry to reset the timer. At death, remove the instance and all its emissions. This intentionally permits risky temporary exploitation of fading Mycelial infrastructure.
+
+### D. APPROVED — independent hazard clocks and rare same-instant priorities
+
+- Track genuinely lethal habitat exposures independently by hazard; clearing one resets only its own continuous timer. These timers follow elapsed in-game time even through Dormancy. Environmental transition recipes examine just-completed pre-transition qualifying exposure before it is reset (§59).
+- Use the finest supported simulated timestamp rather than coarsely forcing events into whole-hour collisions. **If death and a valid Transformation nevertheless mature at exactly the same timestamp, Transformation wins.** The old Plant is replaced by a new 0%-progress Plant with fresh hazard/recipe clocks (§58). Limit a Plant to one Transformation per resolution event, so no recursive zero-time chain. Exact ordering for competing simultaneously valid *Transformation recipes* remains for the dedicated recipe pass.
+
+### E. APPROVED — classify each cultivation emission for existing selective Blockers
+
+- No new Hex or Edge Blocker mechanics. Each cultivation emission needs an explicit **Kind** independently from its Mode, permitting distinctions such as Growth, Ripening, Leaf, Seed, Germination, harvest-timing or Allocation Effects, while the Fungus's separate environmental emission keeps Aqueous/Thermal/Luminous as applicable. The precise taxonomy/grouping can be revisited as UI experience warrants. Selective-by-Kind and selective-by-Mode Blockers remain the existing machinery.
+
+### F. APPROVED — overlapping Mycelord colony contributions
+
+- Multiple Mycelords may contribute overlapping Mycelial ground. A hex remains Mycelial while **any valid source contribution** maintains it; removing one Mycelord initiates retirement of *its own* contribution without erasing another Mycelord's. Continue the previously agreed **gradual, closer-to-removed-source-first retreat** for unsupported contributions. Timed spread is its own overlay process, not ordinary instantaneous Environmental Adjacency or Airborne/Waterborne travel. Full Blockers or selective Blockers matching the Mycelial propagation Kind can interrupt spread; precise contribution representation, timings, and retreat geometry remain later system details.
+
+### G. IMPORTANT CORRECTION — ordinary Yield is earned during cultivation, NOT applied retroactively at harvest
+
+The user expressly rejected the audit suggestion to calculate ordinary Leaf/Seed **Yield Adjustments** solely from whichever fungi happen to reach a Plant at the moment of harvest. That would allow a player to place a Yield Source at an already-completed peak, instantly multiply the entire output, and then remove it, destroying the intended growing-and-routing puzzle.
+
+**Approved core direction:** Each Plant tracks the outputs it actually earns as its lifecycle progresses. During an eligible productive interval, an active reaching Yield fungus changes **the incremental Leaf/Seed amount being earned then**, in proportion to the Plant's compatibility, rather than multiplying all previously earned production at harvest. A fungus newly placed at 100% cannot retroactively increase the Leaves earned during 50–100%. If the fungus stops reaching later, credit already earned under it is not retroactively canceled merely by that source disappearing. Distinct fixed-window Leaves/hour and Seeds/hour Effects likewise record earned additions over their actual qualifying time. **A Transformation discards all output**, as already approved in §58. Germination remains a sowing-time check, and **Leaf–Seed Allocation is still the separate approved once-at-harvest exchange** (§56).
+
+**OPEN and requires user clarification:** Standard Plant harvest curves often *decline* in available Leaves during Ripening, while Seeds become available. Determine how a previously earned Yield bonus participates in that ordinary decline: for example, if a Plant ordinarily holds 10 Leaves at 100% and 5 at 150%, and a Yield fungus operating during 50–100% raised its stored Leaves to 12 at 100%, does its 150% remaining Leaf stock scale to 6 (same proportional decline) or remain 7 (5 natural plus 2 bonus Leaves protected from normal decline)? Do not assume all earned Leaves survive through 200%, erase previous credit upon Source removal, or accidentally turn a Leaf-Yield bonus into a Seed-Yield bonus. Also specify how active timing/window modifiers affect future earning intervals without backfilling already elapsed progress. These are **logic details**, not demands for balance changes.
+
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
