@@ -237,9 +237,11 @@ If one particular species grants **+10 percentage points per Seed**, 1 Seed give
 
 **Open:** Which of these become actual effect types; how Responses stack or cancel; family defaults versus Herb-specific exceptions; whether immediate or event-triggered Responses are also needed; numerical units and final names.
 
-### Transformation continuity — UPDATED AGREED RULE (§58 supersedes the earlier proposal)
+### Transformation continuity — UPDATED AGREED RULE (§§58–59 supersede the earlier proposal)
 
 A Transformation **replaces the old Plant with a new Plant starting at 0% Growth**, even if the predecessor was at 75%, 150%, or 200%. The new identity's habitat needs, Responses, natural curves, Growth/Ripening speeds, and production rules apply from its own beginning. **No accumulated Leaves or Seeds, old lethal-exposure timers, or other prior Plant state carries over.** The older progress-preserving rule was explicitly rejected in §58. Plant-owned recipes may still examine a prior condition to choose the new species or initialize an explicitly declared origin trait, but they do not transfer the predecessor's lifecycle or inventories.
+
+**Global Transformation eligibility (§59):** Recipes do **not** check lifecycle percentage, Growth/Ripening stage, or maturity. Required timed contact with environmental Conditions, ordinary fungal Influences/adjacency, overlays, and environmental transition events determines whether a Transformation occurs. A new Plant may begin qualifying for its own next Transformation immediately at 0%, with fresh timers. Lifecycle stages still govern production and native Plant bonuses, not access to transformations.
 
 ### A compelling family-versus-exception example — illustrative
 
@@ -436,7 +438,7 @@ Unnamed Woodlands Base Plant
 
 ### Points explicitly favored or accepted
 
-- **Flooded → drain → alternative transformation** is a **strong core Aquatic mechanic**. A Plant may need Flooded habitat or a Waterborne Influence to reach an intermediate form; draining during Ripening can select a different Transformation from remaining Flooded. The precise Plant identities and fungal requirements below are still first-pass proposals.
+- **Flooded → drain → alternative transformation** is a **strong core Aquatic mechanic**. A Plant may need sustained Flooded habitat or a Waterborne Influence to reach an intermediate form; draining after qualifying exposure can select a different Transformation from remaining Flooded. **This is an environmental-sequence requirement, never a Ripening-stage gate** (§59). The precise Plant identities and fungal requirements below are still first-pass proposals.
 - **Kelpless redemption** is desirable: an undesirable transformation should be recoverable through a route to a worthwhile other Plant, instead of being a permanent dead end.
 - Add **Cresscent → Pearlily** as an alternate, **shorter route to Pearlily**. Cresscent is useful as a self-reproducing Plant with **good Seed germination**, while a Cresscent Plant can alternatively be **transformed into Pearlily**. This makes a manageable two-Plant production chain, rather than requiring the entire Lotus progression.
 - **Neither Cresscent nor Pearlily needs to be an Aquatic "best" Plant.** This shortcut should give a practical, accessible result **without trivializing the harder-to-obtain specialists**.
@@ -454,7 +456,7 @@ Unnamed Base Aquatic Plant
   │           └─> Wild Watercress  (redemption route, favored)
   ├─> Sunken Lotus
   │     └─> Moonlit Lotus
-  │           ├─> Starlotus        (drain during Ripening; favored concept)
+  │           ├─> Starlotus        (qualifying Flooded exposure, then drain; favored concept)
   │           └─> Pearlily         (remain Flooded; favored concept)
   └─> Wild Watercress
         ├─> Silvercress
@@ -473,7 +475,7 @@ Unnamed Base Aquatic Plant
 | Kelpergeist | Reliable harvest in Dark/Flooded conditions |
 | Kelpless | Unwanted transformation after habitat disruption; redeemable into Watercress |
 | Sunken Lotus | **Straightforward early transformation**; Waterborne-connected entry to the Lotus branch, without requiring a further special complication |
-| Moonlit Lotus | Intermediate whose next Transformation depends on water level during Ripening |
+| Moonlit Lotus | Intermediate whose next Transformation depends on sustained Flooded conditions and whether the player subsequently drains, independent of its lifecycle stage |
 | Starlotus | Harder, highly desirable form obtained after drainage or an alternative specialist route |
 | Pearlily | Accessible, useful but not top-tier outcome, reachable from Moonlit Lotus or Cresscent |
 | Wild Watercress | Accessible Damp-oriented branch entry, including the Kelpless rescue |
@@ -498,7 +500,7 @@ Unnamed Base Aquatic Plant
 
 **Starlotus — origin-dependent Moisture preference:**
 
-- Moonlit Lotus → Starlotus is associated with **draining from Flooded to Damp**. The resulting Starlotus benefits from remaining **Damp**.
+- Moonlit Lotus → Starlotus is associated with **draining from Flooded to Damp after qualifying exposure**, with no Growth/Ripening stage requirement (§59). The resulting Starlotus benefits from remaining **Damp**.
 - Kelpergeist → Starlotus uses the alternative route in a **Flooded** environment. The resulting Starlotus gets **the same kind of benefit** from remaining **Flooded**, not Damp.
 - The Plant **dislikes subsequent Moisture changes**. This is a property of the obtained Starlotus, not an entirely separate named species, and suggests the working term **Moisture Attunement**: the transformation route establishes the preferred current Moisture.
 - **Agreed:** Moving away from the attuned Moisture **removes the special Starlotus benefit; it does not kill Starlotus merely for losing its attunement**. The challenge is preserving an optimization bonus, not a lethal maintenance requirement. Ordinary family-wide aversion to Dry is a separate concern.
@@ -847,7 +849,7 @@ The latest **13-fungus roster** (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel
 - **Current environmental Conditions**—e.g., Flooded, Warm, Lit, Dark—potentially including required combinations or changes between states.
 - **Physical adjacency to Fungus C**, a separate spatial requirement from an Influence reaching the Plant. Example: a Plant stays **Flooded and adjacent to Fungus C** for X uninterrupted hours, then transforms; Fungus C does **not** have to direct an Influence toward that Plant to count for adjacency.
 - **Hex overlay states** such as Enchanted or Mycelial, where these prospective overlays are retained.
-- **Lifecycle progress/stage, current Plant identity, and Continuous Exposure** conditions.
+- **Current Plant identity and Continuous Exposure** conditions. **Lifecycle progress, Growth/Ripening stage, and maturity are NEVER Transformation eligibility requirements** under the approved §59 rule. They still matter for ordinary Growth, production and harvesting.
 - **Change/event triggers** for the Desert recovery model (e.g. previously sustained Freezing, then thawing while another condition/fungus is present). Evaluation at transition boundaries requires future exact ordering rules; the ordinary Continuous Exposure reset still applies.
 
 ### Consequences of moving responsibility to Plants
@@ -855,7 +857,7 @@ The latest **13-fungus roster** (Sim'mushro'dim, Glimmergill, Veilcap, Prismorel
 - **Fungi keep only their declared environmental, cultivation, and overlay Effects**; effects remain consistent in type/direction, with family/species/condition-dependent magnitudes as described in §16.
 - **A Fungus can be used in multiple transformation recipes without gaining a unique power for every recipient.** The same fungus pair may transform different eligible Plants to different destinations, or have no transformation on another Plant.
 - **No Transformation Effect** needs to be emitted by Wakemorel, Prismorel, Rushroom, or any other fungus. Provisional descriptions of a fungus 'enabling a transformation' should be read as shorthand for **satisfying a condition in the Plant's recipe**, including an ordinary Influence reaching it or physical proximity.
-- **Fungi still may affect how feasible or dangerous a recipe is**, because they change environmental states and Growth/Ripening Rates, or sustain overlays. A transformation can occur from a conjunction of conditions without any special cultivation-only Influence.
+- **Fungi still may affect how feasible or dangerous a recipe is**, because they provide ordinary Influences, change environmental states, or sustain overlays that the recipe or a lethal hazard can check. Their Growth/Ripening Rate Effects change farming and harvest timing, **not Transformation eligibility or the required exposure duration** (§59). A transformation can occur from a conjunction of conditions without any special cultivation-only Influence.
 - **Source attribution may be important:** two opposite Luminous Source contributions can cancel in net Illumination while a Plant's recipe still requires the presence/reach of both named sources. An implementation must be able to distinguish **which Source emissions reach a hex** from only the computed final environment level. This need does not change existing Environmental System v1.1 arithmetic.
 - **Recipes are species-defined; for Ingredients, recipes can exist ONLY on its single Base Plant, with a separate direct edge to every terminal Ingredient**. Terminal Ingredients never transform. This supersedes the older sixth-family no-transformation exception.
 
@@ -984,7 +986,7 @@ For each Plant: define natural Growth and Ripening; Leaf and Seed harvest curves
 
 1. **All Plants first.** Working one Plant at a time, define exactly these six parts: **Natural lifecycle; Natural harvest; Germination; Environment; Farming purpose; Effect compatibility**. This covers innate multiple harvest peaks, Seed identities/curves, favorable and harmful hex states, extreme-temperature/Mycelial Responses, and sensitivity/conditional bonuses to the agreed Effect catalogue. **Do not choose named fungi or settle transformation recipes during this pass.** Do not require an exhaustive environmental bonus checklist when none is useful.
 2. **First fungus pass.** Only after the Plant profiles are drafted, bundle fixed, consistent fungus Effects into candidate fungus species with habitat and propagation considerations.
-3. **Complete Plant-owned transformation recipes.** Decide which named fungi and their **ordinary Influence reach**, physical adjacency, environmental/overlay states, lifecycle stages, and continuous exposure durations satisfy each Plant's transitions. **This is not a return to fungus-emitted Transformation Effects.**
+3. **Complete Plant-owned transformation recipes.** Decide which named fungi and their **ordinary Influence reach**, physical adjacency, environmental/overlay states, environmental transition events, and continuous exposure durations satisfy each Plant's transitions. **No lifecycle percentage or Growth/Ripening stage gates (§59).** This is not a return to fungus-emitted Transformation Effects.
 4. **Adjust fungal designs as necessary** to ensure workable, readable puzzles, multiple useful strategies, and sensible cross-family reuse.
 5. **Adjust Plant designs where necessary** to fix weak or dominant strategies, impossible transformations, or discrepancies exposed by the preceding phases; then balance precise numbers in context.
 
@@ -1416,14 +1418,14 @@ Unnamed Aquatic Base
 ### Branch structure and constraints
 
 ~~~text
-Aquatic Base → Sunken Lotus → Moonlit Lotus ─┬→ Starlotus (Damp attunement; via drainage in Ripening)
+Aquatic Base → Sunken Lotus → Moonlit Lotus ─┬→ Starlotus (Damp attunement; via drainage after exposure)
                                              └→ Pearlily (remain Flooded)
 
 Kelpergeist ───────────────────────────────────→ Starlotus (Flooded attunement)
 Cresscent ─────────────────────────────────────→ Pearlily (short alternate route)
 ~~~
 
-The user already established that **draining during Ripening** selects the Starlotus route from Moonlit Lotus, while **remaining Flooded** favors Pearlily; the exact required Source/Influence proximity, duration, and timing recipe are Phase 3 work. Ordinary Waterborne spread remains broken if its Flooded connection is lost; do not promise a Waterborne effect persists after drainage.
+The user established that **draining after qualifying Flooded exposure** selects the Starlotus route from Moonlit Lotus, while **remaining Flooded** favors Pearlily. **Neither fork checks the Plant's lifecycle percentage or whether it is Growing/Ripening** (§59). The exact required Source/Influence proximity, durations, and exposure/transition recipes are Phase 3 work. Ordinary Waterborne spread remains broken if its Flooded connection is lost; a Waterborne Influence active *before* drainage may be checked at the transition event, but cannot be assumed to remain reaching the target afterward.
 
 ### Sunken Lotus — APPROVED first-pass profile
 
@@ -1440,12 +1442,12 @@ The user already established that **draining during Ripening** selects the Starl
 
 | Category | Proposed direction |
 | --- | --- |
-| **Natural lifecycle** | **Ordinary Growth, somewhat long Ripening**, leaving a meaningful late stage in which a player may change or preserve water conditions. |
+| **Natural lifecycle** | **Ordinary Growth, somewhat long Ripening**. The longer Ripening period matters for the Plant's harvest economy, not for opening its Flooded/drain Transformation fork, which works at any progress (§59). |
 | **Natural harvest** | **Good Leaves in middle Ripening** and **modest Moonlit Lotus Seeds near 200%**; harvest directly for useful output or retain and steer it toward Starlotus/Pearlily. **Self-Seeds**, no Seed identity gimmick. |
 | **Germination** | **Moderately demanding** Moonlit Lotus Seed germination; direct growing is feasible after a Seed harvest, but initial access remains via Sunken Lotus Transformation. |
 | **Environment** | **Flooded, Dim, Temperate or Cold** preferred. **Remaining Flooded is genuinely productive** for Seed farming, so draining to pursue Starlotus trades a real benefit. Damp is survivable but **immediately lowers ordinary Leaf/Seed performance**, without instant death or intrinsic special drying damage. Dry pauses development and becomes lethal after extended exposure; Hot, Freezing and prolonged Mycelial harmful/lethal. |
-| **Farming purpose** | **Fork/intermediate crop with a meaningful choice:** harvest or reproduce Moonlit Lotus under Flooded conditions; remain Flooded to pursue Pearlily; or drain during Ripening to pursue a **Damp-attuned Starlotus**. |
-| **Effect compatibility** | **Stronger response to Ripening slowdown while Flooded**, a useful existing effect for maintaining its relatively generous window when planning a fork; **good Seed Yield compatibility while Flooded**. Otherwise ordinary Leaf, Growth, Germination, and timing responses. This does not itself trigger the transformation. |
+| **Farming purpose** | **Fork/intermediate crop with a meaningful choice:** harvest or reproduce Moonlit Lotus under Flooded conditions; remain Flooded with the appropriate exposure/Influence to pursue Pearlily; or drain after qualifying Flooded exposure to pursue a **Damp-attuned Starlotus**, at any lifecycle stage (§59). |
+| **Effect compatibility** | **Stronger response to Ripening slowdown while Flooded**, useful for timing the Plant's own harvest, but **not required to delay or enable its Transformation fork**; **good Seed Yield compatibility while Flooded**. Otherwise ordinary Leaf, Growth, Germination, and timing responses. This does not itself trigger the transformation. |
 
 ### Starlotus — APPROVED first-pass profile
 
@@ -2813,7 +2815,7 @@ These duration values describe a species from **0%**, before fungal rate Effects
 - **Moonrice's 20 own Seeds** maintain Dim-area planting; **Thymekeeper's 28 Sunrice Seeds** instead fund Bright-field Sunrice and Starberry cultivation from a Dim area.
 - **Pum'king's 46 Leaves** are a single broad premium net-**Lit** peak and **zero Seeds at every stage**; its transformation puzzle may require opposing environmental Source influences reaching the same hex while resolved Illumination is Lit.
 - **Glass Apple's 58 Leaves** at a Bright 155% peak are a large late-game reward; its **24 Starberry Seeds** at 200% are a distinct, equally important reproductive improvement, permitting **Starberry to be grown from Starberry Seeds** even though Starberry itself yields Sunrice Seeds.
-- No source-origin memory for the two Pum'king routes or two Glass Apple routes. Exact final Transformation requirements are deferred; progress remains fixed during an identity change.
+- No source-origin memory for the two Pum'king routes or two Glass Apple routes. Exact final Transformation requirements are deferred; every Transformation creates a new 0%-progress Plant (§58), without stage-gated eligibility (§59).
 
 ### B. Germination and actual Seed availability
 
@@ -3627,7 +3629,7 @@ These are **proposed source-side values**, not compat-adjusted Plant bonuses or 
 | **Plant-targeting emission** | **Growth Rate +30%**, **Airborne Range 2**, on Plant progress 0–100% only. Very strong on rapid crops: with Strawberry's approved **2.1× Growth compatibility**, nominal +30% becomes **+63% Growth Rate** when Growth Influence reaches it; this alone does not boost Leaves, and Cooling may reduce Strawberry's native productivity depending on the resolved Temperature. |
 | **Habitat** | **Mycelial-DEPENDENT at its occupied Source hex**: does NOT create Mycelial or bypass the need for Mycelord (the sole creator). First-pass simple proposal is to **suppress both emissions when its hex loses Mycelial**, without immediately destroying the fungal object; precise grace periods, death clock and eventual resumed emission upon recolonization are for fungus-wide numeric/habitat pass. No simultaneous Lighting/Moisture/Temperature fungus habitat checks. |
 | **Farming use / tension** | Strong early Growth at the cost of **a Mycelord-established, potentially spreading hazardous colony** and an emitted Cooling Source. Ordinary Plants on colonized Mycelial receive their existing hazardous overlay consequences; **Rushroom's benefit must be spatially usable on Plants outside Mycelial** or its own purpose becomes self-defeating. The Growth Range 2 is deliberately larger than the common Range 1 so there is some plausible geometric separation from its dangerous substrate; this is NOT a proof of feasibility while Mycelial propagation timings are unfinished. |
-| **Transformation feasibility note, NOT recipe** | Could help manage Growth progress / setup timing for Plant-owned transformation puzzles, including Flowers and Woodlands, but grants **no generic Transformation Effect** and is not assigned a recipe. |
+| **Transformation feasibility note, NOT recipe** | May help prepare/harvest a Plant while the player arranges a Plant-owned environmental Transformation puzzle, but **Growth progress never gates Transformation eligibility** (§59). Grants **no generic Transformation Effect** and is not assigned a recipe. |
 
 **Critical feasibility test deferred:** Because Mycelial spreads over time and is harmful to every Plant intrinsically, we must confirm that a Mycelial-supported Rushroom can deliver +30% Growth to a viable Plant on a **non-Mycelial** hex for enough time to matter. The Source emits Cooling and Growth via ordinary Airborne propagation, while the Mycelial colony propagates according to separately yet-to-be-finalized overlay rules; Blockers may help with **environmental/Influence** routing but cannot be assumed to block Mycelial itself until overlay blocking has its own agreed rules. If the colony invariably engulfs all Plants in Range 2, revise Mycelial propagation/retreat/eligibility or Rushroom's source range; do NOT claim the existing Blocker system already solves unimplemented overlay spreading. The user has explicitly allowed adjusting Mycelial propagation later if too difficult.
 
@@ -4206,9 +4208,44 @@ The existing environmental system already supports **Full** and **Selective by K
 4. **Transformation-context traits are new initialization, not inheritance:** Existing approved origin-defined exceptions, notably Starlotus's Damp/Flooded attunement according to the qualifying source route, may be assigned **freshly at the moment the new species is created**, if that Plant's own established trait requires it. They are not copying the predecessor's accumulated state and do not change the new 0% lifecycle start.
 5. **One destructive harvest still applies:** A transformed Plant is a new unharvested instance that can eventually yield its own single consuming harvest. Nothing from the destroyed predecessor is automatically harvested or awarded. The new species must actually advance through its own eligible Leaf/Seed production windows. A target with Leaves only at **50–120%** can now reach that interval even if its precursor transformed at **150%**.
 
-**Feasibility consequences:** Old warnings that Daisyspell, Cactaclysm, Glass Apple, Orchidemon or Rosewraith must be reached *before the predecessor's peak percentage* no longer apply. Instead, account for **the full new Growth/Ripening time after each Transformation**, its ongoing environmental setup, exposure risks, available Source placement and Seed economy. This may make long transformation chains considerably slower but prevents a newly created Plant from skipping its useful stages. First-pass lifecycle numbers are not preemptively rebalanced.
+**Feasibility consequences:** Old warnings that Daisyspell, Cactaclysm, Glass Apple, Orchidemon or Rosewraith must be reached *before the predecessor's peak percentage* no longer apply. The **new species' full Growth/Ripening time matters for harvesting that species, NOT for eligibility to transform it again**. Transformation-chain speed is governed by the exposure durations, event sequences, and Source/environment setups in each Plant-owned recipe, with **no lifecycle percentage/stage gate** (§59). A chain can advance through multiple identities long before any intermediate Plant matures. First-pass lifecycle numbers are not preemptively rebalanced.
 
 **New logic question for the later Plant-owned recipe pass:** If a new 0%-progress Plant immediately meets another transformation condition on the same hex, don't allow an unbounded zero-time cascade or loop. Define a deterministic per-update transformation limit / timer reset and recipe-priority policy before implementation; no concrete species recipe is assigned by this rule.
+
+## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED)
+
+**Status (26 October 2026): AGREED.** The user confirmed the global distinction: **lifecycle progress/stage determines a Plant's growth and harvest output; environmental interactions determine what species the Plant can become.** Transformations may occur at **any 0–200% lifecycle progress**, including Growth, Ripening, and 0%, whenever the Plant's own recipe is fulfilled. **No Transformation recipe may require a precise percentage, minimum/maximum maturity, or being in Growth versus Ripening.** This supersedes §17's old permissive “lifecycle progress/stage” recipe check and any earlier Aquatic wording that requires drainage *during Ripening*. All Plant-owned exact recipes and numeric exposure durations remain reserved for the dedicated later pass; no new Fungus Effect or game code is added here.
+
+### A. What counts toward a Transformation
+
+1. **Plant identity and its own permitted outgoing edges** determine which recipes exist. Ingredients terminal Plants remain untransformable.
+2. **Currently resolved environmental Conditions** (e.g. Flooded, Damp, Hot, Freezing, Lit), independent ordinary named fungal Influence reach, physical fungal adjacency, and overlay presence may be combined in a recipe. These are existing system concepts, not a generic emitted Transformation Influence.
+3. **X uninterrupted hours of qualifying exposure** are the ordinary timed prerequisite. Breaking the relevant condition resets that Plant's associated recipe timer; different recipes may have separate timers. No lifecycle-progress gate is implied by duration.
+4. **Ordered environmental events can be requirements:** for example, remain Flooded for X uninterrupted hours and then drain to Damp; or withstand Freezing for X hours and then thaw. Evaluate the just-completed qualifying exposure **immediately before** the environmental change resets its timer; the change event can activate a Plant-owned recipe when its other requirements hold. No permanent historical “bank” is introduced.
+5. On success, §58 applies: replace the precursor with a **fresh 0%-progress new Plant**, clearing its old exposure/recipe/death timers and accumulated output. A next Transformation may begin qualifying immediately with **new exposure time**, without waiting for the new Plant to grow to 100% or any other percentage.
+
+**No lifecycle restriction exception is needed for Aquatic.** Event ordering, simultaneous competing recipes and death-versus-transformation priority still need deterministic global rules before implementation, but none requires consulting Plant maturity.
+
+### B. Aquatic flood-and-drain fork without a stage check
+
+These are **structural recipe sketches**, not finalized fungal assignments, X-hour values or exclusive conditions:
+
+| Existing Aquatic edge | Stage-free environmental sequence / distinction |
+| --- | --- |
+| **Moonlit Lotus → Starlotus** | Sustain qualifying **Flooded** exposure, then trigger **Flooded → Damp** drainage while any additional ordinary source conditions are satisfied; new Starlotus receives **fresh Damp attunement**, starts at **0%**. |
+| **Moonlit Lotus → Pearlily** | Maintain **Flooded** with its own appropriate source/exposure requirements for the Pearlily branch; no drainage event and no Ripening gate; new Pearlily starts at **0%**. |
+| **Kelpergeist → Starlotus** | Qualify with the specialist ordinary fungal influence/condition while remaining **Flooded**; new Starlotus receives **fresh Flooded attunement**, starts at **0%**. |
+| **Kelpergeist → Kelpless** | Sustain **loss of Flooded** for its own continuous X-hour threshold; the undesirable new Kelpless starts at **0%**. Restoring Flooded before expiry resets the timer. |
+
+**Physical feasibility:** A Waterborne cultivation Influence that qualified the Plant while Flooded may stop reaching it as soon as drainage breaks connectivity. A transition recipe may inspect the **pre-change exposure and arriving state** at the event; any Influence required *after* drainage must truly propagate to the new non-Flooded state by its ordinary rules (e.g. independent Airborne reach). Do not create a special Waterborne exception merely to force a route to work.
+
+**Preserve existing Aquatic decisions:** The two Starlotus attunements and their reversible +60% native Leaf benefit remain; Moonlit Lotus's harvest choices, Pearlily's shortcut via Cresscent, and Kelpless's redemption route remain. Their exact recipes are still open. **Silvercress's innate +60% Growth rate while Flooded during Growth and +50% Leaf Yield while Damp during Ripening are NOT Transformation rules**; lifecycle-specific harvest optimization continues to work unchanged.
+
+### C. Economy versus discovery time
+
+**Corrected inference:** Resetting a newly transformed Plant's progress to 0% does **not** intrinsically slow the *next Transformation*. A chain A → B → C can complete after A's X-hour exposure plus B's own Y-hour exposure (and required environmental transitions), even if B never matures. The full new lifecycle matters only when the player chooses to **grow and harvest** B rather than transform it. If exact future recipes include long exposure requirements, that is their environmental setup cost—not a maturity prerequisite.
+
+**Future implementation tests:** A transformation at 0%, 75%, 150% and 200% under otherwise identical qualifying exposure; pre-drain exposure snapshot before timer reset; Waterborne loss at drainage without ghost influence; Flooded-restoration interruption of Kelpless countdown; multiple independent recipe timers; new Plant reset with no inherited timers; no recursive same-instant Transformation; Silvercress's stage-specific non-Transformation bonuses unaffected.
 
 
 ---
