@@ -2,6 +2,8 @@
 
 **Snapshot:** 26 October 2026
 
+**LATEST RECIPE STATUS (§74, 26 October 2026): Desert's 13 recipes are now APPROVED.** The first-pass Transformation recipe pass has completed **5/6 families: Ingredients (6), Aquatic (14), Woodlands (13), Flowers (12), Desert (13), totaling 58 routes. Only Spices remains.** Older sections saying Desert recipes are pending are historical; authoritative details follow in §74 in the main design file and latest handoff section.
+
 **Latest recipe-pass milestone (§73): ALL 12 Flowers Transformations approved, including 10h Dim preparation + transition to Bright within 8h for Daisyspell → Orchidemon.** Four families have first-pass recipes complete; **Desert and Spices remain**. See §73 of the main design doc and the final handoff section below; earlier 'Flowers pending' status statements are superseded.  
 **Purpose:** Help a new design conversation resume without having to reconstruct a long chat.  
 **Current phase:** Text-only Plant/Fungus interaction and feasibility audit, before implementing either organism type; the environmental prototype has been simplified to three Properties.
@@ -263,3 +265,31 @@ The user said **“i like them including the dusk-to-bright Orchidemon route”*
 **Dusk-to-bright execution:** Dim + Veilcap/Fogdial contact for **10 uninterrupted hours**, then leave Dim. The **eight-hour completion countdown starts upon leaving Dim**; Damp and Temperate must hold throughout. Reach Bright with Prismorel/Glimmergill contact at completion; otherwise a fresh preparation is required. No stage/75%-bloom requirement. Orchidemon created afresh at 0%, naturally prefers Bright, and remains entirely sterile. All first-pass hours can be adjusted in real playtests. Source reach/compensating environmental emissions should be tested; no new Fungus types or special Transformation Effects are authorized.
 
 **Current family progress:** **Ingredients 6/6; Aquatic 14/14; Woodlands 13/13; Flowers 12/12** APPROVED, totaling **45** approved first-pass Transformation recipes. **Only Desert and Spices remain** in the dedicated recipe-design pass. The full roster of 31 candidate Fungi remains unchanged. **No Plant/Fungus/Mycelial runtime code was modified.** Suggested next family: Desert, then Spices.
+
+## Latest Desert approval — §74 (26 October 2026)
+
+The user reviewed and said **“i like them”** to the **complete 13-route Desert first-pass Transformation proposal**, including the **Ember Aloe deliberately attempted premature recovery** and **Moonjade's two exclusive post-Freezing thaw branches**. All the named Fungus contacts, exposure hours, resolved environmental Conditions, and event semantics are now approved first pass. The authoritative complete recipe definition and explicit sibling-exclusivity proof are in [§74 of the Herbs/Fungi design](herbs-and-fungi-design.md).
+
+### All thirteen approved Desert recipes
+
+| From → To | Resolved environment and/or transition | Named contact | Initial duration |
+| --- | --- | --- | ---: |
+| Jadeheart → Ember Aloe | Damp, Hot, Lit | Emberbolete OR Tickbolete | 18h |
+| Jadeheart → Moonjade | Damp, Freezing, Dim | Chillanterelle OR Rilllace | 20h |
+| Jadeheart → Cactopus | Dry, Warm, Lit | Droughtcap OR Crumblecap | 16h |
+| Ember Aloe → **Ashen Rose** | Deliberate **Hot → Warm** recovery attempt after **<36h Hot** | Chillanterelle OR Rilllace reaches at event | event |
+| Ember Aloe → **Aloemancer** | Deliberate **Hot → Warm** recovery attempt after **≥36h Hot** | Chillanterelle OR Rilllace reaches at event | event |
+| Ashen Rose → Sandrose | Dry, Temperate, Dim | Droughtcap OR Bristlecap | 12h |
+| Sandrose → Cactopus | Dry, Hot, Lit | Tickbolete OR Emberbell | 18h |
+| Moonjade → **Jadewisp** | ≥48h Dormant Freezing, then **Freezing → Cold**, Damp, **Dim** | Dewmender OR Mistruffle at thaw | event |
+| Moonjade → **Pearadox** | ≥48h Dormant Freezing, then **Freezing → Cold**, Damp, **Lit** | (Tickbolete OR Emberbell) **AND** (Gloamclock OR Fogdial) at thaw | event |
+| Cactopus → Cactaclysm | Dry, Hot, Bright | Emberbolete **AND** Goldgill | 24h |
+| Cactopus → Pearadox | Damp, Hot, Dim | Veilcap OR Fogdial | 20h |
+| Aloemancer → Mirage Rose | Damp, Temperate, Dim | Emberbell **AND** Chillanterelle | 24h |
+| Jadewisp → Mirage Rose | Damp, Cold, Dim | Glimmergill **AND** Gloamclock | 24h |
+
+**Event details:** Ember Aloe's uninterrupted **Hot exposure continues until immediately before** a qualifying Hot→Warm transition *with recovery named-Fungus contact*. Cooling without that contact is **not a recovery attempt**, creates neither outcome, and resets the exposure normally. At **exactly 36h**, Aloemancer rather than Ashen Rose results. Moonjade enters complete Dormancy during Freezing, but its independent **48h Freezing clock continues**. At a qualifying **Freezing→Cold** transition, use the old Freezing exposure and the **new Damp/Dim or Damp/Lit** plus named contact; insufficient prior exposure or conditions means ordinary Moonjade survives and resumes growth rather than automatically transforming. The two thaw targets are mutually exclusive by the **new net Illumination**. Check pre-transition exposure before resetting, following §64. Named contact via environmental OR cultivation Influence zone, not via Growth/Yield effect applicability (§68). All successful transformations create fresh 0%-Growth target Plants (§58). Remaining family forks similarly use incompatible Temperature/Moisture or <36h/≥36h.
+
+**Plant identity preservation:** Ember Aloe has its own +30% Hot Growth/+50% Hot Leaves, but those bonuses do not gate Transformation. Pearadox continues positive lifecycle progression in both Hot and Freezing; Moonjade is completely Dormant in Freezing. Cactaclysm remains Seed-sterile and high-Leaf, while Mirage Rose produces a fixed **14 Ember Aloe + 14 Moonjade Seeds at 200%** from either origin. No Mycelial-on-Plant recipe gate, new Fungus, extra environmental Property, or code changes. Durations remain first-pass testable values; physical construction of complex net environmental Sources will be verified as needed.
+
+**Recipe pass progress:** **Ingredients 6/6 (§67), Aquatic 14/14 (§69), Woodlands 13/13 (§§71–72), Flowers 12/12 (§73), Desert 13/13 (§74), totaling 58 approved first-pass Transformation routes across five families.** **Only Spices remains**; proceed with its 10 established Plants and approved illumination/overlapping-opposite-Source graph, checking feasibility and exclusivity. No Plant/Fungus/Mycelial runtime was changed.
