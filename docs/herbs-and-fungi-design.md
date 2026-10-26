@@ -4467,3 +4467,34 @@ The six **approved Potato→Ingredients** recipes remain exactly as defined in �
 - Recipes for **Woodlands, Aquatic, Flowers, Desert and Spices** should use the allowed environmental and **named fungal contact** ingredients, without checking fungal Growth/Yield/Ripening or other developmental bonuses as transformation prerequisites. Exact named fungi, alternative-name sets, durations, transitions and pairwise exclusivity are still to be designed in those families' dedicated passes.
 - **Mycelord edge case:** Mycelord creates a timed Mycelial overlay but no ordinary environmental/cultivation Influence zones. Recipes can check whether a Plant's hex is currently **Mycelial** as an environmental overlay condition. If a later proposed recipe specifically requires **named Mycelord contact**, return to the user to determine whether overlay connection alone should qualify; do **not** invent an ordinary Mycelord Influence or silently turn all Mycelial into named contact.
 - The rule does **not** change fungal emission strengths/footprints, add a generic Transformation Influence, alter the 31-species roster, relax §66's mutually exclusive outgoing recipes, or implement biology. Maintain the distinction between **contact by zone** and **the actual production bonus applied to a Plant**.
+
+## §69 — Aquatic family: APPROVED first-pass Transformation recipes (26 October 2026)
+
+**Status: USER APPROVED in full, including the environmental-only Kelpergeist → Kelpless failure route.** This is a text-only recipe definition; no Plant/Fungus/Mycelial runtime is implemented. The approved 14 routes below supersede any earlier speculative Aquatic recipe wording. All successful transformations replace the old Plant with a fresh destination at **0% Growth** and no inherited output, exposures, or timers. The Plant's Growth/Ripening percentage and cultivation bonus magnitudes are NEVER prerequisites.
+
+For rows with named contact, the named living fungus must reach the Plant through **either actual environmental OR cultivation Influence zone**, respecting real reach, Flooded connectivity, and Blockers (per §68). The correct resolved environmental conditions and contact must be maintained for the uninterrupted listed hours; interruptions reset the relevant timer. The listed hours are provisional playtest values. The **Kelpergeist → Kelpless exception requires no Fungus contact**: merely losing Flooded continuously is sufficient, including under Dry or Damp.
+
+| From | To | Environmental requirements / triggering transition | Named fungal contact (either is acceptable) | Exposure |
+| --- | --- | --- | --- | --- |
+| Aquatic Base | Kelpfull | Flooded, Temperate | Dewmender OR Mistruffle | 12h |
+| Aquatic Base | Sunken Lotus | Flooded, Cold | Tidegill OR Rilllace | 16h |
+| Aquatic Base | Wild Watercress | Damp, Temperate | Dewmender OR Mistruffle | 10h |
+| Kelpfull | Kelpergeist | Flooded, Dark | Veilcap OR Fogdial | 20h |
+| Kelpfull | Kelpless | Dry OR Damp | Droughtcap OR Crumblecap | 16h |
+| Kelpergeist | Starlotus | Flooded, Cold, Dim | Tidegill OR Siltgill | 28h |
+| Kelpergeist | Kelpless | NOT Flooded (Dry OR Damp) | **None; environmental-only** | 18h |
+| Kelpless | Wild Watercress | Damp, Temperate | Dewmender OR Mistruffle | 12h |
+| Sunken Lotus | Moonlit Lotus | Flooded, Dim | Tidegill OR Rilllace | 16h |
+| Moonlit Lotus | Starlotus | **Flooded, Cold, Dim for 24h, THEN Flooded → Damp drainage** | Tidegill OR Rilllace during the 24h pre-drain phase | 24h + drain event |
+| Moonlit Lotus | Pearlily | Remain Flooded, Temperate, Lit | Dewmender OR Mistruffle | 24h |
+| Wild Watercress | Silvercress | Flooded, Temperate | Dewmender OR Mistruffle | 10h |
+| Wild Watercress | Cresscent | Damp, Dim | Tidegill OR Glimmergill | 12h |
+| Cresscent | Pearlily | Damp, Lit | Dewmender OR Mistruffle | 12h |
+
+**Drainage trigger:** Check Moonlit Lotus's complete **immediately prior** qualifying Flooded history and named contact when the environment transitions to Damp. A Waterborne path or contact lost *because of* drainage must not invalidate already-qualified pre-drain history. No Growth/Ripening-stage gate. Moonlit Lotus → Pearlily instead triggers after continuous qualifying Flooded exposure, without drainage. Starlotus attunement is initialized fresh according to its own trait; do not inherit Moonlit Lotus's state.
+
+**Exclusivity audit (§66):** Aquatic Base's sibling routes have mutually incompatible current Moisture/Temperature combinations; Kelpfull and Kelpergeist each split on Flooded versus NOT Flooded; Wild Watercress splits Flooded versus Damp. Moonlit Lotus's Starlotus requires a Cold/Dim Flooded exposure followed by drainage, while Pearlily requires Temperate/Lit and continued Flooded exposure. These two distinct prior-state requirements prevent a same-time collision, including a drain event at an exposure threshold. Neither different fungus names nor durations alone are used as the exclusivity guarantee. The remaining plants have only one outgoing route. Specific named alternatives are not exclusive of one another *within the same route*, which is permitted.
+
+**Feasibility:** Wetting, Drying, Cooling, Darkening, Brightening and Waterborne reach already exist among the approved 31 Fungi; no new Effects, Fungi, lifecycle gates, or special contact mechanic are required. Flooded Source/contact routing follows the existing environmental system. Some conditions require multiple Sources, offsets or Blockers, deliberately making Aquatic more complex than Ingredients. Kelpergeist's 18h water-loss transformation is intended to occur before its proposed 36h Dry lethal limit (if no other hazard kills it earlier); maintain this ordering if those values change.
+
+**Unchanged:** Silvercress's Flooded-during-Growth +60% Growth Rate and Damp-during-Ripening +50% Leaf Yield are separate farming traits, not recipe prerequisites. Starlotus may be obtained from two different precursors, with fresh per-origin attunement. Exact numerical balance remains open; biology code remains untouched.
