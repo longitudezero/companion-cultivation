@@ -1,6 +1,8 @@
 # Companion Cultivation — conversation handoff
 
 **Snapshot:** 26 October 2026
+**LATEST APPROVAL (§76, 26 October 2026):** The user said **“i like them”** to a newly rebuilt, complete **11-route Spices Transformation proposal** with exact first-pass named fungus contacts, resolved Conditions, timing and a two-phase Ghost Rice → Glass Apple sequence. The detailed original proposal was lost, so this is an **explicitly approved replacement**, not a purported recovery. **All six families now have 69 approved first-pass routes**: Ingredients 6, Aquatic 14, Woodlands 13, Flowers 12, Desert 13, Spices 11. **§76 of the canonical design document is the current implementation reference; §75 and older “Spices remaining” statements are historical.** No Plant/Fungus/Mycelial gameplay code was changed.
+
 **Spices update (§75, 26 October 2026):** The user explicitly accepted the Spices 11-route proposal, especially both Pum'king overlapping Brightening/Darkening net-Lit routes and Ghost Rice's Lit-to-Glass-Apple route. **§75 in the main design doc now records the confirmation, all 11 graph edges, and independently grounded lighting constraints.** The exact fully specified table of named fungus contacts, durations and any transition timings from the immediately preceding proposal is not stored in the current retrievable text or earlier GitHub docs, so the detailed parameters remain flagged **NOT YET faithfully transcribed**, rather than invented. This is not an implementation-ready final recipe record. The other five families retain their complete first-pass recipe tables.
 
 
@@ -305,3 +307,25 @@ The user reviewed and said **“i like them”** to the **complete 13-route Dese
 **Honest documentation gap:** The connected repo had retained the historical sketch in §15 and Plant profiles §§37–40, but **not the exact subsequently proposed 11-row recipe table with named-fungus alternatives, uninterrupted hours and possible specific transition windows**. The conversational approval is genuine; the full recipe parameters could not be independently recovered. §75 records the 11 routes and known constraints **without inventing timings, names or recasting historical Glimmer/Veil/Gloam/Prism placeholders as final Fungi**. Later recover and transcribe exact details before gameplay implementation. Accordingly **all six families' route concepts have been reviewed/accepted, but Spices' detailed recipe parameters are not yet fully captured**. The other five families have complete first-pass recipe definitions (58 total: Ingredients 6, Aquatic 14, Woodlands 13, Flowers 12, Desert 13). Add Spices' 11 once complete to total 69 routes.
 
 **Next best action:** recover/cross-check the actual approved Spices recipe rows if available; then perform family-wide feasibility/exclusivity audit and implement biology only after text design is complete. **No game code was changed.**
+
+## Latest completed recipe pass — §76 Spices (APPROVED first pass, 26 October 2026)
+
+Following loss of the original precise Spices proposal, the user approved a **newly reconstructed full proposal** with the exact first-pass routes below. **Do not attempt to infer the missing §75 values from old Glimmer/Veil/Gloam/Prism placeholders**; use [§76 of the Herbs/Fungi design](herbs-and-fungi-design.md) for the complete authoritative recipes, transition semantics, actual positive/negative emission requirement, pairwise exclusivity and feasibility caveats.
+
+| Transformation | Resolved environment | Named contact | Exposure |
+| --- | --- | --- | --- |
+| Thymely → Sunrice | Damp, Temperate, Bright | Glimmergill OR Lanterncap | 12h |
+| Thymely → Moonrice | Damp, Temperate, Dim | Veilcap OR Fogdial | 14h |
+| Thymely → Shadow Onion | Damp, Cold, Dark | Hushroom OR Gloamclock | 16h |
+| Sunrice → Starberry | Damp, Warm, Bright | Prismorel OR Goldgill | 18h |
+| Sunrice → Pum'king | Damp, Temperate, Lit; actual opposing Brightening/Darkening emissions overlap | (Glimmergill OR Goldgill) AND (Veilcap OR Fogdial) | 24h |
+| Moonrice → Thymekeeper | Damp, Temperate, Dim | Gloamclock OR Tidegill | 18h |
+| Moonrice → Ghost Rice | Damp, Cold, Dark | Quickshade OR Duskleaf | 20h |
+| Shadow Onion → Dillusion | Damp, Temperate, Lit | Lanterncap OR Goldgill | 18h |
+| Starberry → Glass Apple | Damp, Warm, Bright | Prismorel AND Mistruffle | 28h |
+| Ghost Rice → Glass Apple | 12h Damp, Temperate/Cold, Dark prep; leave Dark and reach Lit within 8h, keeping Damp and Temperate/Cold | Gloamclock OR Duskleaf during preparation; Prismorel OR Lanterncap at Lit completion | 12h prep + 8h window |
+| Dillusion → Pum'king | Damp, Warm, Lit; actual opposing Brightening/Darkening emissions overlap | (Lanterncap OR Prismorel) AND (Hushroom OR Gloamclock) | 22h |
+
+All standard rows require uninterrupted final resolved Conditions and named living-Fungus contact through actual environmental OR cultivation Influence reach. Both Pum'king rows **additionally require actual opposite-sign environmental emissions reaching simultaneously**, not just fungal contact; final net light must remain Lit. The Ghost Rice route is a two-phase transition, **not** 20h sustained Dark/Lit. All transformations are stage-free and create 0%-Growth Plants. All sibling outgoing routes are exclusive by final light signature. The 11 routes preserve the original Plant identities, Seed loops and premium Pum'king/Glass Apple output roles. Exact values remain first-pass and physical placement still needs simulation testing.
+
+**Updated next priority:** The Plant/Fungus roster and all six Transformation families now have approved first-pass design specifications. Before implementing biology, reconcile any remaining interaction/feasibility edge cases, especially actual source placement and §64 timed event ordering. Then add living Plants/Fungi, Mycelial, lifecycles, Seed/Spore economy and Transformations to the existing deterministic engine incrementally, with tests and playtesting. Earlier handoff sections instructing “finish Spices” are historical only.
