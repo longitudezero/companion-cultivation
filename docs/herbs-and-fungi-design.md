@@ -997,6 +997,9 @@ For each Plant: define natural Growth and Ripening; Leaf and Seed harvest curves
 
 ## 22. Woodlands — Plant-by-Plant profiles (phase 1)
 
+**Latest Woodlands hazard correction (§70, APPROVED):** Mandrakadabra's earlier six-hour **Mycelial-specific** lethal rule and Mycelial-gated direct Transformation concept have been **superseded**. The approved replacement is death after **4 uninterrupted in-game hours in resolved Bright Illumination**, while **Lit remains optimal for farming**. Read the historical Mandrakadabra profile below subject to §70; do not use its older six-hour Mycelial text as current authority.
+
+
 **Phase status:** First record each Plant's six characteristics without assigning named Fungi or final Transformation recipes. **Approved** means the user accepted the profile direction, not that exact numbers are finalized. **Proposed** is an unapproved next candidate.
 
 ### Woodlands Base Plant (name undecided) — APPROVED first-pass profile
@@ -1209,6 +1212,9 @@ Mistlefoe ─────────────────┘                
 
 ## 23. Woodlands full-family numerical pass — proposed starting balance
 
+**Latest correction (§70):** Any reference below to Mandrakadabra's special six-hour Mycelial death threshold is **historical and superseded** by its approved **four-hour continuous Bright lethal exposure**. Its Lit optimum and high-Leaf role are unchanged. This section's other first-pass numerical values remain as previously approved.
+
+
 **Status:** The user **approved the Woodlands numerical table below as the first balancing-pass baseline**, including deliberately large differences between ordinary and specialized Plants. **10** is the typical non-Seed harvest near 100% and **10** Seeds near 200%, with about **4 in-game days to 100%** and **8 total in-game days to 200%** as the game-wide reference. A thoroughly optimized quick crop may aim for **36–48 in-game hours to 100%**. This is **not final balance**: actual playtesting and tester feedback will motivate later adjustments. The user explicitly prefers **bold, exciting differentiation now over prematurely conservative balancing**. Germination and compatibility proposals follow in §24.
 
 ### Scope and interpretation
@@ -1251,6 +1257,9 @@ Mistlefoe ─────────────────┘                
 
 
 ## 24. Woodlands numerical pass II — germination and Effect compatibility (APPROVED first pass)
+
+**Latest correction (§70):** The older Mandrakadabra **six-hour Mycelial-special death** references in this balancing section are superseded by **four uninterrupted hours in Bright**, with **Lit** still its preferred farming Illumination. Existing Yield compatibility figures are not changed by this correction.
+
 
 **Status:** The user **approved the entire Woodlands first-pass germination and Effect compatibility numbers below**, including the per-Seed chance model, both numeric compatibility tables, conditional modifiers, zero-output exclusions and the bold specialization differences. These are **accepted initial balance numbers, not final tuned values**. After implementation there must be an actual **playtesting pass with testers** and further balance revisions based on observed emergent behavior. Preference: exciting, memorable, even exaggerated specialist rewards now; rein in overshoots only if tests justify it.
 
@@ -4498,3 +4507,13 @@ For rows with named contact, the named living fungus must reach the Plant throug
 **Feasibility:** Wetting, Drying, Cooling, Darkening, Brightening and Waterborne reach already exist among the approved 31 Fungi; no new Effects, Fungi, lifecycle gates, or special contact mechanic are required. Flooded Source/contact routing follows the existing environmental system. Some conditions require multiple Sources, offsets or Blockers, deliberately making Aquatic more complex than Ingredients. Kelpergeist's 18h water-loss transformation is intended to occur before its proposed 36h Dry lethal limit (if no other hazard kills it earlier); maintain this ordering if those values change.
 
 **Unchanged:** Silvercress's Flooded-during-Growth +60% Growth Rate and Damp-during-Ripening +50% Leaf Yield are separate farming traits, not recipe prerequisites. Starlotus may be obtained from two different precursors, with fresh per-origin attunement. Exact numerical balance remains open; biology code remains untouched.
+
+## §70 — Mandrakadabra transformation environment and lethal Bright vulnerability (APPROVED, 26 October 2026)
+
+**Explicit user approval; supersedes earlier conflicting text in §§22–24 and the unapproved Woodlands recipe draft.** The user rejected using **Mycelial ground as a necessary Transformation condition** for Mandrabra → Mandrakadabra. Instead, **resolved Bright Illumination is a mandatory condition for this direct Transformation**. The complete direct recipe (which particular named Fungus/Fungi must contact Mandrabra, whether other environmental properties must match, and the X uninterrupted hours) is **still to be proposed/reviewed**. The earlier draft of 12 hours of Mycelial presence followed by Mycelial retreat is **NOT approved** and must not be implemented. Do not replace it with an invented new fungus-specific mechanic: any later named-fungus contact uses §68's actual Influence-zone reach.
+
+**New innate Mandrakadabra vulnerability:** When Mandrakadabra occupies a hex whose **resolved Illumination is Bright**, it dies after **4 uninterrupted in-game hours of Bright**. The continuous lethal timer starts when the Mandrakadabra instance is created in Bright (through Transformation at 0% or from a planted Seed) or when an existing Mandrakadabra enters Bright. Moving the resolved Illumination away from Bright **before the four-hour threshold** clears the exposure timer. Returning to Bright begins a new full four-hour exposure; there is no historical cumulative damage bank. The timer does not inherit Mandrabra's prior Bright exposure on Transformation, consistent with §58. Normal event-order and death/Transformation tie rules still apply (§§60,64).
+
+**Preserved farming identity:** **Lit, NOT Bright, remains Mandrakadabra's preferred Illumination**, together with the previously approved Damp/Temperate preference and its exceptionally high, narrow Leaf peak. Thus the intended puzzle is to transform Mandrabra under Bright and then reduce Illumination to Lit quickly enough to farm Mandrakadabra for its full multi-day lifecycle. This vulnerability is tied to the **resolved environmental state**, not receiving a particular fungal cultivation bonus or being at a lifecycle stage. The short Bright hazard applies to Mandrakadabra grown directly from **Mandrakadabra Seeds** as well as one obtained by Transformation.
+
+**What changed and what did not:** This **replaces** the earlier **Mandrakadabra-specific Mycelial death after 6 hours**; the old special six-hour Mycelial condition is **not an additional simultaneous special hazard**. Ordinary Woodlands Mycelial aversion/hazard can still be defined on its usual terms without bringing back a special six-hour threshold. No Mycelial overlay is required for the Mandrabra → Mandrakadabra recipe. Mandrakazam remains the Seed-producing safer alternative, and Mandrabra still has two confirmed outgoing graph edges; they must be designed to be **mutually exclusive** under §66. No other Woodlands recipes from the earlier 13-route **unapproved proposal** become approved by this decision; only the mandatory Bright condition, four-hour Bright hazard, and retained Lit farming optimum are newly locked here. All other Plant profiles, Seed identities, and numeric balance remain unchanged. **Text-only; no Plant/Fungus gameplay implementation.**
