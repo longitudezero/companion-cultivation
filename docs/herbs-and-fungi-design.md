@@ -4312,7 +4312,7 @@ The user expressly rejected the audit suggestion to calculate ordinary Leaf/Seed
 - **APPROVED:** A currently **Flooded** hex cannot be newly colonized by Mycelial, cannot relay Mycelial's timed neighboring spread, and cannot serve as a continuous support link between an extant colony and Mycelord. This is a natural environmental barrier, not ordinary Waterborne Influence propagation.
 - **Flooding an existing Mycelial area does NOT remove its overlay instantly.** Instead, re-evaluate the Mycelord-to-colony connection: contributions with no alternate permitted support path begin **gradual retreat**, using the approved Blocker-severance model from §60F. Other connected paths and overlapping Mycelords can keep a contribution supported. Drainage before decay completes can restore the path and halt the unsupported retreat.
 - This makes Flooded canals useful for containing spreading Mycelial hazards and allows Mycelial-dependent Siltgill on a **non-Flooded Mycelial source hex beside a Flooded network** to inject its separately emitted unlimited Waterborne Leaf-Yield Influence into the canal. The receiving Plant does not need Mycelial. The Mycelial rules **do not impose a numerical Range on Waterborne Influences**.
-- With Base Materials removed, there are **no Material-specific Mycelial colonization rules**. Remaining implementation details: initiation/root eligibility if Mycelord's own occupied hex is Flooded; timed colonization and retreat intervals, progress on multiple neighboring fronts, and exact tie/boundary handling. Do not add an unapproved requirement for Dirt/Sand/Clay/Stone.
+- With Base Materials removed, there are **no Material-specific Mycelial colonization rules**. Mycelord's later-approved **Flooded lethal-exposure rule and loss of support while its own hex is Flooded** are recorded in §62. The precise viability of germinating directly on a Flooded hex, timed colonization and retreat intervals, progress on multiple neighboring fronts, and exact tie/boundary handling remain later details. Do not add an unapproved requirement for Dirt/Sand/Clay/Stone.
 
 ### C. Save and scope boundary
 
@@ -4321,3 +4321,15 @@ Prototype 1 now saves schema v2 with three Baselines and no Material. Supported 
 ---
 
 **Design principle:** Keep a small number of understandable core mechanics and use combinations, placement, propagation, environment, exposure timing, and species-specific Responses to create depth. Preserve the ability to change direction during the text-only design passes without turning brainstorming examples into coded rules.
+
+---
+
+## 62. Mycelord is vulnerable to Flooded — APPROVED
+
+**Status (26 October 2026):** The user clarified that **Mycelord is weak to Flooded conditions on its own occupied hex and dies after X uninterrupted hours of that exposure**. This resolves the Mycelord-on-Flooded survival question left open in §61, without adding a fungus-wide environmental maintenance matrix.
+
+- **Timed lethal habitat:** A living Mycelord occupying a **Flooded** hex starts its own continuous Flooded-exposure clock. If Flooded persists for its species-specific **X hours**, Mycelord dies and is removed. If its hex becomes Dry or Damp before X expires, the clock resets; future flooding must start a fresh uninterrupted interval. The exact value of X is a later playtest number.
+- **Not Mycelial-dependent:** Mycelord still does **not require Mycelial ground** to establish or remain alive. Its new vulnerability is specifically to **Flooded Moisture**, not the absence of a Mycelial overlay. It retains the ordinary fungal lifecycle and Spores rules.
+- **Flooded remains a barrier even while Mycelord survives:** Under §61, a Flooded Source hex cannot relay or anchor **active Mycelial support paths** while Flooded. Thus flooding its own occupied hex cuts its support connections immediately, while any already existing unsupported Mycelial contributions **retreat gradually**, not instantaneously. Other Mycelords and alternative eligible paths can still support affected ground. Draining before death permits its support connectivity to recover and can rescue retreating contributions that have not yet decayed; the death clock also resets.
+- **Death is distinct from temporary flooding:** If Mycelord reaches X hours and dies, its own contributions lose their living origin and follow the already approved gradual retirement model, even if the hex later drains. Any overlapping contribution independently supported by another Mycelord remains.
+- **Scope:** No Mycelial runtime is implemented by this text rule. Do not silently impose Flooded lethality on every Fungus; it is an approved Mycelord-specific weakness. Exact clock duration, tick-resolution ordering and decay timings remain implementation/playtest details.
