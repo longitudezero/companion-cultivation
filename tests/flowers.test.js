@@ -62,6 +62,7 @@ test('older saved gardens gain Flower Base Seeds once, while spent Seeds stay sp
 
 test('all eleven static Flowers recipes work with actual named fungal reach and exact durations', () => {
   for (const [species, recipes] of Object.entries(TRANSFORMATIONS)) {
+    if (PLANTS[species]?.family !== 'Flowers') continue;
     for (const recipe of recipes.filter(r => r.contacts)) {
       const garden = arrange(species, recipe);
       const state = transformationStatus(garden, target);

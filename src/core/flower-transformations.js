@@ -34,7 +34,8 @@ export const FLOWER_TRANSFORMATIONS = Object.freeze({
 export const emptySequence = () => ({ phase: 'preparing', preparedHours: 0, windowHours: 0 });
 
 export function matchesConditions(actual, expected) {
-  return Boolean(actual) && Object.entries(expected).every(([property, value]) => actual[property] === value);
+  return Boolean(actual) && Object.entries(expected).every(([property, value]) =>
+    Array.isArray(value) ? value.includes(actual[property]) : actual[property] === value);
 }
 
 export function namedFungalContacts(garden, key, environment, cultivation = calculateCultivation(garden, environment)) {
