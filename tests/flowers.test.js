@@ -49,6 +49,17 @@ test('ten approved Flowers profiles and twelve distinct named-contact recipes ar
   assert.equal(createGarden().inventory.seeds.Daisydaze, 16);
 });
 
+test('older saved gardens gain Flower Base Seeds once, while spent Seeds stay spent', () => {
+  const saved = createGarden();
+  delete saved.inventory.seeds.Daisydaze;
+  const original = structuredClone(saved);
+  const migrated = migrateGarden(saved);
+  assert.equal(migrated.inventory.seeds.Daisydaze, 16);
+  assert.deepEqual(saved, original, 'migration must not mutate the old save');
+  migrated.inventory.seeds.Daisydaze = 0;
+  assert.equal(migrateGarden(migrated).inventory.seeds.Daisydaze, 0);
+});
+
 test('all eleven static Flowers recipes work with actual named fungal reach and exact durations', () => {
   for (const [species, recipes] of Object.entries(TRANSFORMATIONS)) {
     for (const recipe of recipes.filter(r => r.contacts)) {
