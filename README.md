@@ -6,6 +6,8 @@ Companion Cultivation is a small farming minigame where fungi help your herbs to
 
 **[Play the current game on GitHub Pages](https://longitudezero.github.io/companion-cultivation/)** — a mechanics-testing prototype with an optional developer toolset, not a balanced or content-complete release.
 
+**Next approved player-interaction milestone (design only):** [Spatial inventory and repeatable live staging](docs/design/systems/spatial-inventory-and-staging.md). The design specifies **200 squares across four collapsible 50-square pages**, unlimited one-type stacks that retain manual positions, drag-to-sow with a quantity picker, atomic **Apply** commitments, a few in-game hours of **concealed germination**, drag-to-harvest, and immediately repeatable staging. **The farm must keep progressing and visibly transforming while the player is staging**—planning is not a pause button. This design is **not yet present on the live page**; the actual clock speed, germination delay and several item-progression details remain to be decided before final tuning.
+
 ## Run locally
 
 ```bash
@@ -94,6 +96,7 @@ The [organized game-design index](docs/design/README.md) is the detailed authori
 | --- | --- |
 | Current implementation coverage, caveats and testing | [Implementation-status ledger](docs/implementation-status.md) · [Design overview](docs/design/README.md) |
 | Player-facing buttons vs developer-only test controls | [Player/developer UI separation](docs/developer-tools.md) |
+| Approved upcoming inventory, staging, Apply and real-time-while-planning behavior | [Spatial inventory and staging specification](docs/design/systems/spatial-inventory-and-staging.md) |
 | Environment, Sources, propagation and Blockers | [Environmental v1.2 rules](docs/design/systems/environment.md) · [Influences](docs/design/systems/influences-and-responses.md) |
 | Plant and Fungus progression, outputs and harvesting | [Plant-specific Leaf items](docs/design/decisions/species-specific-leaves.md) · [Plant lifecycle](docs/design/systems/plant-lifecycle.md) · [Fungus lifecycle](docs/design/systems/fungus-lifecycle.md) · [Seeds/Spores/harvesting](docs/design/systems/seeds-spores-and-harvesting.md) |
 | Mycelial spread, support and survival | [Mycelial system](docs/design/systems/mycelial.md) |
