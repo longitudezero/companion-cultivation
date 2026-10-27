@@ -232,7 +232,7 @@ test('Bamboozled is ordinary-output sterile but yields one Bamboo Steel trophy a
     { leaves: 0, seeds: 0, allocation: 0, bambooSteel: 1 });
   const harvested = harvestPlant(garden, '2,2');
   assert.equal(harvested.inventory.trophies.bambooSteel, 1);
-  assert.equal(harvested.inventory.leaves, 0);
+  assert.deepEqual(harvested.inventory.leaves, {});
   assert.equal(harvested.inventory.seeds.Bamboozled, undefined);
   assert.equal(harvested.objects['2,2'], undefined);
   assert.equal(migrateGarden(structuredClone(harvested)).inventory.trophies.bambooSteel, 1);

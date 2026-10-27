@@ -89,7 +89,7 @@ test('allocation executes one net 3:1 conversion only at a valid destructive har
   garden = placeObject(garden, '3,2', makeFungus('Frostfolio'));
   const snapshot = availableHarvest(garden.objects['2,2'], calculateCultivation(garden)['2,2']);
   const harvested = harvestPlant(garden, '2,2');
-  assert.equal(harvested.inventory.leaves, snapshot.leaves);
+  assert.deepEqual(harvested.inventory.leaves, { Potato: snapshot.leaves });
   assert.equal(harvested.inventory.seeds.Potato, 16 + snapshot.seeds);
   assert.equal(harvested.objects['2,2'], undefined);
   assert.throws(() => harvestPlant(harvested, '2,2'), /no living Plant/);

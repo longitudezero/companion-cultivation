@@ -45,9 +45,9 @@ export function createGarden(columns = 9, rows = 7) {
     }
   }
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
-  return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
+  return { schemaVersion: 3, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
-    inventory: { leaves: 0, seeds: { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
+    inventory: { leaves: {}, legacyLeaves: 0, seeds: { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
       'Woodlands Base': 16, Jadeheart: 16, Thymely: 16 }, spores: {}, trophies: { bambooSteel: 0 } } };
 }
 
@@ -126,7 +126,7 @@ export function removeEdgeBlocker(garden, a, b) {
 }
 
 export function isGarden(value) {
-  return [1, 2].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
+  return [1, 2, 3].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
     && value.hexes && typeof value.hexes === 'object' && value.objects && typeof value.objects === 'object'
     && value.edges && typeof value.edges === 'object';
 }

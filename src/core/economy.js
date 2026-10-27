@@ -199,7 +199,7 @@ export function harvestPlant(garden, key) {
   const yieldResult = availableHarvest(plant, calculateCultivation(garden)[key],
     calculateEnvironment(garden).conditions[key]);
   const next = removeObject(garden, key);
-  const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
+  const inventory = garden.inventory || { leaves: {}, legacyLeaves: 0, seeds: {}, spores: {} };
   const seedSpecies = PLANTS[plant.species].seedSpecies === undefined
     ? plant.species : PLANTS[plant.species].seedSpecies;
   const seeds = yieldResult.seedStacks
@@ -207,7 +207,14 @@ export function harvestPlant(garden, key) {
       ({ ...stock, [name]: count(stock[name]) + amount }), { ...inventory.seeds })
     : seedSpecies === null ? { ...inventory.seeds } : { ...inventory.seeds,
       [seedSpecies]: count(inventory.seeds?.[seedSpecies]) + yieldResult.seeds };
-  return { ...next, inventory: { ...inventory, leaves: count(inventory.leaves) + yieldResult.leaves,
+  // Leaf items always belong to the harvested Plant's species, even when
+  // Seeds belong to a different species (or the Plant is sterile). Allocation
+  // changes the quantity here, never the Leaf identity.
+  const leaves = { ...inventory.leaves };
+  if (yieldResult.leaves > 0) {
+    leaves[plant.species] = count(leaves[plant.species]) + yieldResult.leaves;
+  }
+  return { ...next, inventory: { ...inventory, leaves,
     trophies: { ...inventory.trophies,
       bambooSteel: count(inventory.trophies?.bambooSteel) + (yieldResult.bambooSteel || 0) },
     seeds } };
@@ -218,7 +225,7 @@ export function harvestFungus(garden, key) {
   if (fungus?.type !== 'fungus') throw new Error('There is no living Fungus to harvest here.');
   const spores = Math.floor(count(fungus.sporeStock) + 1e-9);
   const next = removeObject(garden, key);
-  const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
+  const inventory = garden.inventory || { leaves: {}, legacyLeaves: 0, seeds: {}, spores: {} };
   return { ...next, inventory: { ...inventory, spores: { ...inventory.spores,
     [fungus.species]: count(inventory.spores?.[fungus.species]) + spores } } };
 }
@@ -235,7 +242,7 @@ function checkSowing(garden, key, species, available, quantity, random) {
 export function sowPlant(garden, key, species, quantity = 1, random = Math.random) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
   if (PLANTS[species].germination == null) throw new Error(`${species} has no plantable Seeds; transform a precursor instead.`);
-  const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
+  const inventory = garden.inventory || { leaves: {}, legacyLeaves: 0, seeds: {}, spores: {} };
   const owned = inventory.seeds?.[species] || 0;
   checkSowing(garden, key, species, owned, quantity, random);
   const contacts = calculateCultivation(garden)[key];
@@ -252,7 +259,7 @@ export function sowFungus(garden, key, species, quantity = 1, random = Math.rand
   if (FUNGI[species].habitat === 'dependent' && !isMycelial(garden, key)) {
     throw new Error(`${species} requires Mycelial ground for germination.`);
   }
-  const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
+  const inventory = garden.inventory || { leaves: {}, legacyLeaves: 0, seeds: {}, spores: {} };
   const owned = inventory.spores?.[species] || 0;
   checkSowing(garden, key, species, owned, quantity, random);
   const chance = clamp(quantity * ECONOMY_TUNING.fungusGerminationChance, 0, 1);

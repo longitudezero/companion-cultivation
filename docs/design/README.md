@@ -1,24 +1,25 @@
 # Companion Cultivation — game design reference
 
-> **Approved first-pass design reference, preserved from the documentation-maintenance milestone.** The game has progressed to **Spices Prototype 10**: all 60 planned Plants, all 31 Fungi and all 69 approved Plant-owned Transformation routes in the runnable catalog, together with playable Mycelial mechanics. The [current implementation-status ledger](../implementation-status.md) distinguishes code coverage, tests and provisional tuning from a finished, balanced game. Implementation-status claims *inside preserved detailed design pages* were written before this coding work and should not be read as the current release status. The [original complete design](../herbs-and-fungi-design.md) remains unchanged for comparison; [history](history/README.md) holds superseded design decisions, and [documentation acceptance](audit/promotion-verification.md) records the earlier editorial milestone.
+> **Approved first-pass design reference, preserved from the documentation-maintenance milestone.** The game has progressed to **Harvest Prototype 11**: all 60 planned Plants, all 31 Fungi and all 69 approved Plant-owned Transformation routes in the runnable catalog, together with playable Mycelial mechanics. The [current implementation-status ledger](../implementation-status.md) distinguishes code coverage, tests and provisional tuning from a finished, balanced game. **Later user clarification supersedes earlier universal-Leaf wording:** each Plant now yields its [own species-specific Leaf item](decisions/species-specific-leaves.md). Implementation-status claims *inside preserved detailed design pages* were written before this coding work and should not be read as the current release status. The [original complete design](../herbs-and-fungi-design.md) remains unchanged for comparison; [history](history/README.md) holds superseded design decisions, and [documentation acceptance](audit/promotion-verification.md) records the earlier editorial milestone.
 
-The game is a deterministic hex-garden farming prototype about sustainable non-Seed harvests (working term **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
+The game is a deterministic hex-garden farming prototype about sustainable **species-specific** non-Seed harvests (working item class **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
 
 ## Current implementation vs approved design
 
 | Area | Status | Entry point |
 | --- | --- | --- |
 | Hex environment: Moisture, Temperature, Illumination, Sources, Blockers, propagation, adjacency | **Implemented and playable** | [Environmental System](systems/environment.md) |
-| Living Plant progression, Seeds, outputs and harvesting | **Implemented for all 60 Plants across six families** | [Plant lifecycle](systems/plant-lifecycle.md), [implementation ledger](../implementation-status.md) |
+| Living Plant progression, Seeds, outputs and harvesting | **Implemented for all 60 Plants across six families; Leaves have separate species identities** | [Plant lifecycle](systems/plant-lifecycle.md), [Leaf identity correction](decisions/species-specific-leaves.md), [implementation ledger](../implementation-status.md) |
 | Living Fungi and their 31-species roster | **31 catalog species playable**; lifecycle/Spore balance still provisional | [Fungus lifecycle](systems/fungus-lifecycle.md), [roster](fungi/README.md) |
 | Mycelial spread, support and retreat | **Implemented**; time/hazard tuning provisional | [Mycelial](systems/mycelial.md) |
 | Timed updates, biological effects and output accrual | **Implemented for current organisms**, with explicit provisional knobs | [Simulation and time](systems/simulation-and-time.md), [Seeds and harvesting](systems/seeds-spores-and-harvesting.md) |
 | Plant-owned Transformations: six families, 69 designed routes | **All 69 implemented and simulation-tested**, including Spices' opposing-emission and Dark→Lit events | [Transformation rules](systems/transformations.md), [implementation ledger](../implementation-status.md) |
 
-**Authority boundary:** The topical rules and numbers below retain their detailed approved design authority. For what currently runs in the game, consult the newer [implementation ledger](../implementation-status.md); the [promotion audit](audit/promotion-verification.md) describes the *historical documentation publication*, not today's code state.
+**Authority boundary:** The topical rules and numbers below retain their detailed approved design authority **except where a later explicit user correction supersedes a point**, presently [Plant-specific Leaves](decisions/species-specific-leaves.md). For what currently runs in the game, consult the newer [implementation ledger](../implementation-status.md); the [promotion audit](audit/promotion-verification.md) describes the *historical documentation publication*, not today's code state.
 
 ## Systems
 
+- [Current Plant-specific Leaf items and inventory rule](decisions/species-specific-leaves.md)
 - [Environmental properties, influences and blockers](systems/environment.md)
 - [Plant lifecycle and output accrual](systems/plant-lifecycle.md)
 - [Fungus lifecycle and habitats](systems/fungus-lifecycle.md)
@@ -47,6 +48,7 @@ The game is a deterministic hex-garden farming prototype about sustainable non-S
 
 ## Provenance, historical audit and source comparison
 
+- [Historical pooled-Leaf interpretation and explicit correction](history/2026-10-27-leaf-identity-correction.md)
 - [Documentation audit index and current release verification](audit/README.md)
 - [Historical/superseded decisions](history/superseded-design.md)
 - [Original document references](history/README.md)

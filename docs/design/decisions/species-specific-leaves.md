@@ -1,0 +1,19 @@
+# Plant-specific Leaf harvest identities — current design correction
+
+**Decision date:** 27 October 2026. **Authority:** The user explicitly clarified that each Plant was always intended to yield **its own Leaves**, not a universal, interchangeable Leaf currency. This corrects a misunderstanding introduced in earlier discussions and propagated into the Prototype 10 implementation and some written first-pass design interpretations.
+
+This is the current authority on **Leaf item identity**. Earlier sections of the preserved design materials that refer to universal or generic Leaves describe the former interpretation and are superseded **only on that point**. Their approved species yields, environment responses, Growth/Ripening curves, 3:1 Allocation mathematics, Seed identity rules, Fungal effects and transformations remain in force. The [historical note](../history/2026-10-27-leaf-identity-correction.md) records the superseded interpretation; no original document is rewritten or removed.
+
+## Rules
+
+1. **One harvest item per Plant species:** A Potato produces **Potato Leaves**, a Thymely produces **Thymely Leaves**, a Ghost Rice produces **Ghost Rice Leaves**, and similarly for all other species with nonzero Leaf output. These are **distinct inventory items**. The word *Leaves* describes the shared class of non-Seed output, **not** a common fungible currency. At present the names are mechanical placeholders; this correction does not prescribe final edible-ingredient names for the future RPG.
+2. **Harvest origin decides identity:** Only the Plant actually harvested determines the Leaf item. A transformed Plant starts anew and eventually produces its **destination species' Leaves**; the precursor's unharvested output is discarded as before. Fungi produce Spores, not Leaves. Species that make no Leaves (such as Bamboozled) do not create Leaf items.
+3. **Seed identities are independent:** A Ghost Rice harvest returns **Ghost Rice Leaves** but **Moonrice Seeds**. A Glass Apple yields **Glass Apple Leaves** but **Starberry Seeds**. Mirage Rose's existing two-Seed-species payout does not divide or rename its own Leaves. Sterility for Seeds does not imply Leaf sterility (e.g., Pum'king).
+4. **Fungal effects retain existing mechanics:** Growth, Leaf Yield, hourly production, recipient compatibility and native curves change the quantity of the current Plant's Leaves. The approved **3:1 Leaf–Seed Allocation** at one consuming harvest converts between the **current Plant's Leaf item** and its approved Seed output; it neither mints a universal Leaf token nor changes what species produced those Leaves. No cross-species Leaf exchange or conversion rate is introduced.
+5. **Inventory is species-keyed:** Current saves store whole, nonnegative amounts in `inventory.leaves[plantSpecies]` alongside the already species-keyed `inventory.seeds` and `inventory.spores`. The living Plant's pre-harvest production bank may continue storing numeric `ordinaryLeaves` and `hourlyLeaves`: its identity is unambiguous until harvest.
+
+## Compatibility with older saves
+
+The prior saved-garden versions (schema 1–2) stored a single `inventory.leaves` **number**, with no producer attribution. The original Leaf species are **mathematically unrecoverable** from that number. Migration to schema 3 therefore preserves this stock as `inventory.legacyLeaves`, explicitly displayed as *Legacy · unattributed Leaves*, and starts species-keyed `inventory.leaves` empty. It must **not** guess Potato, split equally across species, spend or erase the old total. Later harvests create normal species-keyed items. The long-term fate of the unattributed legacy stock is intentionally left for a separate player-economy decision.
+
+No prices, recipes, Leaf item consumption, RPG trade interface or final naming scheme are asserted by this correction. Such systems should reference the specific Plant Leaf item when designed.
