@@ -250,7 +250,7 @@ Ghost Rice ───────┘
 
 **Approved source-overlap requirement (§76):** Both routes to Pum'king require **resolved Lit throughout** while opposite-sign positive Brightening and negative Darkening **environmental emissions** from the specifically named alternatives actually reach the precursor; ordinary cultivation contact alone is insufficient for the opposing-emission requirement. Sunrice uses **(Glimmergill OR Goldgill) AND (Veilcap OR Fogdial)** at **Damp/Temperate/Lit for 24h**. Dillusion uses **(Lanterncap OR Prismorel) AND (Hushroom OR Gloamclock)** at **Damp/Warm/Lit for 22h**. Pum'king starts at 0% and needs no permanent Source overlap after Transformation.
 
-**After Transformation:** Pum'king remains a Pum'king even if the qualifying sources later stop reaching it, unless a separate future Plant-owned recipe says otherwise (none is proposed). Its ordinary Leaf yield depends on the **current resolved Illumination** (Lit optimal). We are **not** imposing a new rule requiring both transformation sources to remain active throughout Ripening just to keep it productive. Any actual independent Leaf Yield fungal Effects continue to operate only if their sources remain active.
+**After Transformation:** Pum'king remains Pum'king when the qualifying light sources cease reaching it; the opposite-sign overlap is an **acquisition condition**, not a permanent Ripening requirement. **Pum'king has no outgoing route in the approved §76 Spices roster.** Its current resolved Illumination still controls ordinary Leaf productivity (Lit optimal), and independent harmful habitat exposure rules continue to apply.
 
 ### Glass Apple — APPROVED six-part first-pass Plant profile
 
@@ -267,7 +267,7 @@ Ghost Rice ───────┘
 
 **First-pass natural shape choice:** **155% Leaf peak, strongest interval ~145–170%**, plus **Starberry Seeds at 200%**. Glass Apple and Pum'king must both feel premium; Glass Apple offers a potentially higher optimized Bright Leaf ceiling and **important Starberry Seeds**, while Pum'king's distinguishing reward is a **sterile, broader single Leaf harvest from a difficult net-Lit overlap puzzle**. Their real efficiency will ultimately depend on Source placements, Seed production, growth stage, and transformations, not just a single peak number.
 
-**Route viability constraint:** **Ghost Rice starts out happiest in Dark but transforms into Bright-preferring Glass Apple.** The future Plant-owned recipe must allow that transition without prematurely killing Ghost Rice, then provide viable Bright habitat as the **new 0%-progress Glass Apple** develops toward its 155% Leaf peak or later Starberry Seed harvest. The Starberry route also creates a fresh Glass Apple; neither route adds an extra bloom or harvest (§58). Do not select a named fungus or event-order recipe yet.
+**Approved Ghost Rice → Glass Apple viability (§76):** Ghost Rice farms best in Dark but may complete **12h Damp/Temperate-or-Cold/Dark preparation with Gloamclock OR Duskleaf**, then leave Dark and reach **Lit within eight hours**, with **Prismorel OR Lanterncap** contact at completion and the required Damp/nonextreme Temperature preserved. The transformed **fresh 0%-Growth Glass Apple** can then be cultivated toward its **Bright-preferred 155%-progress Leaf peak** or late Starberry Seed harvest. The alternate Starberry origin makes the same Glass Apple species without retained origin state.
 
 ### Critical Seed-economy distinction (retained)
 

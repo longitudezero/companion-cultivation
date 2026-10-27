@@ -96,3 +96,18 @@ See [numerical-source-preservation.md](numerical-source-preservation.md) and its
 - No accidental balance or field omissions were detected by the mechanical tests. This is **not** yet a full semantic/manual acceptance certificate and does not authorize changes to the root README or the original docs.
 
 **Pass-5 navigation:** **422** local relative Markdown links across **31** staged files, including **11** heading fragments, resolve in the static check; **0 broken**. The [original-vs-new comparison](current-vs-original.md) remains the place to verify cutover readiness.
+
+
+---
+
+## Editorial pass 6 update — 27 October 2026
+
+- [Shared-rule semantic precedence](semantic-rule-precedence.md) audits the exact originals of §§58–68: **125/125** substantive lines accounted for (**103 active in own rule homes, 20 archived, two link-path differences**).
+- Entire giant original: **3,020/3,020** substantive non-heading source lines accounted for (**3,016 exact and four link-path-only variations**).
+- **23** additional former staged lines archived, **250 total** traceable historical excerpts.
+- Reconciled obsolete proposals for arbitrary competing-Transformation priority, target-Plant Mycelial/adjacency gates and incomplete family recipes; preserved **§60D death-tie win** and §66 sibling mutual exclusivity as distinct rules.
+- All final recipe and main numerical **table rows remain unchanged**. No Plant/Fungus biology implementation, no root README edit and no pre-existing document edit.
+
+**Pass-6 navigation/structural QA:** **471** local Markdown destinations, **13** heading fragments, **0 broken targets**, **32** staged files; the six Plant-family table-row counts and **all 102 approved final recipe-section table rows** remain unchanged.
+
+**History-index integrity repair:** Restored the missing original body of the *staged* `docs/next/history/README.md` from a prior known-good branch commit and merged subsequent audit notes. Checked all staged Markdown documents again for missing top-level headings and a literal `undefined` at the start; **none remain**. No pre-existing repository file was edited.

@@ -69,3 +69,12 @@ The [Plant-family prose audit](plant-profile-prose-audit.md) resolves 42 inherit
 The direct [original-source numerical audit](numerical-source-preservation.md) finds **no unaccounted digit-bearing source lines**, **1,157** original Plant/Fungus profile+numeric table rows matched by section and position, and **all 61** intentionally revised table rows archived in their exact former form. All final approved recipe-table rows survived. The [line ledger](numeric-source-line-ledger.md) distinguishes active versus historical text.
 
 **Still high-risk:** authoritative-vs-superseded classification of *qualitative* rules, compatibility eligibility (especially zero-output and harvest-time conversion), same-timestamp phase transitions, source-geometry feasibility, and actual runtime testability. Do not interpret historical text preservation as permission to implement a superseded rule.
+
+
+---
+
+## Pass 6 disposition — cross-section priority and exception audit
+
+The [shared-rule semantic precedence audit](semantic-rule-precedence.md) makes the later approved §66/§68/§70 contract consistent with earlier §§58–60D text: **no competing-recipe priority**, **actual emitted contact not adjacency**, **no Mycelial-on-target eligibility**, but **Transformation wins a true same-timestamp tie against death**. All 14 Aquatic recipes and all six family rosters are now recognized as specified, rather than future work. **23 earlier strings** were preserved in [history](../history/superseded-design.md).
+
+**Source preservation:** the entire original has **3,020 substantive source lines**, all present in the staging corpus exactly except **four relative link-path updates**; this is strong conservation evidence but **not a full semantic correctness guarantee**. The unproven areas remain actual route-layout exclusivity/satisfiability, numeric interpolation, and implementation-specific same-time event behavior.

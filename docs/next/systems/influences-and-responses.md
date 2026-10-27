@@ -29,7 +29,7 @@ See the [implemented environment](environment.md), [Fungal roster](../fungi/READ
 ### D. APPROVED — independent hazard clocks and rare same-instant priorities
 
 - Track genuinely lethal habitat exposures independently by hazard; clearing one resets only its own continuous timer. These timers follow elapsed in-game time even through Dormancy. Environmental transition recipes examine just-completed pre-transition qualifying exposure before it is reset (§59).
-- Use the finest supported simulated timestamp rather than coarsely forcing events into whole-hour collisions. **If death and a valid Transformation nevertheless mature at exactly the same timestamp, Transformation wins.** The old Plant is replaced by a new 0%-progress Plant with fresh hazard/recipe clocks (§58). Limit a Plant to one Transformation per resolution event, so no recursive zero-time chain. Exact ordering for competing simultaneously valid *Transformation recipes* remains for the dedicated recipe pass.
+- Use the finest supported simulated timestamp rather than coarsely forcing events into whole-hour collisions. **If death and a valid Transformation nevertheless mature at exactly the same timestamp, Transformation wins.** The old Plant is replaced by a new 0%-progress Plant with fresh hazard/recipe clocks (§58). **Limit a Plant to one Transformation per resolution event**, so no recursive zero-time chain. **§66 disallows simultaneously valid sibling recipes by design**; if an overlap is demonstrated, revisit those conditions with the user rather than defining an arbitrary winner priority.
 
 ### E. APPROVED — classify each cultivation emission for existing selective Blockers
 

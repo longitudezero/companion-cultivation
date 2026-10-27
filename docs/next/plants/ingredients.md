@@ -342,7 +342,7 @@ Potato (the only Seed species granted initially, the ONLY transforming Ingredien
   └──> Strawberry [terminal, can Seed-grow Strawberry]
 ~~~
 
-1. **No Ingredient transformation beyond Potato's six direct outgoing paths**. In particular, neither a Potato→terminal instance nor a directly Seed-grown terminal becomes eligible for any transformation. Potato is the one species whose future Plant-owned recipe table has outgoing transformations. Keep all six accessible without intermediate Ingredient routes.
+1. **No Ingredient Transformation beyond Potato's six approved direct outgoing routes (§67)**. Neither a Potato-transformed terminal Plant nor a directly Seed-grown terminal becomes eligible for any further Transformation. Potato is the only transforming Ingredient, and all six terminal destinations are accessible without intermediate Ingredient routes.
 2. **Each of seven Ingredients produces its own Seeds**. No unobtainable Ingredient Seed type and no cross-species Seed identity in this family. Own Seeds make simple sustainable kitchen staples, without requiring repeated Base transformations after a first terminal Seed harvest.
 3. **One consuming harvest** collects all Leaves/Produce and Seeds currently present. Carrot peaks at **95%** and must support harvesting before 100%; Strawberry's **115%** narrow peak competes with waiting for its 200%-Seed harvest. No early-harvest Seeds are magically guaranteed if the natural Seed curve has not produced them yet.
 4. **Pumpkin should remain distinctly highest in natural one-time Ingredient output (42 Leaves)**, with longer growth and a later 170% peak; **fast Strawberry (22)** and **Carrot (16)** should be appealing for throughput after Seed replenishment. **Apple (26)** and **Onion (19)** are more forgiving, slower alternatives. **Rice (22 Seeds)** is an economic support crop suited to Flooded. Do not flatten specialties before gameplay testing.
@@ -403,6 +403,6 @@ The additional reaching fungal Sources cannot defeat this partition: even if all
 
 **Ingredients should remain simpler than the other five Plant families**, per the user's explicit preference: readable habitat engineering, one ordinary reaching environmental fungal emission, and an uninterrupted exposure timer. More elaborate source combinations, Flooded→Damp transitions, multi-step chains and hazardous transformations are better reserved for the families designed around those mechanics. The numerical durations and resulting crop economy can be playtested later without changing each recipe's identity or environmental logic.
 
-**Status:** APPROVED first-pass **text only**. No Plant/Fungus/Mycelial runtime, Transformation timers or other game code has been implemented. Future Plant-owned recipe work proceeds to the remaining families, retaining physical feasibility and mutual exclusivity as first-class review checks.
+**Current approval:** The six Potato-owned §67 routes and all five other families' approved recipes now form the full **69-route first-pass roster**. This remains **text-only design**; no Plant/Fungus/Mycelial runtime or Transformation timers have been implemented. Feasibility/exclusivity claims still require testing before implementation.
 
 ---

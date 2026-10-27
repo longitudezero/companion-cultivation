@@ -69,3 +69,10 @@ Some **old completion-status sentences at the very ends of §73/§74** still des
 This is a strong mechanical anti-omission check, **not a sign-off for deleting or replacing the old documents**.
 
 **Navigation QA for this pass:** **422** local Markdown links across **31** staged `docs/next/` files were checked (including **11** heading fragments); no missing local destination or invalid heading anchor was detected by the static checker. This is independent of the numerical source test.
+
+
+---
+
+## Subsequent qualitative editorial pass (pass 6)
+
+The [semantic precedence audit](semantic-rule-precedence.md) intentionally updated *prose* in the approved Ingredients §67, Flowers §73 and Desert §74 sections after this report's frozen-source full-text comparison. Their **final recipe table rows**, all numerical profile tables and all previously archived original rows remain unchanged. The old progress sentences were added verbatim to the historical archive. Therefore, the **pass-5 full-text difference classification above describes the earlier staging snapshot**, not a claim that the newer prose paragraphs are still identical.

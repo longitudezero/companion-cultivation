@@ -2987,3 +2987,162 @@ As elsewhere, an available compatibility multiplier does **not** grant the Effec
 ~~~~text
 **Temperature productivity rules, new proposed numbers:**
 ~~~~
+
+
+---
+
+## Editorial pass 6 — historical Transformation precedence and recipe-progress prose (27 October 2026)
+
+These **23 earlier staged lines or table rows** were replaced only in the new topical drafts. Each is transcribed exactly below with its previous file, section heading, line number and reason. Source originals and root README remain untouched. The edits correct later-authority conflicts, **not** any Plant/Fungus numerical table or final recipe table.
+
+### docs/next/systems/transformations.md — 13 former lines
+
+- **Former line 3; source intro; reason:** Updated topical draft status after semantic reconciliation
+
+~~~~text
+> **Migration draft — not yet authoritative.** The original documents remain unchanged. Detailed source sections are carried over intact in this first pass to prevent losing numbers, edge cases or qualifications. Some inherited progress/status wording still describes earlier design phases; it will be moved into the historical reference during the editorial audit. The later approved recipe sections take precedence where they conflict.
+~~~~
+
+- **Former line 19; source ## 58. Transformation RESTARTS every new Plant at 0% — APPROVED; supersedes progress continuity; reason:** Removed obsolete proposed recipe-priority policy contrary to §66
+
+~~~~text
+**New logic question for the later Plant-owned recipe pass:** If a new 0%-progress Plant immediately meets another transformation condition on the same hex, don't allow an unbounded zero-time cascade or loop. Define a deterministic per-update transformation limit / timer reset and recipe-priority policy before implementation; no concrete species recipe is assigned by this rule.
+~~~~
+
+- **Former line 25; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Replaced §59 early deferred-recipe status with all-family approval
+
+~~~~text
+**Status (26 October 2026): AGREED.** The user confirmed the global distinction: **lifecycle progress/stage determines a Plant's growth and harvest output; environmental interactions determine what species the Plant can become.** Transformations may occur at **any 0–200% lifecycle progress**, including Growth, Ripening, and 0%, whenever the Plant's own recipe is fulfilled. **No Transformation recipe may require a precise percentage, minimum/maximum maturity, or being in Growth versus Ripening.** This supersedes §17's old permissive “lifecycle progress/stage” recipe check and any earlier Aquatic wording that requires drainage *during Ripening*. All Plant-owned exact recipes and numeric exposure durations remain reserved for the dedicated later pass; no new Fungus Effect or game code is added here.
+~~~~
+
+- **Former line 30; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Removed unsupported adjacency and target-Mycelial recipe inputs
+
+~~~~text
+2. **Currently resolved environmental Conditions** (e.g. Flooded, Damp, Hot, Freezing, Lit), independent ordinary named fungal Influence reach, physical fungal adjacency, and overlay presence may be combined in a recipe. These are existing system concepts, not a generic emitted Transformation Influence.
+~~~~
+
+- **Former line 35; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Updated §59 once-open ordering/priority status
+
+~~~~text
+**No lifecycle restriction exception is needed for Aquatic.** Event ordering, simultaneous competing recipes and death-versus-transformation priority still need deterministic global rules before implementation, but none requires consulting Plant maturity.
+~~~~
+
+- **Former line 39; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Replaced structural sketch/unassigned status with exact §69 authority link
+
+~~~~text
+These are **structural recipe sketches**, not finalized fungal assignments, X-hour values or exclusive conditions:
+~~~~
+
+- **Former line 43; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Reconciled Moonlit Lotus drainage summary with approved §69
+
+~~~~text
+| **Moonlit Lotus → Starlotus** | Sustain qualifying **Flooded** exposure, then trigger **Flooded → Damp** drainage while any additional ordinary source conditions are satisfied; new Starlotus receives **fresh Damp attunement**, starts at **0%**. |
+~~~~
+
+- **Former line 44; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Reconciled Pearlily branch conditions with approved §69
+
+~~~~text
+| **Moonlit Lotus → Pearlily** | Maintain **Flooded** with its own appropriate source/exposure requirements for the Pearlily branch; no drainage event and no Ripening gate; new Pearlily starts at **0%**. |
+~~~~
+
+- **Former line 45; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Reconciled Kelpergeist Starlotus named contact with §69
+
+~~~~text
+| **Kelpergeist → Starlotus** | Qualify with the specialist ordinary fungal influence/condition while remaining **Flooded**; new Starlotus receives **fresh Flooded attunement**, starts at **0%**. |
+~~~~
+
+- **Former line 46; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Reconciled environmental-only Kelpergeist loss route with §69
+
+~~~~text
+| **Kelpergeist → Kelpless** | Sustain **loss of Flooded** for its own continuous X-hour threshold; the undesirable new Kelpless starts at **0%**. Restoring Flooded before expiry resets the timer. |
+~~~~
+
+- **Former line 50; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Resolved older 'Aquatic exact recipes open' statement
+
+~~~~text
+**Preserve existing Aquatic decisions:** The two Starlotus attunements and their reversible +60% native Leaf benefit remain; Moonlit Lotus's harvest choices, Pearlily's shortcut via Cresscent, and Kelpless's redemption route remain. Their exact recipes are still open. **Silvercress's innate +60% Growth rate while Flooded during Growth and +50% Leaf Yield while Damp during Ripening are NOT Transformation rules**; lifecycle-specific harvest optimization continues to work unchanged.
+~~~~
+
+- **Former line 54; source ## 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED); reason:** Resolved 'if future recipes' language while retaining chain semantics
+
+~~~~text
+**Corrected inference:** Resetting a newly transformed Plant's progress to 0% does **not** intrinsically slow the *next Transformation*. A chain A → B → C can complete after A's X-hour exposure plus B's own Y-hour exposure (and required environmental transitions), even if B never matures. The full new lifecycle matters only when the player chooses to **grow and harvest** B rather than transform it. If exact future recipes include long exposure requirements, that is their environmental setup cost—not a maturity prerequisite.
+~~~~
+
+- **Former line 70; source ## 66. Each Plant's alternative Transformation recipes must be mutually exclusive — APPROVED DESIGN REQUIREMENT; reason:** Updated §66 status from remaining proofs to completed textual pass
+
+~~~~text
+- **If a guarantee fails, bring it back to the user:** Do not silently force an arbitrary recipe winner or change an approved transformation direction. Revisit the specific overlapping recipes, propose alternative mutually exclusive conditions, or ask whether an explicit conflict rule should exist only if true exclusivity proves infeasible. **The Ingredients family's six Potato recipes are subsequently approved and shown mutually exclusive in §67**; other families still need their own proofs.
+~~~~
+
+### docs/next/plants/flowers.md — 2 former lines
+
+- **Former line 468; source ## §73 — Flowers: all 12 Plant-owned Transformation recipes (APPROVED first pass, 26 October 2026); reason:** Corrected Flowers early 'remaining family recipes' instruction
+
+~~~~text
+- **Balance/implementation:** All 12 durations and the eight-hour final window are approved **first-pass values**, subject to actual playtesting and tuning. Do not modify Plant/Fungus runtime before completing the remaining family recipes and audit. No gameplay code was changed by this approval.
+~~~~
+
+- **Former line 470; source ## §73 — Flowers: all 12 Plant-owned Transformation recipes (APPROVED first pass, 26 October 2026); reason:** Removed obsolete Flowers recipe-pass milestone
+
+~~~~text
+**Recipe-pass status after §73: Ingredients (6), Aquatic (14), Woodlands (13), Flowers (12) complete at first pass; Desert and Spices remain.**
+~~~~
+
+### docs/next/plants/desert.md — 2 former lines
+
+- **Former line 455; source ## 36. Desert — full-family numerical pass (APPROVED first-pass balance); reason:** Replaced Moonjade deferred selection/priority with two exclusive approved thaw routes
+
+~~~~text
+2. **Moonjade:** 48 **uninterrupted in-game hours Freezing**, with **complete lifecycle Dormancy**, qualify for **Jadewisp** upon a later qualifying thaw/recovery event. Thaw early or without the specific recovery condition -> ordinary Moonjade resumes from retained progress. Exposure resets when Freezing ends; no bank. The Freezing clock begins only after the Plant becomes Moonjade, not during any prior Jadeheart's exposure. **Moonjade → Pearadox** is a separate alternative recovery route; the final recipes must make selection and priority clear, not always force Jadewisp.
+~~~~
+
+- **Former line 553; source ## §74 — Desert: all 13 Plant-owned Transformation recipes (APPROVED first pass, 26 October 2026); reason:** Removed obsolete Desert recipe-pass milestone
+
+~~~~text
+**Recipe design progress after this acceptance: Ingredients 6/6 (§67), Aquatic 14/14 (§69), Woodlands 13/13 (§§71–72), Flowers 12/12 (§73), Desert 13/13 (§74) complete; only Spices remains.**
+~~~~
+
+### docs/next/plants/ingredients.md — 2 former lines
+
+- **Former line 345; source ## 44. Ingredients — complete numerical pass (APPROVED first-pass balance); reason:** Replaced Ingredients future recipe table status with approved §67
+
+~~~~text
+1. **No Ingredient transformation beyond Potato's six direct outgoing paths**. In particular, neither a Potato→terminal instance nor a directly Seed-grown terminal becomes eligible for any transformation. Potato is the one species whose future Plant-owned recipe table has outgoing transformations. Keep all six accessible without intermediate Ingredient routes.
+~~~~
+
+- **Former line 406; source ## 67. Ingredients — six Potato-only Transformation recipes — APPROVED FIRST PASS; reason:** Corrected Ingredients old 'remaining families' work plan
+
+~~~~text
+**Status:** APPROVED first-pass **text only**. No Plant/Fungus/Mycelial runtime, Transformation timers or other game code has been implemented. Future Plant-owned recipe work proceeds to the remaining families, retaining physical feasibility and mutual exclusivity as first-class review checks.
+~~~~
+
+### docs/next/plants/spices.md — 2 former lines
+
+- **Former line 253; source ## 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (APPROVED first-pass profiles); reason:** Resolved speculative future Pum'king outgoing recipe status
+
+~~~~text
+**After Transformation:** Pum'king remains a Pum'king even if the qualifying sources later stop reaching it, unless a separate future Plant-owned recipe says otherwise (none is proposed). Its ordinary Leaf yield depends on the **current resolved Illumination** (Lit optimal). We are **not** imposing a new rule requiring both transformation sources to remain active throughout Ripening just to keep it productive. Any actual independent Leaf Yield fungal Effects continue to operate only if their sources remain active.
+~~~~
+
+- **Former line 270; source ## 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (APPROVED first-pass profiles); reason:** Resolved Ghost Rice open transition recipe against §76
+
+~~~~text
+**Route viability constraint:** **Ghost Rice starts out happiest in Dark but transforms into Bright-preferring Glass Apple.** The future Plant-owned recipe must allow that transition without prematurely killing Ghost Rice, then provide viable Bright habitat as the **new 0%-progress Glass Apple** develops toward its 155% Leaf peak or later Starberry Seed harvest. The Starberry route also creates a fresh Glass Apple; neither route adds an extra bloom or harvest (§58). Do not select a named fungus or event-order recipe yet.
+~~~~
+
+### docs/next/systems/influences-and-responses.md — 1 former lines
+
+- **Former line 32; source ## 60. Fungus/Plant interaction audit — approved global decisions and tracked Yield; timing details still OPEN; reason:** Removed outdated pending sibling priority from §60D without altering death tie
+
+~~~~text
+- Use the finest supported simulated timestamp rather than coarsely forcing events into whole-hour collisions. **If death and a valid Transformation nevertheless mature at exactly the same timestamp, Transformation wins.** The old Plant is replaced by a new 0%-progress Plant with fresh hazard/recipe clocks (§58). Limit a Plant to one Transformation per resolution event, so no recursive zero-time chain. Exact ordering for competing simultaneously valid *Transformation recipes* remains for the dedicated recipe pass.
+~~~~
+
+### docs/next/systems/simulation-and-time.md — 1 former lines
+
+- **Former line 20; source ## 64. Whole-garden event and update order — APPROVED; reason:** Clarified §64 equal-time uncertainty versus approved sibling exclusivity
+
+~~~~text
+**Concrete consequences already agreed:** Draining a Flooded Waterborne corridor stops its Waterborne reach from the event onward without undoing historically earned production; flooding Mycelord severs its support immediately but only starts its species-specific death countdown and gradual colony retreat; and a Flooded→Damp Aquatic Transformation can inspect the previous uninterrupted Flooded exposure even though drainage immediately removes the qualifying condition. The specific timing of simultaneous player commands, distinct competing Transformation recipes, several equal-time Mycelial fronts, and fractional numeric integration/rounding remain detailed implementation questions, **not reasons to replace the approved six-step order**.
+~~~~

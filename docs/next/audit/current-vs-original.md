@@ -96,3 +96,22 @@ This pass compared the **untouched 733,370-character design source** itself agai
 **Important limit:** Exact text presence does not establish that a historical statement should still be operative. Qualitative constraints, competing rule priorities, layout feasibility and remaining implementation parameters still require user review. No existing document or root README was edited for this audit.
 
 **Pass-5 staging navigation:** **31** `docs/next/` files, **422** local Markdown destinations (**11** heading anchors), **0** broken paths/anchors after adding the two numeric-audit files. The root README remains untouched.
+
+
+---
+
+## Editorial pass 6 — shared-system qualitative precedence (27 October 2026)
+
+The new [semantic rule precedence audit](semantic-rule-precedence.md) compares the original shared §§58–68 directly with their topical homes and reconciles conflicting earlier stages of the Transformation design. **The important distinction is between textual preservation and current authority**:
+
+- Of **3,020** substantial non-heading lines across the entire original giant design source, **3,016** are present character-for-character in the new topical pages or archival excerpts. The other **four** differ solely in relocated Markdown-link paths; normalizing those destinations yields **zero unaccounted source lines**.
+- For the shared §§58–68, **125** original substantive lines are accounted for: **103 active in their owning numbered sections**, **20 preserved as historical superseded wording**, and **two link-path adjustments**. Zero missing.
+- **23 additional former draft lines** were archived verbatim, bringing the preservation record from **227** to **250** source-labeled excerpts.
+- The earlier §58 proposal for generic recipe priority and §59 adjacency/Mycelial-on-target eligibility conflicted with §§66–70. The new current rule says **no sibling winner priority, actual emitted contact only, no target-Plant Mycelial gate, one Transformation per event and death/Transformation tie goes to Transformation**. The complete §69 Aquatic fork replaces an unassigned structural sketch. §60D, §64 and §66 now agree.
+- Outdated family milestone sentences following Flowers §73, Desert §74 and Ingredients §67 were moved to history; they now acknowledge the complete 69-route roster. **Final approved recipe table rows and all previously verified Plant/Fungus numerical table rows are unchanged**. The older pass-5 full-text recipe-section comparison is a dated snapshot; this pass deliberately corrected *prose* within those sections and preserved the earlier wording in history.
+
+**Still pending:** physical recipe-layout and event-order simulations, authoritative review of qualitative caveats and any not-yet-specified playtest numbers. No original or README edit was authorized or performed.
+
+**Pass-6 navigation result:** **32** staging files, **471** relative Markdown destinations (**13** heading fragments), **0 broken files/anchors** in the static check. Structural QA reconfirmed **102/102 final recipe table rows identical** to the frozen source and unchanged Markdown table-row counts for all six family references.
+
+**Staging repair:** The previous branch had inadvertently lost the opening of the **new** `docs/next/history/README.md`, replacing it with `undefined` before the pass-4 note. The index is reconstructed from its last complete staged version at commit `055e1dba`, and the later pass-4/pass-6 notes are retained. Its original-source links and history navigation are restored. The untouched historical source and archive are not modified by this index repair.
