@@ -12,6 +12,7 @@ import { DESERT_TRANSFORMATIONS, isDesertRecovery, desertRecoveryStatus,
   completedDesertRecovery } from './desert-transformations.js';
 import { SPICES_TRANSFORMATIONS, matchesOpposingLight, advanceSpicesSequenceHour,
   reconcileSpicesSequence, spicesSequenceStatus } from './spices-transformations.js';
+import { observeTransformation } from './grimoire.js';
 
 export { FLOWER_TRANSFORMATIONS, namedFungalContacts } from './flower-transformations.js';
 export { AQUATIC_TRANSFORMATIONS } from './aquatic-transformations.js';
@@ -109,6 +110,7 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
   const previousCultivation = previousGarden
     ? calculateCultivation(previousGarden, previousEnvironment) : null;
   const objects = { ...garden.objects };
+  let grimoire = garden.grimoire;
   for (const [key, plant] of Object.entries(garden.objects)) {
     if (plant.type !== 'plant' || !TRANSFORMATIONS[plant.species]) continue;
     const recipes = TRANSFORMATIONS[plant.species];
@@ -120,6 +122,9 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
       matchesConditions, namedFungalContacts, matchesNamedGroups);
     if (recovery) {
       objects[key] = makePlant(recovery);
+      const recipe = recipes.find(entry => entry.into === recovery);
+      grimoire = observeTransformation(grimoire, garden, key, plant.species,
+        recipe, environment, cultivation, previousGarden);
       continue;
     }
     let updated = { ...plant, transformationClocks: clocks };
@@ -149,13 +154,15 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
         : reconcileSequence(garden, key, recipe, state, environment, cultivation, former);
       if (result.complete) {
         updated = transformedPlant(plant, recipe);
+        grimoire = observeTransformation(grimoire, garden, key, plant.species,
+          recipe, environment, cultivation, previousGarden);
         break;
       }
       updated.transformationSequence = { [recipe.into]: result.state };
     }
     objects[key] = updated;
   }
-  return { ...garden, objects };
+  return { ...garden, objects, grimoire };
 }
 
 // One elapsed hour under the PRE-event Conditions. Returns a fresh Plant at

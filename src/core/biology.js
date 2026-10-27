@@ -3,8 +3,9 @@ import { calculateCultivation } from './cultivation.js';
 import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './economy.js';
 import { FUNGI, PLANTS, effectCompatibility } from './species.js';
 import { advanceMycelium, isMycelial, MYCELIAL_TUNING } from './mycelial.js';
-import { advancePlantTransformations, reconcileTransformationClocks } from './transformations.js';
+import { advancePlantTransformations, reconcileTransformationClocks, TRANSFORMATIONS } from './transformations.js';
 import { revealGerminations } from './staging.js';
+import { observePlantHour, observeTransformation, observeHazard } from './grimoire.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
@@ -109,6 +110,7 @@ export function advanceGardenTime(garden, hours = 1) {
     // established or retired ground changes organism conditions NEXT hour.
     const mycelium = advanceMycelium(current, environment);
     const objects = { ...current.objects };
+    let grimoire = current.grimoire;
     for (const [key, object] of Object.entries(current.objects)) {
       if (object.type === 'plant') {
         const profile = PLANTS[object.species];
@@ -117,6 +119,9 @@ export function advanceGardenTime(garden, hours = 1) {
         const transformation = advancePlantTransformations(current, key, environment, cultivation);
         // A completion on the same timestamp as a fatal hazard wins (§60D).
         if (transformation.into) {
+          const recipe = TRANSFORMATIONS[object.species].find(entry => entry.into === transformation.into);
+          grimoire = observeTransformation(grimoire, current, key, object.species,
+            recipe, environment, cultivation);
           objects[key] = transformation.plant;
           events.push(`${object.species} transformed into ${transformation.into} on hex ${key}.`);
           continue;
@@ -126,14 +131,19 @@ export function advanceGardenTime(garden, hours = 1) {
           ...(profile.brightDeath ? { Bright: profile.brightDeath } : {}) })
           .find(([hazard, threshold]) => exposure[hazard] >= threshold);
         if (dyingFrom) {
+          grimoire = observeHazard(grimoire, object.species, dyingFrom[0], 'death');
           delete objects[key];
           events.push(`${object.species} died on hex ${key} after ${dyingFrom[1]}h of ${dyingFrom[0]}.`);
           continue;
         }
         const rates = plantGrowthRates(object, environment.conditions[key], cultivation[key], onMycelial);
         const progress = advancePlantProgress(object.progress, profile, rates);
+        const production = accruePlantProduction(object, progress, environment.conditions[key], cultivation[key], onMycelial);
+        grimoire = observePlantHour(grimoire, current, key, object, environment.conditions[key],
+          cultivation[key], environment, progress, production);
+        if (onMycelial) grimoire = observeHazard(grimoire, object.species, 'Mycelial', 'penalty');
         objects[key] = { ...transformation.plant, ageHours: (object.ageHours || 0) + 1, exposure, progress,
-          production: accruePlantProduction(object, progress, environment.conditions[key], cultivation[key], onMycelial) };
+          production };
       } else if (object.type === 'fungus') {
         const exposure = {
           Flooded: object.species === 'Mycelord' && environment.conditions[key].Moisture === 'Flooded'
@@ -157,7 +167,7 @@ export function advanceGardenTime(garden, hours = 1) {
           sporeStock: accrueFungusSpores(object, progress, PROTOTYPE_TUNING.fungusSporeYieldAt200) };
       }
     }
-    const ticked = { ...current, objects, mycelium, clockHours: (current.clockHours || 0) + 1 };
+    const ticked = { ...current, objects, mycelium, grimoire, clockHours: (current.clockHours || 0) + 1 };
     const revealed = revealGerminations(ticked);
     events.push(...revealed.events);
     // A dying Fungus can change illumination at this exact timestamp. Catch a

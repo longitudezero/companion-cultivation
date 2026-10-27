@@ -6,6 +6,7 @@ import { TRANSFORMATIONS } from './transformations.js';
 import { isDesertRecovery } from './desert-transformations.js';
 import { ensureInventorySlots } from './inventory.js';
 import { stagePlanting } from './staging.js';
+import { migrateGrimoire } from './grimoire.js';
 
 // Keep older garden exports usable after removing Materials and Fertility.
 // The caller's original JSON is never mutated, and unknown/retired effects
@@ -181,7 +182,7 @@ export function migrateGarden(saved) {
   // Schema 4 tracks position and the player's uncommitted/committed sowing
   // separately. Old saves acquire a safe default layout, with no invented
   // staged attempts or secretly successful germinations.
-  if (saved.schemaVersion === 4) {
+  if (saved.schemaVersion >= 4) {
     for (const [key, entry] of Object.entries(saved.pending || {})) {
       if (!garden.hexes[key] || garden.objects[key] || !entry ||
         !Number.isSafeInteger(entry.quantity) || entry.quantity < 1 ||
@@ -199,5 +200,8 @@ export function migrateGarden(saved) {
     }
     garden.inventorySlots = saved.inventorySlots || {};
   }
+  // Schema 5 adds garden-owned knowledge. Pre-Grimoire snapshots can establish
+  // only that their already-living species exist—not their lost recipes.
+  garden.grimoire = migrateGrimoire(saved.schemaVersion >= 5 ? saved.grimoire : null, garden.objects);
   return ensureInventorySlots(garden);
 }

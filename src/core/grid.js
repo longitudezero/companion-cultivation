@@ -45,11 +45,14 @@ export function createGarden(columns = 9, rows = 7) {
     }
   }
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
-  return { schemaVersion: 4, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
+  const starterSeeds = { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
+    'Woodlands Base': 16, Jadeheart: 16, Thymely: 16 };
+  return { schemaVersion: 5, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
     inventorySlots: {}, staged: {}, pending: {},
-    inventory: { leaves: {}, legacyLeaves: 0, seeds: { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
-      'Woodlands Base': 16, Jadeheart: 16, Thymely: 16 }, spores: {}, trophies: { bambooSteel: 0 } } };
+    grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
+      environments: {}, fungalEffects: {}, hazards: {}, transformations: [] },
+    inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, trophies: { bambooSteel: 0 } } };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -60,6 +63,7 @@ export function resizeGarden(garden, columns, rows) {
   next.clockHours = garden.clockHours || 0;
   next.colonyNonce = garden.colonyNonce || 0;
   next.inventory = garden.inventory;
+  next.grimoire = garden.grimoire;
   next.inventorySlots = garden.inventorySlots || {};
   next.staged = Object.fromEntries(Object.entries(garden.staged || {}).filter(([key]) => next.hexes[key]));
   next.pending = Object.fromEntries(Object.entries(garden.pending || {}).filter(([key]) => next.hexes[key]));
@@ -131,7 +135,7 @@ export function removeEdgeBlocker(garden, a, b) {
 }
 
 export function isGarden(value) {
-  return [1, 2, 3, 4].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
+  return [1, 2, 3, 4, 5].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
     && value.hexes && typeof value.hexes === 'object' && value.objects && typeof value.objects === 'object'
     && value.edges && typeof value.edges === 'object';
 }
