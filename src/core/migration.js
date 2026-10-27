@@ -3,6 +3,7 @@ import { INFLUENCE_TYPES, KINDS, MODES, makeInfluence, makeSpreadInfluence } fro
 import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
 import { MYCELIAL_TUNING } from './mycelial.js';
 import { TRANSFORMATIONS } from './transformations.js';
+import { isDesertRecovery } from './desert-transformations.js';
 
 // Keep older garden exports usable after removing Materials and Fertility.
 // The caller's original JSON is never mutated, and unknown/retired effects
@@ -22,7 +23,7 @@ export function migrateGarden(saved) {
       // Older saved gardens predate Flowers. Give them the same one-time
       // provisional Base Seed access as new gardens, without replenishing
       // players who have explicitly spent their Daisydaze Seeds down to zero.
-      seeds: { Daisydaze: 16, 'Aquatic Base': 16, 'Woodlands Base': 16,
+      seeds: { Daisydaze: 16, 'Aquatic Base': 16, 'Woodlands Base': 16, Jadeheart: 16,
         ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
         .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
@@ -68,6 +69,7 @@ export function migrateGarden(saved) {
         clean.production[field] = Number.isFinite(value) && value >= 0 ? value : 0;
       }
       for (const recipe of TRANSFORMATIONS[object.species] || []) {
+        if (isDesertRecovery(recipe)) continue; // Endurance lives in exposure.Hot/Freezing.
         if (recipe.sequence) {
           const state = object.transformationSequence?.[recipe.into];
           const aquatic = recipe.sequence === 'flood-to-damp';

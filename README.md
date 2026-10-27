@@ -2,7 +2,7 @@
 
 Companion Cultivation is a small farming minigame where fungi help your herbs to... grow?
 
-**Current playable build: Prototype 08 — Woodlands.** The hex-garden now includes **39 Plants across four families, all 31 catalogued Fungi, a timed Mycelial overlay, a sowing/harvesting economy, and 45 implemented Plant-owned Transformation routes**. The approved first-pass design specifies **60 Plants and 69 routes** across six families; Desert and Spices are next. For the precise boundary between runnable code, provisional tuning and planned work, see the [implementation-status ledger](docs/implementation-status.md).
+**Current playable build: Prototype 09 — Desert.** The hex-garden now includes **50 Plants across five families, all 31 catalogued Fungi, a timed Mycelial overlay, a sowing/harvesting economy, and 58 implemented Plant-owned Transformation routes**. The approved first-pass design specifies **60 Plants and 69 routes** across six families; only Spices remains to implement. For the precise boundary between runnable code, provisional tuning and planned work, see the [implementation-status ledger](docs/implementation-status.md).
 
 **[Play the current game on GitHub Pages](https://longitudezero.github.io/companion-cultivation/)** — a mechanics-testing prototype with free placement tools, not a balanced or content-complete release.
 
@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-Use **Plant** and **Fungus** to place test organisms freely, or **Sow Seeds** and **Sow Spores** to spend inventory on germination attempts. Advance time by an hour or a day, inspect Growth, environmental hazards, fungal contacts and Transformation timers, then harvest an organism once for its accumulated Leaves, Seeds or Spores. Some species have special Seed identities or outcomes, such as Woodlands' Bamboo Steel trophy. Start with Potato, Daisydaze, Aquatic Base or Woodlands Base Seeds, or choose any implemented species from the free-placement menu.
+Use **Plant** and **Fungus** to place test organisms freely, or **Sow Seeds** and **Sow Spores** to spend inventory on germination attempts. Advance time by an hour or a day, inspect Growth, environmental hazards, fungal contacts and Transformation timers, then harvest an organism once for its accumulated Leaves, Seeds or Spores. Some species have special Seed identities or outcomes, such as Woodlands' Bamboo Steel trophy or Desert's two-Seed Mirage Rose harvest. Start with Potato, Daisydaze, Aquatic Base, Woodlands Base or Jadeheart Seeds, or choose any implemented species from the free-placement menu.
 
 The environmental workbench remains available: place configurable Sources, Hex Blockers and Edge Blockers. Sources can be **Regular** or **Anchored** (one fixed Property/Condition) and use **ordinary Propagation** or **Spread Budget Propagation**. Ordinary Airborne Sources have a finite Range; **Waterborne Sources reach every connected Flooded hex without a Range limit**, subject to Blockers. Routed emissions have a heading, shared crossing budget and **Straight Until Blocked** movement; select a route to see its arrows. Environmental Adjacency changes Conditions around Flooded, Hot, Freezing, Bright and Dark hexes. The inspector shows source and adjacency effects, with selective Blockers. The garden automatically saves to browser storage; JSON import/export is also available.
 
@@ -32,7 +32,7 @@ All simulation code lives in `src/core/`. It has no React, DOM, browser-storage,
 | `blocking.js` | Shared Hex/Edge blocker matching rules |
 | `spread.js` | Deterministic, seeded Spread Budget pathfinding and route segments |
 | `simulation.js` | Finite Airborne Range and unlimited connected-Flooded Waterborne propagation, both route types, Modifier aggregation, Anchored Conditions, and final Conditions |
-| `species.js`, `aquatic-species.js`, `woodlands-species.js` | Playable Plant profiles, 31 Fungus definitions, factory functions and recipient compatibility |
+| `species.js`, `aquatic-species.js`, `woodlands-species.js`, `desert-species.js` | Playable Plant profiles, 31 Fungus definitions, factory functions and recipient compatibility |
 | `biology.js`, `cultivation.js` | Simulated hours, growth, hazards and Fungus-to-Plant Effects with real footprints |
 | `economy.js` | Growing/harvesting Leaves, Seeds and Spores; germination, Allocation and trophy inventory |
 | `mycelial.js` | Mycelial expansion, support, overlapping sources and retreat |
@@ -51,7 +51,7 @@ const garden = cultivation.createGarden(9, 7);
 const environment = cultivation.calculateEnvironment(garden);
 ```
 
-`npm test` runs the simulation tests (124 passing at the Prototype 08 checkpoint). `npm run check` runs these tests, builds the static frontend and CommonJS bundle, then checks loading through `require()`.
+`npm test` runs the simulation tests (141 passing at the Prototype 09 checkpoint). `npm run check` runs these tests, builds the static frontend and CommonJS bundle, then checks loading through `require()`.
 
 ## Deployment
 
@@ -75,7 +75,7 @@ The GitHub Actions workflow validates and builds the project and deploys `dist/`
 - Blockers can filter by Kind or Mode; an internal edge is stored once and shared by two neighboring hexes.
 - One object can occupy a hex. Edges are separate slots.
 - Waterborne Influences do **not** modify Moisture under the current resolution order.
-- Living Plants, all 31 Fungal definitions, four of six Plant families' Transformations and the Mycelial overlay **are implemented**. Full Desert/Spices content, final fungal lifecycle tuning, overall balancing and permanent item catalogs are not.
+- Living Plants, all 31 Fungal definitions, five of six Plant families' Transformations and the Mycelial overlay **are implemented**. Spices content, final fungal lifecycle tuning, overall balancing and permanent item catalogs are not. Desert's Hot→Warm/Freezing→Cold events and dual-species Seed harvest are playable.
 - Mycelial ground is a separate, time-advanced overlay: Flooded hexes block new colonization **and ongoing source-support paths**. If flooding cuts an existing colony off from Mycelord, the unsupported contribution retreats gradually rather than disappearing instantly. Exact growth/retreat and habitat grace durations are **prototype values**.
 
 Configurable Source strengths and the provisional organism/Spore tuning are **sandbox test values**, not finalized game-item balancing. See [implementation details and provisional values](docs/implementation-status.md#differences-deliberate-placeholders-and-unresolved-checks).

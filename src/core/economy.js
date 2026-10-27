@@ -24,9 +24,12 @@ export function plantOutputRate(species, conditions, kind = 'leaf') {
   if (!profile) throw new Error(`Unknown Plant species: ${species}`);
   const moisture = (kind === 'seed' ? profile.moistureSeedOutput || profile.moistureOutput || profile.moisture
     : profile.moistureOutput || profile.moisture)[MOISTURE.indexOf(conditions.Moisture)];
-  const light = profile.lightOutput[LIGHT.indexOf(conditions.Illumination)];
+  const light = (kind === 'seed' ? profile.lightSeedOutput || profile.lightOutput : profile.lightOutput)
+    [LIGHT.indexOf(conditions.Illumination)];
   let temperature = 1;
-  if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
+  if (profile.temperature?.[conditions.Temperature]) {
+    temperature = profile.temperature[conditions.Temperature][kind === 'seed' ? 'seed' : 'leaf'];
+  } else if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
   else if (!profile.preferredTemperature.includes(conditions.Temperature)) {
     temperature = species === 'Pumpkin' && conditions.Temperature === 'Cold' ? .55 : .85;
   }
@@ -170,8 +173,21 @@ export function availableHarvest(plant, contacts = [], conditions = null) {
     leaves -= exchanged;
     seeds += exchanged * 3;
   }
+  // Mirage Rose produces two separate Seed identities in an equal natural
+  // ratio. Round each independent half down so an odd partial total cannot
+  // mint an extra Seed or favor either species. The exact odd-remainder rule
+  // is prototype rounding, not a change to the approved 1:1 design.
+  const seedStacks = profileSeedStacks(PLANTS[plant.species], seeds);
+  if (seedStacks) seeds = Object.values(seedStacks).reduce((total, amount) => total + amount, 0);
   return { leaves, seeds, allocation,
+    ...(seedStacks ? { seedStacks } : {}),
     ...(plant.species === 'Bamboozled' ? { bambooSteel: plant.progress >= 100 ? 1 : 0 } : {}) };
+}
+
+function profileSeedStacks(profile, available) {
+  if (!profile.seedDistribution) return null;
+  const each = Math.floor(available / profile.seedDistribution.length);
+  return Object.fromEntries(profile.seedDistribution.map(name => [name, each]));
 }
 
 export function harvestPlant(garden, key) {
@@ -186,11 +202,15 @@ export function harvestPlant(garden, key) {
   const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
   const seedSpecies = PLANTS[plant.species].seedSpecies === undefined
     ? plant.species : PLANTS[plant.species].seedSpecies;
+  const seeds = yieldResult.seedStacks
+    ? Object.entries(yieldResult.seedStacks).reduce((stock, [name, amount]) =>
+      ({ ...stock, [name]: count(stock[name]) + amount }), { ...inventory.seeds })
+    : seedSpecies === null ? { ...inventory.seeds } : { ...inventory.seeds,
+      [seedSpecies]: count(inventory.seeds?.[seedSpecies]) + yieldResult.seeds };
   return { ...next, inventory: { ...inventory, leaves: count(inventory.leaves) + yieldResult.leaves,
     trophies: { ...inventory.trophies,
       bambooSteel: count(inventory.trophies?.bambooSteel) + (yieldResult.bambooSteel || 0) },
-    seeds: seedSpecies === null ? { ...inventory.seeds } : { ...inventory.seeds,
-      [seedSpecies]: count(inventory.seeds?.[seedSpecies]) + yieldResult.seeds } } };
+    seeds } };
 }
 
 export function harvestFungus(garden, key) {
