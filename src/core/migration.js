@@ -1,5 +1,6 @@
 import { CONDITIONS, PROPERTIES, createGarden, distanceBetween, isGarden } from './grid.js';
 import { INFLUENCE_TYPES, KINDS, MODES, makeInfluence, makeSpreadInfluence } from './influences.js';
+import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
 
 // Keep older garden exports usable after removing Materials and Fertility.
 // The caller's original JSON is never mutated, and unknown/retired effects
@@ -8,6 +9,7 @@ export function migrateGarden(saved) {
   if (!isGarden(saved)) throw new Error('Unsupported garden file.');
   const garden = createGarden(saved.columns, saved.rows);
   garden.routeNonce = Number.isInteger(saved.routeNonce) ? saved.routeNonce : 0;
+  garden.clockHours = Number.isFinite(saved.clockHours) && saved.clockHours >= 0 ? saved.clockHours : 0;
 
   for (const [key, hex] of Object.entries(garden.hexes)) {
     const previous = saved.hexes[key];
@@ -31,6 +33,23 @@ export function migrateGarden(saved) {
 
   for (const [key, object] of Object.entries(saved.objects)) {
     if (!garden.hexes[key]) continue;
+    if (object?.type === 'plant' && PLANTS[object.species]) {
+      const clean = makePlant(object.species);
+      clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
+      clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
+      for (const hazard of ['Dry', 'Hot', 'Freezing']) {
+        clean.exposure[hazard] = Math.max(0, Number(object.exposure?.[hazard]) || 0);
+      }
+      garden.objects[key] = clean;
+      continue;
+    }
+    if (object?.type === 'fungus' && FUNGI[object.species]) {
+      const clean = makeFungus(object.species, Number.isInteger(object.heading) ? object.heading : 0);
+      clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
+      clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
+      garden.objects[key] = clean;
+      continue;
+    }
     if (object?.type === 'blocker') {
       const blocker = migrateBlocker(object);
       if (blocker) garden.objects[key] = blocker;

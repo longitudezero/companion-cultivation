@@ -9,7 +9,10 @@ export const INFLUENCE_TYPES = Object.freeze([
   { name: 'Dimming', kind: 'Luminous', property: 'Illumination', direction: -1 },
 ]);
 
-export const KINDS = Object.freeze([...new Set(INFLUENCE_TYPES.map((item) => item.kind))]);
+export const KINDS = Object.freeze([
+  ...new Set(INFLUENCE_TYPES.map((item) => item.kind)),
+  'Growth', 'Ripening', 'Leaf', 'Seed', 'Germination', 'Harvest Timing', 'Allocation', 'Mycelial',
+]);
 export const MODES = Object.freeze(['airborne', 'waterborne']);
 
 export function makeInfluence(name = 'Warming', strength = 1, range = 2, mode = 'airborne') {
