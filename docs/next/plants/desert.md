@@ -15,18 +15,13 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 **Current recipe authority (§74, APPROVED on 26 October 2026):** All **13 Desert Plant-owned Transformation recipes** are now approved first pass, with the exact named Fungus alternatives, resolved environmental conditions and exposure durations in §74. The older Ember/Rime/Shelter/Mirage terms and bracketed arrows below are illustrative historical sketches, **not final recipe assignments**. Earlier text saying these recipes are still unassigned is superseded by §74. All legacy Sand/Material references are superseded by §61.
 
 
-**Status:** The user **approved all §32 Flowers numerical first-pass values** and asked to begin **Desert**. Desert's existing network and intent in §14 are accepted. The user **approved the complete first batch of six-part Plant profiles** covering **Jadeheart, Ember Aloe, Aloemancer, and Ashen Rose**, including its proposed **36-hour uninterrupted Heat endurance** threshold and innate +30% Hot Growth / +50% Hot Leaf bonus; the next batches will cover Sandrose and the Moonjade and Cactopus branches. As in Woodlands, Aquatic and Flowers, start by defining the Plants, then propose a complete Desert numerical pass; fungi and final Plant-owned transformation recipes follow only later. Prefer bold differentiation now and gameplay-tested balancing after eventual implementation.
+**Current Desert status:** All eleven six-part profiles (§§33–35), the complete approved §36 numerical/hazard pass and the **13 exact Plant-owned routes (§74)** are first-pass design. Ember Aloe's **36h uninterrupted Hot recovery threshold** and **+30% Hot Growth/+50% Hot Leaves** remain approved intrinsic traits. The original §14 sketch and the old phase sequence belong in history; gameplay code is not yet implemented.
 
 ### Established network excerpt
 
-~~~text
-Jadeheart (Base) ──┬──> Ember Aloe ──┬──> Aloemancer ───> Mirage Rose
-                   │                └──> Ashen Rose ───> Sandrose ───> Cactopus
-                   ├──> Moonjade ──────────────────────> [Freezing branch]
-                   └──> Cactopus ──────────────────────> [Hot branch]
-~~~
+**Complete approved Desert transformation network:** All **13** routes, including Moonjade's two thaw outcomes and Cactopus/Pearadox/Mirage Rose branches, are specified in [§74 below](#74--desert-all-13-plant-owned-transformation-recipes-approved-first-pass-26-october-2026). The incomplete early graph and its bracketed branch placeholders are preserved in [history](../history/superseded-design.md).
 
-**Established puzzle:** Ember Aloe **endures sufficient Hot stress and is then recovered** to become Aloemancer; a **recovery attempt made too early** instead produces Ashen Rose. **Cooling Ember Aloe by itself does not automatically produce Ashen Rose**. The qualifying recovery Source/fungus conditions are deferred to the Plant-owned Transformation recipe pass; no fungus emits a generic Transformation Effect. The 36-hour exposure criterion below is proposed as an intrinsic Plant-specific qualification **now**, not a named fungus assignment.
+**Approved Ember Aloe recovery (§74):** It grows productively under Hot and measures continuous Hot exposure. At a qualifying **Hot → Warm** event with actual **Chillanterelle OR Rilllace** contact, **<36h** creates Ashen Rose and **≥36h** creates Aloemancer. Mere cooling or losing Hot without the contact is not a Transformation. This is a Plant-owned event predicate, not a new fungal Transformation Effect.
 
 ### Jadeheart — APPROVED first-pass six-part profile
 
@@ -90,11 +85,11 @@ To avoid defining a special exposure-based Plant but leaving its defining weakne
 
 1. **Ember Aloe qualifies for successful recovery after 36 uninterrupted in-game hours while Hot.** It continues growing and remains productive in Hot; this is **not** a fatal Heat threshold.
 2. **An eligible recovery attempt before accumulating 36 uninterrupted Hot hours produces Ashen Rose** (the undesirable branch). Merely becoming Warm/Temperate, or losing Hot without a qualifying recovery attempt, **does not** itself produce Ashen Rose.
-3. **An eligible recovery attempt after at least 36 uninterrupted Hot hours produces Aloemancer**, if the eventual additional Plant recipe conditions are met. Do not name the fungus or invent a Transformation Effect yet.
+3. **At ≥36 uninterrupted Hot hours**, a qualifying **Hot → Warm** event under **Chillanterelle OR Rilllace** contact immediately creates **Aloemancer**; precisely **36h qualifies**. The earlier 'eventual additional conditions' have been specified in §74.
 4. If Ember Aloe leaves Hot **without the qualifying Hot → Warm recovery event and required named contact**, the ordinary continuous Hot qualification clock resets; it does not bank Heat endurance. The approved §74 recipes inspect old Hot exposure and new post-transition conditions in §64's event order: **before 36h yields Ashen Rose; at or after 36h yields Aloemancer**, under their distinct precise contact requirements.
 5. **Ember Aloe Seeds directly planted** create ordinary Ember Aloe at zero Heat exposure, not an already qualified recovery Plant. **Aloemancer** is the recovered identity, not an attuned or permanently enhanced Ember Aloe.
 
-**One important caution for later recipe design:** If a recipe simply asks whether an Ember Aloe is Warm now, it would turn innocent cooling into a failure; the premature Ashen Rose outcome specifically requires **a qualifying recovery attempt**, not cooling by itself. The Phase 3 recipe must ensure that early and successful attempts can share a recognizable, deliberate trigger, with Heat exposure deciding their destination. No final source/fungus assignment is made here.
+**Approved recovery-event guardrail (§74):** Mere arrival at Warm does not cause Ashen Rose or Aloemancer. Only **Hot → Warm with Chillanterelle OR Rilllace contact** tests the just-completed uninterrupted Hot history. The two results are exclusive at the **36h** boundary and both use the same deliberate trigger. §64 supplies the snapshot/event order.
 
 ### This batch's relationship, and next work
 
@@ -105,9 +100,9 @@ To avoid defining a special exposure-based Plant but leaving its defining weakne
 | Aloemancer | Successful recovery: high Leaves and Ember Aloe supply | Ember Aloe |
 | Ashen Rose | Premature attempted recovery: poor harvest, route to Sandrose | Jadeheart |
 
-The **36-hour Heat endurance**, **Ember Aloe innate +30% Hot Growth/+50% Hot Leaves**, and **Aloemancer/Ashen Rose Seed identities** are deliberate first-pass proposals now, **not left open** merely because full numeric balance will follow. Their exact full harvest yields, germination rates, rate/production compatibility multipliers, and other continuous hazard thresholds will be proposed in the complete Desert numerical pass. Do not assign fungus identities, final Transformation recipes, or code.
+**Accepted first-pass balance:** The **36h Heat endurance**, **+30% Hot Growth/+50% Hot Leaves** for Ember Aloe, Aloemancer/Ashen Rose Seed identities and §36 full yields/germination/compatibility/hazard values are approved. The deliberate Hot → Warm route contacts and outcomes are in §74; no fungus emits a Transformation Effect.
 
-**Approval status:** The user **APPROVED** all four profiles and their concrete first-pass trait/exposure decisions. The next batch (§34) covers **Moonjade, Jadewisp, Pearadox and Sandrose**. Later complete the Cactopus/rare-endpoint route and the whole-family numeric pass.
+**Current approval status:** All four §33 Desert profiles are approved, together with §34–35 remaining species, §36 full numeric pass and **all 13 §74 named-contact routes**. Further numerical tuning is for tester playtesting; biology runtime is not implemented.
 
 ---
 

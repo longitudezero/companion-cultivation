@@ -46,7 +46,12 @@ Do not mark the new design authoritative or replace existing documents until the
 - Six family files: **unchanged total Markdown table-row counts** (see [comparison table](current-vs-original.md#family-table-comparison)).
 - Named Fungi: **31** present; obsolete Waterborne 3-hop claims corrected to §56's connected-network rule.
 - Duplicate §60/§65 full text removed only from secondary homes after proving the authoritative copies remained; §68 now has one normative definition.
-- **119 earlier excerpts** preserved in [historical decisions](../history/superseded-design.md) with section provenance.
-- Relative Markdown references: **291 checked**, **0 missing file targets, 0 broken heading anchors** in static validation.
+- **141 earlier excerpts** preserved in [historical decisions](../history/superseded-design.md) with section provenance.
+- Relative Markdown references: **296 checked**, **0 missing file targets, 0 broken heading anchors** in static validation.
 
 **Still open:** independent paragraph-level human review, verifying every numeric fungal field, and spatial/runtime feasibility of the approved recipes. **Do not replace the old documentation or README.**
+
+
+### Additional completed-profile cleanup
+
+A further status/diagram sweep moved the early incomplete Flowers and Desert transformation drawings into history; the final §73/§74 recipe tables remain unchanged. It also updated completed phase wording in Woodlands, Desert, Spices and Ingredients. The archived excerpt count and relative-link count above include this sweep. Remaining profile-by-profile editorial review is still necessary.

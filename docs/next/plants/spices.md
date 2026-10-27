@@ -131,7 +131,7 @@ Thymely ──> Moonrice ─┬──> Thymekeeper [produces Sunrice Seeds]
 Thymely ──> Shadow Onion ──> Dillusion ──────────────> Pum'king
 ~~~
 
-**No new routes:** Starberry and Ghost Rice remain the **two origins for Glass Apple**; Sunrice and Dillusion remain the **two origins for Pum'king**. Thymekeeper **is a Sunrice Seed supplier**, not an additional new transformation edge into Sunrice. The names **Glimmer, Veil, Gloam, and Prism** from §15 still represent **historical illustrative fungus roles, not finalized fungi**. Their Source strengths, ranges, modes, and actual recipes are deferred.
+**Approved topology (§76):** Glass Apple has origins **Starberry and Ghost Rice**, while Pum'king has origins **Sunrice and Dillusion**. Thymekeeper supplies **Sunrice Seeds**, not an extra arrow. The approved recipes name actual 31-roster Fungi and precise Source/contact/exposure conditions. The old §15 Glimmer/Veil/Gloam/Prism labels are archived placeholders only.
 
 ### Starberry — APPROVED first-pass six-part Plant profile
 
@@ -176,7 +176,7 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 | **Farming purpose** | **High-efficiency Dark Leaf farming**, valuable even if no further transformation is attempted; second route to **Glass Apple**, which will eventually require more sophisticated lighting conditions. Dark Ghost Rice and Dark Shadow Onion are allowed to coexist as archetypes: **Ghost Rice has higher Leaves and Moonrice Seeds; Shadow Onion is easy and self-Seeding**. |
 | **Effect compatibility** | **Very strong Leaf Yield response when Dark**, ordinary-to-good Harvest Timing Shift, moderately strong Harvest Window widening for its narrower peak, and weak-to-ordinary Seed Yield response affecting **Moonrice Seeds**. Darkening environmental Influences remain globally consistent, and Glow/Light emissions never reverse their direct sign specifically for Ghost Rice. |
 
-**Spatial feasibility safeguard for later recipes:** Ghost Rice's **Glass Apple** route has historically involved moving toward **Lit**. The Plant must **survive a controllable transition from Dark to Lit for sufficient time** to complete a real transformation; the severe Lit production penalty is acceptable, but an immediate death or forced reset would break its path. The exact fungus combination and exposure duration are deferred.
+**Ghost Rice → Glass Apple (§76):** Prepare **Damp + Temperate/Cold + Dark** with **Gloamclock OR Duskleaf for 12 uninterrupted hours**; after leaving Dark, reach resolved **Lit within 8 hours**, maintaining Damp/nonextreme Temperature, with **Prismorel OR Lanterncap contact at completion**. Dim may be traversed. Failure restarts Dark preparation; the transformed Glass Apple is fresh 0% and may then be farmed in Bright. Ghost Rice's weak-but-viable Lit output is a deliberate route tension.
 
 ### Dillusion — APPROVED first-pass six-part Plant profile
 
@@ -337,7 +337,7 @@ These duration values describe a species from **0%**, before fungal rate Effects
 - **Moonrice's 20 own Seeds** maintain Dim-area planting; **Thymekeeper's 28 Sunrice Seeds** instead fund Bright-field Sunrice and Starberry cultivation from a Dim area.
 - **Pum'king's 46 Leaves** are a single broad premium net-**Lit** peak and **zero Seeds at every stage**; its transformation puzzle may require opposing environmental Source influences reaching the same hex while resolved Illumination is Lit.
 - **Glass Apple's 58 Leaves** at a Bright 155% peak are a large late-game reward; its **24 Starberry Seeds** at 200% are a distinct, equally important reproductive improvement, permitting **Starberry to be grown from Starberry Seeds** even though Starberry itself yields Sunrice Seeds.
-- No source-origin memory for the two Pum'king routes or two Glass Apple routes. Exact final Transformation requirements are deferred; every Transformation creates a new 0%-progress Plant (§58), without stage-gated eligibility (§59).
+- Both Pum'king routes and both Glass Apple routes produce the **same fresh 0%-Growth destination**, without origin memory (§58). Their **exact approved requirements are in §76**, including opposite-sign environmental emission overlap for Pum'king and the timed Dark→Lit Ghost Rice route. No Growth/Ripening percentage gate exists (§59).
 
 ### B. Germination and actual Seed availability
 

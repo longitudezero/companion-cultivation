@@ -31,7 +31,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 ### Bamboom — APPROVED first-pass profile
 
-**Existing established role that must be preserved:** Bamboom is a strong producer of **Woodlands Base Plant Seeds**. The sequence **Bamboom → Bamboozeling → Bamboozled** is confirmed; it is not a reason to assign fungi or specific transformation timers during Phase 1. The earlier ambiguity with a possible name "Bamboozle" remains separate.
+**Approved Bamboom route context:** Bamboom remains a strong producer of **Woodlands Base Seeds**, and its confirmed **Bamboom → Bamboozeling → Bamboozled** chain is fully specified in §71: **Damp/Warm and Tickbolete OR Emberbell**, for **24h** and **16h** on the successive precursor Plants. Transformed instances restart at 0%.
 
 | Category | Approved first-pass profile direction |
 | --- | --- |
@@ -58,7 +58,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Farming purpose** | **Salvageable warning stage** in a risky productive chain. Gives the player a reason to harvest before further unwanted transformation; inferior output is an intentional consequence, not a new premium crop. |
 | **Effect compatibility** | Normal direction-consistent responses to catalogue Growth, Ripening, Leaf, Seed, and germination Effects. **No inherited exceptional Seed Yield bonus from Bamboom**; effects may improve harvest but do not by themselves reverse the innate inferior role or create a special Seed identity. |
 
-**Open:** Whether modestly slower Ripening is the best gameplay contrast with Bamboom; precise deterioration in yield and exposure thresholds; if any Seed identity is later changed, make it explicit. The target of the next transformation is confirmed; its recipe remains deferred.
+**Playtest questions:** Bamboozeling's slower Ripening, decline in output, Seed salvage and hazards can be tuned against Bamboom's approved numeric values (§§23–24). Its outgoing **Damp/Warm + Tickbolete OR Emberbell, 16h** recipe is fixed first-pass (§71); no named-contact question remains open.
 
 ### Bamboozled — APPROVED first-pass profile
 
@@ -75,10 +75,10 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Open:** Trophy harvesting eligibility and how long a Bamboozled instance can survive in adverse conditions. Its core "no Leaves, no Seeds, Bamboo Steel trophy" identity is **existing agreed design**, not a new proposal. Avoid introducing fungally induced exotic bonus production here merely to rescue a purposely bad outcome.
 
-**Paired design intent:** Bamboom remains a desirable repeatable **Base Seed** crop → Bamboozeling is an inferior but usable **last-chance crop** → Bamboozled yields **no normal farming output**, only the non-economic trophy. Their transitions and exposure timing must remain a challenge for the later transformation-recipe/fungal passes, **without changing the six-part Plant profiles just to accommodate a specific fungus**.
+**Approved Bamboo role contrast:** Bamboom produces valuable Base Seeds; Bamboozeling is an inferior but harvestable last-chance crop; Bamboozled supplies **one Bamboo Steel trophy at ≥100%** and **zero ordinary Leaves/Seeds**. Exact transformations and durations are in §71; ordinary harvest eligibility and stage reset remain in §§23–24,58.
 
 
-**Approval update:** The user accepted the paired **Bamboozeling** and **Bamboozled** first-pass profiles as proposed. Preserve the distinction between inferior-but-harvestable Bamboozeling and the zero-Leaves/zero-Seeds Bamboo Steel trophy endpoint Bamboozled. Exact numbers and transformation recipes remain later work.
+**Current Bamboo approval:** Bamboozeling/Bamboozled profiles, salvage/yield differences, exact stage/Seed numbers (§23–24), and their named contact + time recipes (§71) are approved first-pass. Bamboozled's trophy is not a normal fungal harvest output. Real balance may change after tests.
 
 ### Tanglethorn — APPROVED first-pass profile
 
@@ -97,7 +97,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 ### Mistlefoe — APPROVED first-pass profile
 
-**Existing role:** A desirable Plant in its own right and the strategic pivot from the Tanglethorn line into **Mandrabra**. In later phase 3, **removing an otherwise beneficial fungus** is necessary for the desired Mistlefoe → Mandrabra outcome; retaining conflicting qualifying fungi instead leads to **Mistlewoe**. This is **a Plant-owned recipe condition**, not a transformation-emitting fungus Effect. Do not assign named fungi yet.
+**Mistlefoe's approved fork (§71):** Mistlefoe is a productive Tanglethorn-line pivot. Under **Damp/Dim**, simultaneous contact from **Mistruffle AND (Fogdial OR Veilcap)** starts preparation. Keeping all contacts for **20h** creates Mistlewoe; **removing Mistruffle after at least 12h but strictly before 20h**, while preserving other requirements, creates Mandrabra at loss of contact. The fork uses actual emitted reach; no generic Transformation Effect exists.
 
 | Category | Approved first-pass profile direction |
 | --- | --- |
@@ -157,7 +157,7 @@ The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe
 
 ### Mandrabra — APPROVED first-pass profile
 
-**Established network position:** The Woodlands Base **and Mistlefoe** can lead to **Mandrabra**, which can transform either **into Mandrakadabra** or **directly into Mandrakazam**. These are confirmed edges; named fungal conditions remain later work.
+**Approved junction:** Both Woodlands Base and Mistlefoe can reach Mandrabra. Its distinct outgoing recipes are **Damp/Bright + Rushroom OR Siltgill for 12h → Mandrakadabra**, versus **Damp/Temperate/Dim/no Mycelial + Hushroom OR Gloamclock for 24h → Mandrakazam** (§§71–72). Both yield a fresh Plant at 0% and are mutually exclusive by Bright versus Dim.
 
 | Category | Approved first-pass profile direction |
 | --- | --- |

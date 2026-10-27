@@ -141,7 +141,7 @@ Potato (the ONE transforming Base)
 | **Farming purpose** | **Good dependable mid-late non-Seed output with a reasonable window**, more patient and higher maximum than early Carrot, without Pumpkin's larger late peak. A repeatable and recognizable kitchen ingredient worth cultivating after its first Base transformation. |
 | **Effect compatibility** | **Good Ripening acceleration and ordinary-to-strong Leaf Yield** response, **moderately enhanced Harvest Window adjustment** despite an already forgiving natural interval, and normal Seed Yield/Germination. Time-based Leaf production is possible **only if a fungus actually emits it while Apple is making positive progress in the emitter's window**; no intrinsic hourly bonus or unneeded new Effect. |
 
-**Concrete first-pass curve:** a single peak centered near **150%**, productive **135–175%**; exact quantity and phase durations are deferred to the complete Ingredients numerical pass. The **Apple Seed species identity is Apple**, not Potato or another Ingredient.
+**Approved Apple harvest (§44):** Its natural Leaf curve peaks near **150%**, with the productive interval roughly **135–175%**; complete numerical height, durations, Seed amounts and germination chance are in the approved §44 table. Its produced Seed identity is **Apple** (never Potato or a different Ingredient).
 
 ### Pumpkin — APPROVED first-pass six-part terminal profile
 
@@ -191,7 +191,7 @@ Potato (the ONE transforming Base)
 
 ## 44. Ingredients — complete numerical pass (APPROVED first-pass balance)
 
-**Status:** The user **APPROVED every Ingredients six-part profile (§§42–43)**—Potato, Rice, Carrot, Onion, Apple, Pumpkin, Strawberry—and requested the **full numerical pass**. This complete first-pass balance of all seven species was **APPROVED by the user**, including stage durations, non-Seed/Seed outputs, Seed chances, core/advanced Effect compatibility, environmental multipliers and hazard timers. The **one-Potato-Base star-shaped Transformation graph is already APPROVED**: Potato alone transforms directly into all six terminals, no other Ingredient ever transforms. Every Ingredient produces **its OWN Seeds**, initially **only Potato Seeds are available**, and a direct Seed-grown terminal crop still cannot transform. Keep the original standard Growth/Ripening, one consuming harvest, per-Seed additive germination and ordinary environmental/fungal Effects; **§58 supersedes the old progress-preservation assumption**. All §44 numeric values are **APPROVED as first-pass balance**, subject to later real tester playtesting and possible revision. **No fungus assignments, named recipes, new production system, or code implementation.**
+**Current Ingredients status:** All seven profiles, the complete §44 numeric values, the Potato-only star transformation graph and all six **§67 generic-emission recipes** are approved first-pass. Every Ingredient naturally produces **its own Seeds**, but initially only Potato Seeds are unlocked. A Seed-grown terminal Ingredient cannot Transform. Fungal roster now has 31 approved species; no Plant/Fungus biology game code is implemented.
 
 ### A. Natural lifecycle, harvest shape and own-Seed identity
 

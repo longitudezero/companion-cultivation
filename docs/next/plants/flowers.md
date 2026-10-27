@@ -25,13 +25,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 - **Time-based Production is NOT automatically present** merely because a Plant has a narrow late harvest window. It applies only while qualifying fungus Effects are active and lifecycle progress is genuinely advancing within that Effect's specified window, never after 200% or during full stall.
 - Other established family edges remain intact: **Daisydaze → Charmomile, Lavendream, Poppycock**; **Charmomile → Daisyspell or Marigloom**; **Daisyspell → Orchidemon**; **Marigloom → Rosewraith**; and later alternate Orchidemon and Rosewraith routes. The old Fungus A/B/C/D labels in §13 are **superseded placeholders**, not assignments.
 
-~~~text
-Daisydaze (Base)
- ├─→ Charmomile ─┬─→ Daisyspell ──→ Orchidemon
- │              └─→ Marigloom ───→ Rosewraith
- ├─→ Lavendream ────────────────→ [later batch]
- └─→ Poppycock ─────────────────→ [later batch]
-~~~
+**Approved full Flower network and all 12 exact first-pass recipes are in §73.** This early partial drawing (with unfinished Lavendream and Poppycock branches) has been moved to [historical design](../history/superseded-design.md).
 
 ### Daisydaze — APPROVED first-pass profile
 
@@ -186,8 +180,8 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 - **Dream Poppy**: **180% late Leaf peak** and **Poppycock Seeds**, two legitimate Transformation origins and no origin-specific trait, same single harvest.
 - **Marigloom distinction:** The approved profile has **170%**, *narrow 160–177%* peak, exceptionally slow Ripening and very strong future time-based Leaf compatibility; Dream Poppy has **180%**, broader **165–190%** and a modestly slow Ripening stage.
 - **Rosewraith distinction:** Multiple *intrinsic* natural Leaf peaks, to be specified in the final Flowers batch; none of the four Plants here acquires a second peak from fungus.
-- Exact total days, peak yields, Seed counts, chance percentages, effect compatibility multipliers, and specific continuous environmental exposure hours will be proposed during the complete Flowers numerical pass, as for earlier families. **The identities and peak positions above are concrete proposals**, not missing decisions; do not choose fungus identities or transformation recipes now.
-- These four profiles are **APPROVED first-pass designs**. The remaining two Flowers are **Rosewraith and Orchidemon**, then the whole-family numeric pass.
+- **Current numeric source:** All ten Flowers species' exact first-pass stage durations, peak yields, Seed quantities/chances, compatibility and hazards are approved in **§32**. The full **12-route** named-contact graph and durations are approved in **§73**. The early approximate peak identities are still informative; no fungus creates an extra bloom.
+- **Approval:** This four-species batch is approved first-pass, as are Rosewraith and Orchidemon (§31), the complete §32 numbers and all §73 named recipes. Remaining work is biological implementation and tester balance.
 
 ---
 
@@ -196,7 +190,7 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 **Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
 
 
-**Status:** The user explicitly **approved** §30's Lavendream, Lavendread, Poppycock and Dream Poppy profiles. The user **approved the final Flowers two-Plant first-pass batch**, covering **Rosewraith** and **Orchidemon**, without further changes. Both have **two incoming transformation routes** in the established family graph. This pass defines their own six Plant characteristics and distinctive natural harvest curves. Their final lifecycle times, peak heights, Seed quantities, germination chances, fungal Effect compatibility multipliers and hazard thresholds belong to the **family-wide numerical pass after this batch is reviewed**. No fungus identities, old A/B/C/D assignments, or transformation recipes are locked.
+**Current Flowers status:** Lavendream, Lavendread, Poppycock, Dream Poppy, Rosewraith and Orchidemon profiles are approved together with earlier Daisydaze/Charmomile/Daisyspell/Marigloom. §32 fixes first-pass times, yields, Seeds, compatibility and hazards; §73 fixes all **12 named-contact Transformation recipes**, including both alternate entries into Rosewraith/Orchidemon. Only playtest balance and code implementation remain future work.
 
 ### Established last-stage graph connections
 

@@ -1376,7 +1376,7 @@ The illumination directions above are grounded in the long-standing accepted §1
 
 ## Superseded wording relocated from approved first-pass profiles and interaction audits (27 October 2026)
 
-**Preservation record:** The following excerpts are taken from the first staged copy of the original design sections, except where explicitly noted as a staging wrapper. They are preserved because their *phase status, named-contact guesses, old numeric propagation caps, proposed hazards, or deferred decisions* were superseded by later approvals. Some lines also contained valid data; those valid numbers and exceptions are retained in the linked active topic file. No original GitHub documents were altered.
+**Preservation record:** The following excerpts are taken from the first staged copy of the original design sections, except where explicitly noted as a staging wrapper. They are preserved because their *phase status, named-contact guesses, old numeric propagation caps, incomplete network drawings, proposed hazards, or deferred decisions* were superseded by later approvals. Some lines also contained valid data; those valid numbers and exceptions are retained in the linked active topic file. No original GitHub documents were altered.
 
 ### 22. Woodlands — Plant-by-Plant profiles (phase 1) — woodlands.md
 
@@ -1458,6 +1458,42 @@ Earlier wording from [docs/next/plants/woodlands.md](../plants/woodlands.md) (or
 
 ~~~~text
 **Established role:** Bamboozeling is the **inferior-but-still-harvestable intermediate** in the confirmed **Bamboom → Bamboozeling → Bamboozled** transformation route. Sustained qualifying conditions make it important to act within a harvest window; the actual fungal identities and transformation recipes will be designed in Phase 3.
+~~~~
+
+- **Reason:** Removed Phase 1 no-recipes clause (first-staging line 34)
+
+~~~~text
+**Existing established role that must be preserved:** Bamboom is a strong producer of **Woodlands Base Plant Seeds**. The sequence **Bamboom → Bamboozeling → Bamboozled** is confirmed; it is not a reason to assign fungi or specific transformation timers during Phase 1. The earlier ambiguity with a possible name "Bamboozle" remains separate.
+~~~~
+
+- **Reason:** Separated real balancing questions from completed route assignment (first-staging line 61)
+
+~~~~text
+**Open:** Whether modestly slower Ripening is the best gameplay contrast with Bamboom; precise deterioration in yield and exposure thresholds; if any Seed identity is later changed, make it explicit. The target of the next transformation is confirmed; its recipe remains deferred.
+~~~~
+
+- **Reason:** Kept trade-off and trophy; replaced early open timing (first-staging line 78)
+
+~~~~text
+**Paired design intent:** Bamboom remains a desirable repeatable **Base Seed** crop → Bamboozeling is an inferior but usable **last-chance crop** → Bamboozled yields **no normal farming output**, only the non-economic trophy. Their transitions and exposure timing must remain a challenge for the later transformation-recipe/fungal passes, **without changing the six-part Plant profiles just to accommodate a specific fungus**.
+~~~~
+
+- **Reason:** Removed earlier numerical/recipe 'to be set' status (first-staging line 81)
+
+~~~~text
+**Approval update:** The user accepted the paired **Bamboozeling** and **Bamboozled** first-pass profiles as proposed. Preserve the distinction between inferior-but-harvestable Bamboozeling and the zero-Leaves/zero-Seeds Bamboo Steel trophy endpoint Bamboozled. Exact numbers and transformation recipes remain later work.
+~~~~
+
+- **Reason:** Replaced phase-3 future fungus placeholder with precise approved transition (first-staging line 100)
+
+~~~~text
+**Existing role:** A desirable Plant in its own right and the strategic pivot from the Tanglethorn line into **Mandrabra**. In later phase 3, **removing an otherwise beneficial fungus** is necessary for the desired Mistlefoe → Mandrabra outcome; retaining conflicting qualifying fungi instead leads to **Mistlewoe**. This is **a Plant-owned recipe condition**, not a transformation-emitting fungus Effect. Do not assign named fungi yet.
+~~~~
+
+- **Reason:** Replaced unassigned Mandrabra fungal conditions (first-staging line 160)
+
+~~~~text
+**Established network position:** The Woodlands Base **and Mistlefoe** can lead to **Mandrabra**, which can transform either **into Mandrakadabra** or **directly into Mandrakazam**. These are confirmed edges; named fungal conditions remain later work.
 ~~~~
 
 ### 23. Woodlands full-family numerical pass — approved first-pass balance — woodlands.md
@@ -1600,6 +1636,18 @@ Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original
 - **Approval:** This second batch is **APPROVED as first-pass design** by the user. The final Spices batch (§39) covers **Pum'king and Glass Apple**; no game code or fungus identities were assigned.
 ~~~~
 
+- **Reason:** Removed stale 'actual recipes deferred' claim (first-staging line 134)
+
+~~~~text
+**No new routes:** Starberry and Ghost Rice remain the **two origins for Glass Apple**; Sunrice and Dillusion remain the **two origins for Pum'king**. Thymekeeper **is a Sunrice Seed supplier**, not an additional new transformation edge into Sunrice. The names **Glimmer, Veil, Gloam, and Prism** from §15 still represent **historical illustrative fungus roles, not finalized fungi**. Their Source strengths, ranges, modes, and actual recipes are deferred.
+~~~~
+
+- **Reason:** Replaced indefinite light engineering with approved two-phase sequence (first-staging line 179)
+
+~~~~text
+**Spatial feasibility safeguard for later recipes:** Ghost Rice's **Glass Apple** route has historically involved moving toward **Lit**. The Plant must **survive a controllable transition from Dark to Lit for sufficient time** to complete a real transformation; the severe Lit production penalty is acceptable, but an immediate death or forced reset would break its path. The exact fungus combination and exposure duration are deferred.
+~~~~
+
 ### 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (APPROVED first-pass profiles) — spices.md
 
 Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original source section or first-pass staging preface):
@@ -1654,6 +1702,12 @@ Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original
 
 ~~~~text
 **Species use the usual resolved conditions:** Moisture **Dry / Damp / Flooded**, Temperature **Freezing / Cold / Temperate / Warm / Hot**, and the independent **Mycelial material overlay**. This pass does not add a mandatory Sand/Clay/Dirt/Fertility interaction, as those environmental Properties remain under review. A fungus adjusting Temperature, Moisture or Illumination affects the **same resolved environment** regardless of what Plant is there; Plants respond differently without changing emission rules.
+~~~~
+
+- **Reason:** Removed 'exact requirements deferred' claim (first-staging line 340)
+
+~~~~text
+- No source-origin memory for the two Pum'king routes or two Glass Apple routes. Exact final Transformation requirements are deferred; every Transformation creates a new 0%-progress Plant (§58), without stage-gated eligibility (§59).
 ~~~~
 
 ### 53. Fungi — expanded alternatives and missing-Effect batch: six NEW species (APPROVED first-pass bundles) — profiles-alternatives.md
@@ -2028,6 +2082,19 @@ Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (origin
 **Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch was **approved by the user**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
 ~~~~
 
+- **Reason:** Removed obsolete partial tree with [later batch] placeholders; exact final edges already in §73 (first-staging line 28)
+
+~~~~text
+~~~text
+Daisydaze (Base)
+ ├─→ Charmomile ─┬─→ Daisyspell ──→ Orchidemon
+ │              └─→ Marigloom ───→ Rosewraith
+ ├─→ Lavendream ────────────────→ [later batch]
+ └─→ Poppycock ─────────────────→ [later batch]
+~~~
+
+~~~~
+
 ### 32. Flowers — full-family numerical pass (APPROVED first-pass balance) — flowers.md
 
 Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (original source section or first-pass staging preface):
@@ -2122,6 +2189,12 @@ Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md)
 **Approval status:** The user **APPROVED all seven Ingredients first-pass profiles and the Potato-only star transformation network**, including Apple, Pumpkin and Strawberry's approximate natural peaks, environments and compatibility roles. **§44 is the complete Ingredients numerical pass PROPOSED for review**. Tester playtesting remains planned after eventual implementation. No fungi, final recipes, or game code changed.
 ~~~~
 
+- **Reason:** Removed numeric pass still deferred (first-staging line 144)
+
+~~~~text
+**Concrete first-pass curve:** a single peak centered near **150%**, productive **135–175%**; exact quantity and phase durations are deferred to the complete Ingredients numerical pass. The **Apple Seed species identity is Apple**, not Potato or another Ingredient.
+~~~~
+
 ### 44. Ingredients — complete numerical pass (APPROVED first-pass balance) — ingredients.md
 
 Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md) (original source section or first-pass staging preface):
@@ -2130,6 +2203,12 @@ Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md)
 
 ~~~~text
 **Approval status:** All seven Ingredients six-part Plant profiles (§§42–43) and the star-shaped Potato-only transformation architecture (§41) are **APPROVED**. The full lifecycle, Leaves/Seeds, per-Seed germination, core/advanced fungal Effect compatibilities, Moisture/Illumination/Temperature multipliers, and continuous lethal clocks in **§44 are APPROVED FIRST-PASS BALANCE**. Plant-first profiles and numerical balancing for all six Plant Families are now complete; §45 starts fungal design. No fungi or final recipes are approved yet.
+~~~~
+
+- **Reason:** Removed contradiction claiming no fungal assignments/recipes (first-staging line 194)
+
+~~~~text
+**Status:** The user **APPROVED every Ingredients six-part profile (§§42–43)**—Potato, Rice, Carrot, Onion, Apple, Pumpkin, Strawberry—and requested the **full numerical pass**. This complete first-pass balance of all seven species was **APPROVED by the user**, including stage durations, non-Seed/Seed outputs, Seed chances, core/advanced Effect compatibility, environmental multipliers and hazard timers. The **one-Potato-Base star-shaped Transformation graph is already APPROVED**: Potato alone transforms directly into all six terminals, no other Ingredient ever transforms. Every Ingredient produces **its OWN Seeds**, initially **only Potato Seeds are available**, and a direct Seed-grown terminal crop still cannot transform. Keep the original standard Growth/Ripening, one consuming harvest, per-Seed additive germination and ordinary environmental/fungal Effects; **§58 supersedes the old progress-preservation assumption**. All §44 numeric values are **APPROVED as first-pass balance**, subject to later real tester playtesting and possible revision. **No fungus assignments, named recipes, new production system, or code implementation.**
 ~~~~
 
 ### 66. Each Plant's alternative Transformation recipes must be mutually exclusive — APPROVED DESIGN REQUIREMENT — transformations.md
@@ -2162,6 +2241,54 @@ Earlier wording from [docs/next/plants/desert.md](../plants/desert.md) (original
 
 ~~~~text
 4. If Hot is broken before a recovery attempt, the ordinary continuous-exposure clock **resets**; no indefinitely stored Heat-endurance bank. The later recipe pass must specify the exact order of detecting an attempt and the transition out of Hot, so both success and premature failure are actually achievable and unambiguous.
+~~~~
+
+- **Reason:** Removed early first-batch work sequence (first-staging line 18)
+
+~~~~text
+**Status:** The user **approved all §32 Flowers numerical first-pass values** and asked to begin **Desert**. Desert's existing network and intent in §14 are accepted. The user **approved the complete first batch of six-part Plant profiles** covering **Jadeheart, Ember Aloe, Aloemancer, and Ashen Rose**, including its proposed **36-hour uninterrupted Heat endurance** threshold and innate +30% Hot Growth / +50% Hot Leaf bonus; the next batches will cover Sandrose and the Moonjade and Cactopus branches. As in Woodlands, Aquatic and Flowers, start by defining the Plants, then propose a complete Desert numerical pass; fungi and final Plant-owned transformation recipes follow only later. Prefer bold differentiation now and gameplay-tested balancing after eventual implementation.
+~~~~
+
+- **Reason:** Relocated early partial Desert graph with [Freezing/Hot branch] placeholders (first-staging line 22)
+
+~~~~text
+~~~text
+Jadeheart (Base) ──┬──> Ember Aloe ──┬──> Aloemancer ───> Mirage Rose
+                   │                └──> Ashen Rose ───> Sandrose ───> Cactopus
+                   ├──> Moonjade ──────────────────────> [Freezing branch]
+                   └──> Cactopus ──────────────────────> [Hot branch]
+~~~
+
+~~~~
+
+- **Reason:** Removed deferred named contact from established recovery (first-staging line 24)
+
+~~~~text
+**Established puzzle:** Ember Aloe **endures sufficient Hot stress and is then recovered** to become Aloemancer; a **recovery attempt made too early** instead produces Ashen Rose. **Cooling Ember Aloe by itself does not automatically produce Ashen Rose**. The qualifying recovery Source/fungus conditions are deferred to the Plant-owned Transformation recipe pass; no fungus emits a generic Transformation Effect. The 36-hour exposure criterion below is proposed as an intrinsic Plant-specific qualification **now**, not a named fungus assignment.
+~~~~
+
+- **Reason:** Replaced old 'do not name fungus' sentence (first-staging line 88)
+
+~~~~text
+3. **An eligible recovery attempt after at least 36 uninterrupted Hot hours produces Aloemancer**, if the eventual additional Plant recipe conditions are met. Do not name the fungus or invent a Transformation Effect yet.
+~~~~
+
+- **Reason:** Replaced hypothetical later recipe warning with final event semantics (first-staging line 92)
+
+~~~~text
+**One important caution for later recipe design:** If a recipe simply asks whether an Ember Aloe is Warm now, it would turn innocent cooling into a failure; the premature Ashen Rose outcome specifically requires **a qualifying recovery attempt**, not cooling by itself. The Phase 3 recipe must ensure that early and successful attempts can share a recognizable, deliberate trigger, with Heat exposure deciding their destination. No final source/fungus assignment is made here.
+~~~~
+
+- **Reason:** Removed obsolete numeric-pass and fungal-identity deferrals (first-staging line 103)
+
+~~~~text
+The **36-hour Heat endurance**, **Ember Aloe innate +30% Hot Growth/+50% Hot Leaves**, and **Aloemancer/Ashen Rose Seed identities** are deliberate first-pass proposals now, **not left open** merely because full numeric balance will follow. Their exact full harvest yields, germination rates, rate/production compatibility multipliers, and other continuous hazard thresholds will be proposed in the complete Desert numerical pass. Do not assign fungus identities, final Transformation recipes, or code.
+~~~~
+
+- **Reason:** Removed obsolete next-batch instructions (first-staging line 105)
+
+~~~~text
+**Approval status:** The user **APPROVED** all four profiles and their concrete first-pass trait/exposure decisions. The next batch (§34) covers **Moonjade, Jadewisp, Pearadox and Sandrose**. Later complete the Cactopus/rare-endpoint route and the whole-family numeric pass.
 ~~~~
 
 ### 50. Fungi — Echomorel, Wakemorel, Hushroom, Sim'mushro'dim (APPROVED first-pass bundles) — profiles-foundation.md
@@ -2238,5 +2365,31 @@ Earlier wording from [docs/next/systems/seeds-spores-and-harvesting.md](../syste
 
 ~~~~text
 5. Earlier **Waterborne Range 3** cultivation footprints (Tidegill, Sunspore, Rilllace, Brookrill) are **superseded by unlimited connected-Flooded reach**. Their separate Airborne environmental emissions retain their own listed Ranges. Non-Waterborne alternatives such as Gloamclock and Goldgill remain useful on non-Flooded fields despite their small local Airborne Ranges. Historical Range 3 mentions in earlier species profiles describe the older first-pass drafts, not the current rule.
+~~~~
+
+### 30. Flowers — Lavendream / Lavendread / Poppycock / Dream Poppy (APPROVED first-pass profiles) — flowers.md
+
+Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed completed numerical/recipe next steps (first-staging line 183)
+
+~~~~text
+- Exact total days, peak yields, Seed counts, chance percentages, effect compatibility multipliers, and specific continuous environmental exposure hours will be proposed during the complete Flowers numerical pass, as for earlier families. **The identities and peak positions above are concrete proposals**, not missing decisions; do not choose fungus identities or transformation recipes now.
+~~~~
+
+- **Reason:** Removed stale remaining-two Flower count (first-staging line 184)
+
+~~~~text
+- These four profiles are **APPROVED first-pass designs**. The remaining two Flowers are **Rosewraith and Orchidemon**, then the whole-family numeric pass.
+~~~~
+
+### 31. Flowers — Rosewraith and Orchidemon, final Plant-profile batch (APPROVED first-pass profiles) — flowers.md
+
+Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (original source section or first-pass staging preface):
+
+- **Reason:** Updated final two batch no-named-recipes status (first-staging line 193)
+
+~~~~text
+**Status:** The user explicitly **approved** §30's Lavendream, Lavendread, Poppycock and Dream Poppy profiles. The user **approved the final Flowers two-Plant first-pass batch**, covering **Rosewraith** and **Orchidemon**, without further changes. Both have **two incoming transformation routes** in the established family graph. This pass defines their own six Plant characteristics and distinctive natural harvest curves. Their final lifecycle times, peak heights, Seed quantities, germination chances, fungal Effect compatibility multipliers and hazard thresholds belong to the **family-wide numerical pass after this batch is reviewed**. No fungus identities, old A/B/C/D assignments, or transformation recipes are locked.
 ~~~~
 

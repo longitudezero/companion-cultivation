@@ -9,7 +9,7 @@
 - **Species profiles and numeric tables:** All six family files retain exactly their previous numbers of Markdown table rows. The only changed family data row is **Mandrakadabra's Environment** (six-hour Mycelial special death replaced by four-hour Bright death) and **Jadeheart's Environment** (obsolete permanent Sand Material note removed). Eighteen `Proposed direction` column captions were relabeled `Approved first-pass profile direction`; no numerical value was changed by that labeling.
 - **Fungus roster:** All **31 named first-pass Fungi** are present in the detailed profile files. The four former Waterborne cultivation **Range 3** caps are now described as **unlimited connected-Flooded propagation (§56)** in every affected row, while separately specified Airborne environmental ranges and nominal Effect strengths are retained.
 - **Shared rules with duplicates removed:** A byte-equality check established that §60's full wording was duplicated in both Plant lifecycle and Influence/Response files, and §65's full wording was duplicated in Plant lifecycle and Seeds/Spore files (apart from a trailing navigation link). The original complete text remains in [Influences/Responses](../systems/influences-and-responses.md) (§60) and [Seeds/Spores/Harvesting](../systems/seeds-spores-and-harvesting.md) (§65). [Plant lifecycle](../systems/plant-lifecycle.md) now summarizes and links to them. §68 remains full in [Transformations](../systems/transformations.md), not repeated in Influences.
-- **Navigation:** **291 relative Markdown links** were checked against existing repository/staging paths, including heading fragments; **0 missing targets and 0 broken heading anchors** found by the static checker.
+- **Navigation:** **296 relative Markdown links** were checked against existing repository/staging paths, including heading fragments; **0 missing targets and 0 broken heading anchors** found by the static checker.
 
 ### Family table comparison
 
@@ -33,7 +33,9 @@
 | Plant-owned Mycelial prerequisite | No Mycelial-on-Plant prerequisite for recipes; source Mycelial support of Rushroom/Siltgill is separate from emitted contact | [History, extracted §68/§70](../history/superseded-design.md) |
 | Earlier 'Fungi/recipes still pending' status and Allocation rate | **31 Fungi**, **69 routes**, approved **3:1 harvest-time Allocation** | [History, extracted source-phase notes](../history/superseded-design.md) |
 
-**Archival guarantee:** **119 changed or removed earlier lines/labels** from the first staged topical copy are included in the dedicated historical archive with source-section labels and reasons, except the verified byte-for-byte duplicate §60/§65 blocks (which remain in their sole active home). The **original ~733k-character design file itself remains untouched**, as do every other pre-existing document and root README.
+**Additional editorial sweep:** The earlier Flowers and Desert **partial family diagrams** containing `[later batch]` and bracketed provisional branches were relocated in full to history; the corresponding final recipe tables remain untouched in the active family files. Later recipe-status paragraphs in Bamboo, Mistlefoe, Ember Aloe, Ghost Rice and Ingredients profiles now point to their exact approved rules.
+
+**Archival guarantee:** **141 changed or removed earlier lines/labels** from the first staged topical copy are included in the dedicated historical archive with source-section labels and reasons, except the verified byte-for-byte duplicate §60/§65 blocks (which remain in their sole active home). The **original ~733k-character design file itself remains untouched**, as do every other pre-existing document and root README.
 
 ## Not yet certified — substantive review still needed
 
