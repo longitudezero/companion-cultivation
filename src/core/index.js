@@ -1,5 +1,6 @@
 export * from './grid.js';
 export * from './migration.js';
+export * from './save-file.js';
 export * from './influences.js';
 export * from './spread.js';
 export * from './simulation.js';
