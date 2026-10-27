@@ -13,7 +13,7 @@
 
 ## 57. Coverage / interaction audit, three final first-pass fungi, and survival clarification (APPROVED directions; one Transformation ambiguity OPEN)
 
-**Status (26 October 2026):** After reviewing all 28 approved Fungi against the six approved Plant families, the user accepted **three more first-pass Fungus bundles**: Fogdial, Emberbell and Siltgill. The working roster is now **31 approved candidate Fungi, including sole Mycelial creator Mycelord**, with no requirement to expand further before the next logic pass. These are first-pass strengths/roles, not playtested balance. Plant/Fungus gameplay remains **text-only and unimplemented**. Unlimited Waterborne propagation itself is already implemented in the environmental prototype.
+**Approved first-pass roster:** **31 species**, including sole Mycelial creator Mycelord and final additions **Fogdial, Emberbell and Siltgill** (§57). All Fungi have 0–100% Growth, 100–200% Sporulation and one destructive own-Spore harvest; ordinary living Source emissions can continue beyond 200% until death. These roles/effect strengths are not yet tester-balanced; Plant/Fungus gameplay is unimplemented. Original intermediate 28-species audit is preserved in history.
 
 ### A. Approved new Fungi and deliberate choices
 

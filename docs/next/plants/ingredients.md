@@ -28,7 +28,7 @@ One Base Ingredient ─┼──> Ingredient 3 [terminal]
 2. **Every other Ingredient is terminal**. A terminal Ingredient cannot transform into any species—not even the Base or another Ingredient—even if it is grown later from its own Seeds. The prohibition is about **Plant species' outgoing transformations**, not about Fungi influencing ordinary Growth/Yield/Seed behavior.
 3. **Only the Base Ingredient's Seeds are given initially**, matching the other transforming family starter principle. Species-specific own/other/no Seed harvest behavior is decided separately in profiles; for simple sustainable cooking staples, **own Seeds** are a sensible default proposal but are not forced by the transformation graph.
 4. All Plants retain **0–200% Growth/Ripening**, their unique Leaf/Seed curves, one destructive harvest, incremental Seed planting probabilities, environment Responses and existing fungal Effect compatibility. **Transformation replaces the old Plant with a new instance starting at 0%**, without inherited product or exposure state (§58).
-5. **Only Base-owned direct transformation recipes** are to be designed in a future recipe pass, after Plant profiles and fungal roster; no fungus emits a generic Transformation Effect. These recipes may differ in required standard fungus presence, ordinary Influence receipt, resolved Conditions or time, but the user did not lock exact conditions.
+5. **Approved Potato-owned Transformation recipes:** The one transforming Base, Potato, has six first-pass direct routes to Rice, Carrot, Onion, Apple, Pumpkin and Strawberry, exactly specified in **§67**. They use resolved Condition signatures plus actually reaching generic fungal environmental emissions, not named-species contact or a generic Transformation Effect (§68).
 6. Preserve the distinction: **Ingredients yields familiar cooking staples** for the future RPG; **Spices** uses the already-approved older ten-species Illumination puzzle network with later Spice-appropriate naming. Do not conflate their inventories or require cooking-system mechanics now.
 7. The previous statements that Ingredients has *no transformations* or requires separate direct Seed unlocks for every species are **SUPERSEDED**. §41 is the controlling newest architecture. The exact roster/Base identity and numeric balance remain open.
 8. **Design-only: no game code changes** until the user requests implementation.
@@ -37,7 +37,7 @@ One Base Ingredient ─┼──> Ingredient 3 [terminal]
 
 ## 42. Ingredients — approved Base, seven-species roster, and first four profiles (APPROVED first-pass profiles)
 
-**Status:** The user **APPROVED the seven-species Ingredients roster**, **Potato as the sole transforming Base**, and the complete first four six-part profiles for **Potato, Rice, Carrot and Onion**, without requested changes. The six terminal species are **Rice, Carrot, Onion, Apple, Pumpkin, and Strawberry**. All six remain directly accessible by **Potato-only outgoing transformations**. The remaining three profiles are proposed for review in §43; a whole-family numerical pass follows their approval. No fungus assignments, recipes or game code.
+**Current status:** All seven Ingredient species (Potato, Rice, Carrot, Onion, Apple, Pumpkin, Strawberry) have approved first-pass profiles (§§42–43), complete numerical balance (§44), and six simple Potato-owned recipes (§67). All ordinary Seed identities and crop curves are preserved. Gameplay remains unimplemented.
 
 ### Approved direct star network and roster
 
@@ -106,7 +106,7 @@ Potato (APPROVED Base)
 | **Carrot** | Terminal | Quick early produce turnover | Carrot |
 | **Onion** | Terminal | Slower broad-window produce | Onion |
 
-**Approval status:** The **Potato Base and seven-species roster are APPROVED**, along with the **Potato, Rice, Carrot and Onion** six-part profiles and their stated approximate natural peak timings/preferences. Apple, Pumpkin and Strawberry have **new proposed profiles in §43**, pending review. Then proceed to the full Ingredients numerical pass. No fungi, final recipes or game code changed.
+**Current approval:** Potato is the sole transforming Base; all seven Ingredient profiles (§§42–43), the numerical pass (§44) and all **six Potato-only recipes (§67)** are approved first-pass. The seven-species Seed identities, typical harvest peaks and germination economics remain as tabulated. Named fungal contacts are intentionally not required for Ingredients. Gameplay code remains unimplemented.
 
 ---
 
@@ -185,7 +185,7 @@ Potato (the ONE transforming Base)
 | **Pumpkin** | Terminal | Strongest single natural produce, slow late peak | **Yes, Pumpkin** | **APPROVED** |
 | **Strawberry** | Terminal | Very quick, strong narrowly timed produce | **Yes, Strawberry** | **APPROVED** |
 
-**Approval status:** The user **APPROVED all seven Ingredients first-pass profiles and the Potato-only star transformation network**, including Apple, Pumpkin and Strawberry's approximate natural peaks, environments and compatibility roles. **§44 is the complete Ingredients numerical pass PROPOSED for review**. Tester playtesting remains planned after eventual implementation. No fungi, final recipes, or game code changed.
+**Current approval:** All seven Ingredients profiles, Potato-only star graph, §44 numerical values and **six §67 Transformation recipes** are approved first-pass, with no biology code implementation. Tester playtesting and numeric refinement are future work.
 
 ---
 
@@ -351,7 +351,7 @@ Potato (the only Seed species granted initially, the ONLY transforming Ingredien
 7. **Production mapping for the separate RPG remains deferred**. The farming engine's output term "Leaves" is still provisional for all Families, and Apple/Pumpkin/Strawberry do not create unique engine-stage resources or shared cross-game inventory mechanisms.
 8. Only the already agreed family architecture and approved individual Ingredient profiles are locked as **current first-pass design**; all **§44 numerical tables were APPROVED by the user**, with subsequent tester playtesting and potential revision planned. **No game code modified, fungus roster fixed, or final transformation recipe assigned.**
 
-**Approval status:** All seven Ingredients six-part Plant profiles (§§42–43) and the star-shaped Potato-only transformation architecture (§41) are **APPROVED**. The full lifecycle, Leaves/Seeds, per-Seed germination, core/advanced fungal Effect compatibilities, Moisture/Illumination/Temperature multipliers, and continuous lethal clocks in **§44 are APPROVED FIRST-PASS BALANCE**. Plant-first profiles and numerical balancing for all six Plant Families are now complete; §45 starts fungal design. No fungi or final recipes are approved yet.
+**Current approval:** All seven Ingredients profiles (§§42–43), their §44 complete numeric balance, the 31-species Fungus roster, and six simple environment-plus-generic-emission Potato recipes (§67) are approved in design. The underlying three-Property environment is implemented, but actual Plant/Fungus/Mycelial gameplay is not.
 
 ---
 

@@ -65,8 +65,7 @@
 | §57 | 57. Coverage / interaction audit, three final first-pass fungi, and survival clarification (APPROVED directions; one Transformation ambiguity OPEN) | [fungi/profiles-final.md](../fungi/profiles-final.md) | Copied verbatim in detailed draft |
 | §58 | 58. Transformation RESTARTS every new Plant at 0% — APPROVED; supersedes progress continuity | [systems/transformations.md](../systems/transformations.md) | Copied verbatim in detailed draft |
 | §59 | 59. Transformation eligibility is environment-and-exposure driven, never lifecycle-gated (APPROVED) | [systems/transformations.md](../systems/transformations.md) | Copied verbatim in detailed draft |
-| §60 | 60. Fungus/Plant interaction audit — approved global decisions and tracked Yield; timing details still OPEN | **UNMAPPED** | Copied verbatim in detailed draft |
-| §60 | 60. Fungus/Plant interaction audit — approved global decisions and tracked Yield; timing details still OPEN | [systems/plant-lifecycle.md](../systems/plant-lifecycle.md) | Copied verbatim in detailed draft |
+| §60 | 60. Fungus/Plant interaction audit — approved global decisions and tracked Yield; timing details still OPEN | [systems/influences-and-responses.md](../systems/influences-and-responses.md) | Exact approved text retained once, linked from plant lifecycle |
 | §61 | 61. Environmental simplification and Flooded Mycelial barrier — APPROVED | [systems/mycelial.md](../systems/mycelial.md) | Copied verbatim in detailed draft |
 | §62 | 62. Mycelord is vulnerable to Flooded — APPROVED | [systems/mycelial.md](../systems/mycelial.md) | Copied verbatim in detailed draft |
 | §63 | 63. Mycelial expansion and retreat advance with game time — APPROVED | [systems/mycelial.md](../systems/mycelial.md) | Copied verbatim in detailed draft |

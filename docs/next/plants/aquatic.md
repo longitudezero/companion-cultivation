@@ -12,11 +12,11 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 ## 25. Aquatic Plant profiles — first batch (APPROVED first-pass profiles)
 
-**Context:** The user has now **approved Woodlands germination and Effect-compatibility numbers** as first-pass balance and directed work to move to **Aquatic**. The numerical philosophy carries over: approximately **10 Leaves / 10 Seeds**, **4 in-game days to 100% / 8 total days to 200%** as ordinary benchmarks, but strong, meaningful species differences are encouraged. Detailed numeric Aquatic balance can be assigned after identifying family roles, as for Woodlands; do not design fungi or transformation recipes in this pass.
+**Balance benchmark:** Ordinary Plants target approximately **10 Leaves/10 Seeds** and **4 in-game days to 100% / 8 total days to 200%** in ideal habitat, with larger differences allowed for specialists. Aquatic's 11 profiles and §28 numerical pass are approved, as are all **14** Transformation recipes in §69. Fungal gameplay remains unimplemented.
 
 **Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist into Kelpless**, but the actual transformation recipe, fungus assignment and exposure durations belong to the later third pass. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
 
-### Confirmed network view (no recipes assigned in this profile batch)
+### Approved Aquatic network (recipe details in §69)
 
 ~~~text
 Unnamed Aquatic Base
@@ -31,7 +31,7 @@ Unnamed Aquatic Base
 
 ### Aquatic Base (name undecided) — APPROVED first-pass profile
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Average 4-day Growth and 4-day Ripening** baseline; not a specialist. |
 | **Natural harvest** | **10 Leaves around 100%** and **10 own Seeds around 200%**, with broad ordinary decline/rise curves. Single plant-consuming harvest. |
@@ -42,9 +42,9 @@ Unnamed Aquatic Base
 
 ### Kelpfull — APPROVED first-pass profile
 
-**Keep it simple:** Kelpfull is the first **Flooded-oriented accessible Seed producer**, rather than another elaborate puzzle. It branches toward **Kelpergeist** and the unwanted **Kelpless** outcome; no named fungi chosen.
+**Kelpfull's approved role:** A straightforward, accessible **Flooded Seed producer** in the Kelpfull → Kelpergeist/Kelpless network. Named contacts, resolved conditions and exact exposure times for its branches are recorded in §69; no additional unapproved special mechanism is needed.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Somewhat faster Growth** than Aquatic Base and ordinary-to-slightly-fast Ripening. |
 | **Natural harvest** | **Low-to-moderate Leaves**, with **high Aquatic Base Seed** output toward 200%. Its direct harvest role resembles Woodlands' Bamboom but belongs to Aquatic's Flooded economy. No own Kelpfull Seeds. |
@@ -57,7 +57,7 @@ Unnamed Aquatic Base
 
 **Existing role:** Valuable **Dark + Flooded specialist**. When **Flooded is continuously lost**, it can become **Kelpless**; interruption restores its opportunity to remain a Kelpergeist. Its alternative transformation to **Flooded-attuned Starlotus** is a separate pathway, but conditions are deferred.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slower Growth** and fairly ordinary Ripening; becomes worthwhile after investment into a stable dark, flooded setup. |
 | **Natural harvest** | **High Leaves in a fairly narrow middle-to-late Ripening peak**, with **a few own Kelpergeist Seeds** toward 200%; harvest timing or maintaining a Flooded/Dark habitat is more important than easy Seed multiplication. |
@@ -70,7 +70,7 @@ Unnamed Aquatic Base
 
 **Existing role:** Negative transformation reachable from either **Kelpfull or Kelpergeist**, with a **confirmed redemption route → Wild Watercress**. Keep it harvestable but clearly inferior to its precursor.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slow Growth and Ripening**, giving it poor production throughput; transformation creates the new species at 0% progress (§58). |
 | **Natural harvest** | **Very few Leaves** and **a small amount of Aquatic Base Seeds** late in Ripening; no Kelpless Seeds. The Seed output allows a small salvage harvest without replacing the more valuable Wild Watercress redemption path. |
@@ -101,7 +101,7 @@ The user established that **draining after qualifying Flooded exposure** selects
 
 ### Sunken Lotus — APPROVED first-pass profile
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Ordinary-to-slightly-slow Growth and ordinary Ripening**. An accessible, steady early Lotus branch Plant, not itself a high-yield specialist. |
 | **Natural harvest** | **Near-average Leaves with one broad early/mid-Ripening peak**, and **moderate Sunken Lotus Seeds** at late Ripening. Produces **its own Seeds**, making the Lotus branch maintainable after reaching it rather than forcing a fresh Base-to-Sunken transformation for every attempt. |
@@ -112,7 +112,7 @@ The user established that **draining after qualifying Flooded exposure** selects
 
 ### Moonlit Lotus — APPROVED first-pass profile
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Ordinary Growth, somewhat long Ripening**. The longer Ripening period matters for the Plant's harvest economy, not for opening its Flooded/drain Transformation fork, which works at any progress (§59). |
 | **Natural harvest** | **Good Leaves in middle Ripening** and **modest Moonlit Lotus Seeds near 200%**; harvest directly for useful output or retain and steer it toward Starlotus/Pearlily. **Self-Seeds**, no Seed identity gimmick. |
@@ -125,7 +125,7 @@ The user established that **draining after qualifying Flooded exposure** selects
 
 **Crucial approved family concept retained:** One species with **origin-set Moisture Attunement**, not two new species. A Starlotus transformed from **Moonlit Lotus** is *Damp-attuned*. A Starlotus transformed from **Kelpergeist** is *Flooded-attuned*. Losing its preferred state **removes its attunement bonus, never directly kills it**. It still experiences normal Dry/temperature/Mycelial environmental hazards.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slow Growth and ordinary Ripening**. A premium Plant cultivated to maximize a decisive harvest, with no extra phase or special timer. Transformation starts a fresh 0–200% lifecycle (§58). |
 | **Natural harvest** | One **very high, fairly concentrated mid-to-late Ripening Leaf peak**. **No natural Seeds** in this proposal; Starlotus is a premium **sterile Leaf specialist**, making the transformation path the way to obtain the attuned Plant each time. This avoids inventing unattuned Starlotus Seeds or a two-variant Seed identity mechanism. |
@@ -140,7 +140,7 @@ The user established that **draining after qualifying Flooded exposure** selects
 
 **Existing routes retained:** Reachable from either **Moonlit Lotus** (remaining Flooded route) or **Cresscent** (shorter, accessible shortcut). **Not** meant to be the Aquatic family's top Leaf or Seed producer.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slightly faster-than-average Growth**, ordinary Ripening, and a forgiving harvest period. Less costly to maintain than the Starlotus specialist. |
 | **Natural harvest** | **Good but not top-tier Leaves**, with a **broad middle-Ripening plateau**, and **respectable Pearlily Seeds near 200%**. **Own Seeds** permit direct future cultivation, but are not spectacularly productive. |
@@ -154,7 +154,7 @@ The user established that **draining after qualifying Flooded exposure** selects
 - **Moonlit Lotus** benefits from staying Flooded while farming for Seeds, but has two established onward routes that change the strategic goal. It does not get a direct Starlotus-style attunement merely from standing in Damp.
 - **Starlotus** is intentionally **sterile**, has the same **+60% native Leaf bonus** in the correct attuned state regardless of origin, **restores the bonus on returning to that state**, and receives no new lethal response merely from losing attunement.
 - **Pearlily** is a reliable self-sustaining crop, no persistent origin-variant rules and no extreme premium status; **Cresscent → Pearlily remains the meaningful shortcut**.
-- **No fungi, exact Transformation recipes, additional resource types, or new effect categories are being committed.** Numerical duration/yield/germination/compatibility values beyond specific proposed innate attunement bonus will be specified with the rest of Aquatic after the Plant profiles are accepted.
+- **Approved current scope:** Aquatic's exact numeric lifecycle/Seed/compatibility pass is in §28 and its **14 Plant-owned routes in §69**; neither requires new resource or Fungus-Effect categories. The 31-species fungus roster is design-approved, but biology runtime is not implemented.
 - All four Lotus profiles are **APPROVED for the first Plant-design pass** (user endorsed them without changes). Fine tuning still belongs to the numerical balance and later playtest passes.
 
 ---
@@ -337,7 +337,7 @@ The profiles already specify **which Moisture states are favorable**. The follow
 **Important precedence:**
 - Starlotus's **+60%** is conditional **Leaf Yield** while *current* Moisture matches *stored* attunement; losing that state alone does not trigger death or erase stored attunement.
 - Silvercress gets **+60% Growth Rate** during Flooded Growth and **+50% Leaf Yield** during Damp Ripening. Nonpreferred viable Moisture does not impose a **separate loss penalty beyond missing the stated bonus**.
-- Kelpergeist also has an **established Transform-to-Kelpless route from sustained loss of Flooded**. **Do not assign that Transformation duration in this numeric table**: the exact Plant-owned route, priority, presence of other required conditions, and continuity rule are Phase 3 work. The Dry hazard timer and a transformation timer are independent conditions; future recipe tuning must ensure the rescue/wrong-turn opportunity actually functions.
+- **Kelpergeist → Kelpless (§69):** The already approved Flooded-loss/redemption path has a specified Plant-owned timing and contact rule in §69, separate from Kelpergeist's lethal **Dry** hazard timer. Use that precise recipe and preserve §64 event ordering; no lifecycle-percentage gate or arbitrary priority is allowed.
 - For **Hot and Freezing**, none of these 11 Aquatic species has a beneficial exception. As a simple first-pass family response, each imposes **0.5× lifecycle rate and 0.5× ordinary yields**, followed by death after **72 uninterrupted hours** at that extreme. Individual Woodlands' much shorter 6-hour Mandrakadabra Mycelial weakness is a separate Plant-specific rule and is not revised here.
 - Other existing Cold/Warm, Dim/Lit/Bright responses remain as described in the approved species profiles, with small ordinary penalties. **All Aquatic Plants dislike Dry, and Mycelial is never beneficial.** Exposure reset mechanics and hazard handling need playtesting; these numbers are intentionally assertive proposals rather than an engine implementation.
 - **Hazard time** advances with actual time in the harmful condition even if lifecycle progress is fully suspended; no time-based production occurs while suspended. Apply lethal thresholds to actual environmental states, not raw source strength. For continuous Mycelial exposure, timer resets only when the overlay actually disappears from the Plant's hex (not simply when the emitting fungus is removed).
@@ -347,7 +347,7 @@ The profiles already specify **which Moisture states are favorable**. The follow
 - This section has **all numeric fields needed for the Aquatic first balance proposal**; the user prefers making decisions that can be corrected after testing, not postponing a species' distinctive mechanic until fungus design.
 - Intrinsic Starlotus +60%, Silvercress +60%/+50%, and Cresscent 40%/Seed remain part of the user-approved qualitative profiles, **not unapproved novelty invented by this table**.
 - The **new** lifecycle, harvest, Seed-germination (other than Cresscent), compatibility and hazard numbers are now **APPROVED first-pass values**; eventual playtest findings can revise them.
-- As for Woodlands, **do not design or implement fungi or Transformation recipes here**. First finish Plant profiles/numbers across all families, then a fungus roster, then decide fungus-supported Plant-owned transformations, adjust fungi and Plants, and conduct an actual player **playtest and balancing pass** afterward. No code changes were requested or made.
+- **Design status:** All six families and the 31-Fungus roster now have first-pass rules and the 69 Plant-owned Transformations are recorded. Actual Plant/Fungus/Mycelial implementation and mandatory tester playtesting remain future work.
 
 ---
 

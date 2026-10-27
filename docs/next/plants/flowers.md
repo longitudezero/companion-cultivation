@@ -15,7 +15,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 **Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
 
 
-**Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch was **approved by the user**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
+**Current approval:** All ten Flowers profiles, the full §32 numeric pass and **12 named-contact Transformation recipes in §73** are approved first-pass. Flowers have intrinsic early/late/multiple-peak harvest identities (e.g. Rosewraith), not a fungal Secondary Bloom. The fungal roster is 31 species, design-only; gameplay remains unimplemented.
 
 ### Family identity and confirmed design guardrails
 
@@ -395,7 +395,7 @@ Flowers have **no shared innate special tolerance or preference for Mycelial**. 
 
 **Temperature response:** For the moderate nonideal condition (**Cold/Warm**, not Hot/Freezing), start with **0.85× rates and ordinary outputs** when it is *outside* that species' specifically named preferred Temperature state(s). Preferred states are the approved profiles (§29–31): e.g., Charmomile Temperate/Warm; Marigloom Cold/Temperate; Daisyspell Temperate/Warm; Rosewraith Cold/Temperate; Orchidemon Temperate/Warm. The **Hot/Freezing hazard 0.5× and species-specific death hours** replace this moderate-condition penalty, rather than being counted a second time. All preferred states remain usable and nonlethal.
 
-**No premature system additions:** These are **responses to existing Environment Conditions**. No Fertility/Material/Enchanted dependency is invented. No Mycelial species benefit is possible. The named fungi roster and final transformation conditions will be determined only after the Plant-first passes, with their ordinary Effects fixed and no Transformation Effect.
+**Current system boundary:** Flower production responds to the three existing environmental Properties. No Fertility, Material or Enchanted property, no intrinsic benefit from Mycelial, no universal Secondary Bloom/Transformation Influence is introduced. Named fungal contacts and exact recipes are specified in **§73**; the approved fungi only emit their already defined ordinary Influences.
 
 ### F. Feasibility checks and playtest targets
 

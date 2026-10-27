@@ -12,10 +12,9 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 ## 22. Woodlands — Plant-by-Plant profiles (phase 1)
 
-**Latest Woodlands hazard correction (§70, APPROVED):** Mandrakadabra's earlier six-hour **Mycelial-specific** lethal rule and Mycelial-gated direct Transformation concept have been **superseded**. The approved replacement is death after **4 uninterrupted in-game hours in resolved Bright Illumination**, while **Lit remains optimal for farming**. Read the historical Mandrakadabra profile below subject to §70; do not use its older six-hour Mycelial text as current authority.
+**Active Woodlands hazard (§70, approved):** Mandrakadabra dies after **4 uninterrupted in-game hours in resolved Bright**; its earlier special six-hour Mycelial death condition has been transferred to [historical decisions](../history/superseded-design.md). Mandrakadabra's ordinary output/Seed identity and Lit optimum remain as specified. **All 13 routes in §71 are approved.**
 
 
-**Phase status:** First record each Plant's six characteristics without assigning named Fungi or final Transformation recipes. **Approved** means the user accepted the profile direction, not that exact numbers are finalized. **Proposed** is an unapproved next candidate.
 
 ### Woodlands Base Plant (name undecided) — APPROVED first-pass profile
 
@@ -34,7 +33,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Existing established role that must be preserved:** Bamboom is a strong producer of **Woodlands Base Plant Seeds**. The sequence **Bamboom → Bamboozeling → Bamboozled** is confirmed; it is not a reason to assign fungi or specific transformation timers during Phase 1. The earlier ambiguity with a possible name "Bamboozle" remains separate.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Fairly rapid Growth** and **ordinary Ripening**, so a productive Base-Seed supply can be maintained through frequent rotations rather than extremely long waits. |
 | **Natural harvest** | **Low-to-moderate Leaves** with Seed quantity weighted toward the **later Ripening stages**. Produces **Woodlands Base Plant Seeds**, not Bamboom Seeds, unless later specifically revised. Its innate Seed Yield is a major advantage over the Base Plant. No natural second bloom. |
@@ -48,9 +47,9 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 ### Bamboozeling — APPROVED first-pass profile
 
-**Established role:** Bamboozeling is the **inferior-but-still-harvestable intermediate** in the confirmed **Bamboom → Bamboozeling → Bamboozled** transformation route. Sustained qualifying conditions make it important to act within a harvest window; the actual fungal identities and transformation recipes will be designed in Phase 3.
+**Established role:** Bamboozeling is the **inferior-but-still-harvestable intermediate** in the **Bamboom → Bamboozeling → Bamboozled** chain. Qualifying Damp/Warm Source contact is specified in §71: **Tickbolete OR Emberbell for 16 uninterrupted hours** for Bamboozeling → Bamboozled. Its ability to salvage a small harvest before transforming remains part of its crop trade-off.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | Similar to Bamboom, but **slightly slower overall** (especially Ripening). Continue using the normal 0–200% lifecycle and restart at 0% on transformation (§58). Do not add an extra stage. |
 | **Natural harvest** | **Modest Leaves** and **fewer Woodlands Base Plant Seeds than Bamboom**, with Seeds concentrated toward later Ripening. Still a worthwhile emergency harvest if the player missed Bamboom's preferred window; distinctly worse efficiency than Bamboom, but **not** zero output. **No Bamboozeling Seeds** proposed. |
@@ -65,7 +64,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Established role:** A **bad endpoint for repeated exposure**. **Zero Leaves, zero ordinary Seeds**. Harvesting yields an unusual **Bamboo Steel trophy**—a flavor/achievement reward, **not a normal farming production resource** or an alternative dominant Leaf-production strategy. It has no further approved transformation route.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | Remains within the **ordinary 0–200% Plant lifecycle**, with no productive Leaf/Seed peak. The exact speed is economically unimportant; begin the new Bamboozled instance at 0% on transformation rather than adding a special extra counter (§58). |
 | **Natural harvest** | **Always zero Leaves and zero ordinary Seeds**. The established one-time **Bamboo Steel trophy** can be collected through the normal plant-consuming harvest at eligible maturity. Timing/eligibility for the trophy is still to be fixed; don't invent a new permanent resource economy. |
@@ -85,7 +84,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Existing role:** Accessible from the unnamed Woodlands Base; branch gateway to **Mistlefoe** or **Bramblewraith**, and the return destination for **Mistlewoe**. It is a stable, useful Plant, not a premium specialist.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | Ordinary/steady Growth and Ripening, somewhat less speedy than Bamboom, with no unusual stage behavior. |
 | **Natural harvest** | A **respectable but not exceptional** single Leaf peak during middle Ripening, with modest **Tanglethorn Seeds** appearing later. Producing its own Seeds lets the branch become sustainable once reached, but without matching Bamboom's high Base-Seed output. No second peak. |
@@ -100,7 +99,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Existing role:** A desirable Plant in its own right and the strategic pivot from the Tanglethorn line into **Mandrabra**. In later phase 3, **removing an otherwise beneficial fungus** is necessary for the desired Mistlefoe → Mandrabra outcome; retaining conflicting qualifying fungi instead leads to **Mistlewoe**. This is **a Plant-owned recipe condition**, not a transformation-emitting fungus Effect. Do not assign named fungi yet.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Ordinary Growth**, slightly longer/steadier **Ripening** than Tanglethorn, giving a real opportunity to choose whether to harvest or pursue a transition. |
 | **Natural harvest** | A **good single mid-Ripening Leaf peak**, stronger than Tanglethorn but below Mandrakadabra's future premium yield. **Small-to-moderate Mistlefoe Seed** output later in Ripening; self-reproducing once obtained but not a Seed specialist. |
@@ -115,7 +114,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Existing role:** An **undesirable** transformation from Mistlefoe when conflicting required conditions/fungal presences remain active, but **not a dead end**: **Mistlewoe → Tanglethorn** is explicitly confirmed.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slow Growth** and ordinary Ripening, producing poor overall throughput; every transformed instance begins at 0% under §58. |
 | **Natural harvest** | **Low Leaves** at one weak mid-Ripening peak and **very few Tanglethorn Seeds** toward late Ripening. No Mistlewoe Seeds proposed. Even the salvage harvest is worse than restoring Tanglethorn by transformation. |
@@ -130,7 +129,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 
 **Existing role:** The appealing **safe and forgiving** Woodlands crop, with a **very broad productive harvest window**, **no conventional lethal environmental weakness**, and respectable—but not Mandrakadabra-level—Leaf yield. Its value is **reliability**, not highest possible peak.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Somewhat slow Growth**, ordinary Ripening once established. Longer setup balances an exceptionally forgiving production window. |
 | **Natural harvest** | One **broad, fairly flat Leaf-yield plateau** spanning a large portion of Ripening, at a **moderate-to-good** yield, not the extreme premium Mandrakadabra peak. **Moderate Bramblewraith Seed** production toward later Ripening; can sustain its own dependable crop rotation once unlocked. No second bloom. |
@@ -150,7 +149,6 @@ Tanglethorn ───> Mistlefoe ───> Mandrabra       (desired pivot)
     └───────────> Bramblewraith            └──> Tanglethorn  (confirmed redemption)
 ~~~
 
-**Workflow reminder:** During current Phase 1, these are **Plant profiles only**. No fungus roster, named fungal assignments, transformation recipes, or final numerical thresholds are being locked. The approved Bamboo branch and the three remaining Mandrake Plants can be treated separately.
 
 
 ### Four-Plant approval update
@@ -161,7 +159,7 @@ The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe
 
 **Established network position:** The Woodlands Base **and Mistlefoe** can lead to **Mandrabra**, which can transform either **into Mandrakadabra** or **directly into Mandrakazam**. These are confirmed edges; named fungal conditions remain later work.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Steady ordinary Growth** and **ordinary Ripening**; not the extreme specialist, but a reliable junction Plant that players can manage before choosing a Mandrake crop pathway. |
 | **Natural harvest** | **Respectable, moderately concentrated Leaf peak** during middle Ripening; **small-to-moderate Mandrabra Seed** production toward later Ripening. It can replenish its own Seeds without displacing the Bamboom/Base-Seed economy or Mandrakazam's specialist role. No natural second bloom. |
@@ -170,22 +168,22 @@ The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe
 | **Farming purpose** | **Flexible gateway** to either the risky premium Leaf grower **Mandrakadabra** or the **Mandrakazam** production path that supplies Mandrakadabra Seeds. Modest own Seed harvest makes repeated preparation feasible without making Mandrabra itself the best crop. |
 | **Effect compatibility** | Ordinary Growth, Ripening, germination, and non-Seed Yield compatibility. **Moderately strong response to Harvest Window Adjustment** when Lit (a magnitude bonus to a known Effect, not an extra ability) is a candidate: gives players an accessible, less high-stakes harvest compared with the later premium Mandrakadabra. Ordinary Seed Yield compatibility otherwise. |
 
-**Open:** Exact harvest, Seed production, and conditional window strengths; whether its own Seed yield is best kept moderate in later balance. Do not assign its two transformation recipes now.
+**Balance scope:** Exact quantities and Seed chances are specified by the approved first-pass Woodlands numerical and germination passes (§§23–24). Mandrabra's two approved Transformations are specified in §71; fine-tuning remains a playtest concern.
 
 ### Mandrakadabra — APPROVED first-pass profile
 
-**Established role:** **Highest potential normal Leaf harvest in Woodlands**, with a risky direct Transformation route and a safer Mandrakazam Seed route. **Specific weakness selected in this Plant-design pass:** Mandrakadabra is **hypersensitive to the Mycelial overlay**: it dies after **6 uninterrupted in-game hours** on an active Mycelial hex. This is a distinctively short threshold compared with ordinary Woodlands Plants. The transformation danger is now tied to this **Plant-owned environmental hazard** rather than an undefined fungally emitted lethal or Transformation Effect; the Phase 3 direct route must be designed to make this hazard meaningfully relevant, without prematurely assigning any particular fungus.
+**Established role:** **Highest natural Leaf peak in Woodlands**, with a demanding direct Mandrabra Transformation under resolved Damp/Bright plus **Rushroom OR Siltgill contact for 12h** (§§71–72), and safer Seed access from Mandrakazam. Mandrakadabra's distinctive innate lethal condition is **4 uninterrupted hours in resolved Bright** (§70); **Lit** remains the preferred farming light. The former six-hour Mycelial-specific lethal timer is historical and no longer applies.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Somewhat longer Growth** and **ordinary-to-fairly-fast Ripening**. Produces impressive output but does not give the player a completely effortless harvest window. A transformed instance begins anew at 0% under §58. |
 | **Natural harvest** | One **very high, comparatively narrow Leaf peak** in middle Ripening: the **largest raw Leaf potential in Woodlands**, clearly above Bramblewraith's broad but lower plateau. **Zero ordinary Seed production proposed**; the premium Plant doesn't self-reproduce by default. No second bloom. |
 | **Germination** | Although it **produces no Seeds itself**, it **can be planted directly from Mandrakadabra Seeds produced by Mandrakazam**. Its Seed germination is **ordinary/moderately reliable in suitable habitat**, making the safer Seed-based approach genuinely practical. |
-| **Environment** | Prefers **Damp, Temperate, and Lit**. Dim/Cold/Warm impair output, Dry/Flooded less efficient. **Hot and Freezing** are harmful and can kill after exposure. **Special weakness:** occupying a **Mycelial hex for 6 uninterrupted in-game hours kills Mandrakadabra**. It receives **no gradual additional penalty** from Mycelial before this threshold; it can produce normally until death occurs. Exposure resets if its hex stops being Mycelial. The **Mandrakadabra-specific timer begins on transformation into Mandrakadabra** (previous-identity exposure time does not transfer); directly Seed-grown Mandrakadabra starts with no exposure. This rule is independent of fungus identity. |
+| **Environment** | Prefers **Damp, Temperate, and Lit**. Dim/Cold/Warm impair output; Dry/Flooded less efficient; Hot and Freezing remain ordinary dangers. **Distinctive lethal threshold:** **4 continuous in-game hours of resolved Bright Illumination** (§70). Changing away from Bright before the threshold resets the Bright clock; a new Mandrakadabra created through Transformation or direct Seed planting begins with a fresh clock. The earlier special six-hour Mycelial death threshold has been withdrawn; the ordinary Woodlands Mycelial aversion/hazard is not an additional special six-hour rule. |
 | **Farming purpose** | **High-risk, high-reward Leaf specialist.** Players may reach it by transforming Mandrabra under time pressure or instead grow it from **Mandrakazam-supplied Seeds** in a safe field, avoiding the particular hazardous exposure needed for direct transformation. |
 | **Effect compatibility** | **Strong compatibility with ordinary Leaf Yield increases**, potentially even stronger while **Lit** (adjusts magnitude only). **Time-based Leaf Production** can be valuable if the Plant keeps progressing, but extreme slowing/extended exposure can increase practical risk in a hazardous setup. **No Seed Yield Effect generates Seeds** from its innate zero-Seed identity in this draft. Rate and window effects otherwise remain directionally consistent. |
 
-**Specific vulnerability specification chosen for this first pass (pending review with the Mandrake batch):** 6 in-game hours of continuous Mycelial exposure is lethal, with **no early soft debuff**, and the timer resets on interruption; no cumulative damage bank. It begins when the Plant becomes Mandrakadabra, so a new identity is not killed instantly by its precursor's prior exposure. **Phase 3 requirement:** Make the direct Mandrabra → Mandrakadabra transformation a real Mycelial-management challenge, using ordinary source/overlay/adjacency mechanics. Do **not** pick the fungus or complete that recipe yet; ensure it is possible to obtain and save Mandrakadabra despite Mycelial's delayed retreat. This is an intentionally concrete Plant weakness now, with balancing corrections allowed in Phase 5.
+**Current vulnerability (§70):** Resolved **Bright** for **4 uninterrupted in-game hours** kills Mandrakadabra, resetting completely when the light leaves Bright. The timer starts fresh on transformation/planting; Lit remains the optimal farm state. Its approved direct route requires **Damp + Bright + named Rushroom OR Siltgill Influence contact for 12h** on Mandrabra, without a target-hex Mycelial prerequisite (§§71–72). The full profile's high Leaf / no native Seed identity remains intact.
 
 **Important balance distinction:** The **very high Leaf yield is an established role**, but **sterility, peak width, and precise rate/compatibility** are proposals. A direct Seed-grown Mandrakadabra is the *same Plant*, without a mandatory persistent penalty or magic attunement. A high single-harvest peak may not dominate sustained-rotation yields once Seed costs, failure risk, and setup time matter.
 
@@ -193,7 +191,7 @@ The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe
 
 **Established role:** A **safer reproductive pathway** that **harvests Mandrakadabra Seeds**. It is reachable either **directly from Mandrabra** or **via Mandrakadabra**, as confirmed. The Seed route may cost more setup/growing time than a lucky direct premium transformation, even though the direct Mandrabra → Mandrakazam edge uses fewer graph steps; do **not** describe it as necessarily more transformation edges.
 
-| Category | Proposed direction |
+| Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slower Growth and somewhat long Ripening**, suitable for a crop the player cultivates to build a future Seed supply instead of a fast immediate Leaf harvest. Normal 0–200% lifecycle applies; a transformed instance starts at 0% (§58). |
 | **Natural harvest** | **Low-to-moderate Leaves** and **high Mandrakadabra Seed production**, with the strongest Seed returns during **late Ripening**. Produces **Mandrakadabra Seeds**, not Mandrakazam Seeds. Single ordinary Leaf peak, no second bloom. |
@@ -202,7 +200,7 @@ The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe
 | **Farming purpose** | **Dedicated Mandrakadabra Seed supplier:** sacrifices immediate Leaves and some time to sustain future premium Leaf harvests **without repeatedly exposing the premium Plant to the dangerous transformation setup**. A strategically valuable counterpart, not another best Leaf producer. |
 | **Effect compatibility** | **Strong response to Seed Yield Adjustment**, especially while **Dim** (a conditional magnitude increase, in contrast with Bamboom's Damp Seed synergy). Ripening acceleration can improve turnaround toward late Seed returns; Growth acceleration can offset setup cost. Ordinary Harvest Yield and germination compatibility; never turns effects into opposite-direction behavior. |
 
-**Open:** Seed quantities, exact germination, time economics of the two access routes, and whether Mandrakazam needs a different fallback benefit to maintain good cross-branch value. No fungus or recipe is assigned now.
+**Balance follow-up:** Mandrakazam's approved **20 Mandrakadabra Seeds at 200%**, Seed compatibility and its germination supply chain are specified in §§23–24, while approved Transformation routes are in §71. Playtesting should evaluate the Seed economy and whether Mandrakazam's fallback utility is sufficient.
 
 ### How the Mandrake three fit together
 
@@ -217,18 +215,16 @@ Mistlefoe ─────────────────┘                
 ~~~
 
 - **Mandrabra** is the capable gateway with modest self-sustaining farming.
-- **Mandrakadabra** rewards demanding cultivation with the **highest Woodlands Leaf peak**; it dies after **6 uninterrupted in-game hours of Mycelial exposure**, a Plant-specific short threshold distinct from ordinary Woodlands tolerance.
+- **Mandrakadabra** rewards demanding cultivation with the **highest Woodlands Leaf peak**; **4 continuous hours of resolved Bright** after becoming Mandrakadabra is lethal, so the player should move Bright → Lit promptly (§70).
 - **Mandrakazam** is the **Seed-focused detour** that supports safe, repeatable Mandrakadabra crops.
 
-**Phase 1 status:** The user approved the Mandrake batch, including the **specific 6-hour continuous Mycelial death threshold for Mandrakadabra**. The exact fungus assignments and transformation recipes remain deferred until the user-prescribed third pass. Numeric Growth/Ripening/yield values are proposed in §23 as a separate whole-family balancing pass.
 
-**Correction to earlier shorthand:** Mandrakadabra's distinctive lethal exposure is **Mycelial**; it is not an additional unnamed hazard. The direct transformation path must be designed to involve a genuine Mycelial-management challenge, without creating an emitted Transformation Influence.
 
 ---
 
-## 23. Woodlands full-family numerical pass — proposed starting balance
+## 23. Woodlands full-family numerical pass — approved first-pass balance
 
-**Latest correction (§70):** Any reference below to Mandrakadabra's special six-hour Mycelial death threshold is **historical and superseded** by its approved **four-hour continuous Bright lethal exposure**. Its Lit optimum and high-Leaf role are unchanged. This section's other first-pass numerical values remain as previously approved.
+**Current hazard (§70):** Mandrakadabra's operative special lethal threshold is **four uninterrupted hours in Bright**, never the earlier special Mycelial six-hour timer. The numerical rows below remain accepted first-pass values.
 
 
 **Status:** The user **approved the Woodlands numerical table below as the first balancing-pass baseline**, including deliberately large differences between ordinary and specialized Plants. **10** is the typical non-Seed harvest near 100% and **10** Seeds near 200%, with about **4 in-game days to 100%** and **8 total in-game days to 200%** as the game-wide reference. A thoroughly optimized quick crop may aim for **36–48 in-game hours to 100%**. This is **not final balance**: actual playtesting and tester feedback will motivate later adjustments. The user explicitly prefers **bold, exciting differentiation now over prematurely conservative balancing**. Germination and compatibility proposals follow in §24.
@@ -243,7 +239,7 @@ Mistlefoe ─────────────────┘                
 - A Plant unable to provide its own Seeds may nevertheless be directly planted if another Plant supplies Seeds of its species (e.g. **Mandrakadabra Seeds from Mandrakazam**).
 - This is a **shape-and-magnitude first pass**, not yet complete percentage-by-percentage Leaf/Seed curves or germination investment probabilities. These figures should be tested for practical Seeds consumed and sustained Leafs per occupied hex-day.
 
-### Proposed Woodlands numerical table
+### Approved first-pass Woodlands numerical table
 
 | Plant | Days to 100% | Total days to 200% | Natural peak Leaves (progress) | Seeds available at 200% | Seed identity |
 | --- | ---: | ---: | --- | ---: | --- |
@@ -259,9 +255,9 @@ Mistlefoe ─────────────────┘                
 | **Mandrakadabra** | **5.0** | **8.5** | **30 around 135%**, narrow | **0** | None; can be grown from Mandrakazam Seeds |
 | **Mandrakazam** | **5.0** | **10.0** | **5 around 110%** | **20** | Mandrakadabra |
 
-**Bamboozled proposal:** An ordinary one-time harvest once at least 100% progress yields **one Bamboo Steel trophy**, and never Seeds or Leaves. Because Bamboozled is obtained by Transformation, the new instance starts at **0%** and must advance before its trophy is eligible (§58). This eligibility/trophy quantity remains part of the *unapproved numerical pass*, not a new trophy economy.
+**Bamboozled first-pass rule:** An ordinary one-time harvest once at least 100% progress yields **one Bamboo Steel trophy**, and never Seeds or Leaves. Because Bamboozled is obtained by Transformation, the new instance starts at **0%** and must advance before its trophy is eligible (§58). This is accepted as initial balance, subject to later testing; it does not introduce a generic trophy economy.
 
-**Mandrakadabra exception already approved:** Death after **6 uninterrupted hours on Mycelial**, timer starts upon transformation to Mandrakadabra, resets on interruption, no production penalty prior to the threshold. The relationship between a 5–8.5-day normal lifecycle and the 6-hour Mycelial exposure window should be explicitly tested for playability when designing its direct Transformation route. Do not silently revise this hazard during numeric work.
+**Mandrakadabra lethal exception (§70):** Resolved Bright for **4 uninterrupted in-game hours** kills it, starting with a fresh clock upon Transformation or direct planting and resetting if Bright ceases before completion. A fresh Mandrakadabra must be moved from the Bright transformation setup to its preferred Lit condition promptly; the older six-hour special Mycelial exception is not operative.
 
 ### Open balancing checks once the table is reviewed
 
@@ -269,21 +265,21 @@ Mistlefoe ─────────────────┘                
 - The high Seed quantities for Bamboom and Mandrakazam must be evaluated against **actual Seed investment, chance to germinate, and the need to establish access to their Seed-producing Plant**. Large Seed numbers alone do not guarantee dominance.
 - **Bramblewraith** has high reliability because of an unusually broad Leaf window, not because it exceeds **Mandrakadabra's high peak**.
 - Development speeds are based on **in-game elapsed time**, not decided as wall-clock/offline progression. How play time is represented can be settled for the actual game's timing implementation.
-- Exact continuous curves, germination percentages/Seed-cost curves, species-specific thermal/Mycelial thresholds not yet specified, and all **fungal Effects/Transformations** still require subsequent numerical/mechanics choices.
+- The full continuous harvest-curve interpolation, some species-specific thermal/ordinary Mycelial hazard thresholds, rounding and stacking need later precision. **Germination chances and Seed costs are approved in §24, and all Woodlands Transformation recipes in §§71–72.**
 
 ---
 
 ## 24. Woodlands numerical pass II — germination and Effect compatibility (APPROVED first pass)
 
-**Latest correction (§70):** The older Mandrakadabra **six-hour Mycelial-special death** references in this balancing section are superseded by **four uninterrupted hours in Bright**, with **Lit** still its preferred farming Illumination. Existing Yield compatibility figures are not changed by this correction.
+**Current hazard (§70):** Use **four uninterrupted hours in resolved Bright** for Mandrakadabra; its **Lit** optimum and approved compatibility multipliers are unchanged.
 
 
 **Status:** The user **approved the entire Woodlands first-pass germination and Effect compatibility numbers below**, including the per-Seed chance model, both numeric compatibility tables, conditional modifiers, zero-output exclusions and the bold specialization differences. These are **accepted initial balance numbers, not final tuned values**. After implementation there must be an actual **playtesting pass with testers** and further balance revisions based on observed emergent behavior. Preference: exciting, memorable, even exaggerated specialist rewards now; rein in overshoots only if tests justify it.
 
-### Germination mechanics proposal
+### Approved first-pass germination mechanics
 
 - **Planting a Seed** germinates into the **species named by that Seed**. Germination probabilities therefore belong to the *target Plant's Seeds*, **not** the living Plant that happened to produce them. E.g. **Bamboom produces Base Seeds → use Base's germination rate**. **Mandrakazam produces Mandrakadabra Seeds → use Mandrakadabra's germination rate**.
-- Proposed simple, memorable Seed sink: **chance for n invested Seeds = min(100%, n × one-Seed chance)**. All Seeds committed to that one planting attempt are consumed whether success or failure. This is a proposed first numerical rule, not yet an implementation decision. Extra Seeds beyond 100% are wasted; the player can choose to spread Seeds across slots or concentrate them to guarantee one Plant. Later testers may reveal whether a gentler nonlinear or variable cap is preferable.
+- **Approved first-pass Seed sink:** **chance for n invested Seeds = min(100%, n × one-Seed chance)**. All Seeds committed to that one planting attempt are consumed whether success or failure. It is a first-pass approved design, not implemented or final playtest balance. Extra Seeds beyond 100% are wasted; the player can choose to spread Seeds across slots or concentrate them to guarantee one Plant. Later testers may reveal whether a gentler nonlinear or variable cap is preferable.
 - Entries marked **not obtainable / no Seed supply** are *not* necessarily biologically incapable of germination, but no source currently supplies those Seeds. Do not invent Seed-production routes for them during this stage.
 - Any **Germination Adjustment** fungal Effect would change the *per-Seed probability contribution* by a fixed emitted signed magnitude scaled by the Seed species' **Germination compatibility**. A fungus with a positive effect must never reduce chance directly, or vice versa.
 
@@ -354,15 +350,14 @@ These create significant differences in resource investment: Base Seeds are inex
 - **Bamboom** combines 18 Base Seeds at 200% with low Leaf output and **2.5× Seed Yield compatibility while Damp**. A hypothetical +20% standard Seed emitter becomes **+50% to Bamboom's own Seed output** (18 → 27 Seeds before rounding); fungal identities/values are not yet chosen.
 - **Mistlefoe** naturally peaks at 14 Leaves and can make much more of a Leaf Yield emitter **while Dim**. Moving it to Lit sacrifices this compatibility bonus, creating a placement trade-off without an extra one-off ability.
 - **Bramblewraith** reaches a 12-Leaf broad plateau already, so **0.3× harvest widening** leaves minimal added headroom. It retains its rare **Mycelial survival tolerance with severe production penalty**, never a Mycelial advantage.
-- **Mandrakadabra** has a 30-Leaf high peak and **2.5× Leaf Yield compatibility in Lit**. A hypothetical +20% emitter creates +50%, potentially **45 Leaves**, but its narrow window, Seed costs, and 6-hour lethal Mycelial threshold must make high-efficiency farming an earned outcome.
+- **Mandrakadabra** has a **30-Leaf** natural high peak and **2.5× Leaf Yield compatibility in Lit**. A +20% Yield source would contribute +50%, potentially **45 Leaves**, but its narrow harvest window, Seed costs, and **4-hour lethal Bright exposure after its Bright-demanding transformation** keep the setup demanding (§70).
 - **Mandrakazam** supplies 20 Mandrakadabra Seeds over a long 10-day lifecycle; **2.5× Seed Yield compatibility while Dim** can increase Seed returns dramatically, making room for powerful support farms.
 
 ### Approval and future-pass discipline
 
-- The **old 13 named fungi remain only proposals**; do not assign any effect or production bonus to a particular named fungus during this pass.
 - The **Germination formula**, per-Seed chances, and the two compatibility tables are **APPROVED first-pass numbers**, subject to subsequent playtesting/revision, not hard limits to prevent interesting combinations.
 - Prioritize **pronounced, memorable effects over tiny differentials**; conduct a separate real **playtest and tester-feedback balancing pass after implementation**. Tester findings may justify toning down overpowered plants/fungi; the immediate goal is not perfection.
-- Full exact output curves, precise environmental hazard penalties other than Mandrakadabra's approved Mycelial six-hour death threshold, and rounding/stacking of concurrent fungal Effects are additional numerical refinements. Do not silently commit nonexistent fungal mechanics or pretend these are implemented.
+- Full continuous output curves, some ordinary temperature/Mycelial hazard penalties, and rounding/stacking of concurrent fungal Effects still require detailed implementation decisions. **Mandrakadabra's approved special lethal threshold is 4h continuous Bright (§70)**. The 31 approved first-pass Fungi and 13 Woodlands recipes are documented separately.
 
 ---
 
@@ -370,13 +365,13 @@ These create significant differences in resource investment: Base Seeds are inex
 
 **Later approvals (§§71–72):** The full Woodlands recipe pass is now approved, including Mandrabra → Mandrakadabra's retained **Rushroom OR Siltgill** named contact for **12 hours** under **Damp, Bright**. **Mycelial on Mandrabra's hex is not a prerequisite.** Old language below describing this recipe or entire Woodlands family as pending is historical and superseded by §72.
 
-**Explicit user approval; supersedes earlier conflicting text in §§22–24 and the unapproved Woodlands recipe draft.** The user rejected making **Mycelial ground a prerequisite for Transformation recipes**; future Plant-owned recipes should not require that overlay. In particular, Mandrabra → Mandrakadabra must not require Mycelial. Instead, **resolved Bright Illumination is a mandatory condition for this direct Transformation**. The complete direct recipe (which particular named Fungus/Fungi must contact Mandrabra, whether other environmental properties must match, and the X uninterrupted hours) is **still to be proposed/reviewed**. The earlier draft of 12 hours of Mycelial presence followed by Mycelial retreat is **NOT approved** and must not be implemented. Do not replace it with an invented new fungus-specific mechanic: any later named-fungus contact uses §68's actual Influence-zone reach.
+**Current direct route (§§70–72):** Mandrabra transforms into Mandrakadabra after **12 uninterrupted hours of resolved Damp Moisture, Bright Illumination, and reach from either Rushroom OR Siltgill's actual emitted Influence zone**. The target Plant **does not need Mycelial on its hex**: a Mycelial-dependent Fungus may remain supported at the source and emit across other terrain. Transformation immediately creates a new Plant at 0% with its own fresh **4-hour Bright lethal exposure timer**. The original Mycelial-gated, Mycelial-retreat-triggered recipe is historical and was rejected.
 
 **New innate Mandrakadabra vulnerability:** When Mandrakadabra occupies a hex whose **resolved Illumination is Bright**, it dies after **4 uninterrupted in-game hours of Bright**. The continuous lethal timer starts when the Mandrakadabra instance is created in Bright (through Transformation at 0% or from a planted Seed) or when an existing Mandrakadabra enters Bright. Moving the resolved Illumination away from Bright **before the four-hour threshold** clears the exposure timer. Returning to Bright begins a new full four-hour exposure; there is no historical cumulative damage bank. The timer does not inherit Mandrabra's prior Bright exposure on Transformation, consistent with §58. Normal event-order and death/Transformation tie rules still apply (§§60,64).
 
 **Preserved farming identity:** **Lit, NOT Bright, remains Mandrakadabra's preferred Illumination**, together with the previously approved Damp/Temperate preference and its exceptionally high, narrow Leaf peak. Thus the intended puzzle is to transform Mandrabra under Bright and then reduce Illumination to Lit quickly enough to farm Mandrakadabra for its full multi-day lifecycle. This vulnerability is tied to the **resolved environmental state**, not receiving a particular fungal cultivation bonus or being at a lifecycle stage. The short Bright hazard applies to Mandrakadabra grown directly from **Mandrakadabra Seeds** as well as one obtained by Transformation.
 
-**What changed and what did not:** This **replaces** the earlier **Mandrakadabra-specific Mycelial death after 6 hours**; the old special six-hour Mycelial condition is **not an additional simultaneous special hazard**. Ordinary Woodlands Mycelial aversion/hazard can still be defined on its usual terms without bringing back a special six-hour threshold. No Mycelial overlay is required for the Mandrabra → Mandrakadabra recipe. Mandrakazam remains the Seed-producing safer alternative, and Mandrabra still has two confirmed outgoing graph edges; they must be designed to be **mutually exclusive** under §66. No other Woodlands recipes from the earlier 13-route **unapproved proposal** become approved by this decision; only the mandatory Bright condition, four-hour Bright hazard, and retained Lit farming optimum are newly locked here. All other Plant profiles, Seed identities, and numeric balance remain unchanged. **Text-only; no Plant/Fungus gameplay implementation.**
+**Approved rule boundaries:** The four-hour Bright threshold replaces—not supplements—the old special six-hour Mycelial timer. Ordinary Woodlands Mycelial hazards remain separate. Neither a Mycelial target hex nor retreat is a Mandrabra → Mandrakadabra prerequisite. Mandrakazam still supplies Mandrakadabra Seeds; the two Mandrabra outgoing recipes are mutually exclusive by **Bright versus Dim** (§71). All **13 Woodlands routes are approved first-pass**, with other Seed identities, numerical balance and shared event/death priority unaffected. The design is not implemented in gameplay.
 
 ---
 

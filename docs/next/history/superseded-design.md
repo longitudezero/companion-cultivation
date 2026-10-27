@@ -1371,3 +1371,872 @@ The illumination directions above are grounded in the long-standing accepted §1
 - **First-pass Seed/farming economy remains approved:** Thymekeeper produces Sunrice Seeds; Starberry produces Sunrice Seeds; Ghost Rice produces Moonrice Seeds; Dillusion produces its own Seeds; Glass Apple produces **Starberry Seeds**; Pum'king is entirely sterile. Working Spices species names still await the later cooking-spice renaming pass.
 
 **Documentation status:** The user has **expressly accepted the complete proposed Spices pass**, including the named highlighted mechanics, but **some exact proposed parameters cannot be authenticated from available source text**, and are deliberately left unfilled here rather than invented. This section faithfully preserves the accepted network and confirmed constraints. It does **not** represent a fully transcribed/implementation-ready 11-row recipe specification. The other five families (Ingredients §67, Aquatic §69, Woodlands §§71–72, Flowers §73, Desert §74) remain fully recorded with their initial conditions/timings. **No gameplay code has been modified.**
+
+---
+
+## Superseded wording relocated from approved first-pass profiles and interaction audits (27 October 2026)
+
+**Preservation record:** The following excerpts are taken from the first staged copy of the original design sections, except where explicitly noted as a staging wrapper. They are preserved because their *phase status, named-contact guesses, old numeric propagation caps, proposed hazards, or deferred decisions* were superseded by later approvals. Some lines also contained valid data; those valid numbers and exceptions are retained in the linked active topic file. No original GitHub documents were altered.
+
+### 22. Woodlands — Plant-by-Plant profiles (phase 1) — woodlands.md
+
+Earlier wording from [docs/next/plants/woodlands.md](../plants/woodlands.md) (original source section or first-pass staging preface):
+
+- **Reason:** Archived superseded design-phase framing (first-staging line 18)
+
+~~~~text
+**Phase status:** First record each Plant's six characteristics without assigning named Fungi or final Transformation recipes. **Approved** means the user accepted the profile direction, not that exact numbers are finalized. **Proposed** is an unapproved next candidate.
+~~~~
+
+- **Reason:** Archived completed workflow instruction (first-staging line 152)
+
+~~~~text
+**Workflow reminder:** During current Phase 1, these are **Plant profiles only**. No fungus roster, named fungal assignments, transformation recipes, or final numerical thresholds are being locked. The approved Bamboo branch and the three remaining Mandrake Plants can be treated separately.
+~~~~
+
+- **Reason:** Replaced obsolete recipe status while retaining unresolved tuning distinction (first-staging line 171)
+
+~~~~text
+**Open:** Exact harvest, Seed production, and conditional window strengths; whether its own Seed yield is best kept moderate in later balance. Do not assign its two transformation recipes now.
+~~~~
+
+- **Reason:** Superseded Mycelial death replaced with approved Bright hazard (first-staging line 175)
+
+~~~~text
+**Established role:** **Highest potential normal Leaf harvest in Woodlands**, with a risky direct Transformation route and a safer Mandrakazam Seed route. **Specific weakness selected in this Plant-design pass:** Mandrakadabra is **hypersensitive to the Mycelial overlay**: it dies after **6 uninterrupted in-game hours** on an active Mycelial hex. This is a distinctively short threshold compared with ordinary Woodlands Plants. The transformation danger is now tied to this **Plant-owned environmental hazard** rather than an undefined fungally emitted lethal or Transformation Effect; the Phase 3 direct route must be designed to make this hazard meaningfully relevant, without prematurely assigning any particular fungus.
+~~~~
+
+- **Reason:** Corrected profile environment and exposure details (first-staging line 182)
+
+~~~~text
+| **Environment** | Prefers **Damp, Temperate, and Lit**. Dim/Cold/Warm impair output, Dry/Flooded less efficient. **Hot and Freezing** are harmful and can kill after exposure. **Special weakness:** occupying a **Mycelial hex for 6 uninterrupted in-game hours kills Mandrakadabra**. It receives **no gradual additional penalty** from Mycelial before this threshold; it can produce normally until death occurs. Exposure resets if its hex stops being Mycelial. The **Mandrakadabra-specific timer begins on transformation into Mandrakadabra** (previous-identity exposure time does not transfer); directly Seed-grown Mandrakadabra starts with no exposure. This rule is independent of fungus identity. |
+~~~~
+
+- **Reason:** Replaced obsolete six-hour Mycelial rule and unassigned recipe proposal (first-staging line 186)
+
+~~~~text
+**Specific vulnerability specification chosen for this first pass (pending review with the Mandrake batch):** 6 in-game hours of continuous Mycelial exposure is lethal, with **no early soft debuff**, and the timer resets on interruption; no cumulative damage bank. It begins when the Plant becomes Mandrakadabra, so a new identity is not killed instantly by its precursor's prior exposure. **Phase 3 requirement:** Make the direct Mandrabra → Mandrakadabra transformation a real Mycelial-management challenge, using ordinary source/overlay/adjacency mechanics. Do **not** pick the fungus or complete that recipe yet; ensure it is possible to obtain and save Mandrakadabra despite Mycelial's delayed retreat. This is an intentionally concrete Plant weakness now, with balancing corrections allowed in Phase 5.
+~~~~
+
+- **Reason:** Corrected family summary (first-staging line 218)
+
+~~~~text
+- **Mandrakadabra** rewards demanding cultivation with the **highest Woodlands Leaf peak**; it dies after **6 uninterrupted in-game hours of Mycelial exposure**, a Plant-specific short threshold distinct from ordinary Woodlands tolerance.
+~~~~
+
+- **Reason:** Moved superseded status into history (first-staging line 221)
+
+~~~~text
+**Phase 1 status:** The user approved the Mandrake batch, including the **specific 6-hour continuous Mycelial death threshold for Mandrakadabra**. The exact fungus assignments and transformation recipes remain deferred until the user-prescribed third pass. Numeric Growth/Ripening/yield values are proposed in §23 as a separate whole-family balancing pass.
+~~~~
+
+- **Reason:** Removed obsolete Mycelial correction (first-staging line 222)
+
+~~~~text
+**Correction to earlier shorthand:** Mandrakadabra's distinctive lethal exposure is **Mycelial**; it is not an additional unnamed hazard. The direct transformation path must be designed to involve a genuine Mycelial-management challenge, without creating an emitted Transformation Influence.
+~~~~
+
+- **Reason:** Numerical baseline subsequently approved (first-staging line 225)
+
+~~~~text
+## 23. Woodlands full-family numerical pass — proposed starting balance
+~~~~
+
+- **Reason:** Made profile current without instructing to follow obsolete content (first-staging line 15)
+
+~~~~text
+**Latest Woodlands hazard correction (§70, APPROVED):** Mandrakadabra's earlier six-hour **Mycelial-specific** lethal rule and Mycelial-gated direct Transformation concept have been **superseded**. The approved replacement is death after **4 uninterrupted in-game hours in resolved Bright Illumination**, while **Lit remains optimal for farming**. Read the historical Mandrakadabra profile below subject to §70; do not use its older six-hour Mycelial text as current authority.
+~~~~
+
+- **Reason:** Updated unassigned recipe/germination status (first-staging line 203)
+
+~~~~text
+**Open:** Seed quantities, exact germination, time economics of the two access routes, and whether Mandrakazam needs a different fallback benefit to maintain good cross-branch value. No fungus or recipe is assigned now.
+~~~~
+
+- **Reason:** Removed old Phase 3 promise and supplied approved recipe (first-staging line 50)
+
+~~~~text
+**Established role:** Bamboozeling is the **inferior-but-still-harvestable intermediate** in the confirmed **Bamboom → Bamboozeling → Bamboozled** transformation route. Sustained qualifying conditions make it important to act within a harvest window; the actual fungal identities and transformation recipes will be designed in Phase 3.
+~~~~
+
+### 23. Woodlands full-family numerical pass — approved first-pass balance — woodlands.md
+
+Earlier wording from [docs/next/plants/woodlands.md](../plants/woodlands.md) (original source section or first-pass staging preface):
+
+- **Reason:** Numerical table subsequently approved (first-staging line 242)
+
+~~~~text
+### Proposed Woodlands numerical table
+~~~~
+
+- **Reason:** Corrected obsolete unapproved status while retaining exact eligibility (first-staging line 258)
+
+~~~~text
+**Bamboozled proposal:** An ordinary one-time harvest once at least 100% progress yields **one Bamboo Steel trophy**, and never Seeds or Leaves. Because Bamboozled is obtained by Transformation, the new instance starts at **0%** and must advance before its trophy is eligible (§58). This eligibility/trophy quantity remains part of the *unapproved numerical pass*, not a new trophy economy.
+~~~~
+
+- **Reason:** Updated numeric pass warning (first-staging line 260)
+
+~~~~text
+**Mandrakadabra exception already approved:** Death after **6 uninterrupted hours on Mycelial**, timer starts upon transformation to Mandrakadabra, resets on interruption, no production penalty prior to the threshold. The relationship between a 5–8.5-day normal lifecycle and the 6-hour Mycelial exposure window should be explicitly tested for playability when designing its direct Transformation route. Do not silently revise this hazard during numeric work.
+~~~~
+
+- **Reason:** Removed stale claim that already approved data undefined (first-staging line 268)
+
+~~~~text
+- Exact continuous curves, germination percentages/Seed-cost curves, species-specific thermal/Mycelial thresholds not yet specified, and all **fungal Effects/Transformations** still require subsequent numerical/mechanics choices.
+~~~~
+
+- **Reason:** Updated numeric section header (first-staging line 227)
+
+~~~~text
+**Latest correction (§70):** Any reference below to Mandrakadabra's special six-hour Mycelial death threshold is **historical and superseded** by its approved **four-hour continuous Bright lethal exposure**. Its Lit optimum and high-Leaf role are unchanged. This section's other first-pass numerical values remain as previously approved.
+~~~~
+
+### 24. Woodlands numerical pass II — germination and Effect compatibility (APPROVED first pass) — woodlands.md
+
+Earlier wording from [docs/next/plants/woodlands.md](../plants/woodlands.md) (original source section or first-pass staging preface):
+
+- **Reason:** Accepted germination model (first-staging line 279)
+
+~~~~text
+### Germination mechanics proposal
+~~~~
+
+- **Reason:** Corrected approval state, retained formula and caveats (first-staging line 282)
+
+~~~~text
+- Proposed simple, memorable Seed sink: **chance for n invested Seeds = min(100%, n × one-Seed chance)**. All Seeds committed to that one planting attempt are consumed whether success or failure. This is a proposed first numerical rule, not yet an implementation decision. Extra Seeds beyond 100% are wasted; the player can choose to spread Seeds across slots or concentrate them to guarantee one Plant. Later testers may reveal whether a gentler nonlinear or variable cap is preferable.
+~~~~
+
+- **Reason:** Corrected numerical balance example (first-staging line 353)
+
+~~~~text
+- **Mandrakadabra** has a 30-Leaf high peak and **2.5× Leaf Yield compatibility in Lit**. A hypothetical +20% emitter creates +50%, potentially **45 Leaves**, but its narrow window, Seed costs, and 6-hour lethal Mycelial threshold must make high-efficiency farming an earned outcome.
+~~~~
+
+- **Reason:** Archived stale fungus-roster status (first-staging line 358)
+
+~~~~text
+- The **old 13 named fungi remain only proposals**; do not assign any effect or production bonus to a particular named fungus during this pass.
+~~~~
+
+- **Reason:** Updated scope of genuinely open questions (first-staging line 360)
+
+~~~~text
+- Full exact output curves, precise environmental hazard penalties other than Mandrakadabra's approved Mycelial six-hour death threshold, and rounding/stacking of concurrent fungal Effects are additional numerical refinements. Do not silently commit nonexistent fungal mechanics or pretend these are implemented.
+~~~~
+
+- **Reason:** Updated germination section header (first-staging line 274)
+
+~~~~text
+**Latest correction (§70):** The older Mandrakadabra **six-hour Mycelial-special death** references in this balancing section are superseded by **four uninterrupted hours in Bright**, with **Lit** still its preferred farming Illumination. Existing Yield compatibility figures are not changed by this correction.
+~~~~
+
+### §70 — Mandrakadabra transformation environment and lethal Bright vulnerability (APPROVED, 26 October 2026) — woodlands.md
+
+Earlier wording from [docs/next/plants/woodlands.md](../plants/woodlands.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed superseded 'recipe still to be proposed' within approved §70 (first-staging line 368)
+
+~~~~text
+**Explicit user approval; supersedes earlier conflicting text in §§22–24 and the unapproved Woodlands recipe draft.** The user rejected making **Mycelial ground a prerequisite for Transformation recipes**; future Plant-owned recipes should not require that overlay. In particular, Mandrabra → Mandrakadabra must not require Mycelial. Instead, **resolved Bright Illumination is a mandatory condition for this direct Transformation**. The complete direct recipe (which particular named Fungus/Fungi must contact Mandrabra, whether other environmental properties must match, and the X uninterrupted hours) is **still to be proposed/reviewed**. The earlier draft of 12 hours of Mycelial presence followed by Mycelial retreat is **NOT approved** and must not be implemented. Do not replace it with an invented new fungus-specific mechanic: any later named-fungus contact uses §68's actual Influence-zone reach.
+~~~~
+
+- **Reason:** Removed stale status from §70 after later approval (first-staging line 374)
+
+~~~~text
+**What changed and what did not:** This **replaces** the earlier **Mandrakadabra-specific Mycelial death after 6 hours**; the old special six-hour Mycelial condition is **not an additional simultaneous special hazard**. Ordinary Woodlands Mycelial aversion/hazard can still be defined on its usual terms without bringing back a special six-hour threshold. No Mycelial overlay is required for the Mandrabra → Mandrakadabra recipe. Mandrakazam remains the Seed-producing safer alternative, and Mandrabra still has two confirmed outgoing graph edges; they must be designed to be **mutually exclusive** under §66. No other Woodlands recipes from the earlier 13-route **unapproved proposal** become approved by this decision; only the mandatory Bright condition, four-hour Bright hazard, and retained Lit farming optimum are newly locked here. All other Plant profiles, Seed identities, and numeric balance remain unchanged. **Text-only; no Plant/Fungus gameplay implementation.**
+~~~~
+
+### 37. Spices — first Plant-profile batch, Base and three Illumination branches (APPROVED first-pass profiles) — spices.md
+
+Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original source section or first-pass staging preface):
+
+- **Reason:** Replaced pending workflow and placeholder references (first-staging line 20)
+
+~~~~text
+**Agreed design sequence:** Specify all ten Spices Plant responses and Seed identities, then a complete numerical pass, then fungus roster and Plant-owned Transformation recipes. Named working fungi (**Glimmer, Veil, Gloam, Prism**) and environmental requirements shown in historical §15 are *provisional examples*, not locked assignments. Fungi can change Illumination using the ordinary global environmental Source model and emit their own separately-defined cultivation Effects; their **spatial overlap and Blockers** matter because each Plant responds differently to the **resolved Dark / Dim / Lit / Bright state**. Do not invent a periodic day/night cycle, a special Light resource, family-wide photocharge meter, Environmental Tolerance Effect, or universal Transformation Effect.
+~~~~
+
+- **Reason:** Updated approved status (first-staging line 22)
+
+~~~~text
+### Existing Spices network (preserved, no final recipes)
+~~~~
+
+- **Reason:** Removed obsolete deferral, kept crop identities (first-staging line 33)
+
+~~~~text
+The **Sunrice and Moonrice branches are complementary**, not fully isolated economies: **Thymekeeper** will produce **Sunrice Seeds** to sustain productive Bright fields. **Pum'king** retains two routes with the previously sketched challenge of **overlapping opposing light contributions while the final condition is Lit**, subject to actual environmental propagation and clamping. **Glass Apple** retains its Starberry and Ghost Rice origins. All precise recipes (including whether/how the originally illustrated fungi satisfy them) remain deferred.
+~~~~
+
+- **Reason:** Replaced staged design-workflow note (first-staging line 110)
+
+~~~~text
+The first four Spices six-part profiles are **APPROVED first-pass designs**. Full numerical lifecycle durations, Seed quantities, Seed chance, compatibility matrices, and environmental danger thresholds belong to the later Spices family-wide numeric pass, as for all earlier families. The next coherent batch should specify the four accessible intermediates **Starberry, Thymekeeper, Ghost Rice, and Dillusion**, then the two shared endpoints **Pum'king and Glass Apple** before numerical balance. No fungi were assigned and **no code changed**.
+~~~~
+
+### 38. Spices — second Plant-profile batch, Bright/Dim/Dark intermediates (APPROVED first-pass profiles) — spices.md
+
+Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original source section or first-pass staging preface):
+
+- **Reason:** Archived historical work sequencing (first-staging line 208)
+
+~~~~text
+- The next batch should be the **two shared high-value endpoints Pum'king and Glass Apple**, preserving Pum'king's overlapping opposing Luminous Influence requirement at final **Lit** and Glass Apple's Bright/high Leaves with **Starberry Seeds**, via Starberry or Ghost Rice. Do **not** assign fungus identities or recipe checks until the later fungus/Transformation pass; historical labels are examples only.
+~~~~
+
+- **Reason:** Archived completed phase direction (first-staging line 208)
+
+~~~~text
+- After all ten Spices profiles are user-approved, propose the normal **whole-family numeric pass** (days to 100/200%, Leaf and Seed output at specified points, germination chances, core and advanced compatibility matrices, species-specific environment multipliers and hazards), then continue the agreed Plant-first workflow. Eventual player testing may revise the bold numbers.
+~~~~
+
+- **Reason:** Corrected historical status without discarding approval (first-staging line 208)
+
+~~~~text
+- **Approval:** This second batch is **APPROVED as first-pass design** by the user. The final Spices batch (§39) covers **Pum'king and Glass Apple**; no game code or fungus identities were assigned.
+~~~~
+
+### 39. Spices — final Plant-profile batch, Pum'king and Glass Apple (APPROVED first-pass profiles) — spices.md
+
+Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original source section or first-pass staging preface):
+
+- **Reason:** Replaced unassigned two-source illustration with approved named recipe specifics (first-staging line 251)
+
+~~~~text
+**Provisional two-overlap feasibility, not a fungus assignment:** After the later fungus roster is designed, a **Plant-owned Pum'king transformation condition** may require concurrently receiving the two appropriate oppositely directed ordinary Source influences while the final resolved environment reads **Lit**. The **precursor** (Sunrice or Dillusion) and any additional duration/adjacency constraints will be specified later. This is a **specific spatial puzzle direction preserved from §15**, not a claim that an emitted "Pum'king Transformation Effect" exists. The resolved Lit must be physically reachable under the final environment engine. **Source presence alone is not the same as net illumination**.
+~~~~
+
+- **Reason:** Corrected stale roster/recipe assignment claims (first-staging line 302)
+
+~~~~text
+**User-review status:** All ten Spices profiles in §§37–39 are **APPROVED as first-pass species identities**, including Pum'king's Lit overlap challenge/sterility and Glass Apple's Bright peak/Starberry Seed production. §40 contains the numerical balance **PROPOSED for user review**. After numerical approval the next Family is Ingredients (**one universal transforming Base**, Base-only starter Seeds, and all other species terminal; §41 supersedes the earlier architecture). **No code changes; no fungus roster/final transformation recipes assigned.**
+~~~~
+
+### 40. Spices — complete numerical pass (APPROVED first-pass balance) — spices.md
+
+Earlier wording from [docs/next/plants/spices.md](../plants/spices.md) (original source section or first-pass staging preface):
+
+- **Reason:** Corrected section status (first-staging line 473)
+
+~~~~text
+### G. Transformation/network feasibility and pending game design decisions
+~~~~
+
+- **Reason:** Replaced indefinite Pum'king sources/ranges/duration with exact approved pairs (first-staging line 475)
+
+~~~~text
+1. **Pum'king** can originate from **Sunrice OR Dillusion**. The conserved first-pass Plant-owned recipe direction is **two appropriate, oppositely directed Luminous Source influences simultaneously reaching the target while the resolved hex state is Lit**. Historical names **Glimmer and Veil** are NOT assignments, and the recipe's source ranges, source types, duration, and event priority are still open. The later fungus/recipe pass must prove that **net Lit is reachable under the actual environment's clamping, blockers and propagation**; do not mistake Source presence for final resolved Illumination. The transformed Pum'king **starts at 0%** and must be able to grow into its **46-Leaf** plateau (§58).
+~~~~
+
+- **Reason:** Replaced indefinite Glass Apple engineering with exact approved two-phase recipe (first-staging line 476)
+
+~~~~text
+2. **Glass Apple** comes from **Starberry OR Ghost Rice**. Both become the same **Bright-optimized 58-Leaf Glass Apple**, with **24 Starberry Seeds** at late harvest. **Ghost Rice is happiest in Dark**, yet it must be able to survive and complete the specified future Dark→Lit/Bright engineering pathway. The newly transformed Glass Apple starts at **0%** and then develops toward its own 155% Leaf peak or later Seed harvest. **No origin-dependent attunement** (§58).
+~~~~
+
+- **Reason:** Removed superseded Ingredients/unassigned Seeds status (first-staging line 481)
+
+~~~~text
+7. **Names are temporary**. The future Spices naming pass should produce believable game cooking spices and preserve the species graph, Seed identities, traits, stage times, environment responses and transformation feasibility. The separate Ingredients family now has **one Base Plant that can transform directly into every terminal Ingredient**; only Base Seeds start unlocked. §41 supersedes the earlier no-transformations statement. Terminal species Seed identities still need user review.
+~~~~
+
+- **Reason:** Removed stale no-roster/no-recipe assertion (first-staging line 484)
+
+~~~~text
+**Approval status:** All ten Spices profiles (§§37–39) and the entire §40 numerical pass are **APPROVED as first-pass balance**. The user then revised Ingredients to one universal transforming Base (§41). Tester playtesting remains planned later. No fungal roster, final transformations, or implementation were assigned.
+~~~~
+
+- **Reason:** Removed material-is-under-review claim (first-staging line 437)
+
+~~~~text
+**Species use the usual resolved conditions:** Moisture **Dry / Damp / Flooded**, Temperature **Freezing / Cold / Temperate / Warm / Hot**, and the independent **Mycelial material overlay**. This pass does not add a mandatory Sand/Clay/Dirt/Fertility interaction, as those environmental Properties remain under review. A fungus adjusting Temperature, Moisture or Illumination affects the **same resolved environment** regardless of what Plant is there; Plants respond differently without changing emission rules.
+~~~~
+
+### 53. Fungi — expanded alternatives and missing-Effect batch: six NEW species (APPROVED first-pass bundles) — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (original source section or first-pass staging preface):
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 20)
+
+~~~~text
+| **Tidegill** | **Brightening +1 Illumination**, Luminous, **Airborne Range 1** | **Seed Timing Shift −12 lifecycle percentage points EARLIER**, **Waterborne Range 3** | **Independent** | First named **Seed Timing Shift** source and genuinely Waterborne *cultivation* Influence; requires a connected Flooded path for the Seed timing Effect while its illumination follows a different footprint |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 22)
+
+~~~~text
+| **Sunspore** | **Warming +1 Temperature**, Thermal, **Airborne Range 2** | **Seed-FAVORING Leaf–Seed Allocation**, **Waterborne Range 3**; **trade Leaves for additional Seeds** where valid Seed identity/output already exists | **Independent** | Covers other missing Allocation direction and second Waterborne *cultivation* choice; cannot manufacture Seeds on sterile species and wants a connected Flooded path, while Warming may upset Cold/Flooded seed farms |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 67)
+
+~~~~text
+| **Plant Effect** | **Seed Timing Shift −12 lifecycle percentage points EARLIER** on an EXISTING Seed-availability curve, **Waterborne Range 3**, using the recipient's preapproved Seed Timing compatibility. It does **not** accelerate Growth/Ripening, increase maximum Seed Yield, grant Seeds to a sterile Plant, or change Seed identity. Timing-shift stacking/clipping and how exactly the natural curve reinterpolates are for global numeric/system design. |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 90)
+
+~~~~text
+| **Plant Effect** | **Seed-favoring Leaf–Seed Allocation**, **Waterborne Range 3**. Convert a bounded portion of *currently eligible* Leaf-side production into more of the Plant's ALREADY-EXISTING Seed output, with corresponding non-Seed harvest opportunity cost. **Requires valid Seed identity and actual positive Seed production eligibility**; absolutely sterile plants gain no Seeds. Conversion strength, precise progress windows/units and final interpolation remain deliberately unquantified pending system review. |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 103)
+
+~~~~text
+| **Seed Timing Shift** | **NO earlier source** | **Tidegill −12pp, Waterborne Range 3** | First viable source; future alternatives with different propagation/environment should be explored |
+~~~~
+
+- **Reason:** Removed obsolete Fertility-is-retained claim (first-staging line 110)
+
+~~~~text
+**Source-side and habitat caution:** Fertility +1/-1 are still unassigned because the game's Fertility Property is **retained in environmental v1.1 but under possible future design removal**; don't add Nutrient-only fungi to justify keeping Fertility. Same for Enchanted. Mycelial remains created by exactly one species, Mycelord, and benefits the *fungus source* not a Plant standing on dangerous Mycelial.
+~~~~
+
+- **Reason:** Clarified historical audit nature (first-staging line 112)
+
+~~~~text
+### I. Unresolved audit follow-up / next design work
+~~~~
+
+- **Reason:** Archived completed approval request (first-staging line 114)
+
+~~~~text
+1. **Review these six profiles** before approval; consider especially whether **Seed Allocation should require both eligible outputs at once**, whether its trade is sufficiently meaningful in the chosen Plant examples, and whether +12% alternative Yield bonuses and +15% accessible Growth produce viable options versus more costly approved incumbents.
+~~~~
+
+- **Reason:** Archived completed candidate exploration (first-staging line 114)
+
+~~~~text
+2. **Continue alternative-source exploration** after this batch. Particular remaining one-source or proposal-only effects include **Harvest Window widening (Droughtcap)**, **Ripening slowdown (Veilcap)**, **Ripening acceleration (Wakemorel §50 proposed)**, **Germination (Hushroom §50 proposed)**, **hourly Leaf/Seed Production (Echomorel/Sim'mushro'dim §50 proposed)**, and **Seed Timing/Allocation**, which would have only one initial Source per exact direction. Do not assume every effect must have exactly two or three; seek genuine different strategies.
+~~~~
+
+- **Reason:** Archived obsolete approval uncertainty (first-staging line 114)
+
+~~~~text
+3. **Don't silently APPROVE §50 profiles.** User's agreement to the effect-alternatives principle and this new pass did not explicitly approve Echomorel, Wakemorel, Hushroom or Sim'mushro'dim. Maintain their proposed status until reviewed or revised.
+~~~~
+
+- **Reason:** Archived completed workflow instruction (first-staging line 114)
+
+~~~~text
+4. **After enough candidates**, review a complete matrix for opportunities to merge/reassign Effects without prepackaging a solved high-end optimization, then balance all fungus lifecycles, own Spores, propagation, Mycelial amplifier/suppression and absolute output in one numeric pass. Only then perform the **separate dedicated Plant-owned Transformation recipe pass** across all six families. Text-only; no code.
+~~~~
+
+- **Reason:** Corrected 31-roster and completed recipes status (first-staging line 115)
+
+~~~~text
+**Approval status (updated after subsequent user review):** All six §53 bundles Mistruffle/Crumblecap/Quickshade/Tidegill/Frostfolio/Sunspore are **APPROVED as first-pass species designs**, as are the four §50 fungi and the earlier nine. Exact Allocation exchange ratio, numeric fungus lifecycle/Spore balance, and feasibility of Waterborne Source geometries still require their dedicated passes. §51 audit and §52 many-source principle accepted as working design; no final fungus count or numeric commitments; no final transformation recipes. No code altered.
+~~~~
+
+- **Reason:** Removed obsolete 19 species interim milestone and Allocation/recipe pending (first-staging line 9)
+
+~~~~text
+**Context and status:** The user agreed to §52's principle: multiple viable sources for a desired Effect category, with distinct strengths, habitat/propagation and secondary environmental Influences; explore as many genuinely interesting fungi as needed BEFORE later mergers/pruning, with **no numerical roster cap**. They then explicitly requested the next pass. This section introduced **SIX NEW fungal species** as independent first-pass designs rather than prematurely merging their Effects. **The user subsequently explicitly APPROVED all six, as well as the previous four in §50** ("i like them, and the previous 4 too"). The first-pass names, environmental/cultivation pairings and described roles are approved; full fungus-wide numerical tuning and Allocation exchange semantics remain open. Together the six proposed here and those four draft §50 profiles would make **19 candidate fungi in total**, including Mycelord, but 19 is NOT a target, cap or promised eventual count. Exact fungus stage days, own-Spore success/count/harvest curves, effects balancing, Mycelial buff amounts and Transformation recipes are still later passes.
+~~~~
+
+- **Reason:** Corrected complete recipe status (first-staging line 11)
+
+~~~~text
+**Shared already-approved fungus biology:** Each fungus grows 0–100%, sporulates 100–200%, emits from germination and continues after 200% if maintained, yields only own **Spores** through a single destructive fungus harvest. Only Mycelord creates Mycelial ground. Ordinary fungi start with one globally consistent signed environmental emission and at least one distinct consistently signed Plant-development Effect; environmental emissions are normal **discrete Property-step Modifiers**, independently propagating and clamped after summation. The Source's actual reach/Kind/Mode and recipient Plant's compatibility matter. **No invented Environmental Tolerance, Fungus-generated second bloom, intrinsic Mycelial benefit on Plants, automatic Seed identity creation, or generic Transformation Effect.** All Plant-owned final recipes remain deferred for a dedicated full pass.
+~~~~
+
+- **Reason:** Names/effects subsequently approved (first-staging line 13)
+
+~~~~text
+### A. Proposed fungus six-pack, with existing-effect alternatives and genuinely missing dimensions
+~~~~
+
+### 54. Fungi — AGREED asymmetric Leaf–Seed value, plus six MORE alternate-Effect species (APPROVED first-pass bundles) — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (original source section or first-pass staging preface):
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 145)
+
+~~~~text
+| **Rilllace** | **Cooling −1 Temperature**, Thermal, **Airborne Range 2** | **Harvest Window width +12%**, **Waterborne Range 3** | **Independent** | Waterborne narrower/wider footprint alternative to approved **Droughtcap +25%, Drying −1**; good Flooded route solves reach but cooling can threaten plants |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 147)
+
+~~~~text
+| **Brookrill** | **Cooling −1 Temperature**, Thermal, **Airborne Range 2** | **Time-based Seed Production +0.10 Seeds/hour** at **120–170% Plant progress**, **Waterborne Range 3**, only during positive progress | **Independent** | Mid-Ripening lower-rate Waterborne alternative to approved **Sim'mushro'dim +0.15 Seeds/h at 160–195%, Warming +1 and Mycelial-preferring**; Flooded connectivity is a major positioning cost |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 190)
+
+~~~~text
+3. **Plant effect:** **Harvest Window +12% relative WIDTH adjustment** on eligible existing Leaf-curve productive intervals; **Waterborne Range 3**, Plant's Harvest Window compatibility applied. Width adjustment doesn't increase peak Leaf Yield or add a second peak.
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 212)
+
+~~~~text
+3. **Plant effect:** **+0.10 Seeds/hour on Plant progress 120–170%**, **Waterborne Range 3**, multiplied by the Seed-bearing target Plant's time-based Seed Production compatibility. Eligible only during **positive lifecycle progress and continuous emitted Influence reach**. It is an existing **Time-based Seed Production**, not a new Seed Timing Shift; supplemental Seeds can arise during its declared window without claiming the natural Seed curve itself was shifted. **Zero for absolutely sterile Plants**; existing Seed species/mix unchanged. Exact partial-progress Seed-availability conventions for fungally produced output deserve the numeric pass, not a blanket assumption that every species naturally has Seeds at 120%.
+~~~~
+
+- **Reason:** Replaced 19-species and unresolved Allocation status (first-staging line 121)
+
+~~~~text
+**Status:** The user explicitly **APPROVED all four §50 fungi** (Echomorel, Wakemorel, Hushroom, Sim'mushro'dim) **AND all six §53 fungi** (Mistruffle, Crumblecap, Quickshade, Tidegill, Frostfolio, Sunspore). That raises the accepted first-pass profiles to **19 fungus species including the unique Mycelial-producing species Mycelord**, with no roster count cap and no guarantee all 19 survive later consolidation. The user also gave an **AGREED economic direction** for Leaf–Seed Allocation: **Leaves are more valuable than Seeds, so an extra Leaf must generally cost multiple Seeds**. E.g. a candidate ratio is **3 Seed units per 1 Leaf** (same trade mirrored for Seeds-favoring Allocation); **3:1 is NOT approved as a fixed rate**, and exact species-independent conversion, caps and curve eligibility are deferred to the fungal numerical/system pass. The user asked to **continue developing additional alternatives**, especially where a wanted Effect otherwise forces one mandatory fungus.
+~~~~
+
+- **Reason:** Replaced interim 25-species report (first-staging line 226)
+
+~~~~text
+**Result after user approval:** Prior approved 19 + six approved in §54 = **25 working candidate fungus species** total, including Mycelord, with **NO roster cap or implied 25-target**. Common primary Effect categories now have at least two source candidates at varying strengths and/or different delivery; still only **one Seed Timing Shift** and **one of each Allocation direction**, all §53 approved. Additional niche variants and consolidation can be explored next; **do NOT premerge now**, and do not add Fertility-only or Enchanted-only fungi unless their parent environmental systems gain a clear role. This is fungal DESIGN work only, not final numeric balancing or implementation.
+~~~~
+
+- **Reason:** Replaced explicitly open 3:1 vs 2:1 or 4:1 alternatives (first-staging line 228)
+
+~~~~text
+**User review update (26 October 2026):** §47 Mycelord, §§48–50, §53 and **all six §54 fungus bundles** are **APPROVED first pass**: **25 working species total**, not a cap or global numerical balance. The Leaf-over-Seed **economic asymmetry is AGREED**, but the 3:1 (or 2:1 / 4:1) exchange rate, stage eligibility, bounds and rounding remain **OPEN**. Additional source alternatives may be proposed; they do not become approved without user review. The dedicated Plant-owned transformation pass remains after fungal roster/system balance. No gameplay code changed.
+~~~~
+
+- **Reason:** Later resolution of open conversion rate (first-staging line 125)
+
+~~~~text
+### A. AGREED asymmetry for Leaf–Seed Allocation, numeric conversion OPEN
+~~~~
+
+- **Reason:** Species subsequently approved (first-staging line 134)
+
+~~~~text
+### B. New six-species proposal: more choices in the same existing Effect types
+~~~~
+
+### 55. Fungi — three alternative Sources for remaining singleton desirable Effects (APPROVED first-pass bundles) — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (original source section or first-pass staging preface):
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 246)
+
+~~~~text
+| **Gloamclock** | **Darkening −1 Illumination**, Luminous, Airborne Range 2 | **Seed Timing Shift −8 progress points EARLIER**, Airborne Range 1 | **Mycelial-independent** | **Tidegill** gives stronger −12 EARLIER via Waterborne Range 3 while Brightening; Gloamclock reaches non-Flooded fields but only locally and may darken a light-dependent crop |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 248)
+
+~~~~text
+| **Goldgill** | **Brightening +1 Illumination**, Luminous, Airborne Range 2 | **Seed-favoring Leaf–Seed Allocation**, Airborne Range 1 | **Mycelial-independent** | **Sunspore** uses Warming and Waterborne Range 3; Goldgill works without a Flooded route but reaches fewer hexes and may over-brighten shade-preferring Plants |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 258)
+
+~~~~text
+5. **Puzzle:** A modest local alternative for Seed-bearing Plants **without a Flooded connection**. A Dim/Dark-preferring Seed crop may welcome Darkening, but a Bright crop may need another Source or selective Luminous blocking to preserve its harvest value. Tidegill's stronger Waterborne Range 3 remains advantageous along actual Flooded corridors; its separate Airborne Brightening is not interchangeable with Gloamclock's darkness. For approved **Rice 1.6× Seed Timing compatibility**, the nominal −8 would be −12.8 points before any eventual curve bounds; this is a response example, **not** a promise that Seeds exist at a particular progress point.
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 279)
+
+~~~~text
+4. **Habitat:** **Mycelial-independent**, operating without Flooded or Mycelial under the Source. Its cultivation Influence is locally Airborne, whereas Sunspore's is Waterborne Range 3.
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 283)
+
+~~~~text
+**Feasibility question for later audit:** Compare Goldgill's small local Airborne footprint against a Sunspore Waterborne Range 3 canal, especially where blocking Brightening would also obstruct desirable garden light. Verify any allocation benefits preserve Seed identity/mixes and do not run when the Plant has no eligible Seed-producing possibility.
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 289)
+
+~~~~text
+| **Seed availability earlier** | Tidegill −12, Waterborne R3, Brightening | **Gloamclock −8, Airborne R1, Darkening** | Higher routed reach/power vs local non-Flooded usability; opposing Light emissions |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 291)
+
+~~~~text
+| **Seeds for Leaf sacrifice** | Sunspore, Waterborne R3, Warming | **Goldgill, Airborne R1, Brightening** | Flooded-network reach vs local use without a water route |
+~~~~
+
+- **Reason:** Applied later-approved §56 unbounded connected-Flooded reach; original numeric cap archived (first-staging line 293)
+
+~~~~text
+**APPROVAL UPDATE:** Gloamclock, Bristlecap and Goldgill are **APPROVED first-pass profiles**. Together with the 25 through §54, there are **28 approved working candidates**, not a cap. Source strength and full fungus balancing remain provisional; no extra Mycelial creator or new Effect category has been added. **§56's Leaf–Seed Allocation rules and unlimited Waterborne connectivity were subsequently APPROVED**. Earlier Waterborne Range 3 references in §§53–55 are superseded by the unlimited connected-Flooded rule. The Plant-owned transformation-recipe pass remains separate.
+~~~~
+
+- **Reason:** Updated 28-candidate interim count and recipe status (first-staging line 289)
+
+~~~~text
+**APPROVAL UPDATE:** Gloamclock, Bristlecap and Goldgill are **APPROVED first-pass profiles**. Together with the 25 through §54, there are **28 approved working candidates**, not a cap. Source strength and full fungus balancing remain provisional; no extra Mycelial creator or new Effect category has been added. **§56's Leaf–Seed Allocation rules and unlimited Waterborne connectivity were subsequently APPROVED**. Earlier Waterborne unlimited connected-Flooded reach (§56) references in §§53–55 are superseded by the unlimited connected-Flooded rule. The Plant-owned transformation-recipe pass remains separate.
+~~~~
+
+- **Reason:** Replaced 25-species and subsequent proposed roster (first-staging line 234)
+
+~~~~text
+**Status (26 October 2026):** The user approved all six §54 fungi, bringing the first-pass approved roster to **25 species including Mycelord**, and reaffirmed the **AGREED §52 principle**: most desirable direct cultivation Effects should be available from multiple meaningfully different fungal Sources so that obtaining Effect A does not mandate Fungus B. **Mycelord remains the sole Mycelial-creating fungus species**. **APPROVAL UPDATE (26 October 2026):** The user reviewed and **APPROVED Gloamclock, Bristlecap and Goldgill as first-pass species, Effect pairings and design roles**. The working approved roster is now **28 candidates including Mycelord**, not a cap. No full fungal numerical pass or code changes are authorized by these proposals.
+~~~~
+
+### 47. Fungi — one dedicated Mycelial-only fungus (APPROVED first-pass role) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed superseded Mycelord as possible required overlay (first-staging line 43)
+
+~~~~text
+- This proposal must be weighed against the **dedicated later Transformation pass**: Mycelord may eventually satisfy a Plant-owned "receiving Mycelial overlay/adjacency" requirement, but **no recipe is fixed now**.
+~~~~
+
+- **Reason:** Removed obsolete early-roster status (first-staging line 45)
+
+~~~~text
+**Review status:** The user has **APPROVED Mycelord as the sole Mycelial-creating fungus species, emitting no other cultivation or environmental Effects**, and accepted its non-Mycelial-dependent bootstrap role as first-pass design. Overarching fungal lifecycle/Spores, anti-self-synergy, and simpler Mycelial habitat rules are agreed (§46). **The four ordinary environmental shapers in §§45–46 remain proposed and due for reconsideration next.** Mycelial propagation details, fungal numerical pass, and the later dedicated Transformation pass remain unassigned. No code changed.
+~~~~
+
+### 48. Fungi — revised first four ordinary Effect pairings (APPROVED first-pass bundles) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (original source section or first-pass staging preface):
+
+- **Reason:** Updated old statement that fungi are not mapped (first-staging line 90)
+
+~~~~text
+| **Lit Pum'king spatial engineering (recipe deferred)** | Brightening and darkening emissions are ordinary separately attributable Source contributions; their algebraic sum may be zero on a target while final Illumination is Lit | The **two-presence-plus-Lit condition remains only a historical Plant-owned puzzle direction**, not a recipe mapping to Glimmergill/Veilcap; verify real source footprints later |
+~~~~
+
+- **Reason:** Removed stale planned fungal phases (first-staging line 101)
+
+~~~~text
+**Next step underway:** Continue with Rainmorel, Droughtcap, Prismorel and Rushroom (§49), then the remaining candidates, the fungal numerical pass, and finally the explicit **separate full Plant-owned transformation-recipe pass** across every Family. We may note feasibility along the way, but **no recipe, duration, priority or transformation-specific activation Effect is assigned here**. No game code changed.
+~~~~
+
+- **Reason:** Removed early work sequencing (first-staging line 51)
+
+~~~~text
+**Status:** The user has **APPROVED the Mycelord-only Mycelial-creator concept in §47** and asked to work through the **first four regular fungal Effect pairings** previously drafted in §§45–46. The user **APPROVED all four revised Effect pairings** (Glimmergill, Veilcap, Emberbolete, Chillanterelle) and accepted that Glimmergill's situational Leaf Peak Timing Shift remains worthwhile even if only used in select combos. The listed initial +8 percentage-point and ±20% cultivation magnitudes are **accepted as first-pass design proposals**, subject to fungus-wide numerical balancing; exact Spore economy, hazard thresholds, and optional Mycelial amplification remain unassigned. The original §45 pairs and the intermediate duplicate-Seed-Yield table in §46 are superseded **as competing drafts**, without changing the approved general fungus lifecycle/Spores and habitat framework. This remains FUNGUS DESIGN ONLY: **all exact Plant-owned transformation recipes stay reserved for their own dedicated later pass**.
+~~~~
+
+### 49. Fungi — second ordinary fungus batch: Rainmorel, Droughtcap, Prismorel, Rushroom (APPROVED first-pass bundles) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (original source section or first-pass staging preface):
+
+- **Reason:** Updated already completed roster (first-staging line 188)
+
+~~~~text
+7. **Fungal names and roster size still tentative** except Mycelord's agreed first-pass role. This four-fungus batch is proposed for separate user review, then **Echomorel, Wakemorel, Hushroom, Sim'mushro'dim** remain from the original 13-name pool (alongside already approved Mycelord and four earlier ordinary fungi). Not every name must survive, and additional fungi may be added to cover meaningful missing Effects rather than filler.
+~~~~
+
+- **Reason:** Corrected recipe pass status (first-staging line 189)
+
+~~~~text
+8. **Dedicated later transformation pass remains reserved after fungal design, fungal numbers and feasibility checks**. Mentioning potential relevant Conditions or Sources now does not assign any specific outgoing edge or duration. Text-only; no game code.
+~~~~
+
+- **Reason:** Corrected obsolete scope after §49 (first-staging line 191)
+
+~~~~text
+**Approval status:** All six Plant families' first-pass profiles/numerics, §46's general fungal rules, §47 Mycelord's sole-creator role, and §48's four bundles **are APPROVED**. **§49 Rainmorel/Droughtcap/Prismorel/Rushroom environmental emissions, cultivation Effects, Mycelial classes, first-pass nominal magnitudes and proposed propagation footprints are APPROVED as first-pass bundles**, subject to fungal-wide numerical balancing and system feasibility checks. §50 introduces the next four candidates. Full fungal numerical pass and complete Plant-owned transformation recipes remain deferred. No implementation.
+~~~~
+
+- **Reason:** §49 approved (first-staging line 109)
+
+~~~~text
+### A. Proposed four emitted-Effect bundles
+~~~~
+
+### 68. Transformation ingredients: environment plus named fungal contact — APPROVED, with Ingredients exception — transformations.md
+
+Earlier wording from [docs/next/systems/transformations.md](../systems/transformations.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed §68-§70 Mycelial recipe conflict (first-staging line 84)
+
+~~~~text
+- **Environment:** Currently resolved **Moisture, Temperature and Illumination** Conditions, applicable **Mycelial overlay** state, their ordinary transitions (such as Flooded→Damp), and the **X uninterrupted hours** of those environmental prerequisites. The previous pre-transition exposure snapshot and full new-Plant 0% reset remain valid (§§58–59, 64).
+~~~~
+
+- **Reason:** Replaced recipe future tense with completed references (first-staging line 95)
+
+~~~~text
+- Recipes for **Woodlands, Aquatic, Flowers, Desert and Spices** should use the allowed environmental and **named fungal contact** ingredients, without checking fungal Growth/Yield/Ripening or other developmental bonuses as transformation prerequisites. Exact named fungi, alternative-name sets, durations, transitions and pairwise exclusivity are still to be designed in those families' dedicated passes.
+~~~~
+
+- **Reason:** Removed self-contradictory Mycelord potential recipe (first-staging line 96)
+
+~~~~text
+- **Later supersession (§70): Mycelial ground is NOT a Transformation prerequisite.** Do not use Mycelial overlay presence as a necessary condition in future Plant Transformation recipes. **Mycelord edge case:** Mycelord creates a timed Mycelial overlay but no ordinary environmental/cultivation Influence zones. Recipes can check whether a Plant's hex is currently **Mycelial** as an environmental overlay condition. If a later proposed recipe specifically requires **named Mycelord contact**, return to the user to determine whether overlay connection alone should qualify; do **not** invent an ordinary Mycelord Influence or silently turn all Mycelial into named contact.
+~~~~
+
+### 56. First-pass Leaf–Seed Allocation mechanics and unlimited Waterborne reach (APPROVED) — seeds-spores-and-harvesting.md
+
+Earlier wording from [docs/next/systems/seeds-spores-and-harvesting.md](../systems/seeds-spores-and-harvesting.md) (original source section or first-pass staging preface):
+
+- **Reason:** Corrected interim 28-fungi milestone (first-staging line 9)
+
+~~~~text
+**Status (26 October 2026): APPROVED.** The user expressly accepted the **3:1 Leaf–Seed conversion and all accompanying harvest-time, compatibility, stacking, rounding and source-strength rules below**, and approved **unlimited Waterborne propagation**. The roster is **28 approved first-pass Fungus species**, with no count cap. The user favors deliberately strong initial values and playtest-driven numerical balance. **Implementation priority clarified afterward:** finish defining the approximate Plant/Fungus roster, perform a whole-roster Effect-coverage and logic review, **then** implement Plant/Fungus gameplay; meanwhile, the **Waterborne environmental change is authorized now** and is implemented in Prototype 1. Do not treat numerical balancing as a prerequisite for the coverage/logic review, and do not begin Plant/Fungus implementation yet.
+~~~~
+
+### 25. Aquatic Plant profiles — first batch (APPROVED first-pass profiles) — aquatic.md
+
+Earlier wording from [docs/next/plants/aquatic.md](../plants/aquatic.md) (original source section or first-pass staging preface):
+
+- **Reason:** Archived old Plant-first work order; retained numeric benchmark (first-staging line 15)
+
+~~~~text
+**Context:** The user has now **approved Woodlands germination and Effect-compatibility numbers** as first-pass balance and directed work to move to **Aquatic**. The numerical philosophy carries over: approximately **10 Leaves / 10 Seeds**, **4 in-game days to 100% / 8 total days to 200%** as ordinary benchmarks, but strong, meaningful species differences are encouraged. Detailed numeric Aquatic balance can be assigned after identifying family roles, as for Woodlands; do not design fungi or transformation recipes in this pass.
+~~~~
+
+- **Reason:** Corrected recipe status (first-staging line 19)
+
+~~~~text
+### Confirmed network view (no recipes assigned in this profile batch)
+~~~~
+
+- **Reason:** Removed old no-named-fungi claim (first-staging line 45)
+
+~~~~text
+**Keep it simple:** Kelpfull is the first **Flooded-oriented accessible Seed producer**, rather than another elaborate puzzle. It branches toward **Kelpergeist** and the unwanted **Kelpless** outcome; no named fungi chosen.
+~~~~
+
+### 26. Aquatic Plant profiles — Lotus branch (APPROVED first-pass profiles) — aquatic.md
+
+Earlier wording from [docs/next/plants/aquatic.md](../plants/aquatic.md) (original source section or first-pass staging preface):
+
+- **Reason:** Corrected old absence of recipes and numbers (first-staging line 157)
+
+~~~~text
+- **No fungi, exact Transformation recipes, additional resource types, or new effect categories are being committed.** Numerical duration/yield/germination/compatibility values beyond specific proposed innate attunement bonus will be specified with the rest of Aquatic after the Plant profiles are accepted.
+~~~~
+
+### 28. Aquatic numerical pass — APPROVED first-pass lifecycle, harvest, germination, Effect compatibility and hazard responses — aquatic.md
+
+Earlier wording from [docs/next/plants/aquatic.md](../plants/aquatic.md) (original source section or first-pass staging preface):
+
+- **Reason:** Moved unspecified duration claim, kept independent hazard (first-staging line 340)
+
+~~~~text
+- Kelpergeist also has an **established Transform-to-Kelpless route from sustained loss of Flooded**. **Do not assign that Transformation duration in this numeric table**: the exact Plant-owned route, priority, presence of other required conditions, and continuity rule are Phase 3 work. The Dry hazard timer and a transformation timer are independent conditions; future recipe tuning must ensure the rescue/wrong-turn opportunity actually functions.
+~~~~
+
+- **Reason:** Removed concluded design sequence (first-staging line 350)
+
+~~~~text
+- As for Woodlands, **do not design or implement fungi or Transformation recipes here**. First finish Plant profiles/numbers across all families, then a fungus roster, then decide fungus-supported Plant-owned transformations, adjust fungi and Plants, and conduct an actual player **playtest and balancing pass** afterward. No code changes were requested or made.
+~~~~
+
+### 29. Flowers — first Plant-profile batch (APPROVED first-pass profiles) — flowers.md
+
+Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (original source section or first-pass staging preface):
+
+- **Reason:** Replaced old phase-status statement (first-staging line 18)
+
+~~~~text
+**Status:** With all 11 Aquatic Plant profiles and their full §28 numeric pass approved, the user requested **Flowers**. Following the Plant-first workflow, this batch proposes **Daisydaze (Base), Charmomile, Daisyspell, and Marigloom** as coherent six-part Plant specifications. This entire batch was **approved by the user**; the final family-wide timing/harvest/germination/compatibility matrices follow after all ten Flowers Plants have profiles. No fungal roster or named Transformation recipes are being assigned.
+~~~~
+
+### 32. Flowers — full-family numerical pass (APPROVED first-pass balance) — flowers.md
+
+Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed claim roster and recipes yet to be determined (first-staging line 398)
+
+~~~~text
+**No premature system additions:** These are **responses to existing Environment Conditions**. No Fertility/Material/Enchanted dependency is invented. No Mycelial species benefit is possible. The named fungi roster and final transformation conditions will be determined only after the Plant-first passes, with their ordinary Effects fixed and no Transformation Effect.
+~~~~
+
+### 34. Desert — second Plant-profile batch, Freezing and redemption lines (APPROVED first-pass profiles) — desert.md
+
+Earlier wording from [docs/next/plants/desert.md](../plants/desert.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed early phase restrictions, retained intrinsic traits (first-staging line 119)
+
+~~~~text
+**Status:** The user **approved** all §33 Heat/recovery profiles (including Ember Aloe's 36-hour Hot endurance requirement, the mistaken Ashen Rose recovery outcome, and Ember Aloe/Aloemancer Seed identities). The user **APPROVED all four six-part profiles for Moonjade, Jadewisp, Pearadox, and Sandrose**, including the proposed 48-hour Moonjade Freezing threshold, Pearadox dual-temperature bonuses, and Sandrose's indefinite Dry tolerance. Preserve all agreed Desert routes and the global Plant-first workflow. Define **intrinsic Plant traits and exposure logic** concretely now, but **do not assign named fungi, Effect packages, or complete Transformation recipes**. Leaf/Seed quantities, baseline stage durations and full germination/compatibility tables come with the whole-family numerical pass. No game code changes.
+~~~~
+
+- **Reason:** Removed unassigned recipe/priority question (first-staging line 202)
+
+~~~~text
+4. **Moonjade → Pearadox** remains the already agreed **alternative** Moonjade recovery route, using additional qualifying conditions and a separate recipe that will be decided in Phase 3. The Jadewisp route must not automatically preempt the player when those alternate conditions are satisfied; later recipe work must resolve their priority/selection explicitly.
+~~~~
+
+- **Reason:** Removed old 3rd batch next-step instruction (first-staging line 216)
+
+~~~~text
+**Status:** The user **APPROVED the four profiles**, including the **Moonjade 48-hour uninterrupted Freezing qualification**, **Pearadox Hot +70% Leaf / Freezing +80% Seed bonus at 75% rate**, and **Sandrose indefinite Dry tolerance**. The final Desert group (§35) covers **Cactopus, Cactaclysm, and Mirage Rose**, followed by the Desert family-wide numerical pass. No fungi assigned, complete recipes set, or game code changed.
+~~~~
+
+### 35. Desert — third and final Plant-profile batch, Cactopus / Cactaclysm / Mirage Rose (APPROVED first-pass profiles) — desert.md
+
+Earlier wording from [docs/next/plants/desert.md](../plants/desert.md) (original source section or first-pass staging preface):
+
+- **Reason:** Replaced completed workflow and unassigned fungi claims (first-staging line 225)
+
+~~~~text
+**Status:** The user **approved §34's Moonjade, Jadewisp, Pearadox, and Sandrose profiles**, including the precise Moonjade exposure, Pearadox temperature-mode and Sandrose drought traits. This final Desert batch of six-part species profiles for **Cactopus, Cactaclysm, and Mirage Rose** was **approved by the user**, including Cactaclysm's broad Hot harvest and complete sterility, and Mirage Rose's 1:1 Ember Aloe/Moonjade Seed mixture. The existing §14 network and approved §33–34 Plant identities remain intact. **Do not pick specific fungi, define final Transformation recipes, implement code, or turn Transformations into a fungus Effect**. Following the accepted family workflow, full lifecycle/yield/Seed-germination/Effect-compatibility numeric matrices come after all eleven Desert profiles are accepted. Bold first-pass differences are preferable to conservative prebalancing; a later tester playtest pass will tune them.
+~~~~
+
+- **Reason:** Replaced unassigned contacts with approved specifics (first-staging line 288)
+
+~~~~text
+**Feasibility safeguard (§58):** Aloemancer → Mirage Rose and Jadewisp → Mirage Rose both start a **new 0%-progress Mirage Rose**. Each route must leave the new Plant in a sustainable habitat long enough to complete its own Growth and Ripening for the mixed-Seed harvest. Any specific qualifying fungi and trigger order are deferred to the later Transformation-recipe pass.
+~~~~
+
+### 36. Desert — full-family numerical pass (APPROVED first-pass balance) — desert.md
+
+Earlier wording from [docs/next/plants/desert.md](../plants/desert.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed stale no-fungi/no-recipes caveat (first-staging line 312)
+
+~~~~text
+**Status:** The user approved **all eleven Desert six-part profiles (§33–35)** and requested a complete first-pass numerical table. The user **APPROVED all §36 numerical values as first-pass Desert balance**, including every lifecycle/harvest row, Seed species and germination probabilities, complete Effect compatibility, Temperature/Moisture/Illumination responses, and hazard exposure times. The previously approved intrinsic Plant bonuses and exposure qualifications remain unchanged. All numbers are subject to later tester playtesting. Consistent game-wide comparison: roughly **10 Leaves around 100%, 10 Seeds at 200%, 4 in-game days to 100%, 8 in-game days total to 200%** for the standard Plant, in good habitat without fungi. Prefer **dramatic specialization and real trade-offs** now, with a mandatory subsequent tester playtest/balance pass after implementation. **This is text-only design, NOT implementation; no fungi, final transformation recipes, or code changes.**
+~~~~
+
+### 41. Ingredients — AGREED new one-Base star-transformation architecture — ingredients.md
+
+Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md) (original source section or first-pass staging preface):
+
+- **Reason:** Updated old future recipe proposal to approved exception (first-staging line 31)
+
+~~~~text
+5. **Only Base-owned direct transformation recipes** are to be designed in a future recipe pass, after Plant profiles and fungal roster; no fungus emits a generic Transformation Effect. These recipes may differ in required standard fungus presence, ordinary Influence receipt, resolved Conditions or time, but the user did not lock exact conditions.
+~~~~
+
+### 42. Ingredients — approved Base, seven-species roster, and first four profiles (APPROVED first-pass profiles) — ingredients.md
+
+Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed obsolete Apple/Pumpkin/Strawberry pending review (first-staging line 109)
+
+~~~~text
+**Approval status:** The **Potato Base and seven-species roster are APPROVED**, along with the **Potato, Rice, Carrot and Onion** six-part profiles and their stated approximate natural peak timings/preferences. Apple, Pumpkin and Strawberry have **new proposed profiles in §43**, pending review. Then proceed to the full Ingredients numerical pass. No fungi, final recipes or game code changed.
+~~~~
+
+- **Reason:** Corrected first-four-only approval status (first-staging line 40)
+
+~~~~text
+**Status:** The user **APPROVED the seven-species Ingredients roster**, **Potato as the sole transforming Base**, and the complete first four six-part profiles for **Potato, Rice, Carrot and Onion**, without requested changes. The six terminal species are **Rice, Carrot, Onion, Apple, Pumpkin, and Strawberry**. All six remain directly accessible by **Potato-only outgoing transformations**. The remaining three profiles are proposed for review in §43; a whole-family numerical pass follows their approval. No fungus assignments, recipes or game code.
+~~~~
+
+### 43. Ingredients — final three six-part Plant profiles: Apple, Pumpkin, Strawberry (APPROVED first-pass profiles) — ingredients.md
+
+Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md) (original source section or first-pass staging preface):
+
+- **Reason:** Corrected obsolete proposed-numeric status (first-staging line 188)
+
+~~~~text
+**Approval status:** The user **APPROVED all seven Ingredients first-pass profiles and the Potato-only star transformation network**, including Apple, Pumpkin and Strawberry's approximate natural peaks, environments and compatibility roles. **§44 is the complete Ingredients numerical pass PROPOSED for review**. Tester playtesting remains planned after eventual implementation. No fungi, final recipes, or game code changed.
+~~~~
+
+### 44. Ingredients — complete numerical pass (APPROVED first-pass balance) — ingredients.md
+
+Earlier wording from [docs/next/plants/ingredients.md](../plants/ingredients.md) (original source section or first-pass staging preface):
+
+- **Reason:** Corrected obsolete fungal/recipe status (first-staging line 354)
+
+~~~~text
+**Approval status:** All seven Ingredients six-part Plant profiles (§§42–43) and the star-shaped Potato-only transformation architecture (§41) are **APPROVED**. The full lifecycle, Leaves/Seeds, per-Seed germination, core/advanced fungal Effect compatibilities, Moisture/Illumination/Temperature multipliers, and continuous lethal clocks in **§44 are APPROVED FIRST-PASS BALANCE**. Plant-first profiles and numerical balancing for all six Plant Families are now complete; §45 starts fungal design. No fungi or final recipes are approved yet.
+~~~~
+
+### 66. Each Plant's alternative Transformation recipes must be mutually exclusive — APPROVED DESIGN REQUIREMENT — transformations.md
+
+Earlier wording from [docs/next/systems/transformations.md](../systems/transformations.md) (original source section or first-pass staging preface):
+
+- **Reason:** Changed instruction for future recipe pass to current invariant (first-staging line 67)
+
+~~~~text
+- **Design outgoing alternatives to be mutually exclusive:** For each Plant with multiple possible destinations, define its eventual Plant-owned exposure/event/Source/environment requirements so **no feasible garden state and event timestamp can make more than one outgoing recipe valid at once**. The recipe pass must verify all competing pairs, including cases involving multiple reaching fungi, Blockers, Waterborne paths, simultaneous environmental transitions, and independently elapsed exposure timers.
+~~~~
+
+- **Reason:** Corrected completed recipe-status clause (first-staging line 72)
+
+~~~~text
+**Scope:** This closes the *generic* competing-Transformation priority discussion provisionally in favor of design-time prevention. The next substantive text-only task is the dedicated **Plant-owned Transformation recipe pass across the six families**, including pairwise exclusivity and physical feasibility checks before Plant/Fungus biology implementation. No gameplay code changes follow from this decision.
+~~~~
+
+### 33. Desert — first Plant-profile batch, Hot exposure/recovery line (APPROVED first-pass profiles) — desert.md
+
+Earlier wording from [docs/next/plants/desert.md](../plants/desert.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed defunct Sand material claim from Jadeheart (first-staging line 40)
+
+~~~~text
+| **Environment** | Prefers **Damp, Temperate or Warm, and Lit**; **Dry** is survivable with reduced Growth and output (not an instant death), **Flooded** significantly suppresses both. **Hot and Freezing** are genuine hazards to Jadeheart, never bonuses; prolonged Mycelial is hazardous/lethal. Material **Sand can be usable** but gives no special mandatory benefit because the Material system is still under review. |
+~~~~
+
+- **Reason:** Updated obsolete proposal to approved recovery trigger (first-staging line 94)
+
+~~~~text
+4. If Hot is broken before a recovery attempt, the ordinary continuous-exposure clock **resets**; no indefinitely stored Heat-endurance bank. The later recipe pass must specify the exact order of detecting an attempt and the transition out of Hot, so both success and premature failure are actually achievable and unambiguous.
+~~~~
+
+### 50. Fungi — Echomorel, Wakemorel, Hushroom, Sim'mushro'dim (APPROVED first-pass bundles) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (original source section or first-pass staging preface):
+
+- **Reason:** Updated first-13 batch phase status (first-staging line 197)
+
+~~~~text
+**Status:** The user approved all four §49 fungus designs and requested the next batch. The agreed initial roles now comprise **eight ordinary fungi (§§48–49) plus single-purpose Mycelord (§47)**. This §50 introduces the final four names from the earlier 13-name candidate pool, and **all four specific fungus packages were approved by the user in the subsequent review** ("i like them, and the previous 4 too"). Their numbers, environment reaches, Mycelial preference and production windows below are **proposed first-pass values**, not a finalized global fungus numeric pass. Fungal species always **grow from 0–100%, sporulate from 100–200%, emit immediately after germination and continue emitting indefinitely at 200% while viable**; a one-time destructive Fungus harvest yields its own **Spores only**, removing the Source. **Mycelord alone creates Mycelial**. Complex Plant Temperature/Moisture/Illumination preferences do not return as fungal habitat requirements. **Precise Plant-owned transformation recipes remain completely deferred to a clean pass AFTER all fungi and their numerical balance**.
+~~~~
+
+- **Reason:** §50 approved (first-staging line 199)
+
+~~~~text
+### A. Four proposed Effect combinations
+~~~~
+
+### 57. Coverage / interaction audit, three final first-pass fungi, and survival clarification (APPROVED directions; one Transformation ambiguity OPEN) — fungus-lifecycle.md
+
+Earlier wording from [docs/next/systems/fungus-lifecycle.md](../systems/fungus-lifecycle.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed unnecessary interim candidate count (first-staging line 16)
+
+~~~~text
+**Status (26 October 2026):** After reviewing all 28 approved Fungi against the six approved Plant families, the user accepted **three more first-pass Fungus bundles**: Fogdial, Emberbell and Siltgill. The working roster is now **31 approved candidate Fungi, including sole Mycelial creator Mycelord**, with no requirement to expand further before the next logic pass. These are first-pass strengths/roles, not playtested balance. Plant/Fungus gameplay remains **text-only and unimplemented**. Unlimited Waterborne propagation itself is already implemented in the environmental prototype.
+~~~~
+
+### 57. Coverage / interaction audit, three final first-pass fungi, and survival clarification (APPROVED directions; one Transformation ambiguity OPEN) — profiles-final.md
+
+Earlier wording from [docs/next/fungi/profiles-final.md](../fungi/profiles-final.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed historical 28-to-31 narrative from active roster (first-staging line 9)
+
+~~~~text
+**Status (26 October 2026):** After reviewing all 28 approved Fungi against the six approved Plant families, the user accepted **three more first-pass Fungus bundles**: Fogdial, Emberbell and Siltgill. The working roster is now **31 approved candidate Fungi, including sole Mycelial creator Mycelord**, with no requirement to expand further before the next logic pass. These are first-pass strengths/roles, not playtested balance. Plant/Fungus gameplay remains **text-only and unimplemented**. Unlimited Waterborne propagation itself is already implemented in the environmental prototype.
+~~~~
+
+### Multiple approved species profiles — woodlands.md
+
+Earlier wording from [docs/next/plants/woodlands.md](../plants/woodlands.md) (original source section or first-pass staging preface):
+
+- **Reason:** Mark profiles as subsequently approved; no numeric values altered
+
+~~~~text
+| Category | Proposed direction |
+~~~~
+
+### Multiple approved species profiles — aquatic.md
+
+Earlier wording from [docs/next/plants/aquatic.md](../plants/aquatic.md) (original source section or first-pass staging preface):
+
+- **Reason:** Mark profiles as subsequently approved; no numeric values altered
+
+~~~~text
+| Category | Proposed direction |
+~~~~
+
+### Initial staged navigation/status — profiles-final.md
+
+Earlier wording from [docs/next/fungi/profiles-final.md](../fungi/profiles-final.md) (original source section or first-pass staging preface):
+
+- **Reason:** Removed outdated Transformation OPEN heading (first-staging line 7)
+
+~~~~text
+## 57. Coverage / interaction audit, three final first-pass fungi, and survival clarification (APPROVED directions; one Transformation ambiguity OPEN)
+~~~~
+
+### 56 — seeds-spores-and-harvesting.md
+
+Earlier wording from [docs/next/systems/seeds-spores-and-harvesting.md](../systems/seeds-spores-and-harvesting.md) (original source section or first-pass staging preface):
+
+- **Reason:** Moved obsolete Waterborne Range 3 claim into history and kept only active unlimited rule (first-staging line 36)
+
+~~~~text
+5. Earlier **Waterborne Range 3** cultivation footprints (Tidegill, Sunspore, Rilllace, Brookrill) are **superseded by unlimited connected-Flooded reach**. Their separate Airborne environmental emissions retain their own listed Ranges. Non-Waterborne alternatives such as Gloamclock and Goldgill remain useful on non-Flooded fields despite their small local Airborne Ranges. Historical Range 3 mentions in earlier species profiles describe the older first-pass drafts, not the current rule.
+~~~~
+

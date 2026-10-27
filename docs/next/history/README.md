@@ -8,3 +8,6 @@ The originals in the repository's existing docs folder are **left completely unt
 - [Original complete Herbs and Fungi design](../../herbs-and-fungi-design.md) — unchanged full source for exact comparison, including current §76.
 
 See [coverage crosswalk](../audit/source-crosswalk.md) to find where each source section was copied.
+
+
+The historical design archive also includes **section-labeled, verbatim excerpts** removed from newly staged topic files during the second editorial pass. These include superseded Woodlands/Mycelial and Waterborne values, obsolete Material/Fertility assumptions, early roster counts and deferred-recipe claims. See the [original-versus-new comparison](../audit/current-vs-original.md) for the preservation checks.

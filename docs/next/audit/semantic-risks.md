@@ -26,3 +26,11 @@
 5. Mark the relevant [crosswalk semantic checklist](source-crosswalk.md) item only once the exact data and exceptions are confirmed.
 
 This watchlist is not exhaustive. It documents the highest-confidence risks found before the full manual editorial pass.
+
+
+## Pass 2 disposition — 27 October 2026
+
+- **Textual correction applied:** Woodlands §22–24 and §70 Mandrakadabra lethal threshold/recipe; fungal §53–55 Waterborne numeric caps; Spices §37–40 stale deferred status; Materials/Fertility stale source notes; §68 Mycelial-on-Plant wording; §54's superseded open Allocation rate and interim roster counts. Earlier wording is preserved in [history](../history/superseded-design.md).
+- **Deduplicated without losing wording:** shared §§60 and 65, and normative §68 contact. Each has a single full detailed home, with topical links from elsewhere.
+- **Structurally verified:** 76 crosswalk entries, seven final recipe sections character-for-character preserved, 31 fungal names, six family table row counts, and 291 relative links with no detected missing targets/anchors. See [updated comparison](current-vs-original.md).
+- **Still open:** full per-profile prose and per-field semantic certification, rendering review on GitHub, and actual garden-layout feasibility tests. This watchlist is a living risk record; its original rows above document the initial findings and should not be read as all unresolved after pass 2.

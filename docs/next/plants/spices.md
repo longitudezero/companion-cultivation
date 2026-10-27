@@ -17,9 +17,9 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 **Status:** The user **approved Desert's complete §36 numeric pass as first-pass balance** and asked to begin **Spices**. The approved Spices family architecture, old Food sketch preserved in §15, its ten species and all existing branch/cross-branch routes are retained. This first six-part profile batch for **Thymely, Sunrice, Moonrice and Shadow Onion**—the Base and three first branches—was **APPROVED by the user** without changes. These are **working identifiers from the older Food sketch**, explicitly **NOT locked names** or settled RPG ingredients; rename all Spices to cooking-spice-appropriate identities during the later naming pass without redesigning their established mechanics. The separate **Ingredients** family covers recognizable food items via **one universal transforming Base and terminal nontransforming outputs** (§41 supersedes the earlier note).
 
-**Agreed design sequence:** Specify all ten Spices Plant responses and Seed identities, then a complete numerical pass, then fungus roster and Plant-owned Transformation recipes. Named working fungi (**Glimmer, Veil, Gloam, Prism**) and environmental requirements shown in historical §15 are *provisional examples*, not locked assignments. Fungi can change Illumination using the ordinary global environmental Source model and emit their own separately-defined cultivation Effects; their **spatial overlap and Blockers** matter because each Plant responds differently to the **resolved Dark / Dim / Lit / Bright state**. Do not invent a periodic day/night cycle, a special Light resource, family-wide photocharge meter, Environmental Tolerance Effect, or universal Transformation Effect.
+**Current scope:** The ten Spices Plant profiles and numerical pass are approved (§§37–40), the 31-Fungus roster is approved first-pass, and **all 11 Plant-owned Transformation recipes are specified in §76**. Spices use resolved Dark / Dim / Lit / Bright, ordinary Luminous Source algebra, separately emitted fungal cultivation Influences, and actual Blocker/propagation footprints. There is no day/night cycle, special Light resource, photocharge meter, or generic Transformation Effect. Superseded §15 placeholder fungi appear only in the [history](../history/superseded-design.md).
 
-### Existing Spices network (preserved, no final recipes)
+### Approved Spices transformation network
 
 ~~~text
 Thymely (Base)
@@ -30,7 +30,7 @@ Thymely (Base)
  └──> Shadow Onion ──> Dillusion ────────────> Pum'king
 ~~~
 
-The **Sunrice and Moonrice branches are complementary**, not fully isolated economies: **Thymekeeper** will produce **Sunrice Seeds** to sustain productive Bright fields. **Pum'king** retains two routes with the previously sketched challenge of **overlapping opposing light contributions while the final condition is Lit**, subject to actual environmental propagation and clamping. **Glass Apple** retains its Starberry and Ghost Rice origins. All precise recipes (including whether/how the originally illustrated fungi satisfy them) remain deferred.
+The **Sunrice and Moonrice branches are complementary**, not fully isolated economies: **Thymekeeper** will produce **Sunrice Seeds** to sustain productive Bright fields. **Pum'king** retains two routes with the previously sketched challenge of **overlapping opposing light contributions while the final condition is Lit**, subject to actual environmental propagation and clamping. **Glass Apple** retains its Starberry and Ghost Rice origins. The complete approved first-pass recipes and named contacts are in §76.
 
 ### Thymely — APPROVED first-pass six-part Plant profile
 
@@ -107,7 +107,7 @@ The **Sunrice and Moonrice branches are complementary**, not fully isolated econ
 | **Moonrice** | **Dim** | **Many Seeds** | **Moonrice** (own) |
 | **Shadow Onion** | **Dark** | **Moderate, forgiving Leaves** | **Shadow Onion** (own) |
 
-The first four Spices six-part profiles are **APPROVED first-pass designs**. Full numerical lifecycle durations, Seed quantities, Seed chance, compatibility matrices, and environmental danger thresholds belong to the later Spices family-wide numeric pass, as for all earlier families. The next coherent batch should specify the four accessible intermediates **Starberry, Thymekeeper, Ghost Rice, and Dillusion**, then the two shared endpoints **Pum'king and Glass Apple** before numerical balance. No fungi were assigned and **no code changed**.
+**Approved status:** The first four six-part profiles, all other Spices profiles (§§38–39), numerical values (§40) and all 11 named recipes (§76) form the current first-pass design. Fungus and Plant gameplay implementation and playtest balancing remain future work.
 
 ---
 
@@ -205,9 +205,7 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 - Starberry is a **Leaf-focused route** to Sunrice Seeds, whereas Thymekeeper is a **Seed-focused route** to the very same Sunrice Seed type; each has a different environment and access path.
 - Ghost Rice and Shadow Onion can both farm Dark, but **Ghost Rice is more productive with Moonrice Seeds** while Shadow Onion is simpler and self-sustaining. Do not artificially replace their roles with exotic mechanics.
 - Dillusion's **Dim/Lit flexibility**, Seed self-sustainability, and eventual Pum'king access create value without making it the highest Leaf producer.
-- The next batch should be the **two shared high-value endpoints Pum'king and Glass Apple**, preserving Pum'king's overlapping opposing Luminous Influence requirement at final **Lit** and Glass Apple's Bright/high Leaves with **Starberry Seeds**, via Starberry or Ghost Rice. Do **not** assign fungus identities or recipe checks until the later fungus/Transformation pass; historical labels are examples only.
-- After all ten Spices profiles are user-approved, propose the normal **whole-family numeric pass** (days to 100/200%, Leaf and Seed output at specified points, germination chances, core and advanced compatibility matrices, species-specific environment multipliers and hazards), then continue the agreed Plant-first workflow. Eventual player testing may revise the bold numbers.
-- **Approval:** This second batch is **APPROVED as first-pass design** by the user. The final Spices batch (§39) covers **Pum'king and Glass Apple**; no game code or fungus identities were assigned.
+- **Approval:** This second batch is **APPROVED as first-pass design** by the user. The final Spices batch (§39) covers **Pum'king and Glass Apple**; current fungus contacts are specified in §76, but no gameplay implementation exists.
 
 ---
 
@@ -250,7 +248,7 @@ Ghost Rice ───────┘
 
 **First-pass natural shape choice:** Peak **145%**, strong around **130–170%**, one Leaf bloom, **zero Seeds**. Give Pum'king a genuinely high Leaf maximum in the Spices numerical pass—do not dilute it into merely a slightly better Sunrice—and make the numeric **Lit versus Bright** contrast meaningful.
 
-**Provisional two-overlap feasibility, not a fungus assignment:** After the later fungus roster is designed, a **Plant-owned Pum'king transformation condition** may require concurrently receiving the two appropriate oppositely directed ordinary Source influences while the final resolved environment reads **Lit**. The **precursor** (Sunrice or Dillusion) and any additional duration/adjacency constraints will be specified later. This is a **specific spatial puzzle direction preserved from §15**, not a claim that an emitted "Pum'king Transformation Effect" exists. The resolved Lit must be physically reachable under the final environment engine. **Source presence alone is not the same as net illumination**.
+**Approved source-overlap requirement (§76):** Both routes to Pum'king require **resolved Lit throughout** while opposite-sign positive Brightening and negative Darkening **environmental emissions** from the specifically named alternatives actually reach the precursor; ordinary cultivation contact alone is insufficient for the opposing-emission requirement. Sunrice uses **(Glimmergill OR Goldgill) AND (Veilcap OR Fogdial)** at **Damp/Temperate/Lit for 24h**. Dillusion uses **(Lanterncap OR Prismorel) AND (Hushroom OR Gloamclock)** at **Damp/Warm/Lit for 22h**. Pum'king starts at 0% and needs no permanent Source overlap after Transformation.
 
 **After Transformation:** Pum'king remains a Pum'king even if the qualifying sources later stop reaching it, unless a separate future Plant-owned recipe says otherwise (none is proposed). Its ordinary Leaf yield depends on the **current resolved Illumination** (Lit optimal). We are **not** imposing a new rule requiring both transformation sources to remain active throughout Ripening just to keep it productive. Any actual independent Leaf Yield fungal Effects continue to operate only if their sources remain active.
 
@@ -301,7 +299,7 @@ Pum'king ──[Leaf harvest only]──> 0 Seeds
 
 **No additional system invented:** All effects here are either **ordinary Plant environmental responses, harvest curves, standard Seed identities, or compatibility with the established fungal Effect catalogue**. No universal secondary bloom, Seed-type replacement, environmental tolerance, Light-charge accumulation, periodic day/night cycle, or generic transformation Influence.
 
-**User-review status:** All ten Spices profiles in §§37–39 are **APPROVED as first-pass species identities**, including Pum'king's Lit overlap challenge/sterility and Glass Apple's Bright peak/Starberry Seed production. §40 contains the numerical balance **PROPOSED for user review**. After numerical approval the next Family is Ingredients (**one universal transforming Base**, Base-only starter Seeds, and all other species terminal; §41 supersedes the earlier architecture). **No code changes; no fungus roster/final transformation recipes assigned.**
+**Approved roster status:** All ten Spices species profiles (§§37–39), the complete §40 numerical pass and all **11 named Transformation recipes (§76)** are approved first-pass. Ingredients are a separate six-branch Potato Base family (§41), not a Spices subfamily. The approved fungal roster has 31 species. Plant/Fungus gameplay remains unimplemented.
 
 ---
 
@@ -436,7 +434,7 @@ As above, each value scales the magnitude of the corresponding **pre-existing fu
 
 ### F. Moisture and Temperature conditions, hazard thresholds
 
-**Species use the usual resolved conditions:** Moisture **Dry / Damp / Flooded**, Temperature **Freezing / Cold / Temperate / Warm / Hot**, and the independent **Mycelial material overlay**. This pass does not add a mandatory Sand/Clay/Dirt/Fertility interaction, as those environmental Properties remain under review. A fungus adjusting Temperature, Moisture or Illumination affects the **same resolved environment** regardless of what Plant is there; Plants respond differently without changing emission rules.
+**Resolved environment (§61):** Spices respond to **Dry / Damp / Flooded** Moisture, **Freezing / Cold / Temperate / Warm / Hot** Temperature, and **Dark / Dim / Lit / Bright** Illumination, plus ordinary timed **Mycelial overlay** hazards where applicable. **Fertility and permanent Materials are removed**, so there is no Sand/Clay/Dirt gate and no hidden fourth Property. Environmental Source contributions remain globally signed and additively resolved, distinct from Plant compatibility.
 
 **Moisture multipliers**, in an otherwise ideal Temperature and Light. Each cell is **lifecycle rate / ordinary output**; Damp = 1.0× baseline across the Spices family:
 
@@ -472,18 +470,18 @@ As above, each value scales the magnitude of the corresponding **pre-existing fu
 
 **Stacking clarification:** Species environmental factors (e.g., Lit × Dry × Cold) alter natural rate/output before separately emitted fungus cultivation Effects are applied according to their defined direction and compatibility; do not silently use a single generic light factor to replace the detailed Spices table. The exact rounding of fractional Leaves or Seeds and extreme stacking safeguards belong to the later implementation/testing pass; no artificial balance cap is asserted here. **No Spices Plant gets a native Mycelial benefit.**
 
-### G. Transformation/network feasibility and pending game design decisions
+### G. Transformation/network feasibility and approved design invariants
 
-1. **Pum'king** can originate from **Sunrice OR Dillusion**. The conserved first-pass Plant-owned recipe direction is **two appropriate, oppositely directed Luminous Source influences simultaneously reaching the target while the resolved hex state is Lit**. Historical names **Glimmer and Veil** are NOT assignments, and the recipe's source ranges, source types, duration, and event priority are still open. The later fungus/recipe pass must prove that **net Lit is reachable under the actual environment's clamping, blockers and propagation**; do not mistake Source presence for final resolved Illumination. The transformed Pum'king **starts at 0%** and must be able to grow into its **46-Leaf** plateau (§58).
-2. **Glass Apple** comes from **Starberry OR Ghost Rice**. Both become the same **Bright-optimized 58-Leaf Glass Apple**, with **24 Starberry Seeds** at late harvest. **Ghost Rice is happiest in Dark**, yet it must be able to survive and complete the specified future Dark→Lit/Bright engineering pathway. The newly transformed Glass Apple starts at **0%** and then develops toward its own 155% Leaf peak or later Seed harvest. **No origin-dependent attunement** (§58).
+1. **Pum'king** comes from **Sunrice OR Dillusion**, using §76's fully specified named opposite-sign Luminous emission overlaps with **resolved Lit** throughout: Sunrice requires **Damp/Temperate/Lit for 24h** with **(Glimmergill OR Goldgill) AND (Veilcap OR Fogdial)**; Dillusion requires **Damp/Warm/Lit for 22h** with **(Lanterncap OR Prismorel) AND (Hushroom OR Gloamclock)**. In either case, both a positive Brightening and a negative Darkening environmental footprint must actually reach the precursor, and source stacking/Blockers must preserve final Lit. The new sterile Pum'king starts at 0% and can grow toward its approved **46-Leaf** net-Lit peak. The §15 placeholder names are obsolete; §76 is authoritative.
+2. **Glass Apple** comes from **Starberry OR Ghost Rice**, creating the same **Bright-optimized 58-Leaf Glass Apple** with **24 Starberry Seeds** at late harvest and fresh 0% progress. Starberry uses **Damp/Warm/Bright + Prismorel AND Mistruffle for 28h** (§76). Ghost Rice uses the exact **12h Damp/Temperate-or-Cold/Dark preparation with Gloamclock OR Duskleaf**, followed by an **8h window to reach Lit** under Damp/nonextreme Temperature with **Prismorel OR Lanterncap contact at completion**, then can farm its new Glass Apple in Bright. There is **no origin-dependent attunement**.
 3. **Starberry**'s own **8 Sunrice Seeds** and **Glass Apple's 24 Starberry Seeds** form a two-stage reproductive loop. The **Starberry germination chance is a real 18%/Seed**, not N/A. At first unlock the player still transforms Sunrice into Starberry; Glass Apple eventually makes direct Starberry planting possible. Future fungi may improve or hinder Seed Yield and Seed Timing, but **never change the Plant's established Seed species**.
 4. **Thymekeeper** grows **28 Sunrice Seeds in Dim**; **Moonrice** grows **20 Moonrice Seeds in Dim**. Those distinct Seed identities are the reason Moonrice → Thymekeeper creates cross-light farming support instead of a redundant Dim Seed farmer.
 5. **Ghost Rice** makes **11 Moonrice Seeds**, contrasting with **Shadow Onion** yielding **11 Shadow Onion Seeds** from its simpler Dark crop. Both keep their Dark habitat identities; do not redesign roles just because both like Dark.
 6. **One Plant-consuming harvest** at a chosen progress; no extra Leaf/Seed harvest toggles, Light conversion currencies, third progress stage or fungal Secondary Bloom. Fungal Time-based Production only accrues with advancing lifecycle and only inside the emitter's window, not because of compatible plant traits alone.
-7. **Names are temporary**. The future Spices naming pass should produce believable game cooking spices and preserve the species graph, Seed identities, traits, stage times, environment responses and transformation feasibility. The separate Ingredients family now has **one Base Plant that can transform directly into every terminal Ingredient**; only Base Seeds start unlocked. §41 supersedes the earlier no-transformations statement. Terminal species Seed identities still need user review.
+7. **Naming and family boundary:** Spices retain their currently accepted whimsical species names until a future naming review, without changing the ten-species graph, Seed identities, preferred light states or approved §76 recipes. Ingredients have a separate seven-species star architecture with Potato as the sole transforming Base (§41); the Ingredient Seed identities are specified in §§42–44.
 8. **No code changes** until all Plant, Fungus and Transformation design passes and explicit implementation request. First numerical extremes deliberately strong: Bright Glass Apple 58 Leaves / 24 Starberry Seeds, Lit Pum'king 46 Leaves / 0 Seeds, Bright Starberry 31 Leaves / 8 Sunrice Seeds, Dark Ghost Rice 24 Leaves / 11 Moonrice Seeds, Dim Thymekeeper 28 Sunrice Seeds, and sharp off-optimal Light penalties. Evaluate **sustained useful Leaves per occupied hex-day** including Seed sinks, fungus hex occupancy, failed transformations, and harvest timing in eventual tester playtests.
 
-**Approval status:** All ten Spices profiles (§§37–39) and the entire §40 numerical pass are **APPROVED as first-pass balance**. The user then revised Ingredients to one universal transforming Base (§41). Tester playtesting remains planned later. No fungal roster, final transformations, or implementation were assigned.
+**Approved first-pass status:** All ten Spices profiles (§§37–39), the full §40 numerical pass, the 31-Fungus roster and all 11 Spices recipes (§76) are now specified. Tester playtesting remains planned; no biology/runtime implementation has been assigned.
 
 ---
 

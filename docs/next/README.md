@@ -47,4 +47,6 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Historical/superseded decisions](history/superseded-design.md)
 - [Original document references](history/README.md)
 - [Exact section relocation crosswalk and semantic audit checklist](audit/source-crosswalk.md)
+- [Original-versus-new editorial comparison (pass 2)](audit/current-vs-original.md)
+- [Known supersession risk watchlist and progress](audit/semantic-risks.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

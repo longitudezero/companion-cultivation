@@ -33,3 +33,20 @@ All original numbered/major sections were found in the staged files. This demons
 ## Final acceptance gate
 
 Do not mark the new design authoritative or replace existing documents until the [semantic checklist](source-crosswalk.md#semantic-comparison-checks-still-required) is fully checked, the old/new comparisons have been reviewed and any detected omissions corrected.
+
+
+---
+
+## Editorial pass 2 update — 27 October 2026
+
+**The original first-pass staging figures above are retained as dated results**, not as current editorial-completion claims. The branch has additional new audit files and edited **only newly staged `docs/next/` drafts**. Original documents and the root README remain unchanged. See [current-vs-original.md](current-vs-original.md) for the full updated comparison.
+
+- Section crosswalk: **76 unique §1–§76 entries**, none missing.
+- Seven approved final recipe/clarification source blocks (§§67,69,71,72,73,74,76): **identical** to the first copied source; 69 routes retained.
+- Six family files: **unchanged total Markdown table-row counts** (see [comparison table](current-vs-original.md#family-table-comparison)).
+- Named Fungi: **31** present; obsolete Waterborne 3-hop claims corrected to §56's connected-network rule.
+- Duplicate §60/§65 full text removed only from secondary homes after proving the authoritative copies remained; §68 now has one normative definition.
+- **119 earlier excerpts** preserved in [historical decisions](../history/superseded-design.md) with section provenance.
+- Relative Markdown references: **291 checked**, **0 missing file targets, 0 broken heading anchors** in static validation.
+
+**Still open:** independent paragraph-level human review, verifying every numeric fungal field, and spatial/runtime feasibility of the approved recipes. **Do not replace the old documentation or README.**
