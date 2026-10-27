@@ -156,7 +156,7 @@ Potato (the ONE transforming Base)
 | **Farming purpose** | **High natural yield per successful harvest** for patients who can keep a productive Warm crop alive through a long Ripening stage. A qualitatively different optimization from Carrot's fast turnover, Strawberry's fast precise harvesting, Apple/Onion's more forgiving intervals and Rice's Seed production. |
 | **Effect compatibility** | **Strong Leaf Yield response**, **good Ripening acceleration** (reduces the considerable wait) and **good Harvest Peak Timing Shift** utility for planning the late target; **moderate Harvest Window widening** helps timing without making the window as easy as Onion's. Ordinary Seed Yield/Germination responses. It can benefit from fungus-emitted Time-based Leaf Production within eligible windows but **never emits time-based production intrinsically**. |
 
-**Specific no-preemptive-nerf note:** The eventual full-family numeric pass should give Pumpkin a **clearly highest single-harvest natural yield** among Ingredients to compensate for its much longer lifecycle, without automatically making it best Leaves per occupied hex-day. Its self-Seeds preserve the family goal of sustainable straightforward farming rather than a complicated sterile chain.
+**Specific no-preemptive-nerf note:** The approved §44 first-pass numbers give Pumpkin the family's **highest natural Leaf peak: 42 Leaves at 170%**, balanced by its **14-day total lifecycle**, without automatically making it best Leaves per occupied hex-day. Its self-Seeds preserve the family goal of sustainable straightforward farming rather than a complicated sterile chain.
 
 ### Strawberry — APPROVED first-pass six-part terminal profile
 

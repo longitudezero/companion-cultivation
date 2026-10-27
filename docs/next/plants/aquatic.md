@@ -35,7 +35,7 @@ Unnamed Aquatic Base
 | --- | --- |
 | **Natural lifecycle** | **Average 4-day Growth and 4-day Ripening** baseline; not a specialist. |
 | **Natural harvest** | **10 Leaves around 100%** and **10 own Seeds around 200%**, with broad ordinary decline/rise curves. Single plant-consuming harvest. |
-| **Germination** | **Ordinary/reliable**, its own Seeds available at start. Establish a concrete per-Seed germination rate during the Aquatic numeric pass. |
+| **Germination** | **Ordinary/reliable**, its own Seeds available at start. The approved §28 chance is **28% per Aquatic Base Seed**, with **4 Seeds** guaranteeing germination under the additive cap. |
 | **Environment** | Prefers **Damp / Temperate / Lit**; tolerates Flooded reasonably well without outperforming true Flooded specialists. **Dry sharply reduces Growth and output**, rather than instant death. Cold/Warm manageable, Hot and Freezing increasingly harmful and lethal after prolonged exposure; Mycelial eventually lethal. |
 | **Farming purpose** | Simple starting Seed loop and gateway to the Kelp, Lotus and Cress branches; dependable but not a competitive specialist. |
 | **Effect compatibility** | **1.0× ordinary response** to Growth, Ripening, Leaf Yield, Seed Yield, germination and curve-shaping Effects; environment Sources use universally consistent behavior. No special multiplication or tolerance. |
@@ -212,7 +212,7 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 
 **Chosen Seed identity:** Cresscent Seeds only, rather than Pearlily Seeds on a Seed harvest. Otherwise harvesting Cresscent would short-circuit its own Transform-or-Harvest decision.
 
-### Three-Plant relationship and future numeric pass
+### Three-Plant relationships and approved §28 numeric follow-through
 
 - **Wild Watercress** is an uncomplicated self-Seeding **Damp branch foundation** and redeemable **Kelpless** destination.
 - **Silvercress** is a **nonpunitive Flooded-Growth/Damp-Ripening optimization challenge**, with explicitly proposed **+60% Growth speed** and **+50% Leaf Yield** innate bonuses and its own moderately reliable Seeds.

@@ -125,7 +125,7 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 | **Farming purpose** | **Slow but low-attention Leaf farming** and a steady supply of Lavendream Seeds; its branch also gives access to Lavendread and one of the two Orchidemon routes. |
 | **Effect compatibility** | Standard non-Seed Yield and lifecycle-rate Effects; **low additional response to Harvest Window widening** because its natural plateau is already huge. **Moderately strong response to Harvest Peak Timing Shift** (shifting the broad plateau) and **slightly stronger Time-based Leaf Production** if the future fungus's eligible progress window overlaps its long-lived harvest interval. No special fungus-dependent second bloom. |
 
-**Concrete shape choice:** The natural high Leaf plateau extends approximately **110–175%**, clearly distinguishing it from Bramblewraith by Flower-family role and without copying Bramblewraith's Mycelial tolerance. Its height and exact lifecycle days are assigned later in the Flowers numbers table.
+**Concrete shape choice:** The natural high Leaf plateau extends approximately **110–175%**, clearly distinguishing it from Bramblewraith by Flower-family role and without copying Bramblewraith's Mycelial tolerance. §32 now fixes **13 Leaves across ~110–175%**, **5.5 days to Growth 100%** and **11 days total**, with its own Seeds.
 
 ### Lavendread — APPROVED first-pass profile
 

@@ -126,3 +126,12 @@ The [pass-7 profile semantic sweep](profile-semantic-sweep-pass-7.md) corrected 
 **Preservation:** All 19 complete former lines have been appended verbatim to [historical design](../history/superseded-design.md#editorial-pass-7--corrected-source-era-status-and-named-fungi-contacts-27-october-2026). Each edited topic file retains its line count and Markdown table-row count; no final recipe row or already verified Plant/Fungus numerical value was changed. Only new `docs/next/` files were edited/added; the original comparison baseline remains frozen.
 
 **Still required:** Continue the long-form qualitative review, do not mark the semantic checklist complete until checked, and distinguish runtime geometry/event-order validation from documentation relocation acceptance.
+
+
+---
+
+## Editorial pass 8 — older qualitative numeric deferrals reconciled (27 October 2026)
+
+The [pass-8 semantic report](profile-semantic-sweep-pass-8.md) records **10** additional now-obsolete numeric-phase statements in Aquatic, Desert, Flowers, Ingredients, Spices and Foundational Fungi, replaced with their exact subsequent approvals (§§28,32,36,40,44,49). The older lines are preserved verbatim in [historical decisions](../history/superseded-design.md#editorial-pass-8--resolved-first-pass-numeric-deferrals-27-october-2026). All affected profile table-row counts and all final approved Transformation table sections are unchanged.
+
+**Cumulative targeted editorial cleanup across passes 7–8:** 29 complete former lines preserved in the archive while the current topical text acknowledges already-approved data. This is not yet final per-paragraph semantic sign-off, and all pre-existing documents and the repository root README remain frozen.

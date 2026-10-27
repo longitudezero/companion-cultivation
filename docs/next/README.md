@@ -56,4 +56,5 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Per-section numeric-source-line ledger](audit/numeric-source-line-ledger.md)
 - [Shared-rule semantic precedence and qualitative exceptions audit](audit/semantic-rule-precedence.md)
 - [Profile semantic sweep — pass 7: resolved historical Fungi contacts and progress status](audit/profile-semantic-sweep-pass-7.md)
+- [Profile semantic sweep — pass 8: resolved first-pass numeric deferrals](audit/profile-semantic-sweep-pass-8.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

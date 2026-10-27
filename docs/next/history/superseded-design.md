@@ -3278,3 +3278,83 @@ As above, each value scales the magnitude of the corresponding **pre-existing fu
 - **Moonrice and Thymekeeper** respond strongly to Seed Timing shifts and hourly Seed Production. This reflects their desired logistics function, but no such output occurs unless a **named future fungus** emits the corresponding existing Effect.
 ~~~~
 
+
+
+---
+
+## Editorial pass 8 — resolved first-pass numeric deferrals (27 October 2026)
+
+The following **exact earlier staged lines** were replaced once their later-approved family numerical tables or fungal habitat status were reconciled. Their wording is preserved here for comparison, while the current figures remain in the topical files. See the [pass-8 semantic report](../audit/profile-semantic-sweep-pass-8.md).
+
+### docs/next/plants/aquatic.md — 2 former lines
+
+- **Former line 38** (pass-8 baseline):
+
+~~~~text
+| **Germination** | **Ordinary/reliable**, its own Seeds available at start. Establish a concrete per-Seed germination rate during the Aquatic numeric pass. |
+~~~~
+
+- **Former line 215** (pass-8 baseline):
+
+~~~~text
+### Three-Plant relationship and future numeric pass
+~~~~
+
+### docs/next/plants/desert.md — 2 former lines
+
+- **Former line 275** (pass-8 baseline):
+
+~~~~text
+| **Natural harvest** | **Good, worthwhile Leaves** at a single **mid-to-late Ripening peak near 145%**, but lower maximum Leaf potential than Cactaclysm. At 200%, harvest provides **two Seed stacks together: Ember Aloe Seeds and Moonjade Seeds**, in a proposed **1:1 natural ratio**. The total mixed Seed quantity should be **high** enough to justify a rare shared endpoint while financing both lines; exact even counts set in the Desert numbers pass. **No Mirage Rose Seeds**. Intermediate lifecycle percentages can provide partial quantities of each of the two Seeds according to the natural curves, subject to one consuming harvest. |
+~~~~
+
+- **Former line 285** (pass-8 baseline):
+
+~~~~text
+### Summary, inherited rules, and next step
+~~~~
+
+### docs/next/plants/flowers.md — 1 former lines
+
+- **Former line 128** (pass-8 baseline):
+
+~~~~text
+**Concrete shape choice:** The natural high Leaf plateau extends approximately **110–175%**, clearly distinguishing it from Bramblewraith by Flower-family role and without copying Bramblewraith's Mycelial tolerance. Its height and exact lifecycle days are assigned later in the Flowers numbers table.
+~~~~
+
+### docs/next/plants/ingredients.md — 1 former lines
+
+- **Former line 159** (pass-8 baseline):
+
+~~~~text
+**Specific no-preemptive-nerf note:** The eventual full-family numeric pass should give Pumpkin a **clearly highest single-harvest natural yield** among Ingredients to compensate for its much longer lifecycle, without automatically making it best Leaves per occupied hex-day. Its self-Seeds preserve the family goal of sustainable straightforward farming rather than a complicated sterile chain.
+~~~~
+
+### docs/next/plants/spices.md — 3 former lines
+
+- **Former line 43** (pass-8 baseline):
+
+~~~~text
+| **Germination** | **Reliable ordinary additive per-Seed chance**, exact per-Seed percentage reserved for the family numerical pass. Thymely Base Seeds are the Spices starting entry. |
+~~~~
+
+- **Former line 61** (pass-8 baseline):
+
+~~~~text
+**Precise curve choice:** Natural Leaf peak at **125%**; exact high Leaf quantity, Growth/Ripening days and Bright/Lit numeric ratios come during the full Spices family numeric pass. Both its sustainable Seed identity and existing incoming Thymekeeper Seed support are preserved.
+~~~~
+
+- **Former line 249** (pass-8 baseline):
+
+~~~~text
+**First-pass natural shape choice:** Peak **145%**, strong around **130–170%**, one Leaf bloom, **zero Seeds**. Give Pum'king a genuinely high Leaf maximum in the Spices numerical pass—do not dilute it into merely a slightly better Sunrice—and make the numeric **Lit versus Bright** contrast meaningful.
+~~~~
+
+### docs/next/fungi/profiles-foundation.md — 1 former lines
+
+- **Former line 186** (pass-8 baseline):
+
+~~~~text
+5. **Mycelord dependency is not universal:** Rainmorel, Droughtcap and Prismorel operate on ordinary hexes, while Rushroom is a candidate for an advanced Mycelial-dependent power spike. The other fungi already proposed include Mycelial-preferring options; exact source-side magnitude buffs remain for the numeric pass. **Mycelord itself emits nothing except Mycelial and is the sole creator**.
+~~~~
+
