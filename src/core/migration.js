@@ -18,8 +18,19 @@ export function migrateGarden(saved) {
   const usedColonies = new Set();
   if (saved.inventory) {
     const cleanCount = value => Number.isSafeInteger(value) && value >= 0 ? value : 0;
+    // v1/v2 merged all plants' Leaves into one number. Their producer is
+    // irrecoverable: preserve that number as visibly unattributed legacy stock,
+    // never invent a species identity or silently erase the player's items.
+    const previousLeaves = saved.inventory.leaves;
+    const typedLeaves = previousLeaves && typeof previousLeaves === 'object' && !Array.isArray(previousLeaves)
+      ? Object.fromEntries(Object.entries(previousLeaves)
+        .filter(([species]) => PLANTS[species])
+        .map(([species, amount]) => [species, cleanCount(amount)])) : {};
+    const oldTotal = cleanCount(previousLeaves);
+    const priorLegacy = cleanCount(saved.inventory.legacyLeaves);
     garden.inventory = {
-      leaves: cleanCount(saved.inventory.leaves),
+      leaves: typedLeaves,
+      legacyLeaves: Math.min(Number.MAX_SAFE_INTEGER, priorLegacy + oldTotal),
       // Older saved gardens predate Flowers. Give them the same one-time
       // provisional Base Seed access as new gardens, without replenishing
       // players who have explicitly spent their Daisydaze Seeds down to zero.

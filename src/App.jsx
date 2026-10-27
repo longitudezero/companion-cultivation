@@ -16,7 +16,8 @@ import {
   transformationStatus, reconcileTransformationClocks,
 } from './core/index.js';
 
-const STORAGE_KEY = 'companion-cultivation:sandbox:v2';
+const STORAGE_KEY = 'companion-cultivation:sandbox:v3';
+const PREVIOUS_STORAGE_KEY = 'companion-cultivation:sandbox:v2';
 const LEGACY_STORAGE_KEY = 'companion-cultivation:sandbox:v1';
 const TOOLS = [
   { id: 'inspect', icon: '⌕', title: 'Inspect', hint: 'Select a hex or existing edge' },
@@ -32,7 +33,7 @@ const TOOLS = [
 
 const titleCase = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 function initialGarden() {
-  for (const key of [STORAGE_KEY, LEGACY_STORAGE_KEY]) {
+  for (const key of [STORAGE_KEY, PREVIOUS_STORAGE_KEY, LEGACY_STORAGE_KEY]) {
     try {
       const saved = JSON.parse(localStorage.getItem(key) || 'null');
       if (isGarden(saved) && saved.columns >= 3 && saved.columns <= 20 && saved.rows >= 3 && saved.rows <= 20) {
@@ -88,6 +89,7 @@ export default function App() {
   const plantCount = Object.values(garden.objects).filter((object) => object.type === 'plant').length;
   const fungusCount = Object.values(garden.objects).filter((object) => object.type === 'fungus').length;
   const blockerCount = Object.values(garden.objects).filter((object) => object.type === 'blocker').length + Object.keys(garden.edges).length;
+  const leaves = garden.inventory?.leaves || {};
   const seeds = garden.inventory?.seeds || {};
   const spores = garden.inventory?.spores || {};
 
@@ -151,7 +153,7 @@ export default function App() {
           simulation.conditions[selection.key]);
         setGarden(reconcileTransformationClocks(harvestPlant(garden, selection.key), garden));
         const seedDetail = output.seedStacks ? ` (${Object.entries(output.seedStacks).map(([name, amount]) => `${amount} ${name}`).join(' + ')})` : '';
-        setNotice(`Harvested ${selectedObject.species}: ${output.leaves} Leaves, ${output.seeds} Seeds${seedDetail}${output.bambooSteel ? ', and one Bamboo Steel trophy' : ''}. The Plant was removed.`);
+        setNotice(`Harvested ${selectedObject.species}: ${output.leaves} ${selectedObject.species} Leaves, ${output.seeds} Seeds${seedDetail}${output.bambooSteel ? ', and one Bamboo Steel trophy' : ''}. The Plant was removed.`);
       } else if (selectedObject.type === 'fungus') {
         const output = Math.floor((selectedObject.sporeStock || 0) + 1e-9);
         setGarden(reconcileTransformationClocks(harvestFungus(garden, selection.key), garden));
@@ -258,7 +260,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> SPICES · PROTOTYPE 10</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> HARVEST · PROTOTYPE 11</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
@@ -279,7 +281,11 @@ export default function App() {
         </div>}
 
         <div className="inventory-card"><div className="mini-heading">HARVEST INVENTORY</div>
-          <div className="inventory-total"><span>❧ Leaves</span><strong>{garden.inventory?.leaves || 0}</strong></div>
+          <div className="mini-heading">PLANT LEAVES · BY SPECIES</div>
+          {Object.entries(leaves).filter(([, amount]) => amount > 0).map(([species, amount]) =>
+            <div className="inventory-entry" key={species}><span>{species} Leaves</span><b>{amount}</b></div>)}
+          {!Object.values(leaves).some(amount => amount > 0) && <p className="empty-hint">No Plant Leaves yet</p>}
+          {(garden.inventory?.legacyLeaves || 0) > 0 && <div className="inventory-entry" title="Preserved from an older save, before Leaf species identity was recorded. Cannot be attributed to a specific Plant."><span>Legacy · unattributed Leaves</span><b>{garden.inventory.legacyLeaves}</b></div>}
           <div className="mini-heading">SEEDS</div>
           {Object.entries(seeds).filter(([, n]) => n > 0).map(([name, n]) => <div className="inventory-entry" key={name}><span>{name}</span><b>{n}</b></div>)}
           {!Object.values(seeds).some(n => n > 0) && <p className="empty-hint">No Seeds yet</p>}
@@ -352,7 +358,7 @@ export default function App() {
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 09</span><h2>A garden of changing forms</h2>
-      <p>All 69 approved first-pass Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Named Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
+      <p>All 69 approved first-pass Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Every Plant yields its own species-specific Leaves on harvest, rather than a shared Leaf currency. Named Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
       <div className="guide-grid">
         <div><b>01 · Start any family</b><p>Sow Potato, Daisydaze, Aquatic Base, Woodlands Base, Jadeheart or Thymely Seeds, or free-spawn any Plant for testing. Select it to inspect its Transformation paths.</p></div>
         <div><b>02 · Shape the light</b><p>Thymely opens Bright Sunrice, Dim Moonrice and Dark Shadow Onion branches. Fungal emissions and placed Sources shift resolved Illumination for every organism.</p></div>
@@ -405,7 +411,7 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, o
         <p>◆ The current recipe phase qualifies. Any interruption resets its clock; hover for exact fungal and environmental requirements.</p></>}
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
       {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
-      <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts, conditions).leaves}</strong></div>
+      <div className="organism-stat"><span>Harvestable {object.species} Leaves</span><strong>{availableHarvest(object, contacts, conditions).leaves}</strong></div>
       <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts, conditions).seeds}</strong></div>
       {definition.seedDistribution && <p>Seed identities: {Object.entries(availableHarvest(object, contacts, conditions).seedStacks).map(([name, amount]) => `${amount} ${name} Seeds`).join(' + ')}. Both stacks arrive in one consuming harvest.</p>}
       {object.species === 'Bamboozled' && <div className="organism-stat"><span>Bamboo Steel trophy</span><strong>{availableHarvest(object, contacts, conditions).bambooSteel ? 'Ready' : 'At 100%'}</strong></div>}
