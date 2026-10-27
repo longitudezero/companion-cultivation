@@ -48,11 +48,12 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Historical/superseded decisions](history/superseded-design.md)
 - [Original document references](history/README.md)
 - [Exact section relocation crosswalk and semantic audit checklist](audit/source-crosswalk.md)
-- [Original-versus-new editorial comparison (pass 2)](audit/current-vs-original.md)
+- [Original-versus-new rolling editorial comparison](audit/current-vs-original.md)
 - [Known supersession risk watchlist and progress](audit/semantic-risks.md)
 - [Fungal parameter-by-parameter audit](audit/fungal-parameter-audit.md)
 - [Six-family Plant profile prose audit](audit/plant-profile-prose-audit.md)
 - [Direct original-source numerical/table preservation audit](audit/numerical-source-preservation.md)
 - [Per-section numeric-source-line ledger](audit/numeric-source-line-ledger.md)
 - [Shared-rule semantic precedence and qualitative exceptions audit](audit/semantic-rule-precedence.md)
+- [Profile semantic sweep — pass 7: resolved historical Fungi contacts and progress status](audit/profile-semantic-sweep-pass-7.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

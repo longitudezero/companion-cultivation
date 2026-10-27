@@ -146,7 +146,7 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 | **Farming purpose** | **High-value Bright Leaf specialist and Sunrice Seed return** for sustaining repeated Sunrice → Starberry attempts. Also opens one route to **Glass Apple**. Different from self-sustaining Sunrice: Starberry cannot reproduce directly from its **own** harvest; its Seeds become available later through Glass Apple. |
 | **Effect compatibility** | **Approved §40 numbers:** Leaf Yield **1.3× normally / 2.6× while Bright**; Harvest Window widening **1.7×**; Leaf Peak Timing Shift **1.3×**; Growth Rate **0.9×**, Seed Yield **1.0×**, Seed Timing **1.0×**, Time-based Production **1.5× Leaves / 0.7× Seeds**, and ordinary other values as in the tables. The Seeds it naturally produces are **Sunrice Seeds**; no ordinary fungus Effect changes that identity. **Glass Apple** later supplies Starberry Seeds. Resolved Bright is an environmental state, not a special fungus 'Bright-field harvest' Effect. |
 
-**First-pass shape choice:** **135% Leaf peak, main productive band 125–150%**, lower speed and narrower Leaf opportunity than Sunrice, but meaningfully higher natural Leaves. The exact maximum height and Bright/Lit response multipliers will be assigned in the Spices numeric pass. The older sketch's **Bright + Prism** characterization is preserved as a **potential future Transformation/Effect synergy**, not a named assignment now.
+**First-pass shape choice:** **135% Leaf peak, main productive band 125–150%**, lower speed and narrower Leaf opportunity than Sunrice, but meaningfully higher natural Leaves. §40 now fixes its **31-Leaf** peak and Bright/Lit response multipliers. The approved **Starberry → Glass Apple** recipe requires **Damp/Warm/Bright, Prismorel AND Mistruffle for 28h** (§76); older unassigned Prism sketches are historical.
 
 ### Thymekeeper — APPROVED first-pass six-part Plant profile
 
@@ -384,7 +384,7 @@ Use the **approved additive per-Seed chance model** from other families: **P(suc
 
 ### D. Advanced harvest-curve and Seed timing compatibility
 
-As above, each value scales the magnitude of the corresponding **pre-existing fungal Effect**. All effects are emitted by future fungi with their **own consistent definition and progress-eligibility windows**, not by these Plants merely because they have a high compatibility multiplier. Time-based Production only accrues while lifecycle progress advances positively, never while fully stalled or after 200%.
+As above, each value scales the magnitude of the corresponding **pre-existing fungal Effect**. Effects are emitted by the approved 31-fungus roster with each source's **own consistent definition and progress-eligibility windows**, not by these Plants merely because they have a high compatibility multiplier. Time-based Production only accrues while lifecycle progress advances positively, never while fully stalled or after 200%.
 
 | Species | Harvest Window width | Leaf Peak Timing Shift | Seed Timing Shift | Time-based Production | Leaf–Seed Allocation |
 | --- | ---: | ---: | ---: | --- | ---: |
@@ -401,7 +401,7 @@ As above, each value scales the magnitude of the corresponding **pre-existing fu
 
 **Rules:**
 - **Starberry's 1.7× Window compatibility** is more useful than Sunrice's 1.2× because Starberry's native 125–150% peak is narrower. **Pum'king's 130–170% broad window** keeps an ordinary 1.0× response instead of Orchidemon-like extreme widening, while **Glass Apple's 145–170%** premium Bright peak merits 1.5×.
-- **Moonrice and Thymekeeper** respond strongly to Seed Timing shifts and hourly Seed Production. This reflects their desired logistics function, but no such output occurs unless a **named future fungus** emits the corresponding existing Effect.
+- **Moonrice and Thymekeeper** respond strongly to Seed Timing shifts and hourly Seed Production. This reflects their desired logistics function, but no such output occurs unless an **actually reaching approved fungus** emits the corresponding existing Effect in its eligibility window.
 - **Dillusion** gets the same compatible ordinary Effects under **Dim and Lit**; no special timed switch, transition memory or invented photocharge.
 - **Pum'king produces NO Seeds**, so even a Time-based Seed Production emitter or Leaf–Seed Allocation cannot make new Pum'king Seeds or any other Seed kind. Similarly, Glass Apple always produces **Starberry Seeds** and never Glass Apple Seeds.
 - These window/timing Effects reshape **existing natural curves**. They do not create a second bloom, grant a second harvest, change a producer's Seed identity, or extend production past the lifecycle's final 200%.

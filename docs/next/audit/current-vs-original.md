@@ -115,3 +115,14 @@ The new [semantic rule precedence audit](semantic-rule-precedence.md) compares t
 **Pass-6 navigation result:** **32** staging files, **471** relative Markdown destinations (**13** heading fragments), **0 broken files/anchors** in the static check. Structural QA reconfirmed **102/102 final recipe table rows identical** to the frozen source and unchanged Markdown table-row counts for all six family references.
 
 **Staging repair:** The previous branch had inadvertently lost the opening of the **new** `docs/next/history/README.md`, replacing it with `undefined` before the pass-4 note. The index is reconstructed from its last complete staged version at commit `055e1dba`, and the later pass-4/pass-6 notes are retained. Its original-source links and history navigation are restored. The untouched historical source and archive are not modified by this index repair.
+
+
+---
+
+## Editorial pass 7 — source-era Fungi contact/status reconciliation (27 October 2026)
+
+The [pass-7 profile semantic sweep](profile-semantic-sweep-pass-7.md) corrected **19** now-misleading narrative/status lines in five staged topic files. Most importantly, it replaced early Fungi-profile claims that **Dewmender, Lanterncap and Rilllace have no named Transformation use** with their explicit approved family-route assignments. It also reconciled Mycelial source support/Blocker/Flooded status, all 69 approved recipes, the removed Enchanted overlay, Aquatic's no-fungus Kelpless route, Flowers' 0% Daisyspell access and Spices' approved Starberry/Glass Apple numbers and sources.
+
+**Preservation:** All 19 complete former lines have been appended verbatim to [historical design](../history/superseded-design.md#editorial-pass-7--corrected-source-era-status-and-named-fungi-contacts-27-october-2026). Each edited topic file retains its line count and Markdown table-row count; no final recipe row or already verified Plant/Fungus numerical value was changed. Only new `docs/next/` files were edited/added; the original comparison baseline remains frozen.
+
+**Still required:** Continue the long-form qualitative review, do not mark the semantic checklist complete until checked, and distinguish runtime geometry/event-order validation from documentation relocation acceptance.

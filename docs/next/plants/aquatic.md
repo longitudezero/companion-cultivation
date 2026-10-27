@@ -14,7 +14,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 **Balance benchmark:** Ordinary Plants target approximately **10 Leaves/10 Seeds** and **4 in-game days to 100% / 8 total days to 200%** in ideal habitat, with larger differences allowed for specialists. Aquatic's 11 profiles and §28 numerical pass are approved, as are all **14** Transformation recipes in §69. Fungal gameplay remains unimplemented.
 
-**Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist into Kelpless**, but the actual transformation recipe, fungus assignment and exposure durations belong to the later third pass. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
+**Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist into Kelpless**, but §69 now specifies the distinct Kelpergeist → Kelpless route: 18h continuously not Flooded, with no named-fungus requirement. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
 
 ### Approved Aquatic network (recipe details in §69)
 
@@ -208,7 +208,7 @@ Kelpless ──(redemption)─┘                     └─> Cresscent ──> 
 | **Germination** | **Exceptional natural germination:** proposed **40 percentage points per Cresscent Seed** under the agreed additive one-Seed probability model. **Three Seeds guarantee germination** (capped at 100%); a single Seed has a real 40% chance. This is a Plant/Seed species characteristic, not a fungal one. |
 | **Environment** | Favors **Damp, Temperate, Lit/Dim**, with **Flooded fully survivable but modestly less efficient** for Seed production. **Dry** strongly damages Growth/Seed productivity and eventually kills; Hot/Freezing and prolonged Mycelial lethal risks. Cold/Warm less productive, with no special extreme/overlay benefits. |
 | **Farming purpose** | **Efficient self-sustaining Seed engine and accessible Pearlily shortcut.** Its strong Seed germination makes repeated Cresscent/ Pearlily cultivation cost-effective, even though Cresscent itself isn't a premium Leaf producer. The choice is to harvest for many Seeds, or transform that **same living instance** for a Pearlily crop. |
-| **Effect compatibility** | **Above-average Seed Yield and Germination Adjustment responses**, especially in Damp. Ordinary-to-slightly-reduced Leaf Yield response. Strong positive Seed Timing or time-based Seed production response can become attractive in a later fungus pass, still constrained by lifecycle advancement and one-time harvest. |
+| **Effect compatibility** | **Above-average Seed Yield and Germination Adjustment responses**, especially in Damp. Ordinary-to-slightly-reduced Leaf Yield response. Strong positive Seed Timing or time-based Seed production response can be used with appropriate already-approved fungal emitters where actual reach and progress eligibility match, still constrained by lifecycle advancement and one-time harvest. |
 
 **Chosen Seed identity:** Cresscent Seeds only, rather than Pearlily Seeds on a Seed harvest. Otherwise harvesting Cresscent would short-circuit its own Transform-or-Harvest decision.
 

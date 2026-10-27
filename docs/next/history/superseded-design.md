@@ -3146,3 +3146,135 @@ These are **structural recipe sketches**, not finalized fungal assignments, X-ho
 ~~~~text
 **Concrete consequences already agreed:** Draining a Flooded Waterborne corridor stops its Waterborne reach from the event onward without undoing historically earned production; flooding Mycelord severs its support immediately but only starts its species-specific death countdown and gradual colony retreat; and a Flooded→Damp Aquatic Transformation can inspect the previous uninterrupted Flooded exposure even though drainage immediately removes the qualifying condition. The specific timing of simultaneous player commands, distinct competing Transformation recipes, several equal-time Mycelial fronts, and fractional numeric integration/rounding remain detailed implementation questions, **not reasons to replace the approved six-step order**.
 ~~~~
+
+
+---
+
+## Editorial pass 7 — corrected source-era status and named Fungi contacts (27 October 2026)
+
+These are the **exact former staged lines** from five topic files, preserved before correcting misleading statements about completed Fungi assignments, Transformation recipes and later-resolved Mycelial questions. Their current replacements are documented in [the pass-7 profile semantic sweep](../audit/profile-semantic-sweep-pass-7.md). The original monolithic documentation and root README were not touched.
+
+### docs/next/fungi/profiles-foundation.md — 7 former lines
+
+- **Former line 38** (at pass-7 baseline):
+
+~~~~text
+### Open choices, NOT yet assigned
+~~~~
+
+- **Former line 40** (at pass-7 baseline):
+
+~~~~text
+- Mycelial initiation hex eligibility, exact expansion time per neighboring hex, whether blocked edges/hexes stop fungal-colony expansion, how overlapping Mycelord colonies are attributed, retreat delays/ordering, and behavior when the Source is not harvest-removed but suppressed.
+~~~~
+
+- **Former line 41** (at pass-7 baseline):
+
+~~~~text
+- Whether Mycelord emits from its own hex **as the initial colonization anchor** or colonizes specified nearby hexes before cascade. The source-hex-as-origin model is a simple default proposal, but actual mechanics need a later environmental overlay reconciliation.
+~~~~
+
+- **Former line 97** (at pass-7 baseline):
+
+~~~~text
+### D. Review boundaries and dedicated transformation pass
+~~~~
+
+- **Former line 94** (at pass-7 baseline):
+
+~~~~text
+- **Emberbolete + Chillanterelle create a cross-fungus puzzle**, but care is needed that Thermal-source overlap/Blockers are solvable and not unduly complicated compared with other Leaf/Seed fungi to be designed later. The complete roster should furnish **alternative complementary routes**, not force every Hot or Freezing optimization to require two opposing thermal sources.
+~~~~
+
+- **Former line 107** (at pass-7 baseline):
+
+~~~~text
+**Status:** The user **APPROVED §48's four fungal pairings**, including the **situational but valid +8pp LATER Leaf Peak Timing Shift on Glimmergill**, then asked for the next batch. **All four named fungi and their first-pass Effect packages in §49 were APPROVED by the user** ("ok these sound good"), including Rainmorel's Growth slowdown, Droughtcap's Harvest Window widening, Prismorel's earlier Leaf timing, and Mycelial-dependent Rushroom Growth acceleration. Full fungal numerical balancing, exact Spore economics and Mycelial propagation feasibility remain deferred. Design for interesting player-created cross-fungus solutions, not two already synergistic optimization effects packaged on a single fungus. **Mycelord alone produces the Mycelial overlay** (§47 approved); it emits nothing else. Exact Plant-owned transformation recipes, priority, and exposure durations remain strictly **reserved for the dedicated later pass after fungal designs and numbers**.
+~~~~
+
+- **Former line 252** (at pass-7 baseline):
+
+~~~~text
+| **Environmental emission** | **Thermal Warming +1 Temperature**, Airborne Range 2, ordinary consistent one-step Modifier. It **does not depend on Enchanted ground**; the previously discussed Enchanted overlay can still be removed from eventual design without invalidating this fungus's name or role. |
+~~~~
+
+### docs/next/fungi/profiles-alternatives.md — 4 former lines
+
+- **Former line 123** (at pass-7 baseline):
+
+~~~~text
+**General design boundaries still apply:** Each fungus grows 0–100%, sporulates 100–200%, produces **its own Spores only**, emits continuously from viable germination and indefinitely after 200% while alive, with a **single consuming Spore harvest** removing the Source. Most fungi are Mycelial-independent; selected fungi prefer it for modest outgoing cultivation increases; few require it. **Mycelord alone creates/maintains Mycelial ground** and emits no other Effect. All environmental Property contributions are signed, additive integer steps and are clamped only after summing. No fungus-added second bloom, Environmental Tolerance, generic Transformation Influence, new Fertility burden, or mandatory Enchanted overlay. **ALL Plant-owned transformation recipes must remain for their own comprehensive pass AFTER fungi and fungus-wide numerical balance**. No game code.
+~~~~
+
+- **Former line 154** (at pass-7 baseline):
+
+~~~~text
+6. **Transformation relevance:** Only ordinary Source/environment and planting consequences; no assigned recipe or special Transformation Effect.
+~~~~
+
+- **Former line 166** (at pass-7 baseline):
+
+~~~~text
+6. **Recipe relevance:** Brightening and slowed Ripening available to Plant-owned future conditions, no assigned target.
+~~~~
+
+- **Former line 188** (at pass-7 baseline):
+
+~~~~text
+6. **Recipe relevance:** Flooded reach and ordinary temperature effects only; no fixed named Plant recipe.
+~~~~
+
+### docs/next/plants/aquatic.md — 2 former lines
+
+- **Former line 17** (at pass-7 baseline):
+
+~~~~text
+**Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist into Kelpless**, but the actual transformation recipe, fungus assignment and exposure durations belong to the later third pass. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
+~~~~
+
+- **Former line 211** (at pass-7 baseline):
+
+~~~~text
+| **Effect compatibility** | **Above-average Seed Yield and Germination Adjustment responses**, especially in Damp. Ordinary-to-slightly-reduced Leaf Yield response. Strong positive Seed Timing or time-based Seed production response can become attractive in a later fungus pass, still constrained by lifecycle advancement and one-time harvest. |
+~~~~
+
+### docs/next/plants/flowers.md — 3 former lines
+
+- **Former line 84** (at pass-7 baseline):
+
+~~~~text
+**First-pass concrete productive window:** **160–177%**, with a natural peak at **170%**. A future fungus's eligible hourly production window is part of *that fungus's own stable Effect definition*; it can overlap this range without being arbitrarily assigned as a special Marigloom-only fungal behavior. Production accumulates only while the Plant's lifecycle actually advances and never after 200%.
+~~~~
+
+- **Former line 346** (at pass-7 baseline):
+
+~~~~text
+- An advanced Effect exists only when a **future named fungus actually emits it**. These are **Plant compatibility numbers**, not additional Plant-native powers or preselected fungus recipes.
+~~~~
+
+- **Former line 352** (at pass-7 baseline):
+
+~~~~text
+- **Daisyspell's 75% peak is in the Growth phase**, so a Ripening slowdown that starts at 100% does **not** make the earlier 75% harvest easier. Growth Rate changes and Harvest Window/Timing shifts do, and the final Daisyspell transformation recipe must allow access early enough to be useful.
+~~~~
+
+### docs/next/plants/spices.md — 3 former lines
+
+- **Former line 149** (at pass-7 baseline):
+
+~~~~text
+**First-pass shape choice:** **135% Leaf peak, main productive band 125–150%**, lower speed and narrower Leaf opportunity than Sunrice, but meaningfully higher natural Leaves. The exact maximum height and Bright/Lit response multipliers will be assigned in the Spices numeric pass. The older sketch's **Bright + Prism** characterization is preserved as a **potential future Transformation/Effect synergy**, not a named assignment now.
+~~~~
+
+- **Former line 387** (at pass-7 baseline):
+
+~~~~text
+As above, each value scales the magnitude of the corresponding **pre-existing fungal Effect**. All effects are emitted by future fungi with their **own consistent definition and progress-eligibility windows**, not by these Plants merely because they have a high compatibility multiplier. Time-based Production only accrues while lifecycle progress advances positively, never while fully stalled or after 200%.
+~~~~
+
+- **Former line 404** (at pass-7 baseline):
+
+~~~~text
+- **Moonrice and Thymekeeper** respond strongly to Seed Timing shifts and hourly Seed Production. This reflects their desired logistics function, but no such output occurs unless a **named future fungus** emits the corresponding existing Effect.
+~~~~
+

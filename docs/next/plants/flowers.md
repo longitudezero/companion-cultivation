@@ -81,7 +81,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 | **Farming purpose** | **High-investment, late-harvest Leaf specialist**. Naturally rewards deliberate waiting, with particularly good future synergy from separately-defined **Time-based Leaf Production** while positive Ripening progress continues through the late productive window. In contrast, a direct Ripening accelerator might increase rotation speed but **reduce cumulative hours available for time-based production**; either can be useful. |
 | **Effect compatibility** | **Very strong response to Time-based Leaf Production in late Ripening**, **strong response to Ripening slowdowns while Dim**, above-average Leaf Yield and Harvest Timing Shift compatibility. No automatic generation of hourly bonus without an actual fungus Effect; no new "Secondary Bloom" mechanism. |
 
-**First-pass concrete productive window:** **160–177%**, with a natural peak at **170%**. A future fungus's eligible hourly production window is part of *that fungus's own stable Effect definition*; it can overlap this range without being arbitrarily assigned as a special Marigloom-only fungal behavior. Production accumulates only while the Plant's lifecycle actually advances and never after 200%.
+**First-pass concrete productive window:** **160–177%**, with a natural peak at **170%**. An approved fungus's eligible hourly production window is part of *that fungus's own stable Effect definition*; it can overlap this range without being arbitrarily assigned as a special Marigloom-only fungal behavior. Production accumulates only while the Plant's lifecycle actually advances and never after 200%.
 
 ### Decisions awaiting review
 
@@ -343,13 +343,13 @@ The user-approved additive species formula from Woodlands and Aquatic applies: *
 | Orchidemon | **2.3×** | 1.3× | **0×** | 1.3× Leaves / **0× Seeds** | **0×** |
 
 **Precise interpretation and guardrails:**
-- An advanced Effect exists only when a **future named fungus actually emits it**. These are **Plant compatibility numbers**, not additional Plant-native powers or preselected fungus recipes.
+- An advanced Effect exists only when a **living, approved fungus actually emits it within reach**. These are **Plant compatibility numbers**, not additional Plant-native powers or preselected fungus recipes.
 - Leaf timing/window Effects operate on **preexisting natural bloom curves**. Rosewraith has two peaks: ordinary Yield Effects affect both; timing/window Effects reshape the two while retaining the identity of two opportunities and a meaningful **low valley**. Do not introduce the discarded Secondary Bloom Effect.
 - **Marigloom's 3.0× late hourly compatibility** applies to a fungus's *own declared Time-based Leaf Production window* **only while** its emitted active window overlaps **Marigloom's 160–177%** natural late bloom and the hex is Dim. Outside that range the ordinary **1.5× Leaves** applies. **Rosewraith** similarly has 2.2× within 170–190% while Dim, otherwise 1.4×.
 - Time-based Production accrues **only during actual positive lifecycle advancement** in the fungus's eligibility interval, never while fully paused or after 200%. Slow-but-nonzero progress can increase accumulated hourly Leaves/Seeds; check for runaway low-positive-speed stacking in eventual playtests.
 - **Harvest Window Adjustment** changes curve breadth, **Harvest Timing Shift** moves the existing peak(s), **Seed Timing Shift** moves existing Seed availability; none directly adds an extra harvest.
 - **Leaf–Seed Allocation** scales a fungus's declared redistribution while output eligibility and Seed identity remain intrinsic. Orchidemon has no Seeds and cannot convert Leaves into its own nonexistent Seed output or vice versa.
-- **Daisyspell's 75% peak is in the Growth phase**, so a Ripening slowdown that starts at 100% does **not** make the earlier 75% harvest easier. Growth Rate changes and Harvest Window/Timing shifts do, and the final Daisyspell transformation recipe must allow access early enough to be useful.
+- **Daisyspell's 75% peak is in the Growth phase**, so a Ripening slowdown that starts at 100% does **not** make the earlier 75% harvest easier. Growth Rate changes and Harvest Window/Timing shifts do, and §73's approved Charmomile → Daisyspell recipe starts a fresh 0%-progress Daisyspell, which can reach that early peak.
 
 ### E. First-pass environmental output multipliers and lethal exposure time
 
