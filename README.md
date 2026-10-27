@@ -103,6 +103,7 @@ The [organized game-design index](docs/design/README.md) is the detailed authori
 | Current implementation coverage, caveats and testing | [Implementation-status ledger](docs/implementation-status.md) · [Design overview](docs/design/README.md) |
 | Player-facing buttons vs developer-only test controls | [Player/developer UI separation](docs/developer-tools.md) |
 | Browser autosave, portable Save Game / Load Game, migration and limitations | [Saving and backups](docs/design/systems/saving-and-backups.md) |
+| Planned Cultivation Grimoire, progressive Plant/Fungus discoveries and observed-only recipes | [Approved Grimoire design](docs/design/systems/cultivation-grimoire.md) — **not implemented** |
 | Playable 200-slot inventory, staging, Apply and real-time-while-planning behavior | [Spatial inventory and staging specification](docs/design/systems/spatial-inventory-and-staging.md) |
 | Environment, Sources, propagation and Blockers | [Environmental v1.2 rules](docs/design/systems/environment.md) · [Influences](docs/design/systems/influences-and-responses.md) |
 | Plant and Fungus progression, outputs and harvesting | [Plant-specific Leaf items](docs/design/decisions/species-specific-leaves.md) · [Plant lifecycle](docs/design/systems/plant-lifecycle.md) · [Fungus lifecycle](docs/design/systems/fungus-lifecycle.md) · [Seeds/Spores/harvesting](docs/design/systems/seeds-spores-and-harvesting.md) |

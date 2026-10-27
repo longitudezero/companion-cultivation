@@ -15,6 +15,7 @@ The game is a deterministic hex-garden farming prototype about sustainable **spe
 | Timed updates, biological effects and output accrual | **Implemented for current organisms**, with explicit provisional knobs | [Simulation and time](systems/simulation-and-time.md), [Seeds and harvesting](systems/seeds-spores-and-harvesting.md) |
 | Spatial inventory, repeatable live staging, Apply and delayed germination | **First playable pass implemented**, including saved slots, quantity selector, concealed pending markers and live updates; timing remains provisional | [Inventory and staging specification](systems/spatial-inventory-and-staging.md), [implementation ledger](../implementation-status.md) |
 | Browser autosaving and portable player save files | **Implemented**: Save Game `.ccsave`, Load Game with validation and confirmation, older JSON migration and complete staged/pending state | [Saving and backups](systems/saving-and-backups.md), [implementation ledger](../implementation-status.md) |
+| Cultivation Grimoire, progressive discoveries and per-garden knowledge | **Design approved; not yet implemented.** All Base Plants and all Fungi start identified; experiment results unlock progressively and survive in the garden save | [Cultivation Grimoire design](systems/cultivation-grimoire.md), [implementation ledger](../implementation-status.md) |
 | Plant-owned Transformations: six families, 69 designed routes | **All 69 implemented and simulation-tested**, including Spices' opposing-emission and Dark→Lit events | [Transformation rules](systems/transformations.md), [implementation ledger](../implementation-status.md) |
 
 **Authority boundary:** The topical rules and numbers below retain their detailed approved design authority **except where a later explicit user correction supersedes a point**, presently [Plant-specific Leaves](decisions/species-specific-leaves.md). For what currently runs in the game, consult the newer [implementation ledger](../implementation-status.md); the [promotion audit](audit/promotion-verification.md) describes the *historical documentation publication*, not today's code state.
@@ -23,6 +24,7 @@ The game is a deterministic hex-garden farming prototype about sustainable **spe
 
 - [Approved spatial inventory, repeatable live staging, Apply, delayed hidden germination and drag-to-harvest](systems/spatial-inventory-and-staging.md) — **first playable pass implemented**; see [current scope and limitations](../implementation-status.md)
 - [Browser autosave, portable Save Game / Load Game, migrations and safety](systems/saving-and-backups.md)
+- [Cultivation Grimoire: Plant/Fungus discovery, observed recipes, bidirectional knowledge and per-garden saving](systems/cultivation-grimoire.md) — **approved design, pending implementation/UI concept**
 - [Current Plant-specific Leaf items and inventory rule](decisions/species-specific-leaves.md)
 - [Environmental properties, influences and blockers](systems/environment.md)
 - [Plant lifecycle and output accrual](systems/plant-lifecycle.md)
