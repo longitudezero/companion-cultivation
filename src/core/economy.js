@@ -234,6 +234,7 @@ function checkSowing(garden, key, species, available, quantity, random) {
 
 export function sowPlant(garden, key, species, quantity = 1, random = Math.random) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
+  if (PLANTS[species].germination == null) throw new Error(`${species} has no plantable Seeds; transform a precursor instead.`);
   const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
   const owned = inventory.seeds?.[species] || 0;
   checkSowing(garden, key, species, owned, quantity, random);

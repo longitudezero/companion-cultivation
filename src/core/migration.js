@@ -23,7 +23,7 @@ export function migrateGarden(saved) {
       // Older saved gardens predate Flowers. Give them the same one-time
       // provisional Base Seed access as new gardens, without replenishing
       // players who have explicitly spent their Daisydaze Seeds down to zero.
-      seeds: { Daisydaze: 16, 'Aquatic Base': 16, 'Woodlands Base': 16, Jadeheart: 16,
+      seeds: { Daisydaze: 16, 'Aquatic Base': 16, 'Woodlands Base': 16, Jadeheart: 16, Thymely: 16,
         ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
         .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})

@@ -59,7 +59,7 @@ function arrangeStatic(from, recipe) {
 test('Desert includes eleven exact species profiles and all thirteen approved routes', () => {
   assert.equal(deserts.length, 11);
   assert.equal(recipes.length, 13);
-  assert.equal(Object.keys(PLANTS).length, 50);
+  assert.equal(Object.keys(PLANTS).length, 60);
   assert.equal(PLANTS.Jadeheart.germination, .28);
   assert.equal(PLANTS['Ember Aloe'].growthDays, 3.5);
   assert.equal(PLANTS.Aloemancer.seedSpecies, 'Ember Aloe');

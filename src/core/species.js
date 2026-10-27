@@ -2,6 +2,7 @@ import { makeInfluence, makeSpreadInfluence } from './influences.js';
 import { AQUATIC_PLANTS } from './aquatic-species.js';
 import { WOODLANDS_PLANTS } from './woodlands-species.js';
 import { DESERT_PLANTS } from './desert-species.js';
+import { SPICES_PLANTS } from './spices-species.js';
 
 // Approved Ingredient §44 values. These records are simulation data, not UI rules.
 // Other Plant families will join this catalogue when their numeric profiles are wired.
@@ -103,6 +104,19 @@ export function effectCompatibility(profile, kind, conditions = null, amount = 0
       if (kind === 'hourlySeed' && temperature === 'Freezing') return 1.8;
     }
     if (name === 'Cactaclysm' && kind === 'leafYield' && temperature === 'Hot') return 2.6;
+    return ordinary;
+  }
+  if (profile.family === 'Spices') {
+    const light = conditions.Illumination;
+    const name = profile.name;
+    if (name === 'Sunrice' && kind === 'leafYield' && light === 'Bright') return 2;
+    if (name === 'Moonrice' && kind === 'seedYield' && light === 'Dim') return 2.2;
+    if (name === 'Shadow Onion' && kind === 'growthRate' && light === 'Dark') return 1.5;
+    if (name === 'Starberry' && kind === 'leafYield' && light === 'Bright') return 2.6;
+    if (name === 'Thymekeeper' && kind === 'seedYield' && light === 'Dim') return 2.8;
+    if (name === 'Ghost Rice' && kind === 'leafYield' && light === 'Dark') return 2.5;
+    if (name === "Pum'king" && kind === 'leafYield' && light === 'Lit') return 2.8;
+    if (name === 'Glass Apple' && kind === 'leafYield' && light === 'Bright') return 3;
     return ordinary;
   }
   if (profile.family !== 'Flowers') return ordinary;
@@ -212,6 +226,7 @@ export const PLANTS = Object.freeze({
   ...AQUATIC_PLANTS,
   ...WOODLANDS_PLANTS,
   ...DESERT_PLANTS,
+  ...SPICES_PLANTS,
 });
 
 // Each fungus has *separate* environmental and cultivation outputs. The first
