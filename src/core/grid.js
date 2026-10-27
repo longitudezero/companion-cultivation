@@ -44,7 +44,9 @@ export function createGarden(columns = 9, rows = 7) {
       hexes[keyAt(column, row)] = defaultHex();
     }
   }
-  return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, clockHours: 0 };
+  // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
+  return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
+    clockHours: 0, inventory: { leaves: 0, seeds: { Potato: 16 }, spores: {} } };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -53,6 +55,7 @@ export function resizeGarden(garden, columns, rows) {
   }
   const next = createGarden(columns, rows);
   next.clockHours = garden.clockHours || 0;
+  next.inventory = garden.inventory;
   for (const key of Object.keys(next.hexes)) {
     if (garden.hexes[key]) next.hexes[key] = garden.hexes[key];
     if (garden.objects[key]) next.objects[key] = garden.objects[key];

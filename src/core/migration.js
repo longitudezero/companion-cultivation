@@ -10,6 +10,16 @@ export function migrateGarden(saved) {
   const garden = createGarden(saved.columns, saved.rows);
   garden.routeNonce = Number.isInteger(saved.routeNonce) ? saved.routeNonce : 0;
   garden.clockHours = Number.isFinite(saved.clockHours) && saved.clockHours >= 0 ? saved.clockHours : 0;
+  if (saved.inventory) {
+    const cleanCount = value => Number.isSafeInteger(value) && value >= 0 ? value : 0;
+    garden.inventory = {
+      leaves: cleanCount(saved.inventory.leaves),
+      seeds: Object.fromEntries(Object.entries(saved.inventory.seeds || {})
+        .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])),
+      spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
+        .filter(([name]) => FUNGI[name]).map(([name, amount]) => [name, cleanCount(amount)])),
+    };
+  }
 
   for (const [key, hex] of Object.entries(garden.hexes)) {
     const previous = saved.hexes[key];
@@ -40,6 +50,10 @@ export function migrateGarden(saved) {
       for (const hazard of ['Dry', 'Hot', 'Freezing']) {
         clean.exposure[hazard] = Math.max(0, Number(object.exposure?.[hazard]) || 0);
       }
+      for (const field of Object.keys(clean.production)) {
+        const value = object.production?.[field];
+        clean.production[field] = Number.isFinite(value) && value >= 0 ? value : 0;
+      }
       garden.objects[key] = clean;
       continue;
     }
@@ -47,6 +61,7 @@ export function migrateGarden(saved) {
       const clean = makeFungus(object.species, Number.isInteger(object.heading) ? object.heading : 0);
       clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
       clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
+      clean.sporeStock = Number.isFinite(object.sporeStock) && object.sporeStock >= 0 ? object.sporeStock : 0;
       garden.objects[key] = clean;
       continue;
     }

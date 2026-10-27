@@ -12,7 +12,9 @@ const plantAt = (species = 'Potato', at = '2,2') => placeObject(createGarden(7, 
 test('approved first biological catalogue includes all 7 Ingredients and 31 Fungi', () => {
   assert.equal(Object.keys(PLANTS).length, 7);
   assert.equal(Object.keys(FUNGI).length, 31);
-  assert.deepEqual(PLANTS.Potato.compatibility, { growthRate: 1, ripeningRate: 1 });
+  assert.equal(PLANTS.Potato.compatibility.growthRate, 1);
+  assert.equal(PLANTS.Potato.compatibility.allocation, 1);
+  assert.equal(PLANTS.Rice.compatibility.hourlySeed, 2.1);
   assert.equal(PLANTS.Strawberry.freezingDeath, 36);
   assert.equal(FUNGI.Rushroom.habitat, 'dependent');
   assert.equal(FUNGI.Siltgill.cultivation.mode, 'waterborne');
@@ -107,11 +109,12 @@ test('cultivation contacts retain actual Waterborne reach for later mechanics', 
   assert.equal(calculateCultivation(garden)['2,4'].length, 0);
 });
 
-test('fungal lifetime is an explicit prototype parameter, not a Spore economy', () => {
+test('fungal lifetime and Spore production use explicit provisional stage tuning', () => {
   let garden = placeObject(createGarden(7, 7), '2,2', makeFungus('Dewmender'));
   garden = advanceGardenTime(garden, 24 * 9).garden;
   assert.equal(stageOf(garden.objects['2,2']), 'Mature');
   assert.equal(garden.objects['2,2'].progress, 200);
+  assert.ok(Math.abs(garden.objects['2,2'].sporeStock - 8) < 1e-8);
   assert.ok(calculateEnvironment(garden).coverage['2,2:0']);
 });
 

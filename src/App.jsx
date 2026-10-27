@@ -11,12 +11,15 @@ import {
   STARTING_DIRECTIONS, MOVEMENT_RULES,
   PLANTS, FUNGI, makePlant, makeFungus, stageOf, advanceGardenTime,
   calculateCultivation, plantGrowthRates, PROTOTYPE_TUNING,
+  sowPlant, sowFungus, harvestPlant, harvestFungus, availableHarvest,
 } from './core/index.js';
 
 const STORAGE_KEY = 'companion-cultivation:sandbox:v2';
 const LEGACY_STORAGE_KEY = 'companion-cultivation:sandbox:v1';
 const TOOLS = [
   { id: 'inspect', icon: '⌕', title: 'Inspect', hint: 'Select a hex or existing edge' },
+  { id: 'sow-plant', icon: '◌', title: 'Sow Seeds', hint: 'Spend owned Seeds on a germination attempt' },
+  { id: 'sow-fungus', icon: '◈', title: 'Sow Spores', hint: 'Spend owned Spores on a germination attempt' },
   { id: 'plant', icon: '❧', title: 'Plant', hint: 'Spawn a test Plant on an empty hex' },
   { id: 'fungus', icon: '♧', title: 'Fungus', hint: 'Spawn a test Fungus with its approved emissions' },
   { id: 'source', icon: '✦', title: 'Source', hint: 'Place a configurable Influence Source' },
@@ -64,6 +67,7 @@ export default function App() {
   const [tool, setTool] = useState('inspect');
   const [plantSpecies, setPlantSpecies] = useState('Potato');
   const [fungusSpecies, setFungusSpecies] = useState('Dewmender');
+  const [sowQuantity, setSowQuantity] = useState(1);
   const [selection, setSelection] = useState({ type: 'hex', key: keyAt(3, 3) });
   const [notice, setNotice] = useState('Select any hex to inspect what is affecting it.');
   const [showGuide, setShowGuide] = useState(false);
@@ -77,6 +81,8 @@ export default function App() {
   const plantCount = Object.values(garden.objects).filter((object) => object.type === 'plant').length;
   const fungusCount = Object.values(garden.objects).filter((object) => object.type === 'fungus').length;
   const blockerCount = Object.values(garden.objects).filter((object) => object.type === 'blocker').length + Object.keys(garden.edges).length;
+  const seeds = garden.inventory?.seeds || {};
+  const spores = garden.inventory?.spores || {};
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(garden)); } catch { /* the sandbox stays usable without storage */ }
@@ -89,6 +95,15 @@ export default function App() {
 
   function onHexClick(key) {
     setSelection({ type: 'hex', key });
+    if (tool === 'sow-plant' || tool === 'sow-fungus') {
+      try {
+        const isPlant = tool === 'sow-plant';
+        const species = isPlant ? plantSpecies : fungusSpecies;
+        const result = isPlant ? sowPlant(garden, key, species, sowQuantity) : sowFungus(garden, key, species, sowQuantity);
+        setGarden(result.garden);
+        setNotice(`${result.success ? 'Germinated' : 'Germination failed'}: ${species} · ${sowQuantity} ${isPlant ? 'Seeds' : 'Spores'} spent · ${Math.round(result.chance * 100)}% chance.`);
+      } catch (error) { setNotice(error.message); }
+    }
     if (tool === 'plant') changeGarden((previous) => placeObject(previous, key, makePlant(plantSpecies)));
     if (tool === 'fungus') changeGarden((previous) => placeObject(previous, key, makeFungus(fungusSpecies)));
     if (tool === 'source') changeGarden((previous) => placeObject(previous, key, makeSource()));
@@ -109,7 +124,23 @@ export default function App() {
     const reconfigured = makeFungus(selectedObject.species, heading);
     changeGarden((previous) => updateObject(previous, selection.key, {
       ...reconfigured, progress: selectedObject.progress, ageHours: selectedObject.ageHours,
+      sporeStock: selectedObject.sporeStock,
     }));
+  }
+
+  function harvestSelected() {
+    if (selection.type !== 'hex' || !selectedObject) return;
+    try {
+      if (selectedObject.type === 'plant') {
+        const output = availableHarvest(selectedObject, cultivation[selection.key] || []);
+        setGarden(harvestPlant(garden, selection.key));
+        setNotice(`Harvested ${selectedObject.species}: ${output.leaves} Leaves and ${output.seeds} Seeds. The Plant was removed.`);
+      } else if (selectedObject.type === 'fungus') {
+        const output = Math.floor((selectedObject.sporeStock || 0) + 1e-9);
+        setGarden(harvestFungus(garden, selection.key));
+        setNotice(`Harvested ${selectedObject.species}: ${output} Spores. The Fungus and its emissions were removed.`);
+      }
+    } catch (error) { setNotice(error.message); }
   }
 
   function onEdgeClick(a, b) {
@@ -210,22 +241,35 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> BIOLOGY · PROTOTYPE 02</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> FARMING · PROTOTYPE 03</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
       <aside className="sidebar sidebar-left">
         <SectionTitle eyebrow="YOUR WORKBENCH" title="Garden tools" />
         <div className="tool-list">{TOOLS.map((item) => <button key={item.id} className={`tool-button ${tool === item.id ? 'active' : ''}`} title={item.hint} onClick={() => { setTool(item.id); setNotice(item.hint); }}><span className="tool-icon">{item.icon}</span><span>{item.title}</span><span className="tool-chevron">›</span></button>)}</div>
-        {(tool === 'plant' || tool === 'fungus') && <div className="biology-picker">
-          <label>{tool === 'plant' ? 'PLANT SPECIES' : 'FUNGUS SPECIES'}
-            <select value={tool === 'plant' ? plantSpecies : fungusSpecies} onChange={(event) => tool === 'plant' ? setPlantSpecies(event.target.value) : setFungusSpecies(event.target.value)}>
-              {Object.keys(tool === 'plant' ? PLANTS : FUNGI).map(name => <option key={name}>{name}</option>)}
+        {['plant', 'fungus', 'sow-plant', 'sow-fungus'].includes(tool) && <div className="biology-picker">
+          <label>{tool === 'plant' || tool === 'sow-plant' ? 'PLANT SPECIES' : 'FUNGUS SPECIES'}
+            <select value={tool === 'plant' || tool === 'sow-plant' ? plantSpecies : fungusSpecies} onChange={(event) => tool === 'plant' || tool === 'sow-plant' ? setPlantSpecies(event.target.value) : setFungusSpecies(event.target.value)}>
+              {Object.keys(tool === 'plant' || tool === 'sow-plant' ? PLANTS : FUNGI).map(name => <option key={name}>{name}</option>)}
             </select>
           </label>
-          <p>Sandbox placement skips Seed/Spore costs. One organism or Blocker per hex.</p>
-          {tool === 'fungus' && FUNGI[fungusSpecies].habitat === 'dependent' && <p className="prototype-warning">Mycelial establishment is not implemented yet; this is an emission preview.</p>}
+          {tool.startsWith('sow-') ? <><label>SEEDS / SPORES TO SPEND
+            <input type="number" min="1" max="100" value={sowQuantity} onChange={(event) => setSowQuantity(Math.max(1, Math.min(100, Number(event.target.value) || 1)))}/>
+          </label><p>Available: {(tool === 'sow-plant' ? seeds[plantSpecies] : spores[fungusSpecies]) || 0}. Every attempt spends all selected items, even on failure.</p></>
+            : <p>Free sandbox spawning skips Seed/Spore costs. One organism or Blocker per hex.</p>}
+          {(tool === 'fungus' || tool === 'sow-fungus') && FUNGI[fungusSpecies].habitat === 'dependent' && <p className="prototype-warning">Mycelial establishment is not implemented yet; this is an emission preview.</p>}
         </div>}
+
+        <div className="inventory-card"><div className="mini-heading">HARVEST INVENTORY</div>
+          <div className="inventory-total"><span>❧ Leaves</span><strong>{garden.inventory?.leaves || 0}</strong></div>
+          <div className="mini-heading">SEEDS</div>
+          {Object.entries(seeds).filter(([, n]) => n > 0).map(([name, n]) => <div className="inventory-entry" key={name}><span>{name}</span><b>{n}</b></div>)}
+          {!Object.values(seeds).some(n => n > 0) && <p className="empty-hint">No Seeds yet</p>}
+          <div className="mini-heading">SPORES</div>
+          {Object.entries(spores).filter(([, n]) => n > 0).map(([name, n]) => <div className="inventory-entry" key={name}><span>{name}</span><b>{n}</b></div>)}
+          {!Object.values(spores).some(n => n > 0) && <p className="empty-hint">Harvest a Fungus to collect its Spores</p>}
+        </div>
 
         <div className="section-divider"/>
         <SectionTitle eyebrow="ENVIRONMENT" title="View by property" />
@@ -237,7 +281,7 @@ export default function App() {
       <main className="garden-area">
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Place living organisms. Engineer their habitat. Advance time to watch them develop.</p></div><div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div></div>
 
-        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>Fungal stage durations are temporary test values; no harvest economy or Transformations yet.</small></div>
+        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>Earn produce as time passes; select an organism to harvest. Interpolated output curves and Spore numbers are provisional.</small></div>
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <div className="svg-scroll"><div className="svg-wrap"><HexGrid garden={garden} simulation={simulation} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}/></div></div>
@@ -273,7 +317,7 @@ export default function App() {
               </div>)}
               <button className="add-influence" onClick={() => changeGarden((previous) => updateObject(previous, selection.key, { ...selectedObject, emissions: [...selectedObject.emissions, makeInfluence('Brightening')] }))}>＋ Add another Influence</button>
             </> : selectedObject.type === 'plant' || selectedObject.type === 'fungus'
-              ? <OrganismFields object={selectedObject} conditions={simulation.conditions[selection.key]} contacts={cultivation[selection.key] || []} onHeadingChange={updateFungusHeading}/>
+              ? <><OrganismFields object={selectedObject} conditions={simulation.conditions[selection.key]} contacts={cultivation[selection.key] || []} onHeadingChange={updateFungusHeading}/><button className="harvest-button" onClick={harvestSelected}>↧ Harvest {selectedObject.type === 'plant' ? 'Leaves & Seeds' : 'Spores'} · remove organism</button></>
               : <BlockerFields blocker={selectedObject} onChange={updateSelectedBlocker}/>}
           </div>}
           <div className="inspector-conditions"><div className="mini-heading">PROPERTY CONDITIONS <span>BASELINE → FINAL</span></div>{PROPERTIES.map((property) => <ConditionRow key={property} property={property} baseline={selectedHex.baselines[property]} current={simulation.conditions[selection.key][property]} contributors={simulation.modifiers[selection.key][property]} adjacencyEntry={simulation.adjacency[selection.key]?.find((entry) => entry.property === property)} anchoredAt={selectedObject?.type === 'source' && selectedObject.anchor?.property === property ? selectedObject.anchor.condition : null} onChange={(name, value) => changeGarden((previous) => setBaseline(previous, selection.key, name, value))}/>)}</div>
@@ -285,7 +329,7 @@ export default function App() {
       </aside>
     </div>
 
-    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 02</span><h2>A living system of influences</h2><p>Plants and Fungi now occupy hexes, share the original environmental engine, and advance through 0–200% lifecycle progress. This is an experimental sandbox: placement skips Seeds and Spores, fungal stage durations are temporary, and Transformations, Mycelial colonies and harvesting are not implemented yet.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose a Plant or Fungus species on the left, then click an empty hex. Existing Source and Blocker tools are unchanged.</p></div><div><b>02 · Grow</b><p>Advance time by an hour or day. Plants respond to Moisture, Temperature, Illumination and currently implemented fungal Growth/Ripening Effects.</p></div><div><b>03 · Engineer</b><p>Fungi emit approved environmental influences immediately and continuously while alive. Airborne, directed Spread Budget, environmental adjacency and Blockers still use the existing engine.</p></div><div><b>04 · Inspect</b><p>Select an organism to see progress, exposure clocks and reaching Fungi. Other cultivation Effects and Mycelial-dependent survival are listed but await later implementation.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 03</span><h2>A garden that can reproduce</h2><p>Earn Leaves, Seeds and Spores as organisms develop. Harvest once, destructively, to bank the output, then sow again. The Ingredient roster and all 31 fungi are available. The in-between Leaf/Seed curves, starting Potato Seed stock, fungal germination odds and Spore quantities are explicitly provisional. Transformations and Mycelial colonies remain future systems.</p><div className="guide-grid"><div><b>01 · Sow</b><p>Choose Sow Seeds or Sow Spores, select a species and quantity, then click an empty hex. All selected items are spent on success or failure; reaching germination fungi help Seeds.</p></div><div><b>02 · Grow & earn</b><p>Advance time. Environment, ordinary Yield effects and hourly production affect output only while earned. Leaf decline follows the native lifecycle.</p></div><div><b>03 · Harvest</b><p>Select a living Plant or Fungus and choose Harvest. Plant harvest banks Leaves and species Seeds after one Leaf–Seed Allocation exchange. Fungi yield their own Spores.</p></div><div><b>04 · Experiment</b><p>Free Plant/Fungus tools and Source/Blocker tools remain available to test all 31 cultivation effects. Mycelial behavior and Transformation are not yet active.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
   </div>;
 }
 
@@ -304,13 +348,17 @@ function OrganismFields({ object, conditions, contacts, onHeadingChange }) {
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{definition[`${hazard.toLowerCase()}Death`]}h</span>)}</div>
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
       {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
-      <p className="prototype-warning">Leaf/Seed accrual, germination and Transformations are next-stage systems.</p>
+      <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts).leaves}</strong></div>
+      <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts).seeds}</strong></div>
+      <p>Accrued Leaves: {(object.production?.ordinaryLeaves || 0).toFixed(2)} ordinary + {(object.production?.hourlyLeaves || 0).toFixed(2)} hourly. Accrued Seeds: {(object.production?.ordinarySeeds || 0).toFixed(2)} ordinary + {(object.production?.hourlySeeds || 0).toFixed(2)} hourly.</p>
+      <p className="prototype-warning">Ingredient curve interpolation is provisional; Transformations are not active yet.</p>
     </> : <>
-      <p>Habitat: {definition.habitat}. Environmental emissions are live; own-Spores and harvest are pending.</p>
+      <p>Habitat: {definition.habitat}. Environmental and cultivation emissions are live.</p>
+      <div className="organism-stat"><span>Harvestable own-Spores</span><strong>{Math.floor((object.sporeStock || 0) + 1e-9)}</strong></div>
       {definition.environment?.propagation === 'spread-budget' && <label>Emission direction<select value={object.heading || 0} onChange={(event) => onHeadingChange(Number(event.target.value))}>{STARTING_DIRECTIONS.map((direction, i) => <option key={direction} value={i}>{direction}</option>)}</select></label>}
-      {definition.cultivation && <p>Cultivation: {definition.cultivation.kind} {definition.cultivation.amount > 0 ? '+' : ''}{definition.cultivation.amount} · {definition.cultivation.mode}{definition.cultivation.kind === 'growthRate' || definition.cultivation.kind === 'ripeningRate' ? ' (active)' : ' (pending)'}</p>}
+      {definition.cultivation && <p>Cultivation: {definition.cultivation.kind} {definition.cultivation.amount > 0 ? '+' : ''}{definition.cultivation.amount} · {definition.cultivation.mode} (active)</p>}
       {definition.habitat !== 'independent' && <p className="prototype-warning">Mycelial habitat and dependency clocks are not active yet.</p>}
-      <p className="prototype-warning">Fungal stage timing is temporary ({PROTOTYPE_TUNING.fungusGrowthHours}h + {PROTOTYPE_TUNING.fungusSporulationHours}h), pending balance.</p>
+      <p className="prototype-warning">Fungal timing ({PROTOTYPE_TUNING.fungusGrowthHours}h + {PROTOTYPE_TUNING.fungusSporulationHours}h), Spore yields ({PROTOTYPE_TUNING.fungusSporeYieldAt200} at 200%) and germination ({PROTOTYPE_TUNING.fungusGerminationChance * 100}% per Spore) are temporary.</p>
     </>}
   </div>;
 }

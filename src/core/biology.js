@@ -1,20 +1,17 @@
-import { calculateEnvironment, propagate } from './simulation.js';
+import { calculateEnvironment } from './simulation.js';
+import { calculateCultivation } from './cultivation.js';
+import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './economy.js';
 import { FUNGI, PLANTS } from './species.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
 // the authoritative fungus balance or spore economy.
-export const PROTOTYPE_TUNING = Object.freeze({ fungusGrowthHours: 96, fungusSporulationHours: 96 });
+export const PROTOTYPE_TUNING = Object.freeze({ fungusGrowthHours: 96, fungusSporulationHours: 96,
+  ...ECONOMY_TUNING });
 
 const MOISTURE = ['Dry', 'Damp', 'Flooded'];
 const LIGHT = ['Dark', 'Dim', 'Lit', 'Bright'];
-const CULTIVATION_KINDS = Object.freeze({
-  growthRate: 'Growth', ripeningRate: 'Ripening', leafYield: 'Leaf', seedYield: 'Seed',
-  germination: 'Germination', harvestWindow: 'Harvest Timing',
-  leafPeakTiming: 'Harvest Timing', seedTiming: 'Harvest Timing',
-  hourlyLeaf: 'Leaf', hourlySeed: 'Seed',
-  leafAllocation: 'Allocation', seedAllocation: 'Allocation',
-});
+export { calculateCultivation } from './cultivation.js';
 
 export function stageOf(organism) {
   if (!organism || !['plant', 'fungus'].includes(organism.type)) return null;
@@ -34,34 +31,6 @@ export function plantEnvironmentRate(species, conditions) {
     temperature = species === 'Pumpkin' && conditions.Temperature === 'Cold' ? .55 : .85;
   }
   return moisture * illumination * temperature;
-}
-
-// Contact is computed separately from the Fungus's environmental emission.
-// All 31 footprints are available even when the eventual Effect's accounting
-// (Yield, Germination, Allocation, etc.) is not part of this first slice.
-export function calculateCultivation(garden, environment = calculateEnvironment(garden)) {
-  const atPlants = Object.fromEntries(Object.entries(garden.objects)
-    .filter(([, object]) => object.type === 'plant').map(([key]) => [key, []]));
-  const moisture = Object.fromEntries(Object.entries(environment.conditions)
-    .map(([key, conditions]) => [key, conditions.Moisture]));
-
-  for (const [source, object] of Object.entries(garden.objects)) {
-    if (object.type !== 'fungus') continue;
-    const emitted = FUNGI[object.species]?.cultivation;
-    if (!emitted) continue;
-    const influence = {
-      kind: CULTIVATION_KINDS[emitted.kind],
-      mode: emitted.mode, range: emitted.range, propagation: 'range',
-    };
-    for (const hit of propagate(garden, source, influence, moisture)) {
-      if (!atPlants[hit.key]) continue;
-      atPlants[hit.key].push({ source, species: object.species, ...emitted, distance: hit.distance,
-        kindTag: influence.kind,
-        implemented: emitted.kind === 'growthRate' || emitted.kind === 'ripeningRate',
-      });
-    }
-  }
-  return atPlants;
 }
 
 export function plantGrowthRates(plant, conditions, contacts = []) {
@@ -135,15 +104,16 @@ export function advanceGardenTime(garden, hours = 1) {
           continue;
         }
         const rates = plantGrowthRates(object, environment.conditions[key], cultivation[key]);
-        objects[key] = { ...object, ageHours: (object.ageHours || 0) + 1, exposure,
-          progress: advancePlantProgress(object.progress, profile, rates) };
+        const progress = advancePlantProgress(object.progress, profile, rates);
+        objects[key] = { ...object, ageHours: (object.ageHours || 0) + 1, exposure, progress,
+          production: accruePlantProduction(object, progress, environment.conditions[key], cultivation[key]) };
       } else if (object.type === 'fungus') {
         const progress = advancePlantProgress(object.progress, {
           growthDays: PROTOTYPE_TUNING.fungusGrowthHours / 24,
           totalDays: (PROTOTYPE_TUNING.fungusGrowthHours + PROTOTYPE_TUNING.fungusSporulationHours) / 24,
         }, { growth: 1, ripening: 1 });
-        // Mycelial support/death and Spore output require their own timed system.
-        objects[key] = { ...object, progress, ageHours: (object.ageHours || 0) + 1 };
+        objects[key] = { ...object, progress, ageHours: (object.ageHours || 0) + 1,
+          sporeStock: accrueFungusSpores(object, progress, PROTOTYPE_TUNING.fungusSporeYieldAt200) };
       }
     }
     current = { ...current, objects, clockHours: (current.clockHours || 0) + 1 };
