@@ -35,4 +35,6 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 
 The game also **does not yet progress automatically** while the page is open: simulation time currently advances using the developer-only `+1 hour` / `+1 day` controls. Consequently the default player-facing view is a **UI preview**, not yet a self-sufficient game loop. Keep developer tools enabled for timed testing until a real-time or turn-based clock is designed and implemented.
 
+**Approved future behavior:** the [spatial-inventory and repeatable staging design](design/systems/spatial-inventory-and-staging.md) explicitly requires the **farm to keep progressing while a staging phase is open**, with visible Growth, Transformations, hazards, fungal activity and Mycelial updates. That continuous-time requirement is *future design*, not a description of Prototype 12's current manually advanced runtime.
+
 For code coverage and provisional numerical assumptions, use the [implementation ledger](implementation-status.md). For normative gameplay specifications, use the [design index](design/README.md). The [original full design source](herbs-and-fungi-design.md) and historical documents are preserved unchanged.
