@@ -6,6 +6,7 @@ import './spread.css';
 import './adjacency.css';
 import './biology.css';
 import './inventory.css';
+import './save-game.css';
 import {
   CONDITIONS, PROPERTIES, INFLUENCE_TYPES, KINDS, MODES,
   calculateEnvironment, createGarden, createDemoGarden, isGarden, migrateGarden, edgeKey, keyAt,
@@ -19,6 +20,7 @@ import {
   stagePlanting, unstagePlanting, moveStagedPlanting, applyStaging, availableToStage, reservedStock, STAGING_TUNING,
   isMycelial, mycelialContributors, calculateMycelialSupport, MYCELIAL_TUNING,
   transformationStatus, reconcileTransformationClocks,
+  serializeGameSave, deserializeGameSave,
 } from './core/index.js';
 
 const STORAGE_KEY = 'companion-cultivation:sandbox:v4';
@@ -73,6 +75,7 @@ export default function App() {
   const [fungusSpecies, setFungusSpecies] = useState('Dewmender');
   const [selection, setSelection] = useState({ type: 'hex', key: keyAt(3, 3) });
   const [notice, setNotice] = useState('Select any hex to inspect what is affecting it.');
+  const [autosaveStatus, setAutosaveStatus] = useState('Saving…');
   const [showGuide, setShowGuide] = useState(false);
   const fileInput = useRef(null);
   const simulation = useMemo(() => calculateEnvironment(garden), [garden]);
@@ -98,7 +101,13 @@ export default function App() {
   const selectedPending = selection.type === 'hex' ? garden.pending?.[selection.key] : null;
 
   useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(garden)); } catch { /* the sandbox stays usable without storage */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(garden));
+      setAutosaveStatus('Autosaved');
+    } catch {
+      // Manual file backups remain available when browser storage is blocked.
+      setAutosaveStatus('Autosave unavailable');
+    }
   }, [garden]);
 
   // A temporary accelerated live clock; unlike staging, it never pauses the
@@ -356,19 +365,40 @@ export default function App() {
     setNotice('Garden exported as JSON. The core engine can load the same state.');
   }
 
+  function saveGameFile() {
+    try {
+      const contents = serializeGameSave(gardenRef.current);
+      const url = URL.createObjectURL(new Blob([contents], { type: 'application/json' }));
+      const anchor = document.createElement('a');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      anchor.href = url;
+      anchor.download = `companion-cultivation-${timestamp}.ccsave`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setNotice('Save Game download requested. Keep the .ccsave file as a backup or move it to another device.');
+    } catch (error) { setNotice(`Save failed: ${error.message}`); }
+  }
+
   async function importGarden(event) {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
-      const imported = JSON.parse(await file.text());
-      if (!isGarden(imported) || imported.columns < 3 || imported.columns > 20 || imported.rows < 3 || imported.rows > 20) throw new Error('Unsupported garden file.');
-      const upgraded = reconcileTransformationClocks(migrateGarden(imported));
-      calculateEnvironment(upgraded);
+      const upgraded = deserializeGameSave(await file.text());
+      if (!window.confirm(`Load “${file.name}”? This replaces your current garden and its browser autosave. Save a backup first if you want to keep your current progress.`)) {
+        setNotice('Load cancelled. Your current garden was not changed.');
+        return;
+      }
       replaceGarden(upgraded);
-      setSelection({ type: 'hex', key: Object.keys(imported.hexes)[0] });
-      setNotice(imported.schemaVersion === 1 ? `Loaded ${file.name}; obsolete Materials and Fertility were removed.` : `Loaded ${file.name}`);
-    } catch (error) { setNotice(`Import failed: ${error.message}`); }
-    event.target.value = '';
+      setSelection({ type: 'hex', key: Object.keys(upgraded.hexes)[0] });
+      setHeldItem(null);
+      setQuantityPrompt(null);
+      setInventoryPage(0);
+      setTool('inspect');
+      setNotice(`Loaded ${file.name}. Your garden, inventory arrangement, staging and germination clocks have been restored; browser autosave is active.`);
+    } catch (error) { setNotice(`Load failed: ${error.message}. Your current garden was not changed.`); }
+    finally { event.target.value = ''; }
   }
 
   function toggleDeveloperTools() {
@@ -385,7 +415,15 @@ export default function App() {
       <div className="brand-controls"><div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
         <button className={`developer-toggle ${showDeveloperTools ? 'is-on' : ''}`} aria-pressed={showDeveloperTools} onClick={toggleDeveloperTools}>{showDeveloperTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> STAGING · PROTOTYPE 13</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> SAVES · PROTOTYPE 14</span>
+        <div className="save-game-controls" aria-label="Save and load game">
+          <span className={`autosave-indicator ${autosaveStatus === 'Autosaved' ? '' : 'is-warning'}`} role="status">{autosaveStatus === 'Autosaved' ? '✓ ' : '⚠ '}{autosaveStatus}</span>
+          <button className="save-game-button" onClick={saveGameFile} title="Download a complete copy of your current garden">↓ Save Game</button>
+          <button className="load-game-button" onClick={() => fileInput.current?.click()} title="Load a .ccsave file or earlier garden JSON">↑ Load Game</button>
+          <input ref={fileInput} type="file" accept=".ccsave,.json,application/json" hidden aria-label="Choose a game save file" onChange={importGarden}/>
+        </div>
+        <button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button>
+      </div>
     </header>
 
     <div className="workspace">
@@ -471,7 +509,7 @@ export default function App() {
             {(simulation.adjacency[selection.key]?.length ?? 0) > 0 && <div className="adjacency-contributions"><div className="mini-heading">ENVIRONMENTAL ADJACENCY</div>{simulation.adjacency[selection.key].map((entry) => <div className="contribution adjacency-contribution" key={entry.property}><span className="contribution-symbol">⌁</span><div><strong>{entry.property}: {entry.before} → {entry.after}</strong><small>Neighboring {entry.trigger} at {entry.from.join(', ')} · {entry.kind}/{titleCase(entry.mode)}</small></div><b className={entry.modifier > 0 ? 'positive' : 'negative'}>{entry.modifier > 0 ? '+' : ''}{entry.modifier}</b></div>)}</div>}
           </div>
         </> : selection.type === 'edge' ? <div className="edge-inspector"><div className="edge-inspector-icon">╱</div><h3>Shared hex edge</h3><p>{selection.a} ↔ {selection.b}</p><p className="empty-hint">One edge belongs to both adjacent hexes. Blocking works in both directions.</p>{selectedEdge ? <div className="object-card">{showDeveloperTools ? <><BlockerFields blocker={selectedEdge} onChange={updateSelectedBlocker}/><button className="danger-outline" onClick={() => changeGarden((previous) => removeEdgeBlocker(previous, selection.a, selection.b))}>Remove edge blocker</button></> : <p className="small-explanation">Blocks: {selectedEdge.rule === 'full' ? 'all effects' : `${selectedEdge.rule} ${selectedEdge.value}`}.</p>}</div> : showDeveloperTools && <button className="add-influence" onClick={() => changeGarden((previous) => placeEdgeBlocker(previous, selection.a, selection.b, makeBlocker()))}>＋ Place edge blocker</button>}</div> : null}
-        {showDeveloperTools && <div className="data-actions"><button onClick={exportGarden}>↓ Export JSON</button><button onClick={() => fileInput.current?.click()}>↑ Import JSON</button><input ref={fileInput} type="file" accept=".json,application/json" hidden onChange={importGarden}/></div>}
+        {showDeveloperTools && <div className="data-actions"><button onClick={exportGarden}>↓ Export JSON</button><button onClick={() => fileInput.current?.click()}>↑ Import JSON</button></div>}
       </aside>
     </div>
 
@@ -492,9 +530,10 @@ export default function App() {
 
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
-      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 13</span><h2>A garden of changing forms</h2>
+      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 14</span><h2>A garden of changing forms</h2>
       <p>All 69 approved first-pass Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Every Plant yields its own species-specific Leaves on harvest, rather than a shared Leaf currency. Named Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
       <p>Arrange the four 50-square inventory pages, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply planting decisions</strong>. Attempts are consumed together and their results stay hidden for a few in-game hours. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. The current accelerated 5-second clock is temporary balancing.</p>
+      <p>Your garden autosaves in this browser. Use <strong>Save Game</strong> to download a portable .ccsave backup, and <strong>Load Game</strong> to restore it here or on another device. Loading replaces your current browser save after confirmation; staged placements and hidden germination timers are included. Browser-closed progression is not implemented yet.</p>
       <div className="guide-grid">
         <div><b>01 · Start any family</b><p>Sow Potato, Daisydaze, Aquatic Base, Woodlands Base, Jadeheart or Thymely Seeds. Enable developer tools to free-spawn any other Plant for testing. Select it to inspect its Transformation paths.</p></div>
         <div><b>02 · Shape the light</b><p>Thymely opens Bright Sunrice, Dim Moonrice and Dark Shadow Onion branches. Fungal emissions and placed Sources shift resolved Illumination for every organism.</p></div>

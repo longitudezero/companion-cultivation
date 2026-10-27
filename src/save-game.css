@@ -1,0 +1,38 @@
+/* Prototype 14: portable saves stay in the header, away from the live plot. */
+.save-game-controls {
+  --save-surface: #293e30;
+  --save-border: #81946c;
+  --save-accent: #e7d19e;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.top-actions { gap: 12px; }
+.autosave-indicator { color: #b9d9bb; font-size: 10px; white-space: nowrap; }
+.autosave-indicator.is-warning { color: #efbe94; }
+.save-game-button, .load-game-button {
+  padding: 8px 11px;
+  border: 1px solid var(--save-border);
+  border-radius: 7px;
+  background: var(--save-surface);
+  color: var(--save-accent);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.save-game-button:hover, .load-game-button:hover,
+.save-game-button:focus-visible, .load-game-button:focus-visible {
+  background: #3f5943;
+  outline-color: #efd9a7;
+}
+@media (max-width: 1320px) {
+  .topbar { height: auto; min-height: 98px; flex-wrap: wrap; }
+  .top-actions { margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+}
+@media (max-width: 680px) {
+  .top-actions { width: 100%; justify-content: space-between; gap: 8px; }
+  .save-game-controls { justify-content: flex-start; }
+  .save-game-button, .load-game-button { padding: 8px; font-size: 10px; }
+}
