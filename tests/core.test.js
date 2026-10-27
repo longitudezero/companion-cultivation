@@ -348,7 +348,10 @@ test('environment exposes only the three retained properties and kinds', () => {
   const garden = createGarden(5, 5);
   const result = calculateEnvironment(garden);
   assert.deepEqual(PROPERTIES, ['Moisture', 'Temperature', 'Illumination']);
-  assert.deepEqual(KINDS, ['Aqueous', 'Thermal', 'Luminous']);
+  assert.deepEqual(KINDS.slice(0, 3), ['Aqueous', 'Thermal', 'Luminous']);
+  assert.ok(KINDS.includes('Growth'));
+  assert.ok(KINDS.includes('Ripening'));
+  assert.ok(KINDS.includes('Mycelial'));
   assert.deepEqual(Object.keys(garden.hexes[keyAt(2, 2)].baselines), PROPERTIES);
   assert.deepEqual(Object.keys(result.conditions[keyAt(2, 2)]), PROPERTIES);
   assert.throws(() => setBaseline(garden, keyAt(2, 2), 'Fertility', 'Rich'), /Invalid Property/);

@@ -5,3 +5,5 @@ export * from './spread.js';
 export * from './simulation.js';
 export * from './adjacency.js';
 export * from './demo.js';
+export * from './species.js';
+export * from './biology.js';

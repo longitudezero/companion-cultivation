@@ -2,18 +2,23 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import HexGrid, { PALETTES } from './HexGrid.jsx';
 import './spread.css';
 import './adjacency.css';
+import './biology.css';
 import {
   CONDITIONS, PROPERTIES, INFLUENCE_TYPES, KINDS, MODES,
   calculateEnvironment, createGarden, createDemoGarden, isGarden, migrateGarden, edgeKey, keyAt,
   resizeGarden, setBaseline, placeObject, removeObject, updateObject,
   placeEdgeBlocker, removeEdgeBlocker, makeInfluence, makeSpreadInfluence, makeSource, makeAnchoredSource, makeBlocker,
   STARTING_DIRECTIONS, MOVEMENT_RULES,
+  PLANTS, FUNGI, makePlant, makeFungus, stageOf, advanceGardenTime,
+  calculateCultivation, plantGrowthRates, PROTOTYPE_TUNING,
 } from './core/index.js';
 
 const STORAGE_KEY = 'companion-cultivation:sandbox:v2';
 const LEGACY_STORAGE_KEY = 'companion-cultivation:sandbox:v1';
 const TOOLS = [
   { id: 'inspect', icon: '⌕', title: 'Inspect', hint: 'Select a hex or existing edge' },
+  { id: 'plant', icon: '❧', title: 'Plant', hint: 'Spawn a test Plant on an empty hex' },
+  { id: 'fungus', icon: '♧', title: 'Fungus', hint: 'Spawn a test Fungus with its approved emissions' },
   { id: 'source', icon: '✦', title: 'Source', hint: 'Place a configurable Influence Source' },
   { id: 'hex', icon: '▣', title: 'Hex blocker', hint: 'Block an entire hex' },
   { id: 'edge', icon: '╱', title: 'Edge blocker', hint: 'Click a shared hex edge' },
@@ -57,15 +62,20 @@ export default function App() {
   const [garden, setGarden] = useState(initialGarden);
   const [overlay, setOverlay] = useState('Moisture');
   const [tool, setTool] = useState('inspect');
+  const [plantSpecies, setPlantSpecies] = useState('Potato');
+  const [fungusSpecies, setFungusSpecies] = useState('Dewmender');
   const [selection, setSelection] = useState({ type: 'hex', key: keyAt(3, 3) });
   const [notice, setNotice] = useState('Select any hex to inspect what is affecting it.');
   const [showGuide, setShowGuide] = useState(false);
   const fileInput = useRef(null);
   const simulation = useMemo(() => calculateEnvironment(garden), [garden]);
+  const cultivation = useMemo(() => calculateCultivation(garden, simulation), [garden, simulation]);
   const selectedHex = selection.type === 'hex' ? garden.hexes[selection.key] : null;
   const selectedObject = selection.type === 'hex' ? garden.objects[selection.key] : null;
   const selectedEdge = selection.type === 'edge' ? garden.edges[selection.id] : null;
   const sourceCount = Object.values(garden.objects).filter((object) => object.type === 'source').length;
+  const plantCount = Object.values(garden.objects).filter((object) => object.type === 'plant').length;
+  const fungusCount = Object.values(garden.objects).filter((object) => object.type === 'fungus').length;
   const blockerCount = Object.values(garden.objects).filter((object) => object.type === 'blocker').length + Object.keys(garden.edges).length;
 
   useEffect(() => {
@@ -79,9 +89,27 @@ export default function App() {
 
   function onHexClick(key) {
     setSelection({ type: 'hex', key });
+    if (tool === 'plant') changeGarden((previous) => placeObject(previous, key, makePlant(plantSpecies)));
+    if (tool === 'fungus') changeGarden((previous) => placeObject(previous, key, makeFungus(fungusSpecies)));
     if (tool === 'source') changeGarden((previous) => placeObject(previous, key, makeSource()));
     if (tool === 'hex') changeGarden((previous) => placeObject(previous, key, makeBlocker()));
     if (tool === 'erase') changeGarden((previous) => removeObject(previous, key));
+  }
+
+  function advanceTime(hours) {
+    try {
+      const result = advanceGardenTime(garden, hours);
+      setGarden(result.garden);
+      setNotice(result.events.length ? result.events.slice(-2).join(' ') : `Advanced ${hours} in-game hour${hours === 1 ? '' : 's'}.`);
+    } catch (error) { setNotice(error.message); }
+  }
+
+  function updateFungusHeading(heading) {
+    if (selectedObject?.type !== 'fungus') return;
+    const reconfigured = makeFungus(selectedObject.species, heading);
+    changeGarden((previous) => updateObject(previous, selection.key, {
+      ...reconfigured, progress: selectedObject.progress, ageHours: selectedObject.ageHours,
+    }));
   }
 
   function onEdgeClick(a, b) {
@@ -182,13 +210,22 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> PROTOTYPE 01</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> BIOLOGY · PROTOTYPE 02</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
       <aside className="sidebar sidebar-left">
         <SectionTitle eyebrow="YOUR WORKBENCH" title="Garden tools" />
         <div className="tool-list">{TOOLS.map((item) => <button key={item.id} className={`tool-button ${tool === item.id ? 'active' : ''}`} title={item.hint} onClick={() => { setTool(item.id); setNotice(item.hint); }}><span className="tool-icon">{item.icon}</span><span>{item.title}</span><span className="tool-chevron">›</span></button>)}</div>
+        {(tool === 'plant' || tool === 'fungus') && <div className="biology-picker">
+          <label>{tool === 'plant' ? 'PLANT SPECIES' : 'FUNGUS SPECIES'}
+            <select value={tool === 'plant' ? plantSpecies : fungusSpecies} onChange={(event) => tool === 'plant' ? setPlantSpecies(event.target.value) : setFungusSpecies(event.target.value)}>
+              {Object.keys(tool === 'plant' ? PLANTS : FUNGI).map(name => <option key={name}>{name}</option>)}
+            </select>
+          </label>
+          <p>Sandbox placement skips Seed/Spore costs. One organism or Blocker per hex.</p>
+          {tool === 'fungus' && FUNGI[fungusSpecies].habitat === 'dependent' && <p className="prototype-warning">Mycelial establishment is not implemented yet; this is an emission preview.</p>}
+        </div>}
 
         <div className="section-divider"/>
         <SectionTitle eyebrow="ENVIRONMENT" title="View by property" />
@@ -198,13 +235,15 @@ export default function App() {
       </aside>
 
       <main className="garden-area">
-        <div className="garden-heading"><div><span className="eyebrow">ENVIRONMENTAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Shape the terrain. Redirect the influences. Observe what changes.</p></div><div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div></div>
+        <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Place living organisms. Engineer their habitat. Advance time to watch them develop.</p></div><div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div></div>
+
+        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>Fungal stage durations are temporary test values; no harvest economy or Transformations yet.</small></div>
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <div className="svg-scroll"><div className="svg-wrap"><HexGrid garden={garden} simulation={simulation} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}/></div></div>
-          <div className="surface-bottomline"><span><span className="legend-symbol source-symbol">✦</span> Source</span><span><span className="legend-symbol tile-symbol">▧</span> Hex blocker</span><span><span className="edge-symbol"/> Edge blocker</span><span className="hint-right">{tool === 'edge' ? 'Click any shared border to place an edge blocker' : 'Click a hex to interact'}</span></div>
+          <div className="surface-bottomline"><span>❧ Plant</span><span>♧ Fungus</span><span><span className="legend-symbol source-symbol">✦</span> Source</span><span><span className="legend-symbol tile-symbol">▧</span> Hex blocker</span><span><span className="edge-symbol"/> Edge blocker</span><span className="hint-right">{tool === 'edge' ? 'Click a border' : 'Click a hex'}</span></div>
         </div>
-        <div className="plot-footer"><div className="plot-stat"><strong>{garden.columns * garden.rows}</strong><span>Garden hexes</span></div><div className="plot-stat"><strong>{sourceCount}</strong><span>Active sources</span></div><div className="plot-stat"><strong>{blockerCount}</strong><span>Blockers placed</span></div><div className="plot-resize"><span>GRID SIZE</span><div><button onClick={() => updateSize('columns', -1)} aria-label="Remove a column">−</button><b>{garden.columns}</b><button onClick={() => updateSize('columns', 1)} aria-label="Add a column">+</button><span className="multiply">×</span><button onClick={() => updateSize('rows', -1)} aria-label="Remove a row">−</button><b>{garden.rows}</b><button onClick={() => updateSize('rows', 1)} aria-label="Add a row">+</button></div></div></div>
+        <div className="plot-footer"><div className="plot-stat"><strong>{plantCount}</strong><span>Plants</span></div><div className="plot-stat"><strong>{fungusCount}</strong><span>Fungi</span></div><div className="plot-stat"><strong>{sourceCount}</strong><span>Test sources</span></div><div className="plot-stat"><strong>{blockerCount}</strong><span>Blockers</span></div><div className="plot-resize"><span>GRID SIZE</span><div><button onClick={() => updateSize('columns', -1)} aria-label="Remove a column">−</button><b>{garden.columns}</b><button onClick={() => updateSize('columns', 1)} aria-label="Add a column">+</button><span className="multiply">×</span><button onClick={() => updateSize('rows', -1)} aria-label="Remove a row">−</button><b>{garden.rows}</b><button onClick={() => updateSize('rows', 1)} aria-label="Add a row">+</button></div></div></div>
         <div className="notice-bar"><span>✧</span> {notice}</div>
       </main>
 
@@ -212,7 +251,7 @@ export default function App() {
         <SectionTitle eyebrow="FIELD NOTES" title="Inspector" right={<span className="inspector-tag">{selection.type === 'hex' ? 'HEX' : 'EDGE'}</span>}/>
         {selection.type === 'hex' && selectedHex ? <>
           <div className="selected-summary"><div className="selected-illustration" style={{ background: PALETTES.Moisture[simulation.conditions[selection.key].Moisture] }}>⬡</div><div><span className="mini-heading">SELECTED HEX</span><h3>Hex {selection.key}</h3><p>Three environmental Properties</p></div></div>
-          {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{selectedObject.type === 'source' ? selectedObject.anchor ? '✥ Anchored Source' : '✦ Influence Source' : '▣ Hex Blocker'}</strong></div><button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button></div>
+          {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{selectedObject.type === 'source' ? selectedObject.anchor ? '✥ Anchored Source' : '✦ Influence Source' : selectedObject.type === 'plant' ? `❧ ${selectedObject.species}` : selectedObject.type === 'fungus' ? `♧ ${selectedObject.species}` : '▣ Hex Blocker'}</strong></div><button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button></div>
             {selectedObject.type === 'source' ? <>
               <div className="source-config"><label>Source type<select aria-label="Source type" value={selectedObject.anchor ? 'anchored' : 'regular'} onChange={(event) => updateSourceType(event.target.value)}><option value="regular">Regular Source</option><option value="anchored">Anchored Source</option></select></label>
                 {selectedObject.anchor && <><div className="field-pair"><label>Anchored Property<select aria-label="Anchored Property" value={selectedObject.anchor.property} onChange={(event) => updateSourceAnchor('property', event.target.value)}>{PROPERTIES.map((property) => <option key={property}>{property}</option>)}</select></label><label>Anchored Condition<select aria-label="Anchored Condition" value={selectedObject.anchor.condition} onChange={(event) => updateSourceAnchor('condition', event.target.value)}>{CONDITIONS[selectedObject.anchor.property].map((condition) => <option key={condition}>{condition}</option>)}</select></label></div><div className="anchor-summary">◆ {selectedObject.anchor.property} stays {selectedObject.anchor.condition} on this hex.</div></>}
@@ -233,7 +272,9 @@ export default function App() {
                 <div className="emission-foot">{emission.kind} <span>→</span> {emission.property} {emission.modifier > 0 ? '+' : ''}{emission.modifier}</div>
               </div>)}
               <button className="add-influence" onClick={() => changeGarden((previous) => updateObject(previous, selection.key, { ...selectedObject, emissions: [...selectedObject.emissions, makeInfluence('Brightening')] }))}>＋ Add another Influence</button>
-            </> : <BlockerFields blocker={selectedObject} onChange={updateSelectedBlocker}/>}
+            </> : selectedObject.type === 'plant' || selectedObject.type === 'fungus'
+              ? <OrganismFields object={selectedObject} conditions={simulation.conditions[selection.key]} contacts={cultivation[selection.key] || []} onHeadingChange={updateFungusHeading}/>
+              : <BlockerFields blocker={selectedObject} onChange={updateSelectedBlocker}/>}
           </div>}
           <div className="inspector-conditions"><div className="mini-heading">PROPERTY CONDITIONS <span>BASELINE → FINAL</span></div>{PROPERTIES.map((property) => <ConditionRow key={property} property={property} baseline={selectedHex.baselines[property]} current={simulation.conditions[selection.key][property]} contributors={simulation.modifiers[selection.key][property]} adjacencyEntry={simulation.adjacency[selection.key]?.find((entry) => entry.property === property)} anchoredAt={selectedObject?.type === 'source' && selectedObject.anchor?.property === property ? selectedObject.anchor.condition : null} onChange={(name, value) => changeGarden((previous) => setBaseline(previous, selection.key, name, value))}/>)}</div>
           <div className="influence-notes"><div className="mini-heading">REACHING THIS HEX</div>{PROPERTIES.flatMap((property) => simulation.modifiers[selection.key][property].map((entry, index) => <div className="contribution" key={`${property}-${index}`}><span className="contribution-symbol">↝</span><div><strong>{entry.influence}</strong><small>From {entry.source} · {entry.propagation === 'spread-budget' ? 'routed' : entry.mode} · {entry.distance} steps</small></div><b className={entry.modifier > 0 ? 'positive' : 'negative'}>{entry.modifier > 0 ? '+' : ''}{entry.modifier}</b></div>))}{PROPERTIES.every((property) => simulation.modifiers[selection.key][property].length === 0) && <p className="empty-hint">No emitted Source Influences currently reach this hex.</p>}
@@ -244,7 +285,33 @@ export default function App() {
       </aside>
     </div>
 
-    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the Environmental Sandbox works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 01</span><h2>A living system of influences</h2><p>Every hex has three environmental Properties—Moisture, Temperature, and Illumination—with editable Baselines. Sources emit Influences that adjust Conditions only while they reach a hex.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose Source, Hex Blocker, or Edge Blocker from the workbench and click the garden.</p></div><div><b>02 · Configure</b><p>Sources can be Regular or Anchored to one fixed Condition. Airborne Influences have Range; Waterborne Influences reach the entire connected Flooded network. Directional Spread Budget remains separate.</p></div><div><b>03 · Observe</b><p>Flooded, Hot, Freezing, Bright, and Dark hexes influence adjacent Conditions in one simultaneous pass, without stacking or chains.</p></div><div><b>04 · Experiment</b><p>Hex and Edge Blockers stop matching adjacency effects in both directions. Full blocks every effect; Kind and Mode filters also work with adjacency.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 02</span><h2>A living system of influences</h2><p>Plants and Fungi now occupy hexes, share the original environmental engine, and advance through 0–200% lifecycle progress. This is an experimental sandbox: placement skips Seeds and Spores, fungal stage durations are temporary, and Transformations, Mycelial colonies and harvesting are not implemented yet.</p><div className="guide-grid"><div><b>01 · Place</b><p>Choose a Plant or Fungus species on the left, then click an empty hex. Existing Source and Blocker tools are unchanged.</p></div><div><b>02 · Grow</b><p>Advance time by an hour or day. Plants respond to Moisture, Temperature, Illumination and currently implemented fungal Growth/Ripening Effects.</p></div><div><b>03 · Engineer</b><p>Fungi emit approved environmental influences immediately and continuously while alive. Airborne, directed Spread Budget, environmental adjacency and Blockers still use the existing engine.</p></div><div><b>04 · Inspect</b><p>Select an organism to see progress, exposure clocks and reaching Fungi. Other cultivation Effects and Mycelial-dependent survival are listed but await later implementation.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+  </div>;
+}
+
+function OrganismFields({ object, conditions, contacts, onHeadingChange }) {
+  const plant = object.type === 'plant';
+  const definition = plant ? PLANTS[object.species] : FUNGI[object.species];
+  const rates = plant ? plantGrowthRates(object, conditions, contacts) : null;
+  return <div className="organism-details">
+    <div className="organism-stat"><span>{stageOf(object)}</span><strong>{object.progress.toFixed(1)}%</strong></div>
+    <div className="organism-progress"><div style={{ width: `${object.progress / 2}%` }}/></div>
+    <p>{object.ageHours || 0} hours alive · {plant ? 'Growth → Ripening' : 'Growth → Sporulation'}</p>
+    {plant ? <>
+      <div className="organism-stat"><span>Current stage rate</span><strong>{((object.progress < 100 ? rates.growth : rates.ripening) * 100).toFixed(0)}%</strong></div>
+      <p>Approved natural timing: {definition.growthDays} days to Growth completion; {definition.totalDays} days to 200% in optimal Conditions.</p>
+      <div className="mini-heading">HAZARD EXPOSURE</div>
+      <div className="exposure-list">{['Dry', 'Hot', 'Freezing'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{definition[`${hazard.toLowerCase()}Death`]}h</span>)}</div>
+      <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
+      {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
+      <p className="prototype-warning">Leaf/Seed accrual, germination and Transformations are next-stage systems.</p>
+    </> : <>
+      <p>Habitat: {definition.habitat}. Environmental emissions are live; own-Spores and harvest are pending.</p>
+      {definition.environment?.propagation === 'spread-budget' && <label>Emission direction<select value={object.heading || 0} onChange={(event) => onHeadingChange(Number(event.target.value))}>{STARTING_DIRECTIONS.map((direction, i) => <option key={direction} value={i}>{direction}</option>)}</select></label>}
+      {definition.cultivation && <p>Cultivation: {definition.cultivation.kind} {definition.cultivation.amount > 0 ? '+' : ''}{definition.cultivation.amount} · {definition.cultivation.mode}{definition.cultivation.kind === 'growthRate' || definition.cultivation.kind === 'ripeningRate' ? ' (active)' : ' (pending)'}</p>}
+      {definition.habitat !== 'independent' && <p className="prototype-warning">Mycelial habitat and dependency clocks are not active yet.</p>}
+      <p className="prototype-warning">Fungal stage timing is temporary ({PROTOTYPE_TUNING.fungusGrowthHours}h + {PROTOTYPE_TUNING.fungusSporulationHours}h), pending balance.</p>
+    </>}
   </div>;
 }
 

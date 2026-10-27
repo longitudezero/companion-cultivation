@@ -48,7 +48,7 @@ export function calculateEnvironment(garden) {
 
   function collect(mode, resolvedMoisture) {
     for (const [origin, object] of Object.entries(garden.objects)) {
-      if (object.type !== 'source') continue;
+      if (object.type !== 'source' && object.type !== 'fungus') continue;
       for (let i = 0; i < object.emissions.length; i += 1) {
         const influence = object.emissions[i];
         const routed = influence.propagation === 'spread-budget';

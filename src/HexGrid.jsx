@@ -40,7 +40,7 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
   const keys = Object.keys(garden.hexes);
   const width = 130 + (garden.columns - 1 + 0.5) * DX;
   const height = 118 + (garden.rows - 1) * Y_STEP;
-  const selectedSource = selection.type === 'hex' && garden.objects[selection.key]?.type === 'source' ? selection.key : null;
+  const selectedSource = selection.type === 'hex' && ['source', 'fungus'].includes(garden.objects[selection.key]?.type) ? selection.key : null;
   const highlighted = new Set();
   if (selectedSource) {
     garden.objects[selectedSource].emissions.forEach((_, i) => {
@@ -77,7 +77,7 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
+          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
             {highlighted.has(key) && <polygon points={polygonFor(c)} fill="none" stroke="#efde9b" strokeWidth="5" opacity=".65"/>}
             <polygon points={polygonFor(c)} fill={fill} stroke={active ? '#ffe4a8' : '#243b32'} strokeWidth={active ? '2.3' : '2.5'} className="hex-surface"/>
@@ -86,6 +86,12 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
               {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
               <circle cx={c.x} cy={c.y - 7} r="12" fill="#203e31" stroke="#e7cd88" strokeWidth="1.4"/>
               <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{object.anchor ? '✥' : '✦'}</text>
+            </>}
+            {['plant', 'fungus'].includes(object?.type) && <>
+              <circle cx={c.x} cy={c.y - 7} r="14" fill={object.type === 'plant' ? '#264d31' : '#514332'} stroke={object.type === 'plant' ? '#9cdaa1' : '#e4b98e'} strokeWidth="1.8" pointerEvents="none"/>
+              <text x={c.x} y={c.y - 2} className="hex-glyph organism-glyph" textAnchor="middle">{object.type === 'plant' ? '❧' : '♧'}</text>
+              <rect x={c.x - 17} y={c.y + 7} width="34" height="4" rx="2" fill="#121c17" pointerEvents="none"/>
+              <rect x={c.x - 17} y={c.y + 7} width={34 * object.progress / 200} height="4" rx="2" fill={object.type === 'plant' ? '#a5d7a6' : '#e0bb8d'} pointerEvents="none"/>
             </>}
             {object?.type === 'blocker' && <>
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.47},${c.y-4+(y-(c.y-4))*.47}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>

@@ -44,7 +44,7 @@ export function createGarden(columns = 9, rows = 7) {
       hexes[keyAt(column, row)] = defaultHex();
     }
   }
-  return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0 };
+  return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, clockHours: 0 };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -52,6 +52,7 @@ export function resizeGarden(garden, columns, rows) {
     throw new Error('Garden dimensions must be between 3 and 20.');
   }
   const next = createGarden(columns, rows);
+  next.clockHours = garden.clockHours || 0;
   for (const key of Object.keys(next.hexes)) {
     if (garden.hexes[key]) next.hexes[key] = garden.hexes[key];
     if (garden.objects[key]) next.objects[key] = garden.objects[key];
@@ -78,7 +79,7 @@ export function setBaseline(garden, key, property, condition) {
 export function placeObject(garden, key, object) {
   if (!garden.hexes[key]) throw new Error('Objects require an existing hex.');
   if (garden.objects[key]) throw new Error('This hex already contains an object. Remove it first.');
-  if (!['source', 'blocker'].includes(object.type)) throw new Error('Unknown prototype object type.');
+  if (!['source', 'blocker', 'plant', 'fungus'].includes(object.type)) throw new Error('Unknown prototype object type.');
   return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, objects: { ...garden.objects, [key]: object } };
 }
 
