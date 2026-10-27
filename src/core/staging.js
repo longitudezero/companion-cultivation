@@ -1,7 +1,10 @@
 import { placeObject } from './grid.js';
-import { PLANTS, FUNGI, makePlant, makeFungus } from './species.js';
+import { PLANTS, FUNGI, makePlant, makeFungus, effectCompatibility } from './species.js';
 import { sowPlant, sowFungus } from './economy.js';
 import { ensureInventorySlots } from './inventory.js';
+import { revealPlant, observeFungalAction } from './grimoire.js';
+import { calculateCultivation } from './cultivation.js';
+import { calculateEnvironment } from './simulation.js';
 
 // Provisional test timings only. Neither value has final balance approval.
 export const STAGING_TUNING = Object.freeze({ germinationRevealHours: 6, realMillisecondsPerHour: 5000 });
@@ -85,6 +88,9 @@ export function applyStaging(garden, random = Math.random) {
   const spores = { ...garden.inventory.spores };
   const pending = { ...garden.pending };
   const details = [];
+  const environment = calculateEnvironment(evaluationGarden);
+  const cultivation = calculateCultivation(evaluationGarden, environment);
+  let grimoire = garden.grimoire;
   for (const [key, entry] of placements) {
     const attempt = entry.kind === 'plant'
       ? sowPlant(evaluationGarden, key, entry.species, entry.quantity, random)
@@ -93,10 +99,20 @@ export function applyStaging(garden, random = Math.random) {
     stock[entry.species] -= entry.quantity;
     pending[key] = { ...entry, success: attempt.success,
       readyAt: (garden.clockHours || 0) + STAGING_TUNING.germinationRevealHours };
+    if (entry.kind === 'plant') {
+      for (const effect of cultivation[key] || []) {
+        if (effect.kind !== 'germination' || !FUNGI[effect.species]) continue;
+        const effective = effect.amount * effectCompatibility(PLANTS[entry.species], 'germination',
+          environment.conditions[key], effect.amount, 0);
+        if (Math.abs(effective) > 1e-9) {
+          grimoire = observeFungalAction(grimoire, entry.species, effect.species, 'germination', effective);
+        }
+      }
+    }
     details.push({ key, kind: entry.kind, species: entry.species, quantity: entry.quantity });
   }
   return { garden: ensureInventorySlots({ ...garden, inventory: { ...garden.inventory, seeds, spores },
-    staged: {}, pending }), details };
+    grimoire, staged: {}, pending }), details };
 }
 
 export function revealGerminations(garden) {
@@ -110,6 +126,7 @@ export function revealGerminations(garden) {
     current = { ...current, pending };
     if (entry.success) {
       current = placeObject(current, key, entry.kind === 'plant' ? makePlant(entry.species) : makeFungus(entry.species));
+      if (entry.kind === 'plant') current = { ...current, grimoire: revealPlant(current.grimoire, entry.species) };
       events.push(`${entry.species} germinated on hex ${key}.`);
     } else {
       events.push(`${entry.species} failed to germinate on hex ${key}.`);

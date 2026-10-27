@@ -13,3 +13,4 @@ export * from './inventory.js';
 export * from './staging.js';
 export * from './mycelial.js';
 export * from './transformations.js';
+export * from './grimoire.js';

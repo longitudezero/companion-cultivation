@@ -1,4 +1,4 @@
-# Player controls and developer tools — Prototype 14
+# Player controls and developer tools — Prototype 15
 
 This page describes **the current interface**, not a new or finalized gameplay design. The separation is an interface safeguard against accidental sandbox editing. It does not disable capabilities in the deterministic core API or provide an anti-cheat security boundary.
 
@@ -10,7 +10,8 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 
 ### Always visible (provisional player-facing interface)
 
-- **Inspect:** Select existing hexes and objects, read their conditions, fungal effects, growth and transformation requirements.
+- **Inspect:** Select existing hexes and objects, read their resolved Conditions, growth and current harvest amounts. Exact undiscovered Transformation recipes, hidden Fungus effects and hazard thresholds no longer appear in the ordinary inspector.
+- **Cultivation Grimoire:** The top-bar **❦ Cultivation Grimoire** opens the approved bound-book UI with all Fungi and six starting Plants identified, and progressively reveals environmental observations, fungal interactions and successful Transformation witnesses. Its eight fixed-height colored bookmarks change sides with the hinged page turn. Knowledge is per garden and included in browser autosaves and `.ccsave` backups; illustration plates are placeholders. See [Grimoire design](design/systems/cultivation-grimoire.md).
 - **Spatial inventory:** Four collapsible pages of 50 squares each (200 total); each distinct Seed, Spore, Plant-specific Leaf or special item has one unlimited stack. Drag a stack to reposition it, including onto another occupied square to swap positions. Positions persist in the saved garden.
 - **Sow Seeds / Sow Spores:** Drag an owned Seed/Spore stack onto a hex, or select the stack and click the target hex (the Sow toolbar is a keyboard/mouse fallback). Choose an amount with the editable quantity box, ± buttons or example presets. This stages a **reservation**, not a charge. Existing germination and habitat rules still apply at Apply.
 - **Staging and Apply:** Reposition, edit or undo uncommitted proposals. **Apply** validates every site and commits them together, spending Seeds/Spores exactly once. Committed `?` markers conceal either a successful or failed roll until the delay expires. Another plan can begin immediately, even while earlier plots are pending.
@@ -28,6 +29,7 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 | Change local Moisture, Temperature or Illumination baseline | Hex inspector dropdowns (read-only otherwise) |
 | Configure regular or anchored Sources and their emissions | Source inspector |
 | Change Blocker filtering and directed Fungus heading | Relevant inspector controls |
+| Inspect undiscovered recipe eligibility and clocks, full hazard thresholds, source contributions and raw Fungal cultivation magnitudes | Organism and hex inspector; hidden for ordinary players to preserve Grimoire discovery |
 | Skip 1 hour or 1 day | Buttons beside the read-only garden clock |
 | Restore demo, start a blank plot, resize the grid | Plot controls |
 | Export raw garden JSON | Inspector footer; technically inspectable full state, including hidden germination outcomes |

@@ -39,7 +39,7 @@ test('developer raw JSON exports and earlier garden schemas remain loadable', ()
     seeds: { Potato: 12 }, spores: {}, leaves: 19,
   } };
   const loaded = deserializeGameSave(JSON.stringify(old));
-  assert.equal(loaded.schemaVersion, 4);
+  assert.equal(loaded.schemaVersion, 5);
   assert.equal(loaded.inventory.legacyLeaves, 19);
   assert.equal(loaded.inventory.seeds.Potato, 12);
 });

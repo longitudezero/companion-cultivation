@@ -4,6 +4,7 @@ import { calculateCultivation } from './cultivation.js';
 import { calculateEnvironment } from './simulation.js';
 import { isMycelial } from './mycelial.js';
 import { ensureInventorySlots } from './inventory.js';
+import { observeFungalAction, revealPlant } from './grimoire.js';
 
 // Not approved balance: only the species peak, productive window and maximum
 // Seed yield are approved. Triangular Leaves, linear Seeds, Spore numbers and
@@ -197,8 +198,19 @@ export function harvestPlant(garden, key) {
   if (plant.species === 'Bamboozled' && plant.progress < 100) {
     throw new Error('Bamboo Steel trophy harvest requires Bamboozled to reach 100% Growth.');
   }
-  const yieldResult = availableHarvest(plant, calculateCultivation(garden)[key],
+  const contacts = calculateCultivation(garden)[key] || [];
+  const yieldResult = availableHarvest(plant, contacts,
     calculateEnvironment(garden).conditions[key]);
+  let grimoire = revealPlant(garden.grimoire, plant.species);
+  if (yieldResult.allocation !== 0) {
+    for (const effect of contacts) {
+      if (!['leafAllocation', 'seedAllocation'].includes(effect.kind) || !FUNGI[effect.species]) continue;
+      const effective = effect.amount * (PLANTS[plant.species].compatibility.allocation || 0);
+      if (Math.abs(effective) > 1e-9) {
+        grimoire = observeFungalAction(grimoire, plant.species, effect.species, effect.kind, effective);
+      }
+    }
+  }
   const next = removeObject(garden, key);
   const inventory = garden.inventory || { leaves: {}, legacyLeaves: 0, seeds: {}, spores: {} };
   const seedSpecies = PLANTS[plant.species].seedSpecies === undefined
@@ -215,7 +227,7 @@ export function harvestPlant(garden, key) {
   if (yieldResult.leaves > 0) {
     leaves[plant.species] = count(leaves[plant.species]) + yieldResult.leaves;
   }
-  return ensureInventorySlots({ ...next, inventory: { ...inventory, leaves,
+  return ensureInventorySlots({ ...next, grimoire, inventory: { ...inventory, leaves,
     trophies: { ...inventory.trophies,
       bambooSteel: count(inventory.trophies?.bambooSteel) + (yieldResult.bambooSteel || 0) },
     seeds } });
@@ -253,7 +265,9 @@ export function sowPlant(garden, key, species, quantity = 1, random = Math.rando
   const success = random() < chance;
   const spent = { ...garden, inventory: { ...inventory,
     seeds: { ...inventory.seeds, [species]: owned - quantity } } };
-  return { garden: ensureInventorySlots(success ? placeObject(spent, key, makePlant(species)) : spent), success, chance };
+  const result = success ? placeObject(spent, key, makePlant(species)) : spent;
+  return { garden: ensureInventorySlots(success
+    ? { ...result, grimoire: revealPlant(result.grimoire, species) } : result), success, chance };
 }
 
 export function sowFungus(garden, key, species, quantity = 1, random = Math.random) {
