@@ -1,13 +1,17 @@
 import { calculateEnvironment } from './simulation.js';
 import { calculateCultivation } from './cultivation.js';
 import { makePlant } from './species.js';
+import { isMycelial } from './mycelial.js';
 import { FLOWER_TRANSFORMATIONS, namedFungalContacts, matchesConditions, matchesNamedGroups,
   matchesSequencePhase, emptySequence, advanceSequenceHour, reconcileSequence } from './flower-transformations.js';
 import { AQUATIC_TRANSFORMATIONS, emptyAquaticSequence, advanceAquaticSequenceHour,
   reconcileAquaticSequence } from './aquatic-transformations.js';
+import { WOODLANDS_TRANSFORMATIONS, emptyWoodlandsSequence, advanceWoodlandsSequenceHour,
+  reconcileWoodlandsSequence } from './woodlands-transformations.js';
 
 export { FLOWER_TRANSFORMATIONS, namedFungalContacts } from './flower-transformations.js';
 export { AQUATIC_TRANSFORMATIONS } from './aquatic-transformations.js';
+export { WOODLANDS_TRANSFORMATIONS } from './woodlands-transformations.js';
 
 // Ingredients §67. Conditions are the resolved Conditions on the Plant hex;
 // emission is an actually reaching environmental contribution from a living
@@ -27,6 +31,8 @@ export const TRANSFORMATIONS = Object.freeze({
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
   ...Object.fromEntries(Object.entries(AQUATIC_TRANSFORMATIONS)
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
+  ...Object.fromEntries(Object.entries(WOODLANDS_TRANSFORMATIONS)
+    .map(([species, recipes]) => [species, Object.freeze(recipes)])),
 });
 
 function transformedPlant(from, recipe) {
@@ -38,6 +44,7 @@ export function matchesTransformation(garden, key, recipe, environment, cultivat
   if (recipe.sequence) return false; // stateful event sequence, not a static match
   const conditions = environment.conditions[key];
   if (!matchesConditions(conditions, recipe.conditions)) return false;
+  if (recipe.noMycelial && isMycelial(garden, key)) return false;
   if (recipe.contacts) {
     return matchesNamedGroups(recipe.contacts, namedFungalContacts(garden, key, environment,
       cultivation || calculateCultivation(garden, environment)));
@@ -56,12 +63,13 @@ export function transformationStatus(garden, key, environment = calculateEnviron
   return (TRANSFORMATIONS[plant.species] || []).map(recipe => {
     if (recipe.sequence) {
       const aquatic = recipe.sequence === 'flood-to-damp';
+      const woodlands = recipe.sequence === 'mistruffle-departure';
       const state = plant.transformationSequence?.[recipe.into]
-        || (aquatic ? emptyAquaticSequence() : emptySequence());
+        || (aquatic ? emptyAquaticSequence() : woodlands ? emptyWoodlandsSequence() : emptySequence());
       return { ...recipe, phase: state.phase,
-        elapsed: !aquatic && state.phase === 'crossing' ? state.windowHours : state.preparedHours,
-        hours: !aquatic && state.phase === 'crossing' ? recipe.completion.withinHours : recipe.hours,
-        eligible: aquatic ? matchesSequencePhase(garden, key, recipe.preparation, environment, effects)
+        elapsed: !aquatic && !woodlands && state.phase === 'crossing' ? state.windowHours : state.preparedHours,
+        hours: !aquatic && !woodlands && state.phase === 'crossing' ? recipe.completion.withinHours : recipe.hours,
+        eligible: aquatic || woodlands ? matchesSequencePhase(garden, key, recipe.preparation, environment, effects)
           : state.phase === 'crossing'
           ? matchesConditions(environment.conditions[key], { Moisture: 'Damp', Temperature: 'Temperate' })
           : matchesSequencePhase(garden, key, recipe.preparation, environment, effects),
@@ -93,12 +101,16 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
     let updated = { ...plant, transformationClocks: clocks };
     for (const recipe of recipes.filter(recipe => recipe.sequence)) {
       const aquatic = recipe.sequence === 'flood-to-damp';
+      const woodlands = recipe.sequence === 'mistruffle-departure';
       const state = plant.transformationSequence?.[recipe.into]
-        || (aquatic ? emptyAquaticSequence() : emptySequence());
+        || (aquatic ? emptyAquaticSequence() : woodlands ? emptyWoodlandsSequence() : emptySequence());
       const former = previousGarden?.objects[key]?.species === plant.species ? previousEnvironment : null;
       const result = aquatic
         ? reconcileAquaticSequence(garden, previousGarden, key, recipe, state,
           environment, cultivation, former, previousCultivation, matchesSequencePhase)
+        : woodlands ? reconcileWoodlandsSequence(garden, previousGarden, key, recipe, state,
+          environment, cultivation, former, previousCultivation, matchesSequencePhase,
+          matchesConditions, namedFungalContacts, matchesNamedGroups)
         : reconcileSequence(garden, key, recipe, state, environment, cultivation, former);
       if (result.complete) {
         updated = transformedPlant(plant, recipe);
@@ -132,6 +144,9 @@ export function advancePlantTransformations(garden, key, environment, cultivatio
   for (const recipe of recipes.filter(recipe => recipe.sequence)) {
     if (recipe.sequence === 'flood-to-damp') {
       sequence[recipe.into] = advanceAquaticSequenceHour(garden, key, recipe, environment,
+        effects, matchesSequencePhase);
+    } else if (recipe.sequence === 'mistruffle-departure') {
+      sequence[recipe.into] = advanceWoodlandsSequenceHour(garden, key, recipe, environment,
         effects, matchesSequencePhase);
     } else {
       const result = advanceSequenceHour(garden, key, recipe, environment, effects);
