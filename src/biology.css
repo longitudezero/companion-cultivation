@@ -28,4 +28,12 @@
 .inventory-card .empty-hint { margin: 4px 0 8px; font-size: 11px; }
 .harvest-button { width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #b9a16d; border-radius: 7px; background: #445f43; color: #fff2cf; font-size: 12px; font-weight: 700; cursor: pointer; }
 .harvest-button:hover { background: #55794b; }
+.mycelial-legend { display: inline-block; width: 13px; height: 13px; border: 2px dashed #deb8ee; border-radius: 4px; vertical-align: middle; margin-right: 3px; background: #58405e; }
+.mycelial-inspector { margin: 12px 0; padding: 11px 12px; border: 1px solid #425a4b; border-radius: 8px; background: #1c3026; display: grid; gap: 4px; }
+.mycelial-inspector.is-mycelial { border-color: #9e7bb0; background: #332b3c; }
+.mycelial-inspector.is-retreating { border-color: #d6a174; background: #3a2e35; }
+.mycelial-inspector.is-retreating strong { color: #f1c998; }
+.mycelial-inspector strong { color: #dfc1ea; font-size: 12px; }
+.mycelial-inspector small { font-size: 10px; line-height: 1.5; color: #b9c1bb; }
+.mycelial-overlay.is-retreating { opacity: .65; }
 @media (max-width: 1100px) { .time-controls { justify-content: center; } }

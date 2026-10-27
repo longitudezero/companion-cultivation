@@ -8,3 +8,4 @@ export * from './demo.js';
 export * from './species.js';
 export * from './biology.js';
 export * from './economy.js';
+export * from './mycelial.js';

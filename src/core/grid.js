@@ -46,7 +46,8 @@ export function createGarden(columns = 9, rows = 7) {
   }
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
   return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
-    clockHours: 0, inventory: { leaves: 0, seeds: { Potato: 16 }, spores: {} } };
+    clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
+    inventory: { leaves: 0, seeds: { Potato: 16 }, spores: {} } };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -55,7 +56,14 @@ export function resizeGarden(garden, columns, rows) {
   }
   const next = createGarden(columns, rows);
   next.clockHours = garden.clockHours || 0;
+  next.colonyNonce = garden.colonyNonce || 0;
   next.inventory = garden.inventory;
+  next.mycelium = { contributions: Object.fromEntries(Object.entries(garden.mycelium?.contributions || {})
+    .map(([id, contribution]) => [id, {
+      origin: contribution.origin,
+      cells: Object.fromEntries(Object.entries(contribution.cells || {}).filter(([key]) => next.hexes[key])),
+      frontiers: Object.fromEntries(Object.entries(contribution.frontiers || {}).filter(([key]) => next.hexes[key])),
+    }])) };
   for (const key of Object.keys(next.hexes)) {
     if (garden.hexes[key]) next.hexes[key] = garden.hexes[key];
     if (garden.objects[key]) next.objects[key] = garden.objects[key];
@@ -83,7 +91,11 @@ export function placeObject(garden, key, object) {
   if (!garden.hexes[key]) throw new Error('Objects require an existing hex.');
   if (garden.objects[key]) throw new Error('This hex already contains an object. Remove it first.');
   if (!['source', 'blocker', 'plant', 'fungus'].includes(object.type)) throw new Error('Unknown prototype object type.');
-  return { ...garden, routeNonce: (garden.routeNonce || 0) + 1, objects: { ...garden.objects, [key]: object } };
+  const isMycelord = object.type === 'fungus' && object.species === 'Mycelord';
+  const colonyNonce = (garden.colonyNonce || 0) + (isMycelord ? 1 : 0);
+  const placed = isMycelord ? { ...object, colonyId: `colony:${colonyNonce}` } : object;
+  return { ...garden, colonyNonce, routeNonce: (garden.routeNonce || 0) + 1,
+    objects: { ...garden.objects, [key]: placed } };
 }
 
 export function updateObject(garden, key, object) {

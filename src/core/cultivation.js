@@ -1,5 +1,6 @@
 import { calculateEnvironment, propagate } from './simulation.js';
 import { FUNGI } from './species.js';
+import { isMycelial } from './mycelial.js';
 
 // Environmental emissions and cultivation Effects have separate footprints.
 // Include empty hexes as potential sowing targets for Germination modifiers.
@@ -26,7 +27,11 @@ export function calculateCultivation(garden, environment = calculateEnvironment(
     };
     for (const hit of propagate(garden, source, influence, moisture)) {
       if (!atHexes[hit.key]) continue;
-      atHexes[hit.key].push({ source, species: object.species, ...emitted,
+      // The one approved source-side Mycelial amplification is Frostfolio.
+      // Other preferring Fungi have unassigned boosts; do not invent them.
+      const amount = object.species === 'Frostfolio' && isMycelial(garden, source)
+        ? emitted.amount * 1.25 : emitted.amount;
+      atHexes[hit.key].push({ source, species: object.species, ...emitted, amount,
         distance: hit.distance, kindTag: influence.kind, implemented: true });
     }
   }

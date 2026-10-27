@@ -1,5 +1,5 @@
 import React from 'react';
-import { neighborsOf, edgeKey, offsetOf } from './core/index.js';
+import { neighborsOf, edgeKey, offsetOf, isMycelial } from './core/index.js';
 
 const SIZE = 33;
 const DX = Math.sqrt(3) * SIZE;
@@ -36,7 +36,7 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, overlay, tool, selection, onHexClick, onEdgeClick }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick }) {
   const keys = Object.keys(garden.hexes);
   const width = 130 + (garden.columns - 1 + 0.5) * DX;
   const height = 118 + (garden.rows - 1) * Y_STEP;
@@ -74,14 +74,23 @@ export default function HexGrid({ garden, simulation, overlay, tool, selection, 
         const fill = PALETTES[overlay][condition];
         const label = condition;
         const object = garden.objects[key];
+        const mycelial = isMycelial(garden, key);
+        const mycelialSupported = mycelial && Object.values(mycelialSupport)
+          .some(keys => keys.includes(key));
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
+          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
             {highlighted.has(key) && <polygon points={polygonFor(c)} fill="none" stroke="#efde9b" strokeWidth="5" opacity=".65"/>}
             <polygon points={polygonFor(c)} fill={fill} stroke={active ? '#ffe4a8' : '#243b32'} strokeWidth={active ? '2.3' : '2.5'} className="hex-surface"/>
             <polygon points={polygonFor(c)} fill="url(#grain)" pointerEvents="none"/>
+            {mycelial && <g pointerEvents="none" className={`mycelial-overlay ${mycelialSupported ? '' : 'is-retreating'}`}>
+              <polygon points={polygonFor(c)} fill="none" stroke={mycelialSupported ? '#dcb8ed' : '#8d7895'} strokeWidth="3.2" strokeDasharray="4 3" opacity=".95"/>
+              <path d={`M${c.x-17} ${c.y+3} Q${c.x-5} ${c.y-9} ${c.x+7} ${c.y+1} L${c.x+17} ${c.y-8} M${c.x+7} ${c.y+1} L${c.x+15} ${c.y+11}`} fill="none" stroke="#563a69" strokeWidth="2" strokeLinecap="round" opacity=".85"/>
+              <circle cx={c.x-17} cy={c.y+3} r="2.2" fill="#f0cbed"/>
+              <circle cx={c.x+17} cy={c.y-8} r="2.2" fill="#f0cbed"/>
+            </g>}
             {object?.type === 'source' && <>
               {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
               <circle cx={c.x} cy={c.y - 7} r="12" fill="#203e31" stroke="#e7cd88" strokeWidth="1.4"/>
