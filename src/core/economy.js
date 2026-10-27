@@ -1,5 +1,5 @@
 import { removeObject, placeObject } from './grid.js';
-import { PLANTS, FUNGI, makePlant, makeFungus } from './species.js';
+import { PLANTS, FUNGI, makePlant, makeFungus, effectCompatibility } from './species.js';
 import { calculateCultivation } from './cultivation.js';
 import { isMycelial } from './mycelial.js';
 
@@ -14,13 +14,14 @@ const LIGHT = ['Dark', 'Dim', 'Lit', 'Bright'];
 const clamp = (value, lo, hi) => Math.max(lo, Math.min(hi, value));
 const count = value => Number.isFinite(value) && value > 0 ? value : 0;
 const matching = (contacts, kind) => contacts.filter(effect => effect.kind === kind);
-const sum = (contacts, kind, compatibility) => matching(contacts, kind)
-  .reduce((total, effect) => total + effect.amount * (compatibility[kind] ?? 1), 0);
+const sum = (contacts, kind, profile, conditions = null, progress = 0) => matching(contacts, kind)
+  .reduce((total, effect) => total + effect.amount
+    * effectCompatibility(profile, kind, conditions, effect.amount, progress), 0);
 
 export function plantOutputRate(species, conditions) {
   const profile = PLANTS[species];
   if (!profile) throw new Error(`Unknown Plant species: ${species}`);
-  const moisture = profile.moisture[MOISTURE.indexOf(conditions.Moisture)];
+  const moisture = (profile.moistureOutput || profile.moisture)[MOISTURE.indexOf(conditions.Moisture)];
   const light = profile.lightOutput[LIGHT.indexOf(conditions.Illumination)];
   let temperature = 1;
   if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
@@ -32,27 +33,64 @@ export function plantOutputRate(species, conditions) {
 
 // Signed peak shifts stack; window widening changes breadth, not center.
 // Exact curve interpolation/boundary behavior remains sandbox tuning.
-export function productionSchedule(species, contacts = []) {
+export function productionSchedule(species, contacts = [], conditions = null) {
   const profile = PLANTS[species];
-  const compatibility = profile.compatibility;
   const [start, end] = profile.productiveWindow;
-  const halfExpansion = (end - start) * Math.max(-.9, sum(contacts, 'harvestWindow', compatibility)) / 2;
+  const halfExpansion = (end - start) * Math.max(-.9, sum(contacts, 'harvestWindow', profile, conditions)) / 2;
   const from = clamp(start - halfExpansion, 0, 200);
   const to = clamp(end + halfExpansion, 0, 200);
-  const peak = clamp(profile.leafPeakAt + sum(contacts, 'leafPeakTiming', compatibility), from + .001, to - .001);
-  const seedShift = sum(contacts, 'seedTiming', compatibility);
+  const peak = clamp(profile.leafPeakAt + sum(contacts, 'leafPeakTiming', profile, conditions), from + .001, to - .001);
+  const seedShift = sum(contacts, 'seedTiming', profile, conditions);
   return { from, peak, to,
+    leafShift: sum(contacts, 'leafPeakTiming', profile, conditions),
+    leafScale: Math.max(.1, 1 + sum(contacts, 'harvestWindow', profile, conditions)),
+    seedShift,
     seedFrom: clamp(100 + seedShift, 0, 199.999), seedTo: clamp(200 + seedShift, 100.001, 200) };
 }
 
-function leafPotential(profile, progress, schedule) {
-  const { from, peak, to } = schedule;
+function triangle(progress, from, peak, to, height) {
   if (progress <= from || progress >= to) return 0;
-  if (progress <= peak) return profile.leafPeak * (progress - from) / (peak - from);
-  return profile.leafPeak * (to - progress) / (to - peak);
+  return progress <= peak ? height * (progress - from) / (peak - from)
+    : height * (to - progress) / (to - peak);
+}
+
+function leafPotential(profile, progress, schedule) {
+  if (profile.leafPeaks) {
+    // Rosewraith's two intrinsic peaks remain distinct despite window/shift
+    // modifiers: one consuming harvest still sees only this instant's yield.
+    return Math.max(...profile.leafPeaks.map(([from, peak, to, height]) => {
+      const mid = peak + schedule.leafShift;
+      return triangle(progress, mid - (peak - from) * schedule.leafScale, mid,
+        mid + (to - peak) * schedule.leafScale, height);
+    }));
+  }
+  if (profile.leafPlateau) {
+    const [from, left, right, to] = profile.leafPlateau;
+    const shift = schedule.leafShift;
+    const a = left + shift - (left - from) * schedule.leafScale;
+    const b = left + shift;
+    const c = right + shift;
+    const d = right + shift + (to - right) * schedule.leafScale;
+    if (progress <= a || progress >= d) return 0;
+    if (progress < b) return profile.leafPeak * (progress - a) / (b - a);
+    if (progress <= c) return profile.leafPeak;
+    return profile.leafPeak * (d - progress) / (d - c);
+  }
+  const { from, peak, to } = schedule;
+  return triangle(progress, from, peak, to, profile.leafPeak);
 }
 
 function seedPotential(profile, progress, schedule) {
+  if (profile.seedCurve) {
+    const anchors = profile.seedCurve.map(([at, amount]) => [at + schedule.seedShift, amount]);
+    if (progress <= anchors[0][0]) return anchors[0][1];
+    for (let i = 1; i < anchors.length; i += 1) {
+      const [to, value] = anchors[i];
+      const [from, previous] = anchors[i - 1];
+      if (progress <= to) return previous + (value - previous) * (progress - from) / (to - from);
+    }
+    return anchors.at(-1)[1];
+  }
   return profile.seeds * clamp((progress - schedule.seedFrom) / (schedule.seedTo - schedule.seedFrom), 0, 1);
 }
 
@@ -68,13 +106,13 @@ export function accruePlantProduction(plant, nextProgress, conditions, contacts 
     ...plant.production };
   if (nextProgress <= plant.progress) return production;
   const profile = PLANTS[plant.species];
-  const schedule = productionSchedule(plant.species, contacts);
+  const schedule = productionSchedule(plant.species, contacts, conditions);
   const environment = plantOutputRate(plant.species, conditions) * (mycelial ? .5 : 1);
   const leavesBefore = leafPotential(profile, plant.progress, schedule);
   const leavesAfter = leafPotential(profile, nextProgress, schedule);
   if (leavesAfter > leavesBefore) {
     production.ordinaryLeaves += (leavesAfter - leavesBefore) * environment
-      * Math.max(0, 1 + sum(contacts, 'leafYield', profile.compatibility));
+      * Math.max(0, 1 + sum(contacts, 'leafYield', profile, conditions));
   } else if (leavesAfter < leavesBefore) {
     // Previously earned ordinary Yield bonuses decline in exactly the same
     // proportion as native Leaves. Fixed-window hourly bonuses never decline.
@@ -82,10 +120,12 @@ export function accruePlantProduction(plant, nextProgress, conditions, contacts 
   }
   production.ordinarySeeds += Math.max(0, seedPotential(profile, nextProgress, schedule)
     - seedPotential(profile, plant.progress, schedule)) * environment
-    * Math.max(0, 1 + sum(contacts, 'seedYield', profile.compatibility));
+    * Math.max(0, 1 + sum(contacts, 'seedYield', profile, conditions));
   for (const effect of contacts) {
     if (effect.kind !== 'hourlyLeaf' && effect.kind !== 'hourlySeed') continue;
-    const earned = effect.amount * profile.compatibility[effect.kind]
+    if (effect.kind === 'hourlySeed' && profile.seeds === 0) continue;
+    const earned = effect.amount * effectCompatibility(profile, effect.kind, conditions, effect.amount,
+      (Math.max(plant.progress, effect.window[0]) + Math.min(nextProgress, effect.window[1])) / 2)
       * activeHours(plant.progress, nextProgress, effect.window);
     if (effect.kind === 'hourlyLeaf') production.hourlyLeaves += earned;
     else production.hourlySeeds += earned;
@@ -127,9 +167,11 @@ export function harvestPlant(garden, key) {
   const yieldResult = availableHarvest(plant, calculateCultivation(garden)[key]);
   const next = removeObject(garden, key);
   const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
+  const seedSpecies = PLANTS[plant.species].seedSpecies === undefined
+    ? plant.species : PLANTS[plant.species].seedSpecies;
   return { ...next, inventory: { ...inventory, leaves: count(inventory.leaves) + yieldResult.leaves,
-    seeds: { ...inventory.seeds,
-      [plant.species]: count(inventory.seeds?.[plant.species]) + yieldResult.seeds } } };
+    seeds: seedSpecies === null ? { ...inventory.seeds } : { ...inventory.seeds,
+      [seedSpecies]: count(inventory.seeds?.[seedSpecies]) + yieldResult.seeds } } };
 }
 
 export function harvestFungus(garden, key) {
@@ -157,7 +199,7 @@ export function sowPlant(garden, key, species, quantity = 1, random = Math.rando
   const owned = inventory.seeds?.[species] || 0;
   checkSowing(garden, key, species, owned, quantity, random);
   const contacts = calculateCultivation(garden)[key];
-  const bonus = sum(contacts, 'germination', PLANTS[species].compatibility) / 100;
+  const bonus = sum(contacts, 'germination', PLANTS[species]) / 100;
   const chance = clamp(quantity * (PLANTS[species].germination + bonus), 0, 1);
   const success = random() < chance;
   const spent = { ...garden, inventory: { ...inventory,

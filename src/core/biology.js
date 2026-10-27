@@ -1,9 +1,9 @@
 import { calculateEnvironment } from './simulation.js';
 import { calculateCultivation } from './cultivation.js';
 import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './economy.js';
-import { FUNGI, PLANTS } from './species.js';
+import { FUNGI, PLANTS, effectCompatibility } from './species.js';
 import { advanceMycelium, isMycelial, MYCELIAL_TUNING } from './mycelial.js';
-import { advancePlantTransformations } from './transformations.js';
+import { advancePlantTransformations, reconcileTransformationClocks } from './transformations.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
@@ -40,7 +40,8 @@ export function plantGrowthRates(plant, conditions, contacts = [], mycelial = fa
   const environmentRate = plantEnvironmentRate(plant.species, conditions) * (mycelial ? .5 : 1);
   const getRate = kind => {
     const sum = contacts.filter(effect => effect.kind === kind)
-      .reduce((total, effect) => total + effect.amount * profile.compatibility[kind], 0);
+      .reduce((total, effect) => total + effect.amount
+        * effectCompatibility(profile, kind, conditions, effect.amount, plant.progress), 0);
     // The approved rule requires a positive rate floor, but its exact value is
     // deferred; this defensive lower bound is prototype-only.
     return Math.max(.01, 1 + sum) * environmentRate;
@@ -103,7 +104,7 @@ export function advanceGardenTime(garden, hours = 1) {
         const profile = PLANTS[object.species];
         const onMycelial = isMycelial(current, key);
         const exposure = nextExposure(object, environment.conditions[key], onMycelial);
-        const transformation = advancePlantTransformations(current, key, environment);
+        const transformation = advancePlantTransformations(current, key, environment, cultivation);
         // A completion on the same timestamp as a fatal hazard wins (§60D).
         if (transformation.into) {
           objects[key] = transformation.plant;
@@ -145,7 +146,18 @@ export function advanceGardenTime(garden, hours = 1) {
           sporeStock: accrueFungusSpores(object, progress, PROTOTYPE_TUNING.fungusSporeYieldAt200) };
       }
     }
-    current = { ...current, objects, mycelium, clockHours: (current.clockHours || 0) + 1 };
+    const ticked = { ...current, objects, mycelium, clockHours: (current.clockHours || 0) + 1 };
+    // A dying Fungus can change illumination at this exact timestamp. Catch a
+    // previously prepared Daisyspell leaving Dim without granting extra time.
+    if (Object.values(objects).some(item => item.type === 'plant' && item.species === 'Daisyspell')) {
+      const resolved = reconcileTransformationClocks(ticked, current);
+      for (const [key, item] of Object.entries(resolved.objects)) {
+        if (objects[key]?.species === 'Daisyspell' && item.species === 'Orchidemon') {
+          events.push(`Daisyspell transformed into Orchidemon on hex ${key}.`);
+        }
+      }
+      current = resolved;
+    } else current = ticked;
   }
   return { garden: current, events };
 }

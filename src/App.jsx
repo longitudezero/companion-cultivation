@@ -96,7 +96,15 @@ export default function App() {
   }, [garden]);
 
   function changeGarden(fn) {
-    try { setGarden(reconcileTransformationClocks(fn(garden))); }
+    try {
+      const next = reconcileTransformationClocks(fn(garden), garden);
+      for (const [key, object] of Object.entries(next.objects)) {
+        if (garden.objects[key]?.species === 'Daisyspell' && object.species === 'Orchidemon') {
+          setNotice(`Daisyspell transformed into Orchidemon on hex ${key} at the lighting change!`);
+        }
+      }
+      setGarden(next);
+    }
     catch (error) { setNotice(error.message); }
   }
 
@@ -107,7 +115,7 @@ export default function App() {
         const isPlant = tool === 'sow-plant';
         const species = isPlant ? plantSpecies : fungusSpecies;
         const result = isPlant ? sowPlant(garden, key, species, sowQuantity) : sowFungus(garden, key, species, sowQuantity);
-        setGarden(reconcileTransformationClocks(result.garden));
+        setGarden(reconcileTransformationClocks(result.garden, garden));
         setNotice(`${result.success ? 'Germinated' : 'Germination failed'}: ${species} · ${sowQuantity} ${isPlant ? 'Seeds' : 'Spores'} spent · ${Math.round(result.chance * 100)}% chance.`);
       } catch (error) { setNotice(error.message); }
     }
@@ -140,11 +148,11 @@ export default function App() {
     try {
       if (selectedObject.type === 'plant') {
         const output = availableHarvest(selectedObject, cultivation[selection.key] || []);
-        setGarden(reconcileTransformationClocks(harvestPlant(garden, selection.key)));
+        setGarden(reconcileTransformationClocks(harvestPlant(garden, selection.key), garden));
         setNotice(`Harvested ${selectedObject.species}: ${output.leaves} Leaves and ${output.seeds} Seeds. The Plant was removed.`);
       } else if (selectedObject.type === 'fungus') {
         const output = Math.floor((selectedObject.sporeStock || 0) + 1e-9);
-        setGarden(reconcileTransformationClocks(harvestFungus(garden, selection.key)));
+        setGarden(reconcileTransformationClocks(harvestFungus(garden, selection.key), garden));
         setNotice(`Harvested ${selectedObject.species}: ${output} Spores. The Fungus and its emissions were removed.`);
       }
     } catch (error) { setNotice(error.message); }
@@ -248,7 +256,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> TRANSFORMATIONS · PROTOTYPE 05</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> FLOWERS · PROTOTYPE 06</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
@@ -288,7 +296,7 @@ export default function App() {
       <main className="garden-area">
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Place living organisms. Engineer their habitat. Advance time to watch them develop.</p></div><div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div></div>
 
-        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>Potato can now transform into six Ingredients through fungal contact and continuous environmental exposure.</small></div>
+        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>All 12 Flowers routes and six Potato routes are active. Named Fungi and Dim-to-Bright transitions can change a Plant.</small></div>
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <div className="svg-scroll"><div className="svg-wrap"><HexGrid garden={garden} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}/></div></div>
@@ -337,7 +345,17 @@ export default function App() {
       </aside>
     </div>
 
-    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 05</span><h2>A garden of changing forms</h2><p>Potato can transform into any of the six other Ingredients. Each path needs a particular resolved environment plus a real reaching fungal environmental Influence for an uninterrupted number of hours. The new Plant starts at 0% with no inherited output or hazards. Other Plant families' recipes are the next milestone. Mycelial colonies and the farming economy remain playable; some balance numbers are provisional.</p><div className="guide-grid"><div><b>01 · Start with Potato</b><p>Sow Potato Seeds or free-spawn Potato. Select it to see all six Transformation paths and their exposure clocks.</p></div><div><b>02 · Engineer a route</b><p>For example, add Dewmender and Mistruffle in range to reach Flooded with Wetting contact. Maintain that combination for 12 hours to transform Potato into Rice.</p></div><div><b>03 · Keep it continuous</b><p>Changing the Condition or blocking the qualifying fungal emission resets the recipe timer. Moving into another eligible environment starts its independent timer.</p></div><div><b>04 · Farm the result</b><p>A transformed Plant is newly growing; harvest its Leaves and Seeds normally. It can be replanted from Seeds, but has no further Ingredients Transformation route.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
+      <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
+      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 06</span><h2>A garden of changing forms</h2>
+      <p>Potato's six simpler Ingredients transformations and all twelve Flowers routes are now active. Flowers require contact with particular named Fungi through any unblocked environmental or cultivation Influence zone. An ordinary route needs uninterrupted conditions; Daisyspell's Orchidemon route is a special Dim-preparation-to-Bright sequence. Every transformed Plant starts again at 0% with new output, hazards and timers.</p>
+      <div className="guide-grid">
+        <div><b>01 · Start a family</b><p>Sow Potato or Daisydaze Base Seeds, or free-spawn any Plant for testing. Select it to inspect its available Transformation paths.</p></div>
+        <div><b>02 · Reach named Fungi</b><p>For Daisydaze → Charmomile, maintain Damp / Temperate / Lit and real Lanterncap or Goldgill contact for 12 hours. An unrelated Fungus will not substitute.</p></div>
+        <div><b>03 · Try a transition</b><p>Daisyspell needs ten consecutive hours Damp / Temperate / Dim with Veilcap or Fogdial. Then leave Dim and reach Bright within eight hours, with Prismorel or Glimmergill contact at completion.</p></div>
+        <div><b>04 · Farm the result</b><p>All Plants have one consuming harvest. Some Flowers produce Seeds for a different species; Lavendream has a broad Leaf plateau, while Rosewraith has two innate peaks but still just one harvest.</p></div>
+      </div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button>
+    </div></div>}
   </div>;
 }
 
@@ -355,16 +373,18 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, o
       <div className="mini-heading">HAZARD EXPOSURE</div>
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{definition[`${hazard.toLowerCase()}Death`]}h</span>)}</div>
       {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>
-        <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={`${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · reaching fungal ${recipe.emission}`}>
-          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.elapsed}/{recipe.hours}h
+        <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={recipe.sequence
+          ? '10h Damp / Temperate / Dim with Veilcap or Fogdial; leave Dim, then reach Bright with Prismorel or Glimmergill within 8h'
+          : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · ${recipe.emission ? `reaching fungal ${recipe.emission}` : `named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}`}`}>
+          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'ready' ? 'Prepared' : `${recipe.elapsed}/${recipe.hours}h`}{recipe.phase === 'crossing' ? ' · Bright window' : ''}
         </span>)}</div>
-        <p>◆ Conditions and fungal emission currently qualify. Any interruption resets that route's clock; hover for the recipe.</p></>}
+        <p>◆ The current recipe phase qualifies. Any interruption resets its clock; hover for exact fungal and environmental requirements.</p></>}
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
       {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
       <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts).leaves}</strong></div>
       <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts).seeds}</strong></div>
       <p>Accrued Leaves: {(object.production?.ordinaryLeaves || 0).toFixed(2)} ordinary + {(object.production?.hourlyLeaves || 0).toFixed(2)} hourly. Accrued Seeds: {(object.production?.ordinarySeeds || 0).toFixed(2)} ordinary + {(object.production?.hourlySeeds || 0).toFixed(2)} hourly.</p>
-      <p className="prototype-warning">Ingredient curve interpolation is provisional; the six Potato transformations are active. Other families are forthcoming.</p>
+      <p className="prototype-warning">The approved Ingredients and Flowers are active. Unspecified curve boundaries and fungal Spore balance remain provisional.</p>
     </> : <>
       <p>Habitat: {definition.habitat}. Environmental and cultivation emissions are live.</p>
       {object.species === 'Mycelord' && <><div className="organism-stat"><span>Source of Mycelial ground</span><strong>{object.colonyId || 'New colony'}</strong></div><div className="organism-stat"><span>Flooded exposure</span><strong>{object.exposure?.Flooded || 0}/{MYCELIAL_TUNING.mycelordFloodDeathHours}h</strong></div></>}

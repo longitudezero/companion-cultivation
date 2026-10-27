@@ -60,6 +60,20 @@ export function migrateGarden(saved) {
         clean.production[field] = Number.isFinite(value) && value >= 0 ? value : 0;
       }
       for (const recipe of TRANSFORMATIONS[object.species] || []) {
+        if (recipe.sequence) {
+          const state = object.transformationSequence?.[recipe.into];
+          const phase = ['preparing', 'ready', 'crossing'].includes(state?.phase) ? state.phase : 'preparing';
+          const integer = (number, limit) => Number.isSafeInteger(number) && number >= 0
+            ? Math.min(number, limit) : 0;
+          const preparedHours = integer(state?.preparedHours, recipe.hours);
+          const windowHours = integer(state?.windowHours, recipe.completion.withinHours);
+          clean.transformationSequence[recipe.into] = {
+            phase: phase === 'ready' && preparedHours < recipe.hours ? 'preparing'
+              : phase === 'crossing' && preparedHours < recipe.hours ? 'preparing' : phase,
+            preparedHours, windowHours,
+          };
+          continue;
+        }
         const hours = object.transformationClocks?.[recipe.into];
         clean.transformationClocks[recipe.into] = Number.isSafeInteger(hours) && hours >= 0
           ? Math.min(hours, recipe.hours - 1) : 0;
