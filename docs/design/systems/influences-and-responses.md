@@ -1,0 +1,64 @@
+# Influence propagation, contact, and Plant Responses
+
+> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+
+An **Influence** is emitted from a living Source and has Kind, Mode, reach and effect semantics. A Plant's **Response** is species-specific, while the Source's signed environmental property modifier and propagation do not change by recipient. Environmental Source effects are applied through the deterministic three-Property engine; cultivation effects have independent footprints and recipient compatibility. Named fungus contact for Transformations requires an actual reached hex via either ordinary emission's footprint, even if its cultivation effect is not currently stage-applicable.
+
+See the [implemented environment](environment.md), [Fungal roster](../fungi/README.md), [Plant family compatibility tables](../README.md), [Transformations](transformations.md), and [Simulation order](simulation-and-time.md).
+
+## Exact approved integration and contact decisions
+
+## 60. Fungus/Plant interaction audit — approved global decisions and tracked Yield; timing details still OPEN
+
+**Status (26 October 2026):** The user approved the interaction-audit recommendations on peak stacking, extreme slowdown, dependent-fungus grace emissions, simultaneous death/Transformation, cultivation Blocker Kinds, and overlapping Mycelial sources. **The user explicitly corrected the proposed harvest-time snapshot treatment of ordinary Yield bonuses.** Plants earn and track output during their productive lifecycle, with an active Yield fungus improving the amount earned *while it actually reaches the Plant*. **The user subsequently APPROVED Option A: Yield-enhanced ordinary Leaves follow the same natural Ripening decline as ordinary Leaves.** More detailed dynamic timing/window accounting remains for a later pass. None of these additional Plant/Fungus rules is implemented in code.
+
+### A. APPROVED — combine lifecycle-curve modifiers without creating new peaks
+
+- For signed **Leaf Peak Timing** adjustments, sum the signed contributions from all reaching emitters, with the relevant Plant compatibility applied to each magnitude. Earlier and later contributions cancel algebraically. Apply the same net shift to each existing natural peak; e.g., Rosewraith's 115% and 180% peaks move together, without creating/removing a bloom or destroying its distinctive weak valley. Keep peaks in the 0–200% domain; exact boundary-clamping and interpolation remain an implementation/detail pass.
+- **Harvest Window widening** separately increases the breadth of existing productive intervals; it does not shift their centers, create a new peak, or erase Rosewraith's intended weak valley. Its stacking/geometry must honor those invariants.
+
+### B. APPROVED — keep deliberately powerful slow-Ripening/time-production combinations
+
+- Veilcap/Lanterncap slowdown plus Echomorel/Duskleaf or other qualifying hourly production may produce enormous returns and is intentionally available for playtesting; do not prematurely rebalance it out of existence.
+- Ordinary reaching fungal rate slowdowns cannot reverse Growth/Ripening progress or, on their own, drive an otherwise progressing, non-dormant Plant to a negative or exactly zero rate. Enforce a small positive rate floor, value deferred. Species-defined Dormancy and applicable environmental suspension can still fully pause progression. As already agreed, **hourly extra production does not accrue while progress is actually zero**.
+
+### C. APPROVED — Mycelial-dependent fungi keep emitting through habitat-loss grace
+
+- A Mycelial-dependent Fungus (notably Rushroom/Siltgill) must have qualifying Mycelial on its own occupied hex for initial establishment/germination. If that overlay is later lost, the fungus remains alive **and emits its ordinary Effects at full normal strength** throughout its species-specific X-hour continuous grace period, until death. Restore Mycelial before expiry to reset the timer. At death, remove the instance and all its emissions. This intentionally permits risky temporary exploitation of fading Mycelial infrastructure.
+
+### D. APPROVED — independent hazard clocks and rare same-instant priorities
+
+- Track genuinely lethal habitat exposures independently by hazard; clearing one resets only its own continuous timer. These timers follow elapsed in-game time even through Dormancy. Environmental transition recipes examine just-completed pre-transition qualifying exposure before it is reset (§59).
+- Use the finest supported simulated timestamp rather than coarsely forcing events into whole-hour collisions. **If death and a valid Transformation nevertheless mature at exactly the same timestamp, Transformation wins.** The old Plant is replaced by a new 0%-progress Plant with fresh hazard/recipe clocks (§58). **Limit a Plant to one Transformation per resolution event**, so no recursive zero-time chain. **§66 disallows simultaneously valid sibling recipes by design**; if an overlap is demonstrated, revisit those conditions with the user rather than defining an arbitrary winner priority.
+
+### E. APPROVED — classify each cultivation emission for existing selective Blockers
+
+- No new Hex or Edge Blocker mechanics. Each cultivation emission needs an explicit **Kind** independently from its Mode, permitting distinctions such as Growth, Ripening, Leaf, Seed, Germination, harvest-timing or Allocation Effects, while the Fungus's separate environmental emission keeps Aqueous/Thermal/Luminous as applicable. The precise taxonomy/grouping can be revisited as UI experience warrants. Selective-by-Kind and selective-by-Mode Blockers remain the existing machinery.
+
+### F. APPROVED — overlapping Mycelord colony contributions
+
+- Multiple Mycelords may contribute overlapping Mycelial ground. A hex remains Mycelial while **any valid source contribution** maintains it; removing one Mycelord initiates retirement of *its own* contribution without erasing another Mycelord's. Continue the previously agreed **gradual, closer-to-removed-source-first retreat** for unsupported contributions. Timed spread is its own overlay process, not ordinary instantaneous Environmental Adjacency or Airborne/Waterborne travel. Full Blockers or selective Blockers matching the Mycelial propagation Kind can interrupt spread; precise contribution representation, timings, and retreat geometry remain later system details.
+
+**APPROVED follow-up — Blocker severance causes gradual retreat (Option 2):** A Full Blocker or selective Mycelial-Kind Hex/Edge Blocker interrupts **both new Mycelial colonization and the supporting connection of an existing colony**. Reevaluate connectivity of existing Mycelial contributions to their live supporting Mycelord through unblocked colonized hexes. If an established branch loses every valid support path, that unsupported contribution **stops spreading and begins gradual retreat**; it does not disappear instantly merely because the Blocker was placed. Alternate unblocked paths and contributions from other supporting Mycelords preserve the relevant hexes. A severed branch may be rescued by restoring a valid connection before its retreat completes, which cancels its unsupported decay. For a cut branch, retreat advances outward from the severed support boundary; precise decay intervals and branched-order tie handling are later numerical/implementation details. Mycelial-dependent Fungi on subsequently cleared hexes begin their approved X-hour habitat-loss countdown while continuing to emit until death or restoration (§60C). **This is stronger than a Blocker merely preventing future expansion** and is an intentional player tool for dismantling dangerous colonies.
+
+### G. IMPORTANT CORRECTION — ordinary Yield is earned during cultivation, NOT applied retroactively at harvest
+
+The user expressly rejected the audit suggestion to calculate ordinary Leaf/Seed **Yield Adjustments** solely from whichever fungi happen to reach a Plant at the moment of harvest. That would allow a player to place a Yield Source at an already-completed peak, instantly multiply the entire output, and then remove it, destroying the intended growing-and-routing puzzle.
+
+**Approved core direction:** Each Plant tracks the outputs it actually earns as its lifecycle progresses. During an eligible productive interval, an active reaching Yield fungus changes **the incremental Leaf/Seed amount being earned then**, in proportion to the Plant's compatibility, rather than multiplying all previously earned production at harvest. A fungus newly placed at 100% cannot retroactively increase the Leaves earned during 50–100%. If the fungus stops reaching later, credit already earned under it is not retroactively canceled merely by that source disappearing. Distinct fixed-window Leaves/hour and Seeds/hour Effects likewise record earned additions over their actual qualifying time. **A Transformation discards all output**, as already approved in §58. Germination remains a sowing-time check, and **Leaf–Seed Allocation is still the separate approved once-at-harvest exchange** (§56).
+
+**APPROVED — Option A, ordinary Yield bonuses follow the native Leaf decline:** When the Plant's own available ordinary Leaves decline during Ripening, the already-earned Yield-enhanced Leaf amount declines by the **same proportion**; bonus Leaves are not protected in a separate permanent pool. For example, a Plant that ordinarily has **10 Leaves at 100% and 5 at 150%** but earned **12 at 100%** thanks to a correctly timed Yield fungus has **6 Leaves at 150%**, not 7. If the natural ordinary Leaf curve reaches zero at 200%, this Yield-enhanced ordinary Leaf stock also reaches zero. Removing the fungus after its production window does **not** retroactively cancel earlier earnings; subsequent natural decline is a **Plant lifecycle rule**, not a retroactive Source reassessment. This does **not** automatically award bonus Seeds from Leaf Yield; actual Seed production and Seed Yield follow their own eligible mechanisms. The separately defined **fixed-window hourly Leaves/hour and Seeds/hour accumulated extras** retain their existing distinct banked-output rule until harvest, subject to their own already approved restrictions; do not conflate them with the native-curve ordinary Yield bonus.
+
+**APPROVED — live Leaf Peak Timing and Harvest Window changes are prospective only:** These Effects start modifying the Plant's ongoing production/decline schedule when their Influence **begins reaching** it and stop modifying that schedule when reach **ends**. Their current signed net and width adjustment determine the Plant's **next** ordinary output changes as lifecycle progress advances. Neither gaining nor losing reach instantly adds, subtracts, restores, or backfills output for progress that has already elapsed. If a shifted or widened productive interval includes the Plant's *current and subsequent* progress, its effect operates from that moment forward; if an interval has already passed, that earlier opportunity is gone. Previously earned output remains subject to **subsequent** ordinary lifecycle decline as agreed in Option A. The user regards this as the natural same-rule-as-other-fungal-effects interpretation; it does not require an additional special gameplay system.
+
+**Remaining implementation details, not new design choices:** Exact curve interpolation, fractional production and rounding when the effective curve changes mid-progress, while preserving this no-retroactivity rule; one destructive harvest, Seed identities/sterility, and the separate §56 harvest-time Allocation conversion. No numerical balancing is required now.
+
+---
+
+---
+
+## Named contact for Plant Transformations — shared §68
+
+A named Fungus counts as contacting a Plant when **any one of the living instance's genuinely propagated and unblocked environmental or cultivation Influence footprints reaches the Plant hex**, even if its developmental Effect is not currently stage-applicable. Mere adjacency does not count. **Ingredients** use simpler generic signed-environmental-emission contacts; the other five families use their individually named species.
+
+Mycelial on the **target Plant hex** is not an approved Transformation prerequisite, though source-side support and habitat-loss grace can affect reach. This is a navigation summary. [Read the authoritative §68, Ingredients exception and §70 update in Transformation rules](transformations.md#68-transformation-ingredients-environment-plus-named-fungal-contact--approved-with-ingredients-exception).

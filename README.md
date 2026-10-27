@@ -74,5 +74,21 @@ The sample Sources and Influence strengths in Prototype 1 are configurable test 
 ## Design references
 
 - [Environmental System v1.2](docs/environmental-system-v1.2.md) — authoritative current Prototype 1 foundation with three Properties; v1.1 is preserved as an historical snapshot.
-- [Herbs, Fungi & Cultivation Design](docs/herbs-and-fungi-design.md) — separate, **text-only** record of agreed directions, illustrative interactions, open questions, and the proposed independent Mycelial / Enchanted hex overlays. **Not yet implemented.**
+- [Original Herbs, Fungi & Cultivation Design](docs/herbs-and-fungi-design.md) — frozen full-length source preserved for comparison; some early proposals were superseded by later approved decisions. **Plant/Fungus gameplay remains unimplemented.**
 
+## Game-design documentation
+
+The [organized game-design index](docs/design/README.md) is the current reference for **60 approved first-pass Plants, 31 Fungi and 69 Plant-owned Transformation routes**. Prototype 1 implements only the environmental sandbox; Plant, Fungus and Mycelial biology remain text-only design.
+
+| Topic | Where to look |
+| --- | --- |
+| Scope and implemented-versus-designed status | [Design overview](docs/design/README.md) |
+| Environment, Sources, propagation and Blockers | [Environmental v1.2 rules](docs/design/systems/environment.md) · [Influences](docs/design/systems/influences-and-responses.md) |
+| Plant and Fungus progression, outputs and harvesting | [Plant lifecycle](docs/design/systems/plant-lifecycle.md) · [Fungus lifecycle](docs/design/systems/fungus-lifecycle.md) · [Seeds/Spores/harvesting](docs/design/systems/seeds-spores-and-harvesting.md) |
+| Mycelial spread, support and survival | [Mycelial system](docs/design/systems/mycelial.md) |
+| Six Plant families and approved individual profiles | [Plant-family index](docs/design/README.md#plant-families) |
+| Complete first-pass fungal roster | [Fungi index](docs/design/fungi/README.md) · [Emission/propagation matrix](docs/design/fungi/roster-matrix.md) |
+| Transformation recipes and shared timing | [Shared rules](docs/design/systems/transformations.md) · [Event order](docs/design/systems/simulation-and-time.md) |
+| Superseded concepts, original sources and comparisons | [Historical references](docs/design/history/README.md) · [Documentation audit](docs/design/audit/README.md) |
+
+The original comprehensive design documents remain at their existing paths, unmodified, for side-by-side comparison. The [documentation promotion report](docs/design/audit/promotion-verification.md) explains what was checked and what belongs to later game-design/playtesting work.
