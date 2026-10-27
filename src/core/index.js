@@ -9,3 +9,4 @@ export * from './species.js';
 export * from './biology.js';
 export * from './economy.js';
 export * from './mycelial.js';
+export * from './transformations.js';

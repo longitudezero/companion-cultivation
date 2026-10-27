@@ -2,6 +2,7 @@ import { CONDITIONS, PROPERTIES, createGarden, distanceBetween, isGarden } from 
 import { INFLUENCE_TYPES, KINDS, MODES, makeInfluence, makeSpreadInfluence } from './influences.js';
 import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
 import { MYCELIAL_TUNING } from './mycelial.js';
+import { TRANSFORMATIONS } from './transformations.js';
 
 // Keep older garden exports usable after removing Materials and Fertility.
 // The caller's original JSON is never mutated, and unknown/retired effects
@@ -57,6 +58,11 @@ export function migrateGarden(saved) {
       for (const field of Object.keys(clean.production)) {
         const value = object.production?.[field];
         clean.production[field] = Number.isFinite(value) && value >= 0 ? value : 0;
+      }
+      for (const recipe of TRANSFORMATIONS[object.species] || []) {
+        const hours = object.transformationClocks?.[recipe.into];
+        clean.transformationClocks[recipe.into] = Number.isSafeInteger(hours) && hours >= 0
+          ? Math.min(hours, recipe.hours - 1) : 0;
       }
       garden.objects[key] = clean;
       continue;
