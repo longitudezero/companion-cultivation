@@ -22,13 +22,15 @@ export function stageOf(organism) {
   return 'Growth';
 }
 
-export function plantEnvironmentRate(species, conditions) {
+export function plantEnvironmentRate(species, conditions, stage = 'growth') {
   const profile = PLANTS[species];
   if (!profile) throw new Error(`Unknown Plant species: ${species}`);
   const moisture = profile.moisture[MOISTURE.indexOf(conditions.Moisture)];
   const illumination = profile.light[LIGHT.indexOf(conditions.Illumination)];
   let temperature = 1;
-  if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
+  if (profile.temperature?.[conditions.Temperature]) {
+    temperature = profile.temperature[conditions.Temperature][stage];
+  } else if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
   else if (!profile.preferredTemperature.includes(conditions.Temperature)) {
     temperature = species === 'Pumpkin' && conditions.Temperature === 'Cold' ? .55 : .85;
   }
@@ -37,9 +39,10 @@ export function plantEnvironmentRate(species, conditions) {
 
 export function plantGrowthRates(plant, conditions, contacts = [], mycelial = false) {
   const profile = PLANTS[plant.species];
-  const environmentRate = plantEnvironmentRate(plant.species, conditions) * (mycelial ? .5 : 1);
   const receiving = { ...conditions, attunement: plant.attunement };
   const getRate = kind => {
+    const stage = kind === 'ripeningRate' ? 'ripening' : 'growth';
+    const environmentRate = plantEnvironmentRate(plant.species, conditions, stage) * (mycelial ? .5 : 1);
     const sum = contacts.filter(effect => effect.kind === kind)
       .reduce((total, effect) => total + effect.amount
         * effectCompatibility(profile, kind, receiving, effect.amount, plant.progress), 0);
@@ -157,7 +160,7 @@ export function advanceGardenTime(garden, hours = 1) {
     // A dying Fungus can change illumination at this exact timestamp. Catch a
     // previously prepared Daisyspell leaving Dim without granting extra time.
     if (Object.values(objects).some(item => item.type === 'plant'
-      && ['Daisyspell', 'Moonlit Lotus', 'Mistlefoe'].includes(item.species))) {
+      && ['Daisyspell', 'Moonlit Lotus', 'Mistlefoe', 'Ember Aloe', 'Moonjade'].includes(item.species))) {
       const resolved = reconcileTransformationClocks(ticked, current);
       for (const [key, item] of Object.entries(resolved.objects)) {
         if (objects[key]?.type === 'plant' && item.species !== objects[key].species) {

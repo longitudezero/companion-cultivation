@@ -1,6 +1,6 @@
 # Companion Cultivation — game design reference
 
-> **Approved first-pass design reference, preserved from the documentation-maintenance milestone.** The game has progressed to **Woodlands Prototype 08**: 39 of the planned 60 Plants, all 31 Fungi in the runnable catalog, playable Mycelial mechanics and 45 of the 69 approved routes. The [current implementation-status ledger](../implementation-status.md) distinguishes code coverage, tests, provisional values and pending families. Implementation-status claims *inside preserved detailed design pages* were written before this coding work and should not be read as the current release status. The [original complete design](../herbs-and-fungi-design.md) remains unchanged for comparison; [history](history/README.md) holds superseded design decisions, and [documentation acceptance](audit/promotion-verification.md) records the earlier editorial milestone.
+> **Approved first-pass design reference, preserved from the documentation-maintenance milestone.** The game has progressed to **Desert Prototype 09**: 50 of the planned 60 Plants, all 31 Fungi in the runnable catalog, playable Mycelial mechanics and 58 of the 69 approved routes. The [current implementation-status ledger](../implementation-status.md) distinguishes code coverage, tests, provisional values and pending families. Implementation-status claims *inside preserved detailed design pages* were written before this coding work and should not be read as the current release status. The [original complete design](../herbs-and-fungi-design.md) remains unchanged for comparison; [history](history/README.md) holds superseded design decisions, and [documentation acceptance](audit/promotion-verification.md) records the earlier editorial milestone.
 
 The game is a deterministic hex-garden farming prototype about sustainable non-Seed harvests (working term **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
 
@@ -9,11 +9,11 @@ The game is a deterministic hex-garden farming prototype about sustainable non-S
 | Area | Status | Entry point |
 | --- | --- | --- |
 | Hex environment: Moisture, Temperature, Illumination, Sources, Blockers, propagation, adjacency | **Implemented and playable** | [Environmental System](systems/environment.md) |
-| Living Plant progression, Seeds, outputs and harvesting | **Implemented for 39 Plants in four families**; Desert/Spices pending | [Plant lifecycle](systems/plant-lifecycle.md), [implementation ledger](../implementation-status.md) |
+| Living Plant progression, Seeds, outputs and harvesting | **Implemented for 50 Plants in five families**; Spices pending | [Plant lifecycle](systems/plant-lifecycle.md), [implementation ledger](../implementation-status.md) |
 | Living Fungi and their 31-species roster | **31 catalog species playable**; lifecycle/Spore balance still provisional | [Fungus lifecycle](systems/fungus-lifecycle.md), [roster](fungi/README.md) |
 | Mycelial spread, support and retreat | **Implemented**; time/hazard tuning provisional | [Mycelial](systems/mycelial.md) |
 | Timed updates, biological effects and output accrual | **Implemented for current organisms**, with explicit provisional knobs | [Simulation and time](systems/simulation-and-time.md), [Seeds and harvesting](systems/seeds-spores-and-harvesting.md) |
-| Plant-owned Transformations: six families, 69 designed routes | **45 implemented and simulation-tested** in Ingredients/Flowers/Aquatic/Woodlands; 24 pending | [Transformation rules](systems/transformations.md), [implementation ledger](../implementation-status.md) |
+| Plant-owned Transformations: six families, 69 designed routes | **58 implemented and simulation-tested** in Ingredients/Flowers/Aquatic/Woodlands/Desert; 11 pending | [Transformation rules](systems/transformations.md), [implementation ledger](../implementation-status.md) |
 
 **Authority boundary:** The topical rules and numbers below retain their detailed approved design authority. For what currently runs in the game, consult the newer [implementation ledger](../implementation-status.md); the [promotion audit](audit/promotion-verification.md) describes the *historical documentation publication*, not today's code state.
 
@@ -35,10 +35,10 @@ The game is a deterministic hex-garden farming prototype about sustainable non-S
 | Woodlands | [Woodlands](plants/woodlands.md) | 13 | 13 |
 | Aquatic | [Aquatic](plants/aquatic.md) | 14 | 14 |
 | Flowers | [Flowers](plants/flowers.md) | 12 | 12 |
-| Desert | [Desert](plants/desert.md) | 13 | 0 |
+| Desert | [Desert](plants/desert.md) | 13 | 13 |
 | Spices | [Spices](plants/spices.md) | 11 | 0 |
 | Ingredients | [Ingredients](plants/ingredients.md) | 6 | 6 |
-| **Total** | | **69** | **45** |
+| **Total** | | **69** | **58** |
 
 ## Fungi
 

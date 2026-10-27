@@ -150,7 +150,8 @@ export default function App() {
         const output = availableHarvest(selectedObject, cultivation[selection.key] || [],
           simulation.conditions[selection.key]);
         setGarden(reconcileTransformationClocks(harvestPlant(garden, selection.key), garden));
-        setNotice(`Harvested ${selectedObject.species}: ${output.leaves} Leaves, ${output.seeds} Seeds${output.bambooSteel ? ', and one Bamboo Steel trophy' : ''}. The Plant was removed.`);
+        const seedDetail = output.seedStacks ? ` (${Object.entries(output.seedStacks).map(([name, amount]) => `${amount} ${name}`).join(' + ')})` : '';
+        setNotice(`Harvested ${selectedObject.species}: ${output.leaves} Leaves, ${output.seeds} Seeds${seedDetail}${output.bambooSteel ? ', and one Bamboo Steel trophy' : ''}. The Plant was removed.`);
       } else if (selectedObject.type === 'fungus') {
         const output = Math.floor((selectedObject.sporeStock || 0) + 1e-9);
         setGarden(reconcileTransformationClocks(harvestFungus(garden, selection.key), garden));
@@ -257,7 +258,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> WOODLANDS · PROTOTYPE 08</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> DESERT · PROTOTYPE 09</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
@@ -299,7 +300,7 @@ export default function App() {
       <main className="garden-area">
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Place living organisms. Engineer their habitat. Advance time to watch them develop.</p></div><div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div></div>
 
-        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>45 Transformation routes across four implemented families. Woodlands includes a timed contact-removal fork and a four-hour Bright hazard.</small></div>
+        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>58 Transformation routes across five implemented families. Desert adds Hot recovery, Freezing dormancy, and dual-species Seed harvests.</small></div>
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <div className="svg-scroll"><div className="svg-wrap"><HexGrid garden={garden} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}/></div></div>
@@ -350,13 +351,13 @@ export default function App() {
 
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
-      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 08</span><h2>A garden of changing forms</h2>
-      <p>All 45 Ingredients, Flowers, Aquatic and Woodlands Transformation routes are now active. Named Fungi reach Plants through their real environmental or cultivation zones. Moonlit Lotus still rewards pre-drain Flooded exposure; Mistlefoe's Woodlands fork is controlled by losing Mistruffle contact between hour 12 and hour 20 while preserving Damp/Dim and Fogdial or Veilcap. Each new Plant starts at 0%.</p>
+      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 09</span><h2>A garden of changing forms</h2>
+      <p>All 58 Ingredients, Flowers, Aquatic, Woodlands and Desert Transformation routes are now active. Named Fungi reach Plants through their real environmental or cultivation zones. Desert introduces deliberate Hot → Warm and Freezing → Cold recovery events, Moonjade Dormancy, and Mirage Rose's two simultaneous Seed outputs. Each transformed Plant starts at 0%.</p>
       <div className="guide-grid">
-        <div><b>01 · Start a family</b><p>Sow Potato, Daisydaze, Aquatic Base or Woodlands Base Seeds, or free-spawn any Plant for testing. Select it to inspect its Transformation paths.</p></div>
-        <div><b>02 · Reach named Fungi</b><p>For Daisydaze → Charmomile, maintain Damp / Temperate / Lit and real Lanterncap or Goldgill contact for 12 hours. An unrelated Fungus will not substitute.</p></div>
-        <div><b>03 · Try a transition</b><p>Hold Mistlefoe under Damp/Dim with Mistruffle and Fogdial (or Veilcap). Remove only Mistruffle after 12–19 hours for Mandrabra; keep both until 20 hours for Mistlewoe.</p></div>
-        <div><b>04 · Farm the result</b><p>Move Mandrakadabra out of Bright within four hours. Bramblewraith survives hostile states with reduced output. A Bamboozled harvested at 100% or later gives one Bamboo Steel trophy but no Leaves or Seeds.</p></div>
+        <div><b>01 · Start a family</b><p>Sow Potato, Daisydaze, Aquatic Base, Woodlands Base or Jadeheart Seeds, or free-spawn any Plant for testing. Select it to inspect its Transformation paths.</p></div>
+        <div><b>02 · Heat recovery</b><p>Hold Ember Aloe under Hot. Change its resolved Temperature from Hot to Warm with Chillanterelle or Rilllace reaching it: before 36 hours gives Ashen Rose, at or after 36 hours gives Aloemancer.</p></div>
+        <div><b>03 · Thaw a Moonjade</b><p>Freezing pauses all growth but counts toward 48 hours of endurance. Then thaw to Cold with Damp and the right resolved Illumination and Fungal contacts for Jadewisp or Pearadox.</p></div>
+        <div><b>04 · Farm the result</b><p>Pearadox grows in Hot or Freezing with different crop bonuses; Cactaclysm provides big sterile Leaves in Hot. Mirage Rose harvests Ember Aloe and Moonjade Seeds together, equally split.</p></div>
       </div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button>
     </div></div>}
   </div>;
@@ -378,24 +379,31 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, o
       {object.species === 'Mandrakadabra' && <p>Bright vulnerability: <strong>{object.exposure?.Bright || 0}/4h</strong> consecutive resolved Bright is lethal. Lit is safest for Leaf farming.</p>}
       {object.species === 'Bramblewraith' && <p>Resilient specialist: Hot, Freezing and Mycelial reduce development/output but never directly kill it.</p>}
       {object.species === 'Bamboozled' && <p>{object.progress >= 100 ? '◆ Bamboo Steel trophy ready. Harvest for one trophy and zero Leaves/Seeds.' : 'Bamboo Steel trophy unlocks at 100% Growth. Ordinary Leaves and Seeds always stay zero.'}</p>}
+      {object.species === 'Ember Aloe' && <p>Heat endurance: <strong>{object.exposure?.Hot || 0}h continuous Hot</strong>. A qualifying Hot → Warm edit with Chillanterelle or Rilllace gives Ashen Rose before 36h, or Aloemancer at 36h or later. It does not happen from cooling alone.</p>}
+      {object.species === 'Moonjade' && <p>{conditions.Temperature === 'Freezing' ? 'Dormant: 0 progression and no new output.' : 'Active: progression resumes outside Freezing.'} Freezing endurance: <strong>{object.exposure?.Freezing || 0}/48h</strong>. A qualified Freezing → Cold thaw can yield Jadewisp or Pearadox.</p>}
+      {object.species === 'Pearadox' && <p>Hot: +70% natural Leaves. Freezing: 75% lifecycle rate and +80% natural Seeds; neither extreme is lethal by itself.</p>}
+      {object.species === 'Cactaclysm' && <p>Sterile Leaf specialist: 48 natural Leaves near 140% in Hot; Warm reduces its natural Leaf yield to 65% of the Hot peak.</p>}
       <div className="mini-heading">HAZARD EXPOSURE</div>
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{Number.isFinite(definition[`${hazard.toLowerCase()}Death`]) ? `${definition[`${hazard.toLowerCase()}Death`]}h` : 'nonlethal'}</span>)}</div>
       {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>
         <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={recipe.sequence
-          ? recipe.sequence === 'mistruffle-departure' ? 'Damp / Dim, Mistruffle AND (Fogdial OR Veilcap) for 12 to fewer than 20 hours, then remove Mistruffle contact while retaining Damp / Dim and the other fungus'
+          ? recipe.sequence === 'heat-to-warm' ? `Hot → Warm with Chillanterelle OR Rilllace contact on the new environment, ${recipe.early ? 'before 36h' : 'at least 36h'} of continuous prior Hot exposure`
+            : recipe.sequence === 'freeze-to-cold' ? `After 48h uninterrupted Freezing Dormancy, thaw to Cold with ${Object.entries(recipe.completion.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} and named fungi: ${recipe.completion.contacts.map(group => group.join(' OR ')).join(' AND ')}`
+            : recipe.sequence === 'mistruffle-departure' ? 'Damp / Dim, Mistruffle AND (Fogdial OR Veilcap) for 12 to fewer than 20 hours, then remove Mistruffle contact while retaining Damp / Dim and the other fungus'
             : recipe.sequence === 'flood-to-damp' ? '24h Flooded / Cold / Dim with Tidegill OR Rilllace, then Flooded → Damp drainage; pre-drain contact counts'
             : '10h Damp / Temperate / Dim with Veilcap or Fogdial; leave Dim, then reach Bright with Prismorel or Glimmergill within 8h'
           : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · ${recipe.emission ? `reaching fungal ${recipe.emission}` : recipe.contacts.length ? `named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}` : 'no fungus required'}${recipe.noMycelial ? ' · target must not be Mycelial' : ''}`}>
-          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'armed' ? `Armed ${recipe.elapsed}h · remove Mistruffle before 20h` : recipe.phase === 'ready' ? recipe.sequence === 'flood-to-damp' ? 'Prepared · drain to Damp' : 'Prepared' : `${recipe.elapsed}/${recipe.hours}h`}{recipe.phase === 'crossing' ? ' · Bright window' : ''}
+          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'armed' ? `Armed ${recipe.elapsed}h · remove Mistruffle before 20h` : recipe.phase === 'early-recovery' ? `${recipe.elapsed}h Hot · recover before 36h` : recipe.phase === 'ready' ? recipe.sequence === 'flood-to-damp' ? 'Prepared · drain to Damp' : recipe.sequence === 'freeze-to-cold' ? 'Prepared · thaw to Cold' : recipe.sequence === 'heat-to-warm' ? 'Qualified · recover to Warm' : 'Prepared' : `${recipe.elapsed}/${recipe.hours}h`}{recipe.phase === 'crossing' ? ' · Bright window' : ''}
         </span>)}</div>
         <p>◆ The current recipe phase qualifies. Any interruption resets its clock; hover for exact fungal and environmental requirements.</p></>}
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
       {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
       <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts, conditions).leaves}</strong></div>
       <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts, conditions).seeds}</strong></div>
+      {definition.seedDistribution && <p>Seed identities: {Object.entries(availableHarvest(object, contacts, conditions).seedStacks).map(([name, amount]) => `${amount} ${name} Seeds`).join(' + ')}. Both stacks arrive in one consuming harvest.</p>}
       {object.species === 'Bamboozled' && <div className="organism-stat"><span>Bamboo Steel trophy</span><strong>{availableHarvest(object, contacts, conditions).bambooSteel ? 'Ready' : 'At 100%'}</strong></div>}
       <p>Accrued Leaves: {(object.production?.ordinaryLeaves || 0).toFixed(2)} ordinary + {(object.production?.hourlyLeaves || 0).toFixed(2)} hourly. Accrued Seeds: {(object.production?.ordinarySeeds || 0).toFixed(2)} ordinary + {(object.production?.hourlySeeds || 0).toFixed(2)} hourly.</p>
-      <p className="prototype-warning">Ingredients, Flowers, Aquatic and Woodlands are active. Ordinary hazard intervals, interpolation and fungal Spore balance remain provisional.</p>
+      <p className="prototype-warning">Ingredients, Flowers, Aquatic, Woodlands and Desert are active. Interpolation, some rounding and fungal Spore balance remain provisional.</p>
     </> : <>
       <p>Habitat: {definition.habitat}. Environmental and cultivation emissions are live.</p>
       {object.species === 'Mycelord' && <><div className="organism-stat"><span>Source of Mycelial ground</span><strong>{object.colonyId || 'New colony'}</strong></div><div className="organism-stat"><span>Flooded exposure</span><strong>{object.exposure?.Flooded || 0}/{MYCELIAL_TUNING.mycelordFloodDeathHours}h</strong></div></>}

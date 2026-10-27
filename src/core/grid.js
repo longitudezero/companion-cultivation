@@ -48,7 +48,7 @@ export function createGarden(columns = 9, rows = 7) {
   return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
     inventory: { leaves: 0, seeds: { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
-      'Woodlands Base': 16 }, spores: {}, trophies: { bambooSteel: 0 } } };
+      'Woodlands Base': 16, Jadeheart: 16 }, spores: {}, trophies: { bambooSteel: 0 } } };
 }
 
 export function resizeGarden(garden, columns, rows) {

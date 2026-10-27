@@ -8,10 +8,13 @@ import { AQUATIC_TRANSFORMATIONS, emptyAquaticSequence, advanceAquaticSequenceHo
   reconcileAquaticSequence } from './aquatic-transformations.js';
 import { WOODLANDS_TRANSFORMATIONS, emptyWoodlandsSequence, advanceWoodlandsSequenceHour,
   reconcileWoodlandsSequence } from './woodlands-transformations.js';
+import { DESERT_TRANSFORMATIONS, isDesertRecovery, desertRecoveryStatus,
+  completedDesertRecovery } from './desert-transformations.js';
 
 export { FLOWER_TRANSFORMATIONS, namedFungalContacts } from './flower-transformations.js';
 export { AQUATIC_TRANSFORMATIONS } from './aquatic-transformations.js';
 export { WOODLANDS_TRANSFORMATIONS } from './woodlands-transformations.js';
+export { DESERT_TRANSFORMATIONS } from './desert-transformations.js';
 
 // Ingredients §67. Conditions are the resolved Conditions on the Plant hex;
 // emission is an actually reaching environmental contribution from a living
@@ -32,6 +35,8 @@ export const TRANSFORMATIONS = Object.freeze({
   ...Object.fromEntries(Object.entries(AQUATIC_TRANSFORMATIONS)
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
   ...Object.fromEntries(Object.entries(WOODLANDS_TRANSFORMATIONS)
+    .map(([species, recipes]) => [species, Object.freeze(recipes)])),
+  ...Object.fromEntries(Object.entries(DESERT_TRANSFORMATIONS)
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
 });
 
@@ -61,6 +66,7 @@ export function transformationStatus(garden, key, environment = calculateEnviron
   if (plant?.type !== 'plant') return [];
   const effects = cultivation || calculateCultivation(garden, environment);
   return (TRANSFORMATIONS[plant.species] || []).map(recipe => {
+    if (isDesertRecovery(recipe)) return desertRecoveryStatus(plant, recipe, environment, key);
     if (recipe.sequence) {
       const aquatic = recipe.sequence === 'flood-to-damp';
       const woodlands = recipe.sequence === 'mistruffle-departure';
@@ -98,8 +104,24 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
     const clocks = Object.fromEntries(recipes.filter(recipe => !recipe.sequence)
       .map(recipe => [recipe.into, matchesTransformation(garden, key, recipe, environment, cultivation)
         ? plant.transformationClocks?.[recipe.into] || 0 : 0]));
+    const recovery = completedDesertRecovery(garden, previousGarden, key, recipes,
+      environment, cultivation, previousEnvironment,
+      matchesConditions, namedFungalContacts, matchesNamedGroups);
+    if (recovery) {
+      objects[key] = makePlant(recovery);
+      continue;
+    }
     let updated = { ...plant, transformationClocks: clocks };
-    for (const recipe of recipes.filter(recipe => recipe.sequence)) {
+    // An interrupted endurance run must not survive a zero-time edit-away and
+    // edit-back. Evaluate the transition with the pre-edit hours FIRST, then
+    // clear the qualifying clock immediately if the event did not transform.
+    const temperature = environment.conditions[key].Temperature;
+    if (plant.species === 'Ember Aloe' && temperature !== 'Hot') {
+      updated = { ...updated, exposure: { ...plant.exposure, Hot: 0 } };
+    } else if (plant.species === 'Moonjade' && temperature !== 'Freezing') {
+      updated = { ...updated, exposure: { ...plant.exposure, Freezing: 0 } };
+    }
+    for (const recipe of recipes.filter(recipe => recipe.sequence && !isDesertRecovery(recipe))) {
       const aquatic = recipe.sequence === 'flood-to-damp';
       const woodlands = recipe.sequence === 'mistruffle-departure';
       const state = plant.transformationSequence?.[recipe.into]
@@ -141,7 +163,7 @@ export function advancePlantTransformations(garden, key, environment, cultivatio
   const completed = eligible.find(recipe => clocks[recipe.into] >= recipe.hours);
   if (completed) return { plant: transformedPlant(plant, completed), into: completed.into };
   const sequence = { ...plant.transformationSequence };
-  for (const recipe of recipes.filter(recipe => recipe.sequence)) {
+  for (const recipe of recipes.filter(recipe => recipe.sequence && !isDesertRecovery(recipe))) {
     if (recipe.sequence === 'flood-to-damp') {
       sequence[recipe.into] = advanceAquaticSequenceHour(garden, key, recipe, environment,
         effects, matchesSequencePhase);

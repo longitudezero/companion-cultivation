@@ -1,6 +1,7 @@
 import { makeInfluence, makeSpreadInfluence } from './influences.js';
 import { AQUATIC_PLANTS } from './aquatic-species.js';
 import { WOODLANDS_PLANTS } from './woodlands-species.js';
+import { DESERT_PLANTS } from './desert-species.js';
 
 // Approved Ingredient §44 values. These records are simulation data, not UI rules.
 // Other Plant families will join this catalogue when their numeric profiles are wired.
@@ -81,6 +82,27 @@ export function effectCompatibility(profile, kind, conditions = null, amount = 0
     if (profile.name === 'Mandrabra' && kind === 'harvestWindow' && conditions.Illumination === 'Lit') return 1.6;
     if (profile.name === 'Mandrakadabra' && kind === 'leafYield' && conditions.Illumination === 'Lit') return 2.5;
     if (profile.name === 'Mandrakazam' && kind === 'seedYield' && conditions.Illumination === 'Dim') return 2.5;
+    return ordinary;
+  }
+  if (profile.family === 'Desert') {
+    const temperature = conditions.Temperature;
+    const name = profile.name;
+    if (name === 'Ember Aloe' && temperature === 'Hot') {
+      if (kind === 'growthRate') return 1.8;
+      if (kind === 'leafYield') return 2.3;
+    }
+    if (name === 'Aloemancer' && kind === 'leafYield'
+      && ['Temperate', 'Warm'].includes(temperature)) return 2;
+    if (name === 'Jadewisp' && kind === 'seedYield'
+      && ['Cold', 'Temperate'].includes(temperature)) return 2.4;
+    if (name === 'Pearadox') {
+      if (kind === 'leafYield' && temperature === 'Hot') return 2.2;
+      if (kind === 'seedYield' && temperature === 'Freezing') return 2.5;
+      if (kind === 'seedTiming' && temperature === 'Freezing') return 1.8;
+      if (kind === 'hourlyLeaf' && temperature === 'Hot') return 1.5;
+      if (kind === 'hourlySeed' && temperature === 'Freezing') return 1.8;
+    }
+    if (name === 'Cactaclysm' && kind === 'leafYield' && temperature === 'Hot') return 2.6;
     return ordinary;
   }
   if (profile.family !== 'Flowers') return ordinary;
@@ -189,6 +211,7 @@ export const PLANTS = Object.freeze({
   }),
   ...AQUATIC_PLANTS,
   ...WOODLANDS_PLANTS,
+  ...DESERT_PLANTS,
 });
 
 // Each fungus has *separate* environmental and cultivation outputs. The first
