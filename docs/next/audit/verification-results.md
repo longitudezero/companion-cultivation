@@ -119,3 +119,7 @@ The [pass-11 report](final-navigation-and-authority-pass-11.md) records the curr
 ## Editorial pass 12 update — 27 October 2026
 
 See the [pass-12 audit](cross-family-status-reconciliation-pass-12.md) for first-pass approval-status corrections to 25 inherited active Plant/Fungus lines, each copied fully to [history](../history/superseded-design.md). The previous report's file/link statistics are historical snapshots; pass 12 records current staged coverage and static link results. Original documentation and root README remain frozen for side-by-side acceptance.
+
+## Editorial pass 13 update — 27 October 2026
+
+The [pass-13 source-and-predicate audit](transformation-exclusivity-and-event-boundaries-pass-13.md) reconfirmed **102/102 exact approved final recipe Markdown table lines** from the frozen source (69 actual routes) and documented all **44 sibling recipe pairs** (42 resolved-environment separations, two time/event splits). Static navigation and tree-preservation checks are recorded there and in the rolling comparison. This does **not** close layout/scheduling feasibility, rendered Markdown inspection, comprehensive semantic acceptance, or final user review.

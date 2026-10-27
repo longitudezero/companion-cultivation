@@ -86,3 +86,9 @@ The [shared-rule semantic precedence audit](semantic-rule-precedence.md) makes t
 The [pass-7](profile-semantic-sweep-pass-7.md), [pass-8](profile-semantic-sweep-pass-8.md), [pass-9](species-qualitative-review-pass-9.md), [pass-10](cross-family-reconciliation-pass-10.md), [pass-11](final-navigation-and-authority-pass-11.md) and [pass-12](cross-family-status-reconciliation-pass-12.md) reports continue the lossless editing trail. In pass 12, **25 further former active lines** were retired into the [historical archive](../history/superseded-design.md), chiefly because they still treated the 31 approved Fungi and 69 Plant-owned recipes as future work.
 
 **Remaining acceptance risks:** sentence-by-sentence semantic completeness against every approved original; consistent handling of numeric curve approximations and effect eligibility; logical feasibility and sibling-exclusivity tests for every transformation geometry; manually rendered Markdown/link review; and the user's final side-by-side approval. The original documentation/root README must remain frozen through these gates.
+
+---
+
+## Pass 13 disposition — static exclusivity is not reachability proof
+
+The [pass-13 predicate and event audit](transformation-exclusivity-and-event-boundaries-pass-13.md) confirms **44 sibling route pairs** partition by final resolved Property or strict event-time predicate and all **102 final recipe Markdown table lines** match the frozen original. The remaining high-risk areas are **physical feasibility** (actual Luminous/Thermal/Aqueous footprints, routed/Waterborne propagation, finite hex placement and blockers), **timestamp boundary behavior** (especially contact removal at exactly 20h, 36h Hot and the two eight-hour completion windows), and **species survival and source-habitat grace** while clocks run. Do not confuse a logical exclusivity proof with proof that every route can be built and played.

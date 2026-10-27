@@ -169,3 +169,11 @@ The staged index now exposes the earlier verification report and pass-11 report,
 The [pass-12 status reconciliation](cross-family-status-reconciliation-pass-12.md) identifies **25 additional stale active status lines** across eight detailed Plant/Fungus files. Important examples: Aquatic §28 and Ingredients §44 still described final Fungi/Transformation assignments as absent; the Flowers timing analysis still advised not assigning its now-approved Charmomile → Daisyspell route; §53 described its six Fungi names and the Allocation ratio as unresolved; several family compatibility paragraphs still treated existing hourly/Seed Timing emitters as future hypotheses. All complete former lines are preserved in the [history archive](../history/superseded-design.md#editorial-pass-12--resolved-first-pass-approval-status-and-previously-hypothetical-fungal-emitters-27-october-2026).
 
 No approved final recipe table, numerical balance table, Fungi emission matrix or original repository file was edited. This expands the qualitative audit evidence **without checking off universal sentence-by-sentence semantic acceptance or the user's comparison review**.
+
+---
+
+## Editorial pass 13 — exact final route tables and sibling/event predicates (27 October 2026)
+
+The [pass-13 Transformation audit](transformation-exclusivity-and-event-boundaries-pass-13.md) independently compared **all 102 Markdown table lines (including headers/separators) in approved source §§67,69,71,73,74,76** with their staged family counterparts; **102/102 matched character-for-character**. These are the source tables for **69 distinct Plant-owned routes**, not 102 routes.
+
+An abstract predicate review enumerated **20 Plant identities with multiple outgoing Transformations**, yielding **44 sibling pairs**: 42 have incompatible resolved Property Conditions at their trigger and two have disjoint strict event-time histories (Mistlefoe and Ember Aloe). No logical overlap was found, but actual hex-layout reach, Blockers, Waterborne/Prismorel routing and same-timestamp engine behavior still require simulations. A temporal test-case ledger highlights 8h transition-window endpoints and hazard/Transformation ties. **No approved recipe row, original file or active numeric parameter changed.**

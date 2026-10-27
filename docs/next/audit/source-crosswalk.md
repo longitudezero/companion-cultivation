@@ -108,3 +108,9 @@ The [new species ledger](species-coverage-ledger.md) independently enumerates **
 ## First-pass status language checkpoint (pass 12, 27 October 2026)
 
 The [pass-12 cross-family editorial review](cross-family-status-reconciliation-pass-12.md) resolved **25 additional cases** in which inherited Plant/Fungus prose still referred to the 31 approved Fungi or 69 exact approved recipes as hypothetical, unassigned or not yet finalized. All retired wording remains verbatim in the [history archive](../history/superseded-design.md). **This is a focused risk sweep only**: the outstanding qualitative, visual-render and user-approval checks above remain unchecked.
+
+---
+
+## Transformation predicate/source fidelity checkpoint (pass 13, 27 October 2026)
+
+The [pass-13 audit](transformation-exclusivity-and-event-boundaries-pass-13.md) confirms **102/102 identical approved source table lines** for §§67,69,71,73,74,76 and catalogs **44/44 sibling route-pair abstract exclusions** across 20 multi-route Plant identities. The table-line count is **not** the number of routes; there are **69 approved routes**. The complete Transformation semantic gate above remains **unchecked**, because actual finite-board reach/Blocker arrangements, lethal/timed same-instant tests and user sign-off are not yet verified.
