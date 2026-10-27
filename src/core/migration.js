@@ -22,7 +22,7 @@ export function migrateGarden(saved) {
       // Older saved gardens predate Flowers. Give them the same one-time
       // provisional Base Seed access as new gardens, without replenishing
       // players who have explicitly spent their Daisydaze Seeds down to zero.
-      seeds: { Daisydaze: 16, ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
+      seeds: { Daisydaze: 16, 'Aquatic Base': 16, ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
         .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
         .filter(([name]) => FUNGI[name]).map(([name, amount]) => [name, cleanCount(amount)])),
@@ -53,6 +53,9 @@ export function migrateGarden(saved) {
     if (!garden.hexes[key]) continue;
     if (object?.type === 'plant' && PLANTS[object.species]) {
       const clean = makePlant(object.species);
+      if (object.species === 'Starlotus' && ['Damp', 'Flooded'].includes(object.attunement)) {
+        clean.attunement = object.attunement;
+      }
       clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
       clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
       for (const hazard of ['Dry', 'Hot', 'Freezing', 'Mycelial']) {
@@ -65,15 +68,17 @@ export function migrateGarden(saved) {
       for (const recipe of TRANSFORMATIONS[object.species] || []) {
         if (recipe.sequence) {
           const state = object.transformationSequence?.[recipe.into];
-          const phase = ['preparing', 'ready', 'crossing'].includes(state?.phase) ? state.phase : 'preparing';
+          const aquatic = recipe.sequence === 'flood-to-damp';
+          const validPhases = aquatic ? ['preparing', 'ready'] : ['preparing', 'ready', 'crossing'];
+          const phase = validPhases.includes(state?.phase) ? state.phase : 'preparing';
           const integer = (number, limit) => Number.isSafeInteger(number) && number >= 0
             ? Math.min(number, limit) : 0;
           const preparedHours = integer(state?.preparedHours, recipe.hours);
-          const windowHours = integer(state?.windowHours, recipe.completion.withinHours);
+          const windowHours = aquatic ? 0 : integer(state?.windowHours, recipe.completion.withinHours);
           clean.transformationSequence[recipe.into] = {
             phase: phase === 'ready' && preparedHours < recipe.hours ? 'preparing'
               : phase === 'crossing' && preparedHours < recipe.hours ? 'preparing' : phase,
-            preparedHours, windowHours,
+            preparedHours, ...(aquatic ? {} : { windowHours }),
           };
           continue;
         }

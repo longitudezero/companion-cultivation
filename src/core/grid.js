@@ -47,7 +47,7 @@ export function createGarden(columns = 9, rows = 7) {
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
   return { schemaVersion: 2, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
-    inventory: { leaves: 0, seeds: { Potato: 16, Daisydaze: 16 }, spores: {} } };
+    inventory: { leaves: 0, seeds: { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16 }, spores: {} } };
 }
 
 export function resizeGarden(garden, columns, rows) {

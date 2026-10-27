@@ -1,6 +1,7 @@
 import { removeObject, placeObject } from './grid.js';
 import { PLANTS, FUNGI, makePlant, makeFungus, effectCompatibility } from './species.js';
 import { calculateCultivation } from './cultivation.js';
+import { calculateEnvironment } from './simulation.js';
 import { isMycelial } from './mycelial.js';
 
 // Not approved balance: only the species peak, productive window and maximum
@@ -18,10 +19,11 @@ const sum = (contacts, kind, profile, conditions = null, progress = 0) => matchi
   .reduce((total, effect) => total + effect.amount
     * effectCompatibility(profile, kind, conditions, effect.amount, progress), 0);
 
-export function plantOutputRate(species, conditions) {
+export function plantOutputRate(species, conditions, kind = 'leaf') {
   const profile = PLANTS[species];
   if (!profile) throw new Error(`Unknown Plant species: ${species}`);
-  const moisture = (profile.moistureOutput || profile.moisture)[MOISTURE.indexOf(conditions.Moisture)];
+  const moisture = (kind === 'seed' ? profile.moistureSeedOutput || profile.moistureOutput || profile.moisture
+    : profile.moistureOutput || profile.moisture)[MOISTURE.indexOf(conditions.Moisture)];
   const light = profile.lightOutput[LIGHT.indexOf(conditions.Illumination)];
   let temperature = 1;
   if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
@@ -106,25 +108,27 @@ export function accruePlantProduction(plant, nextProgress, conditions, contacts 
     ...plant.production };
   if (nextProgress <= plant.progress) return production;
   const profile = PLANTS[plant.species];
-  const schedule = productionSchedule(plant.species, contacts, conditions);
+  const receiving = { ...conditions, attunement: plant.attunement };
+  const schedule = productionSchedule(plant.species, contacts, receiving);
   const environment = plantOutputRate(plant.species, conditions) * (mycelial ? .5 : 1);
+  const seedEnvironment = plantOutputRate(plant.species, conditions, 'seed') * (mycelial ? .5 : 1);
   const leavesBefore = leafPotential(profile, plant.progress, schedule);
   const leavesAfter = leafPotential(profile, nextProgress, schedule);
   if (leavesAfter > leavesBefore) {
     production.ordinaryLeaves += (leavesAfter - leavesBefore) * environment
-      * Math.max(0, 1 + sum(contacts, 'leafYield', profile, conditions));
+      * Math.max(0, 1 + sum(contacts, 'leafYield', profile, receiving, (plant.progress + nextProgress) / 2));
   } else if (leavesAfter < leavesBefore) {
     // Previously earned ordinary Yield bonuses decline in exactly the same
     // proportion as native Leaves. Fixed-window hourly bonuses never decline.
     production.ordinaryLeaves *= leavesBefore ? leavesAfter / leavesBefore : 0;
   }
   production.ordinarySeeds += Math.max(0, seedPotential(profile, nextProgress, schedule)
-    - seedPotential(profile, plant.progress, schedule)) * environment
-    * Math.max(0, 1 + sum(contacts, 'seedYield', profile, conditions));
+    - seedPotential(profile, plant.progress, schedule)) * seedEnvironment
+    * Math.max(0, 1 + sum(contacts, 'seedYield', profile, receiving, (plant.progress + nextProgress) / 2));
   for (const effect of contacts) {
     if (effect.kind !== 'hourlyLeaf' && effect.kind !== 'hourlySeed') continue;
     if (effect.kind === 'hourlySeed' && profile.seeds === 0) continue;
-    const earned = effect.amount * effectCompatibility(profile, effect.kind, conditions, effect.amount,
+    const earned = effect.amount * effectCompatibility(profile, effect.kind, receiving, effect.amount,
       (Math.max(plant.progress, effect.window[0]) + Math.min(nextProgress, effect.window[1])) / 2)
       * activeHours(plant.progress, nextProgress, effect.window);
     if (effect.kind === 'hourlyLeaf') production.hourlyLeaves += earned;
@@ -138,11 +142,18 @@ export function accrueFungusSpores(fungus, nextProgress, total = ECONOMY_TUNING.
     clamp(nextProgress, 100, 200) - clamp(fungus.progress, 100, 200)) * total / 100;
 }
 
-export function availableHarvest(plant, contacts = []) {
+export function availableHarvest(plant, contacts = [], conditions = null) {
   if (plant?.type !== 'plant') throw new Error('Harvest requires a living Plant.');
   const bank = plant.production || {};
-  let leaves = Math.floor(count(bank.ordinaryLeaves) + count(bank.hourlyLeaves) + 1e-9);
-  let seeds = Math.floor(count(bank.ordinarySeeds) + count(bank.hourlySeeds) + 1e-9);
+  // Intrinsic Aquatic bonuses act on ordinary native Leaves, at harvest-time
+  // current Moisture, and never manufacture bonus hourly fungal Leaves.
+  const moisture = conditions?.Moisture;
+  const innate = (plant.species === 'Starlotus' && plant.attunement && plant.attunement === moisture)
+    ? 1.6 : plant.species === 'Silvercress' && plant.progress >= 100 && moisture === 'Damp'
+      ? 1.5 : 1;
+  let leaves = Math.floor(count(bank.ordinaryLeaves) * innate + count(bank.hourlyLeaves) + 1e-9);
+  let seeds = PLANTS[plant.species].seeds === 0 ? 0
+    : Math.floor(count(bank.ordinarySeeds) + count(bank.hourlySeeds) + 1e-9);
   const compatibility = PLANTS[plant.species].compatibility.allocation;
   const signed = contacts.reduce((result, effect) => result + (
     effect.kind === 'leafAllocation' ? effect.amount :
@@ -164,7 +175,8 @@ export function availableHarvest(plant, contacts = []) {
 export function harvestPlant(garden, key) {
   const plant = garden.objects[key];
   if (plant?.type !== 'plant') throw new Error('There is no living Plant to harvest here.');
-  const yieldResult = availableHarvest(plant, calculateCultivation(garden)[key]);
+  const yieldResult = availableHarvest(plant, calculateCultivation(garden)[key],
+    calculateEnvironment(garden).conditions[key]);
   const next = removeObject(garden, key);
   const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
   const seedSpecies = PLANTS[plant.species].seedSpecies === undefined
@@ -199,7 +211,7 @@ export function sowPlant(garden, key, species, quantity = 1, random = Math.rando
   const owned = inventory.seeds?.[species] || 0;
   checkSowing(garden, key, species, owned, quantity, random);
   const contacts = calculateCultivation(garden)[key];
-  const bonus = sum(contacts, 'germination', PLANTS[species]) / 100;
+  const bonus = sum(contacts, 'germination', PLANTS[species], calculateEnvironment(garden).conditions[key]) / 100;
   const chance = clamp(quantity * (PLANTS[species].germination + bonus), 0, 1);
   const success = random() < chance;
   const spent = { ...garden, inventory: { ...inventory,

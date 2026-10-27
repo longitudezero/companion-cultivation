@@ -1,4 +1,5 @@
 import { makeInfluence, makeSpreadInfluence } from './influences.js';
+import { AQUATIC_PLANTS } from './aquatic-species.js';
 
 // Approved Ingredient §44 values. These records are simulation data, not UI rules.
 // Other Plant families will join this catalogue when their numeric profiles are wired.
@@ -49,7 +50,31 @@ const flower = (name, growthDays, totalDays, germination, leafPeak, leafPeakAt, 
 // eligible progress. It scales the emitted MAGNITUDE, never reverses direction.
 export function effectCompatibility(profile, kind, conditions = null, amount = 0, progress = 0) {
   const ordinary = profile.compatibility[kind] ?? 1;
-  if (!conditions || profile.family !== 'Flowers') return ordinary;
+  if (!conditions) return ordinary;
+  if (profile.family === 'Aquatic') {
+    const wet = conditions.Moisture;
+    if (profile.name === 'Kelpfull' && kind === 'seedYield' && wet === 'Flooded') return 2.5;
+    if (profile.name === 'Kelpergeist' && kind === 'leafYield' && wet === 'Flooded'
+      && conditions.Illumination === 'Dark') return 2.2;
+    if (profile.name === 'Moonlit Lotus' && wet === 'Flooded'
+      && ((kind === 'ripeningRate' && amount < 0) || kind === 'seedYield')) return 1.7;
+    if (profile.name === 'Sunken Lotus' && kind === 'seedTiming' && wet === 'Flooded') return 1.3;
+    if (profile.name === 'Starlotus' && conditions.attunement
+      && conditions.attunement === wet) {
+      if (kind === 'leafYield') return 2.2;
+      if (kind === 'leafPeakTiming') return 2;
+    }
+    if (profile.name === 'Silvercress') {
+      if (kind === 'growthRate' && wet === 'Flooded' && progress < 100) return 2;
+      if (kind === 'leafYield' && wet === 'Damp' && progress >= 100) return 2;
+    }
+    if (profile.name === 'Cresscent' && wet === 'Damp') {
+      if (kind === 'seedYield') return 2.4;
+      if (kind === 'germination') return 2;
+    }
+    return ordinary;
+  }
+  if (profile.family !== 'Flowers') return ordinary;
   const light = conditions.Illumination;
   const name = profile.name;
   if (name === 'Daisyspell' && kind === 'leafYield' && light === 'Bright') return 2.4;
@@ -153,6 +178,7 @@ export const PLANTS = Object.freeze({
     moisture: [.45, 1, .65], moistureOutput: [.45, 1, .65], lightOutput: [.20, .35, .70, 1],
     preferredTemperature: ['Temperate', 'Warm'], dryDeath: 48, mycelialDeath: 36, hotDeath: 48, freezingDeath: 48,
   }),
+  ...AQUATIC_PLANTS,
 });
 
 // Each fungus has *separate* environmental and cultivation outputs. The first
@@ -199,11 +225,12 @@ export const FUNGI = Object.freeze({
   Siltgill: fungus(env('Drying'), effect('leafYield', .35, null, 'waterborne'), 'dependent'),
 });
 
-export function makePlant(species) {
+export function makePlant(species, attunement = null) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
   return { type: 'plant', species, progress: 0, ageHours: 0, exposure: { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0 },
     production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 },
-    transformationClocks: {}, transformationSequence: {} };
+    transformationClocks: {}, transformationSequence: {},
+    ...(species === 'Starlotus' && ['Damp', 'Flooded'].includes(attunement) ? { attunement } : {}) };
 }
 
 export function makeFungus(species, heading = 0) {

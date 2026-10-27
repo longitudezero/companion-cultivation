@@ -38,13 +38,16 @@ export function plantEnvironmentRate(species, conditions) {
 export function plantGrowthRates(plant, conditions, contacts = [], mycelial = false) {
   const profile = PLANTS[plant.species];
   const environmentRate = plantEnvironmentRate(plant.species, conditions) * (mycelial ? .5 : 1);
+  const receiving = { ...conditions, attunement: plant.attunement };
   const getRate = kind => {
     const sum = contacts.filter(effect => effect.kind === kind)
       .reduce((total, effect) => total + effect.amount
-        * effectCompatibility(profile, kind, conditions, effect.amount, plant.progress), 0);
+        * effectCompatibility(profile, kind, receiving, effect.amount, plant.progress), 0);
     // The approved rule requires a positive rate floor, but its exact value is
     // deferred; this defensive lower bound is prototype-only.
-    return Math.max(.01, 1 + sum) * environmentRate;
+    const innate = plant.species === 'Silvercress' && kind === 'growthRate'
+      && plant.progress < 100 && conditions.Moisture === 'Flooded' ? 1.6 : 1;
+    return Math.max(.01, 1 + sum) * environmentRate * innate;
   };
   return { growth: getRate('growthRate'), ripening: getRate('ripeningRate') };
 }
@@ -149,11 +152,12 @@ export function advanceGardenTime(garden, hours = 1) {
     const ticked = { ...current, objects, mycelium, clockHours: (current.clockHours || 0) + 1 };
     // A dying Fungus can change illumination at this exact timestamp. Catch a
     // previously prepared Daisyspell leaving Dim without granting extra time.
-    if (Object.values(objects).some(item => item.type === 'plant' && item.species === 'Daisyspell')) {
+    if (Object.values(objects).some(item => item.type === 'plant'
+      && ['Daisyspell', 'Moonlit Lotus'].includes(item.species))) {
       const resolved = reconcileTransformationClocks(ticked, current);
       for (const [key, item] of Object.entries(resolved.objects)) {
-        if (objects[key]?.species === 'Daisyspell' && item.species === 'Orchidemon') {
-          events.push(`Daisyspell transformed into Orchidemon on hex ${key}.`);
+        if (objects[key]?.type === 'plant' && item.species !== objects[key].species) {
+          events.push(`${objects[key].species} transformed into ${item.species} on hex ${key}.`);
         }
       }
       current = resolved;

@@ -99,8 +99,8 @@ export default function App() {
     try {
       const next = reconcileTransformationClocks(fn(garden), garden);
       for (const [key, object] of Object.entries(next.objects)) {
-        if (garden.objects[key]?.species === 'Daisyspell' && object.species === 'Orchidemon') {
-          setNotice(`Daisyspell transformed into Orchidemon on hex ${key} at the lighting change!`);
+        if (garden.objects[key]?.type === 'plant' && object.species !== garden.objects[key].species) {
+          setNotice(`${garden.objects[key].species} transformed into ${object.species} on hex ${key} at the environment change!`);
         }
       }
       setGarden(next);
@@ -256,7 +256,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> FLOWERS · PROTOTYPE 06</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> AQUATIC · PROTOTYPE 07</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
@@ -348,12 +348,12 @@ export default function App() {
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 06</span><h2>A garden of changing forms</h2>
-      <p>Potato's six simpler Ingredients transformations and all twelve Flowers routes are now active. Flowers require contact with particular named Fungi through any unblocked environmental or cultivation Influence zone. An ordinary route needs uninterrupted conditions; Daisyspell's Orchidemon route is a special Dim-preparation-to-Bright sequence. Every transformed Plant starts again at 0% with new output, hazards and timers.</p>
+      <p>All six Ingredients, twelve Flowers and fourteen Aquatic Transformation routes are active. Named Fungi must reach Plants through actual unblocked environmental or cultivation Influence zones. Moonlit Lotus requires 24 hours of Flooded / Cold / Dim preparation with Tidegill or Rilllace, then a Flooded → Damp drainage event; Kelpergeist instead loses its flooded form after 18 hours without Flooded. Every Transformation creates a fresh Plant at 0%.</p>
       <div className="guide-grid">
-        <div><b>01 · Start a family</b><p>Sow Potato or Daisydaze Base Seeds, or free-spawn any Plant for testing. Select it to inspect its available Transformation paths.</p></div>
+        <div><b>01 · Start a family</b><p>Sow Potato, Daisydaze or Aquatic Base Seeds, or free-spawn any Plant for testing. Select it to inspect its available Transformation paths.</p></div>
         <div><b>02 · Reach named Fungi</b><p>For Daisydaze → Charmomile, maintain Damp / Temperate / Lit and real Lanterncap or Goldgill contact for 12 hours. An unrelated Fungus will not substitute.</p></div>
-        <div><b>03 · Try a transition</b><p>Daisyspell needs ten consecutive hours Damp / Temperate / Dim with Veilcap or Fogdial. Then leave Dim and reach Bright within eight hours, with Prismorel or Glimmergill contact at completion.</p></div>
-        <div><b>04 · Farm the result</b><p>All Plants have one consuming harvest. Some Flowers produce Seeds for a different species; Lavendream has a broad Leaf plateau, while Rosewraith has two innate peaks but still just one harvest.</p></div>
+        <div><b>03 · Try a transition</b><p>For a Damp-attuned Starlotus, prepare Moonlit Lotus for 24 hours Flooded / Cold / Dim with Tidegill or Rilllace, then drain to Damp. Its fungal contact may vanish with the water.</p></div>
+        <div><b>04 · Farm the result</b><p>Starlotus harvests 60% more natural Leaves in its origin-attuned water state. Silvercress grows 60% faster while Flooded, then yields 50% more natural Leaves when Damp in Ripening. Every harvest consumes its Plant.</p></div>
       </div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button>
     </div></div>}
   </div>;
@@ -370,21 +370,24 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, o
     {plant ? <>
       <div className="organism-stat"><span>Current stage rate</span><strong>{((object.progress < 100 ? rates.growth : rates.ripening) * 100).toFixed(0)}%</strong></div>
       <p>Approved natural timing: {definition.growthDays} days to Growth completion; {definition.totalDays} days to 200% in optimal Conditions.</p>
+      {object.species === 'Starlotus' && <p>Origin attunement: <strong>{object.attunement || 'unattuned test spawn'}</strong>. Native +60% Leaves {object.attunement && conditions.Moisture === object.attunement ? 'active' : 'inactive'} at current Moisture.</p>}
+      {object.species === 'Silvercress' && <p>Native trait: +60% Growth while Flooded in Growth; +50% ordinary Leaves while Damp in Ripening.</p>}
       <div className="mini-heading">HAZARD EXPOSURE</div>
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{definition[`${hazard.toLowerCase()}Death`]}h</span>)}</div>
       {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>
         <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={recipe.sequence
-          ? '10h Damp / Temperate / Dim with Veilcap or Fogdial; leave Dim, then reach Bright with Prismorel or Glimmergill within 8h'
-          : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · ${recipe.emission ? `reaching fungal ${recipe.emission}` : `named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}`}`}>
-          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'ready' ? 'Prepared' : `${recipe.elapsed}/${recipe.hours}h`}{recipe.phase === 'crossing' ? ' · Bright window' : ''}
+          ? recipe.sequence === 'flood-to-damp' ? '24h Flooded / Cold / Dim with Tidegill OR Rilllace, then Flooded → Damp drainage; pre-drain contact counts'
+            : '10h Damp / Temperate / Dim with Veilcap or Fogdial; leave Dim, then reach Bright with Prismorel or Glimmergill within 8h'
+          : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · ${recipe.emission ? `reaching fungal ${recipe.emission}` : recipe.contacts.length ? `named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}` : 'no fungus required'}`}>
+          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'ready' ? recipe.sequence === 'flood-to-damp' ? 'Prepared · drain to Damp' : 'Prepared' : `${recipe.elapsed}/${recipe.hours}h`}{recipe.phase === 'crossing' ? ' · Bright window' : ''}
         </span>)}</div>
         <p>◆ The current recipe phase qualifies. Any interruption resets its clock; hover for exact fungal and environmental requirements.</p></>}
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
       {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
-      <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts).leaves}</strong></div>
-      <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts).seeds}</strong></div>
+      <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts, conditions).leaves}</strong></div>
+      <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts, conditions).seeds}</strong></div>
       <p>Accrued Leaves: {(object.production?.ordinaryLeaves || 0).toFixed(2)} ordinary + {(object.production?.hourlyLeaves || 0).toFixed(2)} hourly. Accrued Seeds: {(object.production?.ordinarySeeds || 0).toFixed(2)} ordinary + {(object.production?.hourlySeeds || 0).toFixed(2)} hourly.</p>
-      <p className="prototype-warning">The approved Ingredients and Flowers are active. Unspecified curve boundaries and fungal Spore balance remain provisional.</p>
+      <p className="prototype-warning">The approved Ingredients, Flowers and Aquatic families are active. Unspecified curve boundaries, light slopes and fungal Spore balance remain provisional.</p>
     </> : <>
       <p>Habitat: {definition.habitat}. Environmental and cultivation emissions are live.</p>
       {object.species === 'Mycelord' && <><div className="organism-stat"><span>Source of Mycelial ground</span><strong>{object.colonyId || 'New colony'}</strong></div><div className="organism-stat"><span>Flooded exposure</span><strong>{object.exposure?.Flooded || 0}/{MYCELIAL_TUNING.mycelordFloodDeathHours}h</strong></div></>}
