@@ -13,6 +13,7 @@ import {
   calculateCultivation, plantGrowthRates, PROTOTYPE_TUNING,
   sowPlant, sowFungus, harvestPlant, harvestFungus, availableHarvest,
   isMycelial, mycelialContributors, calculateMycelialSupport, MYCELIAL_TUNING,
+  transformationStatus, reconcileTransformationClocks,
 } from './core/index.js';
 
 const STORAGE_KEY = 'companion-cultivation:sandbox:v2';
@@ -35,7 +36,7 @@ function initialGarden() {
     try {
       const saved = JSON.parse(localStorage.getItem(key) || 'null');
       if (isGarden(saved) && saved.columns >= 3 && saved.columns <= 20 && saved.rows >= 3 && saved.rows <= 20) {
-        return migrateGarden(saved);
+        return reconcileTransformationClocks(migrateGarden(saved));
       }
     } catch { /* try another saved version or the demo */ }
   }
@@ -95,7 +96,7 @@ export default function App() {
   }, [garden]);
 
   function changeGarden(fn) {
-    try { setGarden(fn(garden)); }
+    try { setGarden(reconcileTransformationClocks(fn(garden))); }
     catch (error) { setNotice(error.message); }
   }
 
@@ -106,7 +107,7 @@ export default function App() {
         const isPlant = tool === 'sow-plant';
         const species = isPlant ? plantSpecies : fungusSpecies;
         const result = isPlant ? sowPlant(garden, key, species, sowQuantity) : sowFungus(garden, key, species, sowQuantity);
-        setGarden(result.garden);
+        setGarden(reconcileTransformationClocks(result.garden));
         setNotice(`${result.success ? 'Germinated' : 'Germination failed'}: ${species} · ${sowQuantity} ${isPlant ? 'Seeds' : 'Spores'} spent · ${Math.round(result.chance * 100)}% chance.`);
       } catch (error) { setNotice(error.message); }
     }
@@ -139,11 +140,11 @@ export default function App() {
     try {
       if (selectedObject.type === 'plant') {
         const output = availableHarvest(selectedObject, cultivation[selection.key] || []);
-        setGarden(harvestPlant(garden, selection.key));
+        setGarden(reconcileTransformationClocks(harvestPlant(garden, selection.key)));
         setNotice(`Harvested ${selectedObject.species}: ${output.leaves} Leaves and ${output.seeds} Seeds. The Plant was removed.`);
       } else if (selectedObject.type === 'fungus') {
         const output = Math.floor((selectedObject.sporeStock || 0) + 1e-9);
-        setGarden(harvestFungus(garden, selection.key));
+        setGarden(reconcileTransformationClocks(harvestFungus(garden, selection.key)));
         setNotice(`Harvested ${selectedObject.species}: ${output} Spores. The Fungus and its emissions were removed.`);
       }
     } catch (error) { setNotice(error.message); }
@@ -235,7 +236,7 @@ export default function App() {
     try {
       const imported = JSON.parse(await file.text());
       if (!isGarden(imported) || imported.columns < 3 || imported.columns > 20 || imported.rows < 3 || imported.rows > 20) throw new Error('Unsupported garden file.');
-      const upgraded = migrateGarden(imported);
+      const upgraded = reconcileTransformationClocks(migrateGarden(imported));
       calculateEnvironment(upgraded);
       setGarden(upgraded);
       setSelection({ type: 'hex', key: Object.keys(imported.hexes)[0] });
@@ -247,7 +248,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> MYCELIAL · PROTOTYPE 04</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> TRANSFORMATIONS · PROTOTYPE 05</span><button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button></div>
     </header>
 
     <div className="workspace">
@@ -287,7 +288,7 @@ export default function App() {
       <main className="garden-area">
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Place living organisms. Engineer their habitat. Advance time to watch them develop.</p></div><div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div></div>
 
-        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>Mycelord spreads Mycelial ground over time; Flooded hexes and matching Blockers interrupt support. Timings are provisional.</small></div>
+        <div className="time-controls"><span>⏳ DAY {Math.floor((garden.clockHours || 0) / 24) + 1} · HOUR {(garden.clockHours || 0) % 24}</span><div><button onClick={() => advanceTime(1)}>+1 hour</button><button onClick={() => advanceTime(24)}>+1 day</button></div><small>Potato can now transform into six Ingredients through fungal contact and continuous environmental exposure.</small></div>
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <div className="svg-scroll"><div className="svg-wrap"><HexGrid garden={garden} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}/></div></div>
@@ -324,7 +325,7 @@ export default function App() {
               </div>)}
               <button className="add-influence" onClick={() => changeGarden((previous) => updateObject(previous, selection.key, { ...selectedObject, emissions: [...selectedObject.emissions, makeInfluence('Brightening')] }))}>＋ Add another Influence</button>
             </> : selectedObject.type === 'plant' || selectedObject.type === 'fungus'
-              ? <><OrganismFields object={selectedObject} conditions={simulation.conditions[selection.key]} contacts={cultivation[selection.key] || []} mycelialHere={mycelialHere} onHeadingChange={updateFungusHeading}/><button className="harvest-button" onClick={harvestSelected}>↧ Harvest {selectedObject.type === 'plant' ? 'Leaves & Seeds' : 'Spores'} · remove organism</button></>
+              ? <><OrganismFields object={selectedObject} conditions={simulation.conditions[selection.key]} contacts={cultivation[selection.key] || []} recipes={transformationStatus(garden, selection.key, simulation)} mycelialHere={mycelialHere} onHeadingChange={updateFungusHeading}/><button className="harvest-button" onClick={harvestSelected}>↧ Harvest {selectedObject.type === 'plant' ? 'Leaves & Seeds' : 'Spores'} · remove organism</button></>
               : <BlockerFields blocker={selectedObject} onChange={updateSelectedBlocker}/>}
           </div>}
           <div className="inspector-conditions"><div className="mini-heading">PROPERTY CONDITIONS <span>BASELINE → FINAL</span></div>{PROPERTIES.map((property) => <ConditionRow key={property} property={property} baseline={selectedHex.baselines[property]} current={simulation.conditions[selection.key][property]} contributors={simulation.modifiers[selection.key][property]} adjacencyEntry={simulation.adjacency[selection.key]?.find((entry) => entry.property === property)} anchoredAt={selectedObject?.type === 'source' && selectedObject.anchor?.property === property ? selectedObject.anchor.condition : null} onChange={(name, value) => changeGarden((previous) => setBaseline(previous, selection.key, name, value))}/>)}</div>
@@ -336,11 +337,11 @@ export default function App() {
       </aside>
     </div>
 
-    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 04</span><h2>Colonies beneath the garden</h2><p>Mycelord now establishes and spreads distinct Mycelial ground over elapsed game hours. Violet-marked hexes support dependent Fungi. Flooded ground and Mycelial-Kind or Full Blockers sever growth and support; unsupported contributions retreat over time. Different Mycelords overlap independently. Precise spread, retreat, habitat-grace, Spore and output-curve numbers remain provisional. Transformations are still being built.</p><div className="guide-grid"><div><b>01 · Establish</b><p>Free-spawn Mycelord with the Fungus tool, or sow its Spores. Advance time to grow a violet Mycelial colony; even the source hex takes time to establish.</p></div><div><b>02 · Manage habitat</b><p>Rushroom and Siltgill require Mycelial on their source hex at germination. If that ground is lost they continue emitting during a temporary grace clock, then die.</p></div><div><b>03 · Shape and retreat</b><p>Flood a corridor, remove Mycelord, or add a Full/Mycelial-Kind Blocker to sever support. Ground persists temporarily; restore a path before decay completes to rescue it.</p></div><div><b>04 · Farm</b><p>Collect Seeds and Spores, sow again, and use approved fungal interactions. Frostfolio's Leaf Allocation rises from 80% to 100% when its own source hex is Mycelial. Other preferring bonuses remain undecided.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
+    {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setShowGuide(false)}>×</button><span className="eyebrow">FIELD GUIDE · PROTOTYPE 05</span><h2>A garden of changing forms</h2><p>Potato can transform into any of the six other Ingredients. Each path needs a particular resolved environment plus a real reaching fungal environmental Influence for an uninterrupted number of hours. The new Plant starts at 0% with no inherited output or hazards. Other Plant families' recipes are the next milestone. Mycelial colonies and the farming economy remain playable; some balance numbers are provisional.</p><div className="guide-grid"><div><b>01 · Start with Potato</b><p>Sow Potato Seeds or free-spawn Potato. Select it to see all six Transformation paths and their exposure clocks.</p></div><div><b>02 · Engineer a route</b><p>For example, add Dewmender and Mistruffle in range to reach Flooded with Wetting contact. Maintain that combination for 12 hours to transform Potato into Rice.</p></div><div><b>03 · Keep it continuous</b><p>Changing the Condition or blocking the qualifying fungal emission resets the recipe timer. Moving into another eligible environment starts its independent timer.</p></div><div><b>04 · Farm the result</b><p>A transformed Plant is newly growing; harvest its Leaves and Seeds normally. It can be replanted from Seeds, but has no further Ingredients Transformation route.</p></div></div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button></div></div>}
   </div>;
 }
 
-function OrganismFields({ object, conditions, contacts, mycelialHere, onHeadingChange }) {
+function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, onHeadingChange }) {
   const plant = object.type === 'plant';
   const definition = plant ? PLANTS[object.species] : FUNGI[object.species];
   const rates = plant ? plantGrowthRates(object, conditions, contacts, mycelialHere) : null;
@@ -353,12 +354,17 @@ function OrganismFields({ object, conditions, contacts, mycelialHere, onHeadingC
       <p>Approved natural timing: {definition.growthDays} days to Growth completion; {definition.totalDays} days to 200% in optimal Conditions.</p>
       <div className="mini-heading">HAZARD EXPOSURE</div>
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{definition[`${hazard.toLowerCase()}Death`]}h</span>)}</div>
+      {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>
+        <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={`${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · reaching fungal ${recipe.emission}`}>
+          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.elapsed}/{recipe.hours}h
+        </span>)}</div>
+        <p>◆ Conditions and fungal emission currently qualify. Any interruption resets that route's clock; hover for the recipe.</p></>}
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>
       {contacts.length ? contacts.map((contact, index) => <p key={`${contact.source}-${index}`}>{contact.species}: {contact.kind} {contact.amount > 0 ? '+' : ''}{contact.amount} {contact.implemented ? '· active' : '· effect pending'}</p>) : <p>No fungal cultivation Effects reach this Plant.</p>}
       <div className="organism-stat"><span>Harvestable Leaves</span><strong>{availableHarvest(object, contacts).leaves}</strong></div>
       <div className="organism-stat"><span>Harvestable Seeds</span><strong>{availableHarvest(object, contacts).seeds}</strong></div>
       <p>Accrued Leaves: {(object.production?.ordinaryLeaves || 0).toFixed(2)} ordinary + {(object.production?.hourlyLeaves || 0).toFixed(2)} hourly. Accrued Seeds: {(object.production?.ordinarySeeds || 0).toFixed(2)} ordinary + {(object.production?.hourlySeeds || 0).toFixed(2)} hourly.</p>
-      <p className="prototype-warning">Ingredient curve interpolation is provisional; Transformations are not active yet.</p>
+      <p className="prototype-warning">Ingredient curve interpolation is provisional; the six Potato transformations are active. Other families are forthcoming.</p>
     </> : <>
       <p>Habitat: {definition.habitat}. Environmental and cultivation emissions are live.</p>
       {object.species === 'Mycelord' && <><div className="organism-stat"><span>Source of Mycelial ground</span><strong>{object.colonyId || 'New colony'}</strong></div><div className="organism-stat"><span>Flooded exposure</span><strong>{object.exposure?.Flooded || 0}/{MYCELIAL_TUNING.mycelordFloodDeathHours}h</strong></div></>}

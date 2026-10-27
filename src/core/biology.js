@@ -3,6 +3,7 @@ import { calculateCultivation } from './cultivation.js';
 import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './economy.js';
 import { FUNGI, PLANTS } from './species.js';
 import { advanceMycelium, isMycelial, MYCELIAL_TUNING } from './mycelial.js';
+import { advancePlantTransformations } from './transformations.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
@@ -102,6 +103,13 @@ export function advanceGardenTime(garden, hours = 1) {
         const profile = PLANTS[object.species];
         const onMycelial = isMycelial(current, key);
         const exposure = nextExposure(object, environment.conditions[key], onMycelial);
+        const transformation = advancePlantTransformations(current, key, environment);
+        // A completion on the same timestamp as a fatal hazard wins (§60D).
+        if (transformation.into) {
+          objects[key] = transformation.plant;
+          events.push(`${object.species} transformed into ${transformation.into} on hex ${key}.`);
+          continue;
+        }
         const dyingFrom = Object.entries({ Dry: profile.dryDeath, Hot: profile.hotDeath,
           Freezing: profile.freezingDeath, Mycelial: profile.mycelialDeath })
           .find(([hazard, threshold]) => exposure[hazard] >= threshold);
@@ -112,7 +120,7 @@ export function advanceGardenTime(garden, hours = 1) {
         }
         const rates = plantGrowthRates(object, environment.conditions[key], cultivation[key], onMycelial);
         const progress = advancePlantProgress(object.progress, profile, rates);
-        objects[key] = { ...object, ageHours: (object.ageHours || 0) + 1, exposure, progress,
+        objects[key] = { ...transformation.plant, ageHours: (object.ageHours || 0) + 1, exposure, progress,
           production: accruePlantProduction(object, progress, environment.conditions[key], cultivation[key], onMycelial) };
       } else if (object.type === 'fungus') {
         const exposure = {

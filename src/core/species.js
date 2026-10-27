@@ -106,7 +106,7 @@ export const FUNGI = Object.freeze({
 export function makePlant(species) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
   return { type: 'plant', species, progress: 0, ageHours: 0, exposure: { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0 },
-    production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 } };
+    production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 }, transformationClocks: {} };
 }
 
 export function makeFungus(species, heading = 0) {
