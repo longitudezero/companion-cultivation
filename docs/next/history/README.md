@@ -11,3 +11,6 @@ See [coverage crosswalk](../audit/source-crosswalk.md) to find where each source
 
 
 The historical design archive also includes **section-labeled, verbatim excerpts** removed from newly staged topic files during the second editorial pass. These include superseded Woodlands/Mycelial and Waterborne values, obsolete Material/Fertility assumptions, early roster counts and deferred-recipe claims. See the [original-versus-new comparison](../audit/current-vs-original.md) for the preservation checks.
+
+
+The latest [fungal parameter audit](../audit/fungal-parameter-audit.md) also identifies exact older profile lines now superseded by later Waterborne, Allocation and habitat-loss-grace approvals; those lines are preserved in the [archival appendix](superseded-design.md).

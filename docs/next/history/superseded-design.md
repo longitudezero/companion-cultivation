@@ -2393,3 +2393,278 @@ Earlier wording from [docs/next/plants/flowers.md](../plants/flowers.md) (origin
 **Status:** The user explicitly **approved** §30's Lavendream, Lavendread, Poppycock and Dream Poppy profiles. The user **approved the final Flowers two-Plant first-pass batch**, covering **Rosewraith** and **Orchidemon**, without further changes. Both have **two incoming transformation routes** in the established family graph. This pass defines their own six Plant characteristics and distinctive natural harvest curves. Their final lifecycle times, peak heights, Seed quantities, germination chances, fungal Effect compatibility multipliers and hazard thresholds belong to the **family-wide numerical pass after this batch is reviewed**. No fungus identities, old A/B/C/D assignments, or transformation recipes are locked.
 ~~~~
 
+---
+
+## Fungal parameter reconciliation — superseded profile wording (27 October 2026)
+
+The first-pass profile text below was **copied verbatim before correction**. Later approved rules take precedence: **§56** fixes all four Allocation fractions, the 3:1 unit exchange and Waterborne reach; **§60C** confirms continued full emissions during dependent-Fungus habitat-loss grace; **§§62–63** specify Mycelord's Flooded boundary and time-driven colony behavior; and **§§67,69–76** complete named fungal recipe use. Many excerpts contain valid surrounding profile facts. Those facts remain in the edited [full profile references](../fungi/README.md) and the [31-species matrix](../fungi/roster-matrix.md). Original repository sources have not been edited.
+
+### 47. Fungi — one dedicated Mycelial-only fungus (APPROVED first-pass role) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (captured from the draft before the current edit):
+
+- **Reason:** Replaced proposed spread wording with approved §§62–63
+
+~~~~text
+| **Fungus Source output** | **Creates/maintains Mycelial overlay**, with previously proposed timed adjacent spread beyond direct Source reach; does NOT emit a Temperature, Moisture, Illumination or Fertility Modifier |
+~~~~
+
+### 49. Fungi — second ordinary fungus batch: Rainmorel, Droughtcap, Prismorel, Rushroom (APPROVED first-pass bundles) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (captured from the draft before the current edit):
+
+- **Reason:** Corrected Rushroom emission through grace
+
+~~~~text
+| **Lifecycle / Spores** | 0–100% Growth then 100–200% Sporulation, with ordinary-to-longer full maturation time and **own Rushroom Spores** on one destructive harvest. It emits immediately **IF its own occupied Source hex is Mycelial** and continues through/after maturity while Mycelial persists. Quantitative maturation and Spore economy later. |
+~~~~
+
+- **Reason:** Resolved immediate suppression proposal against §60C
+
+~~~~text
+| **Habitat** | **Mycelial-DEPENDENT at its occupied Source hex**: does NOT create Mycelial or bypass the need for Mycelord (the sole creator). First-pass simple proposal is to **suppress both emissions when its hex loses Mycelial**, without immediately destroying the fungal object; precise grace periods, death clock and eventual resumed emission upon recolonization are for fungus-wide numeric/habitat pass. No simultaneous Lighting/Moisture/Temperature fungus habitat checks. |
+~~~~
+
+- **Reason:** Replaced Rainmorel future recipe guess with actual approved roles
+
+~~~~text
+| **Transformation feasibility note, NOT recipe** | Candidate tool for establishing Flooded connection and later deliberately breaking it (removing/harvesting Rainmorel, counter-Drying, or environment adjustments), supporting Aquatic transformation **puzzles later**. No Aquatic recipe or unique Plant-trigger emission is assigned. |
+~~~~
+
+- **Reason:** Replaced Droughtcap unassigned contact with exact family usage
+
+~~~~text
+| **Transformation feasibility note, NOT recipe** | May supply an ordinary **Flooded→Damp drainage** condition for future Aquatic Plant-owned recipes, provided the original Rainmorel/other Wetting and blocker network can be changed safely. No target Plant, exposure hours or result is selected now. |
+~~~~
+
+- **Reason:** Replaced Prismorel deferred Spices assignments with current recipes
+
+~~~~text
+| **Transformation feasibility note, NOT recipe** | Could be an alternative **Light-engineering Source** in the later Spices recipe analysis, especially where controllable directional reach is more relevant than blanket Brightening. **No Glass Apple/Pum'king Source identity, overlap pair, or recipe is assigned.** |
+~~~~
+
+- **Reason:** Replaced Rushroom missing recipe and preserved source/target habitat distinction
+
+~~~~text
+| **Transformation feasibility note, NOT recipe** | May help prepare/harvest a Plant while the player arranges a Plant-owned environmental Transformation puzzle, but **Growth progress never gates Transformation eligibility** (§59). Grants **no generic Transformation Effect** and is not assigned a recipe. |
+~~~~
+
+- **Reason:** Corrected earlier no-Spices-recipe statement
+
+~~~~text
+2. **Precision light engineering:** **Prismorel +1 Brightening directed** versus **Glimmergill +1 Brightening omnidirectional** are alternatives. Both can be useful but modify Leaf peak position in opposite directions; Source contribution +1 stays globally constant. Interactions with **Veilcap darkening** can produce Lit overlap under a suitable Baseline and actual footprints. **No Spices recipe is fixed.**
+~~~~
+
+### 57. Coverage / interaction audit, three final first-pass fungi, and survival clarification (APPROVED; Transformation reset resolved in §58) — profiles-final.md
+
+Earlier wording from [docs/next/fungi/profiles-final.md](../fungi/profiles-final.md) (captured from the draft before the current edit):
+
+- **Reason:** Resolved §57 emission during grace against §60C
+
+~~~~text
+**Fungus death clarification supersedes the instant-death phrase in the prior audit proposal:** For **Mycelial-dependent Fungi**, loss of Mycelial on the **fungus source hex** begins a continuous **X-hour lethal habitat-exposure countdown**; the Fungus dies when its own threshold is reached, not necessarily immediately. Exact hours, handling of restoration before expiry, and whether emissions remain active or become suppressed during the grace period need the fungus-wide survival/system pass. Do not silently assume instant removal on overlay loss. The old Rushroom suppression/grace-period *proposal* should be reconciled with this general rule, not treated as an approved instant-death exception.
+~~~~
+
+- **Reason:** Distinguished agreed rules from implementation tests
+
+~~~~text
+**Further text-only audit priorities:** define signed net stacking/clipping of Leaf Peak Timing shifts (including Rosewraith's two peaks), time-based fractional accumulation and retention until harvest, environmental/Mycelial viability/reach recalculation order, independent lethal hazard timers and Fungus emission during grace, Mycelial spread/retreat and blocker interaction, and the mixed-identity Seed rounding constraints. **Already approved:** once-at-harvest Leaf–Seed Allocation §56 and unlimited connected-Flooded Waterborne propagation; do not reopen them casually. The next work is **logic feasibility, not numerical balancing**.
+~~~~
+
+- **Reason:** Reconciled Siltgill table habitat wording with emission-through-grace
+
+~~~~text
+| **Siltgill** | **Drying −1 Moisture**, Aqueous / Airborne **Range 2** | **Leaf Yield +35%** to existing eligible Leaves, **Waterborne UNLIMITED** through connected unblocked Flooded hexes, scaled by recipient Leaf Yield compatibility | **Mycelial-dependent on its occupied source hex**; requires Mycelord's overlay infrastructure and **dies after a species-specific continuous X-hour period without Mycelial**. Its Drying may sever its own Waterborne network, requiring Wetting, Anchors, Blockers or terrain design. Plants receiving its cultivation Influence do **not** need to occupy Mycelial. |
+~~~~
+
+### 53. Fungi — expanded alternatives and missing-Effect batch: six NEW species (APPROVED first-pass bundles) — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (captured from the draft before the current edit):
+
+- **Reason:** Resolved §53 overview's unassigned Allocation ratio and source-side bonus
+
+~~~~text
+| **Frostfolio** | **Cooling −1 Temperature**, Thermal, **Airborne Range 2** | **Leaf-FAVORING Leaf–Seed Allocation**, Airborne Range 1; **trade Seeds for additional Leaves** at eligible overlapping production | **Mycelial-preferring**, fully operational without it | Covers one missing Allocation direction, but cannot manufacture Leaves from absent Seeds and can overcool leaf-oriented crops; exchange rate/eligible windows still NEED definition |
+~~~~
+
+- **Reason:** Resolved Frostfolio undefined conversion/eligibility
+
+~~~~text
+| **Plant Effect** | **Leaf-favoring Leaf–Seed Allocation**, Airborne Range 1. Redistribute a bounded portion of *already eligible* potential Seed output in exchange for more Leaves; **the numerical conversion/exchange rule, progress eligibility, conservation principle and integer rounding are explicitly NOT YET DEFINED**. Require a genuinely positive Seed-output opportunity; sterile Plants **cannot** obtain a free Leaf boost from an empty Seed category. No change of Seed identity or extra harvest. |
+~~~~
+
+- **Reason:** Applied approved Frostfolio-specific 1.25× magnitude
+
+~~~~text
+| **Habitat** | Mycelial-preferring, not dependent. A later specified modest Mycelial source-side cultivation magnitude boost may enhance allocation strength, while Cooling remains exactly −1 step. Only Mycelord creates Mycelial. |
+~~~~
+
+- **Reason:** Archived now-obsolete 'no conversion formula' warning
+
+~~~~text
+| **Critical mechanical issue** | The approved compatibility tables contain an Allocation multiplier but do NOT by themselves settle exact Leaf-per-Seed exchange units, partial-progress output budget, absolute zero handling or conservation. Specify those during the full global fungus numeric/system reconciliation **before** claiming exact harvest quantity. This proposed profile approves no specific conversion formula. |
+~~~~
+
+- **Reason:** Resolved Sunspore overview's unspecified exchange intensity
+
+~~~~text
+| **Sunspore** | **Warming +1 Temperature**, Thermal, **Airborne Range 2** | **Seed-FAVORING Leaf–Seed Allocation**, **Waterborne unlimited connected-Flooded reach (§56)**; **trade Leaves for additional Seeds** where valid Seed identity/output already exists | **Independent** | Covers other missing Allocation direction and second Waterborne *cultivation* choice; cannot manufacture Seeds on sterile species and wants a connected Flooded path, while Warming may upset Cold/Flooded seed farms |
+~~~~
+
+- **Reason:** Resolved Sunspore undefined ratio/progress eligibility
+
+~~~~text
+| **Plant Effect** | **Seed-favoring Leaf–Seed Allocation**, **Waterborne unlimited connected-Flooded reach (§56)**. Convert a bounded portion of *currently eligible* Leaf-side production into more of the Plant's ALREADY-EXISTING Seed output, with corresponding non-Seed harvest opportunity cost. **Requires valid Seed identity and actual positive Seed production eligibility**; absolutely sterile plants gain no Seeds. Conversion strength, precise progress windows/units and final interpolation remain deliberately unquantified pending system review. |
+~~~~
+
+- **Reason:** Replaced Sunspore future-recipe status without inventing named contact
+
+~~~~text
+| **Transformation relevance (deferred)** | The eventual recipe pass may inspect source presence, Flooded environment or Waterborne reach, but no Plant-owned recipe has been assigned. |
+~~~~
+
+- **Reason:** Updated Tidegill from unassigned to current named recipes
+
+~~~~text
+| **Transformation relevance (deferred)** | A Waterborne named-source reach might be usable in a future Aquatic Plant-owned recipe, but none is assigned here. |
+~~~~
+
+- **Reason:** Replaced §53 effect audit's open exchange
+
+~~~~text
+| **Leaf-favoring Allocation** | **NO earlier source** | **Frostfolio, Cooling −1, Airborne** | First source, with genuine Seed opportunity cost; exact conversion not yet specified |
+~~~~
+
+### 54 — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (captured from the draft before the current edit):
+
+- **Reason:** Archived prior illustrative unapproved 3:1 vs 2:1/4:1 debate and replaced with §56 approved accounting
+
+~~~~text
+### A. AGREED asymmetry; numeric 3:1 Leaf–Seed Allocation subsequently approved in §56
+
+- **Economic principle AGREED:** **one extra Leaf/Produce unit should generally require forfeiting SEVERAL Seeds** from an already eligible Seed-bearing Plant; player motivation for Leaves is the stronger direct reward, while Seeds matter for replenishment/unlocks and may be especially scarce by specific species.
+- **Symmetric physical exchange candidate, NOT APPROVED:** an illustrative **3 Seeds given up for +1 Leaf**, and **1 Leaf given up for +3 Seeds**, subject to actual species compatibility and effect strength. **Do not treat 3:1 as final**, and do not assert that all species' Seed economies have the same intrinsic marginal value.
+- **How compatibility may modify the exchange** is NOT yet agreed: Plant Allocation compatibility multipliers could scale the *allowed allocation fraction/amount*, not silently conjure favorable conversion rates or make 1 Seed→10 Leaves. Need explicit units, bounds, rounding, interaction with per-Plant normal Seed identity and final harvest curves in the numeric pass.
+- **No free output:** Leaf-favoring Allocation cannot create extra Leaves from a nonexistent Seed budget; Seed-favoring Allocation cannot generate Seeds on sterile Plants, change Seed identity, defeat one-time harvest, or increase total value without the corresponding sacrifice. A mixed-Seed-output Plant keeps its approved identities/proportions subject to a separately agreed splitting/rounding rule.
+- **Progress-curve issue to resolve in numeric pass:** some Plants have strong early Leaves while natural Seeds appear late, so Allocation cannot casually trade unavailable output at every progress percentage. Decide if exchange operates only when BOTH eligible streams exist, or uses a carefully declared late conversion budget; do NOT quietly assume it activates at all progress. This matters for Frostfolio, Sunspore and future alternatives.
+- **Spore economy is separate:** Fungus Spores are not the "Seeds" used in Leaf–Seed Allocation. **Never convert fungus Spores into Plant Leaves or vice versa** without a later explicitly approved independent system.
+
+
+~~~~
+
+### 55. Fungi — three alternative Sources for remaining singleton desirable Effects (APPROVED first-pass bundles) — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (captured from the draft before the current edit):
+
+- **Reason:** Resolved Bristlecap's unassigned intensity and exchange
+
+~~~~text
+3. **Plant Influence:** **Leaf-favoring Leaf–Seed Allocation**, **Airborne Range 1**, trading an actually eligible Seed budget for additional Leaves on the **same Plant's one harvest**. Must not grant free Leaves to Seedless/sterile Plants, alter the natural Seed identities, convert Fungus Spores or provide a second harvest. No numerical exchange ratio, rounding rule, output cap or progress-overlap rule is proposed here.
+~~~~
+
+- **Reason:** Removed speculative strength for Bristlecap
+
+~~~~text
+4. **Habitat:** **Mycelial-independent**, unlike Frostfolio's Mycelial-preferring option. Bristlecap emits without Mycelord infrastructure, although it may eventually have a different intensity once global balance assigns one.
+~~~~
+
+- **Reason:** Resolved absent stream issue
+
+~~~~text
+**Feasibility question for later audit:** If Leaves and Seeds do not overlap at a Plant's intended harvest progress, does Allocation do nothing or use a narrowly defined eligible budget? That system-wide decision must be settled for both Bristlecap and Frostfolio before claiming exact extra Leaves.
+~~~~
+
+- **Reason:** Resolved Goldgill's unassigned intensity and exchange
+
+~~~~text
+3. **Plant Influence:** **Seed-favoring Leaf–Seed Allocation**, **Airborne Range 1**, exchanging actually eligible Leaves for more of the Plant's **already valid Seed identity/identities**, subject to a later bounded conversion rule. Absolutely sterile Plants remain sterile; the Effect cannot create a new Seed species or grant repeated harvests. No finalized Leaf→Seed exchange ratio, source intensity, compatibility multiplication or overlap rule.
+~~~~
+
+- **Reason:** Corrected Goldgill not-assigned misconception
+
+~~~~text
+6. **Transformation:** Ordinary Light/Allocation roles only. No Plant-specific requirement or named-fungus transformation recipe.
+~~~~
+
+- **Reason:** Corrected Bristlecap no-recipe misconception
+
+~~~~text
+6. **Transformation:** Ordinary Drying and trade-off relevance only; no Plant-owned recipe assignment.
+~~~~
+
+- **Reason:** Resolved Bristlecap exact §56 magnitude in roster row
+
+~~~~text
+| **Bristlecap** | **Drying −1 Moisture**, Aqueous, Airborne Range 2 | **Leaf-favoring Leaf–Seed Allocation**, Airborne Range 1 | **Mycelial-independent** | **Frostfolio** uses Cooling and can gain a Mycelial-preferring source-side boost; Bristlecap needs no Mycelial but may Dry a valuable crop or sever a Flooded route |
+~~~~
+
+- **Reason:** Resolved Goldgill exact §56 magnitude in roster row
+
+~~~~text
+| **Goldgill** | **Brightening +1 Illumination**, Luminous, Airborne Range 2 | **Seed-favoring Leaf–Seed Allocation**, Airborne Range 1 | **Mycelial-independent** | **Sunspore** uses Warming and Waterborne unlimited connected-Flooded reach (§56); Goldgill works without a Flooded route but reaches fewer hexes and may over-brighten shade-preferring Plants |
+~~~~
+
+- **Reason:** Corrected §55 scope saying Allocation semantics still open
+
+~~~~text
+**Scope:** This small batch provides one more **EARLIER Seed Timing Shift** Source, one more **Leaf-favoring Allocation** Source, and one more **Seed-favoring Allocation** Source. Each uses an existing Effect category, one ordinary signed environmental step, and a distinct short-range Airborne cultivation footprint. Crucially, it offers **non-Waterborne routes** to Seed Timing and Seed-favoring Allocation without deleting Tidegill's or Sunspore's advantage along connected Flooded corridors. Exact Allocation exchange units, strength, stacking, curve eligibility and rounding remain **OPEN for the fungus-wide system pass**; this section does not smuggle in a 3:1 ratio.
+~~~~
+
+- **Reason:** Restated already-approved Allocation eligibility as a test case
+
+~~~~text
+**Feasibility question for later audit:** Compare Goldgill's small local Airborne footprint against a Sunspore Waterborne unlimited connected-Flooded reach (§56) canal, especially where blocking Brightening would also obstruct desirable garden light. Verify any allocation benefits preserve Seed identity/mixes and do not run when the Plant has no eligible Seed-producing possibility.
+~~~~
+
+- **Reason:** Resolved Gloamclock now-named route usage
+
+~~~~text
+6. **Transformation:** Existing Illumination and Seed Timing consequences only. No named Plant transformation recipe, additional Source-presence mechanic or exclusive unlock.
+~~~~
+
+### 50. Fungi — Echomorel, Wakemorel, Hushroom, Sim'mushro'dim (APPROVED first-pass bundles) — profiles-foundation.md
+
+Earlier wording from [docs/next/fungi/profiles-foundation.md](../fungi/profiles-foundation.md) (captured from the draft before the current edit):
+
+- **Reason:** Replaced Echomorel generic future recipe statement
+
+~~~~text
+| **Transformation relevance** | Ordinary cooling/source presence could later matter to Plant-owned conditions. **No Plant route, fungal requirement or duration assigned now.** |
+~~~~
+
+- **Reason:** Clarified Wakemorel's actual non-named role
+
+~~~~text
+| **Transformation relevance** | May contribute ordinary Flooded→Damp change in future Aquatic Plant recipes, with full source/duration specifics later. |
+~~~~
+
+- **Reason:** Replaced Hushroom unspecified named contact
+
+~~~~text
+| **Transformation relevance** | Ordinary Darkening may later matter to Plant-owned Source-presence/Illumination recipes; it emits no special Transformation effect. |
+~~~~
+
+- **Reason:** Clarified Sim'mushro'dim's actual generic role
+
+~~~~text
+| **Transformation relevance** | Source presence, Warming or standard Plant-side Seed accrual could enter future Plant-owned recipes, but no final Ingredient/Desert/Spices mapping is assigned. |
+~~~~
+
+### 54. Fungi — AGREED asymmetric Leaf–Seed value, plus six MORE alternate-Effect species (APPROVED first-pass bundles) — profiles-alternatives.md
+
+Earlier wording from [docs/next/fungi/profiles-alternatives.md](../fungi/profiles-alternatives.md) (captured from the draft before the current edit):
+
+- **Reason:** Resolved Tickbolete now-named route usage
+
+~~~~text
+6. **Recipe relevance:** Ordinary thermal/environment and Ripening rate contributions only; no final Plant transformation details.
+~~~~
+
+- **Reason:** Resolved Duskleaf now-named route usage
+
+~~~~text
+6. **Recipe relevance:** Ordinary Light change and Growth-stage hourly-production presence; no Plant-owned Transformation recipe assigned.
+~~~~
+

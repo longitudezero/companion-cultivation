@@ -1,20 +1,32 @@
-# Proposed README documentation-index update (NOT APPLIED)
+# Proposed root README documentation index (NOT APPLIED)
 
-This is an additive staging artifact. The repository's existing `README.md` is **unchanged**. After the [comparison audit](audit/source-crosswalk.md), the root README can be revised to retain its current run/build/test instructions and add the index below.
+This is an **additive staging artifact**. The repository's root `README.md` and its setup, run, build and test instructions are **unchanged**. Only after the original-versus-new comparison and user review should the root README receive a new navigational section.
 
-## Documentation index to add to the root README
+The snippet below is **copy-ready for the repository root**, with root-relative destinations. These deliberately differ from links written *inside* `docs/next/`.
 
-| Topic | Location |
+## Suggested addition to the root README
+
+```markdown
+## Game-design documentation
+
+The reorganized Companion Cultivation design references are under `docs/next/`
+while the preservation audit is underway. The original documents remain available
+and unchanged for comparison.
+
+| Topic | Documentation |
 | --- | --- |
-| Documentation overview and implementation status | [docs/next/README.md](README.md) |
-| Environmental sandbox rules | [Environment](systems/environment.md) |
-| Plant progression, output and harvesting | [Plant lifecycle](systems/plant-lifecycle.md) |
-| Fungal lifecycles and source mechanics | [Fungus lifecycle](systems/fungus-lifecycle.md) |
-| 31 approved Fungi | [Fungal roster](fungi/README.md) |
-| Six Plant families and their 69 recipes | [Plant family index](README.md#plant-families) |
-| Transformations and simulation event order | [Transformations](systems/transformations.md), [Simulation and time](systems/simulation-and-time.md) |
-| Superseded ideas and original sources | [History](history/README.md) |
+| Overview, scope and implemented-vs-designed status | [Documentation index](docs/next/README.md) |
+| Environmental sandbox and influence propagation | [Environment](docs/next/systems/environment.md) · [Influences](docs/next/systems/influences-and-responses.md) |
+| Plant progression, timed output and harvesting | [Plant lifecycle](docs/next/systems/plant-lifecycle.md) · [Seeds and harvesting](docs/next/systems/seeds-spores-and-harvesting.md) |
+| Fungi, habitats and Mycelial | [Fungus lifecycle](docs/next/systems/fungus-lifecycle.md) · [Mycelial](docs/next/systems/mycelial.md) |
+| Full roster of 31 Fungi | [Fungi index](docs/next/fungi/README.md) · [Parameter matrix](docs/next/fungi/roster-matrix.md) |
+| Six Plant families and 69 approved first-pass recipes | [Plant-family index](docs/next/README.md#plant-families) · [Transformation rules](docs/next/systems/transformations.md) |
+| Time-driven resolution order | [Simulation and time](docs/next/systems/simulation-and-time.md) |
+| Superseded concepts and source-to-topic audit | [Historical material](docs/next/history/README.md) · [Source crosswalk](docs/next/audit/source-crosswalk.md) |
+```
 
-**Current development status:** Prototype 1 implements the environmental sandbox only. Plant/Fungus/Mycelial lifecycle and Transformation rules are approved first-pass designs, not implemented runtime features.
+**Current implementation status:** Prototype 1 implements the environmental sandbox. The Plant/Fungus/Mycelial lifecycles and Transformation system are approved first-pass *designs*, not implemented game features.
 
-Do not overwrite existing README content or installation/deployment instructions during the final migration; integrate this index into those existing sections only after review.
+**Migration gate:** Do **not** paste or replace any part of the root README before the user has compared the new documents with the originals. When approved, integrate the index without removing existing usage instructions. The links in the fenced Markdown snippet point to the staged files; they can be revised to the final locations if the staging directory is renamed during publication.
+
+For convenient browsing **from this draft's location**, start at the [staging documentation index](README.md), [31-species matrix](fungi/roster-matrix.md) or [current comparison report](audit/current-vs-original.md).

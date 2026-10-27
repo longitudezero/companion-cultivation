@@ -37,3 +37,17 @@ This watchlist is not exhaustive. It documents the highest-confidence risks foun
 
 
 **Additional sweep:** old partial Flowers/Desert networks, Woodlands Bamboo/Mistlefoe assignment deferrals, Ember Aloe recovery-source guesses, Spices Ghost Rice timing guesses and the Ingredients 'numeric pass later' descriptions were moved/replaced with current §-specific links. The archived originals remain intact.
+
+---
+
+## Pass 3 disposition — fungal numeric and lifecycle semantics
+
+The 31-row [fungal emission and habitat matrix](../fungi/roster-matrix.md) and [field-specific audit](fungal-parameter-audit.md) cover the high-risk §47–§57 cases:
+
+- Corrected the older **“emissions may stop immediately”** hypothesis for Rushroom/Siltgill to §60C's **full-strength emission while alive during Mycelial-loss grace**.
+- Converted §§53–55's **undecided** Allocation status to §56's **fixed 3:1 exchange, four donor percentages, signed net harvest rules** and Frostfolio's **1.25× source bonus**.
+- Preserved **five** Waterborne cultivation emitters (including later §57 Siltgill), while keeping each environmental Airborne reach separate.
+- Kept Mycelord's **Flooded death clock** distinct from the **timed Mycelial retreat** and the dependent-Fungus source-support clocks.
+- Replaced stale named-Transformation assignment claims with approved recipe references; no new abilities or recipes were invented.
+
+All replaced lines have exact source excerpts in [historical design](../history/superseded-design.md); source profiles retain their original table-row counts. **Still open:** per-paragraph manual semantic certification across all species and Plant families, numerical gaps originally deferred, and in-game layout/timing proofs.

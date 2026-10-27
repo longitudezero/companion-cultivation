@@ -46,3 +46,22 @@
 5. **README launch:** [The root README index draft](../ROOT-README-DRAFT.md) exists, but **root README has not been edited**. Publishing or replacing any current doc is outside this protected staging pass.
 
 **Interpretation:** This second pass is a substantial editorial correction and a preservation-checked intermediate result—not yet a complete guarantee that no detail was lost or that all design prose is free of stale ideas. The untouched original remains the comparison baseline.
+
+---
+
+## Editorial pass 3 — 31-fungus parameter and habitat audit (27 October 2026)
+
+The pass-2 counts above are kept as a historical checkpoint. See the dedicated [31-species parameter audit](fungal-parameter-audit.md) and the one-row-per-species [emission/range/habitat matrix](../fungi/roster-matrix.md) for the new comparison.
+
+- **Coverage:** The 31 approved named Fungi across source §§47–50,53–55,57 each have exactly one row in the new matrix. Their detailed profiles remain in three files; those files retain their **113 / 93 / 5** Markdown table rows relative to the previous draft, despite narrowly scoped corrections.
+- **Propagation split:** Each environmental emission retains its own signed Property delta and reach, even when its cultivation Effect uses unlimited Flooded Waterborne propagation. Siltgill is the **fifth** approved Waterborne cultivation emitter, later than §56's four named examples.
+- **Exact revised Allocation:** Frostfolio **80% Leaf-favoring**, Bristlecap **60% Leaf-favoring**, Sunspore **80% Seed-favoring**, Goldgill **60% Seed-favoring** under §56's **3 Seeds ⇄ 1 Leaf** destructive-harvest rule. Frostfolio receives only its specifically approved **1.25×** Mycelial-source magnitude boost.
+- **Dependent survival without suppression:** Rushroom and Siltgill continue **both full-strength emissions** during an ongoing, still-alive X-hour Mycelial-habitat-loss grace (§60C). The old source paragraph suggesting immediate emission loss was superseded.
+- **Shared-text deduplication:** The §57 detailed text duplicated between the fungal lifecycle overview and the final-species profile was removed only from the former after a **byte-for-byte equality check**; the complete detailed §57 section remains in [final species profiles](../fungi/profiles-final.md), while lifecycle links to it.
+- **Archival traceability:** Pass 3 moved **38 additional distinct superseded lines/paragraphs** into the source-section-labeled [historical archive](../history/superseded-design.md). Together with the pass-2 **141 excerpts**, that is **179 changed/extracted excerpts**; deletion of the verified §57 duplicate was not miscounted as a lost rule.
+- **Unchanged earlier content:** All six Plant-family draft files and the seven approved recipe/clarification blocks are unchanged by this fungal-only pass. **69 routes** and the **76/76** numbered-source crosswalk remain intact.
+- **Root index usability:** [The un-applied root README proposal](../ROOT-README-DRAFT.md) now contains a copy-ready fragment with paths valid **from the repository root**, not from `docs/next/`; the actual root README is still untouched.
+
+**Remaining acceptance gates:** Review the still-long source-derived prose for each Plant and Fungus at paragraph level; independently validate time/space geometry and exact design constants; resolve genuinely open fungal durations/Spore parameters through new decisions; then compare and approve the final documentation before replacing or editing any original.
+
+**Pass-3 mechanical checks:** **28** staged `docs/next/` files, **368** local relative Markdown link targets, including **10** in-document/cross-document fragment checks; **0 missing files** and **0 broken heading anchors**. Fenced copy-ready root README links were verified as paths from the repository root, rather than treated as live links relative to their draft's directory. Previous pass-2 navigation count (**296**) was measured before the two additional audit files and subsequent navigational links.

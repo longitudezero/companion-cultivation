@@ -41,6 +41,7 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 ## Fungi
 
 - [31 approved first-pass species, catalog and detailed profiles](fungi/README.md)
+- [31-species emission, range and habitat parameter matrix](fungi/roster-matrix.md)
 
 ## Provenance and migration review
 
@@ -49,4 +50,5 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Exact section relocation crosswalk and semantic audit checklist](audit/source-crosswalk.md)
 - [Original-versus-new editorial comparison (pass 2)](audit/current-vs-original.md)
 - [Known supersession risk watchlist and progress](audit/semantic-risks.md)
+- [Fungal parameter-by-parameter audit](audit/fungal-parameter-audit.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

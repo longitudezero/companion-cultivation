@@ -55,3 +55,17 @@ Do not mark the new design authoritative or replace existing documents until the
 ### Additional completed-profile cleanup
 
 A further status/diagram sweep moved the early incomplete Flowers and Desert transformation drawings into history; the final §73/§74 recipe tables remain unchanged. It also updated completed phase wording in Woodlands, Desert, Spices and Ingredients. The archived excerpt count and relative-link count above include this sweep. Remaining profile-by-profile editorial review is still necessary.
+
+---
+
+## Editorial pass 3 update — 27 October 2026
+
+This follow-up audits the **31 fungal species individually**, beyond the first two mechanical passes. The earlier figures above remain dated checkpoints; they are **not the current complete staging-file count**.
+
+- [31-species matrix](../fungi/roster-matrix.md) includes separate signed environmental emissions, propagation, cultivation Effect magnitudes/windows/reach and Mycelial habitat for **all 31**, cross-linked to detailed profiles.
+- [Fungal parameter audit](fungal-parameter-audit.md) reconciles the §56 3:1 Allocation fractions/boosts, Siltgill's late-added Waterborne effect, §60C dependent emission-through-grace and §62–63 timed Mycelord behavior.
+- The **113/93/5** fungal profile table-row counts and **69 Plant routes** remain unchanged; the previously duplicated §57 body now has a single detailed home.
+- Historical preservation grows from **141** to **179** source-labeled superseded excerpts (**38** added this pass). Every pre-existing repository file, including root README, must remain unchanged.
+- For the updated navigation check and exact remote branch tree comparison, see [the current-versus-original report](current-vs-original.md). Publishing the staged docs still requires user review.
+
+**Pass-3 link audit:** **368** local Markdown destinations across **28** staged draft files (including **10** heading fragments) resolve in the checked original/staged path set; **0 missing paths and 0 broken anchors**. The root-README copy snippet is fenced and has separately verified root-relative paths.
