@@ -21,7 +21,7 @@
 | **Frostfolio** | **Cooling −1 Temperature**, Thermal **Airborne Range 2** | **Leaf-favoring Allocation, 80% donor fraction**, Airborne Range 1; spends **3 eligible Plant Seeds for +1 Leaf** per whole conversion at harvest (§56) | **Mycelial-preferring**; full effect off Mycelial, **1.25× source-side Allocation (80% → 100%)** on Mycelial | Converts only overlapping valid whole output; no free Leaf Yield, no fungus Spore conversion or Seed identity change |
 | **Sunspore** | **Warming +1 Temperature**, Thermal **Airborne Range 2** | **Seed-favoring Allocation, 80% donor fraction**, **Waterborne unlimited connected Flooded**; spends **1 eligible Leaf for +3 Plant Seeds** per whole conversion at harvest (§56) | **Independent** | Valid only where existing Seed identity and both positive whole Leaves/Seeds are eligible; Warming can disrupt Cold/Flooded seed farms |
 
-**These are provisional working names**, chosen to follow the game's whimsical naming without conflating existing Plants (Starberry vs Strawberry etc.). They can be renamed during the broader fungus roster review. The Leaf/Seed and +15% Growth source strengths here are **first-pass proposals**, not the full numeric pass; the allocation exchange rates are purposefully **NOT assigned yet**, because the global exchange semantics need explicit clarification before inserting numbers. This does NOT prevent approving a first-pass Effect identity and environmental pairing now.
+**These six whimsical names and Effect pairings are APPROVED first-pass (§53)**. A later explicit design revision could rename a species, but the current 31-Fungus roster already uses these identities without conflating Plant names such as Starberry and Strawberry. The listed Leaf/Seed and +15% Growth strengths are **approved nominal first-pass values**, still subject to fungus-wide numerical balancing. **§56 subsequently approved the fixed 3 Seeds ↔ 1 Leaf exchange, harvest-time eligibility, signed stacking and rounding.** Approval of first-pass identities and environmental pairings is complete.
 
 **Why §53 added six:** The first three species added meaningful alternatives to existing Effect categories, while the last three introduced the previously unassigned **Seed Timing Shift** and both **Leaf–Seed Allocation directions** alongside two Waterborne cultivation emissions. This was the start of source-diversity work, **not an unfinished plan**: §§54–55 and §57 completed the approved first-pass roster at **31 Fungi**, with Gloamclock, Bristlecap and Goldgill supplying further timing/allocation alternatives and five Waterborne emitters across the roster. Additional sources remain optional future expansions, not prerequisites for Plant Transformation design.
 
@@ -211,9 +211,9 @@
 
 **Critical side-effect feasibility:** Unlike Rainmorel's **Airborne directional Wetting**, Brookrill's **Waterborne cultivation** cannot independently create its Flooded path; players need a flooded baseline, environmental Sources such as Rainmorel/Mistruffle, and/or appropriate blockers. This preserves the intended cross-fungus environmental puzzle.
 
-### I. Diversity audit after proposed six
+### I. Approved §54 source-diversity comparison
 
-| Wanted capability | Already APPROVED source | ADDITIONAL proposed source in this section | Meaningful trade-off |
+| Wanted capability | Already APPROVED source | Additional APPROVED §54 source | Meaningful trade-off |
 | --- | --- | --- | --- |
 | **Plant Seed Germination Adjustment** | Hushroom **+8pp/Seed, Darkening**, independent | **Dewmender +4pp/Seed, Wetting** | Germination potency versus which environmental problem must be solved |
 | **Ripening slowdown** | Veilcap **−20%, Darkening** | **Lanterncap −12%, Brightening** | Stronger Dim/Dark support vs Bright-field support with less slowdown |

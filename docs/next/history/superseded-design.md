@@ -3628,3 +3628,209 @@ This **full original staged line** was retired from the active staging draft dur
 ~~~~text
 **Cultivation design:** [Herbs, Fungi & Cultivation](../README.md) remains authoritative for future Plants, Fungi, Mycelial ground and Transformations, which are **not yet implemented**.
 ~~~~
+
+---
+
+## Editorial pass 12 — resolved first-pass approval status and previously hypothetical fungal emitters (27 October 2026)
+
+The **25 complete pre-edit lines below** are retained verbatim. They previously described subsequently approved fungal Effects, numerical passes and named Plant-owned Transformation recipes as hypothetical, unfinished, unassigned or still proposed. Only their active status wording was updated in this pass; numeric quantities, harvesting eligibility, environment hazards and route definitions were not changed.
+
+### 1. docs/next/fungi/profiles-alternatives.md — former line 24
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**These are provisional working names**, chosen to follow the game's whimsical naming without conflating existing Plants (Starberry vs Strawberry etc.). They can be renamed during the broader fungus roster review. The Leaf/Seed and +15% Growth source strengths here are **first-pass proposals**, not the full numeric pass; the allocation exchange rates are purposefully **NOT assigned yet**, because the global exchange semantics need explicit clarification before inserting numbers. This does NOT prevent approving a first-pass Effect identity and environmental pairing now.
+~~~~
+
+### 2. docs/next/fungi/profiles-alternatives.md — former line 214
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+### I. Diversity audit after proposed six
+~~~~
+
+### 3. docs/next/fungi/profiles-alternatives.md — former line 216
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| Wanted capability | Already APPROVED source | ADDITIONAL proposed source in this section | Meaningful trade-off |
+~~~~
+
+### 4. docs/next/fungi/profiles-foundation.md — former line 118
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+These are **proposed source-side values**, not compat-adjusted Plant bonuses or an approved complete fungus numerical pass. All four still follow the agreed fungus lifecycle: **0–100% Growth, 100–200% Sporulation, own Spores ONLY, immediate emission from germination, continued emission after maturity while viable, and one destructive Spore harvest that removes the Source**. No fungus produces Plant Leaves/Seeds, another species' Spores, or Mycelial except Mycelord. Exact growing days, total maturation days, per-Spore chance, Spore amount, earlier partial Spore curve, survival/timer rules and final Source numeric balancing remain deferred.
+~~~~
+
+### 5. docs/next/plants/aquatic.md — former line 131
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Natural harvest** | One **very high, fairly concentrated mid-to-late Ripening Leaf peak**. **No natural Seeds** in this proposal; Starlotus is a premium **sterile Leaf specialist**, making the transformation path the way to obtain the attuned Plant each time. This avoids inventing unattuned Starlotus Seeds or a two-variant Seed identity mechanism. |
+~~~~
+
+### 6. docs/next/plants/aquatic.md — former line 132
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Germination** | **No Starlotus Seeds are produced** in the proposed family design. Obtain via either existing transformation origin; germination chance is **not applicable** without a Seed source. |
+~~~~
+
+### 7. docs/next/plants/aquatic.md — former line 137
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**Specific non-fungus trait decision in this proposed profile:** When attuned, **+60% native Leaf yield**. This is a natural Plant Response to its attuned Moisture, not a new fungus Effect; numerical magnitude can be tested in the later playtest pass. Additional emitted fungal Yield multipliers must still be defined consistently across recipients during fungus design. The persisted attunement is the reason the Plant's two origins matter.
+~~~~
+
+### 8. docs/next/plants/aquatic.md — former line 208
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Germination** | **Exceptional natural germination:** proposed **40 percentage points per Cresscent Seed** under the agreed additive one-Seed probability model. **Three Seeds guarantee germination** (capped at 100%); a single Seed has a real 40% chance. This is a Plant/Seed species characteristic, not a fungal one. |
+~~~~
+
+### 9. docs/next/plants/aquatic.md — former line 218
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+- **Silvercress** is a **nonpunitive Flooded-Growth/Damp-Ripening optimization challenge**, with explicitly proposed **+60% Growth speed** and **+50% Leaf Yield** innate bonuses and its own moderately reliable Seeds.
+~~~~
+
+### 10. docs/next/plants/aquatic.md — former line 219
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+- **Cresscent** is a **high-germination Seed multiplier** with explicitly proposed **40% chance per Seed / 3 Seeds guaranteed** and its own Seeds, supporting the **Cresscent → Pearlily** shorter route.
+~~~~
+
+### 11. docs/next/plants/aquatic.md — former line 227
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**Status:** User **approved the entire Aquatic numerical pass (§28)**—all 11 lifecycle and harvest rows, Seed identities, additive germination probabilities, Effect-compatibility tables, intrinsic Starlotus/Silvercress bonuses, and proposed Dry/Mycelial/temperature hazards—as the accepted **first-pass balance**, to be revised from eventual tester playtests. Game-wide baseline: nominal **10 Leaves near 100%, 10 Seeds near 200%, 4 in-game days to 100%, and 8 total days to 200%**. Favor bold, memorable species differences over prematurely conservative tuning. **No fungus identities, effect packages, or exact transformation recipes have been assigned.**
+~~~~
+
+### 12. docs/next/plants/woodlands.md — former line 188
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**Important balance distinction:** The **very high Leaf yield is an established role**, but **sterility, peak width, and precise rate/compatibility** are proposals. A direct Seed-grown Mandrakadabra is the *same Plant*, without a mandatory persistent penalty or magic attunement. A high single-harvest peak may not dominate sustained-rotation yields once Seed costs, failure risk, and setup time matter.
+~~~~
+
+### 13. docs/next/plants/ingredients.md — former line 352
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+8. Only the already agreed family architecture and approved individual Ingredient profiles are locked as **current first-pass design**; all **§44 numerical tables were APPROVED by the user**, with subsequent tester playtesting and potential revision planned. **No game code modified, fungus roster fixed, or final transformation recipe assigned.**
+~~~~
+
+### 14. docs/next/plants/flowers.md — former line 69
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**Timing feasibility update (§58):** Charmomile → Daisyspell creates a fresh Daisyspell at **0%**, so the new Plant has its full Growth stage to reach its spectacular **75%** early Leaf peak. The transformation recipe no longer has to fire before its predecessor reaches 75%; it still must be feasible under environmental and exposure constraints. **Do not assign the recipe yet.**
+~~~~
+
+### 15. docs/next/plants/flowers.md — former line 126
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | Standard non-Seed Yield and lifecycle-rate Effects; **low additional response to Harvest Window widening** because its natural plateau is already huge. **Moderately strong response to Harvest Peak Timing Shift** (shifting the broad plateau) and **slightly stronger Time-based Leaf Production** if the future fungus's eligible progress window overlaps its long-lived harvest interval. No special fungus-dependent second bloom. |
+~~~~
+
+### 16. docs/next/plants/flowers.md — former line 141
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **Very strong Seed Yield Adjustment** and **Time-based Seed Production** compatibility (only if a future fungus actually emits that ordinary Effect). **Strong Seed Timing Shift compatibility** and useful Ripening acceleration; low response to Leaf Yield boosting, ordinary Growth/Germination where applicable. Leaf–Seed Allocation can redistribute eligible output in the emitted direction, but never generate Lavendread Seeds. |
+~~~~
+
+### 17. docs/next/plants/flowers.md — former line 220
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **Above-average response to ordinary Harvest Yield Adjustment**, boosting the height of **both existing peaks**; **strong response to Harvest Timing Shift and Harvest Window widening**, moving/reshaping both natural peaks but never adding a third peak. **Strong response to Time-based Leaf Production** when a future fungus's declared active window overlaps advancing late Ripening. Moderately strong response to **Ripening slowdown** because it can extend the real-world decision interval and support hourly yield without pausing progress entirely. Ordinary Seed Yield/Germination compatibility; fungus never emits Secondary Bloom. |
+~~~~
+
+### 18. docs/next/plants/flowers.md — former line 237
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **Very high response to ordinary Leaf Yield Adjustment while Bright**, with a substantial but lower response when merely Lit; **strong response to Harvest Window widening**, which is valuable given its naturally tiny peak window. Ordinary or slightly higher **Harvest Peak Timing Shift** and Lifecycle Rate response. **Seed Yield, Seed Timing, Time-based Seed Production, Germination for unattainable Seeds, and Produce–Seed Allocation all ineligible to generate Seeds**; full Leaf sterility trade-off is preserved. Time-based Leaf Production applies only if some future fungus emits it and the Plant continues advancing. |
+~~~~
+
+### 19. docs/next/plants/flowers.md — former line 308
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**Definition preserved:** Each number multiplies **the size of a fungus's signed modification**, *not* the Plant's entire production. Future fungi independently determine whether they emit these Effects at all and their emitted magnitude. **1.0× ordinary**, **2.0× twice the effect's magnitude**, **0× no eligible effect**, **N/A** no Seed access for planting. Conditional strength changes must never reverse an emitter's Effect direction. Environmental Sources change Moisture/Illumination/Temperature universally and are **not** scaled by these Plant compatibility values.
+~~~~
+
+### 20. docs/next/plants/spices.md — former line 74
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **High Seed Yield Adjustment compatibility while Dim**, good **Seed Timing Shift and Time-based Seed Production** responses if an appropriate future fungus emits those existing Effects, ordinary Leaf Yield and Growth effects. Optional slight positive response to Germination Adjustment. Nothing receives a universal 'darkness power' from a fungus: the Plant simply reacts to resolved Dim. |
+~~~~
+
+### 21. docs/next/plants/spices.md — former line 162
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **Very strong Seed Yield susceptibility while Dim**, plus **strong Seed Timing Shift and Time-based Seed Production** compatibility if future fungi emit those exact existing Effects. Ordinary-to-good Ripening acceleration response; notably weak Leaf Yield compatibility. Germination Adjustment applies to the planted Sunrice Seeds in a later planting event, not to the currently living Thymekeeper. Fungus Effects never create Thymekeeper Seeds. |
+~~~~
+
+### 22. docs/next/plants/spices.md — former line 266
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **Exceptionally strong Leaf Yield Adjustment response while Bright**, modestly above-average Harvest Window widening and Peak Timing Shift on its existing single Leaf curve; **strong Seed Yield Adjustment and Seed Timing Shift** on its **Starberry Seeds**, with good Time-based Seed Production if a future fungus emits that existing Effect. Lower ordinary Yield response under Lit/Dim/Dark. **Germination Adjustment** affects Starberry when its Seeds are planted, not unavailable Glass Apple Seeds. Existing Leaf–Seed Allocation can redistribute eligible harvest amounts but **cannot convert Starberry Seeds into Glass Apple Seeds**. |
+~~~~
+
+### 23. docs/next/plants/desert.md — former line 262
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+| **Effect compatibility** | **Very strong Leaf Yield Adjustment compatibility while Hot** and above-average Growth/ Ripening-rate response; **weaker Harvest Window widening payoff** because the native 120–165% peak window is already generous. **Seed Yield, Seed Timing, Time-based Seed Production, Germination Adjustment for unobtainable Cactaclysm Seeds, and Leaf–Seed Allocation cannot create Seed output.** Time-based Leaf Production may add Leaves only if an actual future fungus emits it and lifecycle progress advances. |
+~~~~
+
+### 24. docs/next/plants/desert.md — former line 403
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+**Existing conditions only:** Moisture **Dry / Damp / Flooded**; Temperature **Freezing / Cold / Temperate / Warm / Hot**; Illumination **Dark / Dim / Lit / Bright**; **Mycelial overlay**. No need to add temporary Material/Fertility requirements or generic environmental-tolerance fungus Effects. Global Sources emit and propagate consistent environmental changes; species have different **responses to the resolved Condition**. These are **new first-pass numeric proposals** implementing the approved qualitative environmental preferences.
+~~~~
+
+### 25. docs/next/plants/spices.md — former line 477
+
+Complete original active line, prior to pass-12 correction:
+
+~~~~text
+3. **Starberry**'s own **8 Sunrice Seeds** and **Glass Apple's 24 Starberry Seeds** form a two-stage reproductive loop. The **Starberry germination chance is a real 18%/Seed**, not N/A. At first unlock the player still transforms Sunrice into Starberry; Glass Apple eventually makes direct Starberry planting possible. Future fungi may improve or hinder Seed Yield and Seed Timing, but **never change the Plant's established Seed species**.
+~~~~

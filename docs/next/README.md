@@ -62,4 +62,5 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Staged preservation, source and link-verification checkpoints](audit/verification-results.md)
 - [Complete 60-Plant / 31-Fungus species coverage ledger](audit/species-coverage-ledger.md)
 - [Final navigation and Fungi authority check — pass 11](audit/final-navigation-and-authority-pass-11.md)
+- [Cross-family first-pass status and existing fungal Effects — pass 12](audit/cross-family-status-reconciliation-pass-12.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

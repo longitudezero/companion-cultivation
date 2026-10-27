@@ -78,3 +78,11 @@ The direct [original-source numerical audit](numerical-source-preservation.md) f
 The [shared-rule semantic precedence audit](semantic-rule-precedence.md) makes the later approved §66/§68/§70 contract consistent with earlier §§58–60D text: **no competing-recipe priority**, **actual emitted contact not adjacency**, **no Mycelial-on-target eligibility**, but **Transformation wins a true same-timestamp tie against death**. All 14 Aquatic recipes and all six family rosters are now recognized as specified, rather than future work. **23 earlier strings** were preserved in [history](../history/superseded-design.md).
 
 **Source preservation:** the entire original has **3,020 substantive source lines**, all present in the staging corpus exactly except **four relative link-path updates**; this is strong conservation evidence but **not a full semantic correctness guarantee**. The unproven areas remain actual route-layout exclusivity/satisfiability, numeric interpolation, and implementation-specific same-time event behavior.
+
+---
+
+## Passes 7–12 disposition — remaining qualitative authority risk
+
+The [pass-7](profile-semantic-sweep-pass-7.md), [pass-8](profile-semantic-sweep-pass-8.md), [pass-9](species-qualitative-review-pass-9.md), [pass-10](cross-family-reconciliation-pass-10.md), [pass-11](final-navigation-and-authority-pass-11.md) and [pass-12](cross-family-status-reconciliation-pass-12.md) reports continue the lossless editing trail. In pass 12, **25 further former active lines** were retired into the [historical archive](../history/superseded-design.md), chiefly because they still treated the 31 approved Fungi and 69 Plant-owned recipes as future work.
+
+**Remaining acceptance risks:** sentence-by-sentence semantic completeness against every approved original; consistent handling of numeric curve approximations and effect eligibility; logical feasibility and sibling-exclusivity tests for every transformation geometry; manually rendered Markdown/link review; and the user's final side-by-side approval. The original documentation/root README must remain frozen through these gates.

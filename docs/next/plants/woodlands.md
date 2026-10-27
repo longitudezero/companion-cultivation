@@ -185,7 +185,7 @@ The user approved **Tanglethorn, Mistlefoe, Mistlewoe and Bramblewraith** as fir
 
 **Current vulnerability (§70):** Resolved **Bright** for **4 uninterrupted in-game hours** kills Mandrakadabra, resetting completely when the light leaves Bright. The timer starts fresh on transformation/planting; Lit remains the optimal farm state. Its approved direct route requires **Damp + Bright + named Rushroom OR Siltgill Influence contact for 12h** on Mandrabra, without a target-hex Mycelial prerequisite (§§71–72). The full profile's high Leaf / no native Seed identity remains intact.
 
-**Important balance distinction:** The **very high Leaf yield is an established role**, but **sterility, peak width, and precise rate/compatibility** are proposals. A direct Seed-grown Mandrakadabra is the *same Plant*, without a mandatory persistent penalty or magic attunement. A high single-harvest peak may not dominate sustained-rotation yields once Seed costs, failure risk, and setup time matter.
+**Important balance distinction:** The **very high Leaf yield is an established role**, but **sterility, peak width, and rate/compatibility** have approved first-pass definitions in §§23–24 (still subject to playtest balancing). A direct Seed-grown Mandrakadabra is the *same Plant*, without a mandatory persistent penalty or magic attunement. A high single-harvest peak may not dominate sustained-rotation yields once Seed costs, failure risk, and setup time matter.
 
 ### Mandrakazam — APPROVED first-pass profile
 

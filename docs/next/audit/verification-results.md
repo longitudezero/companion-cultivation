@@ -115,3 +115,7 @@ See [numerical-source-preservation.md](numerical-source-preservation.md) and its
 ## Editorial pass 11 update — 27 October 2026
 
 The [pass-11 report](final-navigation-and-authority-pass-11.md) records the current **staging-wide Markdown file/link/heading-fragment graph** and the Fungi source-authority corrections. The initial **23 newly added files** count at the top of this report is explicitly a **first-pass snapshot**, not a count for the current branch. See the pass-11 report for the current count and file reachability. The original source documents and root README have stayed byte-for-byte unchanged; design acceptance and a rendered Markdown inspection remain open.
+
+## Editorial pass 12 update — 27 October 2026
+
+See the [pass-12 audit](cross-family-status-reconciliation-pass-12.md) for first-pass approval-status corrections to 25 inherited active Plant/Fungus lines, each copied fully to [history](../history/superseded-design.md). The previous report's file/link statistics are historical snapshots; pass 12 records current staged coverage and static link results. Original documentation and root README remain frozen for side-by-side acceptance.

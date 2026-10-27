@@ -161,3 +161,11 @@ A new [per-species coverage ledger](species-coverage-ledger.md) mechanically ver
 The [pass-11 navigation and authority report](final-navigation-and-authority-pass-11.md) records **nine** further obsolete staged statements corrected in the two detailed Fungi sources and environmental staging notice: §50's missing-effect and future-recipe claims, §53's no-longer-future timing/allocation alternatives and incomplete two-emitter Waterborne comparison, and the environmental page's overly strong claim that the staging index was already official. Each full previous line remains in the [historical archive](../history/superseded-design.md#editorial-pass-11--fungal-effect-alternatives-and-staging-authority-cleanup-27-october-2026).
 
 The staged index now exposes the earlier verification report and pass-11 report, so all staged Markdown files should be reachable through navigation. A relative-link and anchor validation accompanies this pass; its evidence **does not replace a manual GitHub-rendered spot-check or final user acceptance**. No approved recipe table, numerical matrix or original repository file was changed.
+
+---
+
+## Editorial pass 12 — approved-status and emitter-language alignment (27 October 2026)
+
+The [pass-12 status reconciliation](cross-family-status-reconciliation-pass-12.md) identifies **25 additional stale active status lines** across eight detailed Plant/Fungus files. Important examples: Aquatic §28 and Ingredients §44 still described final Fungi/Transformation assignments as absent; the Flowers timing analysis still advised not assigning its now-approved Charmomile → Daisyspell route; §53 described its six Fungi names and the Allocation ratio as unresolved; several family compatibility paragraphs still treated existing hourly/Seed Timing emitters as future hypotheses. All complete former lines are preserved in the [history archive](../history/superseded-design.md#editorial-pass-12--resolved-first-pass-approval-status-and-previously-hypothetical-fungal-emitters-27-october-2026).
+
+No approved final recipe table, numerical balance table, Fungi emission matrix or original repository file was edited. This expands the qualitative audit evidence **without checking off universal sentence-by-sentence semantic acceptance or the user's comparison review**.

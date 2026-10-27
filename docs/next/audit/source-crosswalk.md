@@ -102,3 +102,9 @@
 ## Per-species coverage checkpoint (pass 10, 27 October 2026)
 
 The [new species ledger](species-coverage-ledger.md) independently enumerates **60 approved Plant species** by detailed profile heading and later-approved numerical table row, plus **31 approved Fungi** by detailed profile presence and nominal emission-matrix row. No species was missing from those checks. See the [cross-family conflict reconciliation](cross-family-reconciliation-pass-10.md) for the latest superseded hazard and Spices recipe-status corrections. This **does not check off the final semantic acceptance boxes above**: deciding the current-versus-historical authority of every qualitative paragraph and obtaining user comparison approval remain separate gates.
+
+---
+
+## First-pass status language checkpoint (pass 12, 27 October 2026)
+
+The [pass-12 cross-family editorial review](cross-family-status-reconciliation-pass-12.md) resolved **25 additional cases** in which inherited Plant/Fungus prose still referred to the 31 approved Fungi or 69 exact approved recipes as hypothetical, unassigned or not yet finalized. All retired wording remains verbatim in the [history archive](../history/superseded-design.md). **This is a focused risk sweep only**: the outstanding qualitative, visual-render and user-approval checks above remain unchecked.
