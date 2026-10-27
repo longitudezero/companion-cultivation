@@ -237,7 +237,7 @@ Mistlefoe ─────────────────┘                
 - The reference curves may give **0 ordinary Leaves at 200%**; accumulated time-based additional output is a separate case for when fungus compatibility is introduced. One harvest always consumes the Plant.
 - Woodlands Base's **10 Leaves at 100% and 10 own Seeds at 200%** implements the standard game anchor. Other Plants intentionally skew volume and timing without requiring every Plant to have a different exotic Effect.
 - A Plant unable to provide its own Seeds may nevertheless be directly planted if another Plant supplies Seeds of its species (e.g. **Mandrakadabra Seeds from Mandrakazam**).
-- This is a **shape-and-magnitude first pass**, not yet complete percentage-by-percentage Leaf/Seed curves or germination investment probabilities. These figures should be tested for practical Seeds consumed and sustained Leafs per occupied hex-day.
+- This is a **shape-and-magnitude first pass**, with approved per-Seed germination investment probabilities in §24; only continuous percentage-by-percentage Leaf/Seed interpolation remains unspecified. These figures should be tested for practical Seeds consumed and sustained Leafs per occupied hex-day.
 
 ### Approved first-pass Woodlands numerical table
 
@@ -339,7 +339,7 @@ These create significant differences in resource investment: Base Seeds are inex
 | Mandrakadabra | 1.2× | 1.2× | **0×** | **1.8× Leaves / 0× Seeds** | **0×** |
 | Mandrakazam | 0.8× | 1.0× | 1.3× | **0.6× Leaves / 1.5× Seeds** | 1.5× |
 
-**Time-based production definition:** These multipliers apply only when a *future fungus actually emits the corresponding time-based Leaf or Seed Effect*, the Plant is in the Effect's qualifying progress window, and the lifecycle is still advancing. **No production while fully stalled or after 200%**. The Leaf/Seed entries are per output type, *not* a new Plant-specific power; fungi must explicitly advertise which output they accumulate.
+**Time-based production definition:** These multipliers apply only when an **approved living fungus emits the corresponding time-based Leaf or Seed Effect and its actual footprint reaches the Plant**, the Plant is in the Effect's qualifying progress window, and the lifecycle is still advancing. **No production while fully stalled or after 200%**. The Leaf/Seed entries are per output type, *not* a new Plant-specific power; fungi must explicitly advertise which output they accumulate.
 
 **Leaf–Seed allocation definition:** Modifies the strength of a fungus's defined production-shift *in its fixed emitted direction*, with output always subject to availability. This does **not** change Seed identity, invent a second bloom, or create new Seeds on sterile Plants.
 

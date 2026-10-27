@@ -135,3 +135,12 @@ The [pass-7 profile semantic sweep](profile-semantic-sweep-pass-7.md) corrected 
 The [pass-8 semantic report](profile-semantic-sweep-pass-8.md) records **10** additional now-obsolete numeric-phase statements in Aquatic, Desert, Flowers, Ingredients, Spices and Foundational Fungi, replaced with their exact subsequent approvals (§§28,32,36,40,44,49). The older lines are preserved verbatim in [historical decisions](../history/superseded-design.md#editorial-pass-8--resolved-first-pass-numeric-deferrals-27-october-2026). All affected profile table-row counts and all final approved Transformation table sections are unchanged.
 
 **Cumulative targeted editorial cleanup across passes 7–8:** 29 complete former lines preserved in the archive while the current topical text acknowledges already-approved data. This is not yet final per-paragraph semantic sign-off, and all pre-existing documents and the repository root README remain frozen.
+
+
+---
+
+## Editorial pass 9 — focused family exception and Fungi coverage review (27 October 2026)
+
+The [pass-9 focused qualitative audit](species-qualitative-review-pass-9.md) cross-checked the higher-risk **Woodlands, Desert, Ingredients and Fungi** semantic exceptions against their later approved family routes and global rules, and corrected **8** remaining source-era status/narrative lines in Woodlands, Flowers, Desert, Spices and Final Fungi. This adds a scoped exception-review ledger rather than asserting universal per-profile sign-off. The eight complete former lines are archived in [historical decisions](../history/superseded-design.md#editorial-pass-9--remaining-qualitative-recipe-and-status-caveats-27-october-2026).
+
+No original document, root README, approved recipe table, or approved 31-Fungus nominal numerical matrix was edited. The 69-route geometry/event-time implementation tests and final comprehensive manual semantic acceptance remain open.

@@ -49,7 +49,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 | **Farming purpose** | **Repeatable Heat-adapted Leaf/Seed farming** and precursor for the Aloemancer successful-recovery route or the Ashen Rose failed-recovery route. Staying Hot can remain worthwhile for immediate crops, while recovery sacrifices that ecology for a different Plant. |
 | **Effect compatibility** | **Strong Leaf Yield Adjustment response while Hot**, good **Growth acceleration compatibility while Hot**, otherwise ordinary Ripening and Seed Yield response. Rate effects preserve direction: a fungal Growth slowdown still slows. Hot's innate +30% Growth/+50% Leaf are **Plant Responses to resolved temperature**, not special fungal emissions. |
 
-**Concrete initial trait:** Hot adds **+30% natural Growth rate and +50% natural Leaf Yield** (conditional and reversible if the temperature changes). Their exact combination with future fungal bonuses can be tested in the eventual numeric/system pass. Hot endurance needed for its recovery is a different **continuous-exposure rule**, defined next.
+**Concrete initial trait:** Hot adds **+30% natural Growth rate and +50% natural Leaf Yield** (conditional and reversible if the temperature changes). Interaction with existing approved fungal bonuses still needs eventual implementation/playtesting; neither innate trait is an emitted fungal Effect. Hot endurance needed for its recovery is a different **continuous-exposure rule**, defined next.
 
 ### Aloemancer — APPROVED first-pass six-part profile
 

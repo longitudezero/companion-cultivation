@@ -83,7 +83,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 **First-pass concrete productive window:** **160–177%**, with a natural peak at **170%**. An approved fungus's eligible hourly production window is part of *that fungus's own stable Effect definition*; it can overlap this range without being arbitrarily assigned as a special Marigloom-only fungal behavior. Production accumulates only while the Plant's lifecycle actually advances and never after 200%.
 
-### Decisions awaiting review
+### Approved initial Flower identities and later numerical follow-through
 
 - **Daisydaze**: ordinary 10-Leaf/10-own-Seed, 4/8-day Flower baseline.
 - **Charmomile**: early-but-forgiving **90% peak**, self-Seeds, accessible fast intermediate.

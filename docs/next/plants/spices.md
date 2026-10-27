@@ -98,7 +98,7 @@ The **Sunrice and Moonrice branches are complementary**, not fully isolated econ
 - **Spices names are temporary identifiers**, not RPG ingredient claims. Naming must not silently alter this network; Ingredients remains a separate **one-Base-to-terminal star-transformation** family (§41), not a Spices sub-branch.
 - **No exotic intrinsic rule needs to be invented for every early species.** Sunrice's Bright farming, Moonrice's Dim Seed production, and Shadow Onion's Dark farming produce distinct spatial placement problems when combined with the later Seed support and prestige endpoints.
 
-### First batch comparison and next steps
+### First batch comparison and approved follow-through
 
 | Plant (temporary ID) | Environmental niche | Main crop | Seed identity |
 | --- | --- | --- | --- |
@@ -193,7 +193,7 @@ Thymely ──> Shadow Onion ──> Dillusion ───────────
 
 **Concrete identity decision:** Dillusion **does not require switching** Dim→Lit to receive a bonus. It simply **functions well in either state**, so overlapping Luminous Sources can vary without ruining the crop. This distinction from Aquatic **Silvercress** is deliberate: Silvercress rewards a change by lifecycle stage, but Dillusion rewards **stable output despite fluctuating Light**.
 
-### Important comparison and next step
+### Approved intermediate comparison and final-family follow-through
 
 | Temporary Spices identifier | Preferred resolved Light | Non-Seed farming identity | Seed harvested near 200% |
 | --- | --- | --- | --- |
@@ -479,7 +479,7 @@ As above, each value scales the magnitude of the corresponding **pre-existing fu
 5. **Ghost Rice** makes **11 Moonrice Seeds**, contrasting with **Shadow Onion** yielding **11 Shadow Onion Seeds** from its simpler Dark crop. Both keep their Dark habitat identities; do not redesign roles just because both like Dark.
 6. **One Plant-consuming harvest** at a chosen progress; no extra Leaf/Seed harvest toggles, Light conversion currencies, third progress stage or fungal Secondary Bloom. Fungal Time-based Production only accrues with advancing lifecycle and only inside the emitter's window, not because of compatible plant traits alone.
 7. **Naming and family boundary:** Spices retain their currently accepted whimsical species names until a future naming review, without changing the ten-species graph, Seed identities, preferred light states or approved §76 recipes. Ingredients have a separate seven-species star architecture with Potato as the sole transforming Base (§41); the Ingredient Seed identities are specified in §§42–44.
-8. **No code changes** until all Plant, Fungus and Transformation design passes and explicit implementation request. First numerical extremes deliberately strong: Bright Glass Apple 58 Leaves / 24 Starberry Seeds, Lit Pum'king 46 Leaves / 0 Seeds, Bright Starberry 31 Leaves / 8 Sunrice Seeds, Dark Ghost Rice 24 Leaves / 11 Moonrice Seeds, Dim Thymekeeper 28 Sunrice Seeds, and sharp off-optimal Light penalties. Evaluate **sustained useful Leaves per occupied hex-day** including Seed sinks, fungus hex occupancy, failed transformations, and harvest timing in eventual tester playtests.
+8. **Implementation status:** All Plant, Fungus and Transformation first-pass design milestones are now approved, but **no biology/gameplay code is implemented** and an explicit implementation request is still needed. First numerical extremes deliberately strong: Bright Glass Apple 58 Leaves / 24 Starberry Seeds, Lit Pum'king 46 Leaves / 0 Seeds, Bright Starberry 31 Leaves / 8 Sunrice Seeds, Dark Ghost Rice 24 Leaves / 11 Moonrice Seeds, Dim Thymekeeper 28 Sunrice Seeds, and sharp off-optimal Light penalties. Evaluate **sustained useful Leaves per occupied hex-day** including Seed sinks, fungus hex occupancy, failed transformations, and harvest timing in eventual tester playtests.
 
 **Approved first-pass status:** All ten Spices profiles (§§37–39), the full §40 numerical pass, the 31-Fungus roster and all 11 Spices recipes (§76) are now specified. Tester playtesting remains planned; no biology/runtime implementation has been assigned.
 

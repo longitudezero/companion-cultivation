@@ -26,7 +26,7 @@
 
 ### C. Roster-audit conclusions the user accepted
 
-1. **Do not fill every stage of the 0–200% progression line.** The absence of hourly Leaf Production in the 125–160% interval is acceptable. Numerous Plants peak there, but no approved Plant's present mechanics demand an exclusive producer in that interval; review only if later transformation access recipes create that requirement. Duskleaf (70–125%) and Echomorel (160–190%) retain their distinct identities.
+1. **Do not fill every stage of the 0–200% progression line.** The absence of hourly Leaf Production in the 125–160% interval is acceptable. Numerous Plants peak there, but no approved Plant's present mechanics demand an exclusive producer in that interval; the approved 69 first-pass Plant-owned recipes introduce no requirement to fill that gap; revisit only if a later design revision changes that. Duskleaf (70–125%) and Echomorel (160–190%) retain their distinct identities.
 2. **Duplicate same-direction Leaf Peak Timing:** Fogdial supplements Prismorel's EARLIER shift and Emberbell supplements Glimmergill's LATER shift. Opposite directions alone were not adequate substitutes.
 3. **Keep Droughtcap and Rilllace as the Harvest Window options.** Rilllace's Flooded delivery is a useful spatial puzzle, not a reason to force a third Airborne widening fungus. Many Plants can survive being Flooded even with penalties, and Blockers/Wetting provide player-built solutions.
 4. **Keep the existing two time-based Seed Production windows for now.** Their limited overlap is acceptable specialization, not a mandatory missing-Effect slot.

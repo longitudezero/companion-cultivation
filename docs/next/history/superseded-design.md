@@ -3358,3 +3358,69 @@ The following **exact earlier staged lines** were replaced once their later-appr
 5. **Mycelord dependency is not universal:** Rainmorel, Droughtcap and Prismorel operate on ordinary hexes, while Rushroom is a candidate for an advanced Mycelial-dependent power spike. The other fungi already proposed include Mycelial-preferring options; exact source-side magnitude buffs remain for the numeric pass. **Mycelord itself emits nothing except Mycelial and is the sole creator**.
 ~~~~
 
+
+
+---
+
+## Editorial pass 9 — remaining qualitative recipe and status caveats (27 October 2026)
+
+These earlier staged passages were reconciled against later-approved cross-family rules and current implementation status. **Exact former lines** are preserved below, including headings; their replacements and review scope are documented in the [pass-9 focused qualitative audit](../audit/species-qualitative-review-pass-9.md). The original source documents remain unchanged.
+
+### docs/next/plants/woodlands.md — 2 former lines
+
+- **Former line 240** (pass-9 baseline):
+
+~~~~text
+- This is a **shape-and-magnitude first pass**, not yet complete percentage-by-percentage Leaf/Seed curves or germination investment probabilities. These figures should be tested for practical Seeds consumed and sustained Leafs per occupied hex-day.
+~~~~
+
+- **Former line 342** (pass-9 baseline):
+
+~~~~text
+**Time-based production definition:** These multipliers apply only when a *future fungus actually emits the corresponding time-based Leaf or Seed Effect*, the Plant is in the Effect's qualifying progress window, and the lifecycle is still advancing. **No production while fully stalled or after 200%**. The Leaf/Seed entries are per output type, *not* a new Plant-specific power; fungi must explicitly advertise which output they accumulate.
+~~~~
+
+### docs/next/plants/flowers.md — 1 former lines
+
+- **Former line 86** (pass-9 baseline):
+
+~~~~text
+### Decisions awaiting review
+~~~~
+
+### docs/next/plants/spices.md — 3 former lines
+
+- **Former line 101** (pass-9 baseline):
+
+~~~~text
+### First batch comparison and next steps
+~~~~
+
+- **Former line 196** (pass-9 baseline):
+
+~~~~text
+### Important comparison and next step
+~~~~
+
+- **Former line 482** (pass-9 baseline):
+
+~~~~text
+8. **No code changes** until all Plant, Fungus and Transformation design passes and explicit implementation request. First numerical extremes deliberately strong: Bright Glass Apple 58 Leaves / 24 Starberry Seeds, Lit Pum'king 46 Leaves / 0 Seeds, Bright Starberry 31 Leaves / 8 Sunrice Seeds, Dark Ghost Rice 24 Leaves / 11 Moonrice Seeds, Dim Thymekeeper 28 Sunrice Seeds, and sharp off-optimal Light penalties. Evaluate **sustained useful Leaves per occupied hex-day** including Seed sinks, fungus hex occupancy, failed transformations, and harvest timing in eventual tester playtests.
+~~~~
+
+### docs/next/plants/desert.md — 1 former lines
+
+- **Former line 52** (pass-9 baseline):
+
+~~~~text
+**Concrete initial trait:** Hot adds **+30% natural Growth rate and +50% natural Leaf Yield** (conditional and reversible if the temperature changes). Their exact combination with future fungal bonuses can be tested in the eventual numeric/system pass. Hot endurance needed for its recovery is a different **continuous-exposure rule**, defined next.
+~~~~
+
+### docs/next/fungi/profiles-final.md — 1 former lines
+
+- **Former line 29** (pass-9 baseline):
+
+~~~~text
+1. **Do not fill every stage of the 0–200% progression line.** The absence of hourly Leaf Production in the 125–160% interval is acceptable. Numerous Plants peak there, but no approved Plant's present mechanics demand an exclusive producer in that interval; review only if later transformation access recipes create that requirement. Duskleaf (70–125%) and Echomorel (160–190%) retain their distinct identities.
+~~~~
+
