@@ -36,7 +36,7 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick, onStartHexDrag }) {
   const keys = Object.keys(garden.hexes);
   const width = 130 + (garden.columns - 1 + 0.5) * DX;
   const height = 118 + (garden.rows - 1) * Y_STEP;
@@ -74,13 +74,17 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
         const fill = PALETTES[overlay][condition];
         const label = condition;
         const object = garden.objects[key];
+        const staged = garden.staged?.[key];
+        const pending = garden.pending?.[key];
         const mycelial = isMycelial(garden, key);
         const mycelialSupported = mycelial && Object.values(mycelialSupport)
           .some(keys => keys.includes(key));
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-          <g key={key} className="hex-cell" onClick={() => onHexClick(key)} tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
+          <g key={key} data-garden-hex={key} className="hex-cell" onClick={(event) => onHexClick(key, event)}
+            onPointerDown={(event) => { if (staged || ['plant', 'fungus'].includes(object?.type)) onStartHexDrag(key, staged ? 'staged' : 'organism', event); }}
+            tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
             {highlighted.has(key) && <polygon points={polygonFor(c)} fill="none" stroke="#efde9b" strokeWidth="5" opacity=".65"/>}
             <polygon points={polygonFor(c)} fill={fill} stroke={active ? '#ffe4a8' : '#243b32'} strokeWidth={active ? '2.3' : '2.5'} className="hex-surface"/>
@@ -106,6 +110,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.47},${c.y-4+(y-(c.y-4))*.47}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
               <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text>
             </>}
+            {staged && <g className="staged-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#354b3b" stroke="#f1d28d" strokeDasharray="3 2" strokeWidth="2"/><text x={c.x} y={c.y - 3} fontSize="15" textAnchor="middle" fill="#f2d39a">{staged.kind === 'plant' ? '◌' : '◈'}</text><text x={c.x} y={c.y + 10} fontSize="10" textAnchor="middle" fill="#fff2cc">×{staged.quantity}</text></g>}
+            {pending && <g className="pending-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#414438" stroke="#d6c99c" strokeWidth="2"/><text x={c.x} y={c.y - 2} fontSize="19" textAnchor="middle" fill="#e7d29d">?</text></g>}
             <text x={c.x} y={c.y + (object ? 19 : 5)} textAnchor="middle" className={`hex-label ${object ? 'hex-label-small' : ''}`}
               style={label.length >= 8 ? { fontSize: object ? '6.5px' : '7.5px', letterSpacing: 0 } : undefined}>
               {label}

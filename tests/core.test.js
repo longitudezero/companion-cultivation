@@ -377,7 +377,7 @@ test('legacy gardens migrate without losing retained baselines, Sources, or Bloc
   };
 
   const upgraded = migrateGarden(legacy);
-  assert.equal(upgraded.schemaVersion, 3);
+  assert.equal(upgraded.schemaVersion, 4);
   assert.deepEqual(Object.keys(upgraded.hexes[origin]), ['baselines']);
   assert.deepEqual(Object.keys(upgraded.hexes[origin].baselines), PROPERTIES);
   assert.equal(upgraded.hexes[blocked].baselines.Moisture, 'Flooded');

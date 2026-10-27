@@ -1,4 +1,4 @@
-# Player controls and developer tools — Prototype 12
+# Player controls and developer tools — Prototype 13
 
 This page describes **the current interface**, not a new or finalized gameplay design. The separation is an interface safeguard against accidental sandbox editing. It does not disable capabilities in the deterministic core API or provide an anti-cheat security boundary.
 
@@ -11,9 +11,11 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 ### Always visible (provisional player-facing interface)
 
 - **Inspect:** Select existing hexes and objects, read their conditions, fungal effects, growth and transformation requirements.
-- **Sow Seeds / Sow Spores:** Spend owned inventory, with the existing germination checks and costs. These are the intended ordinary ways to place Plants and Fungi.
-- **Harvest:** Collect the existing per-species Leaves, Seeds or Spores; destructive harvest remains an ordinary action.
-- **Inventory, environmental views, plot contents and clock:** Read-only information remains visible. Existing Sources and Blockers are still displayed and affect the simulation.
+- **Spatial inventory:** Four collapsible pages of 50 squares each (200 total); each distinct Seed, Spore, Plant-specific Leaf or special item has one unlimited stack. Drag a stack to reposition it, including onto another occupied square to swap positions. Positions persist in the saved garden.
+- **Sow Seeds / Sow Spores:** Drag an owned Seed/Spore stack onto a hex, or select the stack and click the target hex (the Sow toolbar is a keyboard/mouse fallback). Choose an amount with the editable quantity box, ± buttons or example presets. This stages a **reservation**, not a charge. Existing germination and habitat rules still apply at Apply.
+- **Staging and Apply:** Reposition, edit or undo uncommitted proposals. **Apply** validates every site and commits them together, spending Seeds/Spores exactly once. Committed `?` markers conceal either a successful or failed roll until the delay expires. Another plan can begin immediately, even while earlier plots are pending.
+- **Harvest:** Drag a living Plant/Fungus from its hex into the inventory, or use the inspector's Harvest action. Its existing one-time yield and restrictions remain in effect; outputs merge into species-specific stacks.
+- **Environment, plot contents and clock:** Inspection remains available. The clock **advances automatically even while staging**, so existing Growth, Transformations, hazards and Mycelial activity update live. Existing Sources/Blockers keep affecting the simulation even when editing them is hidden.
 
 ### Visible only with developer tools on
 
@@ -33,8 +35,8 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 
 **Player-placeable Blockers** remain undecided. Hex and Edge Blocker placement are *both developer-only* for now; later designs may expose specific approved blocker items through different player actions. No new blocker costs, restrictions or mechanics were invented in this pass.
 
-The game also **does not yet progress automatically** while the page is open: simulation time currently advances using the developer-only `+1 hour` / `+1 day` controls. Consequently the default player-facing view is a **UI preview**, not yet a self-sufficient game loop. Keep developer tools enabled for timed testing until a real-time or turn-based clock is designed and implemented.
+The game now **advances one in-game hour every five real seconds while its browser page is open**, independently of staging. Developer `+1 hour` / `+1 day` buttons can still fast-forward. **That speed is a provisional test value**; background/offline catch-up, pause semantics and the final time scale require design decisions. A committed germination remains concealed for **six simulated hours** in this prototype, also provisional.
 
-**Approved future behavior:** the [spatial-inventory and repeatable staging design](design/systems/spatial-inventory-and-staging.md) explicitly requires the **farm to keep progressing while a staging phase is open**, with visible Growth, Transformations, hazards, fungal activity and Mycelial updates. That continuous-time requirement is *future design*, not a description of Prototype 12's current manually advanced runtime.
+The [approved spatial-inventory and repeatable staging specification](design/systems/spatial-inventory-and-staging.md) remains authoritative for the interaction and safety rules; this guide describes its **first working implementation**. The initial six Seed stacks are prototype stock; player acquisition of starter Spores and relocation of living organisms with a future item have not been designed. Debug-only JSON export exposes full technical state, including concealed germination outcomes, and therefore should remain behind the developer toggle.
 
 For code coverage and provisional numerical assumptions, use the [implementation ledger](implementation-status.md). For normative gameplay specifications, use the [design index](design/README.md). The [original full design source](herbs-and-fungi-design.md) and historical documents are preserved unchanged.
