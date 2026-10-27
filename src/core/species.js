@@ -21,6 +21,49 @@ const EFFECT_COMPATIBILITY = {
 };
 const compat = name => Object.fromEntries(FIELDS.map((field, i) => [field, EFFECT_COMPATIBILITY[name][i]]));
 
+// Flowers §§29–32: approved output/hazard/compatibility figures. Illumination
+// RATE numbers were not approved for this family, so Flowers use neutral light
+// rates while their separately approved ordinary-output light factors apply.
+const FLOWER_FIELDS = ['growthRate', 'ripeningRate', 'leafYield', 'seedYield', 'germination',
+  'harvestWindow', 'leafPeakTiming', 'seedTiming', 'hourlyLeaf', 'hourlySeed', 'allocation'];
+const FLOWER_COMPATIBILITY = {
+  Daisydaze: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  Charmomile: [1.3, 1, 1.1, 1, 1, 1.7, 1.8, 1.1, 1, 1, 1],
+  Daisyspell: [1.9, 1.2, 1.2, .8, 0, 2.2, 1.6, .8, .7, .5, .8],
+  Marigloom: [.8, 1, 1.8, .7, .8, .8, 1.6, 1, 1.5, .6, 1],
+  Lavendream: [.9, 1, 1, 1, 1, .3, 1.4, 1, 1.4, 1, 1],
+  Lavendread: [1, 1.3, .45, 2.5, 0, .6, .8, 1.8, .4, 2.4, 1.6],
+  Poppycock: [1.3, 1.1, .7, 1.8, 1.5, .8, 1, 1.6, .6, 1.8, 1.6],
+  'Dream Poppy': [1, 1, 1.2, 1, 0, 1.8, 1.8, 1.1, 1, .8, 1],
+  Rosewraith: [1, 1, 1.7, 1, 1, 1.8, 1.7, 1, 1.4, .8, 1],
+  Orchidemon: [1.1, 1.1, .8, 0, 0, 2.3, 1.3, 0, 1.3, 0, 0],
+};
+const flower = (name, growthDays, totalDays, germination, leafPeak, leafPeakAt, seeds, options) => ({
+  family: 'Flowers', growthDays, totalDays, germination, leafPeak, leafPeakAt, seeds,
+  light: [1, 1, 1, 1],
+  compatibility: Object.fromEntries(FLOWER_FIELDS.map((field, i) => [field, FLOWER_COMPATIBILITY[name][i]])),
+  ...options,
+});
+
+// Effect compatibility can depend on a resolved condition, emission sign, or
+// eligible progress. It scales the emitted MAGNITUDE, never reverses direction.
+export function effectCompatibility(profile, kind, conditions = null, amount = 0, progress = 0) {
+  const ordinary = profile.compatibility[kind] ?? 1;
+  if (!conditions || profile.family !== 'Flowers') return ordinary;
+  const light = conditions.Illumination;
+  const name = profile.name;
+  if (name === 'Daisyspell' && kind === 'leafYield' && light === 'Bright') return 2.4;
+  if (name === 'Marigloom' && kind === 'ripeningRate' && amount < 0 && light === 'Dim') return 2;
+  if (name === 'Marigloom' && kind === 'hourlyLeaf' && light === 'Dim' && progress >= 160 && progress <= 177) return 3;
+  if (name === 'Poppycock' && light === 'Bright' && kind === 'seedYield') return 2.6;
+  if (name === 'Poppycock' && light === 'Bright' && kind === 'seedTiming') return 2;
+  if (name === 'Dream Poppy' && kind === 'leafYield' && light === 'Dim') return 1.7;
+  if (name === 'Rosewraith' && kind === 'ripeningRate' && amount < 0) return 1.5;
+  if (name === 'Rosewraith' && kind === 'hourlyLeaf' && light === 'Dim' && progress >= 170 && progress <= 190) return 2.2;
+  if (name === 'Orchidemon' && kind === 'leafYield') return light === 'Bright' ? 3 : light === 'Lit' ? 1.7 : .8;
+  return ordinary;
+}
+
 export const PLANTS = Object.freeze({
   Potato: ingredient(4, 8, .28, 10, 100, 10, {
     moisture: [.65, 1, .55], light: [.75, .90, 1, .90], preferredTemperature: ['Temperate'],
@@ -56,6 +99,59 @@ export const PLANTS = Object.freeze({
     moisture: [.45, 1, .55], light: [.45, .70, .95, 1], preferredTemperature: ['Temperate', 'Warm'],
     lightOutput: [.35, .60, .90, 1], productiveWindow: [105, 125],
     dryDeath: 48, hotDeath: 48, freezingDeath: 36, mycelialDeath: 36, compatibility: { growthRate: 2.1, ripeningRate: 1.3, ...compat('Strawberry') },
+  }),
+  Daisydaze: flower('Daisydaze', 4, 8, .28, 10, 100, 10, {
+    name: 'Daisydaze', seedSpecies: 'Daisydaze', productiveWindow: [90, 130],
+    moisture: [.55, 1, .80], moistureOutput: [.55, 1, .80], lightOutput: [.70, .90, 1, .90],
+    preferredTemperature: ['Temperate'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+  }),
+  Charmomile: flower('Charmomile', 3.25, 7, .26, 14, 90, 8, {
+    name: 'Charmomile', seedSpecies: 'Charmomile', productiveWindow: [70, 125],
+    moisture: [.50, 1, .80], moistureOutput: [.55, 1, .75], lightOutput: [.55, .75, 1, .90],
+    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+  }),
+  Daisyspell: flower('Daisyspell', 2.5, 5, null, 24, 75, 4, {
+    name: 'Daisyspell', seedSpecies: 'Charmomile', productiveWindow: [66, 84],
+    moisture: [.45, 1, .70], moistureOutput: [.45, 1, .70], lightOutput: [.35, .55, .85, 1],
+    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 48, mycelialDeath: 24, hotDeath: 48, freezingDeath: 48,
+  }),
+  Marigloom: flower('Marigloom', 6, 16, .15, 38, 170, 5, {
+    name: 'Marigloom', seedSpecies: 'Marigloom', productiveWindow: [160, 177],
+    moisture: [.60, 1, .75], moistureOutput: [.60, 1, .75], lightOutput: [.75, 1, .80, .60],
+    preferredTemperature: ['Cold', 'Temperate'], dryDeath: 96, mycelialDeath: 72, hotDeath: 72, freezingDeath: 72,
+  }),
+  Lavendream: flower('Lavendream', 5.5, 11, .22, 13, 140, 9, {
+    name: 'Lavendream', seedSpecies: 'Lavendream', productiveWindow: [90, 195],
+    leafPlateau: [90, 110, 175, 195],
+    moisture: [.65, 1, .80], moistureOutput: [.65, 1, .85], lightOutput: [.70, 1, 1, .85],
+    preferredTemperature: ['Temperate'], dryDeath: 96, mycelialDeath: 72, hotDeath: 96, freezingDeath: 96,
+  }),
+  Lavendread: flower('Lavendread', 4, 10.5, null, 4, 115, 24, {
+    name: 'Lavendread', seedSpecies: 'Lavendream', productiveWindow: [100, 145],
+    moisture: [.50, 1, .70], moistureOutput: [.50, 1, .70], lightOutput: [1, 1, .85, .65],
+    preferredTemperature: ['Cold', 'Temperate'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+  }),
+  Poppycock: flower('Poppycock', 3.25, 7, .35, 5, 110, 22, {
+    name: 'Poppycock', seedSpecies: 'Poppycock', productiveWindow: [95, 135],
+    seedCurve: [[100, 0], [175, 13], [200, 22]],
+    moisture: [.55, 1, .75], moistureOutput: [.50, 1, .75], lightOutput: [.55, .80, 1, 1],
+    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+  }),
+  'Dream Poppy': flower('Dream Poppy', 4, 9, null, 24, 180, 9, {
+    name: 'Dream Poppy', seedSpecies: 'Poppycock', productiveWindow: [165, 190],
+    moisture: [.50, 1, .70], moistureOutput: [.55, 1, .75], lightOutput: [.75, 1, .85, .65],
+    preferredTemperature: ['Cold', 'Temperate'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+  }),
+  Rosewraith: flower('Rosewraith', 4.75, 11, .18, 34, 180, 7, {
+    name: 'Rosewraith', seedSpecies: 'Rosewraith', productiveWindow: [105, 195],
+    leafPeaks: [[105, 115, 125, 17], [170, 180, 190, 34]],
+    moisture: [.55, 1, .75], moistureOutput: [.55, 1, .70], lightOutput: [.75, 1, .85, .70],
+    preferredTemperature: ['Cold', 'Temperate'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+  }),
+  Orchidemon: flower('Orchidemon', 4.5, 9.5, null, 55, 145, 0, {
+    name: 'Orchidemon', seedSpecies: null, productiveWindow: [137, 153],
+    moisture: [.45, 1, .65], moistureOutput: [.45, 1, .65], lightOutput: [.20, .35, .70, 1],
+    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 48, mycelialDeath: 36, hotDeath: 48, freezingDeath: 48,
   }),
 });
 
@@ -106,7 +202,8 @@ export const FUNGI = Object.freeze({
 export function makePlant(species) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
   return { type: 'plant', species, progress: 0, ageHours: 0, exposure: { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0 },
-    production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 }, transformationClocks: {} };
+    production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 },
+    transformationClocks: {}, transformationSequence: {} };
 }
 
 export function makeFungus(species, heading = 0) {
