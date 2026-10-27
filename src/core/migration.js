@@ -19,8 +19,11 @@ export function migrateGarden(saved) {
     const cleanCount = value => Number.isSafeInteger(value) && value >= 0 ? value : 0;
     garden.inventory = {
       leaves: cleanCount(saved.inventory.leaves),
-      seeds: Object.fromEntries(Object.entries(saved.inventory.seeds || {})
-        .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])),
+      // Older saved gardens predate Flowers. Give them the same one-time
+      // provisional Base Seed access as new gardens, without replenishing
+      // players who have explicitly spent their Daisydaze Seeds down to zero.
+      seeds: { Daisydaze: 16, ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
+        .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
         .filter(([name]) => FUNGI[name]).map(([name, amount]) => [name, cleanCount(amount)])),
     };
