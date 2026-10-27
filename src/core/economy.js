@@ -1,6 +1,7 @@
 import { removeObject, placeObject } from './grid.js';
 import { PLANTS, FUNGI, makePlant, makeFungus } from './species.js';
 import { calculateCultivation } from './cultivation.js';
+import { isMycelial } from './mycelial.js';
 
 // Not approved balance: only the species peak, productive window and maximum
 // Seed yield are approved. Triangular Leaves, linear Seeds, Spore numbers and
@@ -62,13 +63,13 @@ function activeHours(previousProgress, nextProgress, window) {
   return clamp((Math.min(nextProgress, end) - Math.max(previousProgress, start)) / travelled, 0, 1);
 }
 
-export function accruePlantProduction(plant, nextProgress, conditions, contacts = []) {
+export function accruePlantProduction(plant, nextProgress, conditions, contacts = [], mycelial = false) {
   const production = { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0,
     ...plant.production };
   if (nextProgress <= plant.progress) return production;
   const profile = PLANTS[plant.species];
   const schedule = productionSchedule(plant.species, contacts);
-  const environment = plantOutputRate(plant.species, conditions);
+  const environment = plantOutputRate(plant.species, conditions) * (mycelial ? .5 : 1);
   const leavesBefore = leafPotential(profile, plant.progress, schedule);
   const leavesAfter = leafPotential(profile, nextProgress, schedule);
   if (leavesAfter > leavesBefore) {
@@ -166,6 +167,9 @@ export function sowPlant(garden, key, species, quantity = 1, random = Math.rando
 
 export function sowFungus(garden, key, species, quantity = 1, random = Math.random) {
   if (!FUNGI[species]) throw new Error(`Unknown Fungus species: ${species}`);
+  if (FUNGI[species].habitat === 'dependent' && !isMycelial(garden, key)) {
+    throw new Error(`${species} requires Mycelial ground for germination.`);
+  }
   const inventory = garden.inventory || { leaves: 0, seeds: {}, spores: {} };
   const owned = inventory.spores?.[species] || 0;
   checkSowing(garden, key, species, owned, quantity, random);

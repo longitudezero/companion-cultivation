@@ -2,12 +2,13 @@ import { calculateEnvironment } from './simulation.js';
 import { calculateCultivation } from './cultivation.js';
 import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './economy.js';
 import { FUNGI, PLANTS } from './species.js';
+import { advanceMycelium, isMycelial, MYCELIAL_TUNING } from './mycelial.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
 // the authoritative fungus balance or spore economy.
 export const PROTOTYPE_TUNING = Object.freeze({ fungusGrowthHours: 96, fungusSporulationHours: 96,
-  ...ECONOMY_TUNING });
+  ...ECONOMY_TUNING, ...MYCELIAL_TUNING });
 
 const MOISTURE = ['Dry', 'Damp', 'Flooded'];
 const LIGHT = ['Dark', 'Dim', 'Lit', 'Bright'];
@@ -33,9 +34,9 @@ export function plantEnvironmentRate(species, conditions) {
   return moisture * illumination * temperature;
 }
 
-export function plantGrowthRates(plant, conditions, contacts = []) {
+export function plantGrowthRates(plant, conditions, contacts = [], mycelial = false) {
   const profile = PLANTS[plant.species];
-  const environmentRate = plantEnvironmentRate(plant.species, conditions);
+  const environmentRate = plantEnvironmentRate(plant.species, conditions) * (mycelial ? .5 : 1);
   const getRate = kind => {
     const sum = contacts.filter(effect => effect.kind === kind)
       .reduce((total, effect) => total + effect.amount * profile.compatibility[kind], 0);
@@ -73,12 +74,13 @@ function advancePlantProgress(progress, profile, rates) {
   return Math.min(200, next);
 }
 
-function nextExposure(plant, conditions) {
+function nextExposure(plant, conditions, mycelial) {
   const previous = plant.exposure || {};
   return {
     Dry: conditions.Moisture === 'Dry' ? (previous.Dry || 0) + 1 : 0,
     Hot: conditions.Temperature === 'Hot' ? (previous.Hot || 0) + 1 : 0,
     Freezing: conditions.Temperature === 'Freezing' ? (previous.Freezing || 0) + 1 : 0,
+    Mycelial: mycelial ? (previous.Mycelial || 0) + 1 : 0,
   };
 }
 
@@ -91,32 +93,51 @@ export function advanceGardenTime(garden, hours = 1) {
   for (let hour = 0; hour < hours; hour += 1) {
     const environment = calculateEnvironment(current);
     const cultivation = calculateCultivation(current, environment);
+    // Colonization/retreat consumes the preceding real hour. Its newly
+    // established or retired ground changes organism conditions NEXT hour.
+    const mycelium = advanceMycelium(current, environment);
     const objects = { ...current.objects };
     for (const [key, object] of Object.entries(current.objects)) {
       if (object.type === 'plant') {
         const profile = PLANTS[object.species];
-        const exposure = nextExposure(object, environment.conditions[key]);
+        const onMycelial = isMycelial(current, key);
+        const exposure = nextExposure(object, environment.conditions[key], onMycelial);
         const dyingFrom = Object.entries({ Dry: profile.dryDeath, Hot: profile.hotDeath,
-          Freezing: profile.freezingDeath }).find(([hazard, threshold]) => exposure[hazard] >= threshold);
+          Freezing: profile.freezingDeath, Mycelial: profile.mycelialDeath })
+          .find(([hazard, threshold]) => exposure[hazard] >= threshold);
         if (dyingFrom) {
           delete objects[key];
           events.push(`${object.species} died on hex ${key} after ${dyingFrom[1]}h of ${dyingFrom[0]}.`);
           continue;
         }
-        const rates = plantGrowthRates(object, environment.conditions[key], cultivation[key]);
+        const rates = plantGrowthRates(object, environment.conditions[key], cultivation[key], onMycelial);
         const progress = advancePlantProgress(object.progress, profile, rates);
         objects[key] = { ...object, ageHours: (object.ageHours || 0) + 1, exposure, progress,
-          production: accruePlantProduction(object, progress, environment.conditions[key], cultivation[key]) };
+          production: accruePlantProduction(object, progress, environment.conditions[key], cultivation[key], onMycelial) };
       } else if (object.type === 'fungus') {
+        const exposure = {
+          Flooded: object.species === 'Mycelord' && environment.conditions[key].Moisture === 'Flooded'
+            ? (object.exposure?.Flooded || 0) + 1 : 0,
+          MissingMycelial: FUNGI[object.species].habitat === 'dependent' && !isMycelial(current, key)
+            ? (object.exposure?.MissingMycelial || 0) + 1 : 0,
+        };
+        if ((object.species === 'Mycelord' && exposure.Flooded >= MYCELIAL_TUNING.mycelordFloodDeathHours)
+          || (FUNGI[object.species].habitat === 'dependent'
+            && exposure.MissingMycelial >= MYCELIAL_TUNING.dependentHabitatGraceHours)) {
+          delete objects[key];
+          events.push(`${object.species} died on hex ${key} after ${object.species === 'Mycelord'
+            ? exposure.Flooded + 'h Flooded' : exposure.MissingMycelial + 'h without Mycelial'} exposure.`);
+          continue;
+        }
         const progress = advancePlantProgress(object.progress, {
           growthDays: PROTOTYPE_TUNING.fungusGrowthHours / 24,
           totalDays: (PROTOTYPE_TUNING.fungusGrowthHours + PROTOTYPE_TUNING.fungusSporulationHours) / 24,
         }, { growth: 1, ripening: 1 });
-        objects[key] = { ...object, progress, ageHours: (object.ageHours || 0) + 1,
+        objects[key] = { ...object, progress, ageHours: (object.ageHours || 0) + 1, exposure,
           sporeStock: accrueFungusSpores(object, progress, PROTOTYPE_TUNING.fungusSporeYieldAt200) };
       }
     }
-    current = { ...current, objects, clockHours: (current.clockHours || 0) + 1 };
+    current = { ...current, objects, mycelium, clockHours: (current.clockHours || 0) + 1 };
   }
   return { garden: current, events };
 }

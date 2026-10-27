@@ -1,6 +1,7 @@
 import { CONDITIONS, PROPERTIES, createGarden, distanceBetween, isGarden } from './grid.js';
 import { INFLUENCE_TYPES, KINDS, MODES, makeInfluence, makeSpreadInfluence } from './influences.js';
 import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
+import { MYCELIAL_TUNING } from './mycelial.js';
 
 // Keep older garden exports usable after removing Materials and Fertility.
 // The caller's original JSON is never mutated, and unknown/retired effects
@@ -10,6 +11,9 @@ export function migrateGarden(saved) {
   const garden = createGarden(saved.columns, saved.rows);
   garden.routeNonce = Number.isInteger(saved.routeNonce) ? saved.routeNonce : 0;
   garden.clockHours = Number.isFinite(saved.clockHours) && saved.clockHours >= 0 ? saved.clockHours : 0;
+  garden.colonyNonce = Number.isSafeInteger(saved.colonyNonce) && saved.colonyNonce >= 0
+    ? saved.colonyNonce : 0;
+  const usedColonies = new Set();
   if (saved.inventory) {
     const cleanCount = value => Number.isSafeInteger(value) && value >= 0 ? value : 0;
     garden.inventory = {
@@ -47,7 +51,7 @@ export function migrateGarden(saved) {
       const clean = makePlant(object.species);
       clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
       clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
-      for (const hazard of ['Dry', 'Hot', 'Freezing']) {
+      for (const hazard of ['Dry', 'Hot', 'Freezing', 'Mycelial']) {
         clean.exposure[hazard] = Math.max(0, Number(object.exposure?.[hazard]) || 0);
       }
       for (const field of Object.keys(clean.production)) {
@@ -62,6 +66,19 @@ export function migrateGarden(saved) {
       clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
       clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
       clean.sporeStock = Number.isFinite(object.sporeStock) && object.sporeStock >= 0 ? object.sporeStock : 0;
+      clean.exposure.Flooded = Math.max(0, Number(object.exposure?.Flooded) || 0);
+      clean.exposure.MissingMycelial = Math.max(0, Number(object.exposure?.MissingMycelial) || 0);
+      if (object.species === 'Mycelord') {
+        const oldId = object.colonyId;
+        if (typeof oldId === 'string' && /^colony:\d+$/.test(oldId) && !usedColonies.has(oldId)) {
+          clean.colonyId = oldId;
+          garden.colonyNonce = Math.max(garden.colonyNonce, Number(oldId.slice(7)));
+        } else {
+          garden.colonyNonce += 1;
+          clean.colonyId = `colony:${garden.colonyNonce}`;
+        }
+        usedColonies.add(clean.colonyId);
+      }
       garden.objects[key] = clean;
       continue;
     }
@@ -93,5 +110,24 @@ export function migrateGarden(saved) {
     const blocker = migrateBlocker(object);
     if (blocker) garden.edges[id] = blocker;
   }
+  // Preserve separately attributed living or retiring contributions, including
+  // orphaned colonies whose Mycelord died. Never regrow lost ground on import.
+  const contributions = {};
+  const safeHours = value => Number.isFinite(value) && value >= 0 ? value : 0;
+  for (const [id, entry] of Object.entries(saved.mycelium?.contributions || {})) {
+    if (!/^colony:\d+$/.test(id) || typeof entry?.origin !== 'string'
+      || !/^-?\d+,-?\d+$/.test(entry.origin)) continue;
+    const cells = Object.fromEntries(Object.entries(entry.cells || {})
+      .filter(([key]) => garden.hexes[key]).map(([key, cell]) =>
+        [key, { unsupportedHours: safeHours(cell?.unsupportedHours) }]));
+    const frontiers = Object.fromEntries(Object.entries(entry.frontiers || {})
+      .filter(([key]) => garden.hexes[key]).map(([key, hours]) =>
+        [key, Math.min(MYCELIAL_TUNING.colonizeHoursPerHex, safeHours(hours))]));
+    if (usedColonies.has(id) || Object.keys(cells).length || Object.keys(frontiers).length) {
+      contributions[id] = { origin: entry.origin, cells, frontiers };
+    }
+    garden.colonyNonce = Math.max(garden.colonyNonce, Number(id.slice(7)));
+  }
+  garden.mycelium = { contributions };
   return garden;
 }
