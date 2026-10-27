@@ -1,6 +1,7 @@
 .biology-picker { margin: 15px 3px 0; padding: 13px; border: 1px solid #4a6752; border-radius: 9px; background: #25382c; }
 .biology-picker label, .organism-details label { display: grid; gap: 7px; font-size: 10px; font-weight: 700; letter-spacing: .1em; color: #d0c49c; }
 .biology-picker select, .organism-details select { width: 100%; min-width: 0; padding: 9px; border: 1px solid #536a57; border-radius: 6px; background: #1c2b22; color: #f2ead4; font-size: 12px; }
+.biology-picker input[type="number"] { width: 100%; min-width: 0; padding: 9px; border: 1px solid #536a57; border-radius: 6px; background: #1c2b22; color: #f2ead4; }
 .biology-picker p, .organism-details p { margin: 10px 0 0; font-size: 11px; line-height: 1.5; color: #b9c8b8; }
 .prototype-warning { color: #e1bc87 !important; }
 .time-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 15px; margin-bottom: 15px; padding: 12px 14px; border: 1px solid #4c6751; border-radius: 10px; background: #273b2d; }
@@ -19,4 +20,12 @@
 .exposure-list { display: flex; flex-wrap: wrap; gap: 5px; }
 .exposure-list span { color: #debba4; background: #3c322c; border-radius: 5px; font-size: 10px; padding: 6px 8px; }
 .organism-glyph { font-size: 24px; }
+.inventory-card { margin: 15px 3px 0; padding: 13px; border: 1px solid #536a57; border-radius: 9px; background: #25382c; }
+.inventory-card .mini-heading { margin: 10px 0 8px; }
+.inventory-card .mini-heading:first-child { margin-top: 0; }
+.inventory-total, .inventory-entry { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; color: #d1dece; font-size: 12px; }
+.inventory-total strong, .inventory-entry b { color: #f0dbaf; }
+.inventory-card .empty-hint { margin: 4px 0 8px; font-size: 11px; }
+.harvest-button { width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #b9a16d; border-radius: 7px; background: #445f43; color: #fff2cf; font-size: 12px; font-weight: 700; cursor: pointer; }
+.harvest-button:hover { background: #55794b; }
 @media (max-width: 1100px) { .time-controls { justify-content: center; } }
