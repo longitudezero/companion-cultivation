@@ -12,9 +12,9 @@ function readyPlant(species, leaves, seeds = 0) {
   } };
 }
 
-test('new schema 3 gardens track separate Leaf stacks rather than generic fungible currency', () => {
+test('new schema 4 gardens track separate Leaf stacks rather than generic fungible currency', () => {
   const garden = createGarden();
-  assert.equal(garden.schemaVersion, 3);
+  assert.equal(garden.schemaVersion, 4);
   assert.equal(isGarden(garden), true);
   assert.deepEqual(garden.inventory.leaves, {});
   assert.equal(garden.inventory.legacyLeaves, 0);
@@ -90,7 +90,7 @@ test('legacy generic Leaves survive migration visibly unattributed and never tur
   const saved = structuredClone(old);
   const migrated = migrateGarden(old);
   assert.deepEqual(old, saved, 'migration does not modify the supplied save');
-  assert.equal(migrated.schemaVersion, 3);
+  assert.equal(migrated.schemaVersion, 4);
   assert.deepEqual(migrated.inventory.leaves, {});
   assert.equal(migrated.inventory.legacyLeaves, 73);
   const harvested = harvestPlant(placeObject(migrated, '2,2', readyPlant('Potato', 8)), '2,2');
@@ -108,7 +108,7 @@ test('schema 1 numeric Leaves and schema 2 zero stock both migrate without inven
     const fresh = migrateGarden(old);
     assert.deepEqual(fresh.inventory.leaves, {});
     assert.equal(fresh.inventory.legacyLeaves, amount);
-    assert.equal(fresh.schemaVersion, 3);
+    assert.equal(fresh.schemaVersion, 4);
   }
 });
 

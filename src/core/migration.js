@@ -4,6 +4,8 @@ import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
 import { MYCELIAL_TUNING } from './mycelial.js';
 import { TRANSFORMATIONS } from './transformations.js';
 import { isDesertRecovery } from './desert-transformations.js';
+import { ensureInventorySlots } from './inventory.js';
+import { stagePlanting } from './staging.js';
 
 // Keep older garden exports usable after removing Materials and Fertility.
 // The caller's original JSON is never mutated, and unknown/retired effects
@@ -176,5 +178,26 @@ export function migrateGarden(saved) {
     garden.colonyNonce = Math.max(garden.colonyNonce, Number(id.slice(7)));
   }
   garden.mycelium = { contributions };
-  return garden;
+  // Schema 4 tracks position and the player's uncommitted/committed sowing
+  // separately. Old saves acquire a safe default layout, with no invented
+  // staged attempts or secretly successful germinations.
+  if (saved.schemaVersion === 4) {
+    for (const [key, entry] of Object.entries(saved.pending || {})) {
+      if (!garden.hexes[key] || garden.objects[key] || !entry ||
+        !Number.isSafeInteger(entry.quantity) || entry.quantity < 1 ||
+        !Number.isSafeInteger(entry.readyAt) || entry.readyAt < 0 ||
+        typeof entry.success !== 'boolean') continue;
+      if ((entry.kind === 'plant' && PLANTS[entry.species]?.germination != null) ||
+        (entry.kind === 'fungus' && FUNGI[entry.species])) {
+        garden.pending[key] = { kind: entry.kind, species: entry.species, quantity: entry.quantity,
+          success: entry.success, readyAt: entry.readyAt };
+      }
+    }
+    for (const [key, entry] of Object.entries(saved.staged || {})) {
+      try { garden.staged = stagePlanting(garden, key, entry?.kind, entry?.species, entry?.quantity).staged; }
+      catch { /* discard invalid or over-reserved proposals; never spend Seeds on import */ }
+    }
+    garden.inventorySlots = saved.inventorySlots || {};
+  }
+  return ensureInventorySlots(garden);
 }

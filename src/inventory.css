@@ -1,0 +1,45 @@
+/* Prototype 13: a spatial inventory with four manually rearrangeable pages. */
+.spatial-inventory { margin: 18px 0 0; padding: 12px 9px; border: 1px solid #526e54; border-radius: 11px; background: #25392b; }
+.inventory-heading { display: flex; align-items: center; justify-content: space-between; gap: 7px; }
+.inventory-heading h3 { font-size: 20px; margin-top: 3px; }
+.inventory-heading > span { color: #b5c3ad; font-size: 10px; white-space: nowrap; }
+.inventory-instruction { color: #a8bca9; font-size: 10px; line-height: 1.5; margin: 11px 0; }
+.inventory-pages { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 10px; }
+.inventory-pages button { border: 1px solid #465f4c; border-radius: 6px; background: #1e3126; color: #c3d6bc; font-size: 10px; padding: 7px 5px; display: flex; justify-content: space-around; }
+.inventory-pages button.is-open { color: #ffe2ad; background: #435c3c; border-color: #d0ad72; }
+.inventory-square-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 3px; }
+.inventory-square { position: relative; aspect-ratio: 1; width: 100%; min-width: 0; padding: 0; display: grid; place-items: center; border: 1px solid #445a48; border-radius: 5px; background: #1a2c22; color: #a4b6a6; }
+.inventory-square.has-item { border-color: #718a60; background: #344c34; cursor: grab; user-select: none; touch-action: none; }
+.inventory-square.item-spore { background: #464053; border-color: #9680a8; }
+.inventory-square.item-leaf { background: #34523b; border-color: #77a678; }
+.inventory-square.item-trophy { background: #5c4b30; border-color: #dbb976; }
+.inventory-square.item-legacy { background: #374348; border-color: #89979e; }
+.inventory-square.is-held { outline: 2px solid #f0d38d; outline-offset: 0; }
+.inventory-item-glyph { font-size: 21px; line-height: 1; color: #f4e7c2; }
+.inventory-item-shortname { position: absolute; bottom: 1px; left: 2px; font-size: 7px; line-height: 1; color: #c6d9bf; text-transform: uppercase; }
+.inventory-item-quantity { position: absolute; bottom: 1px; right: 2px; font-size: 9px; font-weight: 800; color: #fff4cb; padding: 0 1px; text-shadow: 1px 1px #14241d; }
+.inventory-held-hint { margin: 10px 0 0; color: #ebd296; font-size: 10px; line-height: 1.5; }
+.garden-svg .hex-cell:has(.staged-glyph),.garden-svg .hex-cell:has(.organism-glyph) { touch-action: none; }
+.staging-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 13px; padding: 12px 13px; border: 1px solid #937b4d; border-radius: 10px; background: #333d2e; }
+.staging-bar strong { color: #eace8e; font-size: 11px; letter-spacing: .09em; }
+.staging-bar small { display: block; margin-top: 5px; color: #bec9b3; font-size: 10px; }
+.apply-staging-button { border: 1px solid #dcbf84; border-radius: 7px; color: #1d3226; background: #e4c789; font-size: 12px; font-weight: 700; padding: 10px 12px; }
+.time-controls .live-time-label { color: #afd2b1; font-weight: 600; font-size: 10px; letter-spacing: .03em; }
+.planting-inspector { margin: 12px 0; padding: 12px; border: 1px solid #ad935b; border-radius: 8px; background: #303a2b; }
+.planting-inspector strong { font-size: 12px; color: #eed499; }
+.planting-inspector p { font-size: 11px; color: #bbc8b7; margin: 8px 0; line-height: 1.5; }
+.planting-inspector button { border: 1px solid #947a55; border-radius: 7px; background: #4a4a35; padding: 8px 10px; color: #f6e1b5; font-size: 11px; }
+.quantity-popover { position: fixed; z-index: 40; width: 246px; background: #253a2e; border: 1px solid #d5b77b; border-radius: 11px; padding: 13px; box-shadow: 0 15px 55px #07120ac9; }
+.quantity-popover .mini-heading { font-size: 9px; }
+.quantity-stepper { display: flex; gap: 4px; margin: 10px 0 7px; }
+.quantity-stepper button { width: 37px; border: 1px solid #798466; border-radius: 5px; background: #334939; color: #f0daaa; font-size: 20px; }
+.quantity-stepper input { flex: 1; min-width: 0; width: 30px; text-align: center; border: 1px solid #71846c; border-radius: 5px; background: #1b2f24; color: #ffe9b9; font-size: 17px; padding: 8px; }
+.quantity-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.quantity-presets button { border: 1px solid #78916d; border-radius: 5px; background: #2a4230; color: #ead8ae; padding: 7px 0; font-size: 11px; }
+.quantity-presets button.selected { background: #5a6843; border-color: #ebcf8b; color: white; }
+.quantity-popover > p { color: #aebba9; font-size: 10px; line-height: 1.5; margin: 8px 0; }
+.quantity-actions { display: flex; gap: 6px; margin-top: 10px; }
+.quantity-actions button { flex: 1; border: 1px solid #627b60; border-radius: 6px; background: #2e4133; color: #d9e2c9; padding: 9px 5px; font-size: 10px; }
+.quantity-actions button.confirm { flex: 1.6; background: #d8ba81; color: #203329; border-color: #d8ba81; font-weight: 700; }
+.garden-drag-ghost { position: fixed; z-index: 55; pointer-events: none; border: 1px solid #e9ca87; border-radius: 8px; padding: 7px 10px; background: #344c37ee; color: #fff0c4; font-size: 11px; box-shadow: 0 8px 20px #07160988; }
+@media (max-width: 680px) { .spatial-inventory { max-width: 360px; } .inventory-square-grid { gap: 5px; } .staging-bar { align-items: stretch; } .apply-staging-button { width: 100%; } }

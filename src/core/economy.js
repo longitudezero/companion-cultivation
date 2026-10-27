@@ -3,6 +3,7 @@ import { PLANTS, FUNGI, makePlant, makeFungus, effectCompatibility } from './spe
 import { calculateCultivation } from './cultivation.js';
 import { calculateEnvironment } from './simulation.js';
 import { isMycelial } from './mycelial.js';
+import { ensureInventorySlots } from './inventory.js';
 
 // Not approved balance: only the species peak, productive window and maximum
 // Seed yield are approved. Triangular Leaves, linear Seeds, Spore numbers and
@@ -214,10 +215,10 @@ export function harvestPlant(garden, key) {
   if (yieldResult.leaves > 0) {
     leaves[plant.species] = count(leaves[plant.species]) + yieldResult.leaves;
   }
-  return { ...next, inventory: { ...inventory, leaves,
+  return ensureInventorySlots({ ...next, inventory: { ...inventory, leaves,
     trophies: { ...inventory.trophies,
       bambooSteel: count(inventory.trophies?.bambooSteel) + (yieldResult.bambooSteel || 0) },
-    seeds } };
+    seeds } });
 }
 
 export function harvestFungus(garden, key) {
@@ -226,13 +227,14 @@ export function harvestFungus(garden, key) {
   const spores = Math.floor(count(fungus.sporeStock) + 1e-9);
   const next = removeObject(garden, key);
   const inventory = garden.inventory || { leaves: {}, legacyLeaves: 0, seeds: {}, spores: {} };
-  return { ...next, inventory: { ...inventory, spores: { ...inventory.spores,
-    [fungus.species]: count(inventory.spores?.[fungus.species]) + spores } } };
+  return ensureInventorySlots({ ...next, inventory: { ...inventory, spores: { ...inventory.spores,
+    [fungus.species]: count(inventory.spores?.[fungus.species]) + spores } } });
 }
 
 function checkSowing(garden, key, species, available, quantity, random) {
   if (!garden.hexes[key]) throw new Error('Sowing requires a garden hex.');
   if (garden.objects[key]) throw new Error('Sowing requires an empty hex.');
+  if (garden.pending?.[key] || garden.staged?.[key]) throw new Error('This hex has a committed or staged planting.');
   if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > available) {
     throw new Error(`Choose between 1 and ${available} available Seeds or Spores.`);
   }
@@ -251,7 +253,7 @@ export function sowPlant(garden, key, species, quantity = 1, random = Math.rando
   const success = random() < chance;
   const spent = { ...garden, inventory: { ...inventory,
     seeds: { ...inventory.seeds, [species]: owned - quantity } } };
-  return { garden: success ? placeObject(spent, key, makePlant(species)) : spent, success, chance };
+  return { garden: ensureInventorySlots(success ? placeObject(spent, key, makePlant(species)) : spent), success, chance };
 }
 
 export function sowFungus(garden, key, species, quantity = 1, random = Math.random) {
@@ -266,5 +268,5 @@ export function sowFungus(garden, key, species, quantity = 1, random = Math.rand
   const success = random() < chance;
   const spent = { ...garden, inventory: { ...inventory,
     spores: { ...inventory.spores, [species]: owned - quantity } } };
-  return { garden: success ? placeObject(spent, key, makeFungus(species)) : spent, success, chance };
+  return { garden: ensureInventorySlots(success ? placeObject(spent, key, makeFungus(species)) : spent), success, chance };
 }

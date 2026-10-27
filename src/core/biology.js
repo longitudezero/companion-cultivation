@@ -4,6 +4,7 @@ import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './eco
 import { FUNGI, PLANTS, effectCompatibility } from './species.js';
 import { advanceMycelium, isMycelial, MYCELIAL_TUNING } from './mycelial.js';
 import { advancePlantTransformations, reconcileTransformationClocks } from './transformations.js';
+import { revealGerminations } from './staging.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
@@ -157,18 +158,20 @@ export function advanceGardenTime(garden, hours = 1) {
       }
     }
     const ticked = { ...current, objects, mycelium, clockHours: (current.clockHours || 0) + 1 };
+    const revealed = revealGerminations(ticked);
+    events.push(...revealed.events);
     // A dying Fungus can change illumination at this exact timestamp. Catch a
     // previously prepared Daisyspell leaving Dim without granting extra time.
     if (Object.values(objects).some(item => item.type === 'plant'
       && ['Daisyspell', 'Moonlit Lotus', 'Mistlefoe', 'Ember Aloe', 'Moonjade', 'Ghost Rice'].includes(item.species))) {
-      const resolved = reconcileTransformationClocks(ticked, current);
+      const resolved = reconcileTransformationClocks(revealed.garden, current);
       for (const [key, item] of Object.entries(resolved.objects)) {
         if (objects[key]?.type === 'plant' && item.species !== objects[key].species) {
           events.push(`${objects[key].species} transformed into ${item.species} on hex ${key}.`);
         }
       }
       current = resolved;
-    } else current = ticked;
+    } else current = revealed.garden;
   }
   return { garden: current, events };
 }

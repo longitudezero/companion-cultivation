@@ -1,5 +1,7 @@
 # Spatial inventory, repeatable staging, and delayed germination
 
+> **Implementation update (Prototype 13, 27 October 2026):** The first playable version of the 200-slot inventory, staged reservations, atomic Apply, concealed delayed germination, drag-to-harvest and live progression during staging is now implemented. **This specification's approval-time descriptions of “not yet implemented,” schema 3 and Prototype 12 below are retained as historical context**, not the current runtime status. See the [implementation ledger](../../implementation-status.md) for schema 4, exact current scope, test coverage and **provisional** 6-hour/5-second clock values.
+
 > **Approved player-interaction design, 27 October 2026; implementation pending.** This document records decisions made after the first-pass six-family roster and Prototype 12's developer-tool separation. It governs the *intended player interface and planting flow*, not the current code's status. The existing approved [Seeds/Spores and harvesting rules](seeds-spores-and-harvesting.md), [simulation event order](simulation-and-time.md), [Plant-specific Leaf identities](../decisions/species-specific-leaves.md), and family profiles retain their quantitative authority. See the [implementation ledger](../../implementation-status.md) to determine what actually runs today.
 
 ## 1. Inventory identity, capacity, and arrangement — approved
