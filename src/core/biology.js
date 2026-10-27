@@ -86,6 +86,9 @@ function nextExposure(plant, conditions, mycelial) {
     Hot: conditions.Temperature === 'Hot' ? (previous.Hot || 0) + 1 : 0,
     Freezing: conditions.Temperature === 'Freezing' ? (previous.Freezing || 0) + 1 : 0,
     Mycelial: mycelial ? (previous.Mycelial || 0) + 1 : 0,
+    ...(plant.species === 'Mandrakadabra' ? {
+      Bright: conditions.Illumination === 'Bright' ? (previous.Bright || 0) + 1 : 0,
+    } : {}),
   };
 }
 
@@ -115,7 +118,8 @@ export function advanceGardenTime(garden, hours = 1) {
           continue;
         }
         const dyingFrom = Object.entries({ Dry: profile.dryDeath, Hot: profile.hotDeath,
-          Freezing: profile.freezingDeath, Mycelial: profile.mycelialDeath })
+          Freezing: profile.freezingDeath, Mycelial: profile.mycelialDeath,
+          ...(profile.brightDeath ? { Bright: profile.brightDeath } : {}) })
           .find(([hazard, threshold]) => exposure[hazard] >= threshold);
         if (dyingFrom) {
           delete objects[key];
@@ -153,7 +157,7 @@ export function advanceGardenTime(garden, hours = 1) {
     // A dying Fungus can change illumination at this exact timestamp. Catch a
     // previously prepared Daisyspell leaving Dim without granting extra time.
     if (Object.values(objects).some(item => item.type === 'plant'
-      && ['Daisyspell', 'Moonlit Lotus'].includes(item.species))) {
+      && ['Daisyspell', 'Moonlit Lotus', 'Mistlefoe'].includes(item.species))) {
       const resolved = reconcileTransformationClocks(ticked, current);
       for (const [key, item] of Object.entries(resolved.objects)) {
         if (objects[key]?.type === 'plant' && item.species !== objects[key].species) {

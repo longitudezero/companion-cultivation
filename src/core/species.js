@@ -1,5 +1,6 @@
 import { makeInfluence, makeSpreadInfluence } from './influences.js';
 import { AQUATIC_PLANTS } from './aquatic-species.js';
+import { WOODLANDS_PLANTS } from './woodlands-species.js';
 
 // Approved Ingredient §44 values. These records are simulation data, not UI rules.
 // Other Plant families will join this catalogue when their numeric profiles are wired.
@@ -72,6 +73,14 @@ export function effectCompatibility(profile, kind, conditions = null, amount = 0
       if (kind === 'seedYield') return 2.4;
       if (kind === 'germination') return 2;
     }
+    return ordinary;
+  }
+  if (profile.family === 'Woodlands') {
+    if (profile.name === 'Bamboom' && kind === 'seedYield' && conditions.Moisture === 'Damp') return 2.5;
+    if (profile.name === 'Mistlefoe' && kind === 'leafYield' && conditions.Illumination === 'Dim') return 1.8;
+    if (profile.name === 'Mandrabra' && kind === 'harvestWindow' && conditions.Illumination === 'Lit') return 1.6;
+    if (profile.name === 'Mandrakadabra' && kind === 'leafYield' && conditions.Illumination === 'Lit') return 2.5;
+    if (profile.name === 'Mandrakazam' && kind === 'seedYield' && conditions.Illumination === 'Dim') return 2.5;
     return ordinary;
   }
   if (profile.family !== 'Flowers') return ordinary;
@@ -179,6 +188,7 @@ export const PLANTS = Object.freeze({
     preferredTemperature: ['Temperate', 'Warm'], dryDeath: 48, mycelialDeath: 36, hotDeath: 48, freezingDeath: 48,
   }),
   ...AQUATIC_PLANTS,
+  ...WOODLANDS_PLANTS,
 });
 
 // Each fungus has *separate* environmental and cultivation outputs. The first
@@ -227,7 +237,8 @@ export const FUNGI = Object.freeze({
 
 export function makePlant(species, attunement = null) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
-  return { type: 'plant', species, progress: 0, ageHours: 0, exposure: { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0 },
+  return { type: 'plant', species, progress: 0, ageHours: 0,
+    exposure: { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0, ...(species === 'Mandrakadabra' ? { Bright: 0 } : {}) },
     production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 },
     transformationClocks: {}, transformationSequence: {},
     ...(species === 'Starlotus' && ['Damp', 'Flooded'].includes(attunement) ? { attunement } : {}) };

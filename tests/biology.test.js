@@ -10,7 +10,7 @@ import {
 const plantAt = (species = 'Potato', at = '2,2') => placeObject(createGarden(7, 7), at, makePlant(species));
 
 test('approved first biological catalogue includes all 7 Ingredients, 10 Flowers and 31 Fungi', () => {
-  assert.equal(Object.keys(PLANTS).length, 28);
+  assert.equal(Object.keys(PLANTS).length, 39);
   assert.equal(Object.keys(FUNGI).length, 31);
   assert.equal(PLANTS.Potato.compatibility.growthRate, 1);
   assert.equal(PLANTS.Potato.compatibility.allocation, 1);

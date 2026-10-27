@@ -151,7 +151,8 @@ export function availableHarvest(plant, contacts = [], conditions = null) {
   const innate = (plant.species === 'Starlotus' && plant.attunement && plant.attunement === moisture)
     ? 1.6 : plant.species === 'Silvercress' && plant.progress >= 100 && moisture === 'Damp'
       ? 1.5 : 1;
-  let leaves = Math.floor(count(bank.ordinaryLeaves) * innate + count(bank.hourlyLeaves) + 1e-9);
+  let leaves = plant.species === 'Bamboozled' ? 0
+    : Math.floor(count(bank.ordinaryLeaves) * innate + count(bank.hourlyLeaves) + 1e-9);
   let seeds = PLANTS[plant.species].seeds === 0 ? 0
     : Math.floor(count(bank.ordinarySeeds) + count(bank.hourlySeeds) + 1e-9);
   const compatibility = PLANTS[plant.species].compatibility.allocation;
@@ -169,12 +170,16 @@ export function availableHarvest(plant, contacts = [], conditions = null) {
     leaves -= exchanged;
     seeds += exchanged * 3;
   }
-  return { leaves, seeds, allocation };
+  return { leaves, seeds, allocation,
+    ...(plant.species === 'Bamboozled' ? { bambooSteel: plant.progress >= 100 ? 1 : 0 } : {}) };
 }
 
 export function harvestPlant(garden, key) {
   const plant = garden.objects[key];
   if (plant?.type !== 'plant') throw new Error('There is no living Plant to harvest here.');
+  if (plant.species === 'Bamboozled' && plant.progress < 100) {
+    throw new Error('Bamboo Steel trophy harvest requires Bamboozled to reach 100% Growth.');
+  }
   const yieldResult = availableHarvest(plant, calculateCultivation(garden)[key],
     calculateEnvironment(garden).conditions[key]);
   const next = removeObject(garden, key);
@@ -182,6 +187,8 @@ export function harvestPlant(garden, key) {
   const seedSpecies = PLANTS[plant.species].seedSpecies === undefined
     ? plant.species : PLANTS[plant.species].seedSpecies;
   return { ...next, inventory: { ...inventory, leaves: count(inventory.leaves) + yieldResult.leaves,
+    trophies: { ...inventory.trophies,
+      bambooSteel: count(inventory.trophies?.bambooSteel) + (yieldResult.bambooSteel || 0) },
     seeds: seedSpecies === null ? { ...inventory.seeds } : { ...inventory.seeds,
       [seedSpecies]: count(inventory.seeds?.[seedSpecies]) + yieldResult.seeds } } };
 }
