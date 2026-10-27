@@ -95,3 +95,10 @@
 - [ ] Shared rules are consistent across family pages (no conflicting duplicated definitions).
 - [ ] Old README and docs files are byte-for-byte unchanged; staging-only file additions are confirmed.
 - [ ] Proposed root README index is approved before any original README edit.
+
+
+---
+
+## Per-species coverage checkpoint (pass 10, 27 October 2026)
+
+The [new species ledger](species-coverage-ledger.md) independently enumerates **60 approved Plant species** by detailed profile heading and later-approved numerical table row, plus **31 approved Fungi** by detailed profile presence and nominal emission-matrix row. No species was missing from those checks. See the [cross-family conflict reconciliation](cross-family-reconciliation-pass-10.md) for the latest superseded hazard and Spices recipe-status corrections. This **does not check off the final semantic acceptance boxes above**: deciding the current-versus-historical authority of every qualitative paragraph and obtaining user comparison approval remain separate gates.

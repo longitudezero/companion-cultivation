@@ -91,7 +91,7 @@ To avoid defining a special exposure-based Plant but leaving its defining weakne
 
 **Approved recovery-event guardrail (§74):** Mere arrival at Warm does not cause Ashen Rose or Aloemancer. Only **Hot → Warm with Chillanterelle OR Rilllace contact** tests the just-completed uninterrupted Hot history. The two results are exclusive at the **36h** boundary and both use the same deliberate trigger. §64 supplies the snapshot/event order.
 
-### This batch's relationship, and next work
+### Approved Heat-branch relationships and follow-through
 
 | Plant | Strategic identity | Seed output |
 | --- | --- | --- |
@@ -187,19 +187,19 @@ Ashen Rose ──> Sandrose ─────────────────�
 
 **Concrete drought choice:** Sandrose has **no Dry death threshold**; Dry is as productive as Damp under suitable other Conditions. **It still dies from prolonged Mycelial exposure** and cannot farm productively under completely unsuitable Temperature conditions. Resilience is deliberately habitat-specific, not general immortality.
 
-### Moonjade Freezing / thaw qualification — concrete preliminary Plant-owned rule
+### Moonjade Freezing/thaw qualification — approved in §§36,74
 
-Choose an explicit first-pass threshold now so the central Cold recovery puzzle is not left indefinite:
+The user approved a precise first-pass **48-hour Freezing endurance** threshold, now integrated with the two exact Cold-thaw recipes in §74:
 
 1. Moonjade must experience **48 uninterrupted in-game hours of Freezing** to qualify for the **successful Jadewisp thaw/recovery outcome**. Freezing turns on **Dormancy** the moment that condition resolves, stopping Growth/Ripening and all Time-based production; its exposure clock **keeps advancing**. This exposure is **not a death timer**.
-2. After at least 48 hours, **thawing from Freezing to a viable non-Freezing temperature while the eventual specific recovery condition is satisfied** yields **Jadewisp** via the existing Plant-owned route. The recovery trigger may check the condition and the accumulated exposure immediately *before* Freezing ends, then reset it; no banked historical exposure.
+2. After at least 48 hours, **a Freezing → Cold transition with new resolved Damp + Dim and Dewmender OR Mistruffle contact** yields **Jadewisp** via the existing Plant-owned route. At the event, inspect the **just-completed uninterrupted Freezing history before the transition** and the **new Cold/Damp/Dim state plus emitted named contact after the transition** (§§64,74); no historical exposure bank survives.
 3. **Thawing early or without the later qualifying recovery condition does not produce Jadewisp** and does **not** automatically turn Moonjade into an undesirable species. It simply resumes as **Moonjade**, and its uninterrupted Freezing exposure is reset upon leaving Freezing. On refreezing, the count begins from zero.
 4. **Moonjade → Pearadox (§74)** is a separately approved **post-48h Freezing thaw outcome**, mutually exclusive with Moonjade → Jadewisp by its distinct resolved thaw environment/contact. The target is a fresh 0%-Growth Plant; exact conditions, contact, and event order are in §74 and §64. The old question of which route 'wins' is resolved by incompatible recipe predicates (§66).
 5. **Directly Seed-grown Moonjade starts with 0 hours Freezing exposure**. Jadewisp Seed harvests propagate Moonjade rather than prequalified Jadewisp.
 
 **Why 48h instead of Ember Aloe's 36h:** Freezing is safe for dormant Moonjade but **makes zero progress**, whereas productive Ember Aloe benefits by remaining Hot. Forty-eight hours creates a visible waiting investment with zero Flower-style per-hour benefit, making post-thaw high Moonjade Seed production a real reward. The 48-hour threshold is **approved first-pass balance**, subject to eventual tester playtesting and revision.
 
-### Batch-wide distinctions and next work
+### Approved Cold-branch distinctions and current status
 
 | Species | Farming signature | Seed identity |
 | --- | --- | --- |
@@ -219,7 +219,7 @@ Choose an explicit first-pass threshold now so the central Cold recovery puzzle 
 
 **Current status:** All eleven Desert Plant profiles (§§33–35), approved numerical tables (§36), and all **13 exact Transformation recipes (§74)** are recorded. Preserve Cactaclysm's broad Hot Leaf harvest and sterility and Mirage Rose's **1:1 Ember Aloe/Moonjade Seed mix**. No named fungal Transformation Effect or new Material Property is introduced; numbers remain subject to tester balance work.
 
-### Existing routes, not final recipes
+### Early route diagram (final named conditions in §74)
 
 ~~~text
 Jadeheart ───────────────────────────┐

@@ -3424,3 +3424,129 @@ These earlier staged passages were reconciled against later-approved cross-famil
 1. **Do not fill every stage of the 0–200% progression line.** The absence of hourly Leaf Production in the 125–160% interval is acceptable. Numerous Plants peak there, but no approved Plant's present mechanics demand an exclusive producer in that interval; review only if later transformation access recipes create that requirement. Duskleaf (70–125%) and Echomorel (160–190%) retain their distinct identities.
 ~~~~
 
+
+
+---
+
+## Editorial pass 10 — cross-family hazard and recovered Spices authority (27 October 2026)
+
+These **exact former staged lines** were superseded by later approved rules and are preserved for the final old-versus-new comparison. This pass especially corrects the obsolete Mandrakadabra hazard cited from other families, and four repetitive §75 statements that wrongly treated Spices recipes as still unrecovered after the user approved the §76 replacement. See the [pass-10 audit](../audit/cross-family-reconciliation-pass-10.md). Original source files and the root README are unchanged.
+
+### docs/next/plants/aquatic.md — 2 former lines
+
+- **Former line 341** (pass-10 baseline):
+
+~~~~text
+- For **Hot and Freezing**, none of these 11 Aquatic species has a beneficial exception. As a simple first-pass family response, each imposes **0.5× lifecycle rate and 0.5× ordinary yields**, followed by death after **72 uninterrupted hours** at that extreme. Individual Woodlands' much shorter 6-hour Mandrakadabra Mycelial weakness is a separate Plant-specific rule and is not revised here.
+~~~~
+
+- **Former line 345** (pass-10 baseline):
+
+~~~~text
+### Testing, decisions, and no premature fungus assignments
+~~~~
+
+### docs/next/plants/flowers.md — 2 former lines
+
+- **Former line 235** (pass-10 baseline):
+
+~~~~text
+| **Environment** | Prefers **Damp, Temperate-or-Warm, and Bright**. Lit is survivable but distinctly less productive, Dim/Dark suppress premium Leaf potential strongly; Dry/Flooded impair Growth/yield. **Hot is harmful** and not interchangeable with Warm. **Freezing and prolonged Mycelial** are hazardous and lethal. No additional bespoke lethal exposure like Mandrakadabra's 6-hour Mycelial threshold; the costly transformation, strict lighting and narrow peak already provide risks. |
+~~~~
+
+- **Former line 175** (pass-10 baseline):
+
+~~~~text
+### Relationships, existing constraints, and next steps
+~~~~
+
+### docs/next/plants/spices.md — 6 former lines
+
+- **Former line 15** (pass-10 baseline):
+
+~~~~text
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+~~~~
+
+- **Former line 116** (pass-10 baseline):
+
+~~~~text
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+~~~~
+
+- **Former line 214** (pass-10 baseline):
+
+~~~~text
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+~~~~
+
+- **Former line 308** (pass-10 baseline):
+
+~~~~text
+**Latest user confirmation (§75, 26 October 2026):** The user expressly accepted the proposed Spices recipe pass, emphasizing **both Sunrice/Dillusion → Pum'king opposing-Influence overlap routes** and **Ghost Rice's Lit-to-Glass-Apple route**, and asked to add it to GitHub. The repository previously retained only historical schematic recipe labels (§15) and Plant profiles (§§37–40), not a verifiable fully specified recent 11-row list of named fungi and exposure hours. §75 preserves the approval and traceable route/lighting constraints **without inventing precise unrecorded times, named contacts, or unverified conditions**. The core route acceptance is confirmed; detailed recipe parameters remain awaiting faithful recovery.
+~~~~
+
+- **Former line 291** (pass-10 baseline):
+
+~~~~text
+**Important:** Glass Apple producing Starberry Seeds gives a **non-Base Plant directly plantable Seeds** even though Starberry's own harvest generates Sunrice Seeds. This is allowed by the agreed cross-species Seed identity rules and is an intended meaningful later-game improvement to sustainable Starberry production, **not** a hidden new Transformation route or a guarantee of direct Glass Apple planting. The later per-Seed Starberry germination probability must be included in the Spices numerical pass even though Starberry itself does not produce those Seeds.
+~~~~
+
+- **Former line 293** (pass-10 baseline):
+
+~~~~text
+### Comparison and readiness for numbers
+~~~~
+
+### docs/next/plants/desert.md — 6 former lines
+
+- **Former line 94** (pass-10 baseline):
+
+~~~~text
+### This batch's relationship, and next work
+~~~~
+
+- **Former line 190** (pass-10 baseline):
+
+~~~~text
+### Moonjade Freezing / thaw qualification — concrete preliminary Plant-owned rule
+~~~~
+
+- **Former line 192** (pass-10 baseline):
+
+~~~~text
+Choose an explicit first-pass threshold now so the central Cold recovery puzzle is not left indefinite:
+~~~~
+
+- **Former line 195** (pass-10 baseline):
+
+~~~~text
+2. After at least 48 hours, **thawing from Freezing to a viable non-Freezing temperature while the eventual specific recovery condition is satisfied** yields **Jadewisp** via the existing Plant-owned route. The recovery trigger may check the condition and the accumulated exposure immediately *before* Freezing ends, then reset it; no banked historical exposure.
+~~~~
+
+- **Former line 202** (pass-10 baseline):
+
+~~~~text
+### Batch-wide distinctions and next work
+~~~~
+
+- **Former line 222** (pass-10 baseline):
+
+~~~~text
+### Existing routes, not final recipes
+~~~~
+
+### docs/next/plants/ingredients.md — 2 former lines
+
+- **Former line 100** (pass-10 baseline):
+
+~~~~text
+### First proposed batch comparison
+~~~~
+
+- **Former line 176** (pass-10 baseline):
+
+~~~~text
+### Seven-Ingredient species roles, approved versus proposed
+~~~~
+

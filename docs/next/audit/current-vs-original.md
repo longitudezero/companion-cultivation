@@ -144,3 +144,12 @@ The [pass-8 semantic report](profile-semantic-sweep-pass-8.md) records **10** ad
 The [pass-9 focused qualitative audit](species-qualitative-review-pass-9.md) cross-checked the higher-risk **Woodlands, Desert, Ingredients and Fungi** semantic exceptions against their later approved family routes and global rules, and corrected **8** remaining source-era status/narrative lines in Woodlands, Flowers, Desert, Spices and Final Fungi. This adds a scoped exception-review ledger rather than asserting universal per-profile sign-off. The eight complete former lines are archived in [historical decisions](../history/superseded-design.md#editorial-pass-9--remaining-qualitative-recipe-and-status-caveats-27-october-2026).
 
 No original document, root README, approved recipe table, or approved 31-Fungus nominal numerical matrix was edited. The 69-route geometry/event-time implementation tests and final comprehensive manual semantic acceptance remain open.
+
+
+---
+
+## Editorial pass 10 — cross-family authority and explicit 91-species coverage (27 October 2026)
+
+The [cross-family pass-10 audit](cross-family-reconciliation-pass-10.md) documents **18** additional corrected earlier status, heading or contradictory lines. Two late-family profile references incorrectly perpetuated Mandrakadabra's superseded **six-hour Mycelial hazard** instead of **4h Bright (§70)**. Four repeated Spices §75 paragraphs falsely said that its exact recipes were still pending, despite the subsequently approved **newly reconstructed §76 roster**. The source-era wording, including the distinction between a lost original table and a newly approved replacement, is preserved verbatim in [history](../history/superseded-design.md#editorial-pass-10--cross-family-hazard-and-recovered-spices-authority-27-october-2026).
+
+A new [per-species coverage ledger](species-coverage-ledger.md) mechanically verifies **60/60 Plant profile headings and approved numerical rows, and 31/31 Fungi from the detailed species profiles and emission matrix**. This is evidence of coverage, not yet a qualitative acceptance certificate for every sentence. All pre-existing repository files and the root README remain untouched; no approved recipe or core numeric row was edited.

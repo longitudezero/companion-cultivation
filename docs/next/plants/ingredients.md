@@ -97,7 +97,7 @@ Potato (APPROVED Base)
 | **Farming purpose** | **Low-attention, broad-window non-Seed farming** at a slower overall pace; useful for ordinary stable harvests rather than a magical environmental puzzle. |
 | **Effect compatibility** | Above-average **Harvest Window/Leaf Yield** compatibility, ordinary Growth, Ripening and Seed responses. **No outgoing transformations**. |
 
-### First proposed batch comparison
+### Approved first-batch Ingredient comparison
 
 | Ingredient | Base/terminal | Natural rotation niche | Seed harvest identity |
 | --- | --- | --- | --- |
@@ -173,7 +173,7 @@ Potato (the ONE transforming Base)
 
 **Distinctness safeguard:** **Carrot's** early 95–100% harvest is **fast and relatively forgiving**, with a strong basic yield. **Strawberry** reaches a slightly later 115% peak in a **much narrower interval**, producing a notably higher natural harvest but requiring precise attention. Its high Window widening response does not create a second bloom or extra harvest.
 
-### Seven-Ingredient species roles, approved versus proposed
+### Approved seven-Ingredient species roles
 
 | Species | Transformation status | Role | Own Seeds? | Profile status |
 | --- | --- | --- | --- | --- |
