@@ -1,6 +1,6 @@
 # Flowers — Plant family design
 
-> **Migration draft — not yet authoritative.** The original documents remain unchanged. Detailed source sections are carried over intact in this first pass to prevent losing numbers, edge cases or qualifications. Some inherited progress/status wording still describes earlier design phases; it will be moved into the historical reference during the editorial audit. The later approved recipe sections take precedence where they conflict.
+> **Migration draft — not yet authoritative.** The original documentation is unchanged. The approved source sections and numerical tables are retained in these topical drafts; where later decisions supersede older prose, the exact earlier wording is preserved in [historical decisions](../history/superseded-design.md). See the [Plant-family prose audit](../audit/plant-profile-prose-audit.md) before accepting these files as canonical.
 
 **Approved first-pass Transformation routes:** 12. **Source sections preserved:** §29, §30, §31, §32, §73.
 
@@ -20,7 +20,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 ### Family identity and confirmed design guardrails
 
 - Flowers are about **shape and timing of natural Leaf harvest curves**, plus the existing **Time-based Production** fungal Effect and harvest-window/rate trade-offs.
-- Early and late blooms are **intrinsic Plant harvest profiles**. Multiple separate peaks (especially **Rosewraith**, later batch) also belong to the Plant's **natural curve**. **No fungus grants a Secondary Bloom Effect**, a previously discarded idea. Yield boosts affect existing curve peaks, and timing/window adjustments reshape existing portions only.
+- Early, late and multiple blooms are **intrinsic Plant harvest profiles**. The approved **Rosewraith** (§§31–32) has its own two natural peaks at **115% and 180%**, not a fungus-created Secondary Bloom. Ordinary fungal Yield changes can affect eligible existing peaks, while Timing Shift/Window modifiers reshape existing curves without adding new blooms.
 - **One harvest per Plant** always consumes it, even if a Plant has more than one potential peak.
 - **Time-based Production is NOT automatically present** merely because a Plant has a narrow late harvest window. It applies only while qualifying fungus Effects are active and lifecycle progress is genuinely advancing within that Effect's specified window, never after 200% or during full stall.
 - Other established family edges remain intact: **Daisydaze → Charmomile, Lavendream, Poppycock**; **Charmomile → Daisyspell or Marigloom**; **Daisyspell → Orchidemon**; **Marigloom → Rosewraith**; and later alternate Orchidemon and Rosewraith routes. The old Fungus A/B/C/D labels in §13 are **superseded placeholders**, not assignments.
@@ -90,7 +90,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 - **Daisyspell**: **75% fleeting peak**, exceptionally fast, modest **Charmomile Seeds**, strong Bright/acceleration/window synergy; ensure it can be transformed into early enough for its crop payoff.
 - **Marigloom**: **170% late peak in 160–177% band**, very slow, low **own Seeds**, unusually strong compatibility with existing hourly Leaf Production rather than an invented fungal Secondary Bloom.
 
-As for Aquatic and Woodlands, remaining numerical values (peak heights, total times beyond Base, germination chances, detailed Condition hazard time, and Effect multipliers) will be specified **for all Flowers together after every Plant has a complete profile**; no reason to conceal its defining natural peak positions during this first role pass. **All four profiles are APPROVED as the initial Plant identities**, and subject to revision after implementation/playtesting.
+These four Flowers profiles were approved as initial Plant identities; their once-deferred stage lengths, Leaf/Seed peaks, Seed chances, Effect compatibility and hazard hours are subsequently **approved first-pass in §32**. Their 75%, 90% and 170% signature peak positions survive the numerical pass. All **12 current named-contact/transition Transformation recipes** are in **§73**; precise continuous-curve interpolation and eventual tester balance remain open.
 
 ---
 
@@ -179,7 +179,7 @@ The two **Dream Poppy origins** (Lavendread and Poppycock) are intentionally dis
 - **Poppycock**: high **own Seed** output and strong germination; Seeds arrive somewhat early, but 200% remains its maximum.
 - **Dream Poppy**: **180% late Leaf peak** and **Poppycock Seeds**, two legitimate Transformation origins and no origin-specific trait, same single harvest.
 - **Marigloom distinction:** The approved profile has **170%**, *narrow 160–177%* peak, exceptionally slow Ripening and very strong future time-based Leaf compatibility; Dream Poppy has **180%**, broader **165–190%** and a modestly slow Ripening stage.
-- **Rosewraith distinction:** Multiple *intrinsic* natural Leaf peaks, to be specified in the final Flowers batch; none of the four Plants here acquires a second peak from fungus.
+- **Rosewraith distinction:** The final approved profile (§31) and numeric pass (§32) give **two intrinsic Leaf peaks at 115% and 180%**, separated by a lower 145–155% valley; none of the four Plants in this batch gains an extra peak from fungi.
 - **Current numeric source:** All ten Flowers species' exact first-pass stage durations, peak yields, Seed quantities/chances, compatibility and hazards are approved in **§32**. The full **12-route** named-contact graph and durations are approved in **§73**. The early approximate peak identities are still informative; no fungus creates an extra bloom.
 - **Approval:** This four-species batch is approved first-pass, as are Rosewraith and Orchidemon (§31), the complete §32 numbers and all §73 named recipes. Remaining work is biological implementation and tester balance.
 
@@ -236,7 +236,7 @@ The two incoming routes for each are **real routes into the same named species**
 | **Farming purpose** | **Prestige high-output Leaf-only endpoint** requiring either a fast, timing-sensitive Daisyspell route or a slower, more forgiving Lavendream route. Powerful reward for arranging Bright and hitting the narrow harvest window, at the cost of obtaining new Plants through transformations because it cannot reproduce itself. |
 | **Effect compatibility** | **Very high response to ordinary Leaf Yield Adjustment while Bright**, with a substantial but lower response when merely Lit; **strong response to Harvest Window widening**, which is valuable given its naturally tiny peak window. Ordinary or slightly higher **Harvest Peak Timing Shift** and Lifecycle Rate response. **Seed Yield, Seed Timing, Time-based Seed Production, Germination for unattainable Seeds, and Produce–Seed Allocation all ineligible to generate Seeds**; full Leaf sterility trade-off is preserved. Time-based Leaf Production applies only if some future fungus emits it and the Plant continues advancing. |
 
-**Specific shape choice:** Its **single natural peak is 145%**, mainly **137–153%**, much narrower than Lavendream's **110–175%** plateau, with a much greater maximum. Precise maximum number belongs to the Flowers family-wide numerical table. Source-route feasibility must ensure Daisyspell can be transformed into Orchidemon without automatically passing this optimum; no fungus's "Transformation Effect" will exist.
+**Approved Orchidemon shape:** One **145%-progress** natural peak concentrated in the **137–153%** interval, worth **55 Leaves at its approved maximum** (§32), much narrower than Lavendream's **110–175%** plateau. The two approved acquisition routes are **Lavendream → Orchidemon** and **Daisyspell → Orchidemon**, including the latter's Dim-to-Bright timed sequence (§73); either creates a fresh 0%-Growth Orchidemon whose full harvest opportunity remains ahead. No fungus-specific Transformation Effect exists.
 
 ### Comparative identity and final Flowers state
 
@@ -257,7 +257,7 @@ The two incoming routes for each are **real routes into the same named species**
 **Latest recipe status (§73, 26 October 2026):** All **12 Flowers Transformation recipes** are **APPROVED first pass**, including Daisyspell's timed Dim-preparation → Bright completion route into Orchidemon. Earlier §13 A/B/C/D Fungus labels and recipe sketches are historical placeholders, superseded by §73. The Plants' bloom windows and cultivation Effect compatibilities below are **not** Transformation eligibility gates.
 
 
-**Status:** The user **approved all ten Flowers six-part profiles** (§29–31), including Rosewraith and Orchidemon, and asked for the **full numerical pass**. The user **approved the complete numeric pass** below as the accepted **first-pass Flowers balance** (subject to eventual playtesting), with the same game-wide benchmark as approved Woodlands/Aquatic (approximately 10 Leaves, 10 Seeds, 4 in-game days to 100%, 8 in-game days total to 200%). The game will have an actual playtest pass with testers after implementation; **err toward dramatic differentiation now** and revise findings afterward. Do not name fungi, assign their Effect packages, implement code, or invent Transformation Effects.
+**Current status:** All ten Flowers six-part profiles (§§29–31), the **complete §32 numerical balance**, and the **12 Plant-owned recipes with named contacts in §73** are approved first-pass. Their broad benchmark is approximately 10 Leaves/10 Seeds, four in-game days to Growth 100% and eight total to 200%, with intentional dramatic specialist deviations. No biology code has been implemented; **tester playtests after implementation** will guide tuning. All emitted fungal Effect packages remain those in the separately approved 31-species roster, not special Flower-exclusive Effects.
 
 ### A. Flowers lifecycle and harvest table
 
@@ -394,13 +394,13 @@ Flowers have **no shared innate special tolerance or preference for Mycelial**. 
 ### F. Feasibility checks and playtest targets
 
 - **Pre-100% harvesting is important:** Charmomile's 90% peak and Daisyspell's 75% peak must be harvestable while still technically in Growth. This is already consistent with "harvest when something is available", but any later UI/implementation gating harvest at 100% would contradict the approved Flower Plant roles.
-- **Charmomile → Daisyspell** creates Daisyspell at **0%**, so its own 75% peak remains reachable after the transformation. **Daisyspell → Orchidemon** likewise creates a new Orchidemon with its full 0–145% opportunity ahead. Both routes remain Plant-owned recipes, fungi unspecified; test the necessary environment and exposure setup without assuming progress carries over (§58).
+- **Charmomile → Daisyspell** creates a new 0%-Growth Daisyspell with a reachable innate 75% peak; its **Damp/Warm/Bright + Prismorel OR Glimmergill for 12h** route is fixed in §73. **Daisyspell → Orchidemon** uses the approved **10h Damp/Temperate/Dim preparation with Veilcap OR Fogdial**, followed by **Bright within 8h after leaving Dim** with **Prismorel OR Glimmergill** at completion (§73). The resulting 0%-Growth Orchidemon still has its full own high-Leaf 145% peak ahead. No old progress carries over (§58).
 - **Marigloom → Rosewraith** and **Dream Poppy → Rosewraith** both create a new Rosewraith at **0%** (§58), with its complete lifecycle available. The important feasibility question is sustaining the required habitat and enough time for the new Plant to reach its valuable **180%** second peak—not how much percentage remained on the precursor.
 - **Lavendream → Orchidemon** should provide a slower but robust alternative to the faster Daisyspell route. Orchidemon's 55 Leaf peak and high Bright compatibility justify repeated transformation costs, rather than inventing direct Orchidemon Seeds.
 - **Rosewraith is a two-peak Plant, not a two-harvest Plant.** Single harvest collects what is available *at that time*, including Seeds if the curve already provides them. "Harvest Leaves vs Harvest Seeds" is a strategic timing choice, not an item-type lockout.
 - **Sustained Leaves per occupied hex-day** (including Seed production, failed germination, failed transformations, fungal occupancy, and narrow-window harvest failures) matter more than raw 55 vs 38 vs 34. In particular, **Daisyspell's fast 24-Leaf 75% peak** may beat Orchidemon's higher one-time yield for throughput if the transformation chain is easy; keep both distinct by acquisition/precision/setup.
 - **Don't cap or tame the interesting extremes yet.** Tester playtests after implementation are the planned place to adjust overly strong production or overpunishing windows. Round fractional Seeds/Leaves consistently once implementation is being designed; no rounding rule is quietly asserted here.
-- **Status:** All ten Flowers profiles and the full §32 numerical pass are **APPROVED as initial balancing values** (including per-Seed germination, all Effect compatibility matrices, Leaf/Seed output, timing and continuous hazard thresholds). Values may change after eventual tester playtests. No code, fungi, or transformation recipes were changed.
+- **Approved scope:** All ten Flowers profiles, the §32 numerical pass and **all twelve exact §73 routes** are approved first-pass (including Seed chances, effect compatibility, yields, timing and continuous hazards). Values remain subject to later tester playtesting. **This documentation does not implement code or add new fungal/Transformation Effect categories.**
 
 ---
 

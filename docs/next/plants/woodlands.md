@@ -1,6 +1,6 @@
 # Woodlands — Plant family design
 
-> **Migration draft — not yet authoritative.** The original documents remain unchanged. Detailed source sections are carried over intact in this first pass to prevent losing numbers, edge cases or qualifications. Some inherited progress/status wording still describes earlier design phases; it will be moved into the historical reference during the editorial audit. The later approved recipe sections take precedence where they conflict.
+> **Migration draft — not yet authoritative.** The original documentation is unchanged. The approved source sections and numerical tables are retained in these topical drafts; where later decisions supersede older prose, the exact earlier wording is preserved in [historical decisions](../history/superseded-design.md). See the [Plant-family prose audit](../audit/plant-profile-prose-audit.md) before accepting these files as canonical.
 
 **Approved first-pass Transformation routes:** 13. **Source sections preserved:** §22, §23, §24, §70, §71, §72.
 
@@ -27,7 +27,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 | **Farming purpose** | Reliable starter crop, sustainable source of its own Seeds, and entry to Bamboo, Mandrake, and Tanglethorn routes. |
 | **Effect compatibility** | Ordinary/default strengths with applicable Growth, Ripening, Leaf, Seed, and germination Effects; no special compatibility modifiers or one-off conditions. |
 
-The user accepted this six-part direction as stated; no precise durations, probability figures, death timers, or yield curves have been committed. Base-Plant name remains open.
+The Woodlands Base name is still **undecided**. Its once-open stage times, Seed germination probability, yield benchmark and compatibility now have approved first-pass numbers in **§§23–24**; the full outgoing Transformation recipes are in **§71**. Continuous harvest-curve interpolation and some precise non-special hazard thresholds remain implementation/playtest questions.
 
 ### Bamboom — APPROVED first-pass profile
 
@@ -40,9 +40,9 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Germination** | **Ordinary/reliable**, assuming suitable habitat. No special germination gimmick needed; acquiring fresh Bamboom Instances still depends on the Woodlands Base and its transformation route. |
 | **Environment** | Favors **Damp** and **Temperate or Warm** conditions; **Lit** works well, **Dim** is acceptable. **Cold** impairs performance. **Hot/Freezing** are harmful; prolonged exposure can be lethal. **Mycelial** is harmful and eventually lethal. Nothing here grants an extreme or Mycelial bonus. |
 | **Farming purpose** | **Base-Seed amplifier:** grows and harvests relatively efficiently to replenish Seeds for multiple Woodlands branches, at the opportunity cost of sacrificing some Leaf output and occupying a field with a reproductive crop. Its value is farming throughput over repeated rotations, not unique rewards. |
-| **Effect compatibility** | **Strong response to Seed Yield increases**, especially under **Damp** conditions (a possible conditional strength bonus rather than a new Effect). Ordinary response to Growth acceleration and Germination increases; **Ripening acceleration is valuable** because Seeds arrive later. Standard response to other effects unless later species-specific needs emerge. No reversed fungal Effect directions. |
+| **Effect compatibility** | **Seed Yield 2.0× ordinarily, 2.5× while Damp**; **Growth Rate and Ripening Rate 1.3×**; Leaf Yield 0.8× (§24). Bamboom does not produce its own Seeds, so direct Bamboom-Seed Germination Adjustment is **N/A**. The increased Seed output remains **Woodlands Base Seeds**. Fungal Effect directions stay fixed by their emitters; no new Bamboom-only effect is introduced. |
 
-**Approved direction:** User endorsed the Bamboom profile as proposed, including strong production of **Woodlands Base Plant Seeds**, fairly fast Growth, lower Leaves, Damp/Temperate–Warm affinity, and strong Seed Yield compatibility. Exact rates, Leaf/Seed curves, the size of conditional Seed Yield bonuses, death thresholds, and transformation conditions remain unassigned.
+**Approved numerical and recipe follow-through:** Bamboom's stronger Woodlands Base Seed production, 18 Base Seeds at 200%, stage times, compatible Effect magnitudes, and the named **Bamboom → Bamboozeling** route (**Damp/Warm + Tickbolete OR Emberbell for 24h**) are now fixed first-pass in **§§23–24,71**. Its earlier open-name/contact remarks are superseded; the fine shape of continuous production curves and some hazard/rounding tuning remain to be tested.
 
 
 ### Bamboozeling — APPROVED first-pass profile
@@ -93,7 +93,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Farming purpose** | Low-maintenance **branch junction** with a worthwhile direct harvest and modest Seed self-sustainability. Supports safer Bramblewraith farming and the Mistlefoe → Mandrabra cross-branch pivot. |
 | **Effect compatibility** | Generally **ordinary strengths** with the catalogue's Growth/Ripening/Leaf/Seed/Germination Effects. No special global magnification or invented one-off effect required for a junction Plant. |
 
-**Open:** Exact environmental penalties, germination value, Leaf/Seed curves, and the two forward Transformation recipes.
+**First-pass resolution:** Tanglethorn's lifecycle/output and germination/Effect compatibility are in **§§23–24**. Its outgoing **Mistlefoe** and **Bramblewraith** recipes, with actual named contact and hours, are approved in **§71**. Finer continuous interpolation and environmental penalty tuning can be tested without treating either route as unassigned.
 
 ### Mistlefoe — APPROVED first-pass profile
 
@@ -106,9 +106,9 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Germination** | Ordinary to moderately demanding in suitable habitat; own Seeds can be grown once harvested, but this does not grant them as starting Seeds. |
 | **Environment** | Prefers **Damp, Dim, Temperate**. Lit is workable with reduced Leaf output; Cold/Warm produce mild penalties. Dry is unfavorable. Hot/Freezing and prolonged Mycelial exposure are dangerous and ultimately lethal. No exceptional tolerance. |
 | **Farming purpose** | **Attractive middle-tier Leaf crop with a strategic choice:** keep it productive and self-sustaining, or manipulate conditions to enter the more dangerous Mandrake branch, risking the Mistlewoe wrong turn. |
-| **Effect compatibility** | **Above-average magnitude of the existing non-Seed Harvest Yield Adjustment while Dim** (conditional strength bonus, not an extra effect); otherwise ordinary Growth/Ripening/Seed/Germination compatibility. The profitable fungal influence to be removed for the Mandrabra pivot can later be chosen from genuinely desirable established Effects. |
+| **Effect compatibility** | **Leaf Yield 1.0× ordinarily, 1.8× while Dim** (§24); other approved multipliers remain in that table. The intentional Mistlefoe fork involves **Mistruffle AND (Fogdial OR Veilcap)** in Damp/Dim. **Removing Mistruffle after 12h but before 20h**, while preserving the other qualifying requirements, creates Mandrabra; retaining all qualifying contact to 20h instead creates Mistlewoe (§71). Mistruffle also emits an ordinary Leaf Yield effect, not a new transformation effect. |
 
-**Open:** The specific effect strengths and qualification conditions, exact output curve, and fungus identities for the beneficial-versus-conflicting pair.
+**Resolved first-pass:** Mistlefoe's signed Effect compatibility numbers are in **§24**, and the **12h-to-under-20h contact-removal versus 20h sustained-contact** named-fungus fork is specified in **§71**. The exact continuous Leaf/Seed output-curve shape remains a later balancing detail.
 
 ### Mistlewoe — APPROVED first-pass profile
 
@@ -117,13 +117,13 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | Category | Approved first-pass profile direction |
 | --- | --- |
 | **Natural lifecycle** | **Slow Growth** and ordinary Ripening, producing poor overall throughput; every transformed instance begins at 0% under §58. |
-| **Natural harvest** | **Low Leaves** at one weak mid-Ripening peak and **very few Tanglethorn Seeds** toward late Ripening. No Mistlewoe Seeds proposed. Even the salvage harvest is worse than restoring Tanglethorn by transformation. |
-| **Germination** | No direct **Mistlewoe Seed** supply; intended to appear through transformation. The Tanglethorn Seeds harvested from it, if kept in the final design, germinate according to **Tanglethorn's** rules. |
+| **Natural harvest** | **Low Leaves**, with an approved first-pass **3-Leaf peak around 125%** and **2 Tanglethorn Seeds at 200%** (§23). **No Mistlewoe Seeds** are produced. Salvaging its Tanglethorn Seeds is weaker than a successful restoration to Tanglethorn but is a valid alternative to another Transformation. |
+| **Germination** | **Mistlewoe has no own Seed identity or direct planting route**. The approved **2 Tanglethorn Seeds** yielded at its late harvest (§23) use **Tanglethorn's 23% per-Seed germination chance** and ordinary five-Seed guarantee (§24). The Mistlewoe instance itself is reached by the §71 Mistlefoe Transformation. |
 | **Environment** | Favors ordinary **Damp/Temperate/Dim-or-Lit** merely to avoid further losses; Dry/Flooded/Cold/Warm tend to depress already-weak production. Hot/Freezing can kill it following exposure; **Mycelial is dangerous**, potentially with relatively short exposure tolerance. No bonus from Mycelial. |
 | **Farming purpose** | **Wrong-route consequence that remains redeemable.** Players may accept a meagre emergency harvest for a few Tanglethorn Seeds or transform it back into a productive Tanglethorn Plant. No exotic bonus or novel resource is needed. |
 | **Effect compatibility** | Standard or below-average **magnitude** for Leaf/Seed Yield increases; ordinary rate changes can speed or slow the weak lifecycle without changing its identity. Do not invert any fungal Effect. It remains a weak baseline crop despite ordinary enhancements. |
 
-**Open:** Whether this modest salvage Seed identity should be Tanglethorn Seeds (proposed) or none; exact damage and numerical Responses. Preserve the **confirmed return edge** regardless.
+**First-pass resolution:** Mistlewoe's **2 Tanglethorn Seeds at 200%, 3 Leaves near 125%, 5-day Growth/9-day total development** are recorded in **§23**. Its weak compatibility is in **§24** and the **Damp/Temperate/Lit + Dewmender OR Mistruffle for 12h** return route is in **§71**. Fine continuous curves and environmental severity remain playtest topics.
 
 ### Bramblewraith — APPROVED first-pass profile
 
@@ -138,7 +138,7 @@ The user accepted this six-part direction as stated; no precise durations, proba
 | **Farming purpose** | **Safe, self-sustaining, low-attention Leaf crop**: less peak output than the demanding Mandrake route, but far lower timing and environmental failure risk. A practical alternative for maximizing reliable output over long rotations. |
 | **Effect compatibility** | Ordinary Leaf Yield, Growth, Seed, and Ripening Effects. **Harvest Window widening has diminished practical room** because Bramblewraith's innate productive plateau is already broad; slowing Ripening can further increase real-world harvesting opportunity but does not create new peaks. No extraordinary fungal compatibility or new effect needed. |
 
-**Approved exception:** Bramblewraith is one of the rare Plants that **survive prolonged Mycelial exposure** without gaining anything from it. Mycelial remains a severe production penalty and can remain dangerous to nearby crops. The user **explicitly approved** Bramblewraith's Mycelial tolerance along with the entire four-Plant branch profile. Exact survival/penalty quantities remain later balance work.
+**Approved exception:** Bramblewraith indefinitely survives Hot, Freezing and Mycelial exposure, without acquiring an environmental or Mycelial benefit. Such states impose important rate/output penalties, described numerically in **§23–24**; these are production penalties **without a lethal countdown**. The user approved this rare resilience, which must survive balancing and implementation.
 
 ### Relationship summary — this four-Plant batch
 
@@ -153,7 +153,7 @@ Tanglethorn ───> Mistlefoe ───> Mandrabra       (desired pivot)
 
 ### Four-Plant approval update
 
-The user **approved the first-pass profiles of Tanglethorn, Mistlefoe, Mistlewoe, and Bramblewraith without immediate edits**, specifically endorsing **Bramblewraith's innate indefinite Mycelial tolerance with significant production penalties but no benefit**. All four are now approved design directions; detailed stats, actual transformation recipes, and fungal assignments remain to be set in later phases.
+The user approved **Tanglethorn, Mistlefoe, Mistlewoe and Bramblewraith** as first-pass profiles, including **Bramblewraith's indefinite Mycelial tolerance with severe production penalties and no bonus**. The later approved **§§23–24** give their numerical times, yields, germination and compatibility; **§71** specifies all of their outgoing routes and named fungal contacts. Only implementation/playtest calibration remains open.
 
 ### Mandrabra — APPROVED first-pass profile
 
@@ -302,7 +302,7 @@ These create significant differences in resource investment: Base Seeds are inex
 ### How to read the Effect compatibility numbers
 
 - A compatibility of **1.0×** means the Plant reacts to an emitted fungal modifier at **its normal declared strength**; **1.5×** means the **effect change itself is 50% stronger**, not that the Plant's total output is multiplied by 1.5. **0.5×** halves that modifier, and **0×** means no response to that particular Effect.
-- E.g. a *hypothetical* +20% Seed Yield emitter received at **2.5×** becomes **+50% Seed Yield** for that Plant. This is only a calculation illustration: **no specific fungus or emitted effect magnitude is assigned** in the Plant-first design phase.
+- Example: an emitted **+20% Seed Yield** received at **2.5×** compatibility produces a **+50% modifier** for that Plant, not a 2.5× multiplication of final harvest. **Emberbolete** is an actual approved +20% Seed Yield Source (§48), while this paragraph remains an illustration of the compatibility arithmetic rather than a recipe assignment.
 - For Growth/Ripening rates, the table indicates **sensitivity of the emitted signed speed change**. It does not change whether an acceleration is positive or a slowdown is negative. For harvest peak shift and Seed timing shift, the sign/direction belongs to the fungus; the multiplier cannot reverse it.
 - Environmental Moisture, Temperature, and Illumination **Influences themselves are globally consistent and non-Plant-dependent**. Plant preferences and risks from the resolved environment are already in individual Plant profiles (§22); **there are no Plant-specific multipliers to the environmental Source arithmetic**.
 - Species' **own Environmental Responses** and natural Harvest curves are distinct from fungus-effect compatibility; the percentage values and preferences already recorded for the Plant still apply.
@@ -347,7 +347,7 @@ These create significant differences in resource investment: Base Seeds are inex
 
 ### Key examples for later balancing and playtesting
 
-- **Bamboom** combines 18 Base Seeds at 200% with low Leaf output and **2.5× Seed Yield compatibility while Damp**. A hypothetical +20% standard Seed emitter becomes **+50% to Bamboom's own Seed output** (18 → 27 Seeds before rounding); fungal identities/values are not yet chosen.
+- **Bamboom** produces **18 Woodlands Base Seeds** at 200% and has **2.5× Seed Yield compatibility while Damp**. An actually approved **Emberbolete +20% Seed Yield** cultivation emission that reaches it would be amplified to **+50%** (18 → 27 Seeds before rounding), provided normal eligibility/other conditions hold (§§24,48); this is a farming example, **not a Transformation requirement**.
 - **Mistlefoe** naturally peaks at 14 Leaves and can make much more of a Leaf Yield emitter **while Dim**. Moving it to Lit sacrifices this compatibility bonus, creating a placement trade-off without an extra one-off ability.
 - **Bramblewraith** reaches a 12-Leaf broad plateau already, so **0.3× harvest widening** leaves minimal added headroom. It retains its rare **Mycelial survival tolerance with severe production penalty**, never a Mycelial advantage.
 - **Mandrakadabra** has a **30-Leaf** natural high peak and **2.5× Leaf Yield compatibility in Lit**. A +20% Yield source would contribute +50%, potentially **45 Leaves**, but its narrow harvest window, Seed costs, and **4-hour lethal Bright exposure after its Bright-demanding transformation** keep the setup demanding (§70).

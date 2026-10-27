@@ -65,3 +65,17 @@ The pass-2 counts above are kept as a historical checkpoint. See the dedicated [
 **Remaining acceptance gates:** Review the still-long source-derived prose for each Plant and Fungus at paragraph level; independently validate time/space geometry and exact design constants; resolve genuinely open fungal durations/Spore parameters through new decisions; then compare and approve the final documentation before replacing or editing any original.
 
 **Pass-3 mechanical checks:** **28** staged `docs/next/` files, **368** local relative Markdown link targets, including **10** in-document/cross-document fragment checks; **0 missing files** and **0 broken heading anchors**. Fenced copy-ready root README links were verified as paths from the repository root, rather than treated as live links relative to their draft's directory. Previous pass-2 navigation count (**296**) was measured before the two additional audit files and subsequent navigational links.
+
+
+---
+
+## Editorial pass 4 — Plant-family prose/status reconciliation (27 October 2026)
+
+All six Plant-family drafts were checked for **older narrative implying that already-approved values, fungal contacts or Transformation recipes were still unassigned**. The new [Plant profile prose audit](plant-profile-prose-audit.md) records the corrections and further acceptance gates.
+
+- **48 earlier lines/headings** (42 substantive status/detail corrections and six updated staging headers) were transcribed verbatim into [historical decisions](../history/superseded-design.md), in addition to the prior 179 historical excerpts (**227 total**).
+- **No approved recipe source section was changed:** Woodlands §§70–72, Aquatic §69, Flowers §73, Desert §74, Spices §76, Ingredients §67. The route totals remain **13 + 14 + 12 + 13 + 11 + 6 = 69**. This is a direct content-equality check against the pre-pass staging branch, not a claim that every hex layout has been simulated.
+- **No intended numerical parameter was invented**: sources now cite §§23–24,28,32,36,40,44 and current fungi §§47–57/§56 where they replace deferral wording. Remaining curve interpolation, implementation rounding, and feasibility are explicitly open.
+- **No pre-existing original or root README is an edit target.** A new plant-specific audit page was added under `docs/next/audit/` and the staging index linked to it. Link/row-count/tree results are recorded in the pass-4 audit after validation.
+
+**Measured pass-4 mechanical results:** six family table row counts unchanged (**155 / 169 / 175 / 208 / 191 / 150**); six final recipe tail blocks byte-identical to the preceding staging commit; all **48 replaced lines** archived verbatim; **398** local Markdown destinations across **29** staged files (**11** anchor fragments, **0 missing paths / 0 broken anchors**). The cumulative crosswalk remains **76/76**. Remote tree preservation is checked separately before updating the branch ref.

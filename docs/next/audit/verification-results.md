@@ -69,3 +69,16 @@ This follow-up audits the **31 fungal species individually**, beyond the first t
 - For the updated navigation check and exact remote branch tree comparison, see [the current-versus-original report](current-vs-original.md). Publishing the staged docs still requires user review.
 
 **Pass-3 link audit:** **368** local Markdown destinations across **28** staged draft files (including **10** heading fragments) resolve in the checked original/staged path set; **0 missing paths and 0 broken anchors**. The root-README copy snippet is fenced and has separately verified root-relative paths.
+
+
+---
+
+## Editorial pass 4 update — 27 October 2026
+
+The six-family [Plant profile prose audit](plant-profile-prose-audit.md) resolves **42** obsolete substantive lines plus **six** staging headers. The **48 earlier strings** are retained verbatim with source-section and former-line provenance in [history](../history/superseded-design.md), bringing the archive to **227** traceable extracts (**179 prior + 48 new**).
+
+- **Approved final recipe sections unchanged** character-for-character since the preceding branch commit; **69 Plant-owned routes** remain.
+- Six family Markdown table-row counts unchanged: **155,169,175,208,191,150**; all six files also preserve line counts.
+- Source crosswalk: **76 unique §§1–76**, no missing entries.
+- Static local Markdown navigation: **398 links across 29 staged files**, **11 heading fragments**, **0 missing paths / 0 broken anchors**.
+- These checks do not prove spatial recipe satisfiability or complete semantic equivalence of every original paragraph. The root README and pre-existing docs remain untouched during protected staging.

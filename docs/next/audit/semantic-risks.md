@@ -51,3 +51,12 @@ The 31-row [fungal emission and habitat matrix](../fungi/roster-matrix.md) and [
 - Replaced stale named-Transformation assignment claims with approved recipe references; no new abilities or recipes were invented.
 
 All replaced lines have exact source excerpts in [historical design](../history/superseded-design.md); source profiles retain their original table-row counts. **Still open:** per-paragraph manual semantic certification across all species and Plant families, numerical gaps originally deferred, and in-game layout/timing proofs.
+
+
+---
+
+## Pass 4 disposition — six Plant-family narrative checks
+
+The [Plant-family prose audit](plant-profile-prose-audit.md) resolves 42 inherited status/assignment statements (plus six staging headers) that conflicted with later approvals. These include Bamboom/Tanglethorn/Mistlefoe/Mistlewoe numeric and recipe deferrals, Kelpergeist/Starlotus contact timing, Flowers' already fixed 12 named recipes and bloom values, Ember Aloe's deliberate 36h recovery fork, Spices' actual Pum'king/Glass Apple contact groups, and Potato/Ingredients numeric and six-route status. Earlier exact wording is archived in [historical decisions](../history/superseded-design.md).
+
+**Remains risky:** all six family's per-cell numeric comparison against original source, geometry and event-order proof for intricate routes, and actual biology playtests. The staging docs are not yet authoritative.

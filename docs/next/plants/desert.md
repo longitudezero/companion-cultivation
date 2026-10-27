@@ -1,6 +1,6 @@
 # Desert — Plant family design
 
-> **Migration draft — not yet authoritative.** The original documents remain unchanged. Detailed source sections are carried over intact in this first pass to prevent losing numbers, edge cases or qualifications. Some inherited progress/status wording still describes earlier design phases; it will be moved into the historical reference during the editorial audit. The later approved recipe sections take precedence where they conflict.
+> **Migration draft — not yet authoritative.** The original documentation is unchanged. The approved source sections and numerical tables are retained in these topical drafts; where later decisions supersede older prose, the exact earlier wording is preserved in [historical decisions](../history/superseded-design.md). See the [Plant-family prose audit](../audit/plant-profile-prose-audit.md) before accepting these files as canonical.
 
 **Approved first-pass Transformation routes:** 13. **Source sections preserved:** §33, §34, §35, §36, §74.
 
@@ -31,14 +31,14 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 | --- | --- |
 | **Natural lifecycle** | **Ordinary 4-day Growth and 4-day Ripening** (8 total), matching the 10-unit game-wide reference. No Dormancy in its preferred habitat. |
 | **Natural harvest** | **10 Leaves around 100%** and **10 Jadeheart Seeds at 200%**, with a forgiving ordinary early/middle harvest curve and no second peak. Own Seeds. |
-| **Germination** | **Reliable, ordinary** additive per-Seed germination; Jadeheart Seeds are available at the start as the Desert Base. Exact one-Seed chance will be assigned alongside other Desert Seeds in the family numerical pass. |
+| **Germination** | **Jadeheart Seeds are available initially** as the Desert Base. The **approved §36 additive chance is 28% per Jadeheart Seed**, with **4 Seeds guaranteeing germination** under the ordinary cap. |
 | **Environment** | Prefers **Damp, Temperate or Warm, and Lit**; **Dry** is survivable with reduced Growth and output (not an instant death), **Flooded** significantly suppresses both. **Hot and Freezing** are genuine hazards to Jadeheart, never bonuses; prolonged Mycelial is hazardous/lethal. **No permanent Material/Sand Property exists** in the current environment (§61). |
 | **Farming purpose** | **Dependable baseline and starter Seed loop** for experimenting with Desert temperature routes. It is not itself a Heat or Frost specialist. |
 | **Effect compatibility** | Baseline **1.0×** magnitude for normal fungal Growth, Ripening, Leaf/Seed Yield, timing/window, germination, time-based production and Leaf–Seed allocation Effects. All environmental Source contributions remain global, not Plant-scaled. |
 
 ### Ember Aloe — APPROVED first-pass six-part profile
 
-**Core identity:** A real **Hot-loving productive Plant**, with a high-stakes future **endure-Heat-then-recover** option. It is useful in its own right, even if the farmer decides not to transform it.
+**Core identity:** Ember Aloe is a **productive Hot-loving Plant** with the approved **36 uninterrupted Hot-hour qualification**, followed by a deliberate **Hot → Warm recovery contact**. Under **Chillanterelle OR Rilllace**, recovery **before 36h → Ashen Rose**, while recovery **at or after 36h → Aloemancer** (§74). It remains worth farming directly even without attempting either route.
 
 | Category | Concrete first-pass definition |
 | --- | --- |
@@ -79,7 +79,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 | **Farming purpose** | **Recoverable strategic mistake** and small emergency base Seed salvage; the far more attractive option is the established transformation into useful **Sandrose**, which in turn can regain access to Cactopus. Not a dead end or a secret high-Leaf specialist. |
 | **Effect compatibility** | **Low Leaf and Seed Yield Adjustment compatibility**; ordinary-to-slightly-reduced lifecycle-rate and germination-related responses. Time-based production remains weak. Standard Effects cannot make it produce Ashen Rose Seeds from its nonexistent own-Seed line. |
 
-### Specific Ember Aloe Heat endurance rule — PROPOSED now, not deferred
+### Approved Ember Aloe Heat endurance and Hot-to-Warm recovery (§§36,74)
 
 To avoid defining a special exposure-based Plant but leaving its defining weakness/qualification vague, make the following **concrete Plant-owned preliminary state rule** now:
 
@@ -295,7 +295,7 @@ These proposals preserve the rest of the approved Desert roster:
 - **Moonjade** survives Freezing via full Dormancy and a 48h exposure qualifying thaw; **Jadewisp** supplies Moonjade Seeds; **Pearadox** grows in Hot (+70% Leaves) or Freezing (+80% Seeds at 75% rate); **Sandrose** remains fully productive in Dry.
 - **No Plant** has intrinsically beneficial Mycelial in this family; no universal Environmental Tolerance Effect or generic Transformation Effect is introduced, and no new Material/Fertility necessity is invented.
 - Each Transformation **replaces** its predecessor with a fresh Plant at **0%**, clearing old harvest banks and lethal-exposure clocks (§58); one harvest collects all eligible Leaves and Seeds of the current Plant and consumes it, even when that one Seed harvest generates two types as on Mirage Rose.
-- The **three profiles above are APPROVED**. **All eleven Desert Plants** have approved first-pass profiles. §36 records the **full proposed numerical pass** (stage times, Leaf and Seed curves, Seed species and germination, core/advanced compatibility, habitat outputs and exposure thresholds), for user review. After implementation, test with players and revise. No gameplay code should be touched now.
+- The three profiles above and **all eleven Desert Plants** are approved first-pass. The **§36 numerical pass**—stage times, curves, Seeds/germination, both compatibility matrices, habitat outputs and exposure hazards—is **also approved**, and **§74 fixes all thirteen Plant-owned transformation recipes**. Tester playtesting and possible balance revisions follow eventual implementation; **no gameplay code is changed by this documentation**.
 
 ---
 

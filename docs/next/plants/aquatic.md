@@ -1,6 +1,6 @@
 # Aquatic — Plant family design
 
-> **Migration draft — not yet authoritative.** The original documents remain unchanged. Detailed source sections are carried over intact in this first pass to prevent losing numbers, edge cases or qualifications. Some inherited progress/status wording still describes earlier design phases; it will be moved into the historical reference during the editorial audit. The later approved recipe sections take precedence where they conflict.
+> **Migration draft — not yet authoritative.** The original documentation is unchanged. The approved source sections and numerical tables are retained in these topical drafts; where later decisions supersede older prose, the exact earlier wording is preserved in [historical decisions](../history/superseded-design.md). See the [Plant-family prose audit](../audit/plant-profile-prose-audit.md) before accepting these files as canonical.
 
 **Approved first-pass Transformation routes:** 14. **Source sections preserved:** §25, §26, §27, §28, §69.
 
@@ -55,7 +55,7 @@ Unnamed Aquatic Base
 
 ### Kelpergeist — APPROVED first-pass profile
 
-**Existing role:** Valuable **Dark + Flooded specialist**. When **Flooded is continuously lost**, it can become **Kelpless**; interruption restores its opportunity to remain a Kelpergeist. Its alternative transformation to **Flooded-attuned Starlotus** is a separate pathway, but conditions are deferred.
+**Approved fork (§69):** Kelpergeist remains a valuable **Dark/Flooded specialist**. **18 uninterrupted hours without Flooded**, whether Damp or Dry and without any fungus prerequisite, transforms it to **Kelpless**. The alternative **Kelpergeist → Starlotus** requires **Flooded/Cold/Dim + Tidegill OR Siltgill for 28h**, creating a newly attuned Starlotus at 0%. Returning to Flooded before the environmental-loss clock completes resets that attempt.
 
 | Category | Approved first-pass profile direction |
 | --- | --- |
@@ -161,7 +161,7 @@ The user established that **draining after qualifying Flooded exposure** selects
 
 ## 27. Aquatic Plant profiles — Cress branch (APPROVED first-pass profiles)
 
-**Status:** The user approved the Lotus four (§26), including **sterile Starlotus**, reversible **+60% attuned Leaf bonus**, and Pearlily's dual route. This third Aquatic batch covers **Wild Watercress**, **Silvercress**, and **Cresscent**. The existing **Woodlands-style six profile areas** are followed. No named fungus or exact fungal Transformation recipe is assigned.
+**Approved status:** The user approved all Lotus profiles (§26), including **sterile Starlotus**, its reversible **+60% attuned Leaf bonus**, and Pearlily's multiple origins; the Cress profiles follow the same six-part structure. The full **§28** numerical pass and all **14 named or explicitly environmental-only §69 Transformation recipes** are now approved first-pass. Do not treat an earlier absence of named fungal assignments as current.
 
 **Existing network preserved:**
 
@@ -273,7 +273,7 @@ The previously approved **40% Cresscent chance** is preserved exactly. A Plant p
 
 ### C. Numeric Effect compatibility — main catalogue
 
-**Reading tables:** Every multiplier scales the **magnitude of the fungal Effect's change, not the entire final harvest or time**. The future fungus's own Effect identity and strength remain constant; Plant condition determines only response intensity. **1× ordinary**, **2× twice the emitted change**, **0× ineligible/no response**. Direction never reverses. Signed slowdowns can be *more adverse* on highly susceptible Plants; strengths are not guaranteed benefits. A slash means ordinary multiplier / special multiplier when the listed condition is met; conditions are evaluated on the receiving Plant's resolved environmental states or persisted attunement. Environmental Influence arithmetic (Moisture/Temperature/Illumination) remains globally consistent and is never multiplied by these compatibility tables.
+**Reading tables:** Every multiplier scales the **magnitude of the already approved emitting fungus's signed Effect change**, not the whole final harvest or time. The **31-species fungal roster (§§47–57)** defines effect identities, strengths and ranges; Plant conditions affect only response intensity. **1× ordinary**, **2× twice the emitted change**, **0× ineligible/no response**. Direction never reverses. Signed slowdowns can be *more adverse* on susceptible Plants; strengths are not guaranteed benefits. A slash means ordinary multiplier / special multiplier when the listed receiving-Plant condition or attunement holds. Environmental Influence arithmetic is globally consistent and never multiplied by these compatibility tables.
 
 | Plant | Growth Rate | Ripening Rate | Leaf Yield | Seed Yield | Germination |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -309,16 +309,16 @@ For **Moonlit Lotus**, the unusual 1.7× bonus applies **only to the already-est
 | Silvercress | 1.2× | 1.1× | 1.0× | 1.2× Leaves / 0.8× Seeds | 1.0× |
 | Cresscent | 0.8× | 1.0× | **1.4×** | 0.6× Leaves / **1.8× Seeds** | 1.5× |
 
-**Time-based Production** remains an explicit Effect emitted by a future fungus, never an automatic power granted by this table; it accumulates only while actual Growth/Ripening advances inside the fungus's stated active window, never after 200% or during full dormancy. If a particular fungus emits only Leaves/hour, the Seed-side entry does nothing. **Zero ordinary Seeds from sterile Starlotus** remains inviolable under Seed boosts, time-based output and allocation.
+**Time-based Production** is an ordinary Effect already emitted by the approved **Echomorel, Sim'mushro'dim, Duskleaf and Brookrill** roster entries, with their own Leaf/Seed streams, magnitudes, time windows and reach. It is **not** automatically granted by these compatibility tables: accrual requires a reaching eligible emission and positive Growth/Ripening progress inside the specified window, never after 200% or in full dormancy. **Starlotus's absolute Seed sterility** persists under Seed boosting, hourly production and Allocation.
 
 **Harvest Window** means changing the *width* of the existing natural yield curve without creating a second bloom. **Timing Shift** means changing when a peak occurs, not how much it produces. **Leaf–Seed Allocation** redistributes output in the emitter's defined direction; it does not change Seed identity, clone a Seed output that doesn't exist, or allow a second harvest.
 
 ### E. Primary Moisture Responses and exposure hazards — concrete optional balance numbers
 
-The profiles already specify **which Moisture states are favorable**. The following compact first-pass numbers make those relationships measurable, pending the same user review as the other tables. These describe a Plant's **innate environment response**, separate from emitted fungal Effect compatibility. **The fungal/environmental Source arithmetic is never scaled per Plant.**
+The profiles specify preferred Moisture states; **§28's approved first-pass numeric tables** make the innate Growth/output and Dry/Mycelial hazard relationships measurable. These apply independently of emitted fungus-effect compatibility, and **environmental Source arithmetic is never scaled per Plant**. Further balancing may happen after testers play the eventual implementation.
 
 - **Damp/Flooded values** in this paragraph are relative Crop Growth and normal yields; where a row favors one state, the other is typically **0.65×–0.90×**. Where both are equally viable (Pearlily, Silvercress, Starlotus before attunement), both are **1.0×**, ignoring their separate species-specific bonuses.
-- **Dry response proposal** below specifies a rate factor and output factor simultaneously. A **0× Growth factor** suspends lifecycle progress; it does not waive adverse exposure time, and therefore Dry can kill after its continuous threshold. Dry thresholds reset when Moisture stops being Dry.
+- **Approved first-pass Dry response (§28):** The table defines both lifecycle-rate and output factors. A **0× Growth** factor suspends lifecycle progress but **does not suspend harmful-exposure clocks**, so uninterrupted Dry can kill at the species' assigned threshold; its clock resets when resolved Moisture stops being Dry.
 
 | Plant | Damp baseline vs Flooded (Growth / ordinary yield) | While Dry (Growth / ordinary yield) | Continuous Dry until death | Continuous Mycelial until death |
 | --- | --- | --- | ---: | ---: |
