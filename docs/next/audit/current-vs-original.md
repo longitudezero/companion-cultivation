@@ -79,3 +79,20 @@ All six Plant-family drafts were checked for **older narrative implying that alr
 - **No pre-existing original or root README is an edit target.** A new plant-specific audit page was added under `docs/next/audit/` and the staging index linked to it. Link/row-count/tree results are recorded in the pass-4 audit after validation.
 
 **Measured pass-4 mechanical results:** six family table row counts unchanged (**155 / 169 / 175 / 208 / 191 / 150**); six final recipe tail blocks byte-identical to the preceding staging commit; all **48 replaced lines** archived verbatim; **398** local Markdown destinations across **29** staged files (**11** anchor fragments, **0 missing paths / 0 broken anchors**). The cumulative crosswalk remains **76/76**. Remote tree preservation is checked separately before updating the branch ref.
+
+
+---
+
+## Editorial pass 5 — direct frozen-source numerical audit (27 October 2026)
+
+This pass compared the **untouched 733,370-character design source** itself against the new topic files and [historical archive](../history/superseded-design.md), not merely the preceding staging version. See the [full numerical-source preservation report](numerical-source-preservation.md) and the [76-section line ledger](numeric-source-line-ledger.md).
+
+- **1,457** original non-heading lines contain a digit: **1,453** occur verbatim in the topical drafts and/or archive; the other **four** differ only by the corrected relocated Markdown-link destinations. After link-path normalization, **zero unaccounted** digit-bearing source lines.
+- The stricter pattern for numerical values, signed steps, percentages, multipliers, hours, days, Seeds, Leaves and ranges found **1,045** lines: **879 active**, **166 historical**, **zero absent**.
+- **Plant sections §§22–44:** **946** original Markdown table rows and **946** staged rows; **29 revised** rows, each original version archived exactly. The seven primary approved numerical sections (§§23,24,28,32,36,40,44) preserve **all 414 table rows verbatim**.
+- **Detailed Fungus §§47–50,53–55,57:** **211** original/staged rows, **32 revised** and **all 32** archived exactly. Combined Plant/Fungus table preservation: **1,157 rows, no unexplained disappearance**; 61 modified rows have archived originals.
+- **Final approved recipe/clarification §§67,69–74,76:** **102 table rows all identical** to the untouched source; the route count remains **69**. Full-text section differences are classified separately in the audit (trailing section separators/newlines and the deliberate §70 conflict correction).
+
+**Important limit:** Exact text presence does not establish that a historical statement should still be operative. Qualitative constraints, competing rule priorities, layout feasibility and remaining implementation parameters still require user review. No existing document or root README was edited for this audit.
+
+**Pass-5 staging navigation:** **31** `docs/next/` files, **422** local Markdown destinations (**11** heading anchors), **0** broken paths/anchors after adding the two numeric-audit files. The root README remains untouched.

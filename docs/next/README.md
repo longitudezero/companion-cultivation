@@ -52,4 +52,6 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Known supersession risk watchlist and progress](audit/semantic-risks.md)
 - [Fungal parameter-by-parameter audit](audit/fungal-parameter-audit.md)
 - [Six-family Plant profile prose audit](audit/plant-profile-prose-audit.md)
+- [Direct original-source numerical/table preservation audit](audit/numerical-source-preservation.md)
+- [Per-section numeric-source-line ledger](audit/numeric-source-line-ledger.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

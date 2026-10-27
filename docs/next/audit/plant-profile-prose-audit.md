@@ -43,3 +43,10 @@ The checks above verify **staged-draft structural preservation only**, not exact
 - A user-approved migration cutover: **do not edit the root README or remove/replace the old docs** based on this editorial pass.
 
 See [current-versus-original comparison](current-vs-original.md), [source relocation crosswalk](source-crosswalk.md) and [semantic conflict watchlist](semantic-risks.md).
+
+
+---
+
+## Subsequent direct-source numeric audit result (pass 5)
+
+The formerly pending **mechanical** portion of the original-source numerical comparison is now recorded in [numerical-source-preservation.md](numerical-source-preservation.md): all **946** original Plant profile/numerical table rows are accounted for in their corresponding staged sections, with the **29** changed row originals archived verbatim; all **414** rows in the seven principal numerical sections are exact. This does **not** close the outstanding *human semantic and implementation feasibility* review items above.

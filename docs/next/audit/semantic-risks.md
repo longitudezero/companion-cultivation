@@ -60,3 +60,12 @@ All replaced lines have exact source excerpts in [historical design](../history/
 The [Plant-family prose audit](plant-profile-prose-audit.md) resolves 42 inherited status/assignment statements (plus six staging headers) that conflicted with later approvals. These include Bamboom/Tanglethorn/Mistlefoe/Mistlewoe numeric and recipe deferrals, Kelpergeist/Starlotus contact timing, Flowers' already fixed 12 named recipes and bloom values, Ember Aloe's deliberate 36h recovery fork, Spices' actual Pum'king/Glass Apple contact groups, and Potato/Ingredients numeric and six-route status. Earlier exact wording is archived in [historical decisions](../history/superseded-design.md).
 
 **Remains risky:** all six family's per-cell numeric comparison against original source, geometry and event-order proof for intricate routes, and actual biology playtests. The staging docs are not yet authoritative.
+
+
+---
+
+## Pass 5 disposition — quantitative preservation, not semantic sign-off
+
+The direct [original-source numerical audit](numerical-source-preservation.md) finds **no unaccounted digit-bearing source lines**, **1,157** original Plant/Fungus profile+numeric table rows matched by section and position, and **all 61** intentionally revised table rows archived in their exact former form. All final approved recipe-table rows survived. The [line ledger](numeric-source-line-ledger.md) distinguishes active versus historical text.
+
+**Still high-risk:** authoritative-vs-superseded classification of *qualitative* rules, compatibility eligibility (especially zero-output and harvest-time conversion), same-timestamp phase transitions, source-geometry feasibility, and actual runtime testability. Do not interpret historical text preservation as permission to implement a superseded rule.

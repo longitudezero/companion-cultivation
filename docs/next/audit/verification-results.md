@@ -82,3 +82,17 @@ The six-family [Plant profile prose audit](plant-profile-prose-audit.md) resolve
 - Source crosswalk: **76 unique §§1–76**, no missing entries.
 - Static local Markdown navigation: **398 links across 29 staged files**, **11 heading fragments**, **0 missing paths / 0 broken anchors**.
 - These checks do not prove spatial recipe satisfiability or complete semantic equivalence of every original paragraph. The root README and pre-existing docs remain untouched during protected staging.
+
+
+---
+
+## Editorial pass 5 update — 27 October 2026
+
+See [numerical-source-preservation.md](numerical-source-preservation.md) and its [section-level digit-bearing line ledger](numeric-source-line-ledger.md). The original complete design file was independently fetched at frozen base commit `a9f5f70d97dd5d992c0680515ef28e596f1b7d9b` and compared directly with the current staged topical files and archive.
+
+- **1,457 / 1,457** source lines containing digits accounted for (**four** have only Markdown link-location changes); **0 unaccounted**.
+- **946 / 946 Plant** and **211 / 211 detailed Fungus** Markdown table rows occupy their corresponding numbered staging sections. **All 61** changed original rows are preserved exactly in history.
+- **414 / 414** Plant primary numeric-table rows copied exactly; all **102** final-recipe/clarification table rows match the original.
+- No accidental balance or field omissions were detected by the mechanical tests. This is **not** yet a full semantic/manual acceptance certificate and does not authorize changes to the root README or the original docs.
+
+**Pass-5 navigation:** **422** local relative Markdown links across **31** staged files, including **11** heading fragments, resolve in the static check; **0 broken**. The [original-vs-new comparison](current-vs-original.md) remains the place to verify cutover readiness.
