@@ -23,7 +23,7 @@
 
 **These are provisional working names**, chosen to follow the game's whimsical naming without conflating existing Plants (Starberry vs Strawberry etc.). They can be renamed during the broader fungus roster review. The Leaf/Seed and +15% Growth source strengths here are **first-pass proposals**, not the full numeric pass; the allocation exchange rates are purposefully **NOT assigned yet**, because the global exchange semantics need explicit clarification before inserting numbers. This does NOT prevent approving a first-pass Effect identity and environmental pairing now.
 
-**Why six, not one:** The first three make **three already-covered Effects available by another Source at another strength/side effect**, while the last three fill **both unassigned catalogue dimensions** (Seed Timing and the two opposed Allocation directions) and provide **two named Waterborne cultivation emissions**. A player seeking a particular Yield/Rate should have more choices than "find fungus B"; after designing these we should add further alternatives to other singleton Effects rather than stop at an arbitrary count.
+**Why §53 added six:** The first three species added meaningful alternatives to existing Effect categories, while the last three introduced the previously unassigned **Seed Timing Shift** and both **Leaf–Seed Allocation directions** alongside two Waterborne cultivation emissions. This was the start of source-diversity work, **not an unfinished plan**: §§54–55 and §57 completed the approved first-pass roster at **31 Fungi**, with Gloamclock, Bristlecap and Goldgill supplying further timing/allocation alternatives and five Waterborne emitters across the roster. Additional sources remain optional future expansions, not prerequisites for Plant Transformation design.
 
 ### B. Mistruffle — APPROVED first-pass alternative Leaf Yield Source
 
@@ -95,15 +95,15 @@
 
 ### H. Effect alternatives and design pressure test
 
-| Wanted Effect | Earlier source | New proposed alternative | Meaningful choice rather than a straight upgrade |
+| Wanted Effect | Earlier-source context at §53 | Approved §53 source | Current alternatives and trade-offs |
 | --- | --- | --- | --- |
 | **Leaf Yield +** | **Chillanterelle +20%, Cooling −1 [APPROVED]** | **Mistruffle +12%, Wetting +1** | Stronger direct boost vs a favorable Moisture correction on selected crops; wetting can also ruin Damp farms |
 | **Seed Yield +** | **Emberbolete +20%, Warming +1 [APPROVED]** | **Crumblecap +12%, Drying −1** | Stronger boost vs freedom from potentially fatal warming, balanced against drought |
 | **Growth Rate +** | **Rushroom +30%, Cooling −1, Mycelial dependent [APPROVED]** | **Quickshade +15%, Darkening −1, Mycelial independent** | Strong high-infrastructure vs flexible lower-power source; Plant-specific light preferences matter |
-| **Seed Timing Shift** | **NO earlier source** | **Tidegill −12pp, Waterborne unlimited connected-Flooded reach (§56)** | First viable source; future alternatives with different propagation/environment should be explored |
-| **Leaf-favoring Allocation** | **Frostfolio** was the first source | **Frostfolio 80% Leaf-favoring donor fraction**, Cooling −1, Airborne R1; **3 Seeds → 1 Leaf** under §56 | Later alternatives include Bristlecap 60%; actual harvest eligibility, rounding and net stacking are fully defined in §56 |
-| **Seed-favoring Allocation** | **NO earlier source** | **Sunspore, Warming +1, Waterborne** | First source, different footprint and Leaf opportunity cost, with Seed sterility rules |
-| **Waterborne cultivation** | **NO earlier source** | **Tidegill and Sunspore** | Two independent Seed-related Effects with shared existing Waterborne medium; both require connected Flooded traversal |
+| **Seed Timing Shift** | None before §53 | **Tidegill −12pp earlier**, Waterborne unlimited connected-Flooded reach (§56) | **Gloamclock −8pp earlier** is the later approved Airborne alternative (§55); Brightening versus Darkening and Waterborne versus Airborne remain distinct |
+| **Leaf-favoring Allocation** | Introduced here with Frostfolio | **Frostfolio 80%** Leaf-favoring donor fraction, Cooling −1, Airborne R1; §56's **3 eligible Seeds → 1 Leaf** | **Bristlecap 60%** with Drying is a later approved alternative (§55); net stacking, output eligibility and integer rounding follow §56 |
+| **Seed-favoring Allocation** | None before §53 | **Sunspore 80%** Seed-favoring donor fraction, Warming +1, Waterborne unlimited connected-Flooded reach (§56) | **Goldgill 60%**, Brightening +1 and Airborne R1, is the later approved alternative (§55); §56 requires eligible existing Leaf and Seed streams |
+| **Waterborne cultivation** | None before §53 | **Tidegill and Sunspore** introduced Seed-related Waterborne Effects | The complete approved set is **Tidegill, Sunspore, Rilllace, Brookrill and Siltgill**; all five have **unlimited connected-Flooded cultivation reach** (§56) while their environmental emissions travel independently |
 
 **Anti-auto-win test:** None of the six has more than one new Plant Development Effect. Some environmental emissions naturally help a specific crop along with the direct Effect, especially Mistruffle Wetting in suitable Aquatic layouts or Sunspore Warming with Warm/Flooded Rice. **This is not banned**: the user wants genuine placement problems, but not a rule that all fungal Effects must oppose each other. The higher magnitude alternatives, Mycelial variants, different source reaches, environmental states and Seed-spending decisions remain available. A +12% Wetting Leaf source should not be declared the universal optimal answer when a +20% Cooling Leaf source could be better in a different setup.
 

@@ -93,7 +93,7 @@
 - [ ] Every superseded rule has an explicit replacement pointer; no obsolete condition is presented as current.
 - [ ] Environmental v1.2 and old v1.1 are distinguishable and all links resolve.
 - [ ] Shared rules are consistent across family pages (no conflicting duplicated definitions).
-- [ ] Old README and docs files are byte-for-byte unchanged; staging-only file additions are confirmed.
+- [x] Old README and docs files are byte-for-byte unchanged; staging-only file additions are confirmed. (Verified against branch base; [pass-11 evidence](final-navigation-and-authority-pass-11.md).)
 - [ ] Proposed root README index is approved before any original README edit.
 
 

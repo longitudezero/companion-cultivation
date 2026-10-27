@@ -14,6 +14,7 @@
 | Required Mycelial on a Plant as a Transformation gate | [Woodlands](../plants/woodlands.md), §§70–72 — rejected; source-side dependency still allowed |
 | Original Glimmer/Veil/Gloam/Prism Spices placeholders or unrecoverable §75 exact values | [Spices §76](../plants/spices.md) — explicitly approved new 11-row replacement |
 | Statements that individual family recipe passes remain pending | [Family files](../README.md) — all 69 first-pass routes now approved |
+| Earlier statements that Seed Timing Shift or Leaf–Seed Allocation has no named fungus, or that §53's two Waterborne emitters are the full roster | [Fungi alternatives](../fungi/profiles-alternatives.md), [roster matrix](../fungi/roster-matrix.md) and §56 — alternatives approved across 31 Fungi; five Waterborne emitters |
 
 The complete original source documents remain unchanged at [the repository's existing docs](../../herbs-and-fungi-design.md). The sections below are intentionally historical, not active implementation specifications.
 
@@ -3550,3 +3551,80 @@ Choose an explicit first-pass threshold now so the central Cold recovery puzzle 
 ### Seven-Ingredient species roles, approved versus proposed
 ~~~~
 
+---
+
+## Editorial pass 11 — fungal Effect alternatives and staging-authority cleanup (27 October 2026)
+
+The already-approved **31-Fungus first-pass roster** and **69 Plant-owned Transformation routes** supersede the unresolved §50/§53 next-steps prose below. Existing numerical Effect values, profile tables and approved routes were not edited. The former active lines are preserved whole, for side-by-side comparison.
+
+### 1. docs/next/fungi/profiles-foundation.md — former line 270
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+**Important effect coverage to audit after this batch:** Existing approved Plant compatibility matrices also include **Seed Timing Shift** and **Leaf–Seed Allocation**. Neither of those has been assigned to any named fungus in §§48–50, so a roster-wide follow-up may need **one or two additional fungus species** or non-automatically-synergistic third effects. There is **NO obligation to stop at 13 fungi**, and no justification for reopening forbidden Secondary Bloom, Environmental Tolerance, generic Transformation Influence, or the potentially removable Enchanted overlay. The other relevant catalogue Effects would now be represented: Growth increase/decrease, Ripening increase/decrease, Leaf Yield, Seed Yield, Germination, Harvest Window, Leaf timing earlier/later, time-based Leaf/Seed production; environments ±Moisture, ±Temperature, ±Illumination, plus sole Mycelial from Mycelord. Fungus names and exact numerical values remain first-pass.
+~~~~
+
+### 2. docs/next/fungi/profiles-foundation.md — former line 272
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+**User-review status:** §47 Mycelord and §48/§49 eight ordinary fungus packages are **APPROVED**. **§50 Echomorel/Wakemorel/Hushroom/Sim'mushro'dim are APPROVED as first-pass fungus bundles** by the user's later explicit agreement. Nominal +0.15/hour and +25%/+8pp initial strengths, eligibility windows and simplified habitats remain subject to full fungus-wide numeric balancing. If approved, first perform an **effect-coverage audit** (especially Seed Timing Shift and Allocation), then a complete fungus numeric pass (durations, Spores, germination, effect powers, footprint/overlays), and **after all fungal design** a fully separated complete Plant-owned Transformation recipe pass. No code changed.
+~~~~
+
+### 3. docs/next/fungi/profiles-alternatives.md — former line 26
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+**Why six, not one:** The first three make **three already-covered Effects available by another Source at another strength/side effect**, while the last three fill **both unassigned catalogue dimensions** (Seed Timing and the two opposed Allocation directions) and provide **two named Waterborne cultivation emissions**. A player seeking a particular Yield/Rate should have more choices than "find fungus B"; after designing these we should add further alternatives to other singleton Effects rather than stop at an arbitrary count.
+~~~~
+
+### 4. docs/next/fungi/profiles-alternatives.md — former line 98
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+| Wanted Effect | Earlier source | New proposed alternative | Meaningful choice rather than a straight upgrade |
+~~~~
+
+### 5. docs/next/fungi/profiles-alternatives.md — former line 103
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+| **Seed Timing Shift** | **NO earlier source** | **Tidegill −12pp, Waterborne unlimited connected-Flooded reach (§56)** | First viable source; future alternatives with different propagation/environment should be explored |
+~~~~
+
+### 6. docs/next/fungi/profiles-alternatives.md — former line 104
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+| **Leaf-favoring Allocation** | **Frostfolio** was the first source | **Frostfolio 80% Leaf-favoring donor fraction**, Cooling −1, Airborne R1; **3 Seeds → 1 Leaf** under §56 | Later alternatives include Bristlecap 60%; actual harvest eligibility, rounding and net stacking are fully defined in §56 |
+~~~~
+
+### 7. docs/next/fungi/profiles-alternatives.md — former line 105
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+| **Seed-favoring Allocation** | **NO earlier source** | **Sunspore, Warming +1, Waterborne** | First source, different footprint and Leaf opportunity cost, with Seed sterility rules |
+~~~~
+
+### 8. docs/next/fungi/profiles-alternatives.md — former line 106
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+| **Waterborne cultivation** | **NO earlier source** | **Tidegill and Sunspore** | Two independent Seed-related Effects with shared existing Waterborne medium; both require connected Flooded traversal |
+~~~~
+
+### 9. docs/next/systems/environment.md — former line 5
+
+This **full original staged line** was retired from the active staging draft during pass 11; exact original phrasing follows.
+
+~~~~text
+**Cultivation design:** [Herbs, Fungi & Cultivation](../README.md) remains authoritative for future Plants, Fungi, Mycelial ground and Transformations, which are **not yet implemented**.
+~~~~

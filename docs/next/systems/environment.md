@@ -2,7 +2,7 @@
 
 **Status:** Authoritative specification for the implemented Prototype 1 environmental sandbox, updated 26 October 2026.  
 **Historical reference:** [Environmental System v1.1](../../environmental-system-v1.1.md). v1.1 records the original four-Property/material prototype and remains available as an archive; **this v1.2 document supersedes it wherever they differ**.  
-**Cultivation design:** [Herbs, Fungi & Cultivation](../README.md) remains authoritative for future Plants, Fungi, Mycelial ground and Transformations, which are **not yet implemented**.
+**Cultivation design:** The [reorganized design index](../README.md) is a **preservation-first staging draft, not yet the official documentation**. Its first-pass 60-Plant/31-Fungus roster and 69 Plant-owned Transformation routes are approved in design, but **Plant/Fungus/Mycelial gameplay remains unimplemented**. All pre-existing documentation remains unchanged pending the user's side-by-side approval.
 
 ## 1. Environmental state — exactly three Properties
 

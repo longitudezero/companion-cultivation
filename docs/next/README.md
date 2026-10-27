@@ -59,5 +59,7 @@ The game is a deterministic hex-garden environmental sandbox being developed int
 - [Profile semantic sweep — pass 8: resolved first-pass numeric deferrals](audit/profile-semantic-sweep-pass-8.md)
 - [Focused species and shared-rule qualitative review — pass 9](audit/species-qualitative-review-pass-9.md)
 - [Cross-family hazard and Spices rule reconciliation — pass 10](audit/cross-family-reconciliation-pass-10.md)
+- [Staged preservation, source and link-verification checkpoints](audit/verification-results.md)
 - [Complete 60-Plant / 31-Fungus species coverage ledger](audit/species-coverage-ledger.md)
+- [Final navigation and Fungi authority check — pass 11](audit/final-navigation-and-authority-pass-11.md)
 - [Proposed root README update](ROOT-README-DRAFT.md) — **not yet applied**

@@ -111,3 +111,7 @@ See [numerical-source-preservation.md](numerical-source-preservation.md) and its
 **Pass-6 navigation/structural QA:** **471** local Markdown destinations, **13** heading fragments, **0 broken targets**, **32** staged files; the six Plant-family table-row counts and **all 102 approved final recipe-section table rows** remain unchanged.
 
 **History-index integrity repair:** Restored the missing original body of the *staged* `docs/next/history/README.md` from a prior known-good branch commit and merged subsequent audit notes. Checked all staged Markdown documents again for missing top-level headings and a literal `undefined` at the start; **none remain**. No pre-existing repository file was edited.
+
+## Editorial pass 11 update — 27 October 2026
+
+The [pass-11 report](final-navigation-and-authority-pass-11.md) records the current **staging-wide Markdown file/link/heading-fragment graph** and the Fungi source-authority corrections. The initial **23 newly added files** count at the top of this report is explicitly a **first-pass snapshot**, not a count for the current branch. See the pass-11 report for the current count and file reachability. The original source documents and root README have stayed byte-for-byte unchanged; design acceptance and a rendered Markdown inspection remain open.
