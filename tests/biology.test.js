@@ -9,8 +9,8 @@ import {
 
 const plantAt = (species = 'Potato', at = '2,2') => placeObject(createGarden(7, 7), at, makePlant(species));
 
-test('playable biology catalogue has five Plant families (50 species) and 31 Fungi', () => {
-  assert.equal(Object.keys(PLANTS).length, 50);
+test('playable biology catalogue has six Plant families (60 species) and 31 Fungi', () => {
+  assert.equal(Object.keys(PLANTS).length, 60);
   assert.equal(Object.keys(FUNGI).length, 31);
   assert.equal(PLANTS.Potato.compatibility.growthRate, 1);
   assert.equal(PLANTS.Potato.compatibility.allocation, 1);

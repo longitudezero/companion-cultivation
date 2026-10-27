@@ -10,11 +10,14 @@ import { WOODLANDS_TRANSFORMATIONS, emptyWoodlandsSequence, advanceWoodlandsSequ
   reconcileWoodlandsSequence } from './woodlands-transformations.js';
 import { DESERT_TRANSFORMATIONS, isDesertRecovery, desertRecoveryStatus,
   completedDesertRecovery } from './desert-transformations.js';
+import { SPICES_TRANSFORMATIONS, matchesOpposingLight, advanceSpicesSequenceHour,
+  reconcileSpicesSequence, spicesSequenceStatus } from './spices-transformations.js';
 
 export { FLOWER_TRANSFORMATIONS, namedFungalContacts } from './flower-transformations.js';
 export { AQUATIC_TRANSFORMATIONS } from './aquatic-transformations.js';
 export { WOODLANDS_TRANSFORMATIONS } from './woodlands-transformations.js';
 export { DESERT_TRANSFORMATIONS } from './desert-transformations.js';
+export { SPICES_TRANSFORMATIONS } from './spices-transformations.js';
 
 // Ingredients §67. Conditions are the resolved Conditions on the Plant hex;
 // emission is an actually reaching environmental contribution from a living
@@ -38,6 +41,8 @@ export const TRANSFORMATIONS = Object.freeze({
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
   ...Object.fromEntries(Object.entries(DESERT_TRANSFORMATIONS)
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
+  ...Object.fromEntries(Object.entries(SPICES_TRANSFORMATIONS)
+    .map(([species, recipes]) => [species, Object.freeze(recipes)])),
 });
 
 function transformedPlant(from, recipe) {
@@ -52,7 +57,8 @@ export function matchesTransformation(garden, key, recipe, environment, cultivat
   if (recipe.noMycelial && isMycelial(garden, key)) return false;
   if (recipe.contacts) {
     return matchesNamedGroups(recipe.contacts, namedFungalContacts(garden, key, environment,
-      cultivation || calculateCultivation(garden, environment)));
+      cultivation || calculateCultivation(garden, environment)))
+      && (!recipe.opposingLight || matchesOpposingLight(garden, key, recipe, environment));
   }
   // Use the resolved environment's real, blocker-aware routed/airborne
   // footprints. A Source emission never substitutes for fungal contact.
@@ -68,6 +74,11 @@ export function transformationStatus(garden, key, environment = calculateEnviron
   return (TRANSFORMATIONS[plant.species] || []).map(recipe => {
     if (isDesertRecovery(recipe)) return desertRecoveryStatus(plant, recipe, environment, key);
     if (recipe.sequence) {
+      if (recipe.sequence === 'dark-to-lit') {
+        return spicesSequenceStatus(garden, key, recipe,
+          plant.transformationSequence?.[recipe.into] || { phase: 'preparing', preparedHours: 0, windowHours: 0 },
+          environment, effects);
+      }
       const aquatic = recipe.sequence === 'flood-to-damp';
       const woodlands = recipe.sequence === 'mistruffle-departure';
       const state = plant.transformationSequence?.[recipe.into]
@@ -127,7 +138,9 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
       const state = plant.transformationSequence?.[recipe.into]
         || (aquatic ? emptyAquaticSequence() : woodlands ? emptyWoodlandsSequence() : emptySequence());
       const former = previousGarden?.objects[key]?.species === plant.species ? previousEnvironment : null;
-      const result = aquatic
+      const result = recipe.sequence === 'dark-to-lit'
+        ? reconcileSpicesSequence(garden, key, recipe, state, environment, cultivation, former)
+        : aquatic
         ? reconcileAquaticSequence(garden, previousGarden, key, recipe, state,
           environment, cultivation, former, previousCultivation, matchesSequencePhase)
         : woodlands ? reconcileWoodlandsSequence(garden, previousGarden, key, recipe, state,
@@ -164,7 +177,11 @@ export function advancePlantTransformations(garden, key, environment, cultivatio
   if (completed) return { plant: transformedPlant(plant, completed), into: completed.into };
   const sequence = { ...plant.transformationSequence };
   for (const recipe of recipes.filter(recipe => recipe.sequence && !isDesertRecovery(recipe))) {
-    if (recipe.sequence === 'flood-to-damp') {
+    if (recipe.sequence === 'dark-to-lit') {
+      const result = advanceSpicesSequenceHour(garden, key, recipe, environment, effects);
+      if (result.complete) return { plant: transformedPlant(plant, recipe), into: recipe.into };
+      sequence[recipe.into] = result.state;
+    } else if (recipe.sequence === 'flood-to-damp') {
       sequence[recipe.into] = advanceAquaticSequenceHour(garden, key, recipe, environment,
         effects, matchesSequencePhase);
     } else if (recipe.sequence === 'mistruffle-departure') {

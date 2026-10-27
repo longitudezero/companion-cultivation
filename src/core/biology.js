@@ -160,7 +160,7 @@ export function advanceGardenTime(garden, hours = 1) {
     // A dying Fungus can change illumination at this exact timestamp. Catch a
     // previously prepared Daisyspell leaving Dim without granting extra time.
     if (Object.values(objects).some(item => item.type === 'plant'
-      && ['Daisyspell', 'Moonlit Lotus', 'Mistlefoe', 'Ember Aloe', 'Moonjade'].includes(item.species))) {
+      && ['Daisyspell', 'Moonlit Lotus', 'Mistlefoe', 'Ember Aloe', 'Moonjade', 'Ghost Rice'].includes(item.species))) {
       const resolved = reconcileTransformationClocks(ticked, current);
       for (const [key, item] of Object.entries(resolved.objects)) {
         if (objects[key]?.type === 'plant' && item.species !== objects[key].species) {
