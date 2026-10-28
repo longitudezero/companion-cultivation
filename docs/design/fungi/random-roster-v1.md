@@ -72,6 +72,33 @@ The structure is still **8 ordinary Fungi with 2 cultivation effects, 4 with 3**
 - **Effects and numbers are still provisional:** the new shorter Harvest Window and negative Growth Rate require detailed behavior tests; no magnitudes have been set.
 - **Mycelord is unchanged** and not counted among the 12.
 
+## New audit: duplicate *player outcomes* within one Fungus (not yet edited)
+
+The earlier structural repairs removed identical modifiers and direct sign cancellation. The user identified a second and more important redundancy: **two mechanically different effects can still be the same ready-made reward from the player's point of view**.
+
+| Fungus | Effect A | Effect B | Shared player outcome |
+| --- | --- | --- | --- |
+| **F04** | + Hourly Leaves | Seeds → Leaves Allocation | More Leaves |
+| **F05** | + Leaf Yield | + Hourly Leaves | More Leaves |
+| **F10** | Leaves → Seeds Allocation | + Hourly Seeds | More Seeds |
+
+This is different from **F07** (+ Hourly Leaves / − ordinary Leaf Yield), which has opposing effects on different production systems and may produce a genuine time-dependent trade-off. Likewise, two different Fungi providing one method each can be useful **alternatives** without packaging a complete resource engine into a single Source.
+
+**Working default:** Within one ordinary Fungus, avoid two positive effects whose main job is to produce the **same resource**, unless a compelling independently tested ecological/positional constraint justifies the package. Preserve three different routes to Leaves (ordinary Yield, hourly generation, Seed Allocation) and three to Seeds (ordinary Yield, hourly generation, Leaf Allocation), but generally distribute them among separate Fungi.
+
+### Possible four-slot V2 redistribution — NOT APPLIED
+
+| Fungus | Proposed replacement | Retained resource method | Reason and open risk |
+| --- | --- | --- | --- |
+| F04 | + Hourly Leaves → **− Seed Yield** | Seeds → Leaves Allocation | Less Seed feedstock for conversion creates tension; it might be too weak if most of its Seeds vanish. |
+| F05 | + Leaf Yield → **− Growth Rate** | + Hourly Leaves | Keeps the hourly option while delaying access to its window; duplicates the negative Growth type elsewhere but not the same positive role. |
+| F10 | + Hourly Seeds → **− Leaf Yield** | Leaves → Seeds Allocation | Limits the Leaf pool available for conversion; might create an overly punitive self-starvation loop. |
+| F12 | + Seed Yield → **+ Hourly Seeds** | A different Seed route | Moves hourly Seed generation to another Fungus; F03 still provides ordinary + Seed Yield. |
+
+**If** these were applied, the roster would still have all 12 Fungi, the same environmental emissions, and these output options distributed across distinct Sources: ordinary Leaf Yield (F02/F09), hourly Leaves (F05/F07), Seeds→Leaves (F04), ordinary Seed Yield (F03), hourly Seeds (F12), and Leaves→Seeds (F10).
+
+**No V2 substitutions have been made.** These four are a coordinated hypothesis only, because changing F04 and F10 to negative Yield may starve their own Allocation effects. Review the complete Leaf/Seed plans before deciding whether these, different timing effects, or habitat/propagation constraints are preferable. Do not solve F04, F05 or F10 in isolation.
+
 ## What to investigate next — no automatic extra edits
 
 1. **Leaf path:** F05 + F04 + F02, and whether F09 makes their environmental drawbacks trivial to cancel.
