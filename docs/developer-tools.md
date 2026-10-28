@@ -46,4 +46,4 @@ The [approved spatial-inventory and repeatable staging specification](design/sys
 
 Portable `.ccsave` backups are likewise readable JSON containing the entire state; the player-facing UI keeps concealed results hidden, but files are not encrypted. There is no account-based sync or automatic game-time catch-up while the browser is closed. File downloads use the browser's normal downloads folder or browser-configured destination.
 
-For code coverage and provisional numerical assumptions, use the [implementation ledger](implementation-status.md). For normative gameplay specifications, use the [design index](design/README.md). The [original full design source](herbs-and-fungi-design.md) and historical documents are preserved unchanged.
+For code coverage and provisional numerical assumptions, use the [implementation ledger](implementation-status.md). For normative gameplay specifications, use the [design index](design/README.md). The [original full design source](historical-archive/originals/herbs-and-fungi-design.md) and historical documents are preserved unchanged.

@@ -1,10 +1,10 @@
 # Desert — Plant family design
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 13. **Source sections preserved:** §33, §34, §35, §36, §74.
 
-[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../history/superseded-design.md)
+[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../../historical-archive/superseded-design/superseded-design.md)
 
 This file keeps the detailed species profiles, numerical tables, Seed identities, environmental responses and approved recipes together. The original source sections follow for verification; any older statements that recipes are still pending are superseded by the final recipe section included below.
 
@@ -19,7 +19,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 ### Established network excerpt
 
-**Complete approved Desert transformation network:** All **13** routes, including Moonjade's two thaw outcomes and Cactopus/Pearadox/Mirage Rose branches, are specified in [§74 below](#74--desert-all-13-plant-owned-transformation-recipes-approved-first-pass-26-october-2026). The incomplete early graph and its bracketed branch placeholders are preserved in [history](../history/superseded-design.md).
+**Complete approved Desert transformation network:** All **13** routes, including Moonjade's two thaw outcomes and Cactopus/Pearadox/Mirage Rose branches, are specified in [§74 below](./#74--desert-all-13-plant-owned-transformation-recipes-approved-first-pass-26-october-2026). The incomplete early graph and its bracketed branch placeholders are preserved in [history](../../historical-archive/superseded-design/superseded-design.md).
 
 **Approved Ember Aloe recovery (§74):** It grows productively under Hot and measures continuous Hot exposure. At a qualifying **Hot → Warm** event with actual **Chillanterelle OR Rilllace** contact, **<36h** creates Ashen Rose and **≥36h** creates Aloemancer. Mere cooling or losing Hot without the contact is not a Transformation. This is a Plant-owned event predicate, not a new fungal Transformation Effect.
 

@@ -1,8 +1,9 @@
 # Companion Cultivation — Environmental System v1.2
 
-**Status:** Authoritative specification for the implemented Prototype 1 environmental sandbox, updated 26 October 2026.  
-**Historical reference:** [Environmental System v1.1](../../environmental-system-v1.1.md). v1.1 records the original four-Property/material prototype and remains available as an archive; **this v1.2 document supersedes it wherever they differ**.  
-**Cultivation design:** The [organized design index](../README.md) is the current **approved first-pass design reference** for 60 Plants, 31 Fungi and 69 Plant-owned Transformation routes. These biological systems remain **unimplemented**. The original [environmental v1.2 specification](../../environmental-system-v1.2.md) and earlier design sources remain unchanged for comparison.
+**Status:** **ACTIVE · APPROVED** environmental foundation, implemented through Prototype 16. Historical Prototype 1 descriptions below document its original approval.
+
+**Historical reference:** [Environmental System v1.1](../../historical-archive/originals/environmental-system-v1.1.md). v1.1 records the original four-Property/material prototype and remains available as an archive; **this v1.2 document supersedes it wherever they differ**.
+**Cultivation design:** The [current design index](../README.md) covers 60 Plants, the implemented [V8 twelve-Fungus roster plus Mycelord](../fungi/random-roster-v8.md), and [69 V9 Transformations](../fungi/random-roster-v9.md). The original [environmental v1.2 specification](../../historical-archive/originals/environmental-system-v1.2.md) is preserved for comparison.
 
 ## 1. Environmental state — exactly three Properties
 

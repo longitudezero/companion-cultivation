@@ -1,6 +1,6 @@
 # Plant lifecycle and production — common framework
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** The 60 Plant profiles and lifecycle rules are implemented. Historical status claims below describe earlier design checkpoints; the [V8 Fungus roster](../fungi/random-roster-v8.md) and [V9 recipes](../fungi/random-roster-v9.md) supersede first-pass references to fungal effects or contacts.
 
 ## Current shared framework
 

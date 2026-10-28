@@ -1,10 +1,10 @@
 # Spices — Plant family design
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 11. **Source sections preserved:** §37, §38, §39, §40, §76.
 
-[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../history/superseded-design.md)
+[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../../historical-archive/superseded-design/superseded-design.md)
 
 This file keeps the detailed species profiles, numerical tables, Seed identities, environmental responses and approved recipes together. The original source sections follow for verification; any older statements that recipes are still pending are superseded by the final recipe section included below.
 
@@ -17,7 +17,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 **Status:** The user **approved Desert's complete §36 numeric pass as first-pass balance** and asked to begin **Spices**. The approved Spices family architecture, old Food sketch preserved in §15, its ten species and all existing branch/cross-branch routes are retained. This first six-part profile batch for **Thymely, Sunrice, Moonrice and Shadow Onion**—the Base and three first branches—was **APPROVED by the user** without changes. These are **working identifiers from the older Food sketch**, explicitly **NOT locked names** or settled RPG ingredients; rename all Spices to cooking-spice-appropriate identities during the later naming pass without redesigning their established mechanics. The separate **Ingredients** family covers recognizable food items via **one universal transforming Base and terminal nontransforming outputs** (§41 supersedes the earlier note).
 
-**Current scope:** The ten Spices Plant profiles and numerical pass are approved (§§37–40), the 31-Fungus roster is approved first-pass, and **all 11 Plant-owned Transformation recipes are specified in §76**. Spices use resolved Dark / Dim / Lit / Bright, ordinary Luminous Source algebra, separately emitted fungal cultivation Influences, and actual Blocker/propagation footprints. There is no day/night cycle, special Light resource, photocharge meter, or generic Transformation Effect. Superseded §15 placeholder fungi appear only in the [history](../history/superseded-design.md).
+**Current scope:** The ten Spices Plant profiles and numerical pass are approved (§§37–40), the 31-Fungus roster is approved first-pass, and **all 11 Plant-owned Transformation recipes are specified in §76**. Spices use resolved Dark / Dim / Lit / Bright, ordinary Luminous Source algebra, separately emitted fungal cultivation Influences, and actual Blocker/propagation footprints. There is no day/night cycle, special Light resource, photocharge meter, or generic Transformation Effect. Superseded §15 placeholder fungi appear only in the [history](../../historical-archive/superseded-design/superseded-design.md).
 
 ### Approved Spices transformation network
 

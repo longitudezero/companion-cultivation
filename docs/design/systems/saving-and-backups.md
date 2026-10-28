@@ -1,14 +1,16 @@
 # Browser autosave and portable garden backups
 
-**Player-facing persistence decision, 27 October 2026; first implemented in Prototype 14, extended in Prototype 15 for the Cultivation Grimoire.** This page supplements the [live staging specification](spatial-inventory-and-staging.md) and [per-garden discovery rules](cultivation-grimoire.md) without changing any Plant, Fungus, environment or transformation rule. For tested scope, consult the [implementation ledger](../../implementation-status.md).
+> **ACTIVE · APPROVED — Prototype 16.** Player autosaving, portable `.ccsave` backups and per-garden Grimoire knowledge are implemented. Schema V6 is deliberately incompatible with earlier saves; the migration discussion below is historical Prototype 14–15 context, not a current compatibility promise. See [implementation status](../../implementation-status.md).
+
+This page supplements the [live staging specification](spatial-inventory-and-staging.md) and [per-garden discovery rules](cultivation-grimoire.md) without changing Plant, Fungus, environment or Transformation mechanics.
 
 ## Automatic local saving
 
-- The current game writes the entire garden after each state update to the browser's **localStorage**, under `companion-cultivation:sandbox:v5`. This is **website data**, not the browser's disposable resource cache or an account-backed cloud save.
+- The current game writes the entire garden after each state update to the browser's **localStorage**, under `companion-cultivation:sandbox:v6`. This is **website data**, not the browser's disposable resource cache or an account-backed cloud save.
 - The saved state includes the clock, environment, organism stages and output banks, inventory quantities and their manual square positions, uncommitted staged quantities, committed pending germinations and their concealed outcomes/reveal times, **and the garden's Cultivation Grimoire discovery ledger**.
 - Refreshing or reopening the game in the **same browser profile and device** resumes this state. Clearing website data, using private browsing or changing browser/device may lose that autosave; browsers can also decline storage. A visible `Autosaved` / `Autosave unavailable` status indicates whether the last write succeeded.
 - The farm currently advances only while its page is open, using the deliberately provisional live-clock rate. **Offline/background catch-up remains undecided**; loading an old save does not invent elapsed simulated hours.
-- Existing older browser storage keys (`sandbox:v1`, `v2`, `v3`, `v4`) are not overwritten during the v5 migration; they remain reference copies. Once a file is loaded, subsequent auto-updates write the active `v5` key. Migration identifies the six base Plants plus Plants that are already living in the old garden; it does **not** invent historical Transformation recipes or Fungal discoveries.
+- Existing older browser storage keys are left untouched for reference; the active game writes only the `v6` key. Old schema versions are rejected rather than migrated, as explicitly approved for Prototype 16. A V6 save preserves its real observed Grimoire facts without fabricating past transformations.
 
 ## Player-facing Save Game
 
@@ -20,7 +22,7 @@
 ## Player-facing Load Game
 
 1. **Load Game** opens the native file picker for `.ccsave` files or the older `.json` developer exports.
-2. Parse, recognize the envelope/version or old raw garden format, validate supported size and structure, migrate earlier garden schemas, and verify the calculated environment **before altering the active garden**.
+2. Parse, recognize the envelope/version or raw JSON garden format, validate the supported V6 schema, file size and structure, and verify the calculated environment **before altering the active garden**. Earlier incompatible schemas are rejected.
 3. Ask for explicit confirmation that loading will replace the current garden and the next browser autosave. Cancellation or a rejected/corrupt file changes **nothing** in the active garden.
 4. Restore the full validated garden and resume its saved clock, inventory positions, staging proposals, pending reveal timers **and the knowledge recorded in its Grimoire**. Clear transient UI selections/quantity dialogs; keep developer JSON export/import functional behind its existing toggle.
 

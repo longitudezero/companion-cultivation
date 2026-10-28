@@ -1,8 +1,8 @@
 # Garden simulation, event ordering, and elapsed time
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** The environmental and biological event order is implemented. Timings and balance remain provisional. First-pass “not implemented” statements below are historical; [V9](../fungi/random-roster-v9.md) defines the current recipe predicates.
 
-**Implementation boundary:** the environmental recalculation is implemented in Prototype 1; the six-step living-organism update order below is approved design-only. See [Environment](environment.md) and [Mycelial](mycelial.md).
+**Implementation boundary:** the live simulation covers environmental recalculation and time-advanced organism/Mycelial events, with automated tests and provisional timing values. See [Environment](environment.md), [Mycelial](mycelial.md) and [implementation status](../../implementation-status.md).
 
 ## 64. Whole-garden event and update order — APPROVED
 
