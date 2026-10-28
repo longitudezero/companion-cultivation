@@ -1,6 +1,6 @@
 # Superseded and historical design material
 
-> **Historical archive, not implementation authority.** The source excerpts below preserve early exploratory ideas, previous approved-but-replaced approaches, prior status reports and earlier audit stages. They are retained verbatim for provenance and comparison. When a statement conflicts with the newer [current design index](../editorial/design-index-before-organisation.md), the linked later decision governs.
+> **Historical archive, not implementation authority.** The source excerpts below preserve early exploratory ideas, previous approved-but-replaced approaches, prior status reports and earlier audit stages. They are retained verbatim for provenance and comparison. When a statement conflicts with the newer [current design index](../../design/README.md), the linked later decision governs.
 
 ## Major supersession index
 
@@ -13,7 +13,7 @@
 | Instant Mycelial-dependent fungus death on loss of habitat | [Fungus lifecycle](../../design/systems/fungus-lifecycle.md), §§57/60 — timed grace and continued emissions while alive |
 | Required Mycelial on a Plant as a Transformation gate | [Woodlands](../../design/plants/woodlands.md), §§70–72 — rejected; source-side dependency still allowed |
 | Original Glimmer/Veil/Gloam/Prism Spices placeholders or unrecoverable §75 exact values | [Spices §76](../../design/plants/spices.md) — explicitly approved new 11-row replacement |
-| Statements that individual family recipe passes remain pending | [Family files](../editorial/design-index-before-organisation.md) — all 69 first-pass routes now approved |
+| Statements that individual family recipe passes remain pending | [Family files](../../design/README.md#plant-families) — all 69 routes are now specified in [V9](../../design/fungi/random-roster-v9.md) |
 | Earlier statements that Seed Timing Shift or Leaf–Seed Allocation has no named fungus, or that §53's two Waterborne emitters are the full roster | [Fungi alternatives](fungi/profiles-alternatives.md), [roster matrix](fungi/roster-matrix.md) and §56 — alternatives approved across 31 Fungi; five Waterborne emitters |
 
 The complete original source documents remain unchanged at [the repository's existing docs](../originals/herbs-and-fungi-design.md). The sections below are intentionally historical, not active implementation specifications.
