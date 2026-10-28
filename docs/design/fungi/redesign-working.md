@@ -132,6 +132,35 @@ This is the first **anonymous, deliberately provisional** partition of the 15 ex
 
 **No numeric values, names, environmental magnitudes or implementation rules are approved by this revision.** In particular, negative Leaf/Seed Yield and a shorter Harvest Window require explicit feasibility and save/Grimoire testing if eventually selected.
 
+### 28 October 2026 — V0.3 focused review of the first four candidates (ALL PROVISIONAL)
+
+This pass checks **F, D, B, and A** against real Plant mechanics and then cross-checks the combinations. It refines the questions; it does **not** approve any new ability or choose final fungal identities.
+
+**Mechanics used for this review:** In the playable engine, **Growth Rate affects 0–100%**, while **Ripening Rate affects 100–200%**. Ordinary Leaf/Seed Yield changes prospective production, hourly effects accrue during their own progress windows, and harvest happens at player-selected progress. Hence an apparent "30% faster Growth" is **not** automatically 30% faster time to the chosen harvest progress. The value depends on the Plant's Growth/Ripening durations and desired harvest point.
+
+| Candidate | Focused proposal | Initial verdict | Counterexample / required test |
+| --- | --- | --- | --- |
+| **F — Growth specialist** | **+ Growth Rate / − ordinary Leaf Yield** (user suggestion) | **Promising, not proven.** Faster access to a productive stage versus fewer native Leaves earned. | For a Seed-focused objective, reduced Leaf Yield can be irrelevant while faster Growth still helps. Test native Leaf throughput, Seed throughput, and harvest-progress choices. Also test whether another source cheaply cancels the Leaf penalty. |
+| **D — Leaf specialist** | **+ ordinary Leaf Yield / − ordinary Seed Yield** (assistant hypothesis) | **Conditional, not proven.** Clear sustainability exchange when the Plant generates both items. | **Orchidemon has zero Seeds** in the current species data, so its Seed Yield penalty does nothing there. Other Seedless or already Seed-saturated cases may make this a free Leaf bonus; habitat, environmental cost, or a different pairing may be needed. |
+| **B — hourly Leaf producer** | Revisit **+ hourly Leaves / + Ripening Rate** | **Not sufficient as a stand-alone trade-off.** It reduces time inside its own hourly window compared with hourly Leaves alone, but can still add Leaves while speeding harvests relative to no B. | On **Marigloom**, a late Leaf producer can remain an obvious addition to a D+F Leaf layout. Compare a meaningful environmental/propagation constraint against replacing the second effect. A negative Harvest Window effect is only a hypothesis and, in the current curve model, changing Window width also changes ordinary Leaf-scale; do not assume it is merely a harmless narrower time slot. |
+| **A — germination catalyst** | Revisit **+ Germination chance / − Growth Rate** | **Situational.** There is an early success-versus-slower-development decision, but the effects act in different phases. | A player may plant near A, then harvest/remove that Fungus after germination to avoid the continuing Growth penalty, potentially sacrificing its future Spore production. This may be an intentional temporary-catalyst cost; a **single cultivation effect** could be cleaner than inventing a fake persistent downside. |
+
+**Current species checks:** [Marigloom](../plants/flowers.md) has a six-day nominal Growth stage within a sixteen-day lifecycle and a late Leaf opportunity; [Orchidemon](../plants/flowers.md) produces no Seeds. These matter when judging whether a negative effect actually constrains the player's objective.
+
+#### Combination tests to repeat on every iteration
+
+- **D + F + B for Leaves:** Does F's −Leaf Yield merely cancel D's +Leaf Yield, leaving +Growth plus B's positive hourly output? Is D's Seed cost real, or irrelevant with a large Seed reserve/Seedless Plant? Can the environment or geometry create a nontrivial decision?
+- **F alone for Seeds:** If −Leaf Yield is unimportant to the selected Seed crop, is F a valid intentionally specialized source or an overpowered universal accelerator? Test against other Seed methods and the crop's actual harvest timing.
+- **D alone on seedless Plants:** This is a direct counterexample to treating −Seed Yield as a universal cost. A specialist can remain good in a niche, but must not be unintentionally best for every such Plant.
+- **A followed by source removal:** Quantify the Spore, replacement, hex-occupation, and setup cost of harvesting the Fungus after a germination benefit has already applied. Do not call that a free exploit or an adequate penalty without checking actual resource economics.
+- **B with selective Blockers:** If environmental disruption is the balancing lever, check that the player can block the environmental footprint without also erasing the desired Leaf contact. If the solution is identical for every crop, it becomes an obligatory Blocker tax, not an interesting puzzle.
+
+#### Revised decision gate
+
+A candidate **does not have to be harmful for every objective**: legitimate specialists should exist. It must, however, justify its place against the other candidates and not become an almost-free addition to every high-output garden. The next pass should compare **at least one Leaf-heavy, one Seed-heavy, one early-harvest, and one Seedless Plant**, plus two- and three-Fungus layouts, *before* approving effects, habitats, environmental strengths, or names.
+
+**No V0.3 proposal is approved; no existing first-pass effect, recipe, or game code is changed.**
+
 ## 5. Dependencies that must be audited before reducing the roster
 
 ### Named Fungus contacts in Plant Transformations
@@ -165,7 +194,7 @@ All 31 Fungi are initially identified in the implemented Cultivation Grimoire. S
 | Standard effect target | **Working direction** | Usually one environmental plus two cultivation effects; exceptions allowed |
 | Alternative effects | **Working direction** | Different mechanisms preferred over alternate numerical strengths |
 | Existing 15 broad effect types | **Audit baseline** | Candidates for inclusion, consolidation, or replacement |
-| Exact effect pairings | **Unapproved** | V0.1 A–H fails the D+F+B garden-level Leaf stress test; V0.2 hypotheses are discussion only |
+| Exact effect pairings | **Unapproved** | V0.1 failed D+F+B; V0.2–V0.3 focus on actual Leaf/Seed and Garden-level costs, not a locked roster |
 | Species names, ranges, modes, habitat and magnitudes | **Open** | Decide after pairings and route feasibility |
 | Negative cultivation effects / stronger environment | **New ideas, unapproved** | Test meaningful trade-offs without forced Blocker or Mycelord taxes |
 | Transformation recipe revisions | **Open** | Full 69-route named-contact audit required |
