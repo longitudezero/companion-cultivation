@@ -5,6 +5,8 @@
 There are **31 approved first-pass fungal species**, including Mycelord as the only initial Mycelial creator.
 
 > **Second-pass exploration (not yet approved or implemented):** [Fungal roster redesign working notebook](redesign-working.md). It explores a smaller set of multi-effect Fungi while preserving all first-pass profiles here as the current baseline.
+>
+> **Current experiment:** [Randomized 12-Fungus roster V0](random-roster-v0.md), with a full player-first Leaf/Seed audit. It is intentionally unbalanced and does not supersede the existing roster.
 
 - [Complete 31-species parameter matrix](roster-matrix.md) — a one-row-per-species audit of the **two separate emissions, ranges, Mycelial class, and §56/§60 supersessions**. It is a quick reference, not a replacement for the full profiles.
 
