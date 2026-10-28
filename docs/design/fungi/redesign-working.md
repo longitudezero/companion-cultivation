@@ -6,7 +6,7 @@
 
 ## Active experiment: randomized full roster (replaces piecemeal pairing review)
 
-The current design exercise is [**Randomized 12-Fungus roster V1**](random-roster-v1.md), a *four-slot structural repair* of the [unaltered random V0 draw](random-roster-v0.md). Eight ordinary Fungi still have two cultivation effects and four have three, plus separate environmental emissions; **Mycelord is unchanged**. V1 fixes duplicate/cancelling slots while preserving the full player-first Leaf/Seed comparisons. V0's exact seed and original results remain permanently available as the baseline.
+The current design exercise is [**Randomized 12-Fungus roster V2**](random-roster-v2.md), a *coverage-first four-slot redistribution* after the [V1 structural repairs](random-roster-v1.md) and [unaltered random V0 draw](random-roster-v0.md). Eight ordinary Fungi still have two cultivation effects and four have three, plus separate environmental emissions; **Mycelord is unchanged**. V2 separates same-resource output methods across species while preserving rare mechanics. V0 and V1 remain available in full for comparison.
 
 **Method correction from the user:** Do **not** finalize or gradually lock individual Fungi before seeing their interactions with the whole roster. The earlier curated A–H and V0.2–V0.3 hypotheses below remain as design history, but are **paused**. First look at this entire random slate through player objectives—Leaves, Seeds, growth speed and transformations—then alter only the impossible, redundant or overly self-contained combinations. Twelve is **an experiment size, not the approved final number**; ten, twelve or another count can emerge later.
 
