@@ -4,7 +4,7 @@
 
 The game is a deterministic hex-garden farming prototype about sustainable **species-specific** non-Seed harvests (working item class **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
 
-> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V7 named numeric roster](fungi/random-roster-v7.md) record twelve existing-name candidates with the accepted cultivation-effect strengths, 3 dependent / 4 preferring / 5 independent Mycelial split, and exact ordinary/Mycelial boost values. The entire redesign remains a **working-design draft**, not a live migration. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
+> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V8 propagation roster](fungi/random-roster-v8.md) record twelve existing-name candidates with V7's accepted numeric cultivation strengths, 3 dependent / 4 preferring / 5 independent Mycelial split, one Range and one Budget footprint per Fungus, and five Waterborne cultivation packages (F01, F02, F03, F08, F10). Bounded Waterborne Range/Budget is a documented second-pass rules extension, not current engine behavior. The redesign remains a **working-design draft**, not a live migration. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
 
 ## Current implementation vs approved design
 
