@@ -1,7 +1,6 @@
 import { calculateEnvironment } from './simulation.js';
 import { calculateCultivation } from './cultivation.js';
 import { makePlant } from './species.js';
-import { isMycelial } from './mycelial.js';
 import { FLOWER_TRANSFORMATIONS, namedFungalContacts, matchesConditions, matchesNamedGroups,
   matchesSequencePhase, emptySequence, advanceSequenceHour, reconcileSequence } from './flower-transformations.js';
 import { AQUATIC_TRANSFORMATIONS, emptyAquaticSequence, advanceAquaticSequenceHour,
@@ -10,7 +9,7 @@ import { WOODLANDS_TRANSFORMATIONS, emptyWoodlandsSequence, advanceWoodlandsSequ
   reconcileWoodlandsSequence } from './woodlands-transformations.js';
 import { DESERT_TRANSFORMATIONS, isDesertRecovery, desertRecoveryStatus,
   completedDesertRecovery } from './desert-transformations.js';
-import { SPICES_TRANSFORMATIONS, matchesOpposingLight, advanceSpicesSequenceHour,
+import { SPICES_TRANSFORMATIONS, advanceSpicesSequenceHour,
   reconcileSpicesSequence, spicesSequenceStatus } from './spices-transformations.js';
 import { observeTransformation } from './grimoire.js';
 
@@ -20,19 +19,17 @@ export { WOODLANDS_TRANSFORMATIONS } from './woodlands-transformations.js';
 export { DESERT_TRANSFORMATIONS } from './desert-transformations.js';
 export { SPICES_TRANSFORMATIONS } from './spices-transformations.js';
 
-// Ingredients §67. Conditions are the resolved Conditions on the Plant hex;
-// emission is an actually reaching environmental contribution from a living
-// Fungus (never a freely placed Source or an unrelated cultivation Effect).
-// Flowers §73 adds named contacts (any existing cultivation OR environmental
-// footprint) and a single phase-driven transition recipe.
+// V9: every Plant recipe requires the resolved hex state AND a named living
+// Fungus contact. Emission signs, magnitudes, or which source caused the state
+// are never Transformation prerequisites.
 export const TRANSFORMATIONS = Object.freeze({
   Potato: Object.freeze([
-    { into: 'Rice', conditions: { Moisture: 'Flooded' }, emission: 'Wetting', hours: 12 },
-    { into: 'Carrot', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, emission: 'Brightening', hours: 10 },
-    { into: 'Onion', conditions: { Moisture: 'Dry', Temperature: 'Cold' }, emission: 'Drying', hours: 14 },
-    { into: 'Apple', conditions: { Moisture: 'Damp', Temperature: 'Cold' }, emission: 'Cooling', hours: 20 },
-    { into: 'Pumpkin', conditions: { Moisture: 'Damp', Temperature: 'Warm' }, emission: 'Warming', hours: 24 },
-    { into: 'Strawberry', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' }, emission: 'Brightening', hours: 16 },
+    { into: 'Rice', conditions: { Moisture: 'Flooded' }, contacts: [['Dewmender']], hours: 12 },
+    { into: 'Carrot', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, contacts: [['Prismorel']], hours: 10 },
+    { into: 'Onion', conditions: { Moisture: 'Dry', Temperature: 'Cold' }, contacts: [['Droughtcap']], hours: 14 },
+    { into: 'Apple', conditions: { Moisture: 'Damp', Temperature: 'Cold' }, contacts: [['Rilllace']], hours: 20 },
+    { into: 'Pumpkin', conditions: { Moisture: 'Damp', Temperature: 'Warm' }, contacts: [['Emberbolete']], hours: 24 },
+    { into: 'Strawberry', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' }, contacts: [['Rainmorel']], hours: 16 },
   ]),
   ...Object.fromEntries(Object.entries(FLOWER_TRANSFORMATIONS)
     .map(([species, recipes]) => [species, Object.freeze(recipes)])),
@@ -55,17 +52,9 @@ export function matchesTransformation(garden, key, recipe, environment, cultivat
   if (recipe.sequence) return false; // stateful event sequence, not a static match
   const conditions = environment.conditions[key];
   if (!matchesConditions(conditions, recipe.conditions)) return false;
-  if (recipe.noMycelial && isMycelial(garden, key)) return false;
-  if (recipe.contacts) {
-    return matchesNamedGroups(recipe.contacts, namedFungalContacts(garden, key, environment,
-      cultivation || calculateCultivation(garden, environment)))
-      && (!recipe.opposingLight || matchesOpposingLight(garden, key, recipe, environment));
-  }
-  // Use the resolved environment's real, blocker-aware routed/airborne
-  // footprints. A Source emission never substitutes for fungal contact.
-  return Object.values(environment.modifiers[key]).some(contributions => contributions.some(entry =>
-    entry.influence === recipe.emission && Math.abs(entry.modifier) === 1
-      && garden.objects[entry.source]?.type === 'fungus'));
+  return Boolean(recipe.contacts?.length) && matchesNamedGroups(recipe.contacts,
+    namedFungalContacts(garden, key, environment,
+      cultivation || calculateCultivation(garden, environment)));
 }
 
 export function transformationStatus(garden, key, environment = calculateEnvironment(garden), cultivation = null) {

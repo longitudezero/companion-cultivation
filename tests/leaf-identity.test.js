@@ -12,9 +12,9 @@ function readyPlant(species, leaves, seeds = 0) {
   } };
 }
 
-test('new schema 5 gardens track separate Leaf stacks rather than generic fungible currency', () => {
+test('new schema 6 gardens track separate Leaf stacks rather than generic fungible currency', () => {
   const garden = createGarden();
-  assert.equal(garden.schemaVersion, 5);
+  assert.equal(garden.schemaVersion, 6);
   assert.equal(isGarden(garden), true);
   assert.deepEqual(garden.inventory.leaves, {});
   assert.equal(garden.inventory.legacyLeaves, 0);
@@ -65,14 +65,14 @@ test('Leaf identity follows producer, independently of cross-species or mixed Se
   assert.equal(garden.inventory.seeds['Glass Apple'], undefined);
 });
 
-test('harvest-time Allocation changes the quantity, never the Plant Leaf item identity', () => {
+test('the retired Allocation effect no longer changes harvest totals or Plant Leaf identity', () => {
   let garden = placeObject(createGarden(), '2,2', readyPlant('Potato', 12.99, 12.99));
   garden = placeObject(garden, '3,2', makeFungus('Frostfolio'));
-  const computed = availableHarvest(garden.objects['2,2'], [{ kind: 'leafAllocation', amount: .8 }]);
-  assert.equal(computed.leaves, 15);
+  const computed = availableHarvest(garden.objects['2,2']);
+  assert.equal(computed.leaves, 12);
   const harvested = harvestPlant(garden, '2,2');
-  assert.deepEqual(harvested.inventory.leaves, { Potato: 15 });
-  assert.equal(harvested.inventory.seeds.Potato, 19);
+  assert.deepEqual(harvested.inventory.leaves, { Potato: 12 });
+  assert.equal(harvested.inventory.seeds.Potato, 28);
 });
 
 test('Leaf-sterile Bamboozled yields a trophy but no empty or fictitious Leaf stack', () => {
@@ -82,15 +82,13 @@ test('Leaf-sterile Bamboozled yields a trophy but no empty or fictitious Leaf st
   assert.equal(garden.inventory.trophies.bambooSteel, 1);
 });
 
-test('legacy generic Leaves survive migration visibly unattributed and never turn into Potato Leaves', () => {
+test('V6 generic Leaves remain unattributed and never turn into Potato Leaves', () => {
   const old = createGarden();
-  old.schemaVersion = 2;
-  old.inventory.leaves = 73;
-  delete old.inventory.legacyLeaves;
+  old.inventory.legacyLeaves = 73;
   const saved = structuredClone(old);
   const migrated = migrateGarden(old);
   assert.deepEqual(old, saved, 'migration does not modify the supplied save');
-  assert.equal(migrated.schemaVersion, 5);
+  assert.equal(migrated.schemaVersion, 6);
   assert.deepEqual(migrated.inventory.leaves, {});
   assert.equal(migrated.inventory.legacyLeaves, 73);
   const harvested = harvestPlant(placeObject(migrated, '2,2', readyPlant('Potato', 8)), '2,2');
@@ -100,15 +98,11 @@ test('legacy generic Leaves survive migration visibly unattributed and never tur
   assert.deepEqual(resizeGarden(harvested, 10, 10).inventory, harvested.inventory);
 });
 
-test('schema 1 numeric Leaves and schema 2 zero stock both migrate without inventing Plant identities', () => {
-  for (const [version, amount] of [[1, 6], [2, 0]]) {
+test('schema 1, 2, and 5 saves are deliberately incompatible with V6', () => {
+  for (const version of [1, 2, 5]) {
     const old = createGarden();
     old.schemaVersion = version;
-    old.inventory.leaves = amount;
-    const fresh = migrateGarden(old);
-    assert.deepEqual(fresh.inventory.leaves, {});
-    assert.equal(fresh.inventory.legacyLeaves, amount);
-    assert.equal(fresh.schemaVersion, 5);
+    assert.throws(() => migrateGarden(old), /Unsupported garden file/);
   }
 });
 

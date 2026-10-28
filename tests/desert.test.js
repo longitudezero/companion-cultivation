@@ -6,6 +6,7 @@ import {
   plantOutputRate, effectCompatibility, transformationStatus, reconcileTransformationClocks,
   availableHarvest, harvestPlant, sowPlant, accruePlantProduction, migrateGarden,
   makeSource, makeInfluence,
+  placeEdgeBlocker, makeBlocker,
 } from '../src/core/index.js';
 
 const key = '4,4';
@@ -29,7 +30,8 @@ function edit(garden, property, value) {
 }
 
 function addFungus(garden, species, position = neighbors[0]) {
-  return reconcileTransformationClocks(placeObject(garden, position, makeFungus(species)), garden);
+  return reconcileTransformationClocks(placeObject(garden, position,
+    makeFungus(species, neighborsOf(position).indexOf(key))), garden);
 }
 
 // Put the recipe's real Fungi around an occupied Plant; solve for a shared
@@ -38,7 +40,8 @@ function addFungus(garden, species, position = neighbors[0]) {
 function arrangeStatic(from, recipe) {
   let garden = placeObject(createGarden(9, 9), key, makePlant(from));
   recipe.contacts.forEach((group, index) => {
-    garden = placeObject(garden, neighbors[index], makeFungus(group[0]));
+    garden = placeObject(garden, neighbors[index], makeFungus(group[0],
+      neighborsOf(neighbors[index]).indexOf(key)));
   });
   for (const moisture of ['Dry', 'Damp', 'Flooded']) {
     for (const temperature of ['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']) {
@@ -52,6 +55,20 @@ function arrangeStatic(from, recipe) {
         }
       }
     }
+  }
+  if (recipe.into === 'Mirage Rose') {
+    // The environmental magnitudes need not produce the final Temperature
+    // or Illumination; the full named cultivation packages still contact.
+    let candidate = garden;
+    for (const at of Object.keys(candidate.hexes)) {
+      for (const [property, value] of Object.entries(atmosphere('Damp', recipe.conditions.Temperature, 'Dim'))) {
+        candidate = setBaseline(candidate, at, property, value);
+      }
+    }
+    for (const adjacent of neighbors) candidate = placeEdgeBlocker(candidate, key, adjacent,
+      makeBlocker('kind', from === 'Aloemancer' ? 'Thermal' : 'Luminous'));
+    assert.equal(calculateEnvironment(candidate).conditions[key].Temperature, recipe.conditions.Temperature);
+    return candidate;
   }
   throw new Error(`No simple baseline layout for ${from} → ${recipe.into}`);
 }
@@ -157,7 +174,7 @@ test('Ember Aloe qualifies early as Ashen Rose, at exactly 36h as Aloemancer, ne
     let garden = start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit'));
     garden = advanceGardenTime(garden, hours).garden;
     assert.equal(garden.objects[key].exposure.Hot, hours);
-    garden = addFungus(garden, 'Chillanterelle'); // Cooling creates Hot → Warm with contact.
+    garden = addFungus(garden, 'Rilllace'); // Cooling creates Hot → Warm with contact.
     assert.equal(calculateEnvironment(garden).conditions[key].Temperature, 'Warm');
     assert.equal(garden.objects[key].species, expected, `Hot recovery at ${hours}h`);
     assert.equal(garden.objects[key].progress, 0);
@@ -170,23 +187,23 @@ test('Ember Aloe qualifies early as Ashen Rose, at exactly 36h as Aloemancer, ne
   assert.equal(garden.objects[key].exposure.Hot, 0);
   garden = edit(garden, 'Temperature', 'Hot');
   garden = advanceGardenTime(garden, 1).garden;
-  garden = addFungus(garden, 'Chillanterelle');
+  garden = addFungus(garden, 'Rilllace');
   assert.equal(garden.objects[key].species, 'Ashen Rose', 'the interrupted exposure did not bank 36h');
 
   let alternate = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   alternate = addFungus(alternate, 'Rilllace');
-  assert.equal(alternate.objects[key].species, 'Aloemancer', 'the other approved recovery Fungus works');
+  assert.equal(alternate.objects[key].species, 'Aloemancer', 'the named recovery Fungus works');
 
   let wrong = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   wrong = edit(wrong, 'Temperature', 'Cold');
   assert.equal(wrong.objects[key].exposure.Hot, 0, 'endurance resets on the edit, without advancing time');
-  wrong = addFungus(wrong, 'Chillanterelle');
+  wrong = addFungus(wrong, 'Rilllace');
   assert.equal(wrong.objects[key].species, 'Ember Aloe', 'Hot → Cold does not count as Hot → Warm');
 
   let instant = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   instant = edit(instant, 'Temperature', 'Cold');
   instant = edit(instant, 'Temperature', 'Hot');
-  instant = addFungus(instant, 'Chillanterelle');
+  instant = addFungus(instant, 'Rilllace');
   assert.equal(instant.objects[key].species, 'Ashen Rose', 'zero-time toggles cannot bank old Hot exposure');
 });
 
@@ -260,22 +277,28 @@ test('Moonjade early thaw, wrong thaw or missing contact cannot transform or ban
 
 test('Moonjade alternate thaw to Pearadox needs two distinct named contact groups and Lit', () => {
   let garden = start('Moonjade', atmosphere('Damp', 'Freezing', 'Bright'));
-  garden = addFungus(garden, 'Gloamclock', neighbors[1]);
+  for (const adjacent of neighbors) garden = placeEdgeBlocker(garden, key, adjacent, makeBlocker('kind', 'Thermal'));
+  garden = addFungus(garden, 'Mistruffle', neighbors[1]);
   assert.equal(calculateEnvironment(garden).conditions[key].Illumination, 'Lit');
   garden = advanceGardenTime(garden, 48).garden;
-  garden = addFungus(garden, 'Tickbolete', neighbors[0]); // Warms Freezing -> Cold.
+  garden = addFungus(garden, 'Emberbolete', neighbors[0]);
+  garden = edit(garden, 'Temperature', 'Cold');
   assert.equal(calculateEnvironment(garden).conditions[key].Temperature, 'Cold');
   assert.equal(garden.objects[key].species, 'Pearadox');
 
   let missing = start('Moonjade', atmosphere('Damp', 'Freezing', 'Bright'));
+  for (const adjacent of neighbors) missing = placeEdgeBlocker(missing, key, adjacent, makeBlocker('kind', 'Thermal'));
   missing = advanceGardenTime(missing, 48).garden;
-  missing = addFungus(missing, 'Tickbolete');
+  missing = addFungus(missing, 'Emberbolete');
+  missing = edit(missing, 'Temperature', 'Cold');
   assert.equal(missing.objects[key].species, 'Moonjade', 'missing second named group cannot thaw');
 
   let dim = start('Moonjade', atmosphere('Damp', 'Freezing', 'Lit'));
-  dim = addFungus(dim, 'Gloamclock', neighbors[1]); // Lit becomes Dim.
+  for (const adjacent of neighbors) dim = placeEdgeBlocker(dim, key, adjacent, makeBlocker('kind', 'Thermal'));
+  dim = addFungus(dim, 'Mistruffle', neighbors[1]); // Lit becomes Dim.
   dim = advanceGardenTime(dim, 48).garden;
-  dim = addFungus(dim, 'Tickbolete');
+  dim = addFungus(dim, 'Emberbolete');
+  dim = edit(dim, 'Temperature', 'Cold');
   assert.equal(dim.objects[key].species, 'Moonjade', 'both groups are insufficient at Dim');
 });
 

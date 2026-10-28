@@ -25,7 +25,8 @@ function start(species = 'Daisydaze') {
 function arrange(species, recipe, alternatives = null) {
   let garden = start(species);
   const fungi = (alternatives || recipe.contacts.map(group => group[0]));
-  fungi.forEach((fungus, i) => { garden = placeObject(garden, neighbors[i], makeFungus(fungus)); });
+  fungi.forEach((fungus, i) => { garden = placeObject(garden, neighbors[i],
+    makeFungus(fungus, neighborsOf(neighbors[i]).indexOf(target))); });
   // Compensate for each live fungal emission using ordinary baseline editing,
   // never fake a fungal contact or override the resolved Conditions.
   const modifiers = calculateEnvironment(garden).modifiers[target];
@@ -107,24 +108,22 @@ test('conjunctive named contact requires BOTH different species', () => {
   assert.equal(advanceGardenTime(garden, 32).garden.objects[target].species, 'Lavendream');
 });
 
-test('cultivation-only zone contact still qualifies when environmental emission is blocked', () => {
-  const recipe = TRANSFORMATIONS.Lavendream.find(r => r.into === 'Orchidemon');
-  let garden = arrange('Lavendream', recipe);
-  for (const neighbor of neighbors) garden = placeEdgeBlocker(garden, target, neighbor, makeBlocker('kind', 'Aqueous'));
-  garden = setBaseline(garden, target, 'Moisture', 'Damp');
-  assert.ok(!calculateEnvironment(garden).modifiers[target].Moisture.some(effect =>
-    effect.influence === 'Wetting'), 'Mistruffle environmental emission is blocked');
-  assert.ok(calculateCultivation(garden)[target].some(effect => effect.species === 'Mistruffle'),
-    'Mistruffle still reaches with Leaf cultivation Influence');
-  assert.ok(namedFungalContacts(garden, target, calculateEnvironment(garden)).has('Mistruffle'));
-  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Orchidemon').eligible, true);
+test('cultivation-only named contact qualifies even when its environmental emission is blocked', () => {
+  const recipe = TRANSFORMATIONS.Daisydaze.find(r => r.into === 'Charmomile');
+  let garden = arrange('Daisydaze', recipe);
+  for (const neighbor of neighbors) garden = placeEdgeBlocker(garden, target, neighbor, makeBlocker('kind', 'Luminous'));
+  garden = setBaseline(garden, target, 'Illumination', 'Lit');
+  assert.equal(calculateEnvironment(garden).modifiers[target].Illumination.length, 0);
+  assert.ok(calculateCultivation(garden)[target].some(effect => effect.species === 'Prismorel'));
+  assert.ok(namedFungalContacts(garden, target, calculateEnvironment(garden)).has('Prismorel'));
+  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Charmomile').eligible, true);
 });
 
 test('named contact ignores cultivation stage windows, without creating a percentage gate', () => {
   let garden = start('Charmomile');
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = setBaseline(garden, target, 'Temperature', 'Cold');
-  garden = placeObject(garden, neighbors[0], makeFungus('Echomorel'));
+  garden = placeObject(garden, neighbors[0], makeFungus('Rilllace', neighborsOf(neighbors[0]).indexOf(target)));
   for (const neighbor of neighbors) {
     garden = placeEdgeBlocker(garden, target, neighbor, makeBlocker('kind', 'Thermal'));
   }
@@ -132,8 +131,8 @@ test('named contact ignores cultivation stage windows, without creating a percen
   assert.equal(environment.conditions[target].Temperature, 'Cold');
   assert.equal(environment.modifiers[target].Temperature.length, 0);
   assert.equal(garden.objects[target].progress, 0);
-  const effect = calculateCultivation(garden)[target].find(item => item.species === 'Echomorel');
-  assert.deepEqual(effect.window, [160, 190], 'fungal hourly Leaf effect is not yet stage-eligible');
+  const effect = calculateCultivation(garden)[target].find(item => item.species === 'Rilllace');
+  assert.equal(effect.kind, 'seedTiming', 'fungal Seed timing is not yet stage-eligible');
   assert.equal(transformationStatus(garden, target).find(item => item.into === 'Marigloom').eligible, true);
 });
 
@@ -144,7 +143,7 @@ test('continuous exposure resets on an instantaneous contact interruption', () =
   const objects = { ...garden.objects }; delete objects[fungalKey];
   garden = reconcileTransformationClocks({ ...garden, objects }, garden);
   assert.equal(garden.objects[target].transformationClocks.Lavendream, 0);
-  garden = placeObject(garden, fungalKey, makeFungus('Veilcap'));
+  garden = placeObject(garden, fungalKey, makeFungus('Mistruffle'));
   assert.equal(advanceGardenTime(garden, 8).garden.objects[target].species, 'Daisydaze');
 });
 
@@ -153,7 +152,7 @@ function preparedDaisyspell() {
   // A Dimming fungus on its own source hex must not create a nearby Dark
   // extreme that silently pulls Lit back to Dim via environmental adjacency.
   for (const key of Object.keys(garden.hexes)) garden = setBaseline(garden, key, 'Illumination', 'Lit');
-  garden = placeObject(garden, neighbors[0], makeFungus('Veilcap'));
+  garden = placeObject(garden, neighbors[0], makeFungus('Mistruffle'));
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = setBaseline(garden, target, 'Temperature', 'Temperate');
   garden = setBaseline(garden, target, 'Illumination', 'Lit');
@@ -170,7 +169,7 @@ test('Daisyspell completes its 10-hour Dim preparation then Bright arrival at a 
   assert.equal(calculateEnvironment(garden).conditions[target].Illumination, 'Lit');
   assert.equal(garden.objects[target].transformationSequence.Orchidemon.phase, 'crossing');
   assert.equal(garden.objects[target].transformationSequence.Orchidemon.windowHours, 0);
-  garden = reconcileTransformationClocks(placeObject(garden, neighbors[1], makeFungus('Glimmergill')), garden);
+  garden = reconcileTransformationClocks(placeObject(garden, neighbors[1], makeFungus('Prismorel')), garden);
   assert.equal(calculateEnvironment(garden).conditions[target].Illumination, 'Bright');
   assert.equal(garden.objects[target].species, 'Orchidemon');
   assert.equal(garden.objects[target].progress, 0);
@@ -181,13 +180,13 @@ test('Daisyspell permits Bright completion at eight hours but not nine', () => {
   atEight = reconcileTransformationClocks(setBaseline(atEight, target, 'Illumination', 'Bright'), atEight);
   atEight = advanceGardenTime(atEight, 8).garden;
   assert.equal(atEight.objects[target].transformationSequence.Orchidemon.windowHours, 8);
-  atEight = reconcileTransformationClocks(placeObject(atEight, neighbors[1], makeFungus('Glimmergill')), atEight);
+  atEight = reconcileTransformationClocks(placeObject(atEight, neighbors[1], makeFungus('Prismorel')), atEight);
   assert.equal(atEight.objects[target].species, 'Orchidemon');
 
   let atNine = preparedDaisyspell();
   atNine = reconcileTransformationClocks(setBaseline(atNine, target, 'Illumination', 'Bright'), atNine);
   atNine = advanceGardenTime(atNine, 9).garden;
-  atNine = reconcileTransformationClocks(placeObject(atNine, neighbors[1], makeFungus('Glimmergill')), atNine);
+  atNine = reconcileTransformationClocks(placeObject(atNine, neighbors[1], makeFungus('Prismorel')), atNine);
   assert.equal(atNine.objects[target].species, 'Daisyspell');
   assert.equal(atNine.objects[target].transformationSequence.Orchidemon.preparedHours, 0);
 });
@@ -195,7 +194,7 @@ test('Daisyspell permits Bright completion at eight hours but not nine', () => {
 test('Daisyspell loses preparation on early departure or completion-phase climate break', () => {
   let garden = start('Daisyspell');
   for (const key of Object.keys(garden.hexes)) garden = setBaseline(garden, key, 'Illumination', 'Lit');
-  garden = placeObject(garden, neighbors[0], makeFungus('Veilcap'));
+  garden = placeObject(garden, neighbors[0], makeFungus('Mistruffle'));
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = setBaseline(garden, target, 'Illumination', 'Lit');
   garden = advanceGardenTime(garden, 9).garden;

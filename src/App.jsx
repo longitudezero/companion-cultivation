@@ -24,12 +24,12 @@ import {
   serializeGameSave, deserializeGameSave,
 } from './core/index.js';
 
-const STORAGE_KEY = 'companion-cultivation:sandbox:v5';
-const PREVIOUS_STORAGE_KEYS = ['companion-cultivation:sandbox:v4', 'companion-cultivation:sandbox:v3', 'companion-cultivation:sandbox:v2',
-  'companion-cultivation:sandbox:v1'];
+// Clean-break second-pass species registry. Older autosaves remain untouched
+// under their original keys and are not silently translated to new identities.
+const STORAGE_KEY = 'companion-cultivation:sandbox:v6';
 const titleCase = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 function initialGarden() {
-  for (const key of [STORAGE_KEY, ...PREVIOUS_STORAGE_KEYS]) {
+  for (const key of [STORAGE_KEY]) {
     try {
       const saved = JSON.parse(localStorage.getItem(key) || 'null');
       if (isGarden(saved) && saved.columns >= 3 && saved.columns <= 20 && saved.rows >= 3 && saved.rows <= 20) {
@@ -155,6 +155,7 @@ export default function App() {
       const max = availableToStage(current, kind, species, key);
       if (max < 1) throw new Error(`No available ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} to stage.`);
       setQuantityPrompt({ key, kind, species, quantity: Math.min(preferred, max), max,
+        heading: kind === 'fungus' ? current.staged?.[key]?.heading ?? 0 : 0,
         x: Math.max(12, Math.min(window.innerWidth - 270, event?.clientX ?? window.innerWidth / 2)),
         y: Math.max(90, Math.min(window.innerHeight - 240, (event?.clientY ?? window.innerHeight / 3) + 12)) });
     } catch (error) { setNotice(error.message); }
@@ -162,12 +163,12 @@ export default function App() {
 
   function confirmQuantity() {
     if (!quantityPrompt) return;
-    const { key, kind, species, quantity } = quantityPrompt;
+    const { key, kind, species, quantity, heading } = quantityPrompt;
     try {
-      const next = stagePlanting(gardenRef.current, key, kind, species, quantity);
+      const next = stagePlanting(gardenRef.current, key, kind, species, quantity, heading);
       replaceGarden(next);
       setQuantityPrompt(null);
-      setNotice(`Staged ${quantity} ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} on hex ${key}. Press Apply when ready; no items spent yet.`);
+      setNotice(`Staged ${quantity} ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} on hex ${key}${kind === 'fungus' && species !== 'Mycelord' ? `, facing ${STARTING_DIRECTIONS[heading]}` : ''}. Press Apply when ready; no items spent yet.`);
     } catch (error) { setNotice(error.message); }
   }
 
@@ -218,8 +219,7 @@ export default function App() {
     if (selectedObject?.type !== 'fungus') return;
     const reconfigured = makeFungus(selectedObject.species, heading);
     changeGarden((previous) => updateObject(previous, selection.key, {
-      ...reconfigured, progress: selectedObject.progress, ageHours: selectedObject.ageHours,
-      sporeStock: selectedObject.sporeStock,
+      ...selectedObject, heading, emissions: reconfigured.emissions,
     }));
   }
 
@@ -487,7 +487,7 @@ export default function App() {
         {selection.type === 'hex' && selectedHex ? <>
           <div className="selected-summary"><div className="selected-illustration" style={{ background: PALETTES.Moisture[simulation.conditions[selection.key].Moisture] }}>⬡</div><div><span className="mini-heading">SELECTED HEX</span><h3>Hex {selection.key}</h3><p>Three environmental Properties</p></div></div>
           <div className={`mycelial-inspector ${mycelialHere ? 'is-mycelial' : ''} ${mycelialHere && !supportedMycelialSources ? 'is-retreating' : ''}`}><span className="mini-heading">MYCELIAL GROUND</span><strong>{mycelialHere ? `✥ ${supportedMycelialSources ? 'Supported' : 'Unsupported · retreating'} · ${mycelialSources} ${mycelialSources === 1 ? 'contribution' : 'contributions'}` : 'Not colonized'}</strong><small>{mycelialHere && supportedMycelialSources < mycelialSources ? `${mycelialSources - supportedMycelialSources} contribution(s) losing support. Restore a path before they decay.` : 'Existing ground fades through game time when unsupported; Flooded never relays it.'}</small></div>
-          {selectedStaged && <div className="planting-inspector"><strong>◌ Uncommitted planting · {selectedStaged.species}</strong><p>{selectedStaged.quantity} {selectedStaged.kind === 'plant' ? 'Seeds' : 'Spores'} reserved. Drag this marker to another empty hex, or back to inventory to cancel. It does not grow until Apply.</p><button onClick={() => changeGarden(previous => unstagePlanting(previous, selection.key))}>Return to inventory · unstage</button></div>}
+          {selectedStaged && <div className="planting-inspector"><strong>◌ Uncommitted planting · {selectedStaged.species}</strong><p>{selectedStaged.quantity} {selectedStaged.kind === 'plant' ? 'Seeds' : 'Spores'} reserved.{selectedStaged.kind === 'fungus' && selectedStaged.species !== 'Mycelord' ? ` Direction: ${STARTING_DIRECTIONS[selectedStaged.heading ?? 0]}.` : ''} Drag this marker to another empty hex, or back to inventory to cancel. It does not grow until Apply.</p><button onClick={() => changeGarden(previous => unstagePlanting(previous, selection.key))}>Return to inventory · unstage</button></div>}
           {selectedPending && <div className="planting-inspector"><strong>◈ Awaiting germination · {selectedPending.species}</strong><p>{selectedPending.quantity} {selectedPending.kind === 'plant' ? 'Seeds' : 'Spores'} committed · approximately {Math.max(0, selectedPending.readyAt - (garden.clockHours || 0))} in-game hours until the result is revealed. Outcome unknown.</p></div>}
           {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{selectedObject.type === 'source' ? selectedObject.anchor ? '✥ Anchored Source' : '✦ Influence Source' : selectedObject.type === 'plant' ? `❧ ${selectedObject.species}` : selectedObject.type === 'fungus' ? `♧ ${selectedObject.species}` : '▣ Hex Blocker'}</strong></div>{showDeveloperTools && <button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button>}</div>
             {selectedObject.type === 'source' ? <>
@@ -533,6 +533,13 @@ export default function App() {
         <button aria-label="Increase quantity" onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.min(previous.max, previous.quantity + 1) }))}>＋</button></div>
       <div className="quantity-presets">{[3, 5, 9, 15].map(n => <button key={n} disabled={n > quantityPrompt.max}
         className={n === quantityPrompt.quantity ? 'selected' : ''} onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: n }))}>{n}</button>)}</div>
+      {quantityPrompt.kind === 'fungus' && quantityPrompt.species !== 'Mycelord' &&
+        <label className="spore-direction-picker">Spore direction
+          <select aria-label="Spore direction" value={quantityPrompt.heading}
+            onChange={event => setQuantityPrompt(previous => ({ ...previous, heading: Number(event.target.value) }))}>
+            {STARTING_DIRECTIONS.map((direction, index) => <option key={direction} value={index}>{direction}</option>)}
+          </select>
+        </label>}
       <p>{quantityPrompt.max} available to stage · nothing spent until Apply.</p>
       <div className="quantity-actions"><button onClick={() => setQuantityPrompt(null)}>Cancel</button>
         <button className="confirm" onClick={confirmQuantity}>Stage on hex {quantityPrompt.key}</button></div>
@@ -542,7 +549,7 @@ export default function App() {
     {showGrimoire && <CultivationGrimoire garden={garden} onClose={() => setShowGrimoire(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
-      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 15</span><h2>A garden of changing forms</h2>
+      <span className="eyebrow">FIELD GUIDE · PROTOTYPE 16</span><h2>A garden of changing forms</h2>
       <p>Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Every Plant yields its own species-specific Leaves on harvest, rather than a shared Leaf currency. Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
       <p>Arrange the four 50-square inventory pages, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply planting decisions</strong>. Attempts are consumed together and their results stay hidden for a few in-game hours. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. The current accelerated 5-second clock is temporary balancing.</p>
       <p>Your garden autosaves in this browser. Use <strong>Save Game</strong> to download a portable .ccsave backup, and <strong>Load Game</strong> to restore it here or on another device. Loading replaces your current browser save after confirmation; staged placements and hidden germination timers are included. Browser-closed progression is not implemented yet.</p>
@@ -573,26 +580,26 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, o
       {object.species === 'Mandrakadabra' && <p>Bright vulnerability: <strong>{object.exposure?.Bright || 0}/4h</strong> consecutive resolved Bright is lethal. Lit is safest for Leaf farming.</p>}
       {object.species === 'Bramblewraith' && <p>Resilient specialist: Hot, Freezing and Mycelial reduce development/output but never directly kill it.</p>}
       {object.species === 'Bamboozled' && <p>{object.progress >= 100 ? '◆ Bamboo Steel trophy ready. Harvest for one trophy and zero Leaves/Seeds.' : 'Bamboo Steel trophy unlocks at 100% Growth. Ordinary Leaves and Seeds always stay zero.'}</p>}
-      {object.species === 'Ember Aloe' && <p>Heat endurance: <strong>{object.exposure?.Hot || 0}h continuous Hot</strong>. A qualifying Hot → Warm edit with Chillanterelle or Rilllace gives Ashen Rose before 36h, or Aloemancer at 36h or later. It does not happen from cooling alone.</p>}
+      {object.species === 'Ember Aloe' && <p>Heat endurance: <strong>{object.exposure?.Hot || 0}h continuous Hot</strong>. A qualifying Hot → Warm event with Rilllace contact gives Ashen Rose before 36h, or Aloemancer at 36h or later. It does not happen from cooling alone.</p>}
       {object.species === 'Moonjade' && <p>{conditions.Temperature === 'Freezing' ? 'Dormant: 0 progression and no new output.' : 'Active: progression resumes outside Freezing.'} Freezing endurance: <strong>{object.exposure?.Freezing || 0}/48h</strong>. A qualified Freezing → Cold thaw can yield Jadewisp or Pearadox.</p>}
       {object.species === 'Pearadox' && <p>Hot: +70% natural Leaves. Freezing: 75% lifecycle rate and +80% natural Seeds; neither extreme is lethal by itself.</p>}
       {object.species === 'Cactaclysm' && <p>Sterile Leaf specialist: 48 natural Leaves near 140% in Hot; Warm reduces its natural Leaf yield to 65% of the Hot peak.</p>}
       {(object.species === 'Sunrice' || object.species === 'Starberry' || object.species === 'Glass Apple') && <p>Bright-field crop: resolved Bright gives its best natural Leaf yield. {object.species === 'Glass Apple' ? 'Its Seeds grow Starberry, not Glass Apple.' : object.species === 'Starberry' ? 'Its Seeds grow Sunrice; Glass Apple can produce Starberry Seeds.' : 'Thymekeeper can also supply its Sunrice Seeds from Dim fields.'}</p>}
       {(object.species === 'Moonrice' || object.species === 'Thymekeeper') && <p>Dim-field Seed specialist. {object.species === 'Thymekeeper' ? 'Its harvest makes 28 Sunrice Seeds at full optimal maturity, not Thymekeeper Seeds.' : 'Its own 20 Moonrice Seeds sustain planting in Dim fields.'}</p>}
-      {object.species === 'Ghost Rice' && <p>Dark-field Leaf specialist producing Moonrice Seeds. For Glass Apple, prepare Dark / Damp / Temperate-or-Cold with Gloamclock or Duskleaf for 12h; then leave Dark, cross through Dim if needed and reach Lit within 8h with Prismorel or Lanterncap contact.</p>}
-      {object.species === 'Dillusion' && <p>Dim and Lit are equally productive. Its Pum'king path needs actual positive AND negative fungal environmental light reaching this hex with final resolved Lit; cultivation-only contact is insufficient.</p>}
-      {object.species === "Pum'king" && <p>Sterile net-Lit specialist: up to 46 natural Leaves around 145%; Bright halves native output. Opposite-sign fungal emissions are needed to unlock it, not to retain the species afterward.</p>}
+      {object.species === 'Ghost Rice' && <p>Dark-field Leaf specialist producing Moonrice Seeds. For Glass Apple, prepare Dark / Damp / Temperate-or-Cold with Hushroom contact for 12h; then leave Dark and reach Lit within 8h with Prismorel contact.</p>}
+      {object.species === 'Dillusion' && <p>Dim and Lit are equally productive. Its Pum'king route needs final Damp / Warm / Lit and actual Rushroom plus Hushroom contact; either Fungus may reach through cultivation or environment.</p>}
+      {object.species === "Pum'king" && <p>Sterile Lit specialist: up to 46 natural Leaves around 145%; Bright halves native output. The required named contacts do not need to cause the resolved Lit state.</p>}
       <div className="mini-heading">HAZARD EXPOSURE</div>
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {object.exposure?.[hazard] || 0}/{Number.isFinite(definition[`${hazard.toLowerCase()}Death`]) ? `${definition[`${hazard.toLowerCase()}Death`]}h` : 'nonlethal'}</span>)}</div>
       {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>
         <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={recipe.sequence
-          ? recipe.sequence === 'heat-to-warm' ? `Hot → Warm with Chillanterelle OR Rilllace contact on the new environment, ${recipe.early ? 'before 36h' : 'at least 36h'} of continuous prior Hot exposure`
+          ? recipe.sequence === 'heat-to-warm' ? `Hot → Warm with Rilllace contact on the new environment, ${recipe.early ? 'before 36h' : 'at least 36h'} of continuous prior Hot exposure`
             : recipe.sequence === 'freeze-to-cold' ? `After 48h uninterrupted Freezing Dormancy, thaw to Cold with ${Object.entries(recipe.completion.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} and named fungi: ${recipe.completion.contacts.map(group => group.join(' OR ')).join(' AND ')}`
-            : recipe.sequence === 'mistruffle-departure' ? 'Damp / Dim, Mistruffle AND (Fogdial OR Veilcap) for 12 to fewer than 20 hours, then remove Mistruffle contact while retaining Damp / Dim and the other fungus'
-            : recipe.sequence === 'flood-to-damp' ? '24h Flooded / Cold / Dim with Tidegill OR Rilllace, then Flooded → Damp drainage; pre-drain contact counts'
-            : recipe.sequence === 'dark-to-lit' ? '12h Damp / Temperate-or-Cold / Dark with Gloamclock OR Duskleaf; leave Dark, then reach Lit with Prismorel OR Lanterncap within 8h while keeping Damp and valid Temperature'
-            : '10h Damp / Temperate / Dim with Veilcap or Fogdial; leave Dim, then reach Bright with Prismorel or Glimmergill within 8h'
-          : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · ${recipe.emission ? `reaching fungal ${recipe.emission}` : recipe.contacts.length ? `named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}` : 'no fungus required'}${recipe.opposingLight ? ' · positive and negative selected Fungal Luminous environmental emissions must both reach' : ''}${recipe.noMycelial ? ' · target must not be Mycelial' : ''}`}>
+            : recipe.sequence === 'mistruffle-departure' ? 'Damp / Dim, Mistruffle AND Dewmender for 12 to fewer than 20 hours, then remove Mistruffle contact while retaining Damp / Dim and Dewmender'
+            : recipe.sequence === 'flood-to-damp' ? '24h Flooded / Cold / Dim with Rainmorel, then Flooded → Damp drainage; pre-drain contact counts'
+            : recipe.sequence === 'dark-to-lit' ? '12h Damp / Temperate-or-Cold / Dark with Hushroom; leave Dark, then reach Lit with Prismorel within 8h while keeping Damp and valid Temperature'
+            : '10h Damp / Temperate / Dim with Mistruffle; leave Dim, then reach Bright with Prismorel within 8h'
+          : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} · named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}`}>
           {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'armed' ? `Armed ${recipe.elapsed}h · remove Mistruffle before 20h` : recipe.phase === 'early-recovery' ? `${recipe.elapsed}h Hot · recover before 36h` : recipe.phase === 'ready' ? recipe.sequence === 'flood-to-damp' ? 'Prepared · drain to Damp' : recipe.sequence === 'freeze-to-cold' ? 'Prepared · thaw to Cold' : recipe.sequence === 'heat-to-warm' ? 'Qualified · recover to Warm' : 'Prepared' : `${recipe.elapsed}/${recipe.hours}h`}{recipe.phase === 'crossing' ? recipe.sequence === 'dark-to-lit' ? ' · Lit window' : ' · Bright window' : ''}
         </span>)}</div>
         <p>◆ The current recipe phase qualifies. Any interruption resets its clock; hover for exact fungal and environmental requirements.</p></>}
@@ -609,12 +616,14 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, o
       {debug && <><p>Habitat: {definition.habitat}. Environmental and cultivation emissions are live.</p>
       {object.species === 'Mycelord' && <><div className="organism-stat"><span>Source of Mycelial ground</span><strong>{object.colonyId || 'New colony'}</strong></div><div className="organism-stat"><span>Flooded exposure</span><strong>{object.exposure?.Flooded || 0}/{MYCELIAL_TUNING.mycelordFloodDeathHours}h</strong></div></>}
       {definition.habitat === 'dependent' && <div className="organism-stat"><span>Time without Mycelial</span><strong>{object.exposure?.MissingMycelial || 0}/{MYCELIAL_TUNING.dependentHabitatGraceHours}h</strong></div>}
-      {object.species === 'Frostfolio' && <p>{mycelialHere ? 'Mycelial source bonus active: 100% Leaf-favoring Allocation.' : 'Off Mycelial: 80% Leaf-favoring Allocation.'}</p>}</>}
+      {object.species === 'Frostfolio' && <p>Frostfolio is Mycelial-dependent. Its complete Germination / Leaf Timing / Seed Yield package is emitted while alive.</p>}</>}
       <div className="organism-stat"><span>Harvestable own-Spores</span><strong>{Math.floor((object.sporeStock || 0) + 1e-9)}</strong></div>
-      {debug && definition.environment?.propagation === 'spread-budget' && (onHeadingChange ? <label>Emission direction<select value={object.heading || 0} onChange={(event) => onHeadingChange(Number(event.target.value))}>{STARTING_DIRECTIONS.map((direction, i) => <option key={direction} value={i}>{direction}</option>)}</select></label> : <p>Emission direction: {STARTING_DIRECTIONS[object.heading || 0]}.</p>)}
-      {debug && definition.cultivation && <p>Cultivation: {definition.cultivation.kind} {definition.cultivation.amount > 0 ? '+' : ''}{definition.cultivation.amount} · {definition.cultivation.mode} (active)</p>}
+      {(definition.environment?.propagation === 'spread-budget' || definition.cultivation?.propagation === 'spread-budget') &&
+        (debug && onHeadingChange ? <label>Chosen direction<select value={object.heading || 0} onChange={(event) => onHeadingChange(Number(event.target.value))}>{STARTING_DIRECTIONS.map((direction, i) => <option key={direction} value={i}>{direction}</option>)}</select></label>
+          : <p>Chosen direction: {STARTING_DIRECTIONS[object.heading || 0]}.</p>)}
+      {debug && definition.cultivation && <p>Cultivation package: {definition.cultivation.effects.map(effect => `${effect.kind} ${effect.amount > 0 ? '+' : ''}${effect.amount}${effect.boosted != null ? ` (Mycelial ${effect.boosted > 0 ? '+' : ''}${effect.boosted})` : ''}`).join('; ')} · {definition.cultivation.mode} {definition.cultivation.propagation === 'spread-budget' ? `Budget ${definition.cultivation.budget}` : `Range ${definition.cultivation.range}`}</p>}
       {definition.habitat === 'dependent' && !mycelialHere && <p className="prototype-warning">Habitat absent: this Fungus continues emitting during its grace period, then dies.</p>}
-      {debug && definition.habitat === 'preferring' && object.species !== 'Frostfolio' && <p className="prototype-warning">Mycelial preference bonus magnitude is not yet approved; base Effect stays active.</p>}
+      {debug && definition.habitat === 'preferring' && <p className="prototype-warning">Mycelial preference strengthens only its listed named cultivation bonus when this Fungus occupies Mycelial ground.</p>}
       {debug && <p className="prototype-warning">Fungal timing ({PROTOTYPE_TUNING.fungusGrowthHours}h + {PROTOTYPE_TUNING.fungusSporulationHours}h), Spore yields ({PROTOTYPE_TUNING.fungusSporeYieldAt200} at 200%) and germination ({PROTOTYPE_TUNING.fungusGerminationChance * 100}% per Spore) are temporary.</p>}
       {!debug && <p className="small-explanation">Its known interactions are recorded in the Cultivation Grimoire after you observe them affecting Plants.</p>}
     </>}

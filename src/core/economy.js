@@ -270,8 +270,11 @@ export function sowPlant(garden, key, species, quantity = 1, random = Math.rando
     ? { ...result, grimoire: revealPlant(result.grimoire, species) } : result), success, chance };
 }
 
-export function sowFungus(garden, key, species, quantity = 1, random = Math.random) {
+export function sowFungus(garden, key, species, quantity = 1, random = Math.random, heading = 0) {
   if (!FUNGI[species]) throw new Error(`Unknown Fungus species: ${species}`);
+  if (!Number.isInteger(heading) || heading < 0 || heading > 5) {
+    throw new Error('Spore direction must be one of the six hex headings.');
+  }
   if (FUNGI[species].habitat === 'dependent' && !isMycelial(garden, key)) {
     throw new Error(`${species} requires Mycelial ground for germination.`);
   }
@@ -282,5 +285,5 @@ export function sowFungus(garden, key, species, quantity = 1, random = Math.rand
   const success = random() < chance;
   const spent = { ...garden, inventory: { ...inventory,
     spores: { ...inventory.spores, [species]: owned - quantity } } };
-  return { garden: ensureInventorySlots(success ? placeObject(spent, key, makeFungus(species)) : spent), success, chance };
+  return { garden: ensureInventorySlots(success ? placeObject(spent, key, makeFungus(species, heading)) : spent), success, chance };
 }

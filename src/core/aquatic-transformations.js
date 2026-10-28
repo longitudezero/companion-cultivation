@@ -3,34 +3,34 @@
 const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
 export const AQUATIC_TRANSFORMATIONS = Object.freeze({
   'Aquatic Base': [
-    route('Kelpfull', { Moisture: 'Flooded', Temperature: 'Temperate' }, [['Dewmender', 'Mistruffle']], 12),
-    route('Sunken Lotus', { Moisture: 'Flooded', Temperature: 'Cold' }, [['Tidegill', 'Rilllace']], 16),
-    route('Wild Watercress', { Moisture: 'Damp', Temperature: 'Temperate' }, [['Dewmender', 'Mistruffle']], 10),
+    route('Kelpfull', { Moisture: 'Flooded', Temperature: 'Temperate' }, [['Dewmender']], 12),
+    route('Sunken Lotus', { Moisture: 'Flooded', Temperature: 'Cold' }, [['Rilllace']], 16),
+    route('Wild Watercress', { Moisture: 'Damp', Temperature: 'Temperate' }, [['Rainmorel']], 10),
   ],
   Kelpfull: [
-    route('Kelpergeist', { Moisture: 'Flooded', Illumination: 'Dark' }, [['Veilcap', 'Fogdial']], 20),
-    route('Kelpless', { Moisture: ['Dry', 'Damp'] }, [['Droughtcap', 'Crumblecap']], 16),
+    route('Kelpergeist', { Moisture: 'Flooded', Illumination: 'Dark' }, [['Hushroom']], 20),
+    route('Kelpless', { Moisture: ['Dry', 'Damp'] }, [['Droughtcap']], 16),
   ],
   Kelpergeist: [
-    route('Starlotus', { Moisture: 'Flooded', Temperature: 'Cold', Illumination: 'Dim' }, [['Tidegill', 'Siltgill']], 28),
-    route('Kelpless', { Moisture: ['Dry', 'Damp'] }, [], 18),
+    route('Starlotus', { Moisture: 'Flooded', Temperature: 'Cold', Illumination: 'Dim' }, [['Frostfolio'], ['Mistruffle']], 28),
+    route('Kelpless', { Moisture: ['Dry', 'Damp'] }, [["Sim'mushro'dim"]], 18),
   ],
-  Kelpless: [route('Wild Watercress', { Moisture: 'Damp', Temperature: 'Temperate' }, [['Dewmender', 'Mistruffle']], 12)],
-  'Sunken Lotus': [route('Moonlit Lotus', { Moisture: 'Flooded', Illumination: 'Dim' }, [['Tidegill', 'Rilllace']], 16)],
+  Kelpless: [route('Wild Watercress', { Moisture: 'Damp', Temperature: 'Temperate' }, [['Dewmender']], 12)],
+  'Sunken Lotus': [route('Moonlit Lotus', { Moisture: 'Flooded', Illumination: 'Dim' }, [['Mistruffle']], 16)],
   'Moonlit Lotus': [
     {
       into: 'Starlotus', sequence: 'flood-to-damp', hours: 24,
       preparation: { conditions: { Moisture: 'Flooded', Temperature: 'Cold', Illumination: 'Dim' },
-        contacts: [['Tidegill', 'Rilllace']] },
+        contacts: [['Rainmorel']] },
       completion: { conditions: { Moisture: 'Damp' } },
     },
-    route('Pearlily', { Moisture: 'Flooded', Temperature: 'Temperate', Illumination: 'Lit' }, [['Dewmender', 'Mistruffle']], 24),
+    route('Pearlily', { Moisture: 'Flooded', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel'], ['Dewmender']], 24),
   ],
   'Wild Watercress': [
-    route('Silvercress', { Moisture: 'Flooded', Temperature: 'Temperate' }, [['Dewmender', 'Mistruffle']], 10),
-    route('Cresscent', { Moisture: 'Damp', Illumination: 'Dim' }, [['Tidegill', 'Glimmergill']], 12),
+    route('Silvercress', { Moisture: 'Flooded', Temperature: 'Temperate' }, [['Rainmorel']], 10),
+    route('Cresscent', { Moisture: 'Damp', Illumination: 'Dim' }, [['Mistruffle']], 12),
   ],
-  Cresscent: [route('Pearlily', { Moisture: 'Damp', Illumination: 'Lit' }, [['Dewmender', 'Mistruffle']], 12)],
+  Cresscent: [route('Pearlily', { Moisture: 'Damp', Illumination: 'Lit' }, [["Sim'mushro'dim"]], 12)],
 });
 
 export const emptyAquaticSequence = () => ({ phase: 'preparing', preparedHours: 0 });

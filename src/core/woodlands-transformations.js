@@ -4,34 +4,33 @@ const route = (into, conditions, contacts, hours, extra = {}) =>
 
 export const WOODLANDS_TRANSFORMATIONS = Object.freeze({
   'Woodlands Base': [
-    route('Bamboom', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' }, [['Tickbolete', 'Emberbell']], 14),
-    route('Mandrabra', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Goldgill', 'Lanterncap']], 20),
-    route('Tanglethorn', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Fogdial', 'Veilcap']], 12),
+    route('Bamboom', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' }, [['Emberbolete']], 14),
+    route('Mandrabra', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel']], 20),
+    route('Tanglethorn', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Mistruffle']], 12),
   ],
-  Bamboom: [route('Bamboozeling', { Moisture: 'Damp', Temperature: 'Warm' }, [['Tickbolete', 'Emberbell']], 24)],
-  Bamboozeling: [route('Bamboozled', { Moisture: 'Damp', Temperature: 'Warm' }, [['Tickbolete', 'Emberbell']], 16)],
+  Bamboom: [route('Bamboozeling', { Moisture: 'Damp', Temperature: 'Warm' }, [['Rainmorel']], 24)],
+  Bamboozeling: [route('Bamboozled', { Moisture: 'Damp', Temperature: 'Warm' }, [['Emberbolete'], ['Rainmorel']], 16)],
   Tanglethorn: [
-    route('Mistlefoe', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom', 'Fogdial']], 16),
-    route('Bramblewraith', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Lanterncap', 'Goldgill']], 28),
+    route('Mistlefoe', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom']], 16),
+    route('Bramblewraith', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel'], ['Droughtcap']], 28),
   ],
   Mistlefoe: [
     {
       into: 'Mandrabra', sequence: 'mistruffle-departure', hours: 12, beforeHours: 20,
       preparation: { conditions: { Moisture: 'Damp', Illumination: 'Dim' },
-        contacts: [['Mistruffle'], ['Fogdial', 'Veilcap']] },
+        contacts: [['Mistruffle'], ['Dewmender']] },
       completion: { conditions: { Moisture: 'Damp', Illumination: 'Dim' },
-        retain: [['Fogdial', 'Veilcap']], remove: 'Mistruffle' },
+        retain: [['Dewmender']], remove: 'Mistruffle' },
     },
-    route('Mistlewoe', { Moisture: 'Damp', Illumination: 'Dim' }, [['Mistruffle'], ['Fogdial', 'Veilcap']], 20),
+    route('Mistlewoe', { Moisture: 'Damp', Illumination: 'Dim' }, [['Mistruffle'], ['Dewmender']], 20),
   ],
-  Mistlewoe: [route('Tanglethorn', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Dewmender', 'Mistruffle']], 12)],
+  Mistlewoe: [route('Tanglethorn', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Rainmorel']], 12)],
   Mandrabra: [
     route('Mandrakadabra', { Moisture: 'Damp', Illumination: 'Bright' }, [['Rushroom', 'Siltgill']], 12),
-    route('Mandrakazam', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom', 'Gloamclock']], 24,
-      { noMycelial: true }),
+    route('Mandrakazam', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom']], 24),
   ],
   Mandrakadabra: [route('Mandrakazam', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
-    [['Hushroom', 'Gloamclock']], 24, { noMycelial: true })],
+    [['Mistruffle']], 24)],
 });
 
 export const emptyWoodlandsSequence = () => ({ phase: 'preparing', preparedHours: 0 });

@@ -4,19 +4,11 @@ import {
   createGarden, placeObject, setBaseline, makePlant, makeFungus, makeSource,
   makeInfluence, makeBlocker, placeEdgeBlocker, neighborsOf, calculateEnvironment,
   advanceGardenTime, TRANSFORMATIONS, transformationStatus, reconcileTransformationClocks,
-  migrateGarden,
+  migrateGarden, CONDITIONS,
 } from '../src/core/index.js';
 
 const target = '3,3';
 const neighborKeys = neighborsOf(target);
-const fungalArrangements = {
-  Rice: ['Dewmender', 'Mistruffle'],
-  Carrot: ['Dewmender', 'Lanterncap', 'Goldgill'],
-  Onion: ['Droughtcap', 'Chillanterelle'],
-  Apple: ['Dewmender', 'Chillanterelle'],
-  Pumpkin: ['Dewmender', 'Tickbolete'],
-  Strawberry: ['Dewmender', 'Glimmergill', 'Lanterncap', 'Goldgill'],
-};
 
 function setup(plant = 'Potato') {
   return placeObject(createGarden(9, 9), target, makePlant(plant));
@@ -24,10 +16,23 @@ function setup(plant = 'Potato') {
 
 function arrange(recipe) {
   let garden = setup();
-  fungalArrangements[recipe.into].forEach((species, index) => {
-    garden = placeObject(garden, neighborKeys[index], makeFungus(species));
+  if (recipe.into === 'Strawberry') for (const key of Object.keys(garden.hexes)) {
+    garden = setBaseline(garden, key, 'Illumination', 'Lit');
+  }
+  recipe.contacts.forEach(([species], index) => {
+    garden = placeObject(garden, neighborKeys[index], makeFungus(species,
+      neighborsOf(neighborKeys[index]).indexOf(target)));
   });
-  return garden;
+  for (const moisture of CONDITIONS.Moisture) for (const temperature of CONDITIONS.Temperature) {
+    for (const light of CONDITIONS.Illumination) {
+      let candidate = garden;
+      for (const [property, value] of Object.entries({ Moisture: moisture, Temperature: temperature,
+        Illumination: light })) candidate = setBaseline(candidate, target, property, value);
+      const resolved = calculateEnvironment(candidate).conditions[target];
+      if (Object.entries(recipe.conditions).every(([property, value]) => resolved[property] === value)) return candidate;
+    }
+  }
+  throw new Error(`No legal baseline found for Potato → ${recipe.into}`);
 }
 
 test('all six approved Potato routes are triggered by physically reachable living Fungi', () => {
@@ -71,17 +76,17 @@ test('a regular environmental Source cannot satisfy fungal-emission contact', ()
   assert.equal(advanceGardenTime(garden, 24).garden.objects[target].species, 'Potato');
 });
 
-test('the fungal emission must be the approved signed Kind, not any nearby fungus', () => {
+test('a similarly signed Fungus cannot substitute for the named recipe contact', () => {
   let garden = setup();
   garden = setBaseline(garden, target, 'Moisture', 'Flooded');
-  garden = placeObject(garden, neighborKeys[0], makeFungus('Chillanterelle'));
+  garden = placeObject(garden, neighborKeys[0], makeFungus('Rainmorel'));
   assert.equal(transformationStatus(garden, target).find(recipe => recipe.into === 'Rice').eligible, false);
   assert.equal(advanceGardenTime(garden, 24).garden.objects[target].species, 'Potato');
 });
 
 test('blocking the actual fungal footprint prevents transformation contact', () => {
   let garden = arrange(TRANSFORMATIONS.Potato[0]);
-  for (const next of neighborKeys) garden = placeEdgeBlocker(garden, target, next, makeBlocker('kind', 'Aqueous'));
+  for (const next of neighborKeys) garden = placeEdgeBlocker(garden, target, next, makeBlocker());
   // Set the environment independently to isolate actual contact reach.
   garden = setBaseline(garden, target, 'Moisture', 'Flooded');
   assert.equal(calculateEnvironment(garden).conditions[target].Moisture, 'Flooded');

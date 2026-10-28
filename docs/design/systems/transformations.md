@@ -2,6 +2,8 @@
 
 > **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
 
+> **Accepted second-pass redesign (28 October 2026):** [V9's 69 locked new recipes](../fungi/random-roster-v9.md) use **only the final resolved target-hex environment/state transitions** plus **mandatory contact from specified named living Fungi**. No environmental state must come from a particular Fungus or exact emission strength. This is the current **second-pass design authority**, while the first-pass conditions below remain historical/live references for the **currently playable implementation**. V9 is not yet migrated into the runtime.
+
 **Recipe locations:** [Ingredients](../plants/ingredients.md), [Aquatic](../plants/aquatic.md), [Woodlands](../plants/woodlands.md), [Flowers](../plants/flowers.md), [Desert](../plants/desert.md), [Spices](../plants/spices.md). All 69 edges are approved first-pass designs. This file contains cross-family rules only; the concrete recipes live with each family.
 
 ## 58. Transformation RESTARTS every new Plant at 0% — APPROVED; supersedes progress continuity

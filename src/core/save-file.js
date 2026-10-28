@@ -19,8 +19,9 @@ export function deserializeGameSave(text) {
   try { file = JSON.parse(text); }
   catch { throw new Error('This file is not valid JSON.'); }
 
-  // Continue accepting the existing developer JSON exports and old browser
-  // saves, while labeling new player downloads with a recognizable envelope.
+  // Only the new V6 garden schema is accepted. Older prototypes use retired
+  // Fungi and obsolete contact rules; reject them explicitly without mutating
+  // the player's still-available old file or browser-storage key.
   if (file?.format === SAVE_FILE_FORMAT) {
     if (file.fileVersion !== SAVE_FILE_VERSION) {
       throw new Error(`Unsupported save file version: ${file.fileVersion}.`);
@@ -29,7 +30,7 @@ export function deserializeGameSave(text) {
   }
   if (!isGarden(file) || file.columns < 3 || file.columns > 20 ||
     file.rows < 3 || file.rows > 20) {
-    throw new Error('Unsupported garden save or garden size.');
+    throw new Error('Incompatible garden save (this 12-Fungus version requires a new V6 garden).');
   }
   // Build a *separate* clean state and validate its environment before the UI
   // asks to replace the current garden. Failed imports leave it untouched.

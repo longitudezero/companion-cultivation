@@ -31,24 +31,21 @@ test('a downloadable save preserves the full live garden, inventory layout, stag
   assert.equal(revealed.inventorySlots['seed:Potato'], 167);
 });
 
-test('developer raw JSON exports and earlier garden schemas remain loadable', () => {
+test('developer raw JSON of V6 remains loadable, but old schemas are intentionally incompatible', () => {
   const garden = createDemoGarden();
   assert.deepEqual(deserializeGameSave(JSON.stringify(garden)).objects,
     deserializeGameSave(serializeGameSave(garden)).objects);
   const old = { ...createGarden(), schemaVersion: 2, inventory: {
     seeds: { Potato: 12 }, spores: {}, leaves: 19,
   } };
-  const loaded = deserializeGameSave(JSON.stringify(old));
-  assert.equal(loaded.schemaVersion, 5);
-  assert.equal(loaded.inventory.legacyLeaves, 19);
-  assert.equal(loaded.inventory.seeds.Potato, 12);
+  assert.throws(() => deserializeGameSave(JSON.stringify(old)), /Incompatible garden save/);
 });
 
 test('invalid, incompatible or oversized save files cannot become a new garden', () => {
   assert.throws(() => deserializeGameSave('not JSON'), /not valid JSON/);
-  assert.throws(() => deserializeGameSave('{}'), /Unsupported garden/);
+  assert.throws(() => deserializeGameSave('{}'), /Incompatible garden save/);
   assert.throws(() => deserializeGameSave(JSON.stringify({ format: SAVE_FILE_FORMAT,
     fileVersion: 99, garden: createGarden() })), /Unsupported save file version/);
-  assert.throws(() => deserializeGameSave(JSON.stringify({ ...createGarden(), columns: 40 })), /Unsupported garden/);
+  assert.throws(() => deserializeGameSave(JSON.stringify({ ...createGarden(), columns: 40 })), /Incompatible garden save/);
   assert.throws(() => serializeGameSave({ invalid: true }), /invalid garden/);
 });
