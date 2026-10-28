@@ -4,6 +4,12 @@
 >
 > **Change boundary:** This notebook does not change Fungi, Plant recipes, saved games, the Grimoire, numeric tuning, or runtime logic. Pairings below are hypotheses, not commitments.
 
+## Active experiment: randomized full roster (replaces piecemeal pairing review)
+
+The current design exercise is [**Randomized 12-Fungus roster V0**](random-roster-v0.md): **eight ordinary Fungi with two cultivation effects and four with three**, each with a separate random environmental emission; **Mycelord is unchanged**. The actual random seed and all unedited results are recorded there.
+
+**Method correction from the user:** Do **not** finalize or gradually lock individual Fungi before seeing their interactions with the whole roster. The earlier curated A–H and V0.2–V0.3 hypotheses below remain as design history, but are **paused**. First look at this entire random slate through player objectives—Leaves, Seeds, growth speed and transformations—then alter only the impossible, redundant or overly self-contained combinations. Twelve is **an experiment size, not the approved final number**; ten, twelve or another count can emerge later.
+
 ## 1. Agreed design direction
 
 The goal is the **smallest compelling roster that preserves distinct cultivation possibilities and meaningful alternatives**—not a predetermined number of species.
