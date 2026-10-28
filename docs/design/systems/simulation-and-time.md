@@ -1,8 +1,15 @@
 # Garden simulation, event ordering, and elapsed time
 
-> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** The environmental and biological event order is implemented. Timings and balance remain provisional. First-pass “not implemented” statements below are historical; [V9](../fungi/random-roster-v9.md) defines the current recipe predicates.
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** The environmental and biological event order is implemented. The **live clock conversion is approved**; individual biological durations and balance remain subject to playtesting. First-pass “not implemented” statements below are historical; [V9](../fungi/random-roster-v9.md) defines the current recipe predicates.
 
 **Implementation boundary:** the live simulation covers environmental recalculation and time-advanced organism/Mycelial events, with automated tests and provisional timing values. See [Environment](environment.md), [Mycelial](mycelial.md) and [implementation status](../../implementation-status.md).
+
+## Live clock and player-facing time — APPROVED 28 October 2026
+
+- **One simulated garden hour passes every five real seconds while the game page is running.** This is now the permanent Companion Cultivation clock ratio, not a temporary testing acceleration. Simulation logic, recipe definitions and save files continue to store time in whole game hours.
+- **Player-facing durations are displayed as real waiting time at this live rate**, using seconds and minutes: 16 game hours = **1m 20s**; 20 game hours = **1m 40s**; 24 game hours = **2m**. This includes Transformation progress, hazards, organism stages, timed event windows, germination and the developer Grimoire preview. The underlying thresholds and order of events do not change.
+- Developer time skips advance the simulated garden instantly; their equivalent live durations are 5s for one garden hour and 2m for one garden day. A skipped interval is not actual wall-clock time spent playing.
+- The clock continues during staging. **No closed-page catch-up is currently implemented**, and background-browser throttling may delay updates. Individual growth, hazard, Spore and reveal durations remain separately tuneable; approving the clock conversion does not lock their numerical balance.
 
 ## 64. Whole-garden event and update order — APPROVED
 

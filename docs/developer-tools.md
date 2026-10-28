@@ -31,7 +31,7 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 | Change Blocker filtering and directed Fungus heading | Relevant inspector controls |
 | Inspect undiscovered recipe eligibility and clocks, full hazard thresholds, source contributions and raw Fungal cultivation magnitudes | Organism and hex inspector; hidden for ordinary players to preserve Grimoire discovery |
 | Preview every Plant, Fungus profile and all related Transformation recipes in the Grimoire | Turn on developer tools, open **❦ Cultivation Grimoire**, then select **Preview full Grimoire**. Select **Return to discoveries** to restore the normal view. The preview is read-only; it does not unlock entries or alter the saved discovery ledger. |
-| Skip 1 hour or 1 day | Buttons beside the read-only garden clock |
+| Instant time skip equivalent to 5s (one game hour) or 2m (one game day) | Buttons beside the read-only garden clock; their labels show live real-time equivalents |
 | Restore demo, start a blank plot, resize the grid | Plot controls |
 | Export raw garden JSON | Inspector footer; technically inspectable full state, including hidden germination outcomes |
 | Import earlier raw JSON | Inspector footer; reuses the same validated, confirmation-gated player Load Game path |
@@ -40,7 +40,7 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 
 **Player-placeable Blockers** remain undecided. Hex and Edge Blocker placement are *both developer-only* for now; later designs may expose specific approved blocker items through different player actions. No new blocker costs, restrictions or mechanics were invented in this pass.
 
-The game now **advances one in-game hour every five real seconds while its browser page is open**, independently of staging. Developer `+1 hour` / `+1 day` buttons can still fast-forward. **That speed is a provisional test value**; background/offline catch-up, pause semantics and the final time scale require design decisions. A committed germination remains concealed for **six simulated hours** in this prototype, also provisional.
+The game **permanently advances one simulated garden hour every five real seconds while its page is running**, independently of staging. Displayed durations use **actual real-time equivalents** at that pace: e.g. a 16-hour recipe is shown as **1m 20s**. Developer `+5s` / `+2m` buttons still skip one game hour / one game day instantly. Background/offline catch-up and pause semantics remain undecided. A committed germination stays concealed for **30 real seconds** (six simulated hours), and that individual reveal delay remains provisional.
 
 The [approved spatial-inventory and repeatable staging specification](design/systems/spatial-inventory-and-staging.md) remains authoritative for the interaction and safety rules; this guide describes its **first working implementation**. The initial six Seed stacks are prototype stock; player acquisition of starter Spores and relocation of living organisms with a future item have not been designed. Debug-only JSON export exposes full technical state, including concealed germination outcomes, and therefore should remain behind the developer toggle.
 

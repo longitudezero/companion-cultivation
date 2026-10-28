@@ -387,7 +387,7 @@ test('Desert plant survival and output distinguish Hot, Freezing, Dry, and Mycel
   assert.equal(garden.objects[key].species, 'Jadeheart');
   const fatal = advanceGardenTime(garden, 1);
   assert.equal(fatal.garden.objects[key], undefined);
-  assert.ok(fatal.events.some(event => event.includes('72h of Hot')));
+  assert.ok(fatal.events.some(event => event.includes('6m of Hot')));
   garden = start('Sandrose', atmosphere('Dry', 'Hot', 'Lit'));
   garden = advanceGardenTime(garden, 100).garden;
   assert.equal(garden.objects[key].species, 'Sandrose');

@@ -70,7 +70,7 @@ test('independent Dry and Temperature clocks reset and cause death at exact thre
   assert.ok(before.garden.objects['2,2']);
   const dead = advanceGardenTime(before.garden, 1);
   assert.equal(dead.garden.objects['2,2'], undefined);
-  assert.match(dead.events[0], /36h of Freezing/);
+  assert.match(dead.events[0], /3m of Freezing/);
 });
 
 test('fungal Growth and Ripening cultivation effects share a package footprint', () => {

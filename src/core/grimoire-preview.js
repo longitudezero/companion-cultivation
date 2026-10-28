@@ -1,6 +1,7 @@
 import { PLANTS, FUNGI } from './species.js';
 import { plantKnown } from './grimoire.js';
 import { TRANSFORMATIONS } from './transformations.js';
+import { formatRealDuration } from './game-time.js';
 
 // A read-only catalogue view. This never manufactures witnessed discoveries or
 // writes to the garden's Grimoire ledger.
@@ -9,8 +10,8 @@ const LIGHT = ['Dark', 'Dim', 'Lit', 'Bright'];
 const EFFECTS = {
   growthRate: 'Growth speed', ripeningRate: 'Ripening speed', leafYield: 'Leaf production',
   seedYield: 'Seed production', germination: 'Germination chance', harvestWindow: 'Harvest window',
-  leafPeakTiming: 'Peak Leaf timing', seedTiming: 'Seed timing', hourlyLeaf: 'Hourly Leaves',
-  hourlySeed: 'Hourly Seeds', leafAllocation: 'Leaf allocation', seedAllocation: 'Seed allocation',
+  leafPeakTiming: 'Peak Leaf timing', seedTiming: 'Seed timing', hourlyLeaf: 'Leaves per 5s tick',
+  hourlySeed: 'Seeds per 5s tick', leafAllocation: 'Leaf allocation', seedAllocation: 'Seed allocation',
 };
 
 export const totalRecipes = () => Object.values(TRANSFORMATIONS)
@@ -38,8 +39,9 @@ export function previewPlantHazards(species) {
   return [
     ['Dry', plant.dryDeath], ['Hot', plant.hotDeath],
     ['Freezing', plant.freezingDeath], ['Mycelial', plant.mycelialDeath],
+    ['Bright', plant.brightDeath],
   ].filter(([, hours]) => Number.isFinite(hours))
-    .map(([condition, hours]) => `${condition} exposure: ${hours} hours to death`);
+    .map(([condition, hours]) => `${condition} exposure: ${formatRealDuration(hours)} to death`);
 }
 
 export function previewPlantCompatibility(species) {
@@ -57,7 +59,7 @@ const contactsText = groups => (groups || []).map(group => group.join(' or ')).j
 export function describeFullRecipe(from, recipe) {
   const prefix = `${from} → ${recipe.into}`;
   if (!recipe.sequence) {
-    return `${prefix} — ${conditionText(recipe.conditions)}. Living Fungus contact: ${contactsText(recipe.contacts)}. Hold ${recipe.hours} hours.`;
+    return `${prefix} — ${conditionText(recipe.conditions)}. Living Fungus contact: ${contactsText(recipe.contacts)}. Hold for ${formatRealDuration(recipe.hours)}.`;
   }
   const preparation = recipe.preparation || {};
   const completion = recipe.completion || {};
@@ -65,16 +67,16 @@ export function describeFullRecipe(from, recipe) {
   const finish = `Finish: ${conditionText(completion.conditions)}${completion.contacts?.length
     ? `; contact ${contactsText(completion.contacts)}` : ''}`;
   if (recipe.sequence === 'mistruffle-departure') {
-    return `${prefix} — ${stage} for ${recipe.hours} to under ${recipe.beforeHours} hours. Then lose ${completion.remove} contact while retaining ${contactsText(completion.retain)}; ${conditionText(completion.conditions)}.`;
+    return `${prefix} — ${stage} for ${formatRealDuration(recipe.hours)} to under ${formatRealDuration(recipe.beforeHours)}. Then lose ${completion.remove} contact while retaining ${contactsText(completion.retain)}; ${conditionText(completion.conditions)}.`;
   }
   if (recipe.sequence === 'heat-to-warm' || recipe.sequence === 'freeze-to-cold') {
     const exposure = recipe.sequence === 'heat-to-warm' ? 'Hot' : 'Freezing';
-    return `${prefix} — Accumulate ${recipe.early ? `under ${recipe.hours}` : `at least ${recipe.hours}`} hours of ${exposure} exposure, then change the hex from ${exposure} to ${recipe.sequence === 'heat-to-warm' ? 'Warm' : 'Cold'}. ${finish}.`;
+    return `${prefix} — Accumulate ${recipe.early ? `under ${formatRealDuration(recipe.hours)}` : `at least ${formatRealDuration(recipe.hours)}`} of ${exposure} exposure, then change the hex from ${exposure} to ${recipe.sequence === 'heat-to-warm' ? 'Warm' : 'Cold'}. ${finish}.`;
   }
   if (recipe.sequence === 'flood-to-damp') {
-    return `${prefix} — ${stage} for ${recipe.hours} hours, then change the hex directly from Flooded to Damp while the preparation contact was still active before the change.`;
+    return `${prefix} — ${stage} for ${formatRealDuration(recipe.hours)}, then change the hex directly from Flooded to Damp while the preparation contact was still active before the change.`;
   }
-  return `${prefix} — ${stage} for ${recipe.hours} hours, then change Illumination out of ${recipe.sequence === 'dark-to-lit' ? 'Dark' : 'Dim'}. ${finish}${Number.isFinite(completion.withinHours) ? ` within ${completion.withinHours} hours` : ''}.`;
+  return `${prefix} — ${stage} for ${formatRealDuration(recipe.hours)}, then change Illumination out of ${recipe.sequence === 'dark-to-lit' ? 'Dark' : 'Dim'}. ${finish}${Number.isFinite(completion.withinHours) ? ` within ${formatRealDuration(completion.withinHours)}` : ''}.`;
 }
 
 export function previewPlantRecipes(species) {

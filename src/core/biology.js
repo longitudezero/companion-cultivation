@@ -6,6 +6,7 @@ import { advanceMycelium, isMycelial, MYCELIAL_TUNING } from './mycelial.js';
 import { advancePlantTransformations, reconcileTransformationClocks, TRANSFORMATIONS } from './transformations.js';
 import { revealGerminations } from './staging.js';
 import { observePlantHour, observeTransformation, observeHazard } from './grimoire.js';
+import { formatRealDuration } from './game-time.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
@@ -133,7 +134,7 @@ export function advanceGardenTime(garden, hours = 1) {
         if (dyingFrom) {
           grimoire = observeHazard(grimoire, object.species, dyingFrom[0], 'death');
           delete objects[key];
-          events.push(`${object.species} died on hex ${key} after ${dyingFrom[1]}h of ${dyingFrom[0]}.`);
+          events.push(`${object.species} died on hex ${key} after ${formatRealDuration(dyingFrom[1])} of ${dyingFrom[0]}.`);
           continue;
         }
         const rates = plantGrowthRates(object, environment.conditions[key], cultivation[key], onMycelial);
@@ -156,7 +157,7 @@ export function advanceGardenTime(garden, hours = 1) {
             && exposure.MissingMycelial >= MYCELIAL_TUNING.dependentHabitatGraceHours)) {
           delete objects[key];
           events.push(`${object.species} died on hex ${key} after ${object.species === 'Mycelord'
-            ? exposure.Flooded + 'h Flooded' : exposure.MissingMycelial + 'h without Mycelial'} exposure.`);
+            ? `${formatRealDuration(exposure.Flooded)} of Flooded` : `${formatRealDuration(exposure.MissingMycelial)} without Mycelial`} exposure.`);
           continue;
         }
         const progress = advancePlantProgress(object.progress, {

@@ -40,13 +40,13 @@ test('recipe references include named contacts, resolved conditions and multi-st
   const pumpkin = previewPlantRecipes('Potato').find(line => line.includes('Pumpkin'));
   assert.match(pumpkin, /Temperature: Warm/);
   assert.match(pumpkin, /Emberbolete/);
-  assert.match(pumpkin, /24 hours/);
+  assert.match(pumpkin, /Hold for 2m/);
   assert.doesNotMatch(pumpkin, /emission.*\+1/i);
 
   const mistlefoe = previewPlantRecipes('Mistlefoe').find(line => line.includes('Mandrabra'));
   assert.match(mistlefoe, /lose Mistruffle contact/);
   assert.match(mistlefoe, /retaining Dewmender/);
-  assert.match(mistlefoe, /under 20 hours/);
+  assert.match(mistlefoe, /under 1m 40s/);
   assert.ok(previewFungusRecipes('Mistruffle').some(line => line === mistlefoe));
 
   const pearlily = previewPlantRecipes('Cresscent').find(line => line.includes('Pearlily'));
@@ -59,7 +59,7 @@ test('recipe references include named contacts, resolved conditions and multi-st
   assert.match(starlotus, /Rainmorel/);
 
   const ashenRose = previewPlantRecipes('Ember Aloe').find(line => line.includes('Ashen Rose'));
-  assert.match(ashenRose, /under 36 hours/);
+  assert.match(ashenRose, /under 3m/);
   assert.match(ashenRose, /Rilllace/);
 });
 

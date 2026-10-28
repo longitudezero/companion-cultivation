@@ -5,9 +5,12 @@ import { ensureInventorySlots } from './inventory.js';
 import { revealPlant, observeFungalAction } from './grimoire.js';
 import { calculateCultivation } from './cultivation.js';
 import { calculateEnvironment } from './simulation.js';
+import { REAL_MILLISECONDS_PER_GAME_HOUR } from './game-time.js';
 
-// Provisional test timings only. Neither value has final balance approval.
-export const STAGING_TUNING = Object.freeze({ germinationRevealHours: 6, realMillisecondsPerHour: 5000 });
+// Six-hour germination reveal remains provisional; the live clock is approved.
+export const STAGING_TUNING = Object.freeze({
+  germinationRevealHours: 6, realMillisecondsPerHour: REAL_MILLISECONDS_PER_GAME_HOUR,
+});
 
 function stockFor(garden, kind, species) {
   return garden.inventory?.[kind === 'plant' ? 'seeds' : 'spores']?.[species] || 0;

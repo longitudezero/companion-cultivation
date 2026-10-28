@@ -18,8 +18,8 @@ const CHAPTERS = [
 const EFFECTS = {
   growthRate: 'Growth speed', ripeningRate: 'Ripening speed', leafYield: 'Leaf production',
   seedYield: 'Seed production', germination: 'Germination chance', harvestWindow: 'Harvest window',
-  leafPeakTiming: 'Peak Leaf timing', seedTiming: 'Seed timing', hourlyLeaf: 'Hourly Leaves',
-  hourlySeed: 'Hourly Seeds', leafAllocation: 'Leaf allocation', seedAllocation: 'Seed allocation',
+  leafPeakTiming: 'Peak Leaf timing', seedTiming: 'Seed timing', hourlyLeaf: 'Leaves per 5s tick',
+  hourlySeed: 'Seeds per 5s tick', leafAllocation: 'Leaf allocation', seedAllocation: 'Seed allocation',
 };
 
 function readableEffect(effect) {
@@ -102,7 +102,7 @@ function EntryRight({ entry, ledger, pageNo, navigate, entries, developerPreview
   return <div className="cg-page-content">
     <span className="cg-eyebrow">{developerPreview ? 'DEVELOPER REFERENCE · READ ONLY' : 'FIELD OBSERVATIONS'}</span>
     <h1>{fungal ? developerPreview ? 'Fungus Profile' : 'Known Interactions' : 'Cultivation Notes'}</h1>
-    <p className="cg-small">{developerPreview ? 'Full catalogue data. Your actual discoveries are unchanged.'
+      <p className="cg-small">{developerPreview ? 'Full catalogue data; times shown are real-time equivalents at the live pace. Your discoveries are unchanged.'
       : 'Only events witnessed in this garden appear here.'}</p>
     {developerPreview && fungal && <Fact symbol="◇" title="Habitat and Reach" lines={previewFungusProfile(entry.species)}/>}
     {!fungal && <Fact symbol="◇" title={developerPreview ? 'Growing Profile' : 'Experienced Conditions'} lines={conditions}/>}
