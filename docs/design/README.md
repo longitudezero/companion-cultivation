@@ -4,7 +4,7 @@
 
 The game is a deterministic hex-garden farming prototype about sustainable **species-specific** non-Seed harvests (working item class **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
 
-> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V8 propagation roster](fungi/random-roster-v8.md) record twelve existing-name candidates with V7's accepted numeric cultivation strengths, 3 dependent / 4 preferring / 5 independent Mycelial split, one Range and one Budget footprint per Fungus, and five Waterborne cultivation packages (F01, F02, F03, F08, F10). Bounded Waterborne Range/Budget is a documented second-pass rules extension, not current engine behavior. The redesign remains a **working-design draft**, not a live migration. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
+> **Fungi redesign — accepted design, not yet live:** The [second-pass working notebook](fungi/redesign-working.md), [V8 twelve-Fungus roster](fungi/random-roster-v8.md) and [**V9 locked 69 Transformation recipes**](fungi/random-roster-v9.md) are the working authority for the proposed redesigned game. V8 preserves 3 dependent / 4 preferring / 5 independent Fungi, one Range and one Budget footprint per Fungus, and five Waterborne cultivation packages. When a Waterborne initial footprint reaches Flooded, its cultivation effect spreads **unbounded across the connected Flooded network** (implementation of the Range/Budget handoff is still needed). V9 requires named living Fungi, while every environmental check uses the target hex's **resolved state**, independent of how any particular Fungus affected it. The current playable **31-Fungus roster and 69 first-pass transformations remain unchanged**.
 
 ## Current implementation vs approved design
 
@@ -53,6 +53,8 @@ The game is a deterministic hex-garden farming prototype about sustainable **spe
 
 - [31 approved first-pass species, catalog and detailed profiles](fungi/README.md)
 - [31-species emission, range and habitat parameter matrix](fungi/roster-matrix.md)
+- [Accepted second-pass V8 twelve-Fungus roster and Waterborne footprints](fungi/random-roster-v8.md)
+- [**Accepted second-pass V9: 69 redesigned Transformation recipes**](fungi/random-roster-v9.md)
 
 ## Provenance, historical audit and source comparison
 
