@@ -6,7 +6,7 @@ There are **31 approved first-pass fungal species**, including Mycelord as the o
 
 > **Second-pass exploration (not yet approved or implemented):** [Fungal roster redesign working notebook](redesign-working.md). It explores a smaller set of multi-effect Fungi while preserving all first-pass profiles here as the current baseline.
 >
-> **Current experiment:** [Randomized roster V1 — four structural repairs](random-roster-v1.md), following the preserved [unedited V0 draw](random-roster-v0.md). Both are explicitly exploratory; neither supersedes the playable roster.
+> **Current experiment:** [Randomized roster V2 — coverage-first redistribution](random-roster-v2.md). Earlier [V1 structural repairs](random-roster-v1.md) and the [unedited random V0 draw](random-roster-v0.md) remain preserved. All three are exploratory; none supersedes the playable roster.
 
 - [Complete 31-species parameter matrix](roster-matrix.md) — a one-row-per-species audit of the **two separate emissions, ranges, Mycelial class, and §56/§60 supersessions**. It is a quick reference, not a replacement for the full profiles.
 
