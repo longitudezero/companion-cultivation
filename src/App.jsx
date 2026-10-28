@@ -424,7 +424,7 @@ export default function App() {
       <div className="brand-controls"><div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
         <button className={`developer-toggle ${showDeveloperTools ? 'is-on' : ''}`} aria-pressed={showDeveloperTools} onClick={toggleDeveloperTools}>{showDeveloperTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 15</span>
+      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 16</span>
         <button className="subtle-button" onClick={() => setShowGrimoire(true)} title="Open your garden's discovered species and observations">❦ Cultivation Grimoire</button>
         <div className="save-game-controls" aria-label="Save and load game">
           <span className={`autosave-indicator ${autosaveStatus === 'Autosaved' ? '' : 'is-warning'}`} role="status">{autosaveStatus === 'Autosaved' ? '✓ ' : '⚠ '}{autosaveStatus}</span>
@@ -546,7 +546,8 @@ export default function App() {
     </div>}
     {dragGhost && <div className="garden-drag-ghost" style={{ left: dragGhost.x, top: dragGhost.y }}>✤ {dragGhost.title}</div>}
 
-    {showGrimoire && <CultivationGrimoire garden={garden} onClose={() => setShowGrimoire(false)}/>}
+    {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools}
+      onClose={() => setShowGrimoire(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 16</span><h2>A garden of changing forms</h2>
@@ -558,7 +559,7 @@ export default function App() {
         <div><b>02 · Observe your garden</b><p>Moisture, Temperature and Illumination change around Sources, Fungi and Blockers. Test conditions and watch your Plants grow.</p></div>
         <div><b>03 · Cultivation Grimoire</b><p>Open the Grimoire from the top bar. All Fungi and the six base Plants are identified from the start. Observed conditions and interactions fill the pages permanently in this garden.</p></div>
         <div><b>04 · Discover transformations</b><p>Different environments and Fungi can change a Plant into a new species. Successfully witnessed recipes are recorded, but untried alternatives stay hidden.</p></div>
-        <div><b>05 · Test and iterate</b><p>Developer tools reveal the complete species registry, recipe clocks and debug sources. Hide them to return to the normal discovery experience.</p></div>
+        <div><b>05 · Test and iterate</b><p>Developer tools reveal the complete species registry, recipe clocks and debug sources. In the Grimoire, choose Preview full Grimoire to browse all entries and recipes without unlocking them in your save. Hide developer tools to return to the normal discovery experience.</p></div>
       </div><button className="primary-button" onClick={() => setShowGuide(false)}>Return to the garden →</button>
     </div></div>}
   </div>;

@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PLANTS, FUNGI, plantKnown, fungusKnowledge } from './core/index.js';
+import { visibleGrimoirePlants, previewPlantConditions, previewPlantHazards, previewPlantCompatibility, previewPlantRecipes,
+  previewFungusProfile, previewFungusEffects, previewFungusRecipes } from './core/grimoire-preview.js';
 import './grimoire.css';
 
 const CHAPTERS = [
@@ -36,14 +38,15 @@ function PageNumber({ number }) {
   return <div className="cg-page-number">{number}</div>;
 }
 
-function EntryLeft({ entry, sectionEntries, pageNo, navigate }) {
+function EntryLeft({ entry, sectionEntries, pageNo, navigate, developerPreview }) {
   const chapter = CHAPTERS[entry.chapter];
   const index = entry.kind === 'index';
   return <div className="cg-page-content">
     <span className="cg-eyebrow">CULTIVATION GRIMOIRE · {chapter.label}</span>
     <h1>{index ? 'Cultivation Grimoire' : entry.species}</h1>
     <div className="cg-plate" aria-label="Illustration placeholder"><span className="cg-plate-symbol">{chapter.symbol}</span><span className="cg-plate-caption">Illustration to be commissioned</span></div>
-    {index ? <p>A living field book, written by your experiments. Each garden keeps its own discoveries.</p>
+    {index ? <p>{developerPreview ? 'Developer reference: all species and canonical recipes. This view does not change your garden discoveries.'
+      : 'A living field book, written by your experiments. Each garden keeps its own discoveries.'}</p>
       : entry.kind === 'fungus' ? <p>An identified Fungus. Observe it around growing Plants to discover how it changes their environment and cultivation.</p>
         : <p>A member of the {chapter.label} family. Its behaviour and possible transformations are recorded as you witness them in your garden.</p>}
     {sectionEntries.length > 1 && <label className="cg-entry-jump">FIND AN ENTRY
@@ -51,7 +54,8 @@ function EntryLeft({ entry, sectionEntries, pageNo, navigate }) {
         {sectionEntries.map(item => <option key={item.key} value={item.key}>{item.species}</option>)}
       </select>
     </label>}
-    <span className="cg-small">{index ? 'Field index' : entry.kind === 'fungus' ? 'Fungus · Identity known' : `Plant · ${chapter.label}`}</span>
+    <span className="cg-small">{index ? 'Field index' : developerPreview ? `Developer reference · ${entry.kind === 'fungus' ? 'Fungus' : chapter.label}`
+      : entry.kind === 'fungus' ? 'Fungus · Identity known' : `Plant · ${chapter.label}`}</span>
     <PageNumber number={pageNo}/>
   </div>;
 }
@@ -63,11 +67,13 @@ function Fact({ symbol, title, lines, empty = 'Not yet observed' }) {
   </div></section>;
 }
 
-function EntryRight({ entry, ledger, pageNo, navigate, entries }) {
+function EntryRight({ entry, ledger, pageNo, navigate, entries, developerPreview }) {
   if (entry.kind === 'index') {
     return <div className="cg-page-content">
       <span className="cg-eyebrow">CONTENTS · EIGHT SECTIONS</span><h1>Index</h1>
-      <p className="cg-small">Open a section with the colored bookmarks. Only Plants you have identified appear in this book.</p>
+      <p className="cg-small">Open a section with the colored bookmarks. {developerPreview
+        ? 'Every catalogued Plant and Fungus is available in this read-only preview.'
+        : 'Only Plants you have identified appear in this book.'}</p>
       <div className="cg-index-list">{CHAPTERS.slice(0, 7).map((chapter, index) => {
         const destination = entries.find(item => item.chapter === index);
         return <button key={chapter.key} type="button" onClick={() => destination && navigate(destination.key)}>
@@ -77,26 +83,35 @@ function EntryRight({ entry, ledger, pageNo, navigate, entries }) {
     </div>;
   }
   const fungal = entry.kind === 'fungus';
-  const fungalRecord = fungal ? fungusKnowledge(ledger, entry.species) : null;
-  const conditions = fungal ? [] : Object.values(ledger.environments?.[entry.species] || {})
-    .map(item => `${item.property}: ${item.condition} — ${item.signal} response`);
-  const hazards = fungal ? [] : Object.values(ledger.hazards?.[entry.species] || {})
-    .map(item => `${item.hazard}: ${item.outcome === 'death' ? 'observed death' : 'observed production or growth penalty'}`);
-  const effects = fungal ? fungalRecord.effects.map(item => `${item.plant} — ${readableEffect(item)}`)
-    : Object.values(ledger.fungalEffects?.[entry.species] || {})
-      .map(item => `${item.fungus} — ${readableEffect(item)}`);
-  const transformations = fungal ? fungalRecord.transformations
-    : (ledger.transformations || []).filter(item => item.from === entry.species || item.into === entry.species);
-  const witnessed = transformations.map(item => `${item.from} → ${item.into}. ${seenConditions(item.conditions)}.${item.fungi.length
-    ? ` Present: ${item.fungi.join(', ')}.` : ''}`);
+  const fungalRecord = fungal && !developerPreview ? fungusKnowledge(ledger, entry.species) : null;
+  const conditions = developerPreview ? (fungal ? [] : previewPlantConditions(entry.species))
+    : fungal ? [] : Object.values(ledger.environments?.[entry.species] || {})
+      .map(item => `${item.property}: ${item.condition} — ${item.signal} response`);
+  const hazards = developerPreview ? (fungal ? [] : previewPlantHazards(entry.species))
+    : fungal ? [] : Object.values(ledger.hazards?.[entry.species] || {})
+      .map(item => `${item.hazard}: ${item.outcome === 'death' ? 'observed death' : 'observed production or growth penalty'}`);
+  const effects = developerPreview ? (fungal ? previewFungusEffects(entry.species) : previewPlantCompatibility(entry.species))
+    : fungal ? fungalRecord.effects.map(item => `${item.plant} — ${readableEffect(item)}`)
+      : Object.values(ledger.fungalEffects?.[entry.species] || {})
+        .map(item => `${item.fungus} — ${readableEffect(item)}`);
+  const witnessed = developerPreview ? (fungal ? previewFungusRecipes(entry.species) : previewPlantRecipes(entry.species))
+    : (fungal ? fungalRecord.transformations
+      : (ledger.transformations || []).filter(item => item.from === entry.species || item.into === entry.species))
+      .map(item => `${item.from} → ${item.into}. ${seenConditions(item.conditions)}.${item.fungi.length
+        ? ` Present: ${item.fungi.join(', ')}.` : ''}`);
   return <div className="cg-page-content">
-    <span className="cg-eyebrow">FIELD OBSERVATIONS</span>
-    <h1>{fungal ? 'Known Interactions' : 'Cultivation Notes'}</h1>
-    <p className="cg-small">Only events witnessed in this garden appear here.</p>
-    {!fungal && <Fact symbol="◇" title="Experienced Conditions" lines={conditions}/>}
-    {!fungal && <Fact symbol="✥" title="Hazards" lines={hazards}/>}
-    <Fact symbol="♧" title={fungal ? 'Effects on Plants' : 'Fungal Influences'} lines={effects}/>
-    <Fact symbol="❧" title="Confirmed Transformations" lines={witnessed} empty="No transformations discovered"/>
+    <span className="cg-eyebrow">{developerPreview ? 'DEVELOPER REFERENCE · READ ONLY' : 'FIELD OBSERVATIONS'}</span>
+    <h1>{fungal ? developerPreview ? 'Fungus Profile' : 'Known Interactions' : 'Cultivation Notes'}</h1>
+    <p className="cg-small">{developerPreview ? 'Full catalogue data. Your actual discoveries are unchanged.'
+      : 'Only events witnessed in this garden appear here.'}</p>
+    {developerPreview && fungal && <Fact symbol="◇" title="Habitat and Reach" lines={previewFungusProfile(entry.species)}/>}
+    {!fungal && <Fact symbol="◇" title={developerPreview ? 'Growing Profile' : 'Experienced Conditions'} lines={conditions}/>}
+    {!fungal && <Fact symbol="✥" title={developerPreview ? 'Exposure Hazards' : 'Hazards'} lines={hazards}/>}
+    <Fact symbol="♧" title={developerPreview ? fungal ? 'Cultivation Package' : 'Base Fungus Compatibility'
+      : fungal ? 'Effects on Plants' : 'Fungal Influences'} lines={effects}/>
+    <Fact symbol="❧" title={developerPreview ? 'All Transformation Recipes' : 'Confirmed Transformations'}
+      lines={witnessed} empty={developerPreview ? 'No recipes involving this species' : 'No transformations discovered'}/>
+    {developerPreview && !fungal && <p className="cg-small">Fungal effects may vary by recipient and conditions. See the Fungi chapter for the emitting packages.</p>}
     <PageNumber number={pageNo}/>
   </div>;
 }
@@ -108,15 +123,17 @@ function TurningBookmark({ chapter, index }) {
   </div>;
 }
 
-export default function CultivationGrimoire({ garden, onClose }) {
+export default function CultivationGrimoire({ garden, onClose, developerTools = false }) {
   const closeRef = useRef(null);
   useEffect(() => { closeRef.current?.focus(); }, []);
+  const [developerPreview, setDeveloperPreview] = useState(false);
   const ledger = garden.grimoire || { plants: {}, environments: {}, fungalEffects: {}, hazards: {}, transformations: [] };
   const entries = useMemo(() => {
     const result = [];
+    const visiblePlants = new Set(visibleGrimoirePlants(ledger, developerPreview));
     CHAPTERS.slice(0, 6).forEach((chapter, chapterIndex) => {
       for (const [species, definition] of Object.entries(PLANTS)) {
-        if (definition.family === chapter.key && plantKnown(ledger, species)) {
+        if (definition.family === chapter.key && visiblePlants.has(species)) {
           result.push({ key: `plant:${species}`, chapter: chapterIndex, species, kind: 'plant' });
         }
       }
@@ -126,7 +143,7 @@ export default function CultivationGrimoire({ garden, onClose }) {
     }
     result.push({ key: 'index', chapter: 7, species: 'Index', kind: 'index' });
     return result;
-  }, [ledger.plants]);
+  }, [ledger.plants, developerPreview]);
   const [currentKey, setCurrentKey] = useState(entries[0]?.key);
   const [turn, setTurn] = useState(null);
   const activeIndex = Math.max(0, entries.findIndex(entry => entry.key === currentKey));
@@ -138,6 +155,17 @@ export default function CultivationGrimoire({ garden, onClose }) {
   const movingTabs = turn ? CHAPTERS.map((chapter, i) => i).filter(i =>
     (i < current.chapter || activeIndex === entries.length - 1)
       !== (i < destination.chapter || pageIndex === entries.length - 1)) : [];
+
+  function togglePreview() {
+    if (!developerTools) return;
+    // An undiscovered species must not linger on the page when returning to
+    // the player view; the discovery ledger itself is never altered.
+    if (developerPreview && current.kind === 'plant' && !plantKnown(ledger, current.species)) {
+      setCurrentKey('plant:Potato');
+    }
+    setTurn(null);
+    setDeveloperPreview(!developerPreview);
+  }
 
   function navigate(key) {
     const targetIndex = entries.findIndex(entry => entry.key === key);
@@ -171,17 +199,24 @@ export default function CultivationGrimoire({ garden, onClose }) {
 
   function pageLeft(entry, index) {
     return <EntryLeft entry={entry} pageNo={index * 2 + 1} navigate={navigate}
-      sectionEntries={entries.filter(item => item.chapter === entry.chapter && item.kind !== 'index')}/>;
+      sectionEntries={entries.filter(item => item.chapter === entry.chapter && item.kind !== 'index')}
+      developerPreview={developerPreview}/>;
   }
 
   function pageRight(entry, index) {
-    return <EntryRight entry={entry} pageNo={index * 2 + 2} navigate={navigate} ledger={ledger} entries={entries}/>;
+    return <EntryRight entry={entry} pageNo={index * 2 + 2} navigate={navigate} ledger={ledger}
+      entries={entries} developerPreview={developerPreview}/>;
   }
 
   return <div className="cg-overlay" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire">
     <div className="cg-scene">
       <span className="cg-workbench-label">COMPANION CULTIVATION / CULTIVATION GRIMOIRE</span>
       <div className="cg-shell">
+        {developerTools && <div className="cg-preview-tools">
+          <button type="button" className={developerPreview ? 'active' : ''} aria-pressed={developerPreview}
+            onClick={togglePreview}>{developerPreview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
+          <span>{developerPreview ? 'DEVELOPER PREVIEW · 60 PLANTS · 13 FUNGI · READ ONLY' : 'Developer testing · garden knowledge preserved'}</span>
+        </div>}
         <div className="cg-book-stage"><div className="cg-book">
           <div className="cg-cover" aria-hidden="true"/>
           <div className="cg-under-sheet second left" aria-hidden="true"/><div className="cg-under-sheet second right" aria-hidden="true"/>
@@ -219,7 +254,7 @@ export default function CultivationGrimoire({ garden, onClose }) {
           <button ref={closeRef} className="cg-control close" aria-label="Close Grimoire" title="Close Grimoire (Escape)" onClick={onClose}>×</button>
         </div></div>
         <div className="cg-status" aria-live="polite">{CHAPTERS[page.chapter].label} · {pageIndex + 1} / {entries.length}</div>
-        <p className="cg-hint">Turn pages with ← →, select a discovered entry, or use the colored bookmarks. Time continues in the garden.</p>
+        <p className="cg-hint">Turn pages with ← →, select {developerPreview ? 'any' : 'a discovered'} entry, or use the colored bookmarks. Time continues in the garden.</p>
       </div>
     </div>
   </div>;
