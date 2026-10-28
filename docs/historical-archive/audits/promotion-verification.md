@@ -1,6 +1,6 @@
 # Main-branch documentation promotion — preservation and acceptance record
 
-**Date:** 27 October 2026. **Frozen baseline:** `a9f5f70d97dd5d992c0680515ef28e596f1b7d9b` (`main` before documentation promotion). **Source:** the reviewed `docs-reorganization` staging branch, latest documentation audit pass 13. **Canonical location:** [`docs/design/`](../editorial/design-index-before-organisation.md).
+**Date:** 27 October 2026. **Frozen baseline:** `a9f5f70d97dd5d992c0680515ef28e596f1b7d9b` (`main` before documentation promotion). **Source:** the reviewed `docs-reorganization` staging branch, latest documentation audit pass 13. **Canonical location:** [`docs/design/`](../../design/README.md).
 
 ## Decision and scope
 
@@ -17,7 +17,7 @@ The user directed that we **finish the documentation maintenance work before ret
 | --- | --- |
 | Original giant design sections | **§§1–76 all mapped** by [crosswalk](source-crosswalk.md); original file preserved unchanged |
 | Original substantive lines | Prior lossless audit identified **3,020** non-heading substantive source lines accounted for in active topical or historical homes (four path-only variations at that stage); original entire source still directly available |
-| Plant roster | **60/60** approved first-pass species represented in six [family files](../editorial/design-index-before-organisation.md#plant-families) |
+| Plant roster | **60/60** approved first-pass species represented in six [family files](../../design/README.md#plant-families) |
 | Fungal roster | **31/31** approved first-pass species in [roster](../superseded-design/fungi/README.md) and [matrix](../superseded-design/fungi/roster-matrix.md) |
 | Plant-owned Transformations | **69 approved first-pass routes** across six families |
 | Exact final route tables | **102/102 Markdown table lines identical to frozen approved §§67,69,71,73,74,76** (includes headers/separators; not 102 routes) |
@@ -34,7 +34,7 @@ The user directed that we **finish the documentation maintenance work before ret
 | Original repository files deleted | **0** (confirm by post-publication GitHub comparison) |
 | Pre-existing design/environmental/handoff source files modified | **0** (confirm by post-publication GitHub comparison) |
 | Root README | **1 intentional documentation-index edit**; complete former contents archived byte-for-byte |
-| Files reachable from the new [design index](../editorial/design-index-before-organisation.md) | **43/43** |
+| Files reachable from the then-new [design index snapshot](../editorial/design-index-before-organisation.md) | **43/43** |
 | Ordinary relative Markdown links | **682 checked**, 0 unresolved |
 | In-document/linked heading fragments | **34 checked**, 0 unresolved |
 | Unresolved local links or anchors | **0** (source-level static inspection) |

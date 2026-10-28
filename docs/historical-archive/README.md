@@ -2,7 +2,7 @@
 
 > **ARCHIVED · HISTORICAL.** These documents preserve earlier decisions, original sources, brainstorming iterations, handoffs and verification evidence. Their statements about what is approved, implemented or still pending describe **their own dates** and may contradict the current game.
 
-Start with the [current design source of truth](editorial/design-index-before-organisation.md) for intended mechanics or the [implementation ledger](../implementation-status.md) for playable behaviour.
+Start with the [current design source of truth](../design/README.md) for intended mechanics or the [implementation ledger](../implementation-status.md) for playable behaviour.
 
 | Collection | Contents |
 | --- | --- |
