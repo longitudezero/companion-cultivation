@@ -1,17 +1,17 @@
 # Fungus lifecycle, emissions, and habitat
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** Shared lifecycle, habitats, Spores and Mycelial rules are implemented. The [V8 roster](../fungi/random-roster-v8.md) defines the current 12 ordinary Fungi plus Mycelord. The older 31-Fungus roster and approval-time implementation notes below are historical; consult [implementation status](../../implementation-status.md) for current coverage.
 
 ## Current shared framework
 
 - Every fungus has **0–100% Growth** followed by **100–200% Sporulation** and produces **its own Spores only**. A single destructive Spore harvest removes the fungus and its emissions.
 - Living fungi emit ordinary environmental and/or Plant-development influences from successful germination, throughout both stages, and after 200% while alive. Most ordinary fungi have separate environmental and cultivation effects with independently defined reach. Mycelord is the sole initial dedicated Mycelial producer and emits no ordinary environmental or cultivation effect.
 - Habitat categories are **Mycelial-independent**, **Mycelial-preferring**, and **Mycelial-dependent** at the source hex. Dependents retain emissions during the approved timed habitat-loss grace while still alive. Mycelord has its own timed Flooded vulnerability. A receiving Plant need not stand on Mycelial to receive a contacted source's emitted influence.
-- Fungus population, Spore economics, species profiles, ranges and individual effects are documented in the [31-Fungus roster](../fungi/README.md). No broader Plant-like fungus maintenance matrix or additional Mycelial-producing species is approved.
+- Fungus population, Spore economics, species profiles, ranges and individual effects are documented in the [current V8 roster](../fungi/random-roster-v8.md). No broader Plant-like fungus maintenance matrix or additional Mycelial-producing species is approved.
 
 ## First-pass roster, habitat grace and timed death — pointers
 
-The **31 full fungal species profiles**, including §57's final Fogdial, Emberbell and Siltgill entries, are maintained in the [fungal roster](../fungi/README.md) and [§57 detailed audit](../fungi/profiles-final.md). The full §57 source paragraphs were duplicated here verbatim; the detailed text has been retained once in the fungal profile reference.
+The **31 full fungal species profiles**, including §57's final Fogdial, Emberbell and Siltgill entries, are maintained in the [fungal roster](../fungi/README.md) and [§57 detailed audit](../../historical-archive/superseded-design/fungi/profiles-final.md). The full §57 source paragraphs were duplicated here verbatim; the detailed text has been retained once in the fungal profile reference.
 
 - **Ordinary fungal life:** 0–100% Growth, 100–200% Sporulation, immediate living emission from successful germination, continuing beyond 200% until death/harvest, one destructive own-Spore harvest.
 - **Dependent source habitat (§60C):** Rushroom and Siltgill need Mycelial on their occupied source hexes at establishment. Loss of that overlay starts an independent continuous **X-hour** death clock **without suppressing either emission while alive**; restoration in time clears the clock. The actual X hours are unassigned.

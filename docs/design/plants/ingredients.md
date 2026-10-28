@@ -1,10 +1,10 @@
 # Ingredients — Plant family design
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 6. **Source sections preserved:** §41, §42, §43, §44, §67.
 
-[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../history/superseded-design.md)
+[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../../historical-archive/superseded-design/superseded-design.md)
 
 This file keeps the detailed species profiles, numerical tables, Seed identities, environmental responses and approved recipes together. The original source sections follow for verification; any older statements that recipes are still pending are superseded by the final recipe section included below.
 

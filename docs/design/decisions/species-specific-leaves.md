@@ -2,7 +2,7 @@
 
 **Decision date:** 27 October 2026. **Authority:** The user explicitly clarified that each Plant was always intended to yield **its own Leaves**, not a universal, interchangeable Leaf currency. This corrects a misunderstanding introduced in earlier discussions and propagated into the Prototype 10 implementation and some written first-pass design interpretations.
 
-This is the current authority on **Leaf item identity**. Earlier sections of the preserved design materials that refer to universal or generic Leaves describe the former interpretation and are superseded **only on that point**. Their approved species yields, environment responses, Growth/Ripening curves, 3:1 Allocation mathematics, Seed identity rules, Fungal effects and transformations remain in force. The [historical note](../history/2026-10-27-leaf-identity-correction.md) records the superseded interpretation; no original document is rewritten or removed.
+This is the current authority on **Leaf item identity**. Earlier sections of the preserved design materials that refer to universal or generic Leaves describe the former interpretation and are superseded **only on that point**. Their approved species yields, environment responses, Growth/Ripening curves, 3:1 Allocation mathematics, Seed identity rules, Fungal effects and transformations remain in force. The [historical note](../../historical-archive/superseded-design/2026-10-27-leaf-identity-correction.md) records the superseded interpretation; no original document is rewritten or removed.
 
 ## Rules
 

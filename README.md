@@ -2,13 +2,13 @@
 
 Companion Cultivation is a small farming minigame where fungi help your herbs to... grow?
 
-> **Prototype 16 development branch — V8/V9 Fungal redesign, 28 October 2026.** The playable roster is now **12 ordinary Fungi plus Mycelord**, replacing the old 31-Fungus set. All **69 Transformations** use new named-Fungus contacts plus the Plant hex's resolved Conditions, not exact emission values. Each Fungus has one environmental Range/Budget footprint and a separate shared cultivation package; five packages use unlimited connected-Flooded Waterborne handoff. **Players choose Spore direction when planting.** This is a deliberate save-format break: only **schema V6** games/backup files load, new browser autosaves use `sandbox:v6`, and previous autosave keys are left untouched. The original 60 Plants, economy, Mycelial ground, staging and Grimoire remain. See [V8 roster](docs/design/fungi/random-roster-v8.md), [V9 recipes](docs/design/fungi/random-roster-v9.md), and the [implementation ledger](docs/implementation-status.md).
+> **Prototype 16 — current V8/V9 Fungal redesign, 28 October 2026.** The playable roster is now **12 ordinary Fungi plus Mycelord**, replacing the old 31-Fungus set. All **69 Transformations** use new named-Fungus contacts plus the Plant hex's resolved Conditions, not exact emission values. Each Fungus has one environmental Range/Budget footprint and a separate shared cultivation package; five packages use unlimited connected-Flooded Waterborne handoff. **Players choose Spore direction when planting.** This is a deliberate save-format break: only **schema V6** games/backup files load, new browser autosaves use `sandbox:v6`, and previous autosave keys are left untouched. The original 60 Plants, economy, Mycelial ground, staging and Grimoire remain. See [V8 roster](docs/design/fungi/random-roster-v8.md), [V9 recipes](docs/design/fungi/random-roster-v9.md), and the [implementation ledger](docs/implementation-status.md).
 
-The Prototype 15 details below are retained as a historical implementation checkpoint where they refer to the old fungal roster, recipes or save compatibility. GitHub Pages is updated from `main` after this draft branch merges.
+The V8/V9 roster and recipes are the current authority. Earlier Prototype 15 details are retained only where explicitly identified as historical. See the [documentation map](docs/README.md) for active design, working notes, and the historical archive.
 
 **Current development build: Prototype 16 — Fungal redesign.** All 60 original Plants and 69 V9 Transformation routes are playable with **12 redesigned ordinary Fungi plus Mycelord**. Plants continue to produce their [own species-specific Leaves](docs/design/decisions/species-specific-leaves.md). The timed Mycelial overlay, inventory, staging, hidden germination, live clock, portable saves and Cultivation Grimoire remain. This is a mechanics-testing prototype, not settled numerical balance or finished art/UI content.
 
-**[Play the deployed game on GitHub Pages](https://longitudezero.github.io/companion-cultivation/)** — a mechanics-testing prototype; it may still show the former roster until this branch merges into `main`.
+**[Play the deployed game on GitHub Pages](https://longitudezero.github.io/companion-cultivation/)** — the current mechanics-testing prototype, deployed from `main`.
 
 **Cultivation Grimoire:** Open **❦ Cultivation Grimoire** from the header. Its center-hinged pages, dark green cover and eight colored bookmarks let you browse the six Plant families, all known Fungi and an Index. You can turn pages with arrows or jump to a section or identified entry. The book records actual observed conditions, fungal effects, hazards and witnessed transformations, with the same discovery visible on the relevant Plant and Fungus pages. It lives inside the garden save (browser and `.ccsave`), never in a separate account. To review everything without spending hours on Transformations, turn on **Display developer tools**, open the book and choose **Preview full Grimoire**: all 60 Plants, 13 Fungi and 69 canonical recipes are accessible, without changing actual garden discoveries. **Return to discoveries** switches back. The current botanical plates are **illustration placeholders**. See [approved Grimoire rules and implementation](docs/design/systems/cultivation-grimoire.md).
 
@@ -27,7 +27,7 @@ By default the workbench shows **Inspect**, **Sow Seeds** and **Sow Spores**, al
 
 The developer workbench remains available behind the toggle: place configurable Sources, Hex Blockers and Edge Blockers. **Player-placeable Blockers await a separate design decision.** Sources can be **Regular** or **Anchored** (one fixed Property/Condition) and use **ordinary Propagation** or **Spread Budget Propagation**. Ordinary Airborne Sources have a finite Range; **Waterborne Sources reach every connected Flooded hex without a Range limit**, subject to Blockers. Routed emissions have a heading, shared crossing budget and **Straight Until Blocked** movement; select a route to see its arrows. Environmental Adjacency changes Conditions around Flooded, Hot, Freezing, Bright and Dark hexes. The inspector shows source and adjacency effects, with selective Blockers. The garden automatically saves to browser storage; developer mode also exposes JSON import/export.
 
-**Current garden format (schema 5):** Three environmental Properties—Moisture, Temperature, and Illumination—plus living organisms, progress and exposure clocks, **Plant-keyed Leaf inventory**, Seed and Spore inventory, saved inventory slots, staging reservations, pending germinations, Mycelial contributions and **per-garden Grimoire discoveries**. Earlier saved gardens are migrated on load; Sources, Blockers and baselines survive, while retired Materials, Fertility and Fertility-only effects are removed. Old pooled Leaves remain **Legacy · unattributed Leaves**. The browser saves to `sandbox:v5`, preserving `v1`–`v4` keys for comparison. Migration identifies living Plants without guessing lost transformation histories, and never replenishes explicitly spent Seed stock.
+**Current garden format (schema V6):** Three environmental Properties—Moisture, Temperature, and Illumination—plus living organisms, progress and exposure clocks, **Plant-keyed Leaf inventory**, Seed and Spore inventory, saved inventory slots, staging reservations, pending germinations, Mycelial contributions, Spore headings and **per-garden Grimoire discoveries**. The browser autosaves to `companion-cultivation:sandbox:v6`; previous local keys are left untouched. **Older V1–V5 gardens and backup files are deliberately not supported** following the roster redesign.
 
 ## Rules engine
 
@@ -36,19 +36,19 @@ All simulation code lives in `src/core/`. It has no React, DOM, browser-storage,
 | Module | Responsibility |
 | --- | --- |
 | `grid.js` | Axial hex coordinates, offset-grid generation, shared edges, Property baselines, objects and starter inventory |
-| `migration.js` | Converts earlier garden saves, sanitizes organism progress/clocks and preserves inventory/Mycelial state |
-| `save-file.js` | Portable versioned `.ccsave` serialization, validation and compatibility with older raw JSON garden exports |
+| `migration.js` | Validates the current V6 garden schema and rejects incompatible older schemas |
+| `save-file.js` | Portable `.ccsave` serialization and validation for current V6 gardens and raw JSON exports |
 | `influences.js` | Environmental Influence definitions, Source and Blocker factories |
 | `adjacency.js` | Simultaneous, capped neighbor interactions and their inspector explanations |
 | `blocking.js` | Shared Hex/Edge blocker matching rules |
 | `spread.js` | Deterministic, seeded Spread Budget pathfinding and route segments |
 | `simulation.js` | Finite Airborne Range and unlimited connected-Flooded Waterborne propagation, both route types, Modifier aggregation, Anchored Conditions, and final Conditions |
-| `species.js`, `aquatic-species.js`, `woodlands-species.js`, `desert-species.js` | Playable Plant profiles, 31 Fungus definitions, factory functions and recipient compatibility |
+| `species.js`, `aquatic-species.js`, `woodlands-species.js`, `desert-species.js` | Playable Plant profiles, 12 redesigned Fungi plus Mycelord, factories and recipient compatibility |
 | `biology.js`, `cultivation.js` | Simulated hours, growth, hazards and Fungus-to-Plant Effects with real footprints |
 | `economy.js` | Growing/harvesting distinct per-Plant Leaves, Seeds and Spores; germination, Allocation and trophy inventory |
 | `inventory.js` | 200 persistent slots, four 50-slot pages, species-specific item stacks and saved repositioning |
 | `staging.js` | Seed/Spore reservations, atomic Apply, private germination rolls and delayed emergence |
-| `grimoire.js` | Per-garden discovery ledger, observation capture, Plant/Fungus views and safe old-save migration |
+| `grimoire.js` | Per-garden discovery ledger, observation capture and Plant/Fungus views |
 | `mycelial.js` | Mycelial expansion, support, overlapping sources and retreat |
 | `transformations.js`, `*-transformations.js` | Plant-owned recipes, contact checks, uninterrupted clocks and event-based transitions |
 | `demo.js` | Example garden data (not additional game rules) |
@@ -65,7 +65,7 @@ const garden = cultivation.createGarden(9, 7);
 const environment = cultivation.calculateEnvironment(garden);
 ```
 
-`npm test` runs simulation, economy, staged inventory/germination, portable save-file, Grimoire observation/migration and UI-tool classification tests (189 passing at the Prototype 15 checkpoint). `npm run check` runs these tests, builds the static frontend and CommonJS bundle, then checks loading through `require()`.
+`npm test` runs simulation, economy, V8/V9 roster and recipe checks, staged inventory/germination, portable save-file, Grimoire observation and UI-tool classification tests. `npm run check` runs these tests, builds the static frontend and CommonJS bundle, then checks loading through `require()`.
 
 ## Deployment
 
@@ -91,19 +91,19 @@ The GitHub Actions workflow validates and builds the project and deploys `dist/`
 - An uncommitted staged Seed/Spore reservation is movable and refundable; an applied pending germination occupies its hex, hides the privately resolved outcome for a provisional six hours, and cannot be moved or refunded. The farm clock keeps running through repeated staging phases.
 - Waterborne Influences do **not** modify Moisture under the current resolution order.
 - Every Plant harvest credits **only that Plant's own Leaf item** into a species-keyed inventory, independent of which Seed species it produces. A single Plant's approved 3:1 Leaf–Seed Allocation changes quantities but never the Leaf item identity. Old pooled balances retain their value as explicitly unattributed legacy stock, not a general-purpose currency.
-- All 60 living Plants, all 31 Fungal definitions, all six families' **69 Plant-owned Transformations** and the Mycelial overlay **are implemented**. Special events include Desert's Hot→Warm/Freezing→Cold recoveries and dual-species Seed harvest, plus Spices' source-overlap Pum'king recipes and Dark→Lit Ghost Rice sequence. Final fungal lifecycle tuning, overall balancing, art/UI polish and permanent item catalogs remain open.
+- All 60 living Plants, 12 redesigned ordinary Fungi plus Mycelord, all six families' **69 V9 Plant-owned Transformations** and the Mycelial overlay **are implemented**. Special events include Desert's Hot→Warm/Freezing→Cold recoveries and dual-species Seed harvest, and Mistlefoe's contact-loss puzzle. Final fungal lifecycle tuning, overall balancing, art/UI polish and permanent item catalogs remain open.
 - Mycelial ground is a separate, time-advanced overlay: Flooded hexes block new colonization **and ongoing source-support paths**. If flooding cuts an existing colony off from Mycelord, the unsupported contribution retreats gradually rather than disappearing instantly. Exact growth/retreat and habitat grace durations are **prototype values**.
 
 Configurable Source strengths and the provisional organism/Spore tuning are **sandbox test values**, not finalized game-item balancing. See [implementation details and provisional values](docs/implementation-status.md#differences-deliberate-placeholders-and-unresolved-checks).
 
 ## Design references
 
-- [Environmental System v1.2](docs/environmental-system-v1.2.md) — authoritative environmental foundation with three Properties; v1.1 is preserved as a historical snapshot.
-- [Original Herbs, Fungi & Cultivation Design](docs/herbs-and-fungi-design.md) — frozen full-length source preserved for comparison; some early proposals were superseded by later approved decisions. Current gameplay progress is tracked **separately**.
+- [Environmental System v1.2](docs/historical-archive/originals/environmental-system-v1.2.md) — frozen original environmental specification; the [current environmental rules](docs/design/systems/environment.md) are authoritative.
+- [Original Herbs, Fungi & Cultivation Design](docs/historical-archive/originals/herbs-and-fungi-design.md) — frozen full-length source preserved for comparison; some early proposals were superseded by later approved decisions. Current gameplay progress is tracked **separately**.
 
 ## Game-design documentation
 
-The [organized game-design index](docs/design/README.md) is the detailed authoritative reference for **60 approved first-pass Plants, 31 Fungi and 69 Plant-owned Transformation routes**. The [implementation-status ledger](docs/implementation-status.md) records which of those rules are currently coded and tested, what remains pending, and which numerical knobs are deliberately provisional. Status language in the detailed design pages dates from their original publication and is **not** the current release status.
+The [current game-design index](docs/design/README.md) is the authoritative entry point for **60 Plants, 12 ordinary Fungi plus Mycelord, and 69 V9 Transformation routes**. The [implementation-status ledger](docs/implementation-status.md) tracks live coverage and provisional values. The [documentation map](docs/README.md) separates approved designs, working proposals and the historical archive.
 
 | Topic | Where to look |
 | --- | --- |
@@ -116,8 +116,8 @@ The [organized game-design index](docs/design/README.md) is the detailed authori
 | Plant and Fungus progression, outputs and harvesting | [Plant-specific Leaf items](docs/design/decisions/species-specific-leaves.md) · [Plant lifecycle](docs/design/systems/plant-lifecycle.md) · [Fungus lifecycle](docs/design/systems/fungus-lifecycle.md) · [Seeds/Spores/harvesting](docs/design/systems/seeds-spores-and-harvesting.md) |
 | Mycelial spread, support and survival | [Mycelial system](docs/design/systems/mycelial.md) |
 | Six Plant families and approved individual profiles | [Plant-family index](docs/design/README.md#plant-families) |
-| Complete first-pass fungal roster | [Fungi index](docs/design/fungi/README.md) · [Emission/propagation matrix](docs/design/fungi/roster-matrix.md) |
+| Current Fungal roster and Transformation recipes | [Fungi index](docs/design/fungi/README.md) · [V8 roster](docs/design/fungi/random-roster-v8.md) · [V9 recipes](docs/design/fungi/random-roster-v9.md) |
 | Transformation recipes and shared timing | [Shared rules](docs/design/systems/transformations.md) · [Event order](docs/design/systems/simulation-and-time.md) |
-| Superseded concepts, original sources and comparisons | [Leaf-identity correction history](docs/design/history/2026-10-27-leaf-identity-correction.md) · [Historical references](docs/design/history/README.md) · [Documentation audit](docs/design/audit/README.md) |
+| Superseded concepts, original sources and comparisons | [Leaf-identity correction history](docs/historical-archive/superseded-design/2026-10-27-leaf-identity-correction.md) · [Historical references](docs/historical-archive/superseded-design/README.md) · [Documentation audit](docs/historical-archive/audits/README.md) |
 
-The original comprehensive design documents remain at their existing paths, unmodified, for side-by-side comparison. The [documentation promotion report](docs/design/audit/promotion-verification.md) explains what was checked and what belongs to later game-design/playtesting work.
+The original comprehensive design documents are preserved unmodified under [historical-archive/originals](docs/historical-archive/originals/). The [historical promotion report](docs/historical-archive/audits/promotion-verification.md) records earlier documentation checks; it is not a current approval source.

@@ -1,8 +1,8 @@
 # Mycelial overlay — habitat, connectivity, and elapsed-time behavior
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** Timed Mycelial growth, support, Flooded barriers, retreat and source-side Fungal habitats are implemented. Dated “not implemented” passages below are historical, not current status. See the [V8 roster](../fungi/random-roster-v8.md) and [implementation status](../../implementation-status.md).
 
-**Implementation:** design-only; no Mycelial runtime yet. See also [Fungus lifecycle](fungus-lifecycle.md) and [Simulation and time](simulation-and-time.md).
+**Implementation:** playable timed Mycelial overlay; balancing remains provisional. See also [Fungus lifecycle](fungus-lifecycle.md) and [Simulation and time](simulation-and-time.md).
 
 ## 61. Environmental simplification and Flooded Mycelial barrier — APPROVED
 

@@ -1,30 +1,18 @@
-# Approved first-pass Fungi — roster index
+# Current Fungi and Transformation design
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED — Prototype 16.** The twelve ordinary Fungi plus Mycelord and all 69 V9 Transformation routes are implemented. The old 31-Fungus roster and V0–V7 experiments are not current gameplay specifications.
 
-There are **31 approved first-pass fungal species**, including Mycelord as the only initial Mycelial creator.
+## Current source of truth
 
-> **Second-pass exploration (not yet approved or implemented):** [Fungal roster redesign working notebook](redesign-working.md). It explores a smaller set of multi-effect Fungi while preserving all first-pass profiles here as the current baseline.
->
-> **Current accepted second-pass design:** [V8 named and numbered 12-Fungus roster](random-roster-v8.md) fixes emissions, cultivation packages, Mycelial classes and propagation; [**V9 locked 69 Plant Transformation recipes**](random-roster-v9.md) adds entirely redesigned named-fungus contacts and resolved-hex-state requirements. All six families retain their original Transformation graph; the source named Fungus need **not** be the source of the required environmental state. The earlier [V7](random-roster-v7.md), [V6](random-roster-v6.md), [V5](random-roster-v5.md), [V4](random-roster-v4.md), [V3](random-roster-v3.md), [V2](random-roster-v2.md), [V1](random-roster-v1.md) and [V0](random-roster-v0.md) versions remain preserved. V8 Waterborne cultivation spreads from its Range/Budget initial footprint through the **entire connected Flooded network without a distance cap**. Both V8 and V9 are locked **design**, not changes to the playable 31-species roster or current 69-recipes implementation.
+1. [**V8 — twelve-Fungus roster, environmental emissions, shared cultivation packages, Mycelial classes and Range/Budget footprints**](random-roster-v8.md). Mycelord remains the sole initial Mycelial creator. Five packages are Waterborne; after reaching Flooded, they extend through the entire connected unblocked Flooded network.
+2. [**V9 — all 69 named-contact Plant Transformation recipes**](random-roster-v9.md). Recipes depend on the Plant hex's final resolved Conditions, plus reaching living named Fungi. The named Fungus need not be the emitter that produced the required hex state.
 
-- [Complete 31-species parameter matrix](roster-matrix.md) — a one-row-per-species audit of the **two separate emissions, ranges, Mycelial class, and §56/§60 supersessions**. It is a quick reference, not a replacement for the full profiles.
+Both documents are authoritative for the redesigned mechanics and take precedence over older Fungus identities, emissions and first-pass family recipes. Read them together with the [shared gameplay systems](../README.md#systems) and [implementation checkpoint](../../implementation-status.md). Some numerical tuning and artwork remain provisional, as recorded in implementation status.
 
-The full source-level profiles, emissions, ranges, intended alternatives and open balance parameters are preserved in three detailed references:
+## Historical references
 
-- [Foundational fungi and Mycelord](profiles-foundation.md) — source §§47–50 (13 species, including Mycelord).
-- [Additional alternative-effect fungi](profiles-alternatives.md) — source §§53–55 (15 additional species).
-- [Final three additions and roster audit](profiles-final.md) — source §57 (Fogdial, Emberbell and Siltgill; 3 species).
+- [V0–V7 redesign iterations and working notebook](../../historical-archive/fungal-redesign/README.md)
+- [Retired first-pass 31-Fungus profiles and parameter matrix](../../historical-archive/superseded-design/fungi/README.md)
+- [Original complete design record](../../historical-archive/originals/herbs-and-fungi-design.md)
 
-See [shared Fungus lifecycle](../systems/fungus-lifecycle.md), [Influences and Responses](../systems/influences-and-responses.md), and [Mycelial](../systems/mycelial.md). Environmental and cultivation Influence footprints remain separate. Numeric strengths are first-pass values, not final playtested balance.
-
-**Fungus names by approved batch:**
-
-- §47: Mycelord
-- §48: Glimmergill, Veilcap, Emberbolete, Chillanterelle
-- §49: Rainmorel, Droughtcap, Prismorel, Rushroom
-- §50: Echomorel, Wakemorel, Hushroom, Sim'mushro'dim
-- §53: Mistruffle, Crumblecap, Quickshade, Tidegill, Frostfolio, Sunspore
-- §54: Dewmender, Lanterncap, Tickbolete, Rilllace, Duskleaf, Brookrill
-- §55: Gloamclock, Bristlecap, Goldgill
-- §57: Fogdial, Emberbell, Siltgill
+The historical archive retains past reasoning for comparison; it does not define current gameplay.

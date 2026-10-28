@@ -1,10 +1,10 @@
 # Plant-owned Transformations — shared rules
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** Cross-family timing, stage independence and reset rules apply to the live game. The first-pass route examples and older contacts retained below are historical; [V9](../fungi/random-roster-v9.md) is the current authority for all 69 recipes.
 
-> **Accepted second-pass redesign (28 October 2026):** [V9's 69 locked new recipes](../fungi/random-roster-v9.md) use **only the final resolved target-hex environment/state transitions** plus **mandatory contact from specified named living Fungi**. No environmental state must come from a particular Fungus or exact emission strength. This is the current **second-pass design authority**, while the first-pass conditions below remain historical/live references for the **currently playable implementation**. V9 is not yet migrated into the runtime.
+> **Implemented redesign (28 October 2026):** [V9's 69 locked recipes](../fungi/random-roster-v9.md) use **only the final resolved target-hex environment/state transitions** plus **mandatory contact from specified named living Fungi**. No environmental state must come from a particular Fungus or exact emission strength. V9 is the current design and runtime rule; the old recipe conditions below are historical examples only.
 
-**Recipe locations:** [Ingredients](../plants/ingredients.md), [Aquatic](../plants/aquatic.md), [Woodlands](../plants/woodlands.md), [Flowers](../plants/flowers.md), [Desert](../plants/desert.md), [Spices](../plants/spices.md). All 69 edges are approved first-pass designs. This file contains cross-family rules only; the concrete recipes live with each family.
+**Recipe locations:** The current concrete recipes are together in [V9](../fungi/random-roster-v9.md). The first-pass, superseded recipe tables remain in the six [Plant family documents](../README.md#plant-families) for provenance. This file contains the shared Transformation framework.
 
 ## 58. Transformation RESTARTS every new Plant at 0% — APPROVED; supersedes progress continuity
 

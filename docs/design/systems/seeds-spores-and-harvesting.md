@@ -1,6 +1,6 @@
 # Seeds, Spores, harvesting, and tracked production
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** Seed, Spore, per-species Leaf inventory and harvesting are implemented. This page preserves first-pass source data and quantitative assumptions for context; **V8's redesigned Fungi do not currently emit Allocation**. References below to the old 31-Fungus roster or unimplemented gameplay are historical. See the [current V8 roster](../fungi/random-roster-v8.md), [V9 recipes](../fungi/random-roster-v9.md), [implementation status](../../implementation-status.md) and [historical archive](../../historical-archive/superseded-design/superseded-design.md).
 
 The universal rules here govern the Plant seed economy, own-species Fungus Spores, prospective output accrual and the approved 3:1 Leaf–Seed Allocation. Species-specific Seed identities and quantities remain in their [family references](../README.md).
 

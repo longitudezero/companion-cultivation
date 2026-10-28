@@ -1,10 +1,10 @@
 # Fungal roster — V9 accepted second-pass Plant Transformation recipes
 
-> **Implementation update (28 October 2026):** All 69 V9 routes are now implemented on the Prototype 16 draft branch. Resolved Plant-hex Conditions and named living Fungus contacts are the only static recipe gates. The historical status language below describes the design phase before implementation.
+> **ACTIVE · APPROVED · IMPLEMENTED — Prototype 16 (28 October 2026).** All 69 V9 routes are live. Resolved Plant-hex Conditions and named living Fungus contacts are the only static recipe gates. This document is the current source of truth for the 69 recipes.
 
-> **Status: ACCEPTED FOR SECOND-PASS DESIGN (28 October 2026); NOT YET IMPLEMENTED IN THE PLAYABLE GAME.** The user explicitly locked these **69 new recipes** after reviewing the complete six-family slate. This V9 builds on the [accepted V8 twelve-Fungus names, effects, Mycelial classes and propagation footprints](random-roster-v8.md). All V0–V8 drafts and the existing [first-pass Plant family recipe pages](../README.md#plant-families) are preserved. **Mycelord is unchanged.**
+> **Approval history:** The user explicitly locked these **69 new recipes** after reviewing the complete six-family slate. V9 builds on the [V8 twelve-Fungus names, effects, Mycelial classes and propagation footprints](random-roster-v8.md). Earlier [V0–V7 drafts](../../historical-archive/fungal-redesign/README.md) and the [first-pass Plant family recipe pages](../README.md#plant-families) are preserved for provenance. **Mycelord is unchanged.**
 >
-> **Authority boundary:** For the **planned twelve-Fungus redesign**, the complete tables below supersede the old 69 *recipe conditions and fungal contacts*. For **what currently runs**, the existing 31-Fungus catalog and 69 first-pass recipes still apply until an explicit implementation/migration pass. This document is not a code or save-format migration.
+> **Authority boundary:** The complete tables below supersede all old first-pass recipe conditions and fungal contacts. The currently playable game uses the 12 ordinary V8 Fungi plus Mycelord and all V9 routes. The separately approved implementation deliberately introduced schema V6 and does not load old saves.
 
 ## Locked transformation rules
 

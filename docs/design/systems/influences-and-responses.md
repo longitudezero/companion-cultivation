@@ -1,6 +1,6 @@
 # Influence propagation, contact, and Plant Responses
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** The current Fungal packages and footprints are in [V8](../fungi/random-roster-v8.md), and current Transformation contact predicates in [V9](../fungi/random-roster-v9.md). Historical 31-Fungus examples and dated “not implemented” status claims below do not override those sources.
 
 An **Influence** is emitted from a living Source and has Kind, Mode, reach and effect semantics. A Plant's **Response** is species-specific, while the Source's signed environmental property modifier and propagation do not change by recipient. Environmental Source effects are applied through the deterministic three-Property engine; cultivation effects have independent footprints and recipient compatibility. Named fungus contact for Transformations requires an actual reached hex via either ordinary emission's footprint, even if its cultivation effect is not currently stage-applicable.
 

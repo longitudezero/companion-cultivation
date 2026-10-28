@@ -1,10 +1,10 @@
 # Flowers — Plant family design
 
-> **Current approved first-pass design reference.** This page preserves detailed approved source data, quantitative assumptions and exceptions. Later approved shared rules and final family recipes govern where earlier explanatory paragraphs differ; superseded wording is retained in the [historical archive](../history/superseded-design.md). **Plant/Fungus/Mycelial gameplay remains unimplemented.**
+> **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 12. **Source sections preserved:** §29, §30, §31, §32, §73.
 
-[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../history/superseded-design.md)
+[Shared Plant lifecycle](../systems/plant-lifecycle.md) · [Transformations](../systems/transformations.md) · [Fungal roster](../fungi/README.md) · [Historical design](../../historical-archive/superseded-design/superseded-design.md)
 
 This file keeps the detailed species profiles, numerical tables, Seed identities, environmental responses and approved recipes together. The original source sections follow for verification; any older statements that recipes are still pending are superseded by the final recipe section included below.
 
@@ -25,7 +25,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 - **Time-based Production is NOT automatically present** merely because a Plant has a narrow late harvest window. It applies only while qualifying fungus Effects are active and lifecycle progress is genuinely advancing within that Effect's specified window, never after 200% or during full stall.
 - Other established family edges remain intact: **Daisydaze → Charmomile, Lavendream, Poppycock**; **Charmomile → Daisyspell or Marigloom**; **Daisyspell → Orchidemon**; **Marigloom → Rosewraith**; and later alternate Orchidemon and Rosewraith routes. The old Fungus A/B/C/D labels in §13 are **superseded placeholders**, not assignments.
 
-**Approved full Flower network and all 12 exact first-pass recipes are in §73.** This early partial drawing (with unfinished Lavendream and Poppycock branches) has been moved to [historical design](../history/superseded-design.md).
+**Approved full Flower network and all 12 exact first-pass recipes are in §73.** This early partial drawing (with unfinished Lavendream and Poppycock branches) has been moved to [historical design](../../historical-archive/superseded-design/superseded-design.md).
 
 ### Daisydaze — APPROVED first-pass profile
 
@@ -305,7 +305,7 @@ The user-approved additive species formula from Woodlands and Aquatic applies: *
 
 ### C. Core fungal Effect compatibility
 
-**Definition preserved:** Each number multiplies **the size of a fungus's signed modification**, *not* the Plant's entire production. The approved [31-Fungus roster](../fungi/roster-matrix.md) specifies which Sources emit each Effect and its nominal magnitude; any later additions require an explicit design revision. **1.0× ordinary**, **2.0× twice the effect's magnitude**, **0× no eligible effect**, **N/A** no Seed access for planting. Conditional strength changes must never reverse an emitter's Effect direction. Environmental Sources change Moisture/Illumination/Temperature universally and are **not** scaled by these Plant compatibility values.
+**Definition preserved:** Each number multiplies **the size of a fungus's signed modification**, *not* the Plant's entire production. The approved [31-Fungus roster](../../historical-archive/superseded-design/fungi/roster-matrix.md) specifies which Sources emit each Effect and its nominal magnitude; any later additions require an explicit design revision. **1.0× ordinary**, **2.0× twice the effect's magnitude**, **0× no eligible effect**, **N/A** no Seed access for planting. Conditional strength changes must never reverse an emitter's Effect direction. Environmental Sources change Moisture/Illumination/Temperature universally and are **not** scaled by these Plant compatibility values.
 
 | Plant | Growth Rate | Ripening Rate | Leaf Yield | Seed Yield | Germination Adjustment |
 | --- | ---: | ---: | ---: | ---: | ---: |
