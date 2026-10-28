@@ -19,7 +19,9 @@ All [V9 recipes](design/fungi/random-roster-v9.md) are in the six runtime Transf
 
 **Clean break:** `createGarden()` now produces V6. `isGarden`, file loading and migration reject prior schemas; the app uses `companion-cultivation:sandbox:v6`, leaving older browser autosaves untouched. A V6 `.ccsave` or raw JSON still round-trips inventory, clocks, Grimoire, pending outcomes and headings. Future content work: starter Spore acquisition, balancing and complete manual layout/UX review. The old Allocation engine helper is retained but no live Fungus emits Allocation.
 
-**Verification:** `npm run check` passes **203/203** Node tests plus the CommonJS load smoke test, and builds both Vite and CommonJS outputs. This automated coverage is not a balance signoff or comprehensive manual browser playtest.
+**Approved live pace (28 October 2026):** The game now formally uses **one simulated garden hour per five real seconds** while open. This does not rescale or change any stored biological/recipe time values. Player-facing durations, including inspector clocks, timed hazards, germination, event windows, and developer Grimoire recipes, use real minutes/seconds at that pace: 20 game hours displays as **1m 40s**. The developer skip buttons show their equivalent live intervals; individual growth and reveal timers remain playtest-adjustable. Background-tab throttling and closed-page catch-up remain separate questions.
+
+**Verification:** `npm run check` passes **205/205** Node tests plus the CommonJS load smoke test, and builds both Vite and CommonJS outputs. This automated coverage is not a balance signoff or comprehensive manual browser playtest.
 
 ## Historical Prototype 15 ledger (27 October 2026)
 

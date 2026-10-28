@@ -206,7 +206,7 @@ test('Mandrakadabra dies at exactly four uninterrupted hours of Bright, but Lit 
   assert.equal(garden.objects[target].species, 'Mandrakadabra');
   const last = advanceGardenTime(garden, 1);
   assert.equal(last.garden.objects[target], undefined);
-  assert.ok(last.events.some(event => event.includes('4h of Bright')));
+  assert.ok(last.events.some(event => event.includes('20s of Bright')));
 });
 
 test('Bramblewraith survives extreme Temperature and Mycelial indefinitely without protection buffs', () => {

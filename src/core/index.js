@@ -11,6 +11,7 @@ export * from './biology.js';
 export * from './economy.js';
 export * from './inventory.js';
 export * from './staging.js';
+export * from './game-time.js';
 export * from './mycelial.js';
 export * from './transformations.js';
 export * from './grimoire.js';

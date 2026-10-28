@@ -9,7 +9,7 @@ This page supplements the [live staging specification](spatial-inventory-and-sta
 - The current game writes the entire garden after each state update to the browser's **localStorage**, under `companion-cultivation:sandbox:v6`. This is **website data**, not the browser's disposable resource cache or an account-backed cloud save.
 - The saved state includes the clock, environment, organism stages and output banks, inventory quantities and their manual square positions, uncommitted staged quantities, committed pending germinations and their concealed outcomes/reveal times, **and the garden's Cultivation Grimoire discovery ledger**.
 - Refreshing or reopening the game in the **same browser profile and device** resumes this state. Clearing website data, using private browsing or changing browser/device may lose that autosave; browsers can also decline storage. A visible `Autosaved` / `Autosave unavailable` status indicates whether the last write succeeded.
-- The farm currently advances only while its page is open, using the deliberately provisional live-clock rate. **Offline/background catch-up remains undecided**; loading an old save does not invent elapsed simulated hours.
+- The farm advances only while its page is open at the **approved rate of one garden hour per five real seconds**. **Offline/background catch-up remains undecided**; loading a save does not invent elapsed simulated hours.
 - Existing older browser storage keys are left untouched for reference; the active game writes only the `v6` key. Old schema versions are rejected rather than migrated, as explicitly approved for Prototype 16. A V6 save preserves its real observed Grimoire facts without fabricating past transformations.
 
 ## Player-facing Save Game
