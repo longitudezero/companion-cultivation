@@ -1,5 +1,7 @@
 # Fungal roster — V8 propagation footprints and five Waterborne cultivation packages
 
+> **Implementation update (28 October 2026):** V8 is now implemented on the Prototype 16 draft branch in `src/core/species.js` and `src/core/cultivation.js`. Player-selected Spore heading closes the direction question left open at this design checkpoint. The historical design-status language retained below describes its earlier approval stage, not the current runtime.
+
 > **Status: ACCEPTED SECOND-PASS WORKING DESIGN, NOT THE LIVE ROSTER.** This V8 carries forward the complete [V7 named, numeric roster](random-roster-v7.md), the same [V6 Mycelial classifications](random-roster-v6.md), and [V4 environmental magnitudes](random-roster-v4.md). On 28 October 2026 the user accepted one **Range** and one **Directional Budget** propagation footprint per ordinary Fungus (one for environment and one for the whole cultivation package), then requested **five Waterborne cultivation packages**, regardless of whether that package uses Range or Budget. **Mycelord remains completely unchanged** and is the sole initial Mycelial creator.
 
 ## Full named and numbered roster

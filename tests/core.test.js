@@ -359,7 +359,7 @@ test('environment exposes only the three retained properties and kinds', () => {
   assert.throws(() => makeAnchoredSource('Fertility', 'Rich'), /Invalid anchored Property/);
 });
 
-test('legacy gardens migrate without losing retained baselines, Sources, or Blockers', () => {
+test('old garden versions are rejected, and V6 migration preserves Sources, Blockers and baselines', () => {
   const origin = keyAt(1, 1), blocked = keyAt(2, 1), retired = keyAt(0, 0);
   let legacy = createGarden(4, 4);
   legacy = setBaseline(legacy, blocked, 'Moisture', 'Flooded');
@@ -370,16 +370,10 @@ test('legacy gardens migrate without losing retained baselines, Sources, or Bloc
   legacy.objects[origin].anchor = { property: 'Fertility', condition: 'Rich' };
   legacy = placeObject(legacy, retired, makeBlocker('kind', 'Nutrient'));
   legacy = placeEdgeBlocker(legacy, origin, blocked, makeBlocker('mode', 'waterborne'));
-  legacy = { ...legacy, schemaVersion: 1,
-    hexes: Object.fromEntries(Object.entries(legacy.hexes).map(([key, hex]) => [key, {
-      ...hex, material: key === origin ? 'Clay' : 'Stone', baselines: { ...hex.baselines, Fertility: 'Rich' },
-    }])),
-  };
-
+  assert.throws(() => migrateGarden({ ...legacy, schemaVersion: 5 }), /Unsupported garden file/);
+  // Current-schema data can still be sanitized safely during JSON loading.
   const upgraded = migrateGarden(legacy);
-  assert.equal(upgraded.schemaVersion, 5);
-  assert.deepEqual(Object.keys(upgraded.hexes[origin]), ['baselines']);
-  assert.deepEqual(Object.keys(upgraded.hexes[origin].baselines), PROPERTIES);
+  assert.equal(upgraded.schemaVersion, 6);
   assert.equal(upgraded.hexes[blocked].baselines.Moisture, 'Flooded');
   assert.equal(upgraded.objects[origin].emissions.length, 1);
   assert.equal(upgraded.objects[origin].emissions[0].name, 'Warming');
@@ -387,7 +381,7 @@ test('legacy gardens migrate without losing retained baselines, Sources, or Bloc
   assert.equal(upgraded.objects[retired], undefined, 'removed-kind Blockers no longer obstruct useful effects');
   assert.deepEqual(upgraded.edges[edgeKey(origin, blocked)], makeBlocker('mode', 'waterborne'));
   assert.equal(calculateEnvironment(upgraded).conditions[origin].Temperature, 'Hot');
-  assert.equal(legacy.hexes[origin].material, 'Clay', 'migration never mutates the original garden');
+  assert.ok(legacy.objects[retired], 'migration never mutates the original garden');
   assert.deepEqual(migrateGarden(upgraded), upgraded, 'migrating a current garden is stable');
 });
 

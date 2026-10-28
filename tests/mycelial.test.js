@@ -158,20 +158,22 @@ test('dependent Fungi require overlay to germinate and retain emissions through 
   assert.ok(!calculateCultivation(garden)['4,2'].some(effect => effect.species === 'Rushroom'));
 });
 
-test('Frostfolio gets the approved 1.25× source-side Allocation only on Mycelial', () => {
+test('dependent Frostfolio retains its three-effect package during habitat-loss grace', () => {
   let garden = placeObject(createGarden(7, 7), origin, makeFungus('Mycelord'));
   garden = step(garden, 24);
   garden = removeObject(garden, origin);
   garden = placeObject(garden, origin, makeFungus('Frostfolio'));
   garden = placeObject(garden, '3,2', makePlant('Potato'));
   const contacts = calculateCultivation(garden)['3,2'];
-  assert.equal(contacts.find(effect => effect.species === 'Frostfolio').amount, 1);
+  assert.deepEqual(contacts.filter(effect => effect.species === 'Frostfolio').map(effect => [effect.kind, effect.amount]),
+    [['germination', 6], ['leafPeakTiming', -8], ['seedYield', .35]]);
   const plant = garden.objects['3,2'];
   plant.production = { ordinaryLeaves: 12, ordinarySeeds: 12, hourlyLeaves: 0, hourlySeeds: 0 };
-  assert.equal(availableHarvest(plant, contacts).leaves, 16);
+  assert.equal(availableHarvest(plant, contacts).leaves, 12);
   garden = step(garden, 12);
   assert.equal(isMycelial(garden, origin), false);
-  assert.equal(calculateCultivation(garden)['3,2'].find(effect => effect.species === 'Frostfolio').amount, .8);
+  assert.deepEqual(calculateCultivation(garden)['3,2'].filter(effect => effect.species === 'Frostfolio')
+    .map(effect => effect.amount), [6, -8, .35]);
 });
 
 test('Ingredients suffer independent Mycelial rate, output and lethal-exposure penalties', () => {

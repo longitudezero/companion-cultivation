@@ -97,11 +97,11 @@ test('allocation executes one net 3:1 conversion only at a valid destructive har
 
 test('Germination effects reach empty hexes and all attempted Seeds are consumed', () => {
   let garden = createGarden();
-  garden = placeObject(garden, '3,2', makeFungus('Dewmender'));
+  garden = placeObject(garden, '3,2', makeFungus('Dewmender', 3));
   assert.ok(calculateCultivation(garden)['2,2'].some(effect => effect.kind === 'germination'));
   const success = sowPlant(garden, '2,2', 'Potato', 2, () => 0);
   assert.equal(success.success, true);
-  assert.ok(Math.abs(success.chance - .64) < 1e-8);
+  assert.ok(Math.abs(success.chance - .72) < 1e-8);
   assert.equal(success.garden.inventory.seeds.Potato, 14);
   assert.equal(success.garden.objects['2,2'].species, 'Potato');
   const failure = sowPlant(garden, '2,2', 'Potato', 2, () => .999);

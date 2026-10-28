@@ -1,5 +1,28 @@
 # Companion Cultivation — implementation status
 
+## Prototype 16 — V8/V9 fungal implementation (28 October 2026)
+
+**Implemented on the fungal-redesign draft branch, pending merge and manual playtest.** This new checkpoint supersedes the historical Prototype 15 details below wherever species counts, Transformation requirements or save compatibility differ.
+
+| Runtime measure | Prototype 16 |
+| --- | --- |
+| Plant profiles | **60** across six families, unchanged |
+| Ordinary Fungi | **12** redesigned species, plus **Mycelord** |
+| Cultivation slots | **28** effects in twelve shared-footprint packages |
+| Waterborne cultivation packages | **5** (Dewmender, Mistruffle, Emberbolete, Rainmorel, Rushroom) |
+| Plant-owned Transformation recipes | **69** redesigned V9 routes |
+| Garden save schema | **6**, no V1–V5 backward compatibility |
+
+The [accepted V8 roster](design/fungi/random-roster-v8.md) is wired into `src/core/species.js` and `cultivation.js`: one airborne environmental emission with its own Range or directional Budget, one independent initial cultivation Range/Budget footprint shared by all two or three effects, and unlimited connected-Flooded extension for Waterborne packages after first contact. Matching Kind/Mode/Full Blockers still apply. The Spore quantity picker offers six player-selected headings; the heading persists through staged reservations, hidden germination and living Fungi. Dependent/Mycelial-preferring behavior and Mycelord remain in place.
+
+All [V9 recipes](design/fungi/random-roster-v9.md) are in the six runtime Transformation modules. They require the **resolved Plant-hex state plus the specified living named Fungus contact** (environmental reach or cultivation reach); the number, sign or identity of the emissions that produced a Condition never matters. The event puzzles for Mistlefoe, Moonlit Lotus, Daisyspell, Ember Aloe, Moonjade and Ghost Rice remain. The previous 31-Fungus roster and its obsolete contact recipes are removed from the runtime, not aliased or silently migrated.
+
+**Clean break:** `createGarden()` now produces V6. `isGarden`, file loading and migration reject prior schemas; the app uses `companion-cultivation:sandbox:v6`, leaving older browser autosaves untouched. A V6 `.ccsave` or raw JSON still round-trips inventory, clocks, Grimoire, pending outcomes and headings. Future content work: starter Spore acquisition, balancing and complete manual layout/UX review. The old Allocation engine helper is retained but no live Fungus emits Allocation.
+
+**Verification:** `npm test` passes **199/199** Node tests, including ten new direct V8/V9 checks; `npm run build` generates both Vite and CommonJS outputs. This automated coverage is not a balance signoff or comprehensive manual browser playtest.
+
+## Historical Prototype 15 ledger (27 October 2026)
+
 **Verified:** 27 October 2026, for **Prototype 15 — Cultivation Grimoire, per-garden observation and book UI**, following Prototype 14's portable saves. This is a **runtime and testing ledger**, not a replacement for the approved [game design](design/README.md). When design pages contain older statements such as “not implemented” or “universal Leaves,” consult this ledger and the later explicit [Leaf identity decision](design/decisions/species-specific-leaves.md), while retaining the original pages for exact historical comparison.
 
 ## At a glance

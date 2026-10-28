@@ -9,17 +9,18 @@ import {
 
 const plantAt = (species = 'Potato', at = '2,2') => placeObject(createGarden(7, 7), at, makePlant(species));
 
-test('playable biology catalogue has six Plant families (60 species) and 31 Fungi', () => {
+test('playable biology catalogue has six Plant families (60 species) and the V8 12-Fungus roster', () => {
   assert.equal(Object.keys(PLANTS).length, 60);
-  assert.equal(Object.keys(FUNGI).length, 31);
+  assert.equal(Object.keys(FUNGI).length, 13); // twelve ordinary Fungi plus Mycelord
   assert.equal(PLANTS.Potato.compatibility.growthRate, 1);
   assert.equal(PLANTS.Potato.compatibility.allocation, 1);
   assert.equal(PLANTS.Rice.compatibility.hourlySeed, 2.1);
   assert.equal(PLANTS.Strawberry.freezingDeath, 36);
   assert.equal(FUNGI.Rushroom.habitat, 'dependent');
-  assert.equal(FUNGI.Siltgill.cultivation.mode, 'waterborne');
+  assert.equal(FUNGI.Siltgill.cultivation.mode, 'airborne');
   assert.equal(makeFungus('Mycelord').emissions.length, 0);
-  assert.equal(makeFungus('Prismorel', 2).emissions[0].budget, 3);
+  assert.equal(makeFungus('Prismorel', 2).emissions[0].range, 2);
+  assert.equal(makeFungus('Rilllace', 2).emissions[0].heading, 2);
 });
 
 test('one object occupies a hex and a new Fungus emits immediately', () => {
@@ -72,39 +73,40 @@ test('independent Dry and Temperature clocks reset and cause death at exact thre
   assert.match(dead.events[0], /36h of Freezing/);
 });
 
-test('fungal Growth and Ripening cultivation Effects use independent reach and approved compatibility', () => {
+test('fungal Growth and Ripening cultivation effects share a package footprint', () => {
   let garden = plantAt('Carrot');
   garden = setBaseline(garden, '2,2', 'Moisture', 'Damp');
   garden = setBaseline(garden, '2,2', 'Illumination', 'Lit');
-  garden = placeObject(garden, '3,2', makeFungus('Quickshade'));
+  garden = placeObject(garden, '3,2', makeFungus('Droughtcap'));
   const state = calculateEnvironment(garden);
   const effects = calculateCultivation(garden, state)['2,2'];
-  assert.equal(effects.length, 1);
+  assert.equal(effects.length, 2);
   assert.equal(effects[0].kind, 'growthRate');
-  assert.equal(effects[0].amount, .15);
+  assert.equal(effects[0].amount, -.25);
+  assert.equal(effects[1].kind, 'ripeningRate');
+  assert.equal(effects[1].amount, -.30);
   const rates = plantGrowthRates(garden.objects['2,2'], state.conditions['2,2'], effects);
-  // Quickshade also Darkens the target: Lit -> Dim, giving Carrot a 0.8x light penalty.
-  assert.ok(Math.abs(rates.growth - (.8 * (1 + .15 * 1.9))) < 1e-9);
+  assert.ok(rates.growth < plantGrowthRates(garden.objects['2,2'], state.conditions['2,2'], []).growth);
   assert.ok(advanceGardenTime(garden, 1).garden.objects['2,2'].progress > 0);
 });
 
-test('selective cultivation Blockers stop Growth but let Luminous emission pass', () => {
+test('selective cultivation Blockers stop Growth but let Drying emission and Ripening through', () => {
   let garden = plantAt('Carrot');
   garden = setBaseline(garden, '2,2', 'Illumination', 'Lit');
-  garden = placeObject(garden, '3,2', makeFungus('Quickshade'));
+  garden = placeObject(garden, '3,2', makeFungus('Droughtcap'));
   for (const neighbor of neighborsOf('3,2')) {
     if (garden.hexes[neighbor]) garden = placeEdgeBlocker(garden, '3,2', neighbor, makeBlocker('kind', 'Growth'));
   }
   const state = calculateEnvironment(garden);
-  assert.equal(state.conditions['2,2'].Illumination, 'Dim');
-  assert.deepEqual(calculateCultivation(garden, state)['2,2'], []);
+  assert.equal(state.conditions['2,2'].Moisture, 'Dry');
+  assert.deepEqual(calculateCultivation(garden, state)['2,2'].map(effect => effect.kind), ['ripeningRate']);
 });
 
-test('cultivation contacts retain actual Waterborne reach for later mechanics', () => {
+test('V8 cultivation handoff reaches distant Flooded hexes and is interrupted by a dry gap', () => {
   let garden = plantAt('Rice', '2,4');
-  garden = placeObject(garden, '2,0', makeFungus('Tidegill'));
+  garden = placeObject(garden, '2,0', makeFungus('Rainmorel'));
   for (const key of ['2,1', '2,2', '2,3', '2,4']) garden = setBaseline(garden, key, 'Moisture', 'Flooded');
-  assert.ok(calculateCultivation(garden)['2,4'].some(x => x.species === 'Tidegill'));
+  assert.ok(calculateCultivation(garden)['2,4'].some(x => x.species === 'Rainmorel'));
   garden = setBaseline(garden, '2,2', 'Moisture', 'Damp');
   assert.equal(calculateCultivation(garden)['2,4'].length, 0);
 });

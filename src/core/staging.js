@@ -28,7 +28,7 @@ export function availableToStage(garden, kind, species, exceptHex = null) {
   return Math.max(0, stockFor(garden, kind, species) - reservedStock(garden, kind, species, exceptHex));
 }
 
-export function stagePlanting(garden, key, kind, species, quantity) {
+export function stagePlanting(garden, key, kind, species, quantity, heading = 0) {
   checkSpecies(kind, species);
   if (!garden.hexes[key]) throw new Error('Choose an existing garden hex.');
   if (garden.objects[key] || garden.pending?.[key]) throw new Error('This hex already has a living or germinating occupant.');
@@ -36,7 +36,11 @@ export function stagePlanting(garden, key, kind, species, quantity) {
   if (!Number.isSafeInteger(quantity) || quantity < 1 || quantity > available) {
     throw new Error(`Choose 1–${available} available ${kind === 'plant' ? 'Seeds' : 'Spores'}.`);
   }
-  return { ...garden, staged: { ...garden.staged, [key]: { kind, species, quantity } } };
+  if (kind === 'fungus' && (!Number.isInteger(heading) || heading < 0 || heading > 5)) {
+    throw new Error('Spore direction must be one of the six hex headings.');
+  }
+  return { ...garden, staged: { ...garden.staged, [key]: { kind, species, quantity,
+    ...(kind === 'fungus' ? { heading } : {}) } } };
 }
 
 export function unstagePlanting(garden, key) {
@@ -81,7 +85,7 @@ export function applyStaging(garden, random = Math.random) {
   for (const [key, entry] of placements) {
     if (entry.kind === 'fungus' && FUNGI[entry.species].habitat === 'dependent') {
       // Calls the canonical sowing requirement, including Mycelial habitat.
-      sowFungus(evaluationGarden, key, entry.species, entry.quantity, () => 1);
+      sowFungus(evaluationGarden, key, entry.species, entry.quantity, () => 1, entry.heading ?? 0);
     }
   }
   const seeds = { ...garden.inventory.seeds };
@@ -94,7 +98,7 @@ export function applyStaging(garden, random = Math.random) {
   for (const [key, entry] of placements) {
     const attempt = entry.kind === 'plant'
       ? sowPlant(evaluationGarden, key, entry.species, entry.quantity, random)
-      : sowFungus(evaluationGarden, key, entry.species, entry.quantity, random);
+      : sowFungus(evaluationGarden, key, entry.species, entry.quantity, random, entry.heading ?? 0);
     const stock = entry.kind === 'plant' ? seeds : spores;
     stock[entry.species] -= entry.quantity;
     pending[key] = { ...entry, success: attempt.success,
@@ -125,7 +129,8 @@ export function revealGerminations(garden) {
     delete pending[key];
     current = { ...current, pending };
     if (entry.success) {
-      current = placeObject(current, key, entry.kind === 'plant' ? makePlant(entry.species) : makeFungus(entry.species));
+      current = placeObject(current, key, entry.kind === 'plant' ? makePlant(entry.species)
+        : makeFungus(entry.species, entry.heading ?? 0));
       if (entry.kind === 'plant') current = { ...current, grimoire: revealPlant(current.grimoire, entry.species) };
       events.push(`${entry.species} germinated on hex ${key}.`);
     } else {

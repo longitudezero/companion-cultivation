@@ -8,9 +8,9 @@ import { ensureInventorySlots } from './inventory.js';
 import { stagePlanting } from './staging.js';
 import { migrateGrimoire } from './grimoire.js';
 
-// Keep older garden exports usable after removing Materials and Fertility.
-// The caller's original JSON is never mutated, and unknown/retired effects
-// cannot leak into the three-property simulation.
+// V6 is a deliberate clean break from the first-pass fungal roster. Rehydrate
+// and sanitize only current-schema gardens; never translate old species IDs
+// into new meanings or mutate the caller's original JSON.
 export function migrateGarden(saved) {
   if (!isGarden(saved)) throw new Error('Unsupported garden file.');
   const garden = createGarden(saved.columns, saved.rows);
@@ -21,9 +21,8 @@ export function migrateGarden(saved) {
   const usedColonies = new Set();
   if (saved.inventory) {
     const cleanCount = value => Number.isSafeInteger(value) && value >= 0 ? value : 0;
-    // v1/v2 merged all plants' Leaves into one number. Their producer is
-    // irrecoverable: preserve that number as visibly unattributed legacy stock,
-    // never invent a species identity or silently erase the player's items.
+    // Keep any unattributed legacy stock already present in an accepted V6
+    // garden; do not infer a Plant species from generic Leaf currency.
     const previousLeaves = saved.inventory.leaves;
     const typedLeaves = previousLeaves && typeof previousLeaves === 'object' && !Array.isArray(previousLeaves)
       ? Object.fromEntries(Object.entries(previousLeaves)
@@ -34,9 +33,8 @@ export function migrateGarden(saved) {
     garden.inventory = {
       leaves: typedLeaves,
       legacyLeaves: Math.min(Number.MAX_SAFE_INTEGER, priorLegacy + oldTotal),
-      // Older saved gardens predate Flowers. Give them the same one-time
-      // provisional Base Seed access as new gardens, without replenishing
-      // players who have explicitly spent their Daisydaze Seeds down to zero.
+      // Missing starter slots get the provisional default, without replenishing
+      // players who have explicitly spent a stack down to zero.
       seeds: { Daisydaze: 16, 'Aquatic Base': 16, 'Woodlands Base': 16, Jadeheart: 16, Thymely: 16,
         ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
         .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
@@ -112,7 +110,9 @@ export function migrateGarden(saved) {
       continue;
     }
     if (object?.type === 'fungus' && FUNGI[object.species]) {
-      const clean = makeFungus(object.species, Number.isInteger(object.heading) ? object.heading : 0);
+      const heading = Number.isInteger(object.heading) && object.heading >= 0 && object.heading <= 5
+        ? object.heading : 0;
+      const clean = makeFungus(object.species, heading);
       clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
       clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
       clean.sporeStock = Number.isFinite(object.sporeStock) && object.sporeStock >= 0 ? object.sporeStock : 0;
@@ -179,10 +179,8 @@ export function migrateGarden(saved) {
     garden.colonyNonce = Math.max(garden.colonyNonce, Number(id.slice(7)));
   }
   garden.mycelium = { contributions };
-  // Schema 4 tracks position and the player's uncommitted/committed sowing
-  // separately. Old saves acquire a safe default layout, with no invented
-  // staged attempts or secretly successful germinations.
-  if (saved.schemaVersion >= 4) {
+  // Preserve the V6 inventory layout and uncommitted/committed sowing plan.
+  {
     for (const [key, entry] of Object.entries(saved.pending || {})) {
       if (!garden.hexes[key] || garden.objects[key] || !entry ||
         !Number.isSafeInteger(entry.quantity) || entry.quantity < 1 ||
@@ -191,17 +189,18 @@ export function migrateGarden(saved) {
       if ((entry.kind === 'plant' && PLANTS[entry.species]?.germination != null) ||
         (entry.kind === 'fungus' && FUNGI[entry.species])) {
         garden.pending[key] = { kind: entry.kind, species: entry.species, quantity: entry.quantity,
-          success: entry.success, readyAt: entry.readyAt };
+          success: entry.success, readyAt: entry.readyAt,
+          ...(entry.kind === 'fungus' ? { heading: Number.isInteger(entry.heading)
+            && entry.heading >= 0 && entry.heading <= 5 ? entry.heading : 0 } : {}) };
       }
     }
     for (const [key, entry] of Object.entries(saved.staged || {})) {
-      try { garden.staged = stagePlanting(garden, key, entry?.kind, entry?.species, entry?.quantity).staged; }
+      try { garden.staged = stagePlanting(garden, key, entry?.kind, entry?.species,
+        entry?.quantity, entry?.heading ?? 0).staged; }
       catch { /* discard invalid or over-reserved proposals; never spend Seeds on import */ }
     }
     garden.inventorySlots = saved.inventorySlots || {};
   }
-  // Schema 5 adds garden-owned knowledge. Pre-Grimoire snapshots can establish
-  // only that their already-living species exist—not their lost recipes.
-  garden.grimoire = migrateGrimoire(saved.schemaVersion >= 5 ? saved.grimoire : null, garden.objects);
+  garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects);
   return ensureInventorySlots(garden);
 }

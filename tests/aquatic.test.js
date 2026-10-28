@@ -6,6 +6,7 @@ import {
   transformationStatus, reconcileTransformationClocks, advanceGardenTime,
   plantGrowthRates, effectCompatibility, availableHarvest, harvestPlant,
   plantOutputRate, migrateGarden, sowPlant,
+  placeEdgeBlocker, makeBlocker,
 } from '../src/core/index.js';
 
 const target = '4,4';
@@ -22,11 +23,21 @@ function gardenWith(species, light = 'Dim') {
 function arrange(from, recipe, alternative = 0) {
   let garden = gardenWith(from);
   for (const [i, group] of (recipe.contacts || []).entries()) {
-    garden = placeObject(garden, near[i], makeFungus(group[alternative % group.length]));
+    garden = placeObject(garden, near[i], makeFungus(group[alternative % group.length],
+      neighborsOf(near[i]).indexOf(target)));
+  }
+  if (from === 'Cresscent' && recipe.into === 'Pearlily') {
+    // Sim'mushro'dim's -2 Drying is blocked while its named cultivation
+    // package still reaches the Plant. Damp is a state, not an emitter gate.
+    for (const adjacent of near) {
+      garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Aqueous'));
+    }
+    garden = setBaseline(garden, target, 'Moisture', 'Damp');
   }
   const env = calculateEnvironment(garden);
   for (const [property, expected] of Object.entries(recipe.conditions)) {
     const targetValue = Array.isArray(expected) ? expected[0] : expected;
+    if (from === 'Cresscent' && recipe.into === 'Pearlily' && property === 'Moisture') continue;
     const index = CONDITIONS[property].indexOf(targetValue);
     const emitted = env.modifiers[target][property].reduce((sum, item) => sum + item.modifier, 0);
     const baseline = CONDITIONS[property][index - emitted];
@@ -82,10 +93,10 @@ test('all 13 ordinary Aquatic routes complete at exact approved hours', () => {
   }
 });
 
-test('alternative fungal contacts qualify, but arbitrary species and interruption do not', () => {
+test('named fungal contacts qualify, but arbitrary species and interruption do not', () => {
   const recipe = TRANSFORMATIONS['Aquatic Base'][0];
   const alternative = arrange('Aquatic Base', recipe, 1);
-  assert.equal(namedFungalContacts(alternative, target, calculateEnvironment(alternative)).has('Mistruffle'), true);
+  assert.equal(namedFungalContacts(alternative, target, calculateEnvironment(alternative)).has('Dewmender'), true);
   assert.equal(advanceGardenTime(alternative, 12).garden.objects[target].species, 'Kelpfull');
   let garden = advanceGardenTime(arrange('Aquatic Base', recipe), 8).garden;
   const objects = { ...garden.objects }; delete objects[near[0]];
@@ -95,8 +106,11 @@ test('alternative fungal contacts qualify, but arbitrary species and interruptio
   assert.equal(advanceGardenTime(garden, 4).garden.objects[target].species, 'Aquatic Base');
 });
 
-test('Kelpergeist transforms from losing Flooded with no fungus, and resets if rewetted', () => {
+test('Kelpergeist needs Sim\'mushro\'dim contact on non-Flooded soil, and resets if rewetted', () => {
   let garden = gardenWith('Kelpergeist');
+  garden = placeObject(garden, near[0], makeFungus("Sim'mushro'dim",
+    neighborsOf(near[0]).indexOf(target)));
+  for (const adjacent of near) garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Aqueous'));
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = advanceGardenTime(garden, 10).garden;
   assert.equal(garden.objects[target].transformationClocks.Kelpless, 10);
@@ -110,10 +124,11 @@ test('Kelpergeist transforms from losing Flooded with no fungus, and resets if r
 
 function preparedMoonlit() {
   let garden = gardenWith('Moonlit Lotus');
-  garden = placeObject(garden, near[0], makeFungus('Tidegill'));
+  garden = placeObject(garden, near[0], makeFungus('Rainmorel', neighborsOf(near[0]).indexOf(target)));
+  for (const adjacent of near) garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Aqueous'));
   garden = setBaseline(garden, target, 'Moisture', 'Flooded');
   garden = setBaseline(garden, target, 'Temperature', 'Cold');
-  garden = setBaseline(garden, target, 'Illumination', 'Dark');
+  garden = setBaseline(garden, target, 'Illumination', 'Dim');
   assert.equal(calculateEnvironment(garden).conditions[target].Illumination, 'Dim');
   garden = advanceGardenTime(garden, 24).garden;
   assert.equal(garden.objects[target].transformationSequence.Starlotus.phase, 'ready');
@@ -150,18 +165,18 @@ test('draining keeps qualified Waterborne pre-contact even when its path vanishe
   // The fungal environmental emission cannot reach this distance. Only the
   // connected Flooded corridor carries Tidegill's cultivation contact.
   const source = '1,4';
-  garden = placeObject(garden, source, makeFungus('Tidegill'));
+  garden = placeObject(garden, source, makeFungus('Rainmorel', 3));
   for (const key of ['2,4', '3,4', target]) {
     garden = setBaseline(garden, key, 'Moisture', 'Flooded');
   }
   garden = setBaseline(garden, target, 'Temperature', 'Cold');
   assert.equal(calculateEnvironment(garden).modifiers[target].Illumination.length, 0);
-  assert.equal(namedFungalContacts(garden, target, calculateEnvironment(garden)).has('Tidegill'), true);
+  assert.equal(namedFungalContacts(garden, target, calculateEnvironment(garden)).has('Rainmorel'), true);
   garden = advanceGardenTime(garden, 24).garden;
   assert.equal(garden.objects[target].transformationSequence.Starlotus.phase, 'ready');
   const before = garden;
   const afterDrain = setBaseline(garden, target, 'Moisture', 'Damp');
-  assert.equal(namedFungalContacts(afterDrain, target, calculateEnvironment(afterDrain)).has('Tidegill'), false);
+  assert.equal(namedFungalContacts(afterDrain, target, calculateEnvironment(afterDrain)).has('Rainmorel'), false);
   garden = reconcileTransformationClocks(afterDrain, before);
   assert.equal(garden.objects[target].species, 'Starlotus');
   assert.equal(garden.objects[target].attunement, 'Damp');

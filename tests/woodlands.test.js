@@ -92,16 +92,18 @@ test('all twelve ordinary Woodlands recipes fire at their exact exposure thresho
 
 function mistlefoePrepared(hours = 12) {
   let garden = start('Mistlefoe');
-  garden = placeObject(garden, neighbors[0], makeFungus('Mistruffle'));
-  garden = placeObject(garden, neighbors[1], makeFungus('Fogdial'));
-  garden = setBaseline(garden, neighbors[1], 'Illumination', 'Lit');
-  // Aqueous-only blockers exclude Mistruffle's Wetting while allowing its
-  // distinct Leaf cultivation zone. Removing it then leaves Damp unchanged.
-  for (const adjacent of neighbors) {
-    garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Aqueous'));
+  garden = placeObject(garden, neighbors[0], makeFungus('Mistruffle', neighborsOf(neighbors[0]).indexOf(target)));
+  garden = placeObject(garden, neighbors[1], makeFungus('Dewmender', neighborsOf(neighbors[1]).indexOf(target)));
+  // Mistruffle's package still contacts the Plant, but its Dimming emission
+  // cannot alter the target illumination when that contact is removed.
+  for (const exit of neighborsOf(neighbors[0])) {
+    if (garden.hexes[exit]) garden = placeEdgeBlocker(garden, neighbors[0], exit, makeBlocker('kind', 'Luminous'));
   }
-  garden = setBaseline(garden, target, 'Moisture', 'Damp');
-  garden = setBaseline(garden, target, 'Illumination', 'Lit');
+  garden = setBaseline(garden, neighbors[1], 'Illumination', 'Lit');
+  // Dewmender's Wetting establishes Damp independently of Mistruffle,
+  // whose Dimming is already filtered at its own source boundary.
+  garden = setBaseline(garden, target, 'Moisture', 'Dry');
+  garden = setBaseline(garden, target, 'Illumination', 'Dim');
   assert.equal(calculateEnvironment(garden).conditions[target].Moisture, 'Damp');
   assert.equal(calculateEnvironment(garden).conditions[target].Illumination, 'Dim');
   garden = advanceGardenTime(garden, hours).garden;
@@ -116,7 +118,7 @@ test('keeping both contacts for 20 hours turns Mistlefoe into Mistlewoe', () => 
   assert.equal(garden.objects[target].species, 'Mistlewoe');
 });
 
-test('Mistlefoe removal needs 12–19h and retained Damp/Dim plus Fogdial or Veilcap', () => {
+test('Mistlefoe removal needs 12–19h and retained Damp/Dim plus Dewmender', () => {
   let garden = mistlefoePrepared(12);
   assert.equal(garden.objects[target].transformationSequence.Mandrabra.phase, 'armed');
   const before = garden;
@@ -171,7 +173,7 @@ test('Mandrabra receives Rushroom contact from a supported Mycelial source acros
   assert.equal(garden.objects['3,4'].species, 'Rushroom');
 });
 
-test('Mandrakazam route requires the Plant hex itself NOT to be Mycelial', () => {
+test('Mandrakazam recipe permits Mycelial soil if contact and state persist', () => {
   const recipe = TRANSFORMATIONS.Mandrabra.find(r => r.into === 'Mandrakazam');
   let garden = arrange('Mandrabra', recipe);
   assert.equal(transformationStatus(garden, target).find(r => r.into === 'Mandrakazam').eligible, true);
@@ -180,7 +182,7 @@ test('Mandrakazam route requires the Plant hex itself NOT to be Mycelial', () =>
   garden = advanceGardenTime(garden, 36).garden;
   assert.equal(isMycelial(garden, target), true);
   garden = placeObject(garden, neighbors[0], makeFungus(recipe.contacts[0][0]));
-  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Mandrakazam').eligible, false);
+  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Mandrakazam').eligible, true);
 });
 
 test('Bramblewraith keeps living after more than 48h of actual Mycelial overlay', () => {

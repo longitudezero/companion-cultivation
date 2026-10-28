@@ -229,48 +229,49 @@ export const PLANTS = Object.freeze({
   ...SPICES_PLANTS,
 });
 
-// Each fungus has *separate* environmental and cultivation outputs. The first
-// playable slice uses environmental emissions; cultivation output data is kept
-// separate until the recipient-effects and accrual system is implemented.
+// V8: one environmental emission and one shared delivery footprint for the
+// full two/three-effect cultivation package. Each effect retains its own Kind
+// for selective blocking, but never receives an independent crossing budget.
 const fungus = (environment, cultivation, habitat = 'independent') => ({ environment, cultivation, habitat });
-const env = (name, range = 2) => ({ name, range });
-const routed = (name, budget) => ({ name, budget, propagation: 'spread-budget' });
-const effect = (kind, amount, range = 1, mode = 'airborne', window = null) => ({
-  kind, amount, range: mode === 'waterborne' ? null : range, mode, ...(window ? { window } : {}),
+const env = (name, strength, delivery, reach) => ({ name, strength,
+  propagation: delivery === 'budget' ? 'spread-budget' : 'range',
+  ...(delivery === 'budget' ? { budget: reach } : { range: reach }) });
+const effect = (kind, amount, window = null, boosted = null) => ({ kind, amount,
+  ...(window ? { window } : {}), ...(boosted == null ? {} : { boosted }) });
+const packageOf = (mode, delivery, reach, ...effects) => ({
+  mode, propagation: delivery === 'budget' ? 'spread-budget' : 'range',
+  ...(delivery === 'budget' ? { budget: reach } : { range: reach }), effects,
 });
 
 export const FUNGI = Object.freeze({
   Mycelord: fungus(null, null),
-  Glimmergill: fungus(env('Brightening'), effect('leafPeakTiming', 8)),
-  Veilcap: fungus(env('Dimming'), effect('ripeningRate', -.20)),
-  Emberbolete: fungus(env('Warming'), effect('seedYield', .20)),
-  Chillanterelle: fungus(env('Cooling'), effect('leafYield', .20)),
-  Rainmorel: fungus(routed('Wetting', 4), effect('growthRate', -.15)),
-  Droughtcap: fungus(env('Drying'), effect('harvestWindow', .25)),
-  Prismorel: fungus(routed('Brightening', 3), effect('leafPeakTiming', -8)),
-  Rushroom: fungus(env('Cooling'), effect('growthRate', .30, 2), 'dependent'),
-  Echomorel: fungus(env('Cooling'), effect('hourlyLeaf', .15, 1, 'airborne', [160, 190]), 'preferring'),
-  Wakemorel: fungus(env('Drying'), effect('ripeningRate', .25)),
-  Hushroom: fungus(env('Dimming'), effect('germination', 8)),
-  "Sim'mushro'dim": fungus(env('Warming'), effect('hourlySeed', .15, 1, 'airborne', [160, 195]), 'preferring'),
-  Mistruffle: fungus(env('Wetting'), effect('leafYield', .12)),
-  Crumblecap: fungus(env('Drying'), effect('seedYield', .12)),
-  Quickshade: fungus(env('Dimming'), effect('growthRate', .15)),
-  Tidegill: fungus(env('Brightening', 1), effect('seedTiming', -12, null, 'waterborne')),
-  Frostfolio: fungus(env('Cooling'), effect('leafAllocation', .80), 'preferring'),
-  Sunspore: fungus(env('Warming'), effect('seedAllocation', .80, null, 'waterborne')),
-  Dewmender: fungus(env('Wetting'), effect('germination', 4)),
-  Lanterncap: fungus(env('Brightening'), effect('ripeningRate', -.12)),
-  Tickbolete: fungus(env('Warming'), effect('ripeningRate', .12)),
-  Rilllace: fungus(env('Cooling'), effect('harvestWindow', .12, null, 'waterborne')),
-  Duskleaf: fungus(env('Dimming'), effect('hourlyLeaf', .08, 1, 'airborne', [70, 125])),
-  Brookrill: fungus(env('Cooling'), effect('hourlySeed', .10, null, 'waterborne', [120, 170])),
-  Gloamclock: fungus(env('Dimming'), effect('seedTiming', -8)),
-  Bristlecap: fungus(env('Drying'), effect('leafAllocation', .60)),
-  Goldgill: fungus(env('Brightening'), effect('seedAllocation', .60)),
-  Fogdial: fungus(env('Dimming'), effect('leafPeakTiming', -6, 2)),
-  Emberbell: fungus(env('Warming'), effect('leafPeakTiming', 12)),
-  Siltgill: fungus(env('Drying'), effect('leafYield', .35, null, 'waterborne'), 'dependent'),
+  Dewmender: fungus(env('Wetting', 1, 'range', 2), packageOf('waterborne', 'budget', 4,
+    effect('germination', 8), effect('ripeningRate', .20))),
+  Mistruffle: fungus(env('Dimming', 1, 'range', 2), packageOf('waterborne', 'budget', 4,
+    effect('leafYield', .10, null, .30), effect('leafPeakTiming', 10)), 'preferring'),
+  Emberbolete: fungus(env('Warming', 2, 'budget', 3), packageOf('waterborne', 'range', 1,
+    effect('seedYield', .10, null, .30), effect('seedTiming', 10)), 'preferring'),
+  Rilllace: fungus(env('Cooling', 1, 'budget', 4), packageOf('airborne', 'range', 1,
+    effect('seedTiming', 12), effect('harvestWindow', .25))),
+  Prismorel: fungus(env('Brightening', 1, 'range', 2), packageOf('airborne', 'budget', 4,
+    effect('leafPeakTiming', -8), effect('harvestWindow', .25))),
+  Droughtcap: fungus(env('Drying', 1, 'budget', 3), packageOf('airborne', 'range', 1,
+    effect('growthRate', -.25), effect('ripeningRate', -.30))),
+  Hushroom: fungus(env('Dimming', 2, 'range', 1), packageOf('airborne', 'budget', 3,
+    effect('germination', 6), effect('harvestWindow', .10, null, .30),
+    effect('ripeningRate', -.20)), 'preferring'),
+  Rainmorel: fungus(env('Wetting', 1, 'budget', 4), packageOf('waterborne', 'range', 1,
+    effect('seedTiming', -12), effect('growthRate', -.15))),
+  Siltgill: fungus(env('Warming', 2, 'range', 2), packageOf('airborne', 'budget', 3,
+    effect('leafYield', .40), effect('harvestWindow', -.25)), 'dependent'),
+  Rushroom: fungus(env('Brightening', 1, 'budget', 3), packageOf('waterborne', 'range', 1,
+    effect('growthRate', .25), effect('hourlyLeaf', .15, [140, 190]),
+    effect('harvestWindow', -.20)), 'dependent'),
+  Frostfolio: fungus(env('Cooling', 1, 'range', 1), packageOf('airborne', 'budget', 3,
+    effect('germination', 6), effect('leafPeakTiming', -8), effect('seedYield', .35)), 'dependent'),
+  "Sim'mushro'dim": fungus(env('Drying', 2, 'range', 2), packageOf('airborne', 'budget', 3,
+    effect('hourlySeed', .10, [140, 200], .30), effect('growthRate', .15),
+    effect('ripeningRate', .20)), 'preferring'),
 });
 
 export function makePlant(species, attunement = null) {
@@ -287,8 +288,8 @@ export function makeFungus(species, heading = 0) {
   if (!definition) throw new Error(`Unknown Fungus species: ${species}`);
   const entry = definition.environment;
   const emissions = entry ? [entry.propagation === 'spread-budget'
-    ? makeSpreadInfluence(entry.name, 1, entry.budget, heading)
-    : makeInfluence(entry.name, 1, entry.range)] : [];
+    ? makeSpreadInfluence(entry.name, entry.strength, entry.budget, heading)
+    : makeInfluence(entry.name, entry.strength, entry.range)] : [];
   return { type: 'fungus', species, progress: 0, ageHours: 0, heading, emissions, sporeStock: 0,
     exposure: { Flooded: 0, MissingMycelial: 0 } };
 }

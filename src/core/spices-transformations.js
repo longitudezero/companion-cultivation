@@ -1,62 +1,46 @@
 import { emptySequence, matchesConditions, matchesSequencePhase } from './flower-transformations.js';
 
-// Spices §76: eleven approved Plant-owned routes. Contacts require living
-// footprints; opposing light MUST additionally be emitted by the selected
-// positive/negative fungal groups on the target's environmental footprint.
-const route = (into, conditions, contacts, hours, opposingLight = false) => ({
-  into, conditions, contacts, hours, ...(opposingLight ? { opposingLight: true } : {}),
-});
+// V9: eleven Plant-owned routes with named contacts and resolved-state checks.
+// Opposite-sign fungal emissions are no longer a special prerequisite.
+const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
 export const SPICES_TRANSFORMATIONS = Object.freeze({
   Thymely: [
     route('Sunrice', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' },
-      [['Glimmergill', 'Lanterncap']], 12),
+      [['Prismorel']], 12),
     route('Moonrice', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
-      [['Veilcap', 'Fogdial']], 14),
+      [['Mistruffle']], 14),
     route('Shadow Onion', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' },
-      [['Hushroom', 'Gloamclock']], 16),
+      [['Hushroom']], 16),
   ],
   Sunrice: [
     route('Starberry', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
-      [['Prismorel', 'Goldgill']], 18),
+      [['Prismorel'], ['Emberbolete']], 18),
     route("Pum'king", { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
-      [['Glimmergill', 'Goldgill'], ['Veilcap', 'Fogdial']], 24, true),
+      [['Prismorel'], ['Mistruffle']], 24),
   ],
   Moonrice: [
-    route('Thymekeeper', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
-      [['Gloamclock', 'Tidegill']], 18),
+    route('Thymekeeper', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' },
+      [['Rilllace', 'Frostfolio']], 18),
     route('Ghost Rice', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' },
-      [['Quickshade', 'Duskleaf']], 20),
+      [['Hushroom'], ['Rilllace']], 20),
   ],
   'Shadow Onion': [route('Dillusion',
     { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
-    [['Lanterncap', 'Goldgill']], 18)],
+    [['Rainmorel']], 18)],
   Starberry: [route('Glass Apple',
     { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
-    [['Prismorel'], ['Mistruffle']], 28)],
+    [['Rushroom'], ['Mistruffle']], 28)],
   'Ghost Rice': [{
     into: 'Glass Apple', sequence: 'dark-to-lit', hours: 12,
     preparation: { conditions: { Moisture: 'Damp', Temperature: ['Temperate', 'Cold'],
-      Illumination: 'Dark' }, contacts: [['Gloamclock', 'Duskleaf']] },
+      Illumination: 'Dark' }, contacts: [['Hushroom']] },
     completion: { conditions: { Moisture: 'Damp', Temperature: ['Temperate', 'Cold'],
-      Illumination: 'Lit' }, contacts: [['Prismorel', 'Lanterncap']], withinHours: 8 },
+      Illumination: 'Lit' }, contacts: [['Prismorel']], withinHours: 8 },
   }],
   Dillusion: [route("Pum'king",
     { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' },
-    [['Lanterncap', 'Prismorel'], ['Hushroom', 'Gloamclock']], 22, true)],
+    [['Rushroom'], ['Hushroom']], 22)],
 });
-
-// Named contact may be supplied through either cultivation or environmental
-// coverage, but the special light predicate accepts only real Luminous
-// environmental emission entries FROM the recipe's two named fungal groups.
-// Ambient Sources and adjacency cannot impersonate either fungus.
-export function matchesOpposingLight(garden, key, recipe, environment) {
-  const contributions = environment.modifiers[key]?.Illumination || [];
-  const fromGroup = (group, sign) => contributions.some(entry =>
-    entry.kind === 'Luminous' && entry.modifier * sign > 0
-      && garden.objects[entry.source]?.type === 'fungus'
-      && group.includes(garden.objects[entry.source].species));
-  return fromGroup(recipe.contacts[0], 1) && fromGroup(recipe.contacts[1], -1);
-}
 
 const allowedCrossing = conditions => matchesConditions(conditions,
   { Moisture: 'Damp', Temperature: ['Temperate', 'Cold'] });

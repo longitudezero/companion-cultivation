@@ -146,21 +146,8 @@ export function observeTransformation(ledger, garden, key, from, recipe,
   const historical = previousGarden ? reachingFungi(previousGarden, key,
     calculateEnvironment(previousGarden), null) : new Set();
   const contacts = new Set();
-  if (recipe.opposingLight) {
-    // A cultivation footprint by itself cannot qualify for opposing light.
-    // Record only the actual signed environmental emitters from both groups.
-    for (const [groupIndex, group] of recipe.contacts.entries()) {
-      const sign = groupIndex === 0 ? 1 : -1;
-      for (const emission of environment.modifiers?.[key]?.Illumination || []) {
-        const fungus = garden.objects[emission.source];
-        if (fungus?.type === 'fungus' && group.includes(fungus.species)
-          && emission.kind === 'Luminous' && emission.modifier * sign > 0) contacts.add(fungus.species);
-      }
-    }
-  } else {
-    for (const group of recipe.contacts || []) {
-      for (const fungus of group) if (reached.has(fungus) || historical.has(fungus)) contacts.add(fungus);
-    }
+  for (const group of recipe.contacts || []) {
+    for (const fungus of group) if (reached.has(fungus) || historical.has(fungus)) contacts.add(fungus);
   }
   for (const group of recipe.completion?.contacts || []) {
     for (const fungus of group) if (reached.has(fungus)) contacts.add(fungus);

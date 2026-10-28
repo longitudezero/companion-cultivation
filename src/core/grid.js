@@ -47,7 +47,7 @@ export function createGarden(columns = 9, rows = 7) {
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
   const starterSeeds = { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
     'Woodlands Base': 16, Jadeheart: 16, Thymely: 16 };
-  return { schemaVersion: 5, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
+  return { schemaVersion: 6, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
     inventorySlots: {}, staged: {}, pending: {},
     grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
@@ -135,7 +135,10 @@ export function removeEdgeBlocker(garden, a, b) {
 }
 
 export function isGarden(value) {
-  return [1, 2, 3, 4, 5].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
+  // V8/V9 is a clean-break prototype. Pre-V6 saves refer to retired Fungi,
+  // incompatible Transformation clocks and old discoveries; reject them rather
+  // than silently convert, delete or mislabel living organisms.
+  return value?.schemaVersion === 6 && Number.isInteger(value.columns) && Number.isInteger(value.rows)
     && value.hexes && typeof value.hexes === 'object' && value.objects && typeof value.objects === 'object'
     && value.edges && typeof value.edges === 'object';
 }

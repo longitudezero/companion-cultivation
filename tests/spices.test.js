@@ -26,7 +26,7 @@ function edit(garden, property, value, at = key) {
   return reconcileTransformationClocks(setBaseline(garden, at, property, value), garden);
 }
 
-function fungus(garden, species, at = neighbors[0], heading = 0) {
+function fungus(garden, species, at = neighbors[0], heading = neighborsOf(at).indexOf(key)) {
   return reconcileTransformationClocks(placeObject(garden, at, makeFungus(species, heading)), garden);
 }
 
@@ -37,10 +37,11 @@ function remove(garden, at) {
 // Real propagation, Fungal footprints and adjacency, never artificial contacts.
 function arrange(from, recipe, alternatives = null) {
   const groups = alternatives || recipe.contacts;
-  for (const heading of groups.some(group => group[0] === 'Prismorel') ? [0, 1, 2, 3, 4, 5] : [0]) {
+  for (const heading of [null]) {
     let base = start(from);
     groups.forEach((group, index) => {
-      base = placeObject(base, neighbors[index], makeFungus(group[0], heading));
+      base = placeObject(base, neighbors[index], makeFungus(group[0],
+        heading ?? neighborsOf(neighbors[index]).indexOf(key)));
     });
     for (const moisture of ['Dry', 'Damp', 'Flooded']) {
       for (const temperature of ['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']) {
@@ -111,20 +112,18 @@ test('every approved OR alternative can substitute with physically reaching effe
   }
 });
 
-test('Pum\'king requires positive AND negative real fungal environmental light on the target', () => {
+test('Pum\'king requires both named fungal contacts and continuous state, irrespective of emission signs', () => {
   for (const from of ['Sunrice', 'Dillusion']) {
     const recipe = TRANSFORMATIONS[from].find(item => item.into === "Pum'king");
     let garden = arrange(from, recipe);
-    const emissions = calculateEnvironment(garden).modifiers[key].Illumination;
-    assert.ok(emissions.some(entry => entry.kind === 'Luminous' && entry.modifier > 0));
-    assert.ok(emissions.some(entry => entry.kind === 'Luminous' && entry.modifier < 0));
+    assert.ok(namedFungalContacts(garden, key, calculateEnvironment(garden)).has(recipe.contacts[0][0]));
+    assert.ok(namedFungalContacts(garden, key, calculateEnvironment(garden)).has(recipe.contacts[1][0]));
     assert.equal(calculateEnvironment(garden).conditions[key].Illumination, 'Lit');
     const partial = advanceGardenTime(garden, recipe.hours - 2).garden;
     garden = remove(partial, neighbors[1]);
     assert.equal(garden.objects[key].transformationClocks[recipe.into], 0,
-      'interruption clears progress instantly even when a net-Lit source is used');
-    const negative = recipe.contacts[1][0];
-    garden = fungus(garden, negative, neighbors[1]);
+      'interruption clears progress instantly even if the state remains Lit');
+    garden = fungus(garden, recipe.contacts[1][0], neighbors[1]);
     assert.equal(transformationStatus(garden, key).find(item => item.into === recipe.into).eligible, true);
     garden = advanceGardenTime(garden, 2).garden;
     assert.equal(garden.objects[key].species, from, 'interrupted timer may not retain old qualifying hours');
@@ -133,43 +132,45 @@ test('Pum\'king requires positive AND negative real fungal environmental light o
   }
 });
 
-test('Pum\'king rejects Source-only light, same-sign light, and cultivation-only named contact', () => {
+test('Pum\'king ignores emission signs, accepts cultivation-only contact, and rejects anonymous substitutes', () => {
   const recipe = TRANSFORMATIONS.Sunrice.find(item => item.into === "Pum'king");
-  const complete = arrange('Sunrice', recipe);
+  let complete = start('Sunrice', condition('Damp', 'Temperate', 'Lit'));
+  for (const neighbor of neighbors) complete = placeEdgeBlocker(complete, key, neighbor,
+    makeBlocker('kind', 'Luminous'));
+  complete = fungus(complete, 'Prismorel', neighbors[0]);
+  complete = fungus(complete, 'Mistruffle', neighbors[1]);
+  assert.equal(transformationStatus(complete, key).find(item => item.into === recipe.into).eligible, true);
+  assert.equal(calculateEnvironment(complete).modifiers[key].Illumination.length, 0);
   const withoutDark = remove(complete, neighbors[1]);
   const replacement = reconcileTransformationClocks(placeObject(withoutDark, neighbors[1],
     makeSource([makeInfluence('Dimming', 1, 2)])), withoutDark);
   assert.equal(transformationStatus(replacement, key).find(item => item.into === recipe.into).eligible, false,
-    'a nonfungal Darkening Source cannot serve as the negative named Fungus');
+    'a nonfungal Source cannot serve as the missing named Fungus');
   const onlyContact = { ...complete, objects: { ...complete.objects,
     [neighbors[1]]: { ...complete.objects[neighbors[1]], emissions: [] } } };
-  const substituteSource = placeObject(onlyContact, neighbors[2],
-    makeSource([makeInfluence('Dimming', 1, 2)]));
-  const alternate = calculateEnvironment(substituteSource);
-  assert.equal(alternate.conditions[key].Illumination, 'Lit', 'Source cancellation keeps net Lit');
-  assert.equal(namedFungalContacts(substituteSource, key, alternate).has(recipe.contacts[1][0]), true,
-    'the named darkening fungus still reaches via its cultivation footprint');
-  assert.equal(transformationStatus(substituteSource, key).find(item => item.into === recipe.into).eligible, false,
-    'a named Fungus with cultivation contact but no environmental Darkening fails');
-  assert.ok(alternate.modifiers[key].Illumination.some(entry => entry.modifier < 0));
-  const sameSign = { ...complete, objects: { ...complete.objects,
+  const alternate = calculateEnvironment(onlyContact);
+  assert.equal(namedFungalContacts(onlyContact, key, alternate).has('Mistruffle'), true);
+  assert.equal(transformationStatus(onlyContact, key).find(item => item.into === recipe.into).eligible, true,
+    'named cultivation contact is sufficient despite no environmental emission');
+  const sameSign = { ...onlyContact, objects: { ...onlyContact.objects,
     [neighbors[1]]: { ...complete.objects[neighbors[1]],
       emissions: [makeInfluence('Brightening', 1, 2)] } } };
-  assert.equal(transformationStatus(sameSign, key).find(item => item.into === recipe.into).eligible, false,
-    'the named negative group cannot use the wrong emission sign');
+  assert.equal(transformationStatus(sameSign, key).find(item => item.into === recipe.into).eligible, true,
+    'emission sign never replaces the named contact/state requirements');
 });
 
-test('Pum\'king loses qualification when a Luminous blocker stops the selected emission footprint', () => {
+test('Pum\'king remains qualified through cultivation contacts when Luminous emissions are blocked', () => {
   const recipe = TRANSFORMATIONS.Dillusion[0];
   const original = arrange('Dillusion', recipe);
   let garden = original;
   for (const neighbor of neighbors) garden = placeEdgeBlocker(garden, key, neighbor, makeBlocker('kind', 'Luminous'));
-  assert.equal(transformationStatus(garden, key).find(item => item.into === recipe.into).eligible, false);
+  garden = setBaseline(garden, key, 'Illumination', 'Lit');
+  assert.equal(transformationStatus(garden, key).find(item => item.into === recipe.into).eligible, true);
 });
 
 test('Ghost Rice Dark preparation is exactly 12h; leave Dark, pass through Dim, then reach Lit', () => {
   let garden = start('Ghost Rice', condition('Damp', 'Temperate', 'Dim'));
-  garden = fungus(garden, 'Gloamclock');
+  garden = fungus(garden, 'Hushroom');
   assert.equal(calculateEnvironment(garden).conditions[key].Illumination, 'Dark');
   garden = advanceGardenTime(garden, 11).garden;
   assert.equal(transformationStatus(garden, key)[0].phase, 'preparing');
@@ -181,7 +182,7 @@ test('Ghost Rice Dark preparation is exactly 12h; leave Dark, pass through Dim, 
   garden = advanceGardenTime(garden, 7).garden;
   assert.equal(garden.objects[key].species, 'Ghost Rice');
   assert.equal(transformationStatus(garden, key)[0].elapsed, 7);
-  garden = fungus(garden, 'Lanterncap');
+  garden = fungus(garden, 'Prismorel');
   assert.equal(calculateEnvironment(garden).conditions[key].Illumination, 'Lit');
   assert.equal(garden.objects[key].species, 'Glass Apple', 'completion occurs on the edit, not an extra tick');
   assert.equal(garden.objects[key].progress, 0);
@@ -190,13 +191,13 @@ test('Ghost Rice Dark preparation is exactly 12h; leave Dark, pass through Dim, 
 
 test('Ghost Rice succeeds on the eighth transition hour, not the ninth', () => {
   for (const hours of [8, 9]) {
-    let garden = fungus(start('Ghost Rice', condition('Damp', 'Cold', 'Dim')), 'Duskleaf');
+    let garden = fungus(start('Ghost Rice', condition('Damp', 'Cold', 'Dim')), 'Hushroom');
     assert.equal(calculateEnvironment(garden).conditions[key].Illumination, 'Dark');
     garden = advanceGardenTime(garden, 12).garden;
     garden = remove(garden, neighbors[0]);
     garden = advanceGardenTime(garden, hours).garden;
     assert.equal(garden.objects[key].species, 'Ghost Rice');
-    garden = fungus(garden, 'Lanterncap');
+    garden = fungus(garden, 'Prismorel');
     assert.equal(garden.objects[key].species, hours === 8 ? 'Glass Apple' : 'Ghost Rice');
     if (hours === 9) {
       assert.equal(garden.objects[key].transformationSequence['Glass Apple'].phase, 'preparing');
@@ -206,16 +207,16 @@ test('Ghost Rice succeeds on the eighth transition hour, not the ninth', () => {
 
 test('Ghost Rice rejects incomplete preparation, lost Damp/valid Temperature, and returning to Dark', () => {
   for (const broken of ['early', 'dry', 'hot', 'return']) {
-    let garden = fungus(start('Ghost Rice', condition('Damp', 'Temperate', 'Dim')), 'Gloamclock');
+    let garden = fungus(start('Ghost Rice', condition('Damp', 'Temperate', 'Dim')), 'Hushroom');
     garden = advanceGardenTime(garden, broken === 'early' ? 11 : 12).garden;
     garden = remove(garden, neighbors[0]);
     if (broken === 'dry') garden = edit(garden, 'Moisture', 'Dry');
     if (broken === 'hot') garden = edit(garden, 'Temperature', 'Hot');
-    if (broken === 'return') garden = fungus(garden, 'Gloamclock', neighbors[1]);
+    if (broken === 'return') garden = fungus(garden, 'Hushroom', neighbors[1]);
     garden = remove(garden, neighbors[1]) || garden;
     if (broken === 'dry') garden = edit(garden, 'Moisture', 'Damp');
     if (broken === 'hot') garden = edit(garden, 'Temperature', 'Temperate');
-    garden = fungus(garden, 'Lanterncap');
+    garden = fungus(garden, 'Prismorel');
     assert.equal(garden.objects[key].species, 'Ghost Rice', broken);
   }
 });
@@ -302,13 +303,13 @@ test('species without approved Seed availability reject forged stock even under 
 });
 
 test('Ghost Rice sequence survives save migration while copied clocks are bounded', () => {
-  let garden = fungus(start('Ghost Rice', condition('Damp', 'Temperate', 'Dim')), 'Gloamclock');
+  let garden = fungus(start('Ghost Rice', condition('Damp', 'Temperate', 'Dim')), 'Hushroom');
   garden = advanceGardenTime(garden, 12).garden;
   garden = remove(garden, neighbors[0]);
   garden = advanceGardenTime(garden, 3).garden;
   const restored = migrateGarden(JSON.parse(JSON.stringify(garden)));
   assert.deepEqual(restored.objects[key].transformationSequence['Glass Apple'],
     { phase: 'crossing', preparedHours: 12, windowHours: 3 });
-  garden = fungus(restored, 'Lanterncap');
+  garden = fungus(restored, 'Prismorel');
   assert.equal(garden.objects[key].species, 'Glass Apple');
 });
