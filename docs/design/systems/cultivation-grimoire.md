@@ -69,7 +69,7 @@ The player opens the Grimoire using the ordinary **❦ Cultivation Grimoire** bu
 
 The initial visual reference is the separately approved **Cultivation Grimoire V2 book-motion HTML study**. The integration uses the same paper/cover, tab movement, page layout and anchored animation, but replaces demo/sample text with live garden knowledge. Respect `prefers-reduced-motion` and small screens. Botanical plates are currently explicit placeholders, not completed commissioned artwork.
 
-The developer testing interface should eventually be able to examine discovery state and deliberately reset/test unlocks **without making those cheats ordinary player actions**. This does not authorize a developer-specific Grimoire layout before the UI discussion.
+The developer testing interface should be able to examine discovery state and deliberately reset/test unlocks **without making those cheats ordinary player actions**. A later developer-preview implementation uses the approved book layout to expose the canonical catalogued Plants, Fungi and Transformation recipes as a read-only overlay behind **Display developer tools**; it never writes discoveries to the garden. Deliberate discovery resets remain future work.
 
 ## Implementation contract and verification targets
 

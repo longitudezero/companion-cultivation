@@ -27,6 +27,14 @@
 .cg-workbench-label { position: absolute; top: 20px; left: 30px; font-size: 10px; letter-spacing: .17em;
   text-transform: uppercase; color: #c6bda9; opacity: .74; }
 .cg-shell { display: flex; flex-direction: column; align-items: center; gap: 20px; width: fit-content; max-width: 100%; }
+.cg-preview-tools { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px;
+  max-width: 100%; padding: 6px 10px; border: 1px solid rgba(213,183,126,.4); border-radius: 9px;
+  background: #202e27; color: #e0cfa8; font: 700 10px/1.4 system-ui, sans-serif; letter-spacing: .09em; }
+.cg-preview-tools button { border: 1px solid #b5a076; border-radius: 6px; padding: 8px 12px;
+  color: #eee2c1; background: #344c3d; font-size: 12px; font-weight: 700; letter-spacing: normal; }
+.cg-preview-tools button.active { color: #282d24; background: #edd499; }
+.cg-preview-tools button:hover { filter: brightness(1.12); }
+.cg-preview-tools span { text-align: center; }
 .cg-book-stage { perspective: 1700px; padding: 17px 0 20px; }
 .cg-book { position: relative; width: calc(var(--cg-page-w) * 2); height: var(--cg-page-h); transform-style: preserve-3d; }
 .cg-cover { position: absolute; inset: -14px -27px -19px; z-index: 0; border-radius: 11px 14px 17px 11px;
@@ -154,6 +162,8 @@
 @media (max-width: 600px) {
   .cg-overlay { --cg-page-w: 38.5vw; --cg-page-h: min(64vh, 465px); }
   .cg-scene { padding: 40px 6px 15px; }
+  .cg-preview-tools { gap: 5px; font-size: 8px; padding: 5px; }
+  .cg-preview-tools button { font-size: 10px; padding: 6px 9px; }
   .cg-workbench-label { left: 12px; top: 12px; font-size: 8px; }
   .cg-page-content { padding: 17px 12px; }
   .cg-page-content h1 { font-size: 19px; margin: 9px 0 12px; }

@@ -1,4 +1,4 @@
-# Player controls and developer tools — Prototype 15
+# Player controls and developer tools — Prototype 16
 
 This page describes **the current interface**, not a new or finalized gameplay design. The separation is an interface safeguard against accidental sandbox editing. It does not disable capabilities in the deterministic core API or provide an anti-cheat security boundary.
 
@@ -30,6 +30,7 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 | Configure regular or anchored Sources and their emissions | Source inspector |
 | Change Blocker filtering and directed Fungus heading | Relevant inspector controls |
 | Inspect undiscovered recipe eligibility and clocks, full hazard thresholds, source contributions and raw Fungal cultivation magnitudes | Organism and hex inspector; hidden for ordinary players to preserve Grimoire discovery |
+| Preview every Plant, Fungus profile and all related Transformation recipes in the Grimoire | Turn on developer tools, open **❦ Cultivation Grimoire**, then select **Preview full Grimoire**. Select **Return to discoveries** to restore the normal view. The preview is read-only; it does not unlock entries or alter the saved discovery ledger. |
 | Skip 1 hour or 1 day | Buttons beside the read-only garden clock |
 | Restore demo, start a blank plot, resize the grid | Plot controls |
 | Export raw garden JSON | Inspector footer; technically inspectable full state, including hidden germination outcomes |
