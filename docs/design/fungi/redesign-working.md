@@ -104,6 +104,34 @@ This is the first **anonymous, deliberately provisional** partition of the 15 ex
 5. Decide whether **H** earns a slot, gains a genuinely different second effect, or disappears with its functionality represented elsewhere.
 6. Only then map candidate effects onto final Fungus identities and update the named-contact Transformation inventory. Every route must remain possible or undergo explicit approved revision.
 
+### 28 October 2026 — user stacking stress test: D + F + B (V0.1 DOES NOT PASS)
+
+**Counterexample from the player perspective:** To farm Leaves, combine **D** (+ Leaf Yield / earlier Seed timing), **F** (+ Growth Rate / Seeds-to-Leaves Allocation), and **B** (+ hourly Leaves / faster Ripening). The combination stacks an ordinary Leaf bonus, conversion of Seeds to Leaves, faster access to harvest, and at least some additional hourly Leaves. None of the secondary effects necessarily requires blocking for a Leaf-focused plan.
+
+**Terminology check:** In V0.1 **B accelerates Ripening**, whereas **F accelerates Growth**. Faster Ripening reduces time spent inside a late hourly-production window, but if the Fungus still contributes additional Leaves overall, adding B can remain an easy net gain.
+
+**Conclusion:** V0.1 passes the *single-copy effect inventory* test but **fails the more important garden-level interaction test**. The apparent tension in an isolated pair is not enough when multiple Fungi can compensate, bypass it, or add independent bonuses. Do **not** promote V0.1 as a roster.
+
+### Revised design criteria (V0.2 direction, not an approved roster)
+
+1. Test each pair **in plausible multi-Fungus strategies** for high Leaves, high Seeds, fast transformation, and sustainable replanting—not only in isolation. Explicitly ask whether adding the Fungus is an almost-free improvement to the chosen goal.
+2. A **negative cultivation effect is allowed** when it creates a real cost across separate mechanics. It need not be arbitrarily offset by an opposite modifier on the same axis.
+3. A stronger **environmental emission** (the user suggested a possible **+3 Property-step** example) may produce a tactical obstacle that can be blocked or counteracted; this is a **balance option to test**, not an approved universal magnitude. Large emissions may saturate resolved conditions, damage Plants, or become a rote "add the obligatory Blocker" tax. Use context and propagation rather than automatic punishment.
+4. **Mycelial dependence or preference** can provide infrastructure costs for selected species, but not as a universal workaround for otherwise self-solving cultivation pairs; Mycelord stays unchanged.
+5. One copy of each **existing** mechanism is a useful redundancy heuristic, **not a coverage quota**. The final roster may retire weak types or introduce genuinely new signed effects (such as a Leaf Yield penalty); do not force all 15 existing types into eight Fungi if the combinations are poor.
+6. If two Fungi neutralize each other's downsides, assess whether the spatial, economic, environmental, and timing costs make that an earned solution or an effortless dominant combination. "More pieces" alone is not sufficient friction.
+
+### Targeted V0.2 hypotheses for discussion (UNAPPROVED)
+
+| Hypothesis | Cultivation pair | Potential decision | Critical question |
+| --- | --- | --- | --- |
+| **F revised — user proposal** | **+ Growth Rate / − Leaf Yield** | Faster progression and possible faster crop turnover, but lower ordinary Leaf output while affected | Does earlier harvest actually compensate for lost per-crop Leaves on specific Plants? Can another source cancel the penalty too cheaply? |
+| **D revised — alternative to test** | **+ Leaf Yield / − Seed Yield** | More Leaves at a cost to replanting capacity | Is Seed supply a meaningful ongoing constraint for that Plant, or is the downside negligible once Seeds are abundant? |
+| **B retained for comparison** | **+ hourly Leaves / + Ripening Rate** | The original window-shortening tension | Does a realistic garden still gain a nearly free marginal Leaf bonus? Might its environmental footprint need a stronger, but blockable, complication? |
+| **Possible other penalty structure** | **+ Growth Rate / shorter Harvest Window** | Faster arrival at harvest, but a less forgiving opportunity to harvest well | Is this an engaging timing challenge given that the real-time simulation never pauses during staging? This would be a new signed mechanic, not currently approved. |
+
+**No numeric values, names, environmental magnitudes or implementation rules are approved by this revision.** In particular, negative Leaf/Seed Yield and a shorter Harvest Window require explicit feasibility and save/Grimoire testing if eventually selected.
+
 ## 5. Dependencies that must be audited before reducing the roster
 
 ### Named Fungus contacts in Plant Transformations
@@ -137,8 +165,9 @@ All 31 Fungi are initially identified in the implemented Cultivation Grimoire. S
 | Standard effect target | **Working direction** | Usually one environmental plus two cultivation effects; exceptions allowed |
 | Alternative effects | **Working direction** | Different mechanisms preferred over alternate numerical strengths |
 | Existing 15 broad effect types | **Audit baseline** | Candidates for inclusion, consolidation, or replacement |
-| Exact effect pairings | **Unapproved** | Full anonymous A–H V0.1 partition is a stress-test slate, not a final roster |
+| Exact effect pairings | **Unapproved** | V0.1 A–H fails the D+F+B garden-level Leaf stress test; V0.2 hypotheses are discussion only |
 | Species names, ranges, modes, habitat and magnitudes | **Open** | Decide after pairings and route feasibility |
+| Negative cultivation effects / stronger environment | **New ideas, unapproved** | Test meaningful trade-offs without forced Blocker or Mycelord taxes |
 | Transformation recipe revisions | **Open** | Full 69-route named-contact audit required |
 | Save compatibility and Grimoire migration | **Open** | Must be specified before gameplay changes |
 | Archiving first-pass documents | **Deferred** | Preserve untouched during exploration and implementation review |
