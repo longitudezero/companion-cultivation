@@ -6,7 +6,7 @@
 
 ## Active experiment: randomized full roster (replaces piecemeal pairing review)
 
-The current design exercise is [**Randomized 12-Fungus roster V4**](random-roster-v4.md), which records the user's newly proposed cultivation combinations and adds one ±1/±2 environmental effect to each species with a verified **no identical environment among shared cultivation effects** rule. V4 follows the [V3 cultivation-impact pass](random-roster-v3.md), [V2 coverage-first pass](random-roster-v2.md), [V1 structural repairs](random-roster-v1.md), and [unaltered random V0 draw](random-roster-v0.md). V4 has eight ordinary Fungi with two cultivation effects and four with three. **Mycelord is unchanged.** Allocation retirement and strongest-only cultivation stacking remain experimental discussion points, not approved global mechanics. All earlier versions remain available for comparison.
+The current design exercise is [**Randomized 12-Fungus roster V5**](random-roster-v5.md), exploring **source-side Mycelial dependency** while retaining the user-supplied cultivation combinations and environmental assignments in [V4](random-roster-v4.md). F09 (+ Leaf Yield) and F10 (+ Hourly Leaves) are the directed dependent candidates, while F11 (+ Seed Yield) is recommended for review; other source-habitat classifications remain open. V5 follows the [V3 cultivation-impact pass](random-roster-v3.md), [V2 coverage-first pass](random-roster-v2.md), [V1 structural repairs](random-roster-v1.md), and [unaltered V0 draw](random-roster-v0.md). There are eight ordinary Fungi with two cultivation effects and four with three. **Mycelord is unchanged.** Allocation retirement and strongest-only cultivation stacking remain unapproved discussion points.
 
 **Method correction from the user:** Do **not** finalize or gradually lock individual Fungi before seeing their interactions with the whole roster. The earlier curated A–H and V0.2–V0.3 hypotheses below remain as design history, but are **paused**. First look at this entire random slate through player objectives—Leaves, Seeds, growth speed and transformations—then alter only the impossible, redundant or overly self-contained combinations. Twelve is **an experiment size, not the approved final number**; ten, twelve or another count can emerge later.
 
@@ -18,6 +18,10 @@ Following the user's direction, stop treating every cultivation effect as equall
 ### 28 October 2026 — V4 user-supplied full cultivation slate and environmental assignment (WORKING)
 
 The user proposed a new full set of F01–F12 cultivation bundles, reconsidered Allocation conversions, and floated a strongest-only rule for identical cultivation-effect stacking. The request for this iteration was to assign each ordinary Fungus exactly one small **±1/±2** environmental effect, with **no matching environmental type on any two Fungi sharing an identical cultivation effect**. [V4](random-roster-v4.md) preserves the exact proposed cultivation bundles, lists the twelve emissions, and documents a 15-pair zero-conflict audit. Mycelord, approved first-pass design and playable code remain unchanged; neither Allocation retirement nor the stacking rule was silently approved.
+
+### 28 October 2026 — V5 Mycelial habitat selection (WORKING)
+
+The user requested one Mycelial-dependent + Leaf Yield Fungus and one Mycelial-dependent + Hourly Leaves Fungus, and asked which additional dependency would be worthwhile. [V5](random-roster-v5.md) chooses F09 and F10 for the two specified roles and recommends **F11** as a possible third dependent; F07 could be Mycelial-preferring later but is not assigned. This preserves nondependent candidates F02 (Leaf Yield), F03 (Seed Yield), and F12 (the sole Hourly Seeds). Dependency remains a source-side qualification, not a Mycelial requirement on the receiving Plant. All V4 emissions remain unchanged.
 
 ## 1. Agreed design direction
 
