@@ -6,7 +6,7 @@
 
 ## Active experiment: randomized full roster (replaces piecemeal pairing review)
 
-The current design exercise is [**Randomized 12-Fungus roster V3**](random-roster-v3.md), a *cultivation-impact redistribution* after the [V2 coverage-first pass](random-roster-v2.md), [V1 structural repairs](random-roster-v1.md), and [unaltered random V0 draw](random-roster-v0.md). V3 explicitly **removes − Germination**, redistributes several stronger effects away from overloaded pairings, and temporarily sets environmental balance aside while leaving those emissions unchanged. Nine ordinary Fungi now have two cultivation effects and three have three; **Mycelord is unchanged**. All earlier versions remain available for full comparison.
+The current design exercise is [**Randomized 12-Fungus roster V4**](random-roster-v4.md), which records the user's newly proposed cultivation combinations and adds one ±1/±2 environmental effect to each species with a verified **no identical environment among shared cultivation effects** rule. V4 follows the [V3 cultivation-impact pass](random-roster-v3.md), [V2 coverage-first pass](random-roster-v2.md), [V1 structural repairs](random-roster-v1.md), and [unaltered random V0 draw](random-roster-v0.md). V4 has eight ordinary Fungi with two cultivation effects and four with three. **Mycelord is unchanged.** Allocation retirement and strongest-only cultivation stacking remain experimental discussion points, not approved global mechanics. All earlier versions remain available for comparison.
 
 **Method correction from the user:** Do **not** finalize or gradually lock individual Fungi before seeing their interactions with the whole roster. The earlier curated A–H and V0.2–V0.3 hypotheses below remain as design history, but are **paused**. First look at this entire random slate through player objectives—Leaves, Seeds, growth speed and transformations—then alter only the impossible, redundant or overly self-contained combinations. Twelve is **an experiment size, not the approved final number**; ten, twelve or another count can emerge later.
 
@@ -14,6 +14,10 @@ The current design exercise is [**Randomized 12-Fungus roster V3**](random-roste
 ### 28 October 2026 — V3 role-impact redistribution (WORKING)
 
 Following the user's direction, stop treating every cultivation effect as equally useful. Direct Leaf/Seed production, high-leverage Growth/Ripening tempo, situational peak/seed timing, and one-time Germination play different strategic roles. **Remove − Germination** entirely and ignore environmental effects during this pairing pass (without changing their underlying values). [V3](random-roster-v3.md) moves + Ripening from F09 to F01, late Leaf peak from F01 to F02, and − Ripening from F02 to F08. The other eight Fungi are unchanged; F03+F12 and F10+F12 remain priority Seed-combination questions, not approved solutions.
+
+### 28 October 2026 — V4 user-supplied full cultivation slate and environmental assignment (WORKING)
+
+The user proposed a new full set of F01–F12 cultivation bundles, reconsidered Allocation conversions, and floated a strongest-only rule for identical cultivation-effect stacking. The request for this iteration was to assign each ordinary Fungus exactly one small **±1/±2** environmental effect, with **no matching environmental type on any two Fungi sharing an identical cultivation effect**. [V4](random-roster-v4.md) preserves the exact proposed cultivation bundles, lists the twelve emissions, and documents a 15-pair zero-conflict audit. Mycelord, approved first-pass design and playable code remain unchanged; neither Allocation retirement nor the stacking rule was silently approved.
 
 ## 1. Agreed design direction
 
