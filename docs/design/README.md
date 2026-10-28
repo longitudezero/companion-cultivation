@@ -4,7 +4,7 @@
 
 The game is a deterministic hex-garden farming prototype about sustainable **species-specific** non-Seed harvests (working item class **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
 
-> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V3 cultivation-impact experiment](fungi/random-roster-v3.md) examine effect pairings, relative usefulness and transformation/save compatibility. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
+> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V4 environmental-assignment experiment](fungi/random-roster-v4.md) examine effect pairings, relative usefulness and transformation/save compatibility. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
 
 ## Current implementation vs approved design
 
