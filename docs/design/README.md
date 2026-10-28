@@ -4,7 +4,7 @@
 
 The game is a deterministic hex-garden farming prototype about sustainable **species-specific** non-Seed harvests (working item class **Leaves**), living Plants and Fungi, propagation, timed ecological changes and Plant-owned Transformations.
 
-> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V6 Mycelial-class roster](fungi/random-roster-v6.md) record the accepted 3 dependent / 4 preferring / 5 independent split for the twelve ordinary candidate Fungi. Mycelial preference strengthens one selected positive bonus; numeric boosts remain provisional. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
+> **Fungi redesign in progress:** [Second-pass working notebook](fungi/redesign-working.md) and [current V7 named numeric roster](fungi/random-roster-v7.md) record twelve existing-name candidates with the accepted cultivation-effect strengths, 3 dependent / 4 preferring / 5 independent Mycelial split, and exact ordinary/Mycelial boost values. The entire redesign remains a **working-design draft**, not a live migration. **This does not supersede the playable 31-Fungus roster or the 69 current transformation routes.**
 
 ## Current implementation vs approved design
 
