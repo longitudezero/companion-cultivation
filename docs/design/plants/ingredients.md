@@ -2,6 +2,8 @@
 
 > **Naming update (29 October 2026):** `Potato` (old Base) is now `Beanstalk`; the former terminal `Apple` is now `Potato`. The roster remains seven species. See the [current Plant naming map](../decisions/plant-names.md) before interpreting the historical profiles.
 
+> **Current onboarding balance exception (29 October 2026):** Beanstalk → Carrot now needs **Dry, Temperate, Dim** plus Prismorel contact for 10 hours (see [current V9 recipe note](../fungi/random-roster-v9.md)). Carrot's continuous **Dry** death threshold is now **240 garden hours (20 real minutes)**, replacing the old 72-hour figure in the historical profile tables below. Its Hot, Freezing, and Mycelial death thresholds are unchanged. The original tables remain preserved as historical approvals.
+
 > **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 6. **Source sections preserved:** §41, §42, §43, §44, §67.

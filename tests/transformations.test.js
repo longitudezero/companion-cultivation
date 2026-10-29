@@ -67,6 +67,23 @@ test('all six approved Beanstalk routes are triggered by physically reachable li
   }
 });
 
+test('first Beanstalk-to-Carrot transformation works on untouched terrain with Prismorel alone', () => {
+  let garden = setup();
+  garden = placeObject(garden, neighborKeys[0], makeFungus('Prismorel'));
+  const conditions = calculateEnvironment(garden).conditions[target];
+  assert.deepEqual(conditions, { Moisture: 'Dry', Temperature: 'Temperate', Illumination: 'Dim' });
+  assert.equal(transformationStatus(garden, target).find(recipe => recipe.into === 'Carrot').eligible, true);
+  garden = advanceGardenTime(garden, 9).garden;
+  assert.equal(garden.objects[target].species, 'Beanstalk');
+  garden = advanceGardenTime(garden, 1).garden;
+  assert.equal(garden.objects[target].species, 'Carrot');
+  assert.equal(garden.objects[target].exposure.Dry, 0, 'the new Carrot begins with a fresh hazard clock');
+  garden = placeObject(garden, neighborKeys[1], makeFungus('Dewmender'));
+  assert.equal(calculateEnvironment(garden).conditions[target].Moisture, 'Damp');
+  garden = advanceGardenTime(garden, 1).garden;
+  assert.equal(garden.objects[target].exposure.Dry, 0, 'Dewmender sustains the Carrot without a Source item');
+});
+
 test('a regular environmental Source cannot satisfy fungal-emission contact', () => {
   let garden = setup();
   garden = setBaseline(garden, target, 'Moisture', 'Flooded');

@@ -73,6 +73,22 @@ test('independent Dry and Temperature clocks reset and cause death at exact thre
   assert.match(dead.events[0], /3m of Freezing/);
 });
 
+test('Carrot has 20 real minutes of continuous Dry exposure and recovers when watered', () => {
+  assert.equal(PLANTS.Carrot.dryDeath, 240, '240 garden hours at five seconds each is 20 minutes');
+  assert.equal(PLANTS.Carrot.hotDeath, 48, 'other lethal conditions are unchanged');
+  let garden = advanceGardenTime(plantAt('Carrot'), 239).garden;
+  assert.equal(garden.objects['2,2'].exposure.Dry, 239);
+  garden = setBaseline(garden, '2,2', 'Moisture', 'Damp');
+  garden = advanceGardenTime(garden, 1).garden;
+  assert.equal(garden.objects['2,2'].exposure.Dry, 0);
+  garden = setBaseline(garden, '2,2', 'Moisture', 'Dry');
+  garden = advanceGardenTime(garden, 239).garden;
+  assert.ok(garden.objects['2,2'], 'Carrot survives up to but not including 240 Dry hours');
+  const expired = advanceGardenTime(garden, 1);
+  assert.equal(expired.garden.objects['2,2'], undefined);
+  assert.match(expired.events.join(' '), /20m of Dry/);
+});
+
 test('fungal Growth and Ripening cultivation effects share a package footprint', () => {
   let garden = plantAt('Carrot');
   garden = setBaseline(garden, '2,2', 'Moisture', 'Damp');
