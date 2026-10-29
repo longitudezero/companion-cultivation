@@ -1,8 +1,13 @@
 # Working design and brainstorming
 
-> **WORKING · NOT APPROVED.** Documents placed here are hypotheses, alternatives, balance experiments or unresolved discussions. They must not be mistaken for accepted rules or implemented behaviour.
+> **WORKING DESIGN AREA.** Each document states which decisions are agreed, which details remain open, and whether any part has been implemented. Do not treat open design questions as approved gameplay.
 
-There are currently no active brainstorming documents in this folder. The completed V0–V7 fungal experiments and their notebook were moved to the [historical archive](../historical-archive/fungal-redesign/README.md) after V8/V9 became the current design.
+## Current documents
+
+- [Store and progression](store-and-progression.md) — **agreed framework; task roster, prices, and implementation pending**. Covers guided onboarding, family unlocks, Leaf deliveries, Gold, and the shop.
+- [Temporary player Source items](temporary-source-items.md) — **completed and player-tested**. Records the 26-item roster and interactions implemented on `main`.
+
+The completed V0–V7 fungal experiments and their notebook were moved to the [historical archive](../historical-archive/fungal-redesign/README.md) after V8/V9 became the current design.
 
 For future proposals:
 
