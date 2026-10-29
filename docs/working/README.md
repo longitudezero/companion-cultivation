@@ -4,8 +4,10 @@
 
 ## Current documents
 
-- [Store and progression](store-and-progression.md) — **agreed framework; task roster, prices, and implementation pending**. Covers guided onboarding, family unlocks, Leaf deliveries, Gold, and the shop.
+- [Store and progression](store-and-progression.md) — **agreed framework; task roster, prices, and implementation pending**. Covers guided onboarding, family unlocks, Leaf deliveries, Gold, the shop, Taskboard/pinned objectives, and manual simulation controls.
 - [Temporary player Source items](temporary-source-items.md) — **completed and player-tested**. Records the 26-item roster and interactions implemented on `main`.
+
+The approved [Guild setting and task voice](../design/setting-and-task-voice.md) lives in the active design area and guides future tutorial, main-task, and side-task writing. Individual task entries remain to be designed.
 
 The completed V0–V7 fungal experiments and their notebook were moved to the [historical archive](../historical-archive/fungal-redesign/README.md) after V8/V9 became the current design.
 

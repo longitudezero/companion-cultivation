@@ -2,6 +2,8 @@
 
 > **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER PENDING** · 29 October 2026. This document locks the progression and store rules agreed with the project owner. Specific missions, rewards, prices, availability milestones, UI details, and implementation are still to be designed. Do not treat this as an implemented feature.
 
+Narrative direction: [Guild setting and task voice](../design/setting-and-task-voice.md) — the player is the newly hired guild botanist; a supportive, unfiltered instructor and offscreen guild requests give tasks their context. Task descriptions carry the comedy; objective text stays precise.
+
 Related current rules: [V9 transformation recipes](../design/fungi/random-roster-v9.md), [Fungal roster](../design/fungi/random-roster-v8.md), [Seeds, Spores and harvesting](../design/systems/seeds-spores-and-harvesting.md), [Grimoire](../design/systems/cultivation-grimoire.md), [Inventory and staging](../design/systems/spatial-inventory-and-staging.md), and the [completed temporary Source-item phase](temporary-source-items.md).
 
 ## 1. Progression philosophy — agreed
@@ -68,6 +70,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 ## 7. Taskboard and pinned objectives — agreed direction
 
+- **Opening the Taskboard does not automatically pause the simulation.** Players choose when to pause using the manual time controls below.
 - Give players a **large, readable Taskboard** for planning progression, with clear separation between main objectives, smaller/optional tasks, and completed work. It should explain each available task's purpose, requirements, progress, rewards, and appropriately revealed instructions or hints.
 - **Do not disclose hidden Transformation recipes** in ordinary task descriptions. The fully guided first transformation is an intentional exception; later discovery quests use hints rather than exact formulas.
 - Each available task can be **pinned or unpinned** by the player. A small **Objectives** tracker in the **top-right** of ordinary play displays only the pinned tasks, showing a short title and current step or compact progress count. Selecting a pinned objective opens its full Taskboard entry.
@@ -78,18 +81,27 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 **Presentation proposals, not yet locked:** a large Taskboard overlay or journal-style page; Main / Optional / Completed sections; approximately two or three visible pins; and a small collapsible Objectives panel above the existing right-hand Inspector in today's three-column UI. The final position, pin limit, styling, and mobile behavior require visual playtesting.
 
-## 8. Remaining design work
+## 8. Manual simulation controls — agreed
+
+- Provide permanently accessible **Pause, 0.5×, 1×, and 2×** controls. **0.5× means half speed**, not 0.5%.
+- These controls affect the entire time-driven simulation: germination, Plant/Fungus growth and lifecycle timers, Transformations, hazard/death exposure, Mycelial timing, and temporary Source-item lifetimes.
+- Pause stops simulated time. Players can still read menus, plan, and rearrange the garden; direct changes recalculate the current state without advancing biological timers.
+- Neither the full Taskboard nor the compact pinned-objectives tracker automatically pauses the garden or changes the selected speed.
+- The existing clock ratio of five real seconds per garden hour is the **1× baseline**. The agreed Carrot Dry grace is therefore 20 real minutes at 1×; slower/faster play changes the actual waiting time while preserving its 240-garden-hour threshold.
+- See [Simulation timing and event order](../design/systems/simulation-and-time.md) for the approved timing specification. The controls remain **design-only**.
+
+## 9. Remaining design work
 
 The following choices do **not** block beginning to write the task roster; resolve them as the relevant tasks or store screens are specified:
 
-1. **Exact introductory chain:** confirm the first recipe, starter hex/environment configuration, tutorial Spore amounts, and the two follow-up transformations. Verify that each goal is physically achievable with the current V9 recipes and V8 Fungus propagation.
+1. **Exact introductory chain:** finalize tutorial Seed/Spore amounts, steps, rewards, and the two follow-up transformations. The first Beanstalk → Carrot recipe and ordinary starting terrain are already agreed above. Verify that each goal is physically achievable with the current V9 recipes and V8 Fungus propagation.
 2. **Second-family identity and unlock project content:** decide which family is introduced second, then design four genuinely independent family-unlock projects and their starter bundles.
 3. **Task recognition and availability:** whether discoveries made before an objective appears count retroactively, which tasks are parallel versus sequential, and whether small optional jobs repeat.
 4. **Reward and price balance:** amounts of Gold, Seeds and Spores; Leaf sale values; costs of Seeds, Spores, Blockers, hex expansions, and expensive Source items; unlock timing and any availability limits.
 5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
-**Implementation status:** Taskboard, quests, store, and progression remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
+**Implementation status:** Taskboard, quests, store, progression, manual time controls, and guild narrative content remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
 
 ---
 

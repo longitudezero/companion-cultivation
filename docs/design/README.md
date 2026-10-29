@@ -13,6 +13,10 @@ Companion Cultivation is a hex-garden farming game about cultivating Plants for 
 - The [approved plant-name changes](decisions/plant-names.md) rename 26 species without changing their behavior or the six-family, 60-plant roster. Family profiles and the original V9 recipe tables preserve their earlier identifiers for historical traceability; use the mapping for current names.
 - Current topical system and Plant-profile documents below remain applicable where newer accepted decisions do not supersede their first-pass text. In case of conflict, follow the explicitly newer accepted design; do not silently blend competing versions.
 
+## Setting and task writing
+
+- [Guild setting and task voice](setting-and-task-voice.md) — **approved narrative direction, content not yet implemented**. The newly hired guild botanist, supportive instructor, offscreen adventures, and clear objectives with comic descriptions.
+
 ## Systems
 
 - [Environment, Conditions, Sources and Blockers](systems/environment.md)
