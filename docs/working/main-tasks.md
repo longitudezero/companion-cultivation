@@ -1,8 +1,8 @@
 # Main tasks
 
-> **TASK DESIGN · 29 October 2026.** Three opening tasks are recorded below. The guided transformation, Carrot care, and two-transformation challenge are agreed directions. Gold/Spore amounts and the third task's species/title/dialogue are concrete first-pass design choices for review and later balancing. Fields explicitly marked **TBD** or **proposed** remain open. No task is implemented.
+> **TASK DESIGN · 29 October 2026.** Four opening tasks are recorded below. Tasks 3 and 4 have been reviewed in full and accepted, including Task 3's no-retroactive-credit rule and Task 4's harvest-timing warning. Reward values remain subject to later economy playtesting; fields explicitly marked **TBD** or **proposed** remain open. No task is implemented.
 
-**Early reward baseline:** 10 / 15 / 30 Gold for Tasks 1 / 2 / 3; 8 Dewmender Spores from Task 1 and 8 each of Rilllace and Droughtcap from Task 2. **None of these three tasks awards garden hexes or inventory slots.** Shop prices are not yet set, so these amounts are not a finalized economy.
+**Early reward baseline:** 10 / 15 / 30 / 40 Gold for Tasks 1 / 2 / 3 / 4; 8 Dewmender Spores from Task 1, 8 each of Rilllace and Droughtcap from Task 2, and 8 Emberbolete Spores from Task 4. **None of these four tasks awards garden hexes or inventory slots.** Shop prices are not yet set, so these amounts are not a finalized economy.
 
 [Task organization and progression](task-organization.md) defines the fields and shared rules. [Side tasks](side-tasks.md) are maintained separately.
 
@@ -125,7 +125,7 @@ Take these Rilllace and Droughtcap Spores. Your next assignment involves a littl
 **ID:** M-6PT9RX  
 **Order:** 3  
 **Name:** Well, I'm Sure You Can Figure It Out  
-**Status:** Agreed two-transformation challenge with a loose clue for one target and independent experimentation for the other. Potato/Onion targets, dialogue, and 30 Gold are first-pass design choices.  
+**Status:** Agreed design: Potato and Onion, loose guidance for Potato, no recipe clue for Onion, 30 Gold, and no credit for transformations completed before availability. Not implemented.  
 **Prerequisites:** M-8NQ2VC completes; its Rilllace and Droughtcap Spore rewards are available.  
 **Speaker:** Instructor
 
@@ -146,14 +146,14 @@ I'm calling this "independent research" because "I need a tea break" apparently 
 
 **Completion:**
 
-Both actual **Beanstalk → Potato** and **Beanstalk → Onion** transformations have been recorded, once each, in either order. This requires two transformed Plants, not two transformations of the same Beanstalk. Progress is cumulative: the results do not both need to remain alive together, and no Leaves or Plants are delivered/consumed to finish this discovery task. Owning Seeds alone is not proof of transformation.
+Both actual **Beanstalk → Potato** and **Beanstalk → Onion** transformations have been recorded **after this task becomes available**, once each, in either order. This requires two transformed Plants, not two transformations of the same Beanstalk. Progress is cumulative: the results do not both need to remain alive together, and no Leaves or Plants are delivered/consumed to finish this discovery task. Owning Seeds alone is not proof of transformation.
 
-Recognition of discoveries made before this task becomes available remains part of the shared open retroactive-credit decision; it must be settled before implementation.
+**Earlier transformations do not count for this task.** Existing Grimoire discoveries remain recorded, but both qualifying transformation events must occur after task availability. A Beanstalk planted earlier may qualify if its transformation happens after the task unlocks.
 
 **Unlocks:**
 
 - **30 Gold**.
-- Continuation toward the first Leaf-delivery task; that record is still to be designed.
+- **Leaves, Please — M-4HV7LK.**
 - **No new hexes or inventory slots.**
 - No additional Fungus reward assigned at this point.
 
@@ -174,3 +174,73 @@ The kitchen is delighted. Next, we'll discuss harvesting. They have specifically
 - The player-facing text gives Potato a qualitative clue and Onion no recipe clue. Do not expose these designer recipe notes on the Taskboard or pinned tracker.
 - Rice was an earlier discovery candidate, not a locked task. The first-pass pair is now Potato and Onion so Task 2 can introduce **two new Fungi**. Rice remains available for later discovery.
 - Eight Spores of each newly awarded species allow two four-Spore plantings under the current 25%-per-Spore germination rule. Exact economy balance can be revisited once store prices are designed.
+
+## M-4HV7LK
+
+**ID:** M-4HV7LK  
+**Order:** 4  
+**Name:** Leaves, Please  
+**Status:** Agreed design, 29 October 2026, including the harvest-timing warning. Eight Carrot Leaves, 40 Gold, and 8 Emberbolete Spores are the accepted initial balance; playtesting may refine it. Not implemented.  
+**Prerequisites:** Complete **Well, I'm Sure You Can Figure It Out — M-6PT9RX**.  
+**Speaker:** Instructor
+
+**Description:**
+
+The infirmary has requested Carrot Leaves. Apparently, one of our adventurers tried to headbutt a locked door.
+
+The door won.
+
+Let your Carrots grow and check their available harvest in the Inspector. When you're ready, drag a Carrot into your inventory to harvest it. Bring eight Leaves back here.
+
+Don't wait too long, though. Harvest too late and all those lovely Leaves will be gone — you'll be collecting Seeds instead.
+
+The infirmary needs healing ingredients today, not the promise of a Carrot sometime next week.
+
+Harvesting removes the Plant. Yes, including the one you just worked so hard to keep alive.
+
+The circle of life involves considerably more paperwork than you'd expect.
+
+**Objectives:**
+
+1. Grow Carrots and inspect their available Leaf yield.
+2. Harvest enough Carrots to collect **8 Carrot Leaves**.
+3. Open the Taskboard and select **Deliver Leaves**.
+
+**Completion:**
+
+The player explicitly delivers **8 Carrot Leaves** through the Taskboard.
+
+All eight must be available in inventory together. Delivery consumes exactly eight Leaves; any surplus remains in inventory. Multiple harvests may contribute to the delivery.
+
+Leaves already collected before this task became available can be delivered. This task checks the resources handed over, rather than tracking when they were harvested.
+
+**Unlocks:**
+
+- **40 Gold.**
+- **8 Emberbolete Spores.**
+- The next introductory task: discovering **Pumpkin**, still to be designed.
+- **No new hexes or inventory slots.**
+
+**Completion dialogue:**
+
+Eight Leaves. Correct Plant. Correct part of the Plant. You're already doing better than several departments.
+
+Take these Emberbolete Spores. The kitchen wants Pumpkins next.
+
+Do keep an eye on the temperature. "Warm" and "on fire" are different entries on the incident form.
+
+**Design notes:**
+
+- This teaches growth, reading harvest yields, destructive harvesting, explicit Leaf delivery, and choosing harvest timing before the Leaf yield declines away.
+- **Eight Leaves** keeps the first order modest. It does not require a perfect harvest or all eight Leaves from one Plant.
+- **40 Gold and 8 Emberbolete Spores** are the accepted initial rewards, subject to later economy playtesting.
+- The harvest warning describes existing falling ordinary Leaf yield as Seed yield grows. It does not add a new numerical Leaf-to-Seed conversion rule.
+- Emberbolete becomes the player's **fifth Fungus species**, adding another placement demand before the first garden expansion.
+- The next recipe would be:
+
+| Transformation | Required conditions | Required living contact | Continuous exposure |
+| --- | --- | --- | --- |
+| Beanstalk → Pumpkin | Damp, Warm | Emberbolete | 24 garden hours — **2 minutes at 1×** |
+
+- Dewmender can provide moisture. Emberbolete supplies **+2 Temperature**, while Rilllace's **−1 Temperature** can bring the result to Warm. This introduces combining opposing effects.
+- **Next milestone direction:** Task 5 asks for the Pumpkin transformation and rewards **+1 row**, expanding the garden from **4 columns × 4 rows to 4 columns × 5 rows: 20 hexes**. The full Task 5 record still needs to be drafted and reviewed in chat. Playtest that the garden feels cramped before the reward is granted.

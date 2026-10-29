@@ -1,6 +1,6 @@
 # Task organization, store and progression
 
-> **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER IN DEVELOPMENT** · 29 October 2026. This document defines task fields and shared progression/store rules agreed with the project owner. The three opening tasks are recorded separately. Unconfirmed quantities, rewards, prices, milestones, UI details, and implementation remain open. Do not treat this as an implemented feature.
+> **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER IN DEVELOPMENT** · 29 October 2026. This document defines task fields and shared progression/store rules agreed with the project owner. The four opening tasks are recorded separately. Unconfirmed quantities, rewards, prices, milestones, UI details, and implementation remain open. Do not treat this as an implemented feature.
 
 ## Document organization
 
@@ -35,7 +35,7 @@ The [guild setting and task voice](../design/setting-and-task-voice.md) remains 
 - **Order is an editing/sorting tool, not an implicit prerequisite chain.** A task only depends on the prerequisites actually written in its record. This preserves the later four independent family-unlock projects.
 - Sort Order numerically: 5 < 5.1 < 5.2 < 6. Decimal values are not hierarchical labels; **5.10 and 5.1 mean the same number** and must not identify different positions. A value such as 5.05 can be used between 5 and 5.1.
 - Side tasks have **no Order field**. Their prerequisites determine availability; final Taskboard sorting/filtering is a UI detail.
-- The three current main tasks are **M-3KJ45T, Order 1**, **M-8NQ2VC, Order 2**, and **M-6PT9RX, Order 3**. The S-prefixed ID above is only a format example, not an authored side task.
+- The four current main tasks are **M-3KJ45T, Order 1**, **M-8NQ2VC, Order 2**, **M-6PT9RX, Order 3**, and **M-4HV7LK, Order 4**. The S-prefixed ID above is only a format example, not an authored side task.
 
 ### Reusable record template
 
@@ -82,12 +82,13 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 3. **First task: a fully guided transformation.** Show the player how to drag Seeds out of inventory, plant the relevant Fungus so its contact reaches the Plant, and produce/maintain the resolved environmental Conditions required for transformation. The player should understand the relationship between position, Fungus reach, environmental effects, and transformation.
 4. **Immediate follow-up: A Thirsty Carrot.** After the first transformation, gift Dewmender Spores and teach the player to change their new Carrot's Dry soil to Damp so it can grow more comfortably. This is a small care objective, separate from the main discovery challenge.
 5. **Third task: discover two more transformations.** A Thirsty Carrot rewards two new Fungus species. The first-pass choice is **Rilllace and Droughtcap**, enabling **Potato and Onion** with the player's existing Dewmender. Give a loose clue for Potato and the instructor's “Well, I'm sure you can figure it out” for Onion. Do not reveal either full recipe. The player now has four Fungus species to experiment with.
-6. **Following major task: produce and deliver Leaves from a specified Plant.** This introduces growth, harvesting and inventory/resource management. Continue alternating discovery and production objectives.
-7. Progressively remove step-by-step instructions; later tasks identify desired outcomes rather than prescribing every action.
+6. **Fourth task: deliver 8 Carrot Leaves.** Teach growth, Inspector harvest yields, destructive harvesting, and explicit delivery. Warn that harvesting too late leaves the player with Seeds instead of Leaves. The reward is **40 Gold + 8 Emberbolete Spores**, opening the Pumpkin recipe. No expansion is awarded yet.
+7. **Next milestone direction:** use the Pumpkin discovery to increase garden pressure, then reward **+1 row**. The full Task 5 record still needs a chat draft/review and layout playtesting. Continue alternating discovery and production objectives.
+8. Progressively remove step-by-step instructions; later tasks identify desired outcomes rather than prescribing every action.
 
-**Opening task records:** [My First Transformation — M-3KJ45T](main-tasks.md#m-3kj45t), followed immediately by [A Thirsty Carrot — M-8NQ2VC](main-tasks.md#m-8nq2vc), then [Well, I'm Sure You Can Figure It Out — M-6PT9RX](main-tasks.md#m-6pt9rx). These records own the first recipe, care lesson, Spore handoffs, discovery targets, and reward amounts.
+**Opening task records:** [My First Transformation — M-3KJ45T](main-tasks.md#m-3kj45t), followed immediately by [A Thirsty Carrot — M-8NQ2VC](main-tasks.md#m-8nq2vc), then [Well, I'm Sure You Can Figure It Out — M-6PT9RX](main-tasks.md#m-6pt9rx), and [Leaves, Please — M-4HV7LK](main-tasks.md#m-4hv7lk). These records own the first recipe, care lesson, Spore handoffs, discovery targets, and reward amounts.
 
-**First-pass early rewards:** Task 1 grants **10 Gold + 8 Dewmender Spores**, with the Spores available immediately upon transformation; Task 2 grants **15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores**; Task 3 grants **30 Gold**. These are working balance values to test against the future shop economy. **Tasks 1–3 grant no hex or inventory expansion.** The Potato/Onion pair replaces the earlier unfinalized Rice/Potato candidate; Rice can be introduced later. Beanstalk remains the Base Plant.
+**First-pass early rewards:** Task 1 grants **10 Gold + 8 Dewmender Spores**, with the Spores available immediately upon transformation; Task 2 grants **15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores**; Task 3 grants **30 Gold**; Task 4 grants **40 Gold + 8 Emberbolete Spores**. These are working balance values to test against the future shop economy. **Tasks 1–4 grant no hex or inventory expansion.** The Potato/Onion pair replaces the earlier unfinalized Rice/Potato candidate; Rice can be introduced later. Beanstalk remains the Base Plant.
 
 ## 3. Family unlock structure — agreed
 
@@ -103,12 +104,14 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 ### Discovery tasks
 - Complete when the specified transformation or discovery has genuinely been achieved. Use real simulation outcomes and the existing Grimoire/discovery system where appropriate; simply possessing a Seed should not be mistaken for witnessing a transformation.
 - The first guided task may reveal its steps and recipe conditions; subsequent discovery tasks progressively reduce that guidance.
+- **Task 3 counts only transformations performed after it becomes available.** Earlier Grimoire entries remain intact but do not satisfy this task. Recognition policies for other discovery tasks must be stated when those records are designed.
 
 ### Leaf delivery tasks
 - **Deliver means consume.** A task asking for 20 Carrot Leaves requires the player to have and hand over 20 Carrot Leaves; claiming/delivering removes them from inventory.
 - For a multi-species delivery, require the **full stated quantities together** for a single explicit delivery. Do not automatically consume Leaves merely because the player harvested enough. Show whether a task can currently be delivered.
 - Players must be able to choose between selling Leaves for Gold and reserving them for task delivery.
 - Exact quantities and rewards remain balancing decisions when authoring each task.
+- **Task 4 accepts any 8 Carrot Leaves currently held**, including Leaves harvested before the task appeared. Its completion is the explicit resource delivery, not a new-harvest counter.
 
 ## 5. Shop and Gold economy — agreed
 
@@ -119,7 +122,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - Product availability grows with progression. The previously agreed **26 temporary Source items in seven groups** should be unlocked progressively rather than immediately.
 - **Temporary Source items should be relatively expensive** so they function as emergency tools/conveniences rather than replacing the central challenge of combining Fungi. Exact prices and item unlock triggers are not yet decided.
 - Seed/Spore access through the store must support recovery after early mistakes or exhausted supplies; players should not become permanently unable to make progress.
-- Exact per-Leaf sale values, purchase prices, and stock limits (if any) remain open. The main-task records now set first-pass Gold rewards for Tasks 1–3; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
+- Exact per-Leaf sale values, purchase prices, and stock limits (if any) remain open. The main-task records now set initial Gold rewards for Tasks 1–4; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
 - Until the store is implemented, the existing **developer-only Source-item dispenser** remains a testing mechanism, not normal player acquisition.
 
 ## Garden and inventory capacity — agreed 29 October 2026
@@ -134,7 +137,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - A slot continues to hold a stack/identity, not a single Seed, Spore, or Leaf. Existing quantity and item-identity rules remain applicable, including individually tracked temporary Source items.
 - Capacity rewards and starter bundles must be coordinated so new task resources can be accepted. Award capacity before accompanying items when needed, and keep unaccepted rewards available; do not lose resources on a full inventory.
 - These are **progression design changes, not live code changes**. The prototype currently has a fixed **200-slot** inventory. The new starting capacity and upgrade path supersede that fixed grant for the future progression mode; existing-save migration and capacity/pagination UI remain to be designed.
-- **Tasks 1–3 award no new hexes or inventory slots.** Place capacity rewards later as the chain develops; the earlier suggestion of expanding after A Thirsty Carrot is no longer part of this opening.
+- **Tasks 1–4 award no new hexes or inventory slots.** Place capacity rewards later as the chain develops; the earlier suggestion of expanding after A Thirsty Carrot is no longer part of this opening.
 
 ## 6. Inventory cleanup — agreed
 
@@ -167,9 +170,9 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 The following choices do **not** block beginning to write the task roster; resolve them as the relevant tasks or store screens are specified:
 
-1. **Exact introductory chain:** refine the three opening records in [Main tasks](main-tasks.md), playtest the first-pass Gold/Spore amounts and Potato/Onion challenge, finalize starting Seed/Spore quantities, then design the Leaf-delivery task and later capacity rewards. The first Beanstalk → Carrot recipe and ordinary starting terrain are already agreed. Verify that each goal is physically achievable with the current V9 recipes and V8 Fungus propagation.
+1. **Exact introductory chain:** refine/playtest the four opening records in [Main tasks](main-tasks.md), check harvest timing and the initial Gold/Spore amounts, finalize starting Seed/Spore quantities, then draft the Pumpkin task and first row reward. The first Beanstalk → Carrot recipe and ordinary starting terrain are already agreed. Verify that each goal is physically achievable with the current V9 recipes and V8 Fungus propagation.
 2. **Second-family identity and unlock project content:** decide which family is introduced second, then design four genuinely independent family-unlock projects and their starter bundles.
-3. **Task recognition and availability:** whether discoveries made before an objective appears count retroactively, which tasks are parallel versus sequential, and whether small optional jobs repeat.
+3. **Task recognition and availability:** Task 3's lack of retroactive credit and Task 4's acceptance of already-held Leaves are decided. Define recognition for other discovery tasks, which later tasks are parallel versus sequential, and whether small optional jobs repeat.
 4. **Reward and price balance:** amounts of Gold, Seeds and Spores; Leaf sale values; costs of Seeds, Spores, Blockers, hex expansions, 10-slot inventory packs, and expensive Source items; unlock timing and any availability limits.
 5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.

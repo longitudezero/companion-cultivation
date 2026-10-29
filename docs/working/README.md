@@ -5,7 +5,7 @@
 ## Current documents
 
 - [Task organization, store and progression](task-organization.md) — **agreed framework; implementation pending**. Defines M/S IDs, decimal Order, record fields, onboarding, capacity rewards, family unlocks, deliveries, the shop, Taskboard/pins, and time controls.
-- [Main tasks](main-tasks.md) — **three opening task records with first-pass Gold/Spore rewards; playtesting and final balance pending**. My First Transformation, A Thirsty Carrot, and the Potato/Onion discovery challenge. Dialogue stays in each task record.
+- [Main tasks](main-tasks.md) — **four opening task records; implementation and balance playtesting pending**. My First Transformation, A Thirsty Carrot, the Potato/Onion discovery challenge, and Leaves, Please (8 Carrot Leaves). Task 3 has no retroactive transformation credit; Task 4 explains harvest timing and rewards Emberbolete. Dialogue stays in each task record.
 - [Side tasks](side-tasks.md) — **roster not yet authored**. Uses the same record structure without Order.
 - [Temporary player Source items](temporary-source-items.md) — **completed and player-tested**. Records the 26-item roster and interactions implemented on `main`.
 
