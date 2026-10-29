@@ -75,7 +75,7 @@ function waterway(species, heading = 3) {
     garden = setBaseline(garden, keyAt(column, 2), 'Moisture', 'Flooded');
   }
   garden = placeObject(garden, origin, makeFungus(species, heading));
-  garden = placeObject(garden, far, makePlant('Potato'));
+  garden = placeObject(garden, far, makePlant('Beanstalk'));
   return { garden, origin, far };
 }
 
@@ -146,7 +146,7 @@ test('player-selected heading persists in staged Spores, concealed pending, the 
 test('V9 uses named fungal contacts plus resolved hex Conditions, never exact emission values', () => {
   const target = keyAt(4, 3), neighbor = neighborsOf(target)[0];
   let garden = createGarden();
-  garden = placeObject(garden, target, makePlant('Potato'));
+  garden = placeObject(garden, target, makePlant('Beanstalk'));
   garden = placeObject(garden, neighbor, makeFungus('Emberbolete', 3));
   for (const adjacent of neighborsOf(target)) {
     garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Thermal'));

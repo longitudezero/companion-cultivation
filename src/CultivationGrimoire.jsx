@@ -161,7 +161,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     // An undiscovered species must not linger on the page when returning to
     // the player view; the discovery ledger itself is never altered.
     if (developerPreview && current.kind === 'plant' && !plantKnown(ledger, current.species)) {
-      setCurrentKey('plant:Potato');
+      setCurrentKey('plant:Beanstalk');
     }
     setTurn(null);
     setDeveloperPreview(!developerPreview);

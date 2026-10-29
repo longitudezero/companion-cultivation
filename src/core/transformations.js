@@ -23,11 +23,11 @@ export { SPICES_TRANSFORMATIONS } from './spices-transformations.js';
 // Fungus contact. Emission signs, magnitudes, or which source caused the state
 // are never Transformation prerequisites.
 export const TRANSFORMATIONS = Object.freeze({
-  Potato: Object.freeze([
+  Beanstalk: Object.freeze([
     { into: 'Rice', conditions: { Moisture: 'Flooded' }, contacts: [['Dewmender']], hours: 12 },
     { into: 'Carrot', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, contacts: [['Prismorel']], hours: 10 },
     { into: 'Onion', conditions: { Moisture: 'Dry', Temperature: 'Cold' }, contacts: [['Droughtcap']], hours: 14 },
-    { into: 'Apple', conditions: { Moisture: 'Damp', Temperature: 'Cold' }, contacts: [['Rilllace']], hours: 20 },
+    { into: 'Potato', conditions: { Moisture: 'Damp', Temperature: 'Cold' }, contacts: [['Rilllace']], hours: 20 },
     { into: 'Pumpkin', conditions: { Moisture: 'Damp', Temperature: 'Warm' }, contacts: [['Emberbolete']], hours: 24 },
     { into: 'Strawberry', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' }, contacts: [['Rainmorel']], hours: 16 },
   ]),
@@ -121,7 +121,7 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
     // edit-back. Evaluate the transition with the pre-edit hours FIRST, then
     // clear the qualifying clock immediately if the event did not transform.
     const temperature = environment.conditions[key].Temperature;
-    if (plant.species === 'Ember Aloe' && temperature !== 'Hot') {
+    if (plant.species === 'Aloechemist' && temperature !== 'Hot') {
       updated = { ...updated, exposure: { ...plant.exposure, Hot: 0 } };
     } else if (plant.species === 'Moonjade' && temperature !== 'Freezing') {
       updated = { ...updated, exposure: { ...plant.exposure, Freezing: 0 } };

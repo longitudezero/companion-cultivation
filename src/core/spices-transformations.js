@@ -4,40 +4,40 @@ import { emptySequence, matchesConditions, matchesSequencePhase } from './flower
 // Opposite-sign fungal emissions are no longer a special prerequisite.
 const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
 export const SPICES_TRANSFORMATIONS = Object.freeze({
-  Thymely: [
-    route('Sunrice', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' },
+  Thymekeeper: [
+    route('Oreganoir', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' },
       [['Prismorel']], 12),
-    route('Moonrice', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
+    route('Clovely', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
       [['Mistruffle']], 14),
-    route('Shadow Onion', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' },
+    route('Dilly-Dally Dill', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' },
       [['Hushroom']], 16),
   ],
-  Sunrice: [
-    route('Starberry', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
+  Oreganoir: [
+    route('Cinnamancer', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
       [['Prismorel'], ['Emberbolete']], 18),
-    route("Pum'king", { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
+    route("Papriking", { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
       [['Prismorel'], ['Mistruffle']], 24),
   ],
-  Moonrice: [
-    route('Thymekeeper', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' },
+  Clovely: [
+    route('Mighty Mint', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' },
       [['Rilllace', 'Frostfolio']], 18),
-    route('Ghost Rice', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' },
+    route('Saffrune', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' },
       [['Hushroom'], ['Rilllace']], 20),
   ],
-  'Shadow Onion': [route('Dillusion',
+  'Dilly-Dally Dill': [route('Wyrmsalt',
     { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
     [['Rainmorel']], 18)],
-  Starberry: [route('Glass Apple',
+  Cinnamancer: [route('Phantarragon',
     { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
     [['Rushroom'], ['Mistruffle']], 28)],
-  'Ghost Rice': [{
-    into: 'Glass Apple', sequence: 'dark-to-lit', hours: 12,
+  'Saffrune': [{
+    into: 'Phantarragon', sequence: 'dark-to-lit', hours: 12,
     preparation: { conditions: { Moisture: 'Damp', Temperature: ['Temperate', 'Cold'],
       Illumination: 'Dark' }, contacts: [['Hushroom']] },
     completion: { conditions: { Moisture: 'Damp', Temperature: ['Temperate', 'Cold'],
       Illumination: 'Lit' }, contacts: [['Prismorel']], withinHours: 8 },
   }],
-  Dillusion: [route("Pum'king",
+  Wyrmsalt: [route("Papriking",
     { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' },
     [['Rushroom'], ['Hushroom']], 22)],
 });

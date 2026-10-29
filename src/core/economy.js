@@ -9,7 +9,7 @@ import { observeFungalAction, revealPlant } from './grimoire.js';
 // Not approved balance: only the species peak, productive window and maximum
 // Seed yield are approved. Triangular Leaves, linear Seeds, Spore numbers and
 // starting stocks are deliberately replaceable playtest interpolation/tuning.
-export const ECONOMY_TUNING = Object.freeze({ starterPotatoSeeds: 16,
+export const ECONOMY_TUNING = Object.freeze({ starterBeanstalkSeeds: 16,
   fungusSporeYieldAt200: 8, fungusGerminationChance: .25 });
 
 const MOISTURE = ['Dry', 'Damp', 'Flooded'];
@@ -175,7 +175,7 @@ export function availableHarvest(plant, contacts = [], conditions = null) {
     leaves -= exchanged;
     seeds += exchanged * 3;
   }
-  // Mirage Rose produces two separate Seed identities in an equal natural
+  // Everjade produces two separate Seed identities in an equal natural
   // ratio. Round each independent half down so an odd partial total cannot
   // mint an extra Seed or favor either species. The exact odd-remainder rule
   // is prototype rounding, not a change to the approved 1:1 design.

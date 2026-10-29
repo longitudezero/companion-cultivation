@@ -163,7 +163,7 @@ test('dependent Frostfolio retains its three-effect package during habitat-loss 
   garden = step(garden, 24);
   garden = removeObject(garden, origin);
   garden = placeObject(garden, origin, makeFungus('Frostfolio'));
-  garden = placeObject(garden, '3,2', makePlant('Potato'));
+  garden = placeObject(garden, '3,2', makePlant('Beanstalk'));
   const contacts = calculateCultivation(garden)['3,2'];
   assert.deepEqual(contacts.filter(effect => effect.species === 'Frostfolio').map(effect => [effect.kind, effect.amount]),
     [['germination', 6], ['leafPeakTiming', -8], ['seedYield', .35]]);
@@ -183,7 +183,7 @@ test('Ingredients suffer independent Mycelial rate, output and lethal-exposure p
     garden = setBaseline(garden, key, 'Illumination', 'Lit');
   }
   garden = placeObject(garden, origin, makeFungus('Mycelord'));
-  garden = placeObject(garden, '3,2', makePlant('Potato'));
+  garden = placeObject(garden, '3,2', makePlant('Beanstalk'));
   garden = step(garden, 24);
   assert.equal(isMycelial(garden, '3,2'), true);
   assert.equal(garden.objects['3,2'].exposure.Mycelial, 0);

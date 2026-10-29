@@ -37,7 +37,7 @@ test('every developer Plant and Fungus page comes from a complete canonical defi
 });
 
 test('recipe references include named contacts, resolved conditions and multi-step exceptions', () => {
-  const pumpkin = previewPlantRecipes('Potato').find(line => line.includes('Pumpkin'));
+  const pumpkin = previewPlantRecipes('Beanstalk').find(line => line.includes('Pumpkin'));
   assert.match(pumpkin, /Temperature: Warm/);
   assert.match(pumpkin, /Emberbolete/);
   assert.match(pumpkin, /Hold for 2m/);
@@ -58,7 +58,7 @@ test('recipe references include named contacts, resolved conditions and multi-st
   assert.match(starlotus, /Flooded to Damp/);
   assert.match(starlotus, /Rainmorel/);
 
-  const ashenRose = previewPlantRecipes('Ember Aloe').find(line => line.includes('Ashen Rose'));
+  const ashenRose = previewPlantRecipes('Aloechemist').find(line => line.includes('Cactastrophe'));
   assert.match(ashenRose, /under 3m/);
   assert.match(ashenRose, /Rilllace/);
 });

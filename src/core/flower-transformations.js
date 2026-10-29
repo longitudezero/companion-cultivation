@@ -6,29 +6,29 @@ import { calculateCultivation } from './cultivation.js';
 const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
 export const FLOWER_TRANSFORMATIONS = Object.freeze({
   Daisydaze: [
-    route('Charmomile', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel']], 12),
-    route('Lavendream', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Mistruffle']], 20),
-    route('Poppycock', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Emberbolete']], 16),
+    route('Marigloom', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel']], 12),
+    route('Charmomile', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Mistruffle']], 20),
+    route('Lavendream', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Emberbolete']], 16),
+  ],
+  Marigloom: [
+    route('Orchiwitch', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Prismorel']], 12),
+    route('Nightmarigold', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace']], 24),
   ],
   Charmomile: [
-    route('Daisyspell', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Prismorel']], 12),
-    route('Marigloom', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace']], 24),
-  ],
-  Lavendream: [
-    route('Lavendread', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' }, [['Rilllace'], ['Hushroom']], 22),
+    route('Chamomeleon', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' }, [['Rilllace'], ['Hushroom']], 22),
     route('Orchidemon', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Siltgill'], ['Prismorel']], 32),
   ],
-  Daisyspell: [{
+  Orchiwitch: [{
     into: 'Orchidemon', sequence: 'dusk-to-bright', hours: 10,
     preparation: { conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
       contacts: [['Mistruffle']] },
     completion: { conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' },
       contacts: [['Prismorel']], withinHours: 8 },
   }],
-  Lavendread: [route('Dream Poppy', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace', 'Frostfolio']], 20)],
-  Poppycock: [route('Dream Poppy', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom']], 18)],
-  Marigloom: [route('Rosewraith', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace'], ['Mistruffle']], 18)],
-  'Dream Poppy': [route('Rosewraith', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Rushroom'], ['Mistruffle']], 24)],
+  Chamomeleon: [route('Lavendread', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace', 'Frostfolio']], 20)],
+  Lavendream: [route('Lavendread', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom']], 18)],
+  Nightmarigold: [route('Rosewraith', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace'], ['Mistruffle']], 18)],
+  'Lavendread': [route('Rosewraith', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Rushroom'], ['Mistruffle']], 24)],
 });
 
 export const emptySequence = () => ({ phase: 'preparing', preparedHours: 0, windowHours: 0 });

@@ -55,26 +55,26 @@ function arrange(from, recipe, alternative = 0) {
 test('eleven approved Aquatic profiles, fourteen recipes, and their Seed identities exist', () => {
   assert.equal(Object.values(PLANTS).filter(p => p.family === 'Aquatic').length, 11);
   assert.equal(aquaticRecipes.length, 14);
-  assert.equal(PLANTS['Aquatic Base'].germination, .28);
+  assert.equal(PLANTS['Algea'].germination, .28);
   assert.equal(PLANTS.Cresscent.germination, .4);
-  assert.equal(PLANTS.Kelpfull.seedSpecies, 'Aquatic Base');
-  assert.equal(PLANTS.Kelpless.seedSpecies, 'Aquatic Base');
+  assert.equal(PLANTS.Kelpfull.seedSpecies, 'Algea');
+  assert.equal(PLANTS.Kelpless.seedSpecies, 'Algea');
   assert.equal(PLANTS.Starlotus.seedSpecies, null);
   assert.equal(PLANTS.Starlotus.seeds, 0);
   assert.deepEqual(PLANTS.Pearlily.leafPlateau, [100, 115, 170, 185]);
-  assert.equal(createGarden().inventory.seeds['Aquatic Base'], 16);
+  assert.equal(createGarden().inventory.seeds['Algea'], 16);
 });
 
-test('older gardens gain Aquatic Base Seeds once, preserving spent stock', () => {
+test('older gardens gain Algea Seeds once, preserving spent stock', () => {
   const garden = createGarden();
-  delete garden.inventory.seeds['Aquatic Base'];
+  delete garden.inventory.seeds['Algea'];
   const old = structuredClone(garden);
   const migrated = migrateGarden(garden);
   assert.deepEqual(garden, old);
-  assert.equal(migrated.inventory.seeds['Aquatic Base'], 16);
-  migrated.inventory.seeds['Aquatic Base'] = 0;
-  assert.equal(migrateGarden(migrated).inventory.seeds['Aquatic Base'], 0);
-  assert.throws(() => sowPlant(migrated, '0,0', 'Aquatic Base', 1, () => 0),
+  assert.equal(migrated.inventory.seeds['Algea'], 16);
+  migrated.inventory.seeds['Algea'] = 0;
+  assert.equal(migrateGarden(migrated).inventory.seeds['Algea'], 0);
+  assert.throws(() => sowPlant(migrated, '0,0', 'Algea', 1, () => 0),
     /between 1 and 0/, 'spent stock cannot be reused');
 });
 
@@ -94,16 +94,16 @@ test('all 13 ordinary Aquatic routes complete at exact approved hours', () => {
 });
 
 test('named fungal contacts qualify, but arbitrary species and interruption do not', () => {
-  const recipe = TRANSFORMATIONS['Aquatic Base'][0];
-  const alternative = arrange('Aquatic Base', recipe, 1);
+  const recipe = TRANSFORMATIONS['Algea'][0];
+  const alternative = arrange('Algea', recipe, 1);
   assert.equal(namedFungalContacts(alternative, target, calculateEnvironment(alternative)).has('Dewmender'), true);
   assert.equal(advanceGardenTime(alternative, 12).garden.objects[target].species, 'Kelpfull');
-  let garden = advanceGardenTime(arrange('Aquatic Base', recipe), 8).garden;
+  let garden = advanceGardenTime(arrange('Algea', recipe), 8).garden;
   const objects = { ...garden.objects }; delete objects[near[0]];
   garden = reconcileTransformationClocks({ ...garden, objects }, garden);
   assert.equal(garden.objects[target].transformationClocks.Kelpfull, 0);
   garden = reconcileTransformationClocks(placeObject(garden, near[0], makeFungus('Dewmender')), garden);
-  assert.equal(advanceGardenTime(garden, 4).garden.objects[target].species, 'Aquatic Base');
+  assert.equal(advanceGardenTime(garden, 4).garden.objects[target].species, 'Algea');
 });
 
 test('Kelpergeist needs Sim\'mushro\'dim contact on non-Flooded soil, and resets if rewetted', () => {
@@ -229,15 +229,15 @@ test('Silvercress has independent growth and ripening traits; Aqua compatibility
   assert.equal(plantOutputRate('Cresscent', flooded), 1);
 });
 
-test('Aquatic Base sowing and different-species harvest obey Seed identity; Starlotus is sterile', () => {
+test('Algea sowing and different-species harvest obey Seed identity; Starlotus is sterile', () => {
   let garden = createGarden();
-  const result = sowPlant(garden, '0,0', 'Aquatic Base', 4, () => .99);
+  const result = sowPlant(garden, '0,0', 'Algea', 4, () => .99);
   assert.equal(result.success, true);
-  assert.equal(result.garden.inventory.seeds['Aquatic Base'], 12);
+  assert.equal(result.garden.inventory.seeds['Algea'], 12);
   garden = placeObject(garden, '4,4', { ...makePlant('Kelpfull'), progress: 200,
     production: { ordinaryLeaves: 0, ordinarySeeds: 20, hourlyLeaves: 0, hourlySeeds: 0 } });
   const harvested = harvestPlant(garden, '4,4');
-  assert.equal(harvested.inventory.seeds['Aquatic Base'], 36);
+  assert.equal(harvested.inventory.seeds['Algea'], 36);
   const sterile = { ...makePlant('Starlotus', 'Damp'), progress: 150,
     production: { ordinaryLeaves: 25, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 } };
   const other = placeObject(harvested, '4,4', sterile);

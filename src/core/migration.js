@@ -9,12 +9,16 @@ import { stagePlanting } from './staging.js';
 import { migrateGrimoire } from './grimoire.js';
 import { makePlayerSource, validItemId } from './source-items.js';
 import { SOURCE_ITEMS } from './source-item-catalog.js';
+import { renameLegacyPlant, legacyPlantName } from './plant-names.js';
 
-// V6 is a deliberate clean break from the first-pass fungal roster. Rehydrate
-// and sanitize only current-schema gardens; never translate old species IDs
-// into new meanings or mutate the caller's original JSON.
+// V6 used the previous plant labels; V7 freezes the new identities. Translate
+// V6 names once, including reused labels, without mutating the original JSON.
+// Earlier schemas remain incompatible with the V8/V9 fungal roster.
 export function migrateGarden(saved) {
   if (!isGarden(saved)) throw new Error('Unsupported garden file.');
+  const legacy = saved.schemaVersion === 6;
+  const plantName = name => legacy ? renameLegacyPlant(name) : name;
+  const oldPlantName = name => legacy ? legacyPlantName(name) : name;
   const garden = createGarden(saved.columns, saved.rows);
   garden.routeNonce = Number.isInteger(saved.routeNonce) ? saved.routeNonce : 0;
   garden.itemNonce = Number.isSafeInteger(saved.itemNonce) && saved.itemNonce >= 0 ? saved.itemNonce : 0;
@@ -39,8 +43,8 @@ export function migrateGarden(saved) {
     const previousLeaves = saved.inventory.leaves;
     const typedLeaves = previousLeaves && typeof previousLeaves === 'object' && !Array.isArray(previousLeaves)
       ? Object.fromEntries(Object.entries(previousLeaves)
-        .filter(([species]) => PLANTS[species])
-        .map(([species, amount]) => [species, cleanCount(amount)])) : {};
+        .filter(([species]) => PLANTS[plantName(species)])
+        .map(([species, amount]) => [plantName(species), cleanCount(amount)])) : {};
     const oldTotal = cleanCount(previousLeaves);
     const priorLegacy = cleanCount(saved.inventory.legacyLeaves);
     garden.inventory = {
@@ -48,9 +52,9 @@ export function migrateGarden(saved) {
       legacyLeaves: Math.min(Number.MAX_SAFE_INTEGER, priorLegacy + oldTotal),
       // Missing starter slots get the provisional default, without replenishing
       // players who have explicitly spent a stack down to zero.
-      seeds: { Daisydaze: 16, 'Aquatic Base': 16, 'Woodlands Base': 16, Jadeheart: 16, Thymely: 16,
+      seeds: { Daisydaze: 16, 'Algea': 16, 'Moss': 16, Jadeheart: 16, Thymekeeper: 16,
         ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
-        .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
+        .filter(([name]) => PLANTS[plantName(name)]).map(([name, amount]) => [plantName(name), cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
         .filter(([name]) => FUNGI[name]).map(([name, amount]) => [name, cleanCount(amount)])),
       sourceItems: {},
@@ -87,8 +91,9 @@ export function migrateGarden(saved) {
 
   for (const [key, object] of Object.entries(saved.objects)) {
     if (!garden.hexes[key]) continue;
-    if (object?.type === 'plant' && PLANTS[object.species]) {
-      const clean = makePlant(object.species);
+    if (object?.type === 'plant' && PLANTS[plantName(object.species)]) {
+      const species = plantName(object.species);
+      const clean = makePlant(species);
       if (object.species === 'Starlotus' && ['Damp', 'Flooded'].includes(object.attunement)) {
         clean.attunement = object.attunement;
       }
@@ -101,10 +106,10 @@ export function migrateGarden(saved) {
         const value = object.production?.[field];
         clean.production[field] = Number.isFinite(value) && value >= 0 ? value : 0;
       }
-      for (const recipe of TRANSFORMATIONS[object.species] || []) {
+      for (const recipe of TRANSFORMATIONS[species] || []) {
         if (isDesertRecovery(recipe)) continue; // Endurance lives in exposure.Hot/Freezing.
         if (recipe.sequence) {
-          const state = object.transformationSequence?.[recipe.into];
+          const state = object.transformationSequence?.[oldPlantName(recipe.into)];
           const aquatic = recipe.sequence === 'flood-to-damp';
           const woodlands = recipe.sequence === 'mistruffle-departure';
           const validPhases = aquatic ? ['preparing', 'ready'] : woodlands
@@ -123,7 +128,7 @@ export function migrateGarden(saved) {
           };
           continue;
         }
-        const hours = object.transformationClocks?.[recipe.into];
+        const hours = object.transformationClocks?.[oldPlantName(recipe.into)];
         clean.transformationClocks[recipe.into] = Number.isSafeInteger(hours) && hours >= 0
           ? Math.min(hours, recipe.hours - 1) : 0;
       }
@@ -212,21 +217,27 @@ export function migrateGarden(saved) {
         !Number.isSafeInteger(entry.quantity) || entry.quantity < 1 ||
         !Number.isSafeInteger(entry.readyAt) || entry.readyAt < 0 ||
         typeof entry.success !== 'boolean') continue;
-      if ((entry.kind === 'plant' && PLANTS[entry.species]?.germination != null) ||
+      if ((entry.kind === 'plant' && PLANTS[plantName(entry.species)]?.germination != null) ||
         (entry.kind === 'fungus' && FUNGI[entry.species])) {
-        garden.pending[key] = { kind: entry.kind, species: entry.species, quantity: entry.quantity,
+        garden.pending[key] = { kind: entry.kind, species: entry.kind === 'plant' ? plantName(entry.species) : entry.species, quantity: entry.quantity,
           success: entry.success, readyAt: entry.readyAt,
           ...(entry.kind === 'fungus' ? { heading: Number.isInteger(entry.heading)
             && entry.heading >= 0 && entry.heading <= 5 ? entry.heading : 0 } : {}) };
       }
     }
     for (const [key, entry] of Object.entries(saved.staged || {})) {
-      try { garden.staged = stagePlanting(garden, key, entry?.kind, entry?.species,
+      try { garden.staged = stagePlanting(garden, key, entry?.kind,
+        entry?.kind === 'plant' ? plantName(entry.species) : entry?.species,
         entry?.quantity, entry?.heading ?? 0).staged; }
       catch { /* discard invalid or over-reserved proposals; never spend Seeds on import */ }
     }
-    garden.inventorySlots = saved.inventorySlots || {};
+    garden.inventorySlots = Object.fromEntries(Object.entries(saved.inventorySlots || {})
+      .map(([id, slot]) => {
+        if (!legacy || !/^(seed|leaf):/.test(id)) return [id, slot];
+        const separator = id.indexOf(':');
+        return [`${id.slice(0, separator + 1)}${plantName(id.slice(separator + 1))}`, slot];
+      }));
   }
-  garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects);
+  garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects, plantName);
   return ensureInventorySlots(garden);
 }

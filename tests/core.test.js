@@ -373,7 +373,7 @@ test('old garden versions are rejected, and V6 migration preserves Sources, Bloc
   assert.throws(() => migrateGarden({ ...legacy, schemaVersion: 5 }), /Unsupported garden file/);
   // Current-schema data can still be sanitized safely during JSON loading.
   const upgraded = migrateGarden(legacy);
-  assert.equal(upgraded.schemaVersion, 6);
+  assert.equal(upgraded.schemaVersion, 7);
   assert.equal(upgraded.hexes[blocked].baselines.Moisture, 'Flooded');
   assert.equal(upgraded.objects[origin].emissions.length, 1);
   assert.equal(upgraded.objects[origin].emissions[0].name, 'Warming');

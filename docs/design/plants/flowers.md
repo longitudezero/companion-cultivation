@@ -1,5 +1,7 @@
 # Flowers — Plant family design
 
+> **Naming update (29 October 2026):** Seven Flower names changed, with some old names reused for different species. Historical profile wording is preserved; see the [current Plant naming map](../decisions/plant-names.md).
+
 > **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 12. **Source sections preserved:** §29, §30, §31, §32, §73.

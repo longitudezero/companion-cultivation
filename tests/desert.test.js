@@ -56,7 +56,7 @@ function arrangeStatic(from, recipe) {
       }
     }
   }
-  if (recipe.into === 'Mirage Rose') {
+  if (recipe.into === 'Everjade') {
     // The environmental magnitudes need not produce the final Temperature
     // or Illumination; the full named cultivation packages still contact.
     let candidate = garden;
@@ -78,24 +78,24 @@ test('Desert includes eleven exact species profiles and all thirteen approved ro
   assert.equal(recipes.length, 13);
   assert.equal(Object.keys(PLANTS).length, 60);
   assert.equal(PLANTS.Jadeheart.germination, .28);
-  assert.equal(PLANTS['Ember Aloe'].growthDays, 3.5);
-  assert.equal(PLANTS.Aloemancer.seedSpecies, 'Ember Aloe');
-  assert.equal(PLANTS['Ashen Rose'].seedSpecies, 'Jadeheart');
+  assert.equal(PLANTS['Aloechemist'].growthDays, 3.5);
+  assert.equal(PLANTS.Aloemancer.seedSpecies, 'Aloechemist');
+  assert.equal(PLANTS['Cactastrophe'].seedSpecies, 'Jadeheart');
   assert.equal(PLANTS.Jadewisp.seeds, 26);
   assert.equal(PLANTS.Jadewisp.seedSpecies, 'Moonjade');
   assert.equal(PLANTS.Pearadox.germination, .18);
-  assert.equal(PLANTS.Sandrose.dryDeath, Infinity);
+  assert.equal(PLANTS['Prickly Pearl'].dryDeath, Infinity);
   assert.equal(PLANTS.Cactopus.germination, .32);
-  assert.equal(PLANTS.Cactaclysm.seeds, 0);
-  assert.equal(PLANTS.Cactaclysm.seedSpecies, null);
-  assert.deepEqual(PLANTS['Mirage Rose'].seedDistribution, ['Ember Aloe', 'Moonjade']);
+  assert.equal(PLANTS.Cactacomb.seeds, 0);
+  assert.equal(PLANTS.Cactacomb.seedSpecies, null);
+  assert.deepEqual(PLANTS['Everjade'].seedDistribution, ['Aloechemist', 'Moonjade']);
   assert.deepEqual(Object.fromEntries(recipes.map(([from, recipe]) => [`${from} → ${recipe.into}`, recipe.hours])), {
-    'Jadeheart → Ember Aloe': 18, 'Jadeheart → Moonjade': 20, 'Jadeheart → Cactopus': 16,
-    'Ember Aloe → Ashen Rose': 36, 'Ember Aloe → Aloemancer': 36,
-    'Ashen Rose → Sandrose': 12, 'Sandrose → Cactopus': 18,
+    'Jadeheart → Aloechemist': 18, 'Jadeheart → Moonjade': 20, 'Jadeheart → Cactopus': 16,
+    'Aloechemist → Cactastrophe': 36, 'Aloechemist → Aloemancer': 36,
+    'Cactastrophe → Prickly Pearl': 12, 'Prickly Pearl → Cactopus': 18,
     'Moonjade → Jadewisp': 48, 'Moonjade → Pearadox': 48,
-    'Cactopus → Cactaclysm': 24, 'Cactopus → Pearadox': 20,
-    'Aloemancer → Mirage Rose': 24, 'Jadewisp → Mirage Rose': 24,
+    'Cactopus → Cactacomb': 24, 'Cactopus → Pearadox': 20,
+    'Aloemancer → Everjade': 24, 'Jadewisp → Everjade': 24,
   });
 });
 
@@ -129,14 +129,14 @@ test('all nine ordinary Desert transformations complete through live fungal foot
 });
 
 test('ordinary contact is specific, and a generic Source cannot replace a required Fungus', () => {
-  const recipe = TRANSFORMATIONS.Jadeheart.find(r => r.into === 'Ember Aloe');
+  const recipe = TRANSFORMATIONS.Jadeheart.find(r => r.into === 'Aloechemist');
   let garden = arrangeStatic('Jadeheart', recipe);
   const before = garden;
   garden = reconcileTransformationClocks(removeObject(garden, neighbors[0]), before);
-  assert.equal(transformationStatus(garden, key).find(r => r.into === 'Ember Aloe').eligible, false);
+  assert.equal(transformationStatus(garden, key).find(r => r.into === 'Aloechemist').eligible, false);
   garden = reconcileTransformationClocks(placeObject(garden, neighbors[0],
     makeSource([makeInfluence('Warming', 1, 2)])), garden);
-  assert.equal(transformationStatus(garden, key).find(r => r.into === 'Ember Aloe').eligible, false);
+  assert.equal(transformationStatus(garden, key).find(r => r.into === 'Aloechemist').eligible, false);
   garden = advanceGardenTime(garden, 25).garden;
   assert.equal(garden.objects[key].species, 'Jadeheart');
 });
@@ -151,27 +151,27 @@ test('ordinary Desert recipe OR alternatives are real interchangeable contacts',
   }
 });
 
-test('Ember Aloe Hot Growth +30%, natural Leaves +50%, and signed recipient effects are separate', () => {
+test('Aloechemist Hot Growth +30%, natural Leaves +50%, and signed recipient effects are separate', () => {
   const hot = atmosphere('Damp', 'Hot', 'Lit');
   const warm = atmosphere('Damp', 'Warm', 'Lit');
-  const ember = makePlant('Ember Aloe');
+  const ember = makePlant('Aloechemist');
   assert.equal(plantGrowthRates(ember, hot).growth, 1.3);
   assert.equal(plantGrowthRates(ember, hot).ripening, 1);
-  assert.equal(plantOutputRate('Ember Aloe', hot), 1.5);
-  assert.equal(plantOutputRate('Ember Aloe', hot, 'seed'), 1);
-  assert.equal(plantOutputRate('Ember Aloe', warm), 1);
-  assert.equal(effectCompatibility(PLANTS['Ember Aloe'], 'growthRate', hot, -.2), 1.8);
-  assert.equal(effectCompatibility(PLANTS['Ember Aloe'], 'leafYield', hot, .2), 2.3);
-  assert.equal(plantOutputRate('Ember Aloe', { ...hot, Illumination: 'Dark' }), 1.5 * .65);
-  assert.equal(plantOutputRate('Ember Aloe', { ...hot, Illumination: 'Dark' }, 'seed'), 1);
+  assert.equal(plantOutputRate('Aloechemist', hot), 1.5);
+  assert.equal(plantOutputRate('Aloechemist', hot, 'seed'), 1);
+  assert.equal(plantOutputRate('Aloechemist', warm), 1);
+  assert.equal(effectCompatibility(PLANTS['Aloechemist'], 'growthRate', hot, -.2), 1.8);
+  assert.equal(effectCompatibility(PLANTS['Aloechemist'], 'leafYield', hot, .2), 2.3);
+  assert.equal(plantOutputRate('Aloechemist', { ...hot, Illumination: 'Dark' }), 1.5 * .65);
+  assert.equal(plantOutputRate('Aloechemist', { ...hot, Illumination: 'Dark' }, 'seed'), 1);
   assert.ok(Math.abs(plantGrowthRates(ember, hot, [{ kind: 'growthRate', amount: -.2 }]).growth - 1.3 * .64) < 1e-9);
   assert.equal(plantGrowthRates(ember, warm, [{ kind: 'growthRate', amount: -.2 }]).growth, .78);
-  assert.equal(PLANTS['Ember Aloe'].hotDeath, Infinity);
+  assert.equal(PLANTS['Aloechemist'].hotDeath, Infinity);
 });
 
-test('Ember Aloe qualifies early as Ashen Rose, at exactly 36h as Aloemancer, never from cooling alone', () => {
-  for (const [hours, expected] of [[1, 'Ashen Rose'], [35, 'Ashen Rose'], [36, 'Aloemancer'], [40, 'Aloemancer']]) {
-    let garden = start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit'));
+test('Aloechemist qualifies early as Cactastrophe, at exactly 36h as Aloemancer, never from cooling alone', () => {
+  for (const [hours, expected] of [[1, 'Cactastrophe'], [35, 'Cactastrophe'], [36, 'Aloemancer'], [40, 'Aloemancer']]) {
+    let garden = start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit'));
     garden = advanceGardenTime(garden, hours).garden;
     assert.equal(garden.objects[key].exposure.Hot, hours);
     garden = addFungus(garden, 'Rilllace'); // Cooling creates Hot → Warm with contact.
@@ -180,31 +180,31 @@ test('Ember Aloe qualifies early as Ashen Rose, at exactly 36h as Aloemancer, ne
     assert.equal(garden.objects[key].progress, 0);
     assert.equal(garden.objects[key].exposure.Hot, 0);
   }
-  let garden = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let garden = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   garden = edit(garden, 'Temperature', 'Warm');
-  assert.equal(garden.objects[key].species, 'Ember Aloe', 'no fungus means no recovery');
+  assert.equal(garden.objects[key].species, 'Aloechemist', 'no fungus means no recovery');
   garden = advanceGardenTime(garden, 1).garden;
   assert.equal(garden.objects[key].exposure.Hot, 0);
   garden = edit(garden, 'Temperature', 'Hot');
   garden = advanceGardenTime(garden, 1).garden;
   garden = addFungus(garden, 'Rilllace');
-  assert.equal(garden.objects[key].species, 'Ashen Rose', 'the interrupted exposure did not bank 36h');
+  assert.equal(garden.objects[key].species, 'Cactastrophe', 'the interrupted exposure did not bank 36h');
 
-  let alternate = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let alternate = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   alternate = addFungus(alternate, 'Rilllace');
   assert.equal(alternate.objects[key].species, 'Aloemancer', 'the named recovery Fungus works');
 
-  let wrong = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let wrong = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   wrong = edit(wrong, 'Temperature', 'Cold');
   assert.equal(wrong.objects[key].exposure.Hot, 0, 'endurance resets on the edit, without advancing time');
   wrong = addFungus(wrong, 'Rilllace');
-  assert.equal(wrong.objects[key].species, 'Ember Aloe', 'Hot → Cold does not count as Hot → Warm');
+  assert.equal(wrong.objects[key].species, 'Aloechemist', 'Hot → Cold does not count as Hot → Warm');
 
-  let instant = advanceGardenTime(start('Ember Aloe', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let instant = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
   instant = edit(instant, 'Temperature', 'Cold');
   instant = edit(instant, 'Temperature', 'Hot');
   instant = addFungus(instant, 'Rilllace');
-  assert.equal(instant.objects[key].species, 'Ashen Rose', 'zero-time toggles cannot bank old Hot exposure');
+  assert.equal(instant.objects[key].species, 'Cactastrophe', 'zero-time toggles cannot bank old Hot exposure');
 });
 
 test('Moonjade Freezing is indefinitely nonlethal Dormancy, while exposure still accumulates', () => {
@@ -318,10 +318,10 @@ test('Pearadox Hot Leaves and Freezing Seeds apply prospectively; Freezing remai
   assert.equal(availableHarvest(garden.objects[key]).seeds, 27);
 });
 
-test('Cactaclysm is sterile and earns 48 native Leaves in Hot, only 65% in Warm', () => {
-  assert.equal(plantOutputRate('Cactaclysm', atmosphere('Damp', 'Hot', 'Lit')), 1);
-  assert.equal(plantOutputRate('Cactaclysm', atmosphere('Damp', 'Warm', 'Lit')), .65);
-  const cactaclysm = makePlant('Cactaclysm');
+test('Cactacomb is sterile and earns 48 native Leaves in Hot, only 65% in Warm', () => {
+  assert.equal(plantOutputRate('Cactacomb', atmosphere('Damp', 'Hot', 'Lit')), 1);
+  assert.equal(plantOutputRate('Cactacomb', atmosphere('Damp', 'Warm', 'Lit')), .65);
+  const cactaclysm = makePlant('Cactacomb');
   cactaclysm.progress = 130;
   const planted = accruePlantProduction({ ...cactaclysm, progress: 0 }, 130,
     atmosphere('Damp', 'Hot', 'Lit'), [{ kind: 'seedYield', amount: 5 },
@@ -332,46 +332,46 @@ test('Cactaclysm is sterile and earns 48 native Leaves in Hot, only 65% in Warm'
   assert.equal(availableHarvest({ ...cactaclysm, production: planted }).seeds, 0);
 });
 
-test('Mirage Rose creates two equal Seed identities at one consuming harvest with stable rounding', () => {
-  let garden = start('Mirage Rose');
+test('Everjade creates two equal Seed identities at one consuming harvest with stable rounding', () => {
+  let garden = start('Everjade');
   let rose = garden.objects[key];
   rose = { ...rose, progress: 200, production: { ordinaryLeaves: 18,
     ordinarySeeds: 28, hourlyLeaves: 0, hourlySeeds: 0 } };
   garden = { ...garden, objects: { ...garden.objects, [key]: rose } };
   assert.deepEqual(availableHarvest(rose), {
     leaves: 18, seeds: 28, allocation: 0,
-    seedStacks: { 'Ember Aloe': 14, Moonjade: 14 },
+    seedStacks: { 'Aloechemist': 14, Moonjade: 14 },
   });
   let harvested = harvestPlant(garden, key);
-  assert.equal(harvested.inventory.seeds['Ember Aloe'], 14);
+  assert.equal(harvested.inventory.seeds['Aloechemist'], 14);
   assert.equal(harvested.inventory.seeds.Moonjade, 14);
-  assert.equal(harvested.inventory.seeds['Mirage Rose'], undefined);
+  assert.equal(harvested.inventory.seeds['Everjade'], undefined);
   assert.equal(harvested.objects[key], undefined);
   rose = { ...rose, production: { ...rose.production, ordinarySeeds: 27 } };
   const rounded = availableHarvest(rose);
   assert.equal(rounded.seeds, 26);
-  assert.deepEqual(rounded.seedStacks, { 'Ember Aloe': 13, Moonjade: 13 });
+  assert.deepEqual(rounded.seedStacks, { 'Aloechemist': 13, Moonjade: 13 });
   const boosted = availableHarvest({ ...rose, production: { ...rose.production, ordinarySeeds: 40.32 } });
-  assert.deepEqual(boosted.seedStacks, { 'Ember Aloe': 20, Moonjade: 20 });
+  assert.deepEqual(boosted.seedStacks, { 'Aloechemist': 20, Moonjade: 20 });
   harvested = migrateGarden(structuredClone(harvested));
   assert.equal(harvested.inventory.seeds.Moonjade, 14);
 });
 
-test('natural Mirage Rose Ripening accrues 14+14 Seeds, independent of origin', () => {
-  let garden = start('Mirage Rose');
+test('natural Everjade Ripening accrues 14+14 Seeds, independent of origin', () => {
+  let garden = start('Everjade');
   garden = advanceGardenTime(garden, 228).garden;
   assert.equal(garden.objects[key].progress, 200);
   assert.deepEqual(availableHarvest(garden.objects[key]).seedStacks, {
-    'Ember Aloe': 14, Moonjade: 14,
+    'Aloechemist': 14, Moonjade: 14,
   });
-  const profile = PLANTS['Mirage Rose'];
+  const profile = PLANTS['Everjade'];
   assert.equal(effectCompatibility(profile, 'seedYield', atmosphere('Damp', 'Temperate', 'Lit'), .2), 2.2);
-  const native = { ...makePlant('Mirage Rose'), progress: 100 };
+  const native = { ...makePlant('Everjade'), progress: 100 };
   const boosted = accruePlantProduction(native, 200, atmosphere('Damp', 'Temperate', 'Lit'),
     [{ kind: 'seedYield', amount: .2 }]);
   assert.ok(Math.abs(boosted.ordinarySeeds - 40.32) < 1e-8);
   assert.deepEqual(availableHarvest({ ...native, production: boosted }).seedStacks, {
-    'Ember Aloe': 20, Moonjade: 20,
+    'Aloechemist': 20, Moonjade: 20,
   });
 });
 
@@ -379,16 +379,16 @@ test('Desert plant survival and output distinguish Hot, Freezing, Dry, and Mycel
   assert.equal(PLANTS.Jadeheart.hotDeath, 72);
   assert.equal(PLANTS.Jadeheart.freezingDeath, 48);
   assert.equal(PLANTS.Jadeheart.dryDeath, Infinity);
-  assert.equal(PLANTS.Sandrose.hotDeath, Infinity);
-  assert.equal(PLANTS.Sandrose.freezingDeath, 72);
-  assert.equal(PLANTS['Mirage Rose'].mycelialDeath, 48);
+  assert.equal(PLANTS['Prickly Pearl'].hotDeath, Infinity);
+  assert.equal(PLANTS['Prickly Pearl'].freezingDeath, 72);
+  assert.equal(PLANTS['Everjade'].mycelialDeath, 48);
   let garden = start('Jadeheart', atmosphere('Dry', 'Hot', 'Lit'));
   garden = advanceGardenTime(garden, 71).garden;
   assert.equal(garden.objects[key].species, 'Jadeheart');
   const fatal = advanceGardenTime(garden, 1);
   assert.equal(fatal.garden.objects[key], undefined);
   assert.ok(fatal.events.some(event => event.includes('6m of Hot')));
-  garden = start('Sandrose', atmosphere('Dry', 'Hot', 'Lit'));
+  garden = start('Prickly Pearl', atmosphere('Dry', 'Hot', 'Lit'));
   garden = advanceGardenTime(garden, 100).garden;
-  assert.equal(garden.objects[key].species, 'Sandrose');
+  assert.equal(garden.objects[key].species, 'Prickly Pearl');
 });

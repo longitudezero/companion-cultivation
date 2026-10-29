@@ -3,7 +3,7 @@
 const FIELDS = ['growthRate', 'ripeningRate', 'leafYield', 'seedYield', 'germination',
   'harvestWindow', 'leafPeakTiming', 'seedTiming', 'hourlyLeaf', 'hourlySeed', 'allocation'];
 const VALUES = {
-  'Aquatic Base': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  'Algea': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   Kelpfull: [1.3, 1.2, .7, 1.7, 0, .8, 1, 1.3, .6, 1.6, 1.4],
   Kelpergeist: [.9, 1.1, 1.2, .7, .8, 1.1, 1.3, .8, 1.5, .6, .8],
   Kelpless: [.7, .8, .5, .5, 0, .8, 1, .8, .5, .5, .6],
@@ -29,12 +29,12 @@ const aquatic = (name, growthDays, totalDays, germination, leafPeak, leafPeakAt,
 });
 
 export const AQUATIC_PLANTS = Object.freeze({
-  'Aquatic Base': aquatic('Aquatic Base', 4, 8, .28, 10, 100, 10, 'Aquatic Base', [.5, 1, .9], ['Temperate'], 72, 48),
-  Kelpfull: aquatic('Kelpfull', 3, 7, null, 6, 105, 20, 'Aquatic Base', [0, .65, 1], ['Cold', 'Temperate'], 48, 36,
+  'Algea': aquatic('Algea', 4, 8, .28, 10, 100, 10, 'Algea', [.5, 1, .9], ['Temperate'], 72, 48),
+  Kelpfull: aquatic('Kelpfull', 3, 7, null, 6, 105, 20, 'Algea', [0, .65, 1], ['Cold', 'Temperate'], 48, 36,
     { moistureOutput: [.25, .65, 1] }),
   Kelpergeist: aquatic('Kelpergeist', 5, 9, .15, 22, 150, 5, 'Kelpergeist', [0, .6, 1], ['Cold', 'Temperate'], 72, 36,
     { productiveWindow: [137, 162], moistureOutput: [.2, .6, 1], lightOutput: [1, .9, .6, .4] }),
-  Kelpless: aquatic('Kelpless', 5.5, 10, null, 3, 115, 3, 'Aquatic Base', [.4, 1, .85], ['Temperate'], 72, 48),
+  Kelpless: aquatic('Kelpless', 5.5, 10, null, 3, 115, 3, 'Algea', [.4, 1, .85], ['Temperate'], 72, 48),
   'Sunken Lotus': aquatic('Sunken Lotus', 4.5, 8.5, .22, 11, 125, 10, 'Sunken Lotus', [0, .7, 1], ['Temperate'], 48, 48,
     { moistureOutput: [.25, .7, 1] }),
   'Moonlit Lotus': aquatic('Moonlit Lotus', 4, 9, .18, 15, 140, 8, 'Moonlit Lotus', [0, .7, 1], ['Cold', 'Temperate'], 48, 36,

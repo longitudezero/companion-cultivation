@@ -12,4 +12,6 @@ The repository separates **current approved design**, **open proposals**, and **
 
 **Current checkpoint:** Prototype 16 uses the [V8 roster of twelve ordinary Fungi plus Mycelord](design/fungi/random-roster-v8.md) and [V9's 69 named-contact Transformation recipes](design/fungi/random-roster-v9.md). Both are implemented. The source-of-truth design remains distinct from implementation status and from archived first-pass designs.
 
+Plant names were updated without changing species mechanics; use the [current naming map](design/decisions/plant-names.md) to translate older profile and recipe documents.
+
 When a proposed change is accepted, update the relevant active design document and record the superseded version in the historical archive. New, unapproved alternatives belong in `working/` until approved.

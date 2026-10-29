@@ -45,7 +45,7 @@ test('ten approved Flowers profiles and twelve distinct named-contact recipes ar
   assert.equal(Object.values(PLANTS).filter(plant => plant.family === 'Flowers').length, 10);
   assert.equal(flowerRecipes.length, 12);
   assert.equal(PLANTS.Orchidemon.seeds, 0);
-  assert.equal(PLANTS['Dream Poppy'].seedSpecies, 'Poppycock');
+  assert.equal(PLANTS['Lavendread'].seedSpecies, 'Lavendream');
   assert.equal(PLANTS.Rosewraith.leafPeaks.length, 2);
   assert.equal(createGarden().inventory.seeds.Daisydaze, 16);
 });
@@ -86,41 +86,41 @@ test('either accepted named Fungus works, while a similarly signed anonymous Sou
   const recipe = TRANSFORMATIONS.Daisydaze[0];
   for (const name of recipe.contacts[0]) {
     const garden = arrange('Daisydaze', recipe, [name]);
-    assert.equal(transformationStatus(garden, target).find(r => r.into === 'Charmomile').eligible, true);
-    assert.equal(advanceGardenTime(garden, 12).garden.objects[target].species, 'Charmomile');
+    assert.equal(transformationStatus(garden, target).find(r => r.into === 'Marigloom').eligible, true);
+    assert.equal(advanceGardenTime(garden, 12).garden.objects[target].species, 'Marigloom');
   }
   let garden = start();
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = setBaseline(garden, target, 'Temperature', 'Temperate');
   garden = setBaseline(garden, target, 'Illumination', 'Lit');
   garden = placeObject(garden, neighbors[0], makeSource([makeInfluence('Brightening')]));
-  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Charmomile').eligible, false);
+  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Marigloom').eligible, false);
 });
 
 test('conjunctive named contact requires BOTH different species', () => {
-  const recipe = TRANSFORMATIONS.Lavendream.find(r => r.into === 'Orchidemon');
-  let garden = arrange('Lavendream', recipe);
+  const recipe = TRANSFORMATIONS.Charmomile.find(r => r.into === 'Orchidemon');
+  let garden = arrange('Charmomile', recipe);
   const sourceKey = neighbors[1];
   assert.equal(transformationStatus(garden, target).find(r => r.into === 'Orchidemon').eligible, true);
   const objects = { ...garden.objects }; delete objects[sourceKey];
   garden = { ...garden, objects };
   assert.equal(transformationStatus(garden, target).find(r => r.into === 'Orchidemon').eligible, false);
-  assert.equal(advanceGardenTime(garden, 32).garden.objects[target].species, 'Lavendream');
+  assert.equal(advanceGardenTime(garden, 32).garden.objects[target].species, 'Charmomile');
 });
 
 test('cultivation-only named contact qualifies even when its environmental emission is blocked', () => {
-  const recipe = TRANSFORMATIONS.Daisydaze.find(r => r.into === 'Charmomile');
+  const recipe = TRANSFORMATIONS.Daisydaze.find(r => r.into === 'Marigloom');
   let garden = arrange('Daisydaze', recipe);
   for (const neighbor of neighbors) garden = placeEdgeBlocker(garden, target, neighbor, makeBlocker('kind', 'Luminous'));
   garden = setBaseline(garden, target, 'Illumination', 'Lit');
   assert.equal(calculateEnvironment(garden).modifiers[target].Illumination.length, 0);
   assert.ok(calculateCultivation(garden)[target].some(effect => effect.species === 'Prismorel'));
   assert.ok(namedFungalContacts(garden, target, calculateEnvironment(garden)).has('Prismorel'));
-  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Charmomile').eligible, true);
+  assert.equal(transformationStatus(garden, target).find(r => r.into === 'Marigloom').eligible, true);
 });
 
 test('named contact ignores cultivation stage windows, without creating a percentage gate', () => {
-  let garden = start('Charmomile');
+  let garden = start('Marigloom');
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = setBaseline(garden, target, 'Temperature', 'Cold');
   garden = placeObject(garden, neighbors[0], makeFungus('Rilllace', neighborsOf(neighbors[0]).indexOf(target)));
@@ -133,7 +133,7 @@ test('named contact ignores cultivation stage windows, without creating a percen
   assert.equal(garden.objects[target].progress, 0);
   const effect = calculateCultivation(garden)[target].find(item => item.species === 'Rilllace');
   assert.equal(effect.kind, 'seedTiming', 'fungal Seed timing is not yet stage-eligible');
-  assert.equal(transformationStatus(garden, target).find(item => item.into === 'Marigloom').eligible, true);
+  assert.equal(transformationStatus(garden, target).find(item => item.into === 'Nightmarigold').eligible, true);
 });
 
 test('continuous exposure resets on an instantaneous contact interruption', () => {
@@ -142,13 +142,13 @@ test('continuous exposure resets on an instantaneous contact interruption', () =
   const fungalKey = neighbors[0];
   const objects = { ...garden.objects }; delete objects[fungalKey];
   garden = reconcileTransformationClocks({ ...garden, objects }, garden);
-  assert.equal(garden.objects[target].transformationClocks.Lavendream, 0);
+  assert.equal(garden.objects[target].transformationClocks.Charmomile, 0);
   garden = placeObject(garden, fungalKey, makeFungus('Mistruffle'));
   assert.equal(advanceGardenTime(garden, 8).garden.objects[target].species, 'Daisydaze');
 });
 
-function preparedDaisyspell() {
-  let garden = start('Daisyspell');
+function preparedOrchiwitch() {
+  let garden = start('Orchiwitch');
   // A Dimming fungus on its own source hex must not create a nearby Dark
   // extreme that silently pulls Lit back to Dim via environmental adjacency.
   for (const key of Object.keys(garden.hexes)) garden = setBaseline(garden, key, 'Illumination', 'Lit');
@@ -162,8 +162,8 @@ function preparedDaisyspell() {
   return garden;
 }
 
-test('Daisyspell completes its 10-hour Dim preparation then Bright arrival at a zero-time event', () => {
-  let garden = preparedDaisyspell();
+test('Orchiwitch completes its 10-hour Dim preparation then Bright arrival at a zero-time event', () => {
+  let garden = preparedOrchiwitch();
   const before = garden;
   garden = reconcileTransformationClocks(setBaseline(garden, target, 'Illumination', 'Bright'), before);
   assert.equal(calculateEnvironment(garden).conditions[target].Illumination, 'Lit');
@@ -175,24 +175,24 @@ test('Daisyspell completes its 10-hour Dim preparation then Bright arrival at a 
   assert.equal(garden.objects[target].progress, 0);
 });
 
-test('Daisyspell permits Bright completion at eight hours but not nine', () => {
-  let atEight = preparedDaisyspell();
+test('Orchiwitch permits Bright completion at eight hours but not nine', () => {
+  let atEight = preparedOrchiwitch();
   atEight = reconcileTransformationClocks(setBaseline(atEight, target, 'Illumination', 'Bright'), atEight);
   atEight = advanceGardenTime(atEight, 8).garden;
   assert.equal(atEight.objects[target].transformationSequence.Orchidemon.windowHours, 8);
   atEight = reconcileTransformationClocks(placeObject(atEight, neighbors[1], makeFungus('Prismorel')), atEight);
   assert.equal(atEight.objects[target].species, 'Orchidemon');
 
-  let atNine = preparedDaisyspell();
+  let atNine = preparedOrchiwitch();
   atNine = reconcileTransformationClocks(setBaseline(atNine, target, 'Illumination', 'Bright'), atNine);
   atNine = advanceGardenTime(atNine, 9).garden;
   atNine = reconcileTransformationClocks(placeObject(atNine, neighbors[1], makeFungus('Prismorel')), atNine);
-  assert.equal(atNine.objects[target].species, 'Daisyspell');
+  assert.equal(atNine.objects[target].species, 'Orchiwitch');
   assert.equal(atNine.objects[target].transformationSequence.Orchidemon.preparedHours, 0);
 });
 
-test('Daisyspell loses preparation on early departure or completion-phase climate break', () => {
-  let garden = start('Daisyspell');
+test('Orchiwitch loses preparation on early departure or completion-phase climate break', () => {
+  let garden = start('Orchiwitch');
   for (const key of Object.keys(garden.hexes)) garden = setBaseline(garden, key, 'Illumination', 'Lit');
   garden = placeObject(garden, neighbors[0], makeFungus('Mistruffle'));
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
@@ -201,14 +201,14 @@ test('Daisyspell loses preparation on early departure or completion-phase climat
   garden = reconcileTransformationClocks(setBaseline(garden, target, 'Illumination', 'Bright'), garden);
   assert.equal(garden.objects[target].transformationSequence.Orchidemon.preparedHours, 0);
 
-  let armed = preparedDaisyspell();
+  let armed = preparedOrchiwitch();
   armed = reconcileTransformationClocks(setBaseline(armed, target, 'Illumination', 'Bright'), armed);
   armed = reconcileTransformationClocks(setBaseline(armed, target, 'Moisture', 'Dry'), armed);
   assert.equal(armed.objects[target].transformationSequence.Orchidemon.phase, 'preparing');
 });
 
 test('migration and JSON roundtrip preserve prepared and crossing sequences safely', () => {
-  const armed = preparedDaisyspell();
+  const armed = preparedOrchiwitch();
   assert.deepEqual(migrateGarden(structuredClone(armed)).objects[target].transformationSequence,
     armed.objects[target].transformationSequence);
   const crossing = reconcileTransformationClocks(setBaseline(armed, target, 'Illumination', 'Bright'), armed);
@@ -220,19 +220,19 @@ test('migration and JSON roundtrip preserve prepared and crossing sequences safe
 });
 
 test('Flowers produce the specified other-species Seeds rather than same-species substitutes', () => {
-  const garden = start('Lavendread');
+  const garden = start('Chamomeleon');
   const mature = { ...garden, objects: { ...garden.objects,
     [target]: { ...garden.objects[target], progress: 200,
       production: { ordinaryLeaves: 0, ordinarySeeds: 24, hourlyLeaves: 0, hourlySeeds: 0 } } } };
   const harvested = harvestPlant(mature, target);
-  assert.equal(harvested.inventory.seeds.Lavendream, 24);
-  assert.equal(harvested.inventory.seeds.Lavendread, undefined);
+  assert.equal(harvested.inventory.seeds.Charmomile, 24);
+  assert.equal(harvested.inventory.seeds.Chamomeleon, undefined);
   assert.equal(harvested.objects[target], undefined);
 });
 
-test('Daisyspell early bloom, Lavendream plateau and Rosewraith dual peaks are distinct', () => {
+test('Orchiwitch early bloom, Charmomile plateau and Rosewraith dual peaks are distinct', () => {
   const optimum = { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' };
-  const daisy = makePlant('Daisyspell');
+  const daisy = makePlant('Orchiwitch');
   const before = { ...daisy, progress: 75, production: accruePlantProduction(daisy, 75, optimum) };
   assert.ok(availableHarvest(before).leaves >= 23);
   const late = { ...before, progress: 100,
@@ -240,7 +240,7 @@ test('Daisyspell early bloom, Lavendream plateau and Rosewraith dual peaks are d
   assert.equal(availableHarvest(late).leaves, 0);
 
   const dim = { ...optimum, Illumination: 'Dim' };
-  const lave = makePlant('Lavendream');
+  const lave = makePlant('Charmomile');
   const full = { ...lave, progress: 110, production: accruePlantProduction(lave, 110, dim) };
   assert.equal(availableHarvest(full).leaves, 13);
   const plateau = { ...full, progress: 175,
@@ -258,9 +258,9 @@ test('Daisyspell early bloom, Lavendream plateau and Rosewraith dual peaks are d
   assert.equal(availableHarvest(second).leaves, 34);
 });
 
-test('Poppycock has its approved approximate 13 Seeds at 175%; Orchidemon stays sterile', () => {
+test('Lavendream has its approved approximate 13 Seeds at 175%; Orchidemon stays sterile', () => {
   const ideal = { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' };
-  const poppy = makePlant('Poppycock');
+  const poppy = makePlant('Lavendream');
   const bank = accruePlantProduction(poppy, 175, ideal);
   assert.ok(Math.abs(bank.ordinarySeeds - 13) < 1e-8);
   const orchid = makePlant('Orchidemon');

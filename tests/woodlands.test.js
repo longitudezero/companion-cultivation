@@ -14,7 +14,7 @@ const neighbors = neighborsOf(target);
 const woodlandRoutes = Object.entries(TRANSFORMATIONS).flatMap(([from, routes]) =>
   routes.filter(route => PLANTS[from]?.family === 'Woodlands').map(route => ({ from, ...route })));
 
-function start(species = 'Woodlands Base') {
+function start(species = 'Moss') {
   let garden = createGarden(9, 9);
   for (const key of Object.keys(garden.hexes)) garden = setBaseline(garden, key, 'Illumination', 'Dim');
   return placeObject(garden, target, makePlant(species));
@@ -51,9 +51,9 @@ function arrange(species, recipe, alternatives = 0) {
 test('Woodlands has eleven profiles and all thirteen approved transformations', () => {
   assert.equal(Object.values(PLANTS).filter(p => p.family === 'Woodlands').length, 11);
   assert.equal(woodlandRoutes.length, 13);
-  assert.equal(createGarden().inventory.seeds['Woodlands Base'], 16);
-  assert.equal(PLANTS.Bamboom.seedSpecies, 'Woodlands Base');
-  assert.equal(PLANTS.Bamboozeling.seedSpecies, 'Woodlands Base');
+  assert.equal(createGarden().inventory.seeds['Moss'], 16);
+  assert.equal(PLANTS.Bamboom.seedSpecies, 'Moss');
+  assert.equal(PLANTS.Bamboozeling.seedSpecies, 'Moss');
   assert.equal(PLANTS.Mistlewoe.seedSpecies, 'Tanglethorn');
   assert.equal(PLANTS.Mandrakazam.seedSpecies, 'Mandrakadabra');
   assert.equal(PLANTS.Mandrakadabra.germination, .12);
@@ -61,17 +61,17 @@ test('Woodlands has eleven profiles and all thirteen approved transformations', 
   assert.equal(PLANTS.Bamboozled.seeds, 0);
 });
 
-test('new and migrated gardens get Woodlands Base Seeds once without replenishing spent Seeds', () => {
+test('new and migrated gardens get Moss Seeds once without replenishing spent Seeds', () => {
   const original = createGarden();
-  delete original.inventory.seeds['Woodlands Base'];
+  delete original.inventory.seeds['Moss'];
   delete original.inventory.trophies;
   const snapshot = structuredClone(original);
   let garden = migrateGarden(original);
   assert.deepEqual(original, snapshot);
-  assert.equal(garden.inventory.seeds['Woodlands Base'], 16);
+  assert.equal(garden.inventory.seeds['Moss'], 16);
   assert.equal(garden.inventory.trophies.bambooSteel, 0);
-  garden.inventory.seeds['Woodlands Base'] = 0;
-  assert.equal(migrateGarden(garden).inventory.seeds['Woodlands Base'], 0);
+  garden.inventory.seeds['Moss'] = 0;
+  assert.equal(migrateGarden(garden).inventory.seeds['Moss'], 0);
 });
 
 test('all twelve ordinary Woodlands recipes fire at their exact exposure thresholds', () => {

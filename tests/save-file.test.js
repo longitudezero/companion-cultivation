@@ -11,9 +11,9 @@ test('a downloadable save preserves the full live garden, inventory layout, stag
   const B = keyAt(1, 0);
   const C = keyAt(2, 0);
   let garden = ensureInventorySlots(createGarden());
-  garden = moveInventoryStack(garden, 'seed:Potato', 167);
-  garden = placeObject(garden, C, makePlant('Potato'));
-  garden = applyStaging(stagePlanting(garden, A, 'plant', 'Potato', 5), () => 0).garden;
+  garden = moveInventoryStack(garden, 'seed:Beanstalk', 167);
+  garden = placeObject(garden, C, makePlant('Beanstalk'));
+  garden = applyStaging(stagePlanting(garden, A, 'plant', 'Beanstalk', 5), () => 0).garden;
   garden = stagePlanting(garden, B, 'plant', 'Daisydaze', 4);
   garden = advanceGardenTime(garden, 3).garden;
 
@@ -26,9 +26,9 @@ test('a downloadable save preserves the full live garden, inventory layout, stag
   assert.deepEqual(deserializeGameSave(encoded), garden);
 
   const revealed = advanceGardenTime(deserializeGameSave(encoded), 3).garden;
-  assert.equal(revealed.objects[A].species, 'Potato');
+  assert.equal(revealed.objects[A].species, 'Beanstalk');
   assert.equal(revealed.staged[B].quantity, 4);
-  assert.equal(revealed.inventorySlots['seed:Potato'], 167);
+  assert.equal(revealed.inventorySlots['seed:Beanstalk'], 167);
 });
 
 test('developer raw JSON of V6 remains loadable, but old schemas are intentionally incompatible', () => {
@@ -36,7 +36,7 @@ test('developer raw JSON of V6 remains loadable, but old schemas are intentional
   assert.deepEqual(deserializeGameSave(JSON.stringify(garden)).objects,
     deserializeGameSave(serializeGameSave(garden)).objects);
   const old = { ...createGarden(), schemaVersion: 2, inventory: {
-    seeds: { Potato: 12 }, spores: {}, leaves: 19,
+    seeds: { Beanstalk: 12 }, spores: {}, leaves: 19,
   } };
   assert.throws(() => deserializeGameSave(JSON.stringify(old)), /Incompatible garden save/);
 });

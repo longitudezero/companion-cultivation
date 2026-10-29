@@ -1,5 +1,7 @@
 # Ingredients — Plant family design
 
+> **Naming update (29 October 2026):** `Potato` (old Base) is now `Beanstalk`; the former terminal `Apple` is now `Potato`. The roster remains seven species. See the [current Plant naming map](../decisions/plant-names.md) before interpreting the historical profiles.
+
 > **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 6. **Source sections preserved:** §41, §42, §43, §44, §67.

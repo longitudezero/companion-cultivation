@@ -27,8 +27,8 @@ import {
   grantSourceItem, placeSourceItem, moveSourceItem, pickupSourceItem, rotateSourceItem, rotateStagedFungus,
 } from './core/index.js';
 
-// Clean-break second-pass species registry. Older autosaves remain untouched
-// under their original keys and are not silently translated to new identities.
+// Keep the same autosave key: loading upgrades V6 plant names to V7 once,
+// preserving existing gardens before the first V7 autosave is written.
 const STORAGE_KEY = 'companion-cultivation:sandbox:v6';
 const titleCase = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 function initialGarden() {
@@ -75,7 +75,7 @@ export default function App() {
   const [dragGhost, setDragGhost] = useState(null);
   const dragRef = useRef(null);
   const [showDeveloperTools, setShowDeveloperTools] = useState(false);
-  const [plantSpecies, setPlantSpecies] = useState('Potato');
+  const [plantSpecies, setPlantSpecies] = useState('Beanstalk');
   const [fungusSpecies, setFungusSpecies] = useState('Dewmender');
   const [grantItemType, setGrantItemType] = useState('ember-pebble');
   const [selection, setSelection] = useState({ type: 'hex', key: keyAt(3, 3) });
@@ -609,7 +609,7 @@ export default function App() {
       <p>Arrange the four 50-square inventory pages, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply planting decisions</strong>. Attempts are consumed together and their results stay hidden for about <strong>{formatRealDuration(STAGING_TUNING.germinationRevealHours)}</strong>. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. The garden runs at a fixed rate of one game hour every five real seconds while this page is open; displayed durations are real-time equivalents at that pace.</p>
       <p>Your garden autosaves in this browser. Use <strong>Save Game</strong> to download a portable .ccsave backup, and <strong>Load Game</strong> to restore it here or on another device. Loading replaces your current browser save after confirmation; staged placements and hidden germination timers are included. Browser-closed progression is not implemented yet.</p>
       <div className="guide-grid">
-        <div><b>01 · Start any family</b><p>Six base Plants have available Seeds: Potato, Daisydaze, Aquatic Base, Woodlands Base, Jadeheart and Thymely. Experiment to discover other Plants.</p></div>
+        <div><b>01 · Start any family</b><p>Six base Plants have available Seeds: Beanstalk, Daisydaze, Algea, Moss, Jadeheart and Thymekeeper. Experiment to discover other Plants.</p></div>
         <div><b>02 · Observe your garden</b><p>Moisture, Temperature and Illumination change around Sources, Fungi and Blockers. Test conditions and watch your Plants grow.</p></div>
         <div><b>03 · Cultivation Grimoire</b><p>Open the Grimoire from the top bar. All Fungi and the six base Plants are identified from the start. Observed conditions and interactions fill the pages permanently in this garden.</p></div>
         <div><b>04 · Discover transformations</b><p>Different environments and Fungi can change a Plant into a new species. Successfully witnessed recipes are recorded, but untried alternatives stay hidden.</p></div>
@@ -635,15 +635,15 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, d
       {object.species === 'Mandrakadabra' && <p>Bright vulnerability: <strong>{formatRealDuration(object.exposure?.Bright || 0)} / {formatRealDuration(4)}</strong> of continuous resolved Bright is lethal. Lit is safest for Leaf farming.</p>}
       {object.species === 'Bramblewraith' && <p>Resilient specialist: Hot, Freezing and Mycelial reduce development/output but never directly kill it.</p>}
       {object.species === 'Bamboozled' && <p>{object.progress >= 100 ? '◆ Bamboo Steel trophy ready. Harvest for one trophy and zero Leaves/Seeds.' : 'Bamboo Steel trophy unlocks at 100% Growth. Ordinary Leaves and Seeds always stay zero.'}</p>}
-      {object.species === 'Ember Aloe' && <p>Heat endurance: <strong>{formatRealDuration(object.exposure?.Hot || 0)} of continuous Hot</strong>. A qualifying Hot → Warm event with Rilllace contact gives Ashen Rose before {formatRealDuration(36)}, or Aloemancer at {formatRealDuration(36)} or later. It does not happen from cooling alone.</p>}
+      {object.species === 'Aloechemist' && <p>Heat endurance: <strong>{formatRealDuration(object.exposure?.Hot || 0)} of continuous Hot</strong>. A qualifying Hot → Warm event with Rilllace contact gives Cactastrophe before {formatRealDuration(36)}, or Aloemancer at {formatRealDuration(36)} or later. It does not happen from cooling alone.</p>}
       {object.species === 'Moonjade' && <p>{conditions.Temperature === 'Freezing' ? 'Dormant: 0 progression and no new output.' : 'Active: progression resumes outside Freezing.'} Freezing endurance: <strong>{formatRealDuration(object.exposure?.Freezing || 0)} / {formatRealDuration(48)}</strong>. A qualified Freezing → Cold thaw can yield Jadewisp or Pearadox.</p>}
       {object.species === 'Pearadox' && <p>Hot: +70% natural Leaves. Freezing: 75% lifecycle rate and +80% natural Seeds; neither extreme is lethal by itself.</p>}
-      {object.species === 'Cactaclysm' && <p>Sterile Leaf specialist: 48 natural Leaves near 140% in Hot; Warm reduces its natural Leaf yield to 65% of the Hot peak.</p>}
-      {(object.species === 'Sunrice' || object.species === 'Starberry' || object.species === 'Glass Apple') && <p>Bright-field crop: resolved Bright gives its best natural Leaf yield. {object.species === 'Glass Apple' ? 'Its Seeds grow Starberry, not Glass Apple.' : object.species === 'Starberry' ? 'Its Seeds grow Sunrice; Glass Apple can produce Starberry Seeds.' : 'Thymekeeper can also supply its Sunrice Seeds from Dim fields.'}</p>}
-      {(object.species === 'Moonrice' || object.species === 'Thymekeeper') && <p>Dim-field Seed specialist. {object.species === 'Thymekeeper' ? 'Its harvest makes 28 Sunrice Seeds at full optimal maturity, not Thymekeeper Seeds.' : 'Its own 20 Moonrice Seeds sustain planting in Dim fields.'}</p>}
-      {object.species === 'Ghost Rice' && <p>Dark-field Leaf specialist producing Moonrice Seeds. For Glass Apple, prepare Dark / Damp / Temperate-or-Cold with Hushroom contact for {formatRealDuration(12)}; then leave Dark and reach Lit within {formatRealDuration(8)} with Prismorel contact.</p>}
-      {object.species === 'Dillusion' && <p>Dim and Lit are equally productive. Its Pum'king route needs final Damp / Warm / Lit and actual Rushroom plus Hushroom contact; either Fungus may reach through cultivation or environment.</p>}
-      {object.species === "Pum'king" && <p>Sterile Lit specialist: up to 46 natural Leaves around 145%; Bright halves native output. The required named contacts do not need to cause the resolved Lit state.</p>}
+      {object.species === 'Cactacomb' && <p>Sterile Leaf specialist: 48 natural Leaves near 140% in Hot; Warm reduces its natural Leaf yield to 65% of the Hot peak.</p>}
+      {(object.species === 'Oreganoir' || object.species === 'Cinnamancer' || object.species === 'Phantarragon') && <p>Bright-field crop: resolved Bright gives its best natural Leaf yield. {object.species === 'Phantarragon' ? 'Its Seeds grow Cinnamancer, not Phantarragon.' : object.species === 'Cinnamancer' ? 'Its Seeds grow Oreganoir; Phantarragon can produce Cinnamancer Seeds.' : 'Mighty Mint can also supply its Oreganoir Seeds from Dim fields.'}</p>}
+      {(object.species === 'Clovely' || object.species === 'Mighty Mint') && <p>Dim-field Seed specialist. {object.species === 'Mighty Mint' ? 'Its harvest makes 28 Oreganoir Seeds at full optimal maturity, not Mighty Mint Seeds.' : 'Its own 20 Clovely Seeds sustain planting in Dim fields.'}</p>}
+      {object.species === 'Saffrune' && <p>Dark-field Leaf specialist producing Clovely Seeds. For Phantarragon, prepare Dark / Damp / Temperate-or-Cold with Hushroom contact for {formatRealDuration(12)}; then leave Dark and reach Lit within {formatRealDuration(8)} with Prismorel contact.</p>}
+      {object.species === 'Wyrmsalt' && <p>Dim and Lit are equally productive. Its Papriking route needs final Damp / Warm / Lit and actual Rushroom plus Hushroom contact; either Fungus may reach through cultivation or environment.</p>}
+      {object.species === "Papriking" && <p>Sterile Lit specialist: up to 46 natural Leaves around 145%; Bright halves native output. The required named contacts do not need to cause the resolved Lit state.</p>}
       <div className="mini-heading">HAZARD EXPOSURE</div>
       <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {formatRealDuration(object.exposure?.[hazard] || 0)} / {Number.isFinite(definition[`${hazard.toLowerCase()}Death`]) ? formatRealDuration(definition[`${hazard.toLowerCase()}Death`]) : 'nonlethal'}</span>)}</div>
       {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>

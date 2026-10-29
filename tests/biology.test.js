@@ -7,13 +7,13 @@ import {
   neighborsOf,
 } from '../src/core/index.js';
 
-const plantAt = (species = 'Potato', at = '2,2') => placeObject(createGarden(7, 7), at, makePlant(species));
+const plantAt = (species = 'Beanstalk', at = '2,2') => placeObject(createGarden(7, 7), at, makePlant(species));
 
 test('playable biology catalogue has six Plant families (60 species) and the V8 12-Fungus roster', () => {
   assert.equal(Object.keys(PLANTS).length, 60);
   assert.equal(Object.keys(FUNGI).length, 13); // twelve ordinary Fungi plus Mycelord
-  assert.equal(PLANTS.Potato.compatibility.growthRate, 1);
-  assert.equal(PLANTS.Potato.compatibility.allocation, 1);
+  assert.equal(PLANTS.Beanstalk.compatibility.growthRate, 1);
+  assert.equal(PLANTS.Beanstalk.compatibility.allocation, 1);
   assert.equal(PLANTS.Rice.compatibility.hourlySeed, 2.1);
   assert.equal(PLANTS.Strawberry.freezingDeath, 36);
   assert.equal(FUNGI.Rushroom.habitat, 'dependent');
@@ -24,7 +24,7 @@ test('playable biology catalogue has six Plant families (60 species) and the V8 
 });
 
 test('one object occupies a hex and a new Fungus emits immediately', () => {
-  let garden = plantAt('Potato');
+  let garden = plantAt('Beanstalk');
   assert.throws(() => placeObject(garden, '2,2', makeFungus('Dewmender')), /already contains/);
   garden = placeObject(garden, '3,2', makeFungus('Dewmender'));
   const state = calculateEnvironment(garden);
@@ -33,13 +33,13 @@ test('one object occupies a hex and a new Fungus emits immediately', () => {
 });
 
 test('approved Plant duration and combined habitat rates drive real hourly progress', () => {
-  let garden = plantAt('Potato');
+  let garden = plantAt('Beanstalk');
   // Surrounding Dark hexes would otherwise dim a Lit target by adjacency.
   for (const key of Object.keys(garden.hexes)) {
     garden = setBaseline(garden, key, 'Moisture', 'Damp');
     garden = setBaseline(garden, key, 'Illumination', 'Lit');
   }
-  assert.equal(plantEnvironmentRate('Potato', calculateEnvironment(garden).conditions['2,2']), 1);
+  assert.equal(plantEnvironmentRate('Beanstalk', calculateEnvironment(garden).conditions['2,2']), 1);
   const first = advanceGardenTime(garden, 24);
   assert.ok(Math.abs(first.garden.objects['2,2'].progress - 25) < 1e-9);
   const finish = advanceGardenTime(first.garden, 24 * 7);
@@ -49,7 +49,7 @@ test('approved Plant duration and combined habitat rates drive real hourly progr
 });
 
 test('unfavorable light and moisture reduce growth, without an invented stall', () => {
-  const garden = plantAt('Potato');
+  const garden = plantAt('Beanstalk');
   const next = advanceGardenTime(garden, 1).garden.objects['2,2'];
   const expected = 100 / (4 * 24) * .65 * .75;
   assert.ok(Math.abs(next.progress - expected) < 1e-9);

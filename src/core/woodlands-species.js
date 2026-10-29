@@ -3,7 +3,7 @@
 const FIELDS = ['growthRate', 'ripeningRate', 'leafYield', 'seedYield', 'germination',
   'harvestWindow', 'leafPeakTiming', 'seedTiming', 'hourlyLeaf', 'hourlySeed', 'allocation'];
 const VALUES = {
-  'Woodlands Base': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  'Moss': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   Bamboom: [1.3, 1.3, .8, 2, 0, .8, 1, 1.2, .6, 1.5, 1.4],
   Bamboozeling: [1, 1, .8, .7, 0, 1, 1, 1, .7, .7, .8],
   Bamboozled: [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -29,11 +29,11 @@ const woodlands = (name, growthDays, totalDays, germination, leafPeak, leafPeakA
 });
 
 export const WOODLANDS_PLANTS = Object.freeze({
-  'Woodlands Base': woodlands('Woodlands Base', 4, 8, .28, 10, 100, 10, 'Woodlands Base',
+  'Moss': woodlands('Moss', 4, 8, .28, 10, 100, 10, 'Moss',
     { productiveWindow: [80, 135] }),
-  Bamboom: woodlands('Bamboom', 3, 6.5, null, 6, 105, 18, 'Woodlands Base',
+  Bamboom: woodlands('Bamboom', 3, 6.5, null, 6, 105, 18, 'Moss',
     { preferredTemperature: ['Temperate', 'Warm'] }),
-  Bamboozeling: woodlands('Bamboozeling', 3.5, 7.5, null, 4, 110, 7, 'Woodlands Base'),
+  Bamboozeling: woodlands('Bamboozeling', 3.5, 7.5, null, 4, 110, 7, 'Moss'),
   Bamboozled: woodlands('Bamboozled', 4, 8, null, 0, 110, 0, null),
   Tanglethorn: woodlands('Tanglethorn', 4, 8, .23, 11, 125, 9, 'Tanglethorn'),
   Mistlefoe: woodlands('Mistlefoe', 4, 8.5, .20, 14, 135, 7, 'Mistlefoe',
