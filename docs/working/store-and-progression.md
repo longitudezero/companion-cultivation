@@ -66,7 +66,19 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - Add a way to **discard unwanted inventory contents** without selling them. This is distinct from selling Leaves for Gold.
 - Discarding is permanent and should give explicit confirmation for meaningful losses. The final controls and stack-quantity interaction are UI design details.
 
-## 7. Remaining design work
+## 7. Taskboard and pinned objectives — agreed direction
+
+- Give players a **large, readable Taskboard** for planning progression, with clear separation between main objectives, smaller/optional tasks, and completed work. It should explain each available task's purpose, requirements, progress, rewards, and appropriately revealed instructions or hints.
+- **Do not disclose hidden Transformation recipes** in ordinary task descriptions. The fully guided first transformation is an intentional exception; later discovery quests use hints rather than exact formulas.
+- Each available task can be **pinned or unpinned** by the player. A small **Objectives** tracker in the **top-right** of ordinary play displays only the pinned tasks, showing a short title and current step or compact progress count. Selecting a pinned objective opens its full Taskboard entry.
+- **The full board and the compact tracker have distinct roles:** the board is for explanation, rewards, claiming and Leaf delivery; the tracker is for at-a-glance awareness during gardening. Pinning does not activate or gate task progress.
+- Introduce the first tutorial task already pinned, so the player immediately knows what to do. Later tasks can be pinned or unpinned according to player preference.
+- For Leaf deliveries, the tracker may show that the player has enough resources, but **submission remains an explicit action on the Taskboard** and consumes the required Leaves only when confirmed.
+- Keep pins, task states, discovery history and deliveries persistent across saves. The interface must protect the playable hex grid and work on smaller screens.
+
+**Presentation proposals, not yet locked:** a large Taskboard overlay or journal-style page; Main / Optional / Completed sections; approximately two or three visible pins; and a small collapsible Objectives panel above the existing right-hand Inspector in today's three-column UI. The final position, pin limit, styling, and mobile behavior require visual playtesting.
+
+## 8. Remaining design work
 
 The following choices do **not** block beginning to write the task roster; resolve them as the relevant tasks or store screens are specified:
 
@@ -74,10 +86,10 @@ The following choices do **not** block beginning to write the task roster; resol
 2. **Second-family identity and unlock project content:** decide which family is introduced second, then design four genuinely independent family-unlock projects and their starter bundles.
 3. **Task recognition and availability:** whether discoveries made before an objective appears count retroactively, which tasks are parallel versus sequential, and whether small optional jobs repeat.
 4. **Reward and price balance:** amounts of Gold, Seeds and Spores; Leaf sale values; costs of Seeds, Spores, Blockers, hex expansions, and expensive Source items; unlock timing and any availability limits.
-5. **Player UX and persistence:** task tracker, hints, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
+5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
-**Implementation status:** design discussion only. Existing game mechanics and the completed temporary Source-item phase remain unchanged.
+**Implementation status:** Taskboard, quests, store, and progression remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
 
 ---
 
