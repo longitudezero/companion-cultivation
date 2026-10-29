@@ -25,7 +25,7 @@ export { SPICES_TRANSFORMATIONS } from './spices-transformations.js';
 export const TRANSFORMATIONS = Object.freeze({
   Beanstalk: Object.freeze([
     { into: 'Rice', conditions: { Moisture: 'Flooded' }, contacts: [['Dewmender']], hours: 12 },
-    { into: 'Carrot', conditions: { Moisture: 'Dry', Temperature: 'Temperate', Illumination: 'Dim' }, contacts: [['Prismorel']], hours: 10 },
+    { into: 'Carrot', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, contacts: [['Prismorel']], hours: 10 },
     { into: 'Onion', conditions: { Moisture: 'Dry', Temperature: 'Cold' }, contacts: [['Droughtcap']], hours: 14 },
     { into: 'Potato', conditions: { Moisture: 'Damp', Temperature: 'Cold' }, contacts: [['Rilllace']], hours: 20 },
     { into: 'Pumpkin', conditions: { Moisture: 'Damp', Temperature: 'Warm' }, contacts: [['Emberbolete']], hours: 24 },
@@ -52,6 +52,7 @@ export function matchesTransformation(garden, key, recipe, environment, cultivat
   if (recipe.sequence) return false; // stateful event sequence, not a static match
   const conditions = environment.conditions[key];
   if (!matchesConditions(conditions, recipe.conditions)) return false;
+  if (recipe.environmentalOnly) return true;
   return Boolean(recipe.contacts?.length) && matchesNamedGroups(recipe.contacts,
     namedFungalContacts(garden, key, environment,
       cultivation || calculateCultivation(garden, environment)));
