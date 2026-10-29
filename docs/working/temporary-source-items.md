@@ -1,6 +1,6 @@
 # Temporary player Source items — working design
 
-> **WORKING · AGREED FIRST PLAYABLE PASS** · 29 October 2026. This document records decisions explicitly agreed with the project owner and the accepted first-pass item catalog. It has not yet been promoted into the ACTIVE design specifications. The store and unlock triggers remain deferred.
+> **COMPLETE · IMPLEMENTED AND PLAYER-TESTED** · 29 October 2026. The first-playable Source-item phase is merged into `main` ([PR #26](https://github.com/longitudezero/companion-cultivation/pull/26)) and deployed on GitHub Pages. The project owner confirmed that dragging items to/from inventory and dragging to rotate work in the live game. This document preserves the agreed first-pass catalog and behavior; the store and progression/unlock design form a separate next phase.
 
 Related active rules: [Environment](../design/systems/environment.md), [Simulation and time](../design/systems/simulation-and-time.md), [Spatial inventory and staging](../design/systems/spatial-inventory-and-staging.md), and [Developer tools](../developer-tools.md).
 
@@ -134,15 +134,14 @@ Complete the negative Budget options and add one exceptional moisture Source.
 
 **Cumulative access by group:** 3 → 7 → 11 → 15 → 19 → 23 → **26 items**.
 
-## 5. Explicitly open for later design
+## 5. Next-phase work (not part of this completed implementation)
 
 - **Store and unlock mechanics:** what triggers each group's availability; item prices, currencies, acquisition, starting stock, and purchasing UI.
 - **Presentation refinements:** final visual assets, animation, rotation-handle styling, mobile accessibility, and detailed feedback wording.
-- **Persistence implementation:** exact state schema/version changes, migration and validation, item-instance identifiers, and ensuring old developer Source behavior remains intact. The current V6 migration reconstructs Sources and would not preserve new item metadata without changes.
-- **Event-edge behavior and testing:** precise processing at the expiry hour, simultaneous environmental transitions, move/rotate interactions during simulation ticks, and any needed balancing after playtests.
+- **Further playtesting and balance:** refine item values, expiry timing at unusual simulation boundaries, simultaneous environmental transitions, and input/accessibility details as issues are observed.
 - **Source variants:** whether future player items may use Anchored Sources, Waterborne emissions, or other properties. The first roster uses ordinary Airborne Range or directional Spread Budget and no anchors.
 
-This document authorizes the agreed first-playable Source-item and staged-Fungus rotation implementation, not a store, automatic group unlocks, or final numerical balance. Preserve existing developer Source semantics and compatibility with existing gardens.
+**First-playable Source items and staged-Fungus rotation are complete.** Preserve existing developer Source semantics and compatibility with existing gardens. This completion does **not** approve a store, automatic group unlocks, or final numerical balance.
 
 ---
 
