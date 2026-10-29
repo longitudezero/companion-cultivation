@@ -1,5 +1,11 @@
 # Companion Cultivation — implementation status
 
+## Temporary Source items — first playable implementation (29 October 2026)
+
+The [working item design](working/temporary-source-items.md) now has a first runtime pass: 26 named catalog entries in seven groups; developer-only item dispenser; individual non-stacking, independently timed Source items in the 200-square inventory; direct item placement, relocation and pickup; active-only countdown and permanent expiry; Range or directional Budget effects through the existing environmental engine. Placing items frees inventory slots. Picking up while the inventory is full is safely refused. Selected Budget items use a floating drag-to-rotate six-way handle. Staged Fungi with environmental or cultivation Budget propagation use the same handle until Apply, after which their heading is fixed in ordinary play.
+
+V6 garden and portable save handling now preserves individually identified item instances, placements, headings and remaining time; existing V6 saves without items continue to load. Developer Sources stay configurable and untimed. Store purchases and actual unlock triggers remain deferred, and balance and visual presentation are still first-pass. Automated validation: **213/213 Node tests**, plus frontend, CommonJS and load smoke builds/tests via `npm run check`. Manual browser interaction testing is still worthwhile.
+
 ## Prototype 16 — V8/V9 fungal implementation (28 October 2026)
 
 **Implemented on `main` and available in the live game.** Initial manual inspection of the redesigned Fungi has been positive; the user has not yet completed time-intensive Transformation playtests. This current checkpoint supersedes the historical Prototype 15 details below wherever species counts, Transformation requirements or save compatibility differ.

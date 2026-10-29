@@ -1,5 +1,5 @@
 import React from 'react';
-import { neighborsOf, edgeKey, offsetOf, isMycelial } from './core/index.js';
+import { neighborsOf, edgeKey, offsetOf, isMycelial, isPlayerSource, SOURCE_ITEMS, FUNGI } from './core/index.js';
 
 const SIZE = 33;
 const DX = Math.sqrt(3) * SIZE;
@@ -36,11 +36,21 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick, onStartHexDrag }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading }) {
   const keys = Object.keys(garden.hexes);
   const width = 130 + (garden.columns - 1 + 0.5) * DX;
   const height = 118 + (garden.rows - 1) * Y_STEP;
   const selectedSource = selection.type === 'hex' && ['source', 'fungus'].includes(garden.objects[selection.key]?.type) ? selection.key : null;
+  const selectedKey = selection.type === 'hex' ? selection.key : null;
+  const selectedObject = garden.objects[selectedKey];
+  const selectedStaged = garden.staged?.[selectedKey];
+  const fungusProfile = selectedStaged?.kind === 'fungus' ? FUNGI[selectedStaged.species] : null;
+  const rotatingItem = isPlayerSource(selectedObject) && SOURCE_ITEMS[selectedObject.catalogId]?.propagation === 'spread-budget';
+  const rotatingFungus = selectedStaged?.kind === 'fungus' && (fungusProfile?.environment?.propagation === 'spread-budget'
+    || fungusProfile?.cultivation?.propagation === 'spread-budget');
+  const rotator = selectedKey && (rotatingItem || rotatingFungus)
+    ? { key: selectedKey, kind: rotatingItem ? 'item' : 'staged', heading: rotatingItem ? selectedObject.heading : selectedStaged.heading }
+    : null;
   const highlighted = new Set();
   if (selectedSource) {
     garden.objects[selectedSource].emissions.forEach((_, i) => {
@@ -63,6 +73,44 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
     }
   }
 
+  function startRotation(event) {
+    if (!rotator || !onRotateHeading) return;
+    event.stopPropagation();
+    event.preventDefault();
+    const svg = event.currentTarget.ownerSVGElement;
+    const origin = centerFor(rotator.key);
+    const headings = neighborsOf(rotator.key).map(key => centerFor(key));
+    let previous = rotator.heading;
+    const move = pointer => {
+      if (!svg?.getScreenCTM()) return;
+      const point = svg.createSVGPoint();
+      point.x = pointer.clientX;
+      point.y = pointer.clientY;
+      const local = point.matrixTransform(svg.getScreenCTM().inverse());
+      const dx = local.x - origin.x, dy = local.y - origin.y;
+      if (Math.hypot(dx, dy) < 12) return;
+      let nearest = 0, best = -Infinity;
+      headings.forEach((target, index) => {
+        const vx = target.x - origin.x, vy = target.y - origin.y;
+        const score = (dx * vx + dy * vy) / Math.hypot(vx, vy);
+        if (score > best) { best = score; nearest = index; }
+      });
+      if (nearest !== previous) {
+        previous = nearest;
+        onRotateHeading(rotator.key, rotator.kind, nearest);
+      }
+    };
+    const end = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', end);
+      window.removeEventListener('pointercancel', end);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
+    move(event);
+  }
+
   return (
     <svg className={`garden-svg ${tool === 'edge' ? 'edge-mode' : ''}`} viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Interactive hexagonal garden" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -82,8 +130,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-          <g key={key} data-garden-hex={key} className="hex-cell" onClick={(event) => onHexClick(key, event)}
-            onPointerDown={(event) => { if (staged || ['plant', 'fungus'].includes(object?.type)) onStartHexDrag(key, staged ? 'staged' : 'organism', event); }}
+            <g key={key} data-garden-hex={key} className="hex-cell" onClick={(event) => onHexClick(key, event)}
+             onPointerDown={(event) => { if (staged || isPlayerSource(object) || ['plant', 'fungus'].includes(object?.type)) onStartHexDrag(key, staged ? 'staged' : isPlayerSource(object) ? 'placed-item' : 'organism', event); }}
             tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
             {highlighted.has(key) && <polygon points={polygonFor(c)} fill="none" stroke="#efde9b" strokeWidth="5" opacity=".65"/>}
@@ -97,8 +145,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
             </g>}
             {object?.type === 'source' && <>
               {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
-              <circle cx={c.x} cy={c.y - 7} r="12" fill="#203e31" stroke="#e7cd88" strokeWidth="1.4"/>
-              <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{object.anchor ? '✥' : '✦'}</text>
+              <circle cx={c.x} cy={c.y - 7} r="12" fill={isPlayerSource(object) ? '#5c452b' : '#203e31'} stroke="#e7cd88" strokeWidth="1.4"/>
+              <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{isPlayerSource(object) ? '✧' : object.anchor ? '✥' : '✦'}</text>
             </>}
             {['plant', 'fungus'].includes(object?.type) && <>
               <circle cx={c.x} cy={c.y - 7} r="14" fill={object.type === 'plant' ? '#264d31' : '#514332'} stroke={object.type === 'plant' ? '#9cdaa1' : '#e4b98e'} strokeWidth="1.8" pointerEvents="none"/>
@@ -130,6 +178,24 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
           </g>;
         })}
       </g>}
+      {rotator && (() => {
+        const center = centerFor(rotator.key);
+        const markers = neighborsOf(rotator.key).map((key, index) => {
+          const neighbor = centerFor(key);
+          const dx = neighbor.x - center.x, dy = neighbor.y - center.y;
+          const factor = 46 / Math.hypot(dx, dy);
+          return { index, x: center.x + dx * factor, y: center.y + dy * factor };
+        });
+        return <g className="direction-rotator" onClick={event => event.stopPropagation()}>
+          <circle cx={center.x} cy={center.y - 2} r="46" fill="none" stroke="#e8c982" strokeDasharray="3 5" strokeWidth="2" pointerEvents="none"/>
+          {markers.map(marker => <circle key={marker.index} cx={marker.x} cy={marker.y - 2}
+            r={marker.index === rotator.heading ? 9 : 3.4} fill={marker.index === rotator.heading ? '#ffd18c' : '#d8b67e'}
+            stroke="#283f30" strokeWidth="2" pointerEvents="none"/>)}
+          <circle cx={markers[rotator.heading].x} cy={markers[rotator.heading].y - 2} r="17"
+            className="rotation-drag-handle" fill="transparent" stroke="transparent"
+            onPointerDown={startRotation} aria-label="Drag to rotate Source direction"/>
+        </g>;
+      })()}
       {edges.map(({ id, a, b, blocker }) => {
         const p = edgeSegment(a, b);
         const active = selection.type === 'edge' && selection.id === id;

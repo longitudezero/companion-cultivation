@@ -1,6 +1,6 @@
 # Temporary player Source items — working design
 
-> **WORKING · NOT APPROVED FOR IMPLEMENTATION** · 29 October 2026. This document records decisions explicitly agreed with the project owner and the accepted first-pass item catalog. It is not yet promoted into the ACTIVE design specifications, and no item implementation or store system is implied.
+> **WORKING · AGREED FIRST PLAYABLE PASS** · 29 October 2026. This document records decisions explicitly agreed with the project owner and the accepted first-pass item catalog. It has not yet been promoted into the ACTIVE design specifications. The store and unlock triggers remain deferred.
 
 Related active rules: [Environment](../design/systems/environment.md), [Simulation and time](../design/systems/simulation-and-time.md), [Spatial inventory and staging](../design/systems/spatial-inventory-and-staging.md), and [Developer tools](../developer-tools.md).
 
@@ -14,7 +14,7 @@ Related active rules: [Environment](../design/systems/environment.md), [Simulati
 
 ## 2. Item ownership, placement, movement, and expiry — agreed
 
-1. **One item = one inventory square.** Identical item types do not stack. Three Warming Stones occupy three separate slots and can have different remaining lifetimes. Every individual item therefore needs its own persistent identity and remaining-time state. The existing inventory has 200 squares total.
+1. **One item = one inventory square while stored.** Identical item types do not stack. Three Warming Stones occupy three separate slots and can have different remaining lifetimes. Every individual item therefore needs its own persistent identity and remaining-time state. The existing inventory has 200 squares total. **Deploying an item frees its inventory square**; it is not reserved.
 2. **One object per hex.** A placed Source item occupies an ordinary hex object slot, so it cannot share that hex with a Plant, Fungus, Blocker, or another item. Occupied, staged, and pending planting hexes cannot be used as item destinations.
 3. **Free placement and movement.** An owned item can be placed on an available hex, moved directly from one valid hex to another, and dragged back into inventory. These operations have no item cost or time penalty.
 4. **Budget item rotation is free, even after placement.** Players choose/reorient the initial heading among the six hex directions, immediately changing the directional route. Range items do not need a heading in the current roster.
@@ -22,6 +22,16 @@ Related active rules: [Environment](../design/systems/environment.md), [Simulati
 6. **Permanent destruction at zero.** When placed operating time reaches zero, the item expires, is removed from the hex, and is destroyed permanently. It cannot be recovered or recharged; its hex slot is freed.
 7. **Immediate environmental feedback.** Placement, movement, rotation, pickup, and expiry cause environmental resolution to reflect the current set of active Sources. A removed or expired item stops contributing Modifiers; prior plant progress/production is not undone.
 8. **Persistence is required.** Save/load and browser autosave must preserve each individual item, whether stored or placed, along with its remaining lifetime and, where relevant, its current heading.
+
+### Agreed first-playable interaction design
+
+- **Before the store exists, only developer tools grant items.** A developer-only dispenser chooses one of the 26 catalog entries and adds one new full-lifetime instance to inventory. Ordinary player placement and use work with developer tools hidden.
+- **Drag-and-drop is primary.** Drag a stored item to an empty hex, a placed item to another available hex, or a placed item back into inventory. Selecting an inventory item and then clicking an empty hex is a non-drag alternative.
+- **Selected-object floating rotator.** A six-direction indicator appears around a selected, deployed Budget item. Drag its outer handle to snap to any of the six headings, immediately recalculating the Source route. Dragging the object itself continues to move it.
+- **Extend the same floating rotation indicator to staged Fungi** whose environmental or cultivation footprint uses Spread Budget. It appears only while the staged proposal is selected and can freely change the planned Spore heading before Apply.
+- **Committed Fungi are fixed.** After Apply, a Fungus cannot be moved or reoriented in ordinary play; it remains in its chosen position/direction until harvested or dead. Source items differ: they remain freely movable and rotatable.
+- **Inventory-full pickup must be safe.** Because deployment frees the original slot, the inventory might be full when the player tries to pick an item back up. In that case, refuse the pickup, report why, and leave the still-active item on its hex. Do not silently discard or overwrite it. Direct hex-to-hex movement remains possible.
+- **Remaining-time feedback.** Show a readable countdown on a selected deployed item and on the stored item tile; stored time is paused. The exact artwork and animations remain presentational details.
 
 The approved live clock is **one simulated garden hour per five real seconds while the page runs**. The item durations below are **real active-use minutes**, corresponding to 60 garden hours for 5 minutes, 72 for 6, and 96 for 8. Item time should be measured consistently with the garden clock, not by time sitting in inventory. Offline catch-up is not currently part of the game.
 
@@ -127,13 +137,12 @@ Complete the negative Budget options and add one exceptional moisture Source.
 ## 5. Explicitly open for later design
 
 - **Store and unlock mechanics:** what triggers each group's availability; item prices, currencies, acquisition, starting stock, and purchasing UI.
-- **Player UI and feedback:** exact placement controls, how rotation is performed, pickup/drag gestures, remaining-time displays, selection, and visual assets.
-- **Inventory-full safety:** what to do if a placed item is picked up when all 200 inventory squares are occupied; no operation should silently destroy a still-live item.
+- **Presentation refinements:** final visual assets, animation, rotation-handle styling, mobile accessibility, and detailed feedback wording.
 - **Persistence implementation:** exact state schema/version changes, migration and validation, item-instance identifiers, and ensuring old developer Source behavior remains intact. The current V6 migration reconstructs Sources and would not preserve new item metadata without changes.
 - **Event-edge behavior and testing:** precise processing at the expiry hour, simultaneous environmental transitions, move/rotate interactions during simulation ticks, and any needed balancing after playtests.
 - **Source variants:** whether future player items may use Anchored Sources, Waterborne emissions, or other properties. The first roster uses ordinary Airborne Range or directional Spread Budget and no anchors.
 
-This document records design only. It does not authorize implementing a store, altering Fungi, changing existing Source or save behavior, or treating these item values as final balance.
+This document authorizes the agreed first-playable Source-item and staged-Fungus rotation implementation, not a store, automatic group unlocks, or final numerical balance. Preserve existing developer Source semantics and compatibility with existing gardens.
 
 ---
 

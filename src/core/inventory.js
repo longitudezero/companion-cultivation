@@ -1,5 +1,6 @@
 // Arrangement is deliberately separate from authoritative item quantities.
 // One item identity occupies at most one of the four 50-square pages.
+import { SOURCE_ITEMS } from './source-item-catalog.js';
 export const INVENTORY_PAGE_SLOTS = 50;
 export const INVENTORY_PAGES = 4;
 export const INVENTORY_CAPACITY = INVENTORY_PAGE_SLOTS * INVENTORY_PAGES;
@@ -21,6 +22,13 @@ export function inventoryItems(inventory = {}) {
   }
   if ((inventory.legacyLeaves || 0) > 0) {
     items.push({ id: 'legacy:leaves', type: 'legacy', name: 'Unattributed legacy Leaves', quantity: inventory.legacyLeaves });
+  }
+  for (const [id, instance] of Object.entries(inventory.sourceItems || {})) {
+    const definition = SOURCE_ITEMS[instance.catalogId];
+    if (definition && Number.isSafeInteger(instance.remainingHours) && instance.remainingHours > 0) {
+      items.push({ id, type: 'source-item', name: definition.name, quantity: 1,
+        catalogId: instance.catalogId, remainingHours: instance.remainingHours });
+    }
   }
   return items;
 }

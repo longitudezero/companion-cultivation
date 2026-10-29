@@ -7,6 +7,7 @@ import { advancePlantTransformations, reconcileTransformationClocks, TRANSFORMAT
 import { revealGerminations } from './staging.js';
 import { observePlantHour, observeTransformation, observeHazard } from './grimoire.js';
 import { formatRealDuration } from './game-time.js';
+import { tickSourceItems } from './source-items.js';
 
 // Fungal stage durations have *not* been approved. These explicit sandbox
 // defaults are only for observing the two-stage lifecycle; never use them as
@@ -169,7 +170,9 @@ export function advanceGardenTime(garden, hours = 1) {
       }
     }
     const ticked = { ...current, objects, mycelium, grimoire, clockHours: (current.clockHours || 0) + 1 };
-    const revealed = revealGerminations(ticked);
+    const itemTick = tickSourceItems(ticked);
+    events.push(...itemTick.events);
+    const revealed = revealGerminations(itemTick.garden);
     events.push(...revealed.events);
     // A dying Fungus can change illumination at this exact timestamp. Catch a
     // previously prepared Daisyspell leaving Dim without granting extra time.

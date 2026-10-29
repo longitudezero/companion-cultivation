@@ -7,6 +7,8 @@ import { isDesertRecovery } from './desert-transformations.js';
 import { ensureInventorySlots } from './inventory.js';
 import { stagePlanting } from './staging.js';
 import { migrateGrimoire } from './grimoire.js';
+import { makePlayerSource, validItemId } from './source-items.js';
+import { SOURCE_ITEMS } from './source-item-catalog.js';
 
 // V6 is a deliberate clean break from the first-pass fungal roster. Rehydrate
 // and sanitize only current-schema gardens; never translate old species IDs
@@ -15,10 +17,21 @@ export function migrateGarden(saved) {
   if (!isGarden(saved)) throw new Error('Unsupported garden file.');
   const garden = createGarden(saved.columns, saved.rows);
   garden.routeNonce = Number.isInteger(saved.routeNonce) ? saved.routeNonce : 0;
+  garden.itemNonce = Number.isSafeInteger(saved.itemNonce) && saved.itemNonce >= 0 ? saved.itemNonce : 0;
   garden.clockHours = Number.isFinite(saved.clockHours) && saved.clockHours >= 0 ? saved.clockHours : 0;
   garden.colonyNonce = Number.isSafeInteger(saved.colonyNonce) && saved.colonyNonce >= 0
     ? saved.colonyNonce : 0;
   const usedColonies = new Set();
+  const usedItemIds = new Set();
+  function registerItem(id, catalogId, remainingHours, heading) {
+    if (!validItemId(id) || usedItemIds.has(id) || !SOURCE_ITEMS[catalogId]) return null;
+    try {
+      const source = makePlayerSource(id, catalogId, remainingHours, heading);
+      usedItemIds.add(id);
+      garden.itemNonce = Math.max(garden.itemNonce, Number(id.slice(5)));
+      return source;
+    } catch { return null; }
+  }
   if (saved.inventory) {
     const cleanCount = value => Number.isSafeInteger(value) && value >= 0 ? value : 0;
     // Keep any unattributed legacy stock already present in an accepted V6
@@ -40,8 +53,16 @@ export function migrateGarden(saved) {
         .filter(([name]) => PLANTS[name]).map(([name, amount]) => [name, cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
         .filter(([name]) => FUNGI[name]).map(([name, amount]) => [name, cleanCount(amount)])),
+      sourceItems: {},
       trophies: { bambooSteel: cleanCount(saved.inventory.trophies?.bambooSteel) },
     };
+    for (const [id, item] of Object.entries(saved.inventory.sourceItems || {})) {
+      const reconstructed = registerItem(id, item?.catalogId, item?.remainingHours, item?.heading ?? 0);
+      if (reconstructed) garden.inventory.sourceItems[id] = {
+        catalogId: reconstructed.catalogId, remainingHours: reconstructed.remainingHours,
+        heading: reconstructed.heading,
+      };
+    }
   }
 
   for (const [key, hex] of Object.entries(garden.hexes)) {
@@ -138,6 +159,11 @@ export function migrateGarden(saved) {
       continue;
     }
     if (object?.type !== 'source') continue;
+    if (object.itemId != null) {
+      const reconstructed = registerItem(object.itemId, object.catalogId, object.remainingHours, object.heading ?? 0);
+      if (reconstructed) garden.objects[key] = reconstructed;
+      continue;
+    }
     const emissions = (Array.isArray(object.emissions) ? object.emissions : []).flatMap((emission) => {
       if (!INFLUENCE_TYPES.some((type) => type.name === emission?.name)) return [];
       try {
