@@ -1,6 +1,6 @@
 # Task organization, store and progression
 
-> **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER IN DEVELOPMENT** · 29 October 2026. This document defines task fields and shared progression/store rules agreed with the project owner. The two opening tasks are recorded separately. Unconfirmed quantities, rewards, prices, milestones, UI details, and implementation remain open. Do not treat this as an implemented feature.
+> **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER IN DEVELOPMENT** · 29 October 2026. This document defines task fields and shared progression/store rules agreed with the project owner. The three opening tasks are recorded separately. Unconfirmed quantities, rewards, prices, milestones, UI details, and implementation remain open. Do not treat this as an implemented feature.
 
 ## Document organization
 
@@ -21,7 +21,9 @@ The [guild setting and task voice](../design/setting-and-task-voice.md) remains 
 | **Name** | Player-facing task title. |
 | **Status** | Which parts are agreed, which details remain proposed/TBD, and whether the task is implemented. Design approval and implementation are separate. |
 | **Prerequisites** | Explicit conditions that make the task available: a completed task ID, a family unlock, or another stated milestone. |
-| **Description** | Player-facing text in the instructor's or requester's voice. This carries context and comedy. |
+| **Speaker** | Who delivers the task text: the Instructor or the requesting guild member. Completion dialogue uses this speaker unless explicitly labeled otherwise. |
+| **Description** | Opening player-facing dialogue in the Speaker's voice. This carries context and comedy and stays inside the task's record. |
+| **Completion dialogue** | The Speaker's response when the player completes the task. Keep this in the same task record; write **None** when no response is needed. |
 | **Objectives** | Short, clear player-facing steps or targets, including species and quantities where appropriate. |
 | **Completion** | The actual event/state or explicit Leaf delivery that satisfies the task. Define success independently of the instructional wording. |
 | **Unlocks** | Everything awarded or enabled: Gold, Seeds, Spores, inventory slots, garden rows/columns, new tasks, family/store access, etc. Give explicit amounts or write **TBD**. This field includes physical rewards as well as access unlocks. |
@@ -33,7 +35,7 @@ The [guild setting and task voice](../design/setting-and-task-voice.md) remains 
 - **Order is an editing/sorting tool, not an implicit prerequisite chain.** A task only depends on the prerequisites actually written in its record. This preserves the later four independent family-unlock projects.
 - Sort Order numerically: 5 < 5.1 < 5.2 < 6. Decimal values are not hierarchical labels; **5.10 and 5.1 mean the same number** and must not identify different positions. A value such as 5.05 can be used between 5 and 5.1.
 - Side tasks have **no Order field**. Their prerequisites determine availability; final Taskboard sorting/filtering is a UI detail.
-- The two current main tasks are **M-3KJ45T, Order 1** and **M-8NQ2VC, Order 2**. The S-prefixed ID above is only a format example, not an authored side task.
+- The three current main tasks are **M-3KJ45T, Order 1**, **M-8NQ2VC, Order 2**, and **M-6PT9RX, Order 3**. The S-prefixed ID above is only a format example, not an authored side task.
 
 ### Reusable record template
 
@@ -43,6 +45,7 @@ Order: 3
 Name:
 Status:
 Prerequisites:
+Speaker:
 Description:
 
 Objectives:
@@ -53,10 +56,12 @@ Completion:
 Unlocks:
 - 
 
+Completion dialogue:
+
 Design notes:
 ```
 
-For a side task, use an `S-` ID and omit Order. Explain the requester in the description or notes where useful. A proposed example or a TBD reward does not become approved balance merely by being written into a record.
+For a side task, use an `S-` ID and omit Order. Name its requester in Speaker. Keep Speaker, Description, and Completion dialogue in the main/side task record; no separate dialogue file is needed for this format. A proposed example or a TBD reward does not become approved balance merely by being written into a record.
 
 Narrative direction: [Guild setting and task voice](../design/setting-and-task-voice.md) — the player is the newly hired guild botanist; a supportive, unfiltered instructor and offscreen guild requests give tasks their context. Task descriptions carry the comedy; objective text stays precise.
 
@@ -76,13 +81,13 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 2. Give approximately **20–50 Beanstalk Seeds** (30–40 is a sensible first-pass target) and only the initial Spores needed for the first simple transformation, with enough attempts to avoid punishing early germination failure. Do not grant the entire Fungus catalog at the outset.
 3. **First task: a fully guided transformation.** Show the player how to drag Seeds out of inventory, plant the relevant Fungus so its contact reaches the Plant, and produce/maintain the resolved environmental Conditions required for transformation. The player should understand the relationship between position, Fungus reach, environmental effects, and transformation.
 4. **Immediate follow-up: A Thirsty Carrot.** After the first transformation, gift Dewmender Spores and teach the player to change their new Carrot's Dry soil to Damp so it can grow more comfortably. This is a small care objective, separate from the main discovery challenge.
-5. **Next major task: discover approximately two more transformations.** Award access to the small Spore set required, but do not reveal full recipes. With only about three or four Fungi available, experimentation should be tractable. Hints may be provided without giving the exact recipe.
+5. **Third task: discover two more transformations.** A Thirsty Carrot rewards two new Fungus species. The first-pass choice is **Rilllace and Droughtcap**, enabling **Potato and Onion** with the player's existing Dewmender. Give a loose clue for Potato and the instructor's “Well, I'm sure you can figure it out” for Onion. Do not reveal either full recipe. The player now has four Fungus species to experiment with.
 6. **Following major task: produce and deliver Leaves from a specified Plant.** This introduces growth, harvesting and inventory/resource management. Continue alternating discovery and production objectives.
 7. Progressively remove step-by-step instructions; later tasks identify desired outcomes rather than prescribing every action.
 
-**Opening task records:** [My First Transformation — M-3KJ45T](main-tasks.md#m-3kj45t), followed immediately by [A Thirsty Carrot — M-8NQ2VC](main-tasks.md#m-8nq2vc). These records own the exact first recipe, agreed care lesson, immediate Dewmender handoff, proposed starter amounts, and reward fields.
+**Opening task records:** [My First Transformation — M-3KJ45T](main-tasks.md#m-3kj45t), followed immediately by [A Thirsty Carrot — M-8NQ2VC](main-tasks.md#m-8nq2vc), then [Well, I'm Sure You Can Figure It Out — M-6PT9RX](main-tasks.md#m-6pt9rx). These records own the first recipe, care lesson, Spore handoffs, discovery targets, and reward amounts.
 
-**Follow-on discovery candidates, not yet finalized tasks:** Beanstalk → Rice (Flooded, Dewmender contact) and Beanstalk → Potato (Damp, Cold, Rilllace contact). Remember that Potato is now a terminal Ingredient; Beanstalk is the Base Plant.
+**First-pass early rewards:** Task 1 grants **10 Gold + 8 Dewmender Spores**, with the Spores available immediately upon transformation; Task 2 grants **15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores**; Task 3 grants **30 Gold**. These are working balance values to test against the future shop economy. **Tasks 1–3 grant no hex or inventory expansion.** The Potato/Onion pair replaces the earlier unfinalized Rice/Potato candidate; Rice can be introduced later. Beanstalk remains the Base Plant.
 
 ## 3. Family unlock structure — agreed
 
@@ -114,13 +119,13 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - Product availability grows with progression. The previously agreed **26 temporary Source items in seven groups** should be unlocked progressively rather than immediately.
 - **Temporary Source items should be relatively expensive** so they function as emergency tools/conveniences rather than replacing the central challenge of combining Fungi. Exact prices and item unlock triggers are not yet decided.
 - Seed/Spore access through the store must support recovery after early mistakes or exhausted supplies; players should not become permanently unable to make progress.
-- Exact per-Leaf sale values, purchase prices, stock limits (if any), and Gold reward amounts remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
+- Exact per-Leaf sale values, purchase prices, and stock limits (if any) remain open. The main-task records now set first-pass Gold rewards for Tasks 1–3; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
 - Until the store is implemented, the existing **developer-only Source-item dispenser** remains a testing mechanism, not normal player acquisition.
 
 ## Garden and inventory capacity — agreed 29 October 2026
 
 - A new progression garden starts at **4 columns × 4 rows = 16 hexes**.
-- Main-task rewards expand the garden by adding complete **rows or columns**. **The designer chooses which task awards an expansion and whether it grants a row or a column.** This is authored balance, not a player choice between expansion orientations.
+- Main-task rewards expand the garden by adding complete **rows or columns**. **The project owner and assistant choose together which task awards an expansion and whether it grants a row or a column.** Suggestions from either collaborator are welcome; the resulting reward is authored into the task.
 - Each expansion reward must specify its axis and quantity, e.g. **+1 row** or **+1 column**. A row adds one hex per current column; a column adds one hex per current row. Added land preserves the existing planted layout.
 - The exact side/edge placement of new land remains a presentation/implementation detail. No player-selected edge mechanic has been approved.
 - The store can still offer further hex-space expansion; its exact products, pricing, and relation to task rewards remain open.
@@ -129,7 +134,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - A slot continues to hold a stack/identity, not a single Seed, Spore, or Leaf. Existing quantity and item-identity rules remain applicable, including individually tracked temporary Source items.
 - Capacity rewards and starter bundles must be coordinated so new task resources can be accepted. Award capacity before accompanying items when needed, and keep unaccepted rewards available; do not lose resources on a full inventory.
 - These are **progression design changes, not live code changes**. The prototype currently has a fixed **200-slot** inventory. The new starting capacity and upgrade path supersede that fixed grant for the future progression mode; existing-save migration and capacity/pagination UI remain to be designed.
-- **No specific row/column or inventory upgrade is assigned to either opening task yet.** Earlier suggestions about the first expansion after A Thirsty Carrot and the first inventory upgrade after a Leaf delivery remain balancing candidates.
+- **Tasks 1–3 award no new hexes or inventory slots.** Place capacity rewards later as the chain develops; the earlier suggestion of expanding after A Thirsty Carrot is no longer part of this opening.
 
 ## 6. Inventory cleanup — agreed
 
@@ -162,7 +167,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 The following choices do **not** block beginning to write the task roster; resolve them as the relevant tasks or store screens are specified:
 
-1. **Exact introductory chain:** refine the two opening records in [Main tasks](main-tasks.md), finalize Seed/Spore amounts and rewards, assign row/column and inventory upgrades, and design the two follow-up transformations. The first Beanstalk → Carrot recipe and ordinary starting terrain are already agreed. Verify that each goal is physically achievable with the current V9 recipes and V8 Fungus propagation.
+1. **Exact introductory chain:** refine the three opening records in [Main tasks](main-tasks.md), playtest the first-pass Gold/Spore amounts and Potato/Onion challenge, finalize starting Seed/Spore quantities, then design the Leaf-delivery task and later capacity rewards. The first Beanstalk → Carrot recipe and ordinary starting terrain are already agreed. Verify that each goal is physically achievable with the current V9 recipes and V8 Fungus propagation.
 2. **Second-family identity and unlock project content:** decide which family is introduced second, then design four genuinely independent family-unlock projects and their starter bundles.
 3. **Task recognition and availability:** whether discoveries made before an objective appears count retroactively, which tasks are parallel versus sequential, and whether small optional jobs repeat.
 4. **Reward and price balance:** amounts of Gold, Seeds and Spores; Leaf sale values; costs of Seeds, Spores, Blockers, hex expansions, 10-slot inventory packs, and expensive Source items; unlock timing and any availability limits.

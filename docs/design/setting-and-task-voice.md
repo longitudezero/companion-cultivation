@@ -40,6 +40,8 @@ Storytelling happens primarily through the Taskboard's descriptions and requests
 - Ordinary discovery tasks give hints rather than hidden recipes. The fully guided first transformation remains the deliberate exception described in the progression framework.
 - Use the current species names and approved mechanics when writing task text. A narrative request for potions or food does not itself add a potion-crafting or cooking system; the objective names the actual resources or actions required.
 
+Task records keep **Speaker**, **Description**, and **Completion dialogue** together in their main/side roster. The Description is the opening dialogue; Completion dialogue provides the response to success.
+
 ## Opening task example
 
 The full **A Thirsty Carrot** description, precise objectives, completion condition, and compact pinned text now live in its canonical [main-task record — M-8NQ2VC](../working/main-tasks.md#m-8nq2vc). It exemplifies the supportive instructor escalating from congratulations to “it's going to FREAKING DIE” while directing the player to the Inspector.
