@@ -11,13 +11,13 @@ const ideal = { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' 
 const contact = (kind, amount, window) => ({ kind, amount, ...(window ? { window } : {}) });
 
 test('environmental output response is separate from life progress response', () => {
-  assert.equal(plantOutputRate('Potato', ideal), 1);
-  assert.equal(plantOutputRate('Potato', { ...ideal, Illumination: 'Bright' }), .85);
+  assert.equal(plantOutputRate('Beanstalk', ideal), 1);
+  assert.equal(plantOutputRate('Beanstalk', { ...ideal, Illumination: 'Bright' }), .85);
   assert.equal(plantOutputRate('Pumpkin', { ...ideal, Temperature: 'Cold' }), .55);
 });
 
 test('Leaf bonuses and environmental improvements affect only newly earned production', () => {
-  let plant = makePlant('Potato');
+  let plant = makePlant('Beanstalk');
   plant.progress = 99;
   plant.production.ordinaryLeaves = 9;
   const lastStep = accruePlantProduction(plant, 100, ideal, [contact('leafYield', .20)]);
@@ -31,7 +31,7 @@ test('Leaf bonuses and environmental improvements affect only newly earned produ
 });
 
 test('native Ripening decline proportionately reduces old ordinary bonuses, never hourly banks', () => {
-  const plant = makePlant('Potato');
+  const plant = makePlant('Beanstalk');
   plant.progress = 100;
   plant.production = { ordinaryLeaves: 12, ordinarySeeds: 2, hourlyLeaves: 4, hourlySeeds: 3 };
   const next = accruePlantProduction(plant, 115, ideal);
@@ -42,7 +42,7 @@ test('native Ripening decline proportionately reduces old ordinary bonuses, neve
 });
 
 test('fixed-window hourly production accrues by crossing-time fraction and requires progress', () => {
-  const plant = makePlant('Potato');
+  const plant = makePlant('Beanstalk');
   plant.progress = 159;
   let next = accruePlantProduction(plant, 161, ideal, [contact('hourlyLeaf', .15, [160, 190])]);
   assert.ok(Math.abs(next.hourlyLeaves - .075) < 1e-9);
@@ -71,7 +71,7 @@ test('peak/window and Seed Timing effects use compatibility and remain prospecti
 });
 
 test('allocation executes one net 3:1 conversion only at a valid destructive harvest', () => {
-  const plant = makePlant('Potato');
+  const plant = makePlant('Beanstalk');
   plant.production = { ordinaryLeaves: 12.99, ordinarySeeds: 12.99, hourlyLeaves: 0, hourlySeeds: 0 };
   assert.deepEqual(availableHarvest(plant, [contact('leafAllocation', .80)]),
     { leaves: 15, seeds: 3, allocation: .80 });
@@ -89,8 +89,8 @@ test('allocation executes one net 3:1 conversion only at a valid destructive har
   garden = placeObject(garden, '3,2', makeFungus('Frostfolio'));
   const snapshot = availableHarvest(garden.objects['2,2'], calculateCultivation(garden)['2,2']);
   const harvested = harvestPlant(garden, '2,2');
-  assert.deepEqual(harvested.inventory.leaves, { Potato: snapshot.leaves });
-  assert.equal(harvested.inventory.seeds.Potato, 16 + snapshot.seeds);
+  assert.deepEqual(harvested.inventory.leaves, { Beanstalk: snapshot.leaves });
+  assert.equal(harvested.inventory.seeds.Beanstalk, 16 + snapshot.seeds);
   assert.equal(harvested.objects['2,2'], undefined);
   assert.throws(() => harvestPlant(harvested, '2,2'), /no living Plant/);
 });
@@ -99,17 +99,17 @@ test('Germination effects reach empty hexes and all attempted Seeds are consumed
   let garden = createGarden();
   garden = placeObject(garden, '3,2', makeFungus('Dewmender', 3));
   assert.ok(calculateCultivation(garden)['2,2'].some(effect => effect.kind === 'germination'));
-  const success = sowPlant(garden, '2,2', 'Potato', 2, () => 0);
+  const success = sowPlant(garden, '2,2', 'Beanstalk', 2, () => 0);
   assert.equal(success.success, true);
   assert.ok(Math.abs(success.chance - .72) < 1e-8);
-  assert.equal(success.garden.inventory.seeds.Potato, 14);
-  assert.equal(success.garden.objects['2,2'].species, 'Potato');
-  const failure = sowPlant(garden, '2,2', 'Potato', 2, () => .999);
+  assert.equal(success.garden.inventory.seeds.Beanstalk, 14);
+  assert.equal(success.garden.objects['2,2'].species, 'Beanstalk');
+  const failure = sowPlant(garden, '2,2', 'Beanstalk', 2, () => .999);
   assert.equal(failure.success, false);
   assert.equal(failure.garden.objects['2,2'], undefined);
-  assert.equal(failure.garden.inventory.seeds.Potato, 14);
-  assert.throws(() => sowPlant(success.garden, '2,2', 'Potato', 1, () => 0), /empty hex/);
-  assert.equal(success.garden.inventory.seeds.Potato, 14);
+  assert.equal(failure.garden.inventory.seeds.Beanstalk, 14);
+  assert.throws(() => sowPlant(success.garden, '2,2', 'Beanstalk', 1, () => 0), /empty hex/);
+  assert.equal(success.garden.inventory.seeds.Beanstalk, 14);
 });
 
 test('fungal Spores grow through Sporulation, harvest once and germinate with provisional odds', () => {
@@ -133,7 +133,7 @@ test('clock advancement banks fractional production; migration and resize preser
     garden = setBaseline(garden, key, 'Moisture', 'Damp');
     garden = setBaseline(garden, key, 'Illumination', 'Lit');
   }
-  garden = placeObject(garden, '2,2', makePlant('Potato'));
+  garden = placeObject(garden, '2,2', makePlant('Beanstalk'));
   garden = advanceGardenTime(garden, 100).garden;
   assert.ok(garden.objects['2,2'].production.ordinaryLeaves > 0);
   const hydrated = migrateGarden(structuredClone(garden));

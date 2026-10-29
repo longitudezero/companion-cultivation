@@ -15,7 +15,7 @@ test('a new garden starts with only the six base Plants and all 13 identified fu
   assert.equal(Object.keys(PLANTS).length, 60);
   assert.equal(Object.keys(FUNGI).length, 13);
   assert.equal(Object.keys(ledger.plants).length, 6);
-  assert.ok(['Potato', 'Daisydaze', 'Aquatic Base', 'Woodlands Base', 'Jadeheart', 'Thymely']
+  assert.ok(['Beanstalk', 'Daisydaze', 'Algea', 'Moss', 'Jadeheart', 'Thymekeeper']
     .every(name => plantKnown(ledger, name)));
   assert.equal(plantKnown(ledger, 'Rice'), false);
   assert.equal(fungusKnowledge(ledger, 'Dewmender').effects.length, 0);
@@ -23,20 +23,20 @@ test('a new garden starts with only the six base Plants and all 13 identified fu
 });
 
 test('only a resolved fungal environmental change reveals an influence, never a blocked one', () => {
-  let garden = placeObject(createGarden(), key, makePlant('Potato'));
+  let garden = placeObject(createGarden(), key, makePlant('Beanstalk'));
   garden = placeObject(garden, neighbor, makeFungus('Dewmender'));
   const exposed = advanceGardenTime(garden, 1).garden;
-  assert.ok(Object.values(exposed.grimoire.fungalEffects.Potato || {})
+  assert.ok(Object.values(exposed.grimoire.fungalEffects.Beanstalk || {})
     .some(fact => fact.fungus === 'Dewmender' && fact.kind === 'environment:Moisture'));
   const blocked = neighborsOf(key).reduce((state, adjacent) =>
     placeEdgeBlocker(state, key, adjacent, makeBlocker('kind', 'Aqueous')), garden);
   const blockedAfter = advanceGardenTime(blocked, 1).garden;
-  assert.equal(Object.values(blockedAfter.grimoire.fungalEffects.Potato || {})
+  assert.equal(Object.values(blockedAfter.grimoire.fungalEffects.Beanstalk || {})
     .filter(fact => fact.kind === 'environment:Moisture').length, 0);
 });
 
 test('only a committed transformation reveals its result and witnessed recipe, on both participant views', () => {
-  let garden = placeObject(createGarden(), key, makePlant('Potato'));
+  let garden = placeObject(createGarden(), key, makePlant('Beanstalk'));
   garden = placeObject(garden, neighbor, makeFungus('Dewmender'));
   garden = setBaseline(garden, key, 'Moisture', 'Damp');
   const before = advanceGardenTime(garden, 11).garden;
@@ -48,7 +48,7 @@ test('only a committed transformation reveals its result and witnessed recipe, o
   assert.equal(plantKnown(after.grimoire, 'Carrot'), false);
   assert.equal(after.grimoire.transformations.length, 1);
   const route = after.grimoire.transformations[0];
-  assert.equal(route.from, 'Potato');
+  assert.equal(route.from, 'Beanstalk');
   assert.equal(route.into, 'Rice');
   assert.equal(route.conditions.Moisture, 'Flooded');
   assert.deepEqual(route.fungi, ['Dewmender']);
@@ -78,7 +78,7 @@ test('V6 repairs a missing Grimoire without inventing recipes; old saves are rej
   assert.throws(() => migrateGarden({ ...garden, schemaVersion: 5 }), /Unsupported garden file/);
   garden = { ...garden, grimoire: undefined };
   const old = migrateGarden(garden);
-  assert.equal(old.schemaVersion, 6);
+  assert.equal(old.schemaVersion, 7);
   assert.equal(plantKnown(old.grimoire, 'Rice'), true);
   assert.deepEqual(old.grimoire.transformations, []);
   assert.equal(plantKnown(old.grimoire, 'Carrot'), false);
@@ -87,30 +87,30 @@ test('V6 repairs a missing Grimoire without inventing recipes; old saves are rej
 
 test('fungal germination effects are observed on Apply, independent of concealed success', () => {
   let garden = placeObject(createGarden(), neighbor, makeFungus('Dewmender', 3));
-  garden = applyStaging(stagePlanting(garden, key, 'plant', 'Potato', 1), () => 1).garden;
+  garden = applyStaging(stagePlanting(garden, key, 'plant', 'Beanstalk', 1), () => 1).garden;
   assert.equal(garden.pending[key].success, false);
   assert.ok(fungusKnowledge(garden.grimoire, 'Dewmender').effects
-    .some(effect => effect.plant === 'Potato' && effect.kind === 'germination'));
+    .some(effect => effect.plant === 'Beanstalk' && effect.kind === 'germination'));
   const blocked = placeEdgeBlocker(createGarden(), key, neighbor, makeBlocker('full'));
   const withFungus = placeObject(blocked, neighbor, makeFungus('Dewmender', 3));
-  const attempted = applyStaging(stagePlanting(withFungus, key, 'plant', 'Potato', 1), () => 1).garden;
+  const attempted = applyStaging(stagePlanting(withFungus, key, 'plant', 'Beanstalk', 1), () => 1).garden;
   assert.equal(fungusKnowledge(attempted.grimoire, 'Dewmender').effects.length, 0);
 });
 
 test('event-based Desert transformation records only its witnessed recovery fungus', () => {
-  let garden = placeObject(createGarden(), key, makePlant('Ember Aloe'));
+  let garden = placeObject(createGarden(), key, makePlant('Aloechemist'));
   for (const [property, condition] of [['Moisture', 'Damp'], ['Temperature', 'Hot'], ['Illumination', 'Lit']]) {
     garden = setBaseline(garden, key, property, condition);
   }
   garden = advanceGardenTime(garden, 1).garden;
   const next = placeObject(garden, neighbor, makeFungus('Rilllace', 3));
   const after = reconcileTransformationClocks(next, garden);
-  assert.equal(after.objects[key].species, 'Ashen Rose');
+  assert.equal(after.objects[key].species, 'Cactastrophe');
   const route = after.grimoire.transformations.at(-1);
-  assert.equal(route.from, 'Ember Aloe');
-  assert.equal(route.into, 'Ashen Rose');
+  assert.equal(route.from, 'Aloechemist');
+  assert.equal(route.into, 'Cactastrophe');
   assert.deepEqual(route.fungi, ['Rilllace']);
-  assert.equal(plantKnown(after.grimoire, 'Ashen Rose'), true);
+  assert.equal(plantKnown(after.grimoire, 'Cactastrophe'), true);
   assert.equal(plantKnown(after.grimoire, 'Aloemancer'), false);
   assert.equal(fungusKnowledge(after.grimoire, 'Dewmender').transformations.length, 0);
 });

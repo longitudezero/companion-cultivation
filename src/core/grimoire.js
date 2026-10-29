@@ -3,8 +3,8 @@ import { calculateEnvironment } from './simulation.js';
 
 // Knowledge is part of a single garden, never an account-wide unlock. Keep
 // witnessed facts rather than a second copy of the authoritative biology.
-export const BASE_PLANTS = Object.freeze(['Potato', 'Daisydaze', 'Aquatic Base',
-  'Woodlands Base', 'Jadeheart', 'Thymely']);
+export const BASE_PLANTS = Object.freeze(['Beanstalk', 'Daisydaze', 'Algea',
+  'Moss', 'Jadeheart', 'Thymekeeper']);
 const MOISTURE = ['Dry', 'Damp', 'Flooded'];
 const LIGHT = ['Dark', 'Dim', 'Lit', 'Bright'];
 const FUNGAL_FIELDS = new Set(['growthRate', 'ripeningRate', 'leafYield', 'seedYield',
@@ -187,16 +187,17 @@ export function fungusKnowledge(ledger, fungus) {
 
 // Strictly rehydrate recognized facts. Old schema gardens may show an already
 // living Plant, but cannot reconstruct a lost Transformation recipe from it.
-export function migrateGrimoire(saved, existingObjects = {}) {
+export function migrateGrimoire(saved, existingObjects = {}, plantName = name => name) {
   let clean = createGrimoire();
   for (const object of Object.values(existingObjects)) {
     if (object.type === 'plant') clean = revealPlant(clean, object.species);
   }
   if (!saved || typeof saved !== 'object' || Array.isArray(saved)) return clean;
   for (const species of Object.keys(saved.plants || {})) if (saved.plants[species] === true) {
-    clean = revealPlant(clean, species);
+    clean = revealPlant(clean, plantName(species));
   }
-  for (const [plant, entries] of Object.entries(saved.environments || {})) {
+  for (const [oldPlant, entries] of Object.entries(saved.environments || {})) {
+    const plant = plantName(oldPlant);
     if (!PLANTS[plant]) continue;
     for (const value of Object.values(entries || {})) {
       if (!PROPERTIES.has(value?.property)
@@ -207,7 +208,8 @@ export function migrateGrimoire(saved, existingObjects = {}) {
       clean = put(clean, 'environments', plant, `${value.property}:${value.condition}`, value);
     }
   }
-  for (const [plant, entries] of Object.entries(saved.fungalEffects || {})) {
+  for (const [oldPlant, entries] of Object.entries(saved.fungalEffects || {})) {
+    const plant = plantName(oldPlant);
     if (!PLANTS[plant]) continue;
     for (const value of Object.values(entries || {})) {
       if (!FUNGI[value?.fungus] || typeof value.kind !== 'string'
@@ -218,7 +220,8 @@ export function migrateGrimoire(saved, existingObjects = {}) {
           ...(typeof value.result === 'string' ? { result: value.result } : {}) });
     }
   }
-  for (const [plant, entries] of Object.entries(saved.hazards || {})) {
+  for (const [oldPlant, entries] of Object.entries(saved.hazards || {})) {
+    const plant = plantName(oldPlant);
     if (!PLANTS[plant]) continue;
     for (const value of Object.values(entries || {})) {
       if (typeof value?.hazard === 'string' && ['death', 'penalty'].includes(value.outcome)) {
@@ -227,15 +230,17 @@ export function migrateGrimoire(saved, existingObjects = {}) {
     }
   }
   for (const value of Array.isArray(saved.transformations) ? saved.transformations.slice(0, 500) : []) {
-    if (!PLANTS[value?.from] || !PLANTS[value?.into] || !value.conditions
+    const from = plantName(value?.from);
+    const into = plantName(value?.into);
+    if (!PLANTS[from] || !PLANTS[into] || !value.conditions
       || !Number.isFinite(value.hours) || !Number.isFinite(value.observedAt)) continue;
     const fungi = Array.isArray(value.fungi) ? [...new Set(value.fungi.filter(name => FUNGI[name]))] : [];
     const conditions = Object.fromEntries(Object.entries(value.conditions)
       .filter(([property, condition]) => PROPERTIES.has(property) && typeof condition === 'string'));
-    const signature = JSON.stringify([value.from, value.into, conditions, fungi.sort(), value.sequence || null]);
+    const signature = JSON.stringify([from, into, conditions, fungi.sort(), value.sequence || null]);
     if (clean.transformations.some(record => record.signature === signature)) continue;
-    clean = revealPlant(revealPlant(clean, value.from), value.into);
-    clean = { ...clean, transformations: [...clean.transformations, { from: value.from, into: value.into, conditions, fungi,
+    clean = revealPlant(revealPlant(clean, from), into);
+    clean = { ...clean, transformations: [...clean.transformations, { from, into, conditions, fungi,
       sequence: typeof value.sequence === 'string' ? value.sequence : null,
       hours: value.hours, observedAt: value.observedAt, signature }] };
   }

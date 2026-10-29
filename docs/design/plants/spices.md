@@ -1,5 +1,7 @@
 # Spices — Plant family design
 
+> **Naming update (29 October 2026):** All ten Spices names changed, including the old `Thymekeeper` (now `Mighty Mint`) and old Base `Thymely` (now `Thymekeeper`). Historical profiles preserve their former identifiers; see the [current Plant naming map](../decisions/plant-names.md).
+
 > **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 11. **Source sections preserved:** §37, §38, §39, §40, §76.

@@ -10,6 +10,7 @@ Companion Cultivation is a hex-garden farming game about cultivating Plants for 
 - All **69 current Transformation recipes** are defined by [V9](fungi/random-roster-v9.md). They require named living Fungus contact and the Plant hex's **resolved state**; no exact emission magnitude or sign is a recipe gate. Older family recipe tables are preserved for provenance, but V9 takes precedence where they differ.
 - Waterborne cultivation reaches the full unblocked, connected Flooded network once its initial footprint touches that network. Player-selected Spore heading applies to directional propagation.
 - Every Plant produces its [own Leaf item](decisions/species-specific-leaves.md). There is no interchangeable general Leaf currency.
+- The [approved plant-name changes](decisions/plant-names.md) rename 26 species without changing their behavior or the six-family, 60-plant roster. Family profiles and the original V9 recipe tables preserve their earlier identifiers for historical traceability; use the mapping for current names.
 - Current topical system and Plant-profile documents below remain applicable where newer accepted decisions do not supersede their first-pass text. In case of conflict, follow the explicitly newer accepted design; do not silently blend competing versions.
 
 ## Systems
@@ -43,5 +44,6 @@ The 60 Plants retain their profile identities and balancing references. Transfor
 
 - [Current Fungus design index](fungi/README.md) — V8 roster and V9 transformation recipes
 - [Species-specific Leaf identity](decisions/species-specific-leaves.md)
+- [Approved plant-name changes and V6 save mapping](decisions/plant-names.md)
 
 For new ideas see [Working notes](../working/README.md). For original design sources, the retired 31-Fungus profiles, V0–V7 experiments, completed audits and conversation handoffs see the [Historical archive](../historical-archive/README.md).

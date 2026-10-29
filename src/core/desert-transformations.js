@@ -10,23 +10,23 @@ const recovery = (into, sequence, hours, conditions, contacts, early = false) =>
 
 export const DESERT_TRANSFORMATIONS = Object.freeze({
   Jadeheart: [
-    route('Ember Aloe', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Lit' },
+    route('Aloechemist', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Lit' },
       [['Emberbolete']], 18),
     route('Moonjade', { Moisture: 'Damp', Temperature: 'Freezing', Illumination: 'Dim' },
       [['Rilllace', 'Frostfolio']], 20),
     route('Cactopus', { Moisture: 'Dry', Temperature: 'Warm', Illumination: 'Lit' },
       [['Droughtcap']], 16),
   ],
-  'Ember Aloe': [
-    recovery('Ashen Rose', 'heat-to-warm', 36, { Temperature: 'Warm' },
+  'Aloechemist': [
+    recovery('Cactastrophe', 'heat-to-warm', 36, { Temperature: 'Warm' },
       [['Rilllace']], true),
     recovery('Aloemancer', 'heat-to-warm', 36, { Temperature: 'Warm' },
       [['Rilllace']]),
   ],
-  'Ashen Rose': [route('Sandrose',
+  'Cactastrophe': [route('Prickly Pearl',
     { Moisture: 'Dry', Temperature: 'Temperate', Illumination: 'Dim' },
     [["Sim'mushro'dim"]], 12)],
-  Sandrose: [route('Cactopus', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Lit' },
+  'Prickly Pearl': [route('Cactopus', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Lit' },
     [['Emberbolete', 'Siltgill']], 18)],
   Moonjade: [
     recovery('Jadewisp', 'freeze-to-cold', 48,
@@ -37,15 +37,15 @@ export const DESERT_TRANSFORMATIONS = Object.freeze({
       [['Emberbolete'], ['Mistruffle']]),
   ],
   Cactopus: [
-    route('Cactaclysm', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Bright' },
+    route('Cactacomb', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Bright' },
       [['Siltgill'], ['Prismorel']], 24),
     route('Pearadox', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Dim' },
       [['Mistruffle'], ['Rainmorel']], 20),
   ],
-  Aloemancer: [route('Mirage Rose',
+  Aloemancer: [route('Everjade',
     { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' },
     [['Emberbolete'], ['Rilllace']], 24)],
-  Jadewisp: [route('Mirage Rose',
+  Jadewisp: [route('Everjade',
     { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' },
     [['Prismorel'], ['Hushroom']], 24)],
 });

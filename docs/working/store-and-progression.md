@@ -14,14 +14,14 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 ## 2. Opening and guided onboarding — agreed direction
 
-1. **Start in one family**, rather than granting all six Base Plants and the full Fungus roster. The agreed introductory choice is the **Ingredients** family, starting with Potato.
-2. Give approximately **20–50 Potato Seeds** (30–40 is a sensible first-pass target) and only the initial Spores needed for the first simple transformation, with enough attempts to avoid punishing early germination failure. Do not grant the entire Fungus catalog at the outset.
+1. **Start in one family**, rather than granting all six Base Plants and the full Fungus roster. The agreed introductory choice is the **Ingredients** family, starting with Beanstalk.
+2. Give approximately **20–50 Beanstalk Seeds** (30–40 is a sensible first-pass target) and only the initial Spores needed for the first simple transformation, with enough attempts to avoid punishing early germination failure. Do not grant the entire Fungus catalog at the outset.
 3. **First task: a fully guided transformation.** Show the player how to drag Seeds out of inventory, plant the relevant Fungus so its contact reaches the Plant, and produce/maintain the resolved environmental Conditions required for transformation. The player should understand the relationship between position, Fungus reach, environmental effects, and transformation.
 4. **Second task: discover approximately two more transformations.** Award access to the small Spore set required, but do not reveal full recipes. With only about three or four Fungi available, experimentation should be tractable. Hints may be provided without giving the exact recipe.
 5. **Third task: produce and deliver Leaves from a specified Plant.** This introduces growth, harvesting and inventory/resource management. Continue alternating discovery and production objectives.
 6. Progressively remove step-by-step instructions; later tasks identify desired outcomes rather than prescribing every action.
 
-**Candidate first task, not yet a finalized mission:** Potato → Carrot using the current V9 recipe: Damp, Temperate, Lit plus living Prismorel contact for 10 simulated hours. Select the exact opening task, starting garden conditions, Spore quantities and hints only after checking practical feasibility and early-game pacing.
+**Candidate first task, not yet a finalized mission:** Beanstalk → Carrot using the current V9 recipe: Damp, Temperate, Lit plus living Prismorel contact for 10 simulated hours. Select the exact opening task, starting garden conditions, Spore quantities and hints only after checking practical feasibility and early-game pacing.
 
 ## 3. Family unlock structure — agreed
 
@@ -48,7 +48,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 - **Gold coins** are the currency used for store purchases.
 - **Only Leaves can be sold.** Players cannot sell Seeds or Spores (nor other possessions, absent a future explicit design change). Leaves are earned through cultivation and harvesting and retain their existing species-specific identities.
-- **Potato Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Potatoes without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted: it still costs cultivation time and available garden hexes.
+- **Beanstalk Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Beanstalks without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted: it still costs cultivation time and available garden hexes.
 - The store sells **hex-space expansions, Blockers, Seeds, Spores, and temporary Source items**.
 - Product availability grows with progression. The previously agreed **26 temporary Source items in seven groups** should be unlocked progressively rather than immediately.
 - **Temporary Source items should be relatively expensive** so they function as emergency tools/conveniences rather than replacing the central challenge of combining Fungi. Exact prices and item unlock triggers are not yet decided.
@@ -70,7 +70,7 @@ The following choices do **not** block beginning to write the task roster; resol
 3. **Task recognition and availability:** whether discoveries made before an objective appears count retroactively, which tasks are parallel versus sequential, and whether small optional jobs repeat.
 4. **Reward and price balance:** amounts of Gold, Seeds and Spores; Leaf sale values; costs of Seeds, Spores, Blockers, hex expansions, and expensive Source items; unlock timing and any availability limits.
 5. **Player UX and persistence:** task tracker, hints, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
-6. **Fairness checks:** ensure free Potato Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
+6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
 **Implementation status:** design discussion only. Existing game mechanics and the completed temporary Source-item phase remain unchanged.
 

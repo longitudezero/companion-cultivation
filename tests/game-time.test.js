@@ -19,14 +19,14 @@ test('the approved 5-second live clock converts game-hour durations consistently
 });
 
 test('developer Grimoire recipes and lethal exposures show live real-time equivalents', () => {
-  const potato = TRANSFORMATIONS.Potato.find(recipe => recipe.into === 'Apple');
-  assert.match(describeFullRecipe('Potato', potato), /Hold for 1m 40s\./);
+  const potato = TRANSFORMATIONS.Beanstalk.find(recipe => recipe.into === 'Potato');
+  assert.match(describeFullRecipe('Beanstalk', potato), /Hold for 1m 40s\./);
 
   const mistlefoe = TRANSFORMATIONS.Mistlefoe.find(recipe => recipe.into === 'Mandrabra');
   assert.match(describeFullRecipe('Mistlefoe', mistlefoe), /1m to under 1m 40s/);
 
-  const ghostRice = TRANSFORMATIONS['Ghost Rice'][0];
-  assert.match(describeFullRecipe('Ghost Rice', ghostRice), /within 40s/);
+  const ghostRice = TRANSFORMATIONS['Saffrune'][0];
+  assert.match(describeFullRecipe('Saffrune', ghostRice), /within 40s/);
 
   assert.ok(previewPlantHazards('Mandrakadabra').includes('Bright exposure: 20s to death'));
 });

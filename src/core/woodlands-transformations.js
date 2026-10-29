@@ -3,7 +3,7 @@ const route = (into, conditions, contacts, hours, extra = {}) =>
   ({ into, conditions, contacts, hours, ...extra });
 
 export const WOODLANDS_TRANSFORMATIONS = Object.freeze({
-  'Woodlands Base': [
+  'Moss': [
     route('Bamboom', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' }, [['Emberbolete']], 14),
     route('Mandrabra', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel']], 20),
     route('Tanglethorn', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Mistruffle']], 12),

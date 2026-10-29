@@ -1,5 +1,7 @@
 # Fungal roster — V9 accepted second-pass Plant Transformation recipes
 
+> **Naming update (29 October 2026):** The original recipe tables below intentionally retain the Plant names used at approval. The [current Plant naming map](../decisions/plant-names.md) supplies their playable names. All 69 routes, fungal contacts, conditions, and timing remain unchanged.
+
 > **ACTIVE · APPROVED · IMPLEMENTED — Prototype 16 (28 October 2026).** All 69 V9 routes are live. Resolved Plant-hex Conditions and named living Fungus contacts are the only static recipe gates. This document is the current source of truth for the 69 recipes.
 
 > **Approval history:** The user explicitly locked these **69 new recipes** after reviewing the complete six-family slate. V9 builds on the [V8 twelve-Fungus names, effects, Mycelial classes and propagation footprints](random-roster-v8.md). Earlier [V0–V7 drafts](../../historical-archive/fungal-redesign/README.md) and the [first-pass Plant family recipe pages](../README.md#plant-families) are preserved for provenance. **Mycelord is unchanged.**

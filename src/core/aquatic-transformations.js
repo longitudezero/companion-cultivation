@@ -2,7 +2,7 @@
 // real living-fungus reach, including Waterborne Flooded connectivity.
 const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
 export const AQUATIC_TRANSFORMATIONS = Object.freeze({
-  'Aquatic Base': [
+  'Algea': [
     route('Kelpfull', { Moisture: 'Flooded', Temperature: 'Temperate' }, [['Dewmender']], 12),
     route('Sunken Lotus', { Moisture: 'Flooded', Temperature: 'Cold' }, [['Rilllace']], 16),
     route('Wild Watercress', { Moisture: 'Damp', Temperature: 'Temperate' }, [['Rainmorel']], 10),
