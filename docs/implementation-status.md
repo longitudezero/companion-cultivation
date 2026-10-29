@@ -1,5 +1,11 @@
 # Companion Cultivation — implementation status
 
+## First tutorial recipe and Carrot Dry grace — IMPLEMENTED (29 October 2026)
+
+To support the planned guided opening on ordinary Dry, Temperate, Dark terrain, **Beanstalk → Carrot** now requires **Dry, Temperate, Dim** with living Prismorel contact for 10 simulated hours; Prismorel's +1 Illumination supplies the final step. Carrot's continuous **Dry** death threshold is now **240 garden hours = 20 real minutes**, giving new players time to learn how to wet the soil after transformation. Other Carrot hazard thresholds remain unchanged. See the [progression design](working/store-and-progression.md) for the agreed **A Thirsty Carrot** follow-up, which will grant Dewmender Spores and teach caring for the transformed Plant.
+
+The changed recipe and hazard are runnable mechanics. **The tutorial tasks, store, automatic Spore rewards, and main progression remain design-only**, not implemented by this balance update.
+
 ## Plant naming pass — IMPLEMENTED (29 October 2026)
 
 All 26 approved Plant renames are applied in the runtime registry, 69 Transformation recipes, Seed/Leaf identities, garden inspector, inventory, and Grimoire. The Ingredients family still has **seven** species: former Potato Base is now **Beanstalk** and former terminal Apple is now **Potato**; Cocoa was not added. Profile values, routes, durations and the six-family total of **60** Plants remain unchanged. See the [approved mapping](design/decisions/plant-names.md).

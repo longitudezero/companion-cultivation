@@ -148,7 +148,7 @@ export const PLANTS = Object.freeze({
   Carrot: ingredient(2.5, 6, .38, 16, 95, 6, {
     moisture: [.70, 1, .60], light: [.60, .80, 1, 1], preferredTemperature: ['Temperate'],
     lightOutput: [.50, .70, 1, 1], productiveWindow: [85, 115],
-    dryDeath: 72, hotDeath: 48, freezingDeath: 48, mycelialDeath: 48, compatibility: { growthRate: 1.9, ripeningRate: 1.2, ...compat('Carrot') },
+    dryDeath: 240, hotDeath: 48, freezingDeath: 48, mycelialDeath: 48, compatibility: { growthRate: 1.9, ripeningRate: 1.2, ...compat('Carrot') },
   }),
   Onion: ingredient(4.75, 9.5, .26, 19, 130, 10, {
     moisture: [.80, 1, .50], light: [.80, 1, 1, .90], preferredTemperature: ['Cold', 'Temperate'],

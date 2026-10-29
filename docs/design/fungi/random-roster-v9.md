@@ -1,6 +1,8 @@
 # Fungal roster — V9 accepted second-pass Plant Transformation recipes
 
-> **Naming update (29 October 2026):** The original recipe tables below intentionally retain the Plant names used at approval. The [current Plant naming map](../decisions/plant-names.md) supplies their playable names. All 69 routes, fungal contacts, conditions, and timing remain unchanged.
+> **Naming update (29 October 2026):** The original recipe tables below intentionally retain the Plant names used at approval. The [current Plant naming map](../decisions/plant-names.md) supplies their playable names. The original 69 routes and named contacts are retained, with the following explicitly approved onboarding exception.
+
+> **Current Beanstalk → Carrot rule (29 October 2026):** **Dry, Temperate, Dim** with living **Prismorel** contact for **10 simulated hours**. Prismorel's +1 Illumination converts the standard Dark baseline to Dim without a special terrain patch or a player Source item. This **replaces** the older Potato → Carrot **Damp, Temperate, Lit** row preserved in the historical table below. The other five Ingredients route requirements are unchanged.
 
 > **ACTIVE · APPROVED · IMPLEMENTED — Prototype 16 (28 October 2026).** All 69 V9 routes are live. Resolved Plant-hex Conditions and named living Fungus contacts are the only static recipe gates. This document is the current source of truth for the 69 recipes.
 
