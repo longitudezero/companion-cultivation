@@ -2,6 +2,8 @@
 
 > **Naming update (29 October 2026):** The original recipe tables below intentionally retain the Plant names used at approval. The [current Plant naming map](../decisions/plant-names.md) supplies their playable names. Plant renames alone did not change recipe mechanics.
 
+> **Current Beanstalk → Carrot rule (29 October 2026):** **Dry, Temperate, Dim** with living **Prismorel** contact for **10 simulated hours**. Prismorel's +1 Illumination converts the standard Dark baseline to Dim without a special terrain patch or a player Source item. This **replaces** the older Potato → Carrot **Damp, Temperate, Lit** row preserved in the historical Ingredients table below. The other five Ingredients routes are unchanged.
+
 > **Aquatic flood-loss update (29 October 2026):** **Kelpfull → Kelpless** and **Kelpergeist → Kelpless** are now environmental-only: remaining **Dry or Damp**, with no Fungus contact, for **96 garden hours (8 real minutes)** or **48 garden hours (4 real minutes)** respectively. Returning to Flooded resets the relevant clock. These two rows supersede the original V9 fungal-contact and timing requirements; the other 67 routes are unchanged. Kelpfull's Dry-death limit is 96 garden hours so the transformation can complete at the exact lethal timestamp.
 
 > **ACTIVE · APPROVED · IMPLEMENTED — Prototype 16 (29 October 2026).** All 69 V9 routes are live. Resolved Plant-hex Conditions and (except for the two Kelpless flood-loss routes) named living Fungus contacts are the static recipe gates. This document is the current source of truth for the 69 recipes.
