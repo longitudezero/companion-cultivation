@@ -1,10 +1,12 @@
 # Companion Cultivation — implementation status
 
-## Temporary Source items — first playable implementation (29 October 2026)
+## Temporary Source items — COMPLETE (29 October 2026)
 
 The [working item design](working/temporary-source-items.md) now has a first runtime pass: 26 named catalog entries in seven groups; developer-only item dispenser; individual non-stacking, independently timed Source items in the 200-square inventory; direct item placement, relocation and pickup; active-only countdown and permanent expiry; Range or directional Budget effects through the existing environmental engine. Placing items frees inventory slots. Picking up while the inventory is full is safely refused. Selected Budget items use a floating drag-to-rotate six-way handle. Staged Fungi with environmental or cultivation Budget propagation use the same handle until Apply, after which their heading is fixed in ordinary play.
 
-V6 garden and portable save handling now preserves individually identified item instances, placements, headings and remaining time; existing V6 saves without items continue to load. Developer Sources stay configurable and untimed. Store purchases and actual unlock triggers remain deferred, and balance and visual presentation are still first-pass. Automated validation: **213/213 Node tests**, plus frontend, CommonJS and load smoke builds/tests via `npm run check`. Manual browser interaction testing is still worthwhile.
+V6 garden and portable save handling preserves individually identified item instances, placements, headings and remaining time; existing V6 saves without items continue to load. Developer Sources stay configurable and untimed. **Merged to `main` via [PR #26](https://github.com/longitudezero/companion-cultivation/pull/26) and live on GitHub Pages.** The project owner manually verified drag-and-drop to/from inventory and drag-to-rotate in the live game and accepted this phase as complete. Automated validation: **213/213 Node tests**, plus frontend, CommonJS and load smoke builds/tests via `npm run check`. The roster's numerical balance and visual presentation remain first-pass; broader exploratory testing can continue.
+
+**Next phase — store and progression (not yet designed or implemented):** item purchases, currency/economy, progressive access to the seven item groups, and associated player-facing UI. The temporary developer-only dispenser remains until the store is ready.
 
 ## Prototype 16 — V8/V9 fungal implementation (28 October 2026)
 
