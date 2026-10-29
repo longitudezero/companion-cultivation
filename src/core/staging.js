@@ -65,6 +65,18 @@ export function moveStagedPlanting(garden, from, to) {
   return { ...garden, staged };
 }
 
+export function rotateStagedFungus(garden, key, heading) {
+  const entry = garden.staged?.[key];
+  const definition = entry?.kind === 'fungus' ? FUNGI[entry.species] : null;
+  if (!definition || (definition.environment?.propagation !== 'spread-budget'
+    && definition.cultivation?.propagation !== 'spread-budget')) {
+    throw new Error('This staged planting has no directional Budget effect.');
+  }
+  if (!Number.isInteger(heading) || heading < 0 || heading > 5) throw new Error('Choose one of six directions.');
+  if (entry.heading === heading) return garden;
+  return { ...garden, staged: { ...garden.staged, [key]: { ...entry, heading } } };
+}
+
 export function applyStaging(garden, random = Math.random) {
   const placements = Object.entries(garden.staged || {}).sort(([a], [b]) => a.localeCompare(b));
   if (!placements.length) throw new Error('Stage Seeds or Spores before pressing Apply.');

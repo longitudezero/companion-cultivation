@@ -47,12 +47,13 @@ export function createGarden(columns = 9, rows = 7) {
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
   const starterSeeds = { Potato: 16, Daisydaze: 16, 'Aquatic Base': 16,
     'Woodlands Base': 16, Jadeheart: 16, Thymely: 16 };
-  return { schemaVersion: 6, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0,
+  return { schemaVersion: 6, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, itemNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
     inventorySlots: {}, staged: {}, pending: {},
     grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
       environments: {}, fungalEffects: {}, hazards: {}, transformations: [] },
-    inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, trophies: { bambooSteel: 0 } } };
+    inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, sourceItems: {},
+      trophies: { bambooSteel: 0 } } };
 }
 
 export function resizeGarden(garden, columns, rows) {
@@ -60,7 +61,14 @@ export function resizeGarden(garden, columns, rows) {
     throw new Error('Garden dimensions must be between 3 and 20.');
   }
   const next = createGarden(columns, rows);
+  // Deployed items are owned possessions; resizing must not silently delete
+  // one outside the new rectangle.
+  if (Object.entries(garden.objects).some(([key, object]) =>
+    object.type === 'source' && object.itemId && !next.hexes[key])) {
+    throw new Error('Move deployed Source items into the new plot before resizing.');
+  }
   next.clockHours = garden.clockHours || 0;
+  next.itemNonce = garden.itemNonce || 0;
   next.colonyNonce = garden.colonyNonce || 0;
   next.inventory = garden.inventory;
   next.grimoire = garden.grimoire;
