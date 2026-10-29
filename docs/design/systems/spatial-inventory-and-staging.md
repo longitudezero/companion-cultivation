@@ -4,6 +4,10 @@
 
 > **Approved player-interaction design, 27 October 2026; implementation pending.** This document records decisions made after the first-pass six-family roster and Prototype 12's developer-tool separation. It governs the *intended player interface and planting flow*, not the current code's status. The existing approved [Seeds/Spores and harvesting rules](seeds-spores-and-harvesting.md), [simulation event order](simulation-and-time.md), [Plant-specific Leaf identities](../decisions/species-specific-leaves.md), and family profiles retain their quantitative authority. See the [implementation ledger](../../implementation-status.md) to determine what actually runs today.
 
+## Progression-capacity update — APPROVED 29 October 2026, implementation pending
+
+The [task organization and progression rules](../../working/task-organization.md) now specify **20 starting slots**, three task rewards of **+10 slots** up to **50**, then store purchases in **10-slot packs**. For future progression mode, this supersedes the fixed 200-slot grant described below. The current prototype still implements 200 slots; this documentation change does not shrink existing inventories. The eventual maximum, pagination, and existing-save migration remain open. Stack identity/quantity behavior, staged reservations, and the no-loss harvest rules remain applicable.
+
 ## 1. Inventory identity, capacity, and arrangement — approved
 
 | Subject | Decision |

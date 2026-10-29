@@ -28,7 +28,7 @@ While paused, players can read menus, plan, and rearrange things. Direct player 
 
 **Opening the Taskboard does not pause the game or change the selected speed.** The compact pinned-objectives tracker also never pauses gameplay. Players may choose Pause themselves before reading or planning.
 
-Exact control placement, speed-aware duration presentation, and speed-setting persistence remain implementation/UI details. See the [progression framework](../../working/store-and-progression.md) for Taskboard behavior.
+Exact control placement, speed-aware duration presentation, and speed-setting persistence remain implementation/UI details. See the [progression framework](../../working/task-organization.md) for Taskboard behavior.
 
 ## 64. Whole-garden event and update order — APPROVED
 

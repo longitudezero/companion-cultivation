@@ -17,6 +17,8 @@ Companion Cultivation is a hex-garden farming game about cultivating Plants for 
 
 - [Guild setting and task voice](setting-and-task-voice.md) — **approved narrative direction, content not yet implemented**. The newly hired guild botanist, supportive instructor, offscreen adventures, and clear objectives with comic descriptions.
 
+- [Task organization and progression](../working/task-organization.md) — shared agreed rules and record definitions; individual [main](../working/main-tasks.md) and [side](../working/side-tasks.md) task rosters remain under development.
+
 ## Systems
 
 - [Environment, Conditions, Sources and Blockers](systems/environment.md)

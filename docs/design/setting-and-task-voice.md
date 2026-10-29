@@ -1,8 +1,8 @@
 # Guild setting and task voice
 
-> **ACTIVE · APPROVED NARRATIVE DIRECTION · 29 October 2026.** Agreed with the project owner. This document establishes the setting and writing rules for future task content; it does not claim that quests, characters, or narrative UI have been implemented. Individual task requirements, quantities, rewards, and availability remain to be designed.
+> **ACTIVE · APPROVED NARRATIVE DIRECTION · 29 October 2026.** Agreed with the project owner. This document establishes the setting and writing rules for future task content; it does not claim that quests, characters, or narrative UI have been implemented. Individual task records live in the [main](../working/main-tasks.md) and [side](../working/side-tasks.md) rosters; unconfirmed quantities, rewards, and availability remain open.
 
-Related: [Store and progression](../working/store-and-progression.md) · [Current game design](README.md)
+Related: [Store and progression](../working/task-organization.md) · [Current game design](README.md)
 
 ## The player's job
 
@@ -40,36 +40,11 @@ Storytelling happens primarily through the Taskboard's descriptions and requests
 - Ordinary discovery tasks give hints rather than hidden recipes. The fully guided first transformation remains the deliberate exception described in the progression framework.
 - Use the current species names and approved mechanics when writing task text. A narrative request for potions or food does not itself add a potion-crafting or cooking system; the objective names the actual resources or actions required.
 
-## Example: A Thirsty Carrot
+## Opening task example
 
-The following illustrates the agreed instructor voice and care lesson. It is not a finalized task record or reward specification.
+The full **A Thirsty Carrot** description, precise objectives, completion condition, and compact pinned text now live in its canonical [main-task record — M-8NQ2VC](../working/main-tasks.md#m-8nq2vc). It exemplifies the supportive instructor escalating from congratulations to “it's going to FREAKING DIE” while directing the player to the Inspector.
 
-> Your first transformation was a success! Congratulations!
->
-> Unfortunately, Carrot prefers damp soil, and you've grown it somewhere considerably less damp.
->
-> That's fine. We can fix that.
->
-> Also, it's going to FREAKING DIE if you don't.
->
-> Seriously. There's a death timer. Select your Carrot and look in the Inspector.
->
-> No pressure.
-
-The objective beneath that description stays practical:
-
-- Place Dewmender so its moisture effect reaches Carrot.
-- Raise Carrot's soil moisture to Damp.
-
-A compact pinned entry can retain a little personality without hiding the action:
-
-> **A Thirsty Carrot**
->
-> Raise Carrot's moisture to Damp.
->
-> Your Carrot is dying. Just thought you should know.
-
-The [progression framework](../working/store-and-progression.md) owns the immediate Dewmender reward, care sequence, and Carrot's extended Dry grace. The [simulation rules](systems/simulation-and-time.md) own manual time controls; opening the Taskboard does not pause the garden.
+Use the [task organization guide](../working/task-organization.md) for shared task/progression behavior and the [simulation rules](systems/simulation-and-time.md) for manual time controls.
 
 ## Example request ideas
 
@@ -80,8 +55,8 @@ These are tone references, not approved entries in the task roster:
 - **A Completely Legal Advantage:** an arena fighter wants help preparing for a tournament and is being suspiciously specific about the desired benefits.
 - **Love Is in the Air:** an adventurer needs a flower arrangement and has no idea where to start.
 
-Exact task order, requesters' names, delivery quantities, rewards, and family-unlock assignments remain open.
+The examples above still need task records, requesters' names, delivery quantities, rewards, and family-unlock assignments. The separate main roster records the agreed opening sequence.
 
 ---
 
-[Current game design](README.md) · [Store and progression](../working/store-and-progression.md)
+[Current game design](README.md) · [Store and progression](../working/task-organization.md)

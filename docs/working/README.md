@@ -4,10 +4,12 @@
 
 ## Current documents
 
-- [Store and progression](store-and-progression.md) — **agreed framework; task roster, prices, and implementation pending**. Covers guided onboarding, family unlocks, Leaf deliveries, Gold, the shop, Taskboard/pinned objectives, and manual simulation controls.
+- [Task organization, store and progression](task-organization.md) — **agreed framework; implementation pending**. Defines M/S IDs, decimal Order, record fields, onboarding, capacity rewards, family unlocks, deliveries, the shop, Taskboard/pins, and time controls.
+- [Main tasks](main-tasks.md) — **two opening task records; reward amounts and detailed balance pending**. My First Transformation and A Thirsty Carrot.
+- [Side tasks](side-tasks.md) — **roster not yet authored**. Uses the same record structure without Order.
 - [Temporary player Source items](temporary-source-items.md) — **completed and player-tested**. Records the 26-item roster and interactions implemented on `main`.
 
-The approved [Guild setting and task voice](../design/setting-and-task-voice.md) lives in the active design area and guides future tutorial, main-task, and side-task writing. Individual task entries remain to be designed.
+The approved [Guild setting and task voice](../design/setting-and-task-voice.md) lives in the active design area and guides future tutorial, main-task, and side-task writing. Individual task entries live in the main/side rosters above; their Status fields distinguish agreed content from open details.
 
 The completed V0–V7 fungal experiments and their notebook were moved to the [historical archive](../historical-archive/fungal-redesign/README.md) after V8/V9 became the current design.
 
