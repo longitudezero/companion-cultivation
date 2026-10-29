@@ -106,20 +106,56 @@ test('named fungal contacts qualify, but arbitrary species and interruption do n
   assert.equal(advanceGardenTime(garden, 4).garden.objects[target].species, 'Algea');
 });
 
-test('Kelpergeist needs Sim\'mushro\'dim contact on non-Flooded soil, and resets if rewetted', () => {
-  let garden = gardenWith('Kelpergeist');
-  garden = placeObject(garden, near[0], makeFungus("Sim'mushro'dim",
-    neighborsOf(near[0]).indexOf(target)));
-  for (const adjacent of near) garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Aqueous'));
-  garden = setBaseline(garden, target, 'Moisture', 'Damp');
-  garden = advanceGardenTime(garden, 10).garden;
-  assert.equal(garden.objects[target].transformationClocks.Kelpless, 10);
+test('Kelpergeist loses Flooded to become Kelpless after four real minutes without Fungi', () => {
+  const recipe = TRANSFORMATIONS.Kelpergeist.find(entry => entry.into === 'Kelpless');
+  assert.equal(recipe.environmentalOnly, true);
+  assert.deepEqual(recipe.contacts, []);
+  assert.equal(recipe.hours, 48);
+  let garden = setBaseline(gardenWith('Kelpergeist'), target, 'Moisture', 'Damp');
+  assert.equal(transformationStatus(garden, target).find(entry => entry.into === 'Kelpless').eligible, true);
+  garden = advanceGardenTime(garden, 47).garden;
+  assert.equal(garden.objects[target].species, 'Kelpergeist');
+  assert.equal(garden.objects[target].transformationClocks.Kelpless, 47);
+  garden = advanceGardenTime(garden, 1).garden;
+  assert.equal(garden.objects[target].species, 'Kelpless');
+  assert.equal(garden.objects[target].ageHours, 0);
+});
+
+test('Flooded immediately resets Kelpergeist loss clock; Dry counts a fresh four minutes', () => {
+  let garden = setBaseline(gardenWith('Kelpergeist'), target, 'Moisture', 'Damp');
+  garden = advanceGardenTime(garden, 32).garden;
   garden = reconcileTransformationClocks(setBaseline(garden, target, 'Moisture', 'Flooded'), garden);
   assert.equal(garden.objects[target].transformationClocks.Kelpless, 0);
   garden = reconcileTransformationClocks(setBaseline(garden, target, 'Moisture', 'Dry'), garden);
-  garden = advanceGardenTime(garden, 18).garden;
+  garden = advanceGardenTime(garden, 47).garden;
+  assert.equal(garden.objects[target].species, 'Kelpergeist');
+  garden = advanceGardenTime(garden, 1).garden;
   assert.equal(garden.objects[target].species, 'Kelpless');
   assert.equal(garden.objects[target].exposure.Dry, 0);
+});
+
+test('Kelpfull loses Flooded to become Kelpless after eight real minutes without Fungi', () => {
+  const recipe = TRANSFORMATIONS.Kelpfull.find(entry => entry.into === 'Kelpless');
+  assert.equal(recipe.environmentalOnly, true);
+  assert.deepEqual(recipe.contacts, []);
+  assert.equal(recipe.hours, 96);
+  assert.equal(PLANTS.Kelpfull.dryDeath, 96, 'Dry death must not preempt the transformation');
+  let garden = setBaseline(gardenWith('Kelpfull'), target, 'Moisture', 'Dry');
+  garden = advanceGardenTime(garden, 95).garden;
+  assert.equal(garden.objects[target].species, 'Kelpfull');
+  assert.equal(garden.objects[target].transformationClocks.Kelpless, 95);
+  garden = advanceGardenTime(garden, 1).garden;
+  assert.equal(garden.objects[target].species, 'Kelpless');
+  assert.equal(garden.objects[target].exposure.Dry, 0);
+
+  garden = setBaseline(gardenWith('Kelpfull'), target, 'Moisture', 'Damp');
+  garden = advanceGardenTime(garden, 50).garden;
+  garden = reconcileTransformationClocks(setBaseline(garden, target, 'Moisture', 'Flooded'), garden);
+  assert.equal(garden.objects[target].transformationClocks.Kelpless, 0);
+  garden = reconcileTransformationClocks(setBaseline(garden, target, 'Moisture', 'Damp'), garden);
+  garden = advanceGardenTime(garden, 95).garden;
+  assert.equal(garden.objects[target].species, 'Kelpfull');
+  assert.equal(advanceGardenTime(garden, 1).garden.objects[target].species, 'Kelpless');
 });
 
 function preparedMoonlit() {

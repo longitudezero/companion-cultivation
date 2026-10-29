@@ -30,7 +30,7 @@ const aquatic = (name, growthDays, totalDays, germination, leafPeak, leafPeakAt,
 
 export const AQUATIC_PLANTS = Object.freeze({
   'Algea': aquatic('Algea', 4, 8, .28, 10, 100, 10, 'Algea', [.5, 1, .9], ['Temperate'], 72, 48),
-  Kelpfull: aquatic('Kelpfull', 3, 7, null, 6, 105, 20, 'Algea', [0, .65, 1], ['Cold', 'Temperate'], 48, 36,
+  Kelpfull: aquatic('Kelpfull', 3, 7, null, 6, 105, 20, 'Algea', [0, .65, 1], ['Cold', 'Temperate'], 96, 36,
     { moistureOutput: [.25, .65, 1] }),
   Kelpergeist: aquatic('Kelpergeist', 5, 9, .15, 22, 150, 5, 'Kelpergeist', [0, .6, 1], ['Cold', 'Temperate'], 72, 36,
     { productiveWindow: [137, 162], moistureOutput: [.2, .6, 1], lightOutput: [1, .9, .6, .4] }),

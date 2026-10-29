@@ -58,6 +58,14 @@ test('recipe references include named contacts, resolved conditions and multi-st
   assert.match(starlotus, /Flooded to Damp/);
   assert.match(starlotus, /Rainmorel/);
 
+  for (const [from, duration] of [['Kelpergeist', '4m'], ['Kelpfull', '8m']]) {
+    const kelpless = previewPlantRecipes(from).find(line => line.includes('Kelpless'));
+    assert.match(kelpless, /No Fungus required/);
+    assert.match(kelpless, new RegExp(`Hold for ${duration}`));
+    assert.match(kelpless, /returning to Flooded resets the timer/);
+    assert.doesNotMatch(kelpless, /Living Fungus contact:/);
+  }
+
   const ashenRose = previewPlantRecipes('Aloechemist').find(line => line.includes('Cactastrophe'));
   assert.match(ashenRose, /under 3m/);
   assert.match(ashenRose, /Rilllace/);

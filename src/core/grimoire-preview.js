@@ -59,6 +59,9 @@ const contactsText = groups => (groups || []).map(group => group.join(' or ')).j
 export function describeFullRecipe(from, recipe) {
   const prefix = `${from} → ${recipe.into}`;
   if (!recipe.sequence) {
+    if (recipe.environmentalOnly) {
+      return `${prefix} — ${conditionText(recipe.conditions)}. No Fungus required. Hold for ${formatRealDuration(recipe.hours)} continuously; returning to Flooded resets the timer.`;
+    }
     return `${prefix} — ${conditionText(recipe.conditions)}. Living Fungus contact: ${contactsText(recipe.contacts)}. Hold for ${formatRealDuration(recipe.hours)}.`;
   }
   const preparation = recipe.preparation || {};

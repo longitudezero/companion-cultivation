@@ -2,7 +2,7 @@
 
 > **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** Cross-family timing, stage independence and reset rules apply to the live game. The first-pass route examples and older contacts retained below are historical; [V9](../fungi/random-roster-v9.md) is the current authority for all 69 recipes.
 
-> **Implemented redesign (28 October 2026):** [V9's 69 locked recipes](../fungi/random-roster-v9.md) use **only the final resolved target-hex environment/state transitions** plus **mandatory contact from specified named living Fungi**. No environmental state must come from a particular Fungus or exact emission strength. V9 is the current design and runtime rule; the old recipe conditions below are historical examples only.
+> **Implemented redesign (updated 29 October 2026):** [V9's 69 recipes](../fungi/random-roster-v9.md) use **only the final resolved target-hex environment/state transitions** plus **mandatory contact from specified named living Fungi** for 67 routes. **Kelpfull and Kelpergeist → Kelpless** are the two fungus-free exceptions: remaining Dry or Damp for **96h/48h** respectively. No environmental state must come from a particular Fungus or exact emission strength. V9 is the current design and runtime rule; the old recipe conditions below are historical examples only.
 
 **Recipe locations:** The current concrete recipes are together in [V9](../fungi/random-roster-v9.md). The first-pass, superseded recipe tables remain in the six [Plant family documents](../README.md#plant-families) for provenance. This file contains the shared Transformation framework.
 
@@ -45,7 +45,8 @@ These four Aquatic branches have complete, approved named-contact and timing rec
 | **Moonlit Lotus → Starlotus** | **§69:** Flooded, Cold, Dim with **Tidegill OR Rilllace** for **24h**, **then Flooded → Damp drainage**. Its pre-drain exposure qualifies at the transition; the new 0%-Growth Starlotus receives fresh **Damp attunement**, with no Ripening check. |
 | **Moonlit Lotus → Pearlily** | **§69:** Stay **Flooded, Temperate, Lit** with **Dewmender OR Mistruffle for 24h**; no drain event or Growth/Ripening threshold. New Pearlily begins at 0%. |
 | **Kelpergeist → Starlotus** | **§69:** Stay **Flooded, Cold, Dim** with **Tidegill OR Siltgill for 28h**. New 0%-Growth Starlotus receives fresh **Flooded attunement**; no maturity threshold. |
-| **Kelpergeist → Kelpless** | **§69 environmental-only exception:** Continuous **NOT Flooded (Dry OR Damp) for 18h**, **no Fungus contact**; restoring Flooded interrupts/resets this clock. New Kelpless begins at 0%. |
+| **Kelpergeist → Kelpless** | **Current environmental-only exception:** Continuous **NOT Flooded (Dry OR Damp) for 48h (4 real minutes)**, **no Fungus contact**; restoring Flooded interrupts/resets this clock. New Kelpless begins at 0%. |
+| **Kelpfull → Kelpless** | **Current environmental-only exception:** Continuous **NOT Flooded (Dry OR Damp) for 96h (8 real minutes)**, **no Fungus contact**; restoring Flooded interrupts/resets this clock. Kelpfull's Dry-death threshold also increases to 96h so the transformation can win the exact-timestamp tie. |
 
 **Physical feasibility:** A Waterborne cultivation Influence that qualified the Plant while Flooded may stop reaching it as soon as drainage breaks connectivity. A transition recipe may inspect the **pre-change exposure and arriving state** at the event; any Influence required *after* drainage must truly propagate to the new non-Flooded state by its ordinary rules (e.g. independent Airborne reach). Do not create a special Waterborne exception merely to force a route to work.
 

@@ -2,6 +2,8 @@
 
 > **Naming update (29 October 2026):** `Aquatic Base` is now `Algea`. Historical profile wording is preserved; see the [current Plant naming map](../decisions/plant-names.md).
 
+> **Current Kelpless rules (29 October 2026):** Kelpfull becomes Kelpless after **96 garden hours (8 real minutes)** continuously Dry or Damp; Kelpergeist takes **48 garden hours (4 real minutes)**. **No Fungus is required** for either. Restoring Flooded resets the timer. Kelpfull's Dry-death threshold is now **96 hours**, with completion winning the hazard tie. Old timings and contact requirements in the historical tables below are superseded by [V9](../fungi/random-roster-v9.md).
+
 > **ACTIVE · APPROVED PLANT PROFILES — Prototype 16.** Numeric profiles and species identities remain in use. The first-pass Transformation recipes and 31-Fungus references preserved below are superseded by the [implemented V9 recipes](../fungi/random-roster-v9.md) and [V8 roster](../fungi/random-roster-v8.md). Older “not implemented” status text describes the original approval checkpoint, not the playable game. See [implementation status](../../implementation-status.md).
 
 **Approved first-pass Transformation routes:** 14. **Source sections preserved:** §25, §26, §27, §28, §69.
@@ -16,7 +18,7 @@ This file keeps the detailed species profiles, numerical tables, Seed identities
 
 **Balance benchmark:** Ordinary Plants target approximately **10 Leaves/10 Seeds** and **4 in-game days to 100% / 8 total days to 200%** in ideal habitat, with larger differences allowed for specialists. Aquatic's 11 profiles and §28 numerical pass are approved, as are all **14** Transformation recipes in §69. Fungal gameplay remains unimplemented.
 
-**Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist into Kelpless**, but §69 now specifies the distinct Kelpergeist → Kelpless route: 18h continuously not Flooded, with no named-fungus requirement. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
+**Aquatic identity preserved from §12:** All Aquatic Plants **dislike Dry**; **Damp and/or Flooded** are preferred. Some routes involve Waterborne reach and water-level changes; continuous loss of Flooded can transform **Kelpergeist or Kelpfull into Kelpless** under the current 48h/96h fungus-free rules noted above. The two Starlotus attunements and Silvercress stage-specific benefits remain intact.
 
 ### Approved Aquatic network (recipe details in §69)
 

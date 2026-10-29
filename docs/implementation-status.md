@@ -1,11 +1,5 @@
 # Companion Cultivation — implementation status
 
-## First tutorial recipe and Carrot Dry grace — IMPLEMENTED (29 October 2026)
-
-To support the planned guided opening on ordinary Dry, Temperate, Dark terrain, **Beanstalk → Carrot** now requires **Dry, Temperate, Dim** with living Prismorel contact for 10 simulated hours; Prismorel's +1 Illumination supplies the final step. Carrot's continuous **Dry** death threshold is now **240 garden hours = 20 real minutes**, giving new players time to learn how to wet the soil after transformation. Other Carrot hazard thresholds remain unchanged. See the [progression design](working/store-and-progression.md) for the agreed **A Thirsty Carrot** follow-up, which will grant Dewmender Spores and teach caring for the transformed Plant.
-
-The changed recipe and hazard are runnable mechanics. **The tutorial tasks, store, automatic Spore rewards, and main progression remain design-only**, not implemented by this balance update.
-
 ## Plant naming pass — IMPLEMENTED (29 October 2026)
 
 All 26 approved Plant renames are applied in the runtime registry, 69 Transformation recipes, Seed/Leaf identities, garden inspector, inventory, and Grimoire. The Ingredients family still has **seven** species: former Potato Base is now **Beanstalk** and former terminal Apple is now **Potato**; Cocoa was not added. Profile values, routes, durations and the six-family total of **60** Plants remain unchanged. See the [approved mapping](design/decisions/plant-names.md).
@@ -35,7 +29,7 @@ V6 garden and portable save handling preserves individually identified item inst
 
 The [accepted V8 roster](design/fungi/random-roster-v8.md) is wired into `src/core/species.js` and `cultivation.js`: one airborne environmental emission with its own Range or directional Budget, one independent initial cultivation Range/Budget footprint shared by all two or three effects, and unlimited connected-Flooded extension for Waterborne packages after first contact. Matching Kind/Mode/Full Blockers still apply. The Spore quantity picker offers six player-selected headings; the heading persists through staged reservations, hidden germination and living Fungi. Dependent/Mycelial-preferring behavior and Mycelord remain in place.
 
-All [V9 recipes](design/fungi/random-roster-v9.md) are in the six runtime Transformation modules. They require the **resolved Plant-hex state plus the specified living named Fungus contact** (environmental reach or cultivation reach); the number, sign or identity of the emissions that produced a Condition never matters. The event puzzles for Mistlefoe, Moonlit Lotus, Orchiwitch, Aloechemist, Moonjade and Saffrune remain. The previous 31-Fungus roster and its obsolete contact recipes are removed from the runtime, not aliased or silently migrated.
+All [V9 recipes](design/fungi/random-roster-v9.md) are in the six runtime Transformation modules. **67 routes** require the **resolved Plant-hex state plus the specified living named Fungus contact** (environmental reach or cultivation reach); the number, sign or identity of the emissions that produced a Condition never matters. **Two Aquatic exceptions (29 October 2026)** require no fungus: Kelpfull → Kelpless after **8 real minutes** continuously Dry/Damp, and Kelpergeist → Kelpless after **4 real minutes** continuously Dry/Damp; Flooded resets either clock. Kelpfull's Dry death threshold was adjusted to **8 real minutes** so a same-hour transformation wins the lethal tie. The event puzzles for Mistlefoe, Moonlit Lotus, Orchiwitch, Aloechemist, Moonjade and Saffrune remain. The previous 31-Fungus roster and its obsolete contact recipes are removed from the runtime, not aliased or silently migrated.
 
 **Compatibility:** `createGarden()` now produces V7. `isGarden`, file loading and migration accept V6 and V7, rejecting V1–V5; the app retains `companion-cultivation:sandbox:v6` so existing browser autosaves migrate in place. Both V6 and V7 `.ccsave`/raw JSON files load. Future content work: starter Spore acquisition, balancing and complete manual layout/UX review. The old Allocation engine helper is retained but no live Fungus emits Allocation.
 

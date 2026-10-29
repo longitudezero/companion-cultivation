@@ -1,6 +1,10 @@
 // Aquatic §69: fourteen approved Plant-owned routes. Contact alternatives use
 // real living-fungus reach, including Waterborne Flooded connectivity.
 const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
+// A flooded specialist becomes Kelpless after continuous time in Dry or Damp.
+// Unlike ordinary routes, this has no Fungus-contact requirement.
+const floodLoss = hours => ({ into: 'Kelpless', conditions: { Moisture: ['Dry', 'Damp'] },
+  contacts: [], environmentalOnly: true, hours });
 export const AQUATIC_TRANSFORMATIONS = Object.freeze({
   'Algea': [
     route('Kelpfull', { Moisture: 'Flooded', Temperature: 'Temperate' }, [['Dewmender']], 12),
@@ -9,11 +13,11 @@ export const AQUATIC_TRANSFORMATIONS = Object.freeze({
   ],
   Kelpfull: [
     route('Kelpergeist', { Moisture: 'Flooded', Illumination: 'Dark' }, [['Hushroom']], 20),
-    route('Kelpless', { Moisture: ['Dry', 'Damp'] }, [['Droughtcap']], 16),
+    floodLoss(96), // 8 minutes at one garden hour per five real seconds.
   ],
   Kelpergeist: [
     route('Starlotus', { Moisture: 'Flooded', Temperature: 'Cold', Illumination: 'Dim' }, [['Frostfolio'], ['Mistruffle']], 28),
-    route('Kelpless', { Moisture: ['Dry', 'Damp'] }, [["Sim'mushro'dim"]], 18),
+    floodLoss(48), // 4 real minutes.
   ],
   Kelpless: [route('Wild Watercress', { Moisture: 'Damp', Temperature: 'Temperate' }, [['Dewmender']], 12)],
   'Sunken Lotus': [route('Moonlit Lotus', { Moisture: 'Flooded', Illumination: 'Dim' }, [['Mistruffle']], 16)],
