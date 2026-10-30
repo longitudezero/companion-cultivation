@@ -10,6 +10,7 @@ import { createGrimoire, revealPlant, observeFungalAction } from '../src/core/gr
 import { FUNGI } from '../src/core/species.js';
 import { effectAmount, EFFECT_DEFINITIONS } from '../src/grimoire/effects.js';
 import { BOOK_ENTRIES, entryName } from '../src/grimoire/book.js';
+import { illustrationFor } from '../src/grimoire/illustrations.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const cache = await mkdtemp(join(root, 'node_modules', '.grimoire-render-'));
@@ -56,9 +57,25 @@ test('every hidden Plant page masks its name and facts in rendered titles, copy,
     assert.ok(!text(left).includes(entry.species), entry.species);
     assert.ok(!text(right).includes(entry.species), entry.species);
     assert.match(left, /unknown-seeds\.webp/);
+    assert.doesNotMatch(left, /grimoire\/illustrations\//);
     assert.doesNotMatch(left, new RegExp(`alt="[^"]*${entry.species}`));
     assert.match(text(right), /Room for a Discovery/);
     assert.doesNotMatch(text(right), /Moisture:|Temperature:|Living Fungus contact:/);
+  }
+  assert.equal(JSON.stringify(ledger), before);
+});
+
+test('every identified Plant and Fungus uses its supplied illustration while preview leaves discoveries intact', () => {
+  const ledger = createGrimoire(), before = JSON.stringify(ledger);
+  for (const entry of BOOK_ENTRIES.filter(item => ['plant', 'fungus'].includes(item.kind))) {
+    const illustration = illustrationFor(entry.species);
+    assert.ok(illustration, entry.species);
+    const identified = entry.kind === 'plant' ? revealPlant(ledger, entry.species) : ledger;
+    for (const rendered of [spread(entry, 'left', identified), spread(entry, 'left', ledger, true)]) {
+      assert.ok(rendered.includes(`src="${illustration.src}"`), entry.species);
+      assert.match(rendered, /class="cg-species-illustration"/);
+      assert.doesNotMatch(rendered, /Botanical plate awaiting illustration|unknown-seeds\.webp/);
+    }
   }
   assert.equal(JSON.stringify(ledger), before);
 });
