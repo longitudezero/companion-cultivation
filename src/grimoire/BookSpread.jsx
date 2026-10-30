@@ -80,7 +80,7 @@ export default function BookSpread({ entry, side, ledger, preview = false, navig
       </>;
       if (entry.chapter < 6) return <>
         <span className="cg-eyebrow">{chapter.label} · Connections</span><h1>Transformation Atlas</h1>
-        <p className="cg-small">Follow the arrows. Select a name to open its entry. A ↪ marks another route to the same page.</p>
+        <p className="cg-small">Each branch shows a Plant and what it can become. Select a name to open its entry; ↪ marks a repeated page.</p>
         <TransformationAtlas chapter={entry.chapter} ledger={ledger} preview={preview} navigate={navigate}/>
       </>;
       return <>

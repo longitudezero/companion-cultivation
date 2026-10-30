@@ -774,11 +774,8 @@
 .cg-page-content > .cg-atlas { flex: 1 1 0; min-height: 180px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .cg-atlas-viewport { flex: 1 1 0; min-height: 140px; overflow: auto;
   scrollbar-width: thin; scrollbar-color: #b4a485 transparent; color: #69583b; }
-.cg-atlas-pan { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #71634c; font-size: 11px; }
-.cg-overlay .cg-atlas-pan button { min-width: 34px; min-height: 28px; padding: 0 8px; border: 1px solid #aa946b66;
-  background: #f5ead5; border-radius: 3px; color: #67502f; font: 18px Georgia, serif; }
-.cg-atlas-pan button:disabled { opacity: .35; cursor: default; }
 .cg-atlas-viewport svg { display: block; max-width: none; overflow: visible; }
+.cg-atlas-branch-dividers path { fill: none; stroke: #aa946b66; stroke-width: 1; stroke-dasharray: 1 5; }
 .cg-atlas-connections path { fill: none; stroke: currentColor; stroke-width: 1.4; }
 .cg-atlas-connections.tracing path { opacity: .2; }
 .cg-atlas-connections.tracing path.traced { opacity: 1; stroke: #7b4f1f; stroke-width: 2.3; }
