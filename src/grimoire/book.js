@@ -183,7 +183,7 @@ export function atlasLayout(chapter, availableWidth = 384) {
   return { nodes, edges, groups, width, vertical, height: Math.max(180, top - 24) };
 }
 
-export const PAGE_TURN_DURATION = 820;
+export const PAGE_TURN_DURATION = 600;
 export const MAX_JUMP_TURNS = 5;
 export const initialNavigation = { current: 0, target: 0, turn: null, serial: 0,
   duration: PAGE_TURN_DURATION, turnsRemaining: 0 };
