@@ -318,7 +318,6 @@
     .cg-fact { display: block; margin: 8px 0; }
     .cg-fact-icon { font: 17px/1 Georgia, serif; color: #907d61; }
     .cg-fact strong { display: block; color: #4b432f; font: 600 12px system-ui, sans-serif; }
-    .cg-fact span { display: block; color: #948772; font: 12px Georgia, serif; margin-top: 3px; }
     .cg-index-link {
       display: block;
       width: 100%;
@@ -711,7 +710,7 @@
       .cg-plate-symbol { font-size: 57px; }
       .cg-plate-caption { font-size: 7px; }
       .cg-fact { gap: 4px; margin: 4px 0; }
-      .cg-fact strong, .cg-fact span { font-size: 9px; }
+      .cg-fact strong { font-size: 9px; }
       .cg-fact-icon { font-size: 12px; }
       .cg-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; width: calc(100vw - 8px); }
       .cg-tab-content { font-size: 13px; }
