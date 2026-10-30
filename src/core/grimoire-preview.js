@@ -2,17 +2,12 @@ import { PLANTS, FUNGI } from './species.js';
 import { plantKnown } from './grimoire.js';
 import { TRANSFORMATIONS } from './transformations.js';
 import { formatRealDuration } from './game-time.js';
+import { EFFECT_LABELS as EFFECTS, effectAmount } from '../grimoire/effects.js';
 
 // A read-only catalogue view. This never manufactures witnessed discoveries or
 // writes to the garden's Grimoire ledger.
 const MOISTURE = ['Dry', 'Damp', 'Flooded'];
 const LIGHT = ['Dark', 'Dim', 'Lit', 'Bright'];
-const EFFECTS = {
-  growthRate: 'Growth speed', ripeningRate: 'Ripening speed', leafYield: 'Leaf production',
-  seedYield: 'Seed production', germination: 'Germination chance', harvestWindow: 'Harvest window',
-  leafPeakTiming: 'Peak Leaf timing', seedTiming: 'Seed timing', hourlyLeaf: 'Leaves per 5s tick',
-  hourlySeed: 'Seeds per 5s tick', leafAllocation: 'Leaf allocation', seedAllocation: 'Seed allocation',
-};
 
 export const totalRecipes = () => Object.values(TRANSFORMATIONS)
   .reduce((count, recipes) => count + recipes.length, 0);
@@ -91,7 +86,7 @@ export function previewPlantRecipes(species) {
 
 function deliveryText(packageDefinition) {
   const reach = packageDefinition.propagation === 'spread-budget'
-    ? `directional Budget ${packageDefinition.budget}` : `Range ${packageDefinition.range}`;
+    ? `Directional Spread: ${packageDefinition.budget} shared steps` : `Area of Effect: radius ${packageDefinition.range}`;
   return `${packageDefinition.mode === 'waterborne' ? 'Waterborne' : 'Airborne'} ${reach}${packageDefinition.mode === 'waterborne'
     ? ' (continues through connected Flooded hexes)' : ''}`;
 }
@@ -99,13 +94,13 @@ function deliveryText(packageDefinition) {
 export function previewFungusProfile(species) {
   const fungus = FUNGI[species];
   if (!fungus) return [];
-  const lines = [`Habitat: ${fungus.habitat}`];
+  const lines = [`Mycelial affinity: ${fungus.habitat[0].toUpperCase()}${fungus.habitat.slice(1)}`];
   if (fungus.environment) {
     const env = fungus.environment;
     lines.push(`Environmental emission: ${env.name} ${env.strength} · ${env.propagation === 'spread-budget'
-      ? `directional Budget ${env.budget}` : `Range ${env.range}`}`);
+      ? `Directional Spread: ${env.budget} shared steps` : `Area of Effect: radius ${env.range}`}`);
   } else lines.push('No environmental emission');
-  if (fungus.cultivation) lines.push(`Cultivation delivery: ${deliveryText(fungus.cultivation)}`);
+  if (fungus.cultivation) lines.push(`Cultivation Influence: ${deliveryText(fungus.cultivation)}`);
   else lines.push('No cultivation effects');
   return lines;
 }
@@ -113,14 +108,14 @@ export function previewFungusProfile(species) {
 export function previewFungusEffects(species) {
   const effects = FUNGI[species]?.cultivation?.effects || [];
   return effects.map(effect => {
-    const amount = `${effect.amount > 0 ? '+' : ''}${effect.amount}`;
+    const amount = effectAmount(effect);
     const when = effect.window ? ` (maturity ${effect.window[0]}–${effect.window[1]}%)` : '';
-    const boosted = effect.boosted == null ? '' : `; boosted value ${effect.boosted > 0 ? '+' : ''}${effect.boosted}`;
+    const boosted = effect.boosted == null ? '' : `; on Mycelial ${effectAmount({ ...effect, amount: effect.boosted })}`;
     return `${EFFECTS[effect.kind] || effect.kind}: ${amount}${when}${boosted}`;
   });
 }
 
-function recipeReferencesFungus(recipe, fungus) {
+export function recipeReferencesFungus(recipe, fungus) {
   const groups = [recipe.contacts, recipe.preparation?.contacts, recipe.completion?.contacts,
     recipe.completion?.retain];
   return groups.some(group => group?.some(alternatives => alternatives.includes(fungus)))

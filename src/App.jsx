@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import HexGrid, { PALETTES } from './HexGrid.jsx';
 import InventoryGrid from './InventoryGrid.jsx';
 import CultivationGrimoire from './CultivationGrimoire.jsx';
+import { art as grimoireArt } from './grimoire/art.js';
 import { PLAYER_TOOLS, DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
 import './spread.css';
 import './adjacency.css';
@@ -442,11 +443,13 @@ export default function App() {
 
   return <div className="app-shell">
     <header className="topbar">
-      <div className="brand-controls"><div className="brand"><div className="brand-mark">✤</div><div><span className="brand-kicker">THE GARDEN LABORATORY</span><h1>Companion <em>Cultivation</em></h1></div></div>
+      <div className="brand-controls"><div className="brand"><h1 className="game-logo-heading"><img className="game-logo" src={grimoireArt('game-logo')} alt="Companion Cultivation" draggable="false"/></h1></div>
         <button className={`developer-toggle ${showDeveloperTools ? 'is-on' : ''}`} aria-pressed={showDeveloperTools} onClick={toggleDeveloperTools}>{showDeveloperTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
       <div className="top-actions"><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 16</span>
-        <button className="subtle-button" onClick={() => setShowGrimoire(true)} title="Open your garden's discovered species and observations">❦ Cultivation Grimoire</button>
+        <button className="grimoire-launcher" onClick={() => setShowGrimoire(true)} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire">
+          <img src={grimoireArt('book-launcher')} alt="" draggable="false"/>
+        </button>
         <div className="save-game-controls" aria-label="Save and load game">
           <span className={`autosave-indicator ${autosaveStatus === 'Autosaved' ? '' : 'is-warning'}`} role="status">{autosaveStatus === 'Autosaved' ? '✓ ' : '⚠ '}{autosaveStatus}</span>
           <button className="save-game-button" onClick={saveGameFile} title="Download a complete copy of your current garden">↓ Save Game</button>
