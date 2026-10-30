@@ -121,45 +121,58 @@ export function atlasLayout(chapter, availableWidth = 384) {
   const graph = atlasGraph(chapter);
   const byKey = new Map(graph.entries.map(entry => [entry.key, entry]));
   const outgoing = key => graph.edges.filter(edge => edge.from === key);
-  const visited = new Set(), primaryParent = new Map(), roots = [];
-  // Expand each identity once, at its shortest path from a family root. Other
-  // incoming edges end at a repeated, clickable page reference, including cycles.
+  const ordered = [], visited = new Set();
   for (const entry of graph.entries) {
     if (visited.has(entry.key)) continue;
-    roots.push(entry.key); visited.add(entry.key);
-    const queue = [entry.key];
-    for (let i = 0; i < queue.length; i++) for (const edge of outgoing(queue[i])) {
-      if (visited.has(edge.into)) continue;
-      primaryParent.set(edge.into, edge.from); visited.add(edge.into); queue.push(edge.into);
+    const queue = [entry.key]; visited.add(entry.key);
+    for (let i = 0; i < queue.length; i++) {
+      ordered.push(queue[i]);
+      for (const edge of outgoing(queue[i])) if (!visited.has(edge.into)) {
+        visited.add(edge.into); queue.push(edge.into);
+      }
     }
   }
-  const nodeWidth = 144, gap = 24, rowHeight = 114, inset = 18;
-  function branch(key, from = null) {
-    const reference = from !== null && primaryParent.get(key) !== from;
-    const children = reference ? [] : outgoing(key).map(edge => branch(edge.into, key));
-    return { ...byKey.get(key), id: reference ? `${from}=>${key}` : key, reference, children,
-      span: Math.max(nodeWidth, children.reduce((sum, child) => sum + child.span, 0) + Math.max(0, children.length - 1) * gap) };
+  // Each branch is its own local diagram: one source and all its destinations.
+  // Repeating a plaque keeps joins/cycles explicit without long crossing lines.
+  const vertical = availableWidth < 300;
+  const nodeWidth = vertical ? Math.max(112, Math.min(144, availableWidth - 24))
+    : Math.max(120, Math.min(144, (availableWidth - 60) / 2));
+  const width = Math.max(availableWidth, vertical ? nodeWidth + 24 : nodeWidth * 2 + 60);
+  const nodes = [], edges = [], groups = [], printed = new Set();
+  let top = 12;
+  function node(key, x, y, group, suffix) {
+    const reference = printed.has(key);
+    printed.add(key);
+    const result = { ...byKey.get(key), id: reference ? `${group}:${suffix}:${key}` : key,
+      reference, x, y, width: nodeWidth, height: 68, group };
+    nodes.push(result); return result;
   }
-  const trees = roots.map(key => branch(key));
-  const span = trees.reduce((sum, tree) => sum + tree.span, 0) + Math.max(0, trees.length - 1) * gap;
-  const width = Math.max(availableWidth, span + inset * 2), nodes = [], edges = [];
-  function place(tree, start, row, parent = null) {
-    const node = { ...tree, x: start + (tree.span - nodeWidth) / 2, y: 18 + row * rowHeight,
-      width: nodeWidth, height: 68, row };
-    delete node.children; delete node.span;
-    nodes.push(node);
-    if (parent) {
-      const x = parent.x + nodeWidth / 2, y = parent.y + parent.height;
-      const toX = node.x + nodeWidth / 2, toY = node.y - 4, middle = (y + toY) / 2;
-      edges.push({ from: parent.key, into: node.key, sourceId: parent.id, targetId: node.id,
-        path: `M${x},${y} C${x},${middle} ${toX},${middle} ${toX},${toY}` });
+  function branch(from, destinations) {
+    const group = groups.length;
+    const height = vertical && destinations.length ? 182 : Math.max(68, destinations.length * 92 - 24);
+    const start = (width - (vertical ? nodeWidth : nodeWidth * 2 + 36)) / 2;
+    const source = node(from, start, top + (vertical ? 0 : (height - 68) / 2), group, 'from');
+    for (const [index, edge] of destinations.entries()) {
+      const target = node(edge.into, vertical ? start : start + nodeWidth + 36,
+        vertical ? top + 114 : top + index * 92, group, 'into');
+      const x = vertical ? source.x + nodeWidth / 2 : source.x + nodeWidth + 2;
+      const y = vertical ? source.y + source.height : source.y + 25;
+      const toX = vertical ? target.x + nodeWidth / 2 : target.x - 4;
+      const toY = vertical ? target.y - 4 : target.y + 25;
+      const middle = (x + toX) / 2;
+      edges.push({ ...edge, sourceId: source.id, targetId: target.id, group,
+        path: vertical ? `M${x},${y} V${toY}`
+          : `M${x},${y} C${middle},${y} ${middle},${toY} ${toX},${toY}` });
     }
-    let next = start;
-    for (const child of tree.children) { place(child, next, row + 1, node); next += child.span + gap; }
+    groups.push({ from, y: top, height });
+    top += height + 40;
   }
-  let start = (width - span) / 2;
-  for (const tree of trees) { place(tree, start, 0); start += tree.span + gap; }
-  return { nodes, edges, width, height: Math.max(180, ...nodes.map(node => node.y + node.height + 16)) };
+  for (const key of ordered) {
+    const destinations = outgoing(key);
+    if (vertical && destinations.length) for (const edge of destinations) branch(key, [edge]);
+    else if (destinations.length || !printed.has(key)) branch(key, destinations);
+  }
+  return { nodes, edges, groups, width, vertical, height: Math.max(180, top - 24) };
 }
 
 export const turnDuration = distance => distance === 1 ? 820 : Math.max(35, Math.min(300, Math.round(1600 / distance)));

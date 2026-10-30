@@ -42,40 +42,48 @@ test('a chapter bookmark is on the left from its opening overview', () => {
   }
 });
 
-test('every atlas keeps canonical connections in uncrossed branches with safe references for joins and cycles', () => {
+test('every atlas keeps all canonical connections in compact, separate branches, including joins and cycles', () => {
   for (let chapter = 0; chapter < 6; chapter++) {
     const graph = atlasGraph(chapter), names = new Set(graph.entries.map(entry => entry.species));
     const expected = new Set([...names].flatMap(from => (TRANSFORMATIONS[from] || [])
       .filter(recipe => names.has(recipe.into)).map(recipe => `plant:${from}->plant:${recipe.into}`)));
     assert.deepEqual(new Set(graph.edges.map(edge => `${edge.from}->${edge.into}`)), expected);
-    for (const width of [160, 300, 384, 520]) {
+    for (const width of [100, 160, 300, 384, 520]) {
       const layout = atlasLayout(chapter, width);
       assert.equal(layout.nodes.filter(node => !node.reference).length, names.size);
       assert.equal(new Set(layout.nodes.map(node => node.id)).size, layout.nodes.length);
       assert.deepEqual(new Set(layout.edges.map(edge => `${edge.from}->${edge.into}`)), expected);
       assert.equal(layout.edges.length, expected.size);
-      assert.ok(layout.width >= width, 'a readable diagram scrolls rather than shrinking its labels');
+      assert.ok(layout.width <= Math.max(width, 136), 'branches fit the page without a wide map');
       const byId = new Map(layout.nodes.map(node => [node.id, node]));
       for (const node of layout.nodes) {
-        assert.ok(node.width >= 140);
+        assert.ok(node.width >= 112);
         assert.ok(node.x >= 0 && node.x + node.width <= layout.width);
         assert.ok(node.y >= 0 && node.y + node.height <= layout.height);
         if (node.reference) {
           const original = byId.get(node.key);
           assert.equal(node.page, original.page);
           assert.equal(entryName(node, createGrimoire()), entryName(original, createGrimoire()));
-          assert.ok(!layout.edges.some(edge => edge.sourceId === node.id), 'reference leaves never expand cycles');
         }
       }
       for (const edge of layout.edges) {
         assert.ok(!edge.path.includes('NaN'));
         const source = byId.get(edge.sourceId), target = byId.get(edge.targetId);
-        assert.equal(target.row, source.row + 1, 'every arrow stays in the gap between adjacent rows');
-        for (const other of layout.edges) {
-          const otherSource = byId.get(other.sourceId), otherTarget = byId.get(other.targetId);
-          if (source.row === otherSource.row) assert.ok((source.x - otherSource.x) * (target.x - otherTarget.x) >= 0,
-            'separate branches never cross or merge their lines');
-        }
+        assert.equal(source.group, target.group);
+        assert.equal(source.group, edge.group, 'each arrow connects a source and destination in the same branch');
+        if (layout.vertical) {
+          assert.equal(source.x, target.x);
+          assert.ok(source.y + source.height < target.y);
+        } else assert.ok(source.x + source.width < target.x, 'arrows stay in the clear corridor between plaques');
+      }
+      for (const [index, group] of layout.groups.entries()) {
+        if (index) assert.ok(layout.groups[index - 1].y + layout.groups[index - 1].height < group.y,
+          'independent branches never overlap');
+      }
+      for (const [index, node] of layout.nodes.entries()) for (const other of layout.nodes.slice(index + 1)) {
+        assert.ok(node.x + node.width <= other.x || other.x + other.width <= node.x
+          || node.y + node.height <= other.y || other.y + other.height <= node.y,
+        'plaques and their page references never overlap');
       }
     }
   }
