@@ -95,6 +95,14 @@ export function observedTransformations(ledger, species, fungal = false) {
   });
 }
 
+export function fungusTransformationTargets(ledger, species, preview = false) {
+  const targets = new Set(preview
+    ? Object.values(TRANSFORMATIONS).flatMap(recipes => recipes
+      .filter(recipe => recipeReferencesFungus(recipe, species)).map(recipe => recipe.into))
+    : observedTransformations(ledger, species, true).map(record => record.into));
+  return BOOK_ENTRIES.filter(entry => entry.kind === 'plant' && targets.has(entry.species));
+}
+
 export function atlasGraph(chapter) {
   const entries = BOOK_ENTRIES.filter(entry => entry.chapter === chapter && entry.kind === 'plant');
   const names = new Set(entries.map(entry => entry.species));

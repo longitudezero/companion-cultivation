@@ -33,7 +33,7 @@ Primary targets: a small entry/page model beside the Grimoire, `src/CultivationG
 - Port the approved book shell, cover ornaments, thicker paper block, tab artwork, and fluorescent hover/focus treatment.
 - Move the bookmarks down slightly, keeping Index nearer the bottom edge than Ingredients is to the top. Retain their varied sizes, angles, and offsets.
 - Move a chapter's bookmark to the left when its first spread opens. Clicking a Plant family bookmark opens that family's overview. The family tabs provide the return path to the overview.
-- Turn pages through the full outer botanical border, with text and controls above the target. Give that border a subtle hover highlight and a visible keyboard focus state. Support keyboard arrows and touch taps.
+- Turn pages through enlarged outer margins, including blank areas inside the scrolling region; protect text, controls and scrollbar interactions. Give that border a subtle hover highlight and a visible keyboard focus state. Support keyboard arrows and touch taps.
 - Preserve selection of the book's text. Page-turn handlers must ignore text-selection gestures and must not intercept links, dropdowns, or other content controls.
 - Keep the full sequence of intermediate page turns for atlas links, dropdown selections, and other longer jumps. Accelerate turns as the journey gets longer; judge the timing using the complete book.
 - Bind outgoing content to the moving sheet. Incoming content becomes visible as that sheet uncovers it. Keep front, back, stationary pages, and travelling bookmarks synchronized in both directions.
@@ -50,7 +50,7 @@ Primary targets: `src/CultivationGrimoire.jsx`, `src/grimoire.css`, and modal in
 - Lay out the atlas from canonical transformation relationships. Unknown Plant nodes use their fixed rune labels; known nodes show their names. Do not reveal unobserved recipe conditions or required Fungi through the diagram or tooltips.
 - Size plaques around legible labels, allowing wider plaques or two lines for long names. Put small page references beneath plaques where useful. Route arrows to plaque edges and away from names.
 - Stack compact branches vertically, with short arrows and repeated plaques for rejoining routes and cycles. Mark repeated plaques ↪ and keep their original entry/page identity. Keep each source and its destinations visible together; use vertical pairs on narrow pages and emphasize related arrows on hover/focus.
-- Use full-color botanical borders on a chapter's opening spread and subdued monochrome borders on subsequent entry spreads.
+- Use full-color botanical borders on a chapter's opening spread and subdued monochrome borders on subsequent entry spreads. Keep the frame and page number fixed around a separate scrolling region, with top and bottom space clear of colored decorations. Increase desktop page width so outside bookmark ends can approach or slightly cross the screen edge.
 - Make all Plant entries accessible from the beginning. Undiscovered entries show their rune title, the supplied seed illustration in a subdued treatment, and a short whimsical anticipation note. Their real names and undiscovered facts remain masked in visible text, tooltips, alternative text, and accessible labels.
 - Select from twenty stable anticipation notes, including mildly worried variants. Named anecdotes must respect identity discovery.
 - Reveal the discovered name and available Plant artwork when the garden's existing knowledge model identifies that Plant. Keep growing conditions, hazards, responses, and Transformations governed by their own observation rules.
@@ -60,8 +60,8 @@ Primary targets: `src/CultivationGrimoire.jsx`, the entry/page model, a focused 
 
 ### 4. Refine discovery-driven content, terminology, and help
 
-- A Fungus's Transformations section includes only Transformations explicitly naming that Fungus in their requirements. Reuse the existing reference-preview predicate and account for preparation, completion, retention, and removal requirements. Observed results alone must not reveal untried recipes.
-- Fungus entries show observed Plant-specific cultivation interactions, with the same learned response reflected in the corresponding Plant entry.
+- A Fungus's Transformations section lists only deduplicated destination Plant names and page links for Transformations explicitly naming that Fungus in their requirements; omit full recipe instructions. Reuse the existing reference-preview predicate and account for preparation, completion, retention, and removal requirements. Observed results alone must not reveal untried recipes.
+- Fungus entries expose base Cultivation Influence immediately and omit the Observed Plant responses section. Plant-specific observations remain on Plant pages.
 - Remove environmental event-log lines such as `Pumpkin — Moisture shifted to Damp` from these interaction lists. Continue describing the Fungus's own environmental influence in its profile.
 - Preserve previously saved observations. Presentation changes do not require deleting historical ledger facts.
 - Apply the agreed book terminology:

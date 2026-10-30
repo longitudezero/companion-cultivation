@@ -9,8 +9,9 @@
       --corner-w: clamp(76px, calc(var(--page-w) * .24), 148px);
       --stack-step-x: 1.75px;
       --stack-step-y: 2px;
-      --page-w: min(645px, calc((100vw - 380px) / 2), calc((100dvh - 160px) * .704918));
+      --page-w: min(645px, calc((100vw - 300px) / 2), calc((100dvh - 160px) * .704918));
       --page-h: calc(var(--page-w) * 1.418605);
+      --page-turn-width: clamp(44px, calc(var(--page-w) * .35), 226px);
       --paper: #faf5e7;
       --paper-low: #ece0c7;
       --ink: #30291f;
@@ -313,7 +314,7 @@
     .cg-plate::after { left: auto; right: 10px; transform: rotateY(180deg); }
     .cg-plate-symbol { color: #57694e; font: 100 82px/1 Georgia, serif; text-shadow: 2px 4px 0 rgba(69, 77, 54, .08); }
     .cg-plate-caption { position: absolute; bottom: 9px; font: 9px system-ui, sans-serif; color: #8e8067; text-transform: uppercase; letter-spacing: .11em; }
-    .cg-page-number { margin-top: auto; padding-top: 16px; text-align: center; font: 11px system-ui, sans-serif; letter-spacing: .16em; color: #a79b85; }
+    .cg-page-number { flex: 0 0 auto; margin-top: 0; padding-top: 12px; text-align: center; font: 11px system-ui, sans-serif; letter-spacing: .16em; color: #a79b85; }
     .cg-fact { display: block; margin: 8px 0; }
     .cg-fact-icon { font: 17px/1 Georgia, serif; color: #907d61; }
     .cg-fact strong { display: block; color: #4b432f; font: 600 12px system-ui, sans-serif; }
@@ -659,7 +660,7 @@
         top: calc(100% + 43px);
         left: 50%;
         transform: translateX(-50%);
-        width: min(720px, calc(100vw - 40px));
+        width: min(840px, calc(100vw - 8px));
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 16px 14px;
@@ -712,7 +713,7 @@
       .cg-fact { gap: 4px; margin: 4px 0; }
       .cg-fact strong, .cg-fact span { font-size: 9px; }
       .cg-fact-icon { font-size: 12px; }
-      .cg-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; width: calc(100vw - 52px); }
+      .cg-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; width: calc(100vw - 8px); }
       .cg-tab-content { font-size: 13px; }
       .cg-control { width: 30px; height: 30px; font-size: 17px; }
       .cg-control.cg-previous { left: 8px; bottom: 9px; }
@@ -727,14 +728,21 @@
 
 /* Game integration: the garden remains visible behind the book. */
 .cg-overlay {
-  position: fixed; inset: 0; z-index: 2000; overflow: auto;
+  position: fixed; inset: 0; z-index: 2000; overflow-y: auto; overflow-x: clip;
   background: transparent; color: #30291f;
   font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 .cg-scene { padding: 76px 28px 34px; overflow: visible; }
 .cg-scene::before { display: none; }
-.cg-page-content { overflow-y: auto; scrollbar-width: thin; scrollbar-color: #b4a485 transparent; }
-.cg-page-content > * { flex-shrink: 0; }
+.cg-page-content.cg-grimoire-ornament {
+  overflow: hidden;
+  padding-top: clamp(58px, calc(var(--page-h) * .115), 108px);
+  padding-bottom: clamp(36px, calc(var(--page-h) * .09), 84px);
+}
+.cg-page-scroll { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0;
+  overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: #b4a485 transparent; }
+.cg-page-scroll > * { flex-shrink: 0; }
+.cg-page-scroll:focus-visible { outline: 1px solid #9a784366; outline-offset: 4px; }
 .cg-sr-only, .cg-status {
   position: absolute !important; width: 1px !important; height: 1px !important;
   padding: 0 !important; margin: -1px !important; overflow: hidden !important;
@@ -771,7 +779,7 @@
 .cg-book-frontispiece { display: grid; place-items: center; margin: 10px 0 18px; }
 .cg-book-frontispiece img { width: min(75%, 230px); max-height: 260px; object-fit: contain; }
 .cg-page-content.cg-atlas-page { padding-left: clamp(30px, 3vw, 42px); padding-right: clamp(52px, 5.4vw, 84px); }
-.cg-page-content > .cg-atlas { flex: 1 1 0; min-height: 180px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.cg-page-scroll > .cg-atlas { flex: 1 1 0; min-height: 180px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .cg-atlas-viewport { flex: 1 1 0; min-height: 140px; overflow: auto;
   scrollbar-width: thin; scrollbar-color: #b4a485 transparent; color: #69583b; }
 .cg-atlas-viewport svg { display: block; max-width: none; overflow: visible; }
@@ -787,14 +795,14 @@
 .cg-overlay .cg-atlas-plaque.cg-runes { font-family: 'Grimoire Runes', 'Segoe UI Historic', 'Noto Sans Runic', sans-serif; letter-spacing: .04em; }
 .cg-atlas-plaque:hover, .cg-atlas-plaque:focus-visible { filter: brightness(1.12); }
 .cg-atlas-page-ref { display: block; text-align: center; padding: 3px 0; font: 10px/1.2 Georgia, serif; color: #8c7957; }
-.cg-page-edge { position: absolute; top: 8px; bottom: 8px; width: clamp(36px, calc(var(--page-w) * .28), 180px); z-index: 1;
+.cg-page-edge { position: absolute; top: 8px; bottom: 8px; width: var(--page-turn-width); z-index: 1;
   padding: 0; border: 0; border-radius: 4px; background: transparent; }
 .cg-page-edge.left { left: 0; } .cg-page-edge.right { right: 0; }
 .cg-page-edge span { position: absolute; top: 0; bottom: 0; width: 100%; opacity: 0;
   transition: opacity .16s ease; pointer-events: none; }
 .cg-page-edge.left span { left: 0; background: linear-gradient(90deg, #9b783e3b, transparent); }
 .cg-page-edge.right span { right: 0; background: linear-gradient(270deg, #9b783e3b, transparent); }
-.cg-page-edge:hover:not(:disabled) span, .cg-page-edge:focus-visible span { opacity: 1; }
+.cg-page-edge:hover:not(:disabled) span, .cg-page-edge.hovered:not(:disabled) span, .cg-page-edge:focus-visible span { opacity: 1; }
 .cg-page-edge:disabled { pointer-events: none; }
 .cg-page-edge:focus-visible, .cg-effect-term:focus-visible, .cg-index-list button:focus-visible,
 .cg-atlas-plaque:focus-visible { outline: 2px solid #8b6630; outline-offset: 3px; }
@@ -851,6 +859,8 @@
 /* Entry ink can pass over the pale borders. Full-color opening pages keep
    their wider insets; the turning margin sits underneath selectable content. */
 .cg-page-content.cg-subdued-ornament {
+  padding-top: clamp(26px, calc(var(--page-h) * .07), 60px);
+  padding-bottom: clamp(24px, calc(var(--page-h) * .055), 50px);
   padding-left: clamp(20px, calc(var(--page-w) * .095), 58px);
   padding-right: clamp(20px, calc(var(--page-w) * .095), 58px);
 }

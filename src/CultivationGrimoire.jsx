@@ -29,7 +29,7 @@ export function TurningLeaf({ turn, duration, page, movingTabs, onFinish }) {
   const leaf = useRef(null);
   const faces = turningPages(turn);
   useLayoutEffect(() => {
-    const front = leaf.current?.querySelector('.cg-turn-face.front .cg-page-content');
+    const front = leaf.current?.querySelector('.cg-turn-face.front .cg-page-scroll');
     if (front) front.scrollTop = turn.outgoingScroll || 0;
   }, [turn.id, turn.outgoingScroll]);
   return <div ref={leaf} className={`cg-turn-leaf ${turn.to > turn.from ? 'forward' : 'backward'} turning`}
@@ -41,22 +41,39 @@ export function TurningLeaf({ turn, duration, page, movingTabs, onFinish }) {
   </div>;
 }
 
-function PageEdge({ side, disabled, onTurn }) {
-  const pointer = useRef(null), dragged = useRef(false);
-  return <button type="button" className={`cg-page-edge ${side}`} disabled={disabled}
-    aria-label={side === 'left' ? 'Previous spread' : 'Next spread'}
-    title={side === 'left' ? 'Previous spread (left arrow)' : 'Next spread (right arrow)'}
+function PageSurface({ side, disabled, busy, onTurn, children }) {
+  const edge = useRef(null), pointer = useRef(null), dragged = useRef(false);
+  const [hovered, setHovered] = useState(false);
+  const protectedTarget = event => {
+    if (event.target.closest('button, select, input, textarea, a, label, p, h1, h2, h3, .cg-eyebrow, .cg-small, .cg-plate, .cg-page-number, .cg-atlas')) return true;
+    const scroll = event.target.closest('.cg-page-scroll');
+    return scroll && event.clientX >= scroll.getBoundingClientRect().left + scroll.clientWidth;
+  };
+  const inMargin = event => {
+    const rect = edge.current?.getBoundingClientRect();
+    return rect && event.clientX >= rect.left && event.clientX <= rect.right
+      && event.clientY >= rect.top && event.clientY <= rect.bottom;
+  };
+  const turn = event => {
+    if (disabled || (event.detail > 0 && dragged.current) || window.getSelection()?.isCollapsed === false) return;
+    onTurn();
+  };
+  return <article className={`cg-page ${side}`} aria-label={side === 'left' ? 'Left page' : 'Right page'} inert={busy}
+    onPointerMove={event => setHovered(!disabled && inMargin(event) && !protectedTarget(event))}
+    onPointerLeave={() => setHovered(false)}
     onPointerDown={event => { pointer.current = { x: event.clientX, y: event.clientY }; dragged.current = false; }}
     onPointerUp={event => {
       if (pointer.current) dragged.current = Math.hypot(event.clientX - pointer.current.x, event.clientY - pointer.current.y) > 5;
       pointer.current = null;
     }}
     onPointerCancel={() => { pointer.current = null; dragged.current = true; }}
-    onClick={event => {
-      if (event.detail > 0 && dragged.current) return;
-      if (window.getSelection()?.isCollapsed === false) return;
-      onTurn();
-    }}><span aria-hidden="true"/></button>;
+    onClick={event => { if (inMargin(event) && !protectedTarget(event)) turn(event); }}>
+    <button ref={edge} type="button" className={`cg-page-edge ${side}${hovered ? ' hovered' : ''}`} disabled={disabled}
+      aria-label={side === 'left' ? 'Previous spread' : 'Next spread'}
+      title={side === 'left' ? 'Previous spread (left arrow)' : 'Next spread (right arrow)'}
+      onClick={event => { event.stopPropagation(); turn(event); }}><span aria-hidden="true"/></button>
+    {children}
+  </article>;
 }
 
 export default function CultivationGrimoire({ garden, onClose, developerTools = false }) {
@@ -93,7 +110,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     if (reduced && (turn || nav.current !== nav.target)) dispatch({ type: 'settle' });
     else if (!turn && nav.current !== nav.target) {
       const side = nav.target > nav.current ? 'right' : 'left';
-      const outgoingScroll = root.current?.querySelector(`.cg-page.${side} .cg-page-content`)?.scrollTop || 0;
+      const outgoingScroll = root.current?.querySelector(`.cg-page.${side} .cg-page-scroll`)?.scrollTop || 0;
       dispatch({ type: 'begin', ledger, preview, outgoingScroll });
     }
   }, [nav.current, nav.target, turn, ledger, preview, reduced]);
@@ -183,14 +200,12 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
               <Marks chapter={chapter}/>
             </button>;
           })}</nav>
-          <article className="cg-page left" aria-label="Left page" inert={busy}>
-            <PageEdge side="left" disabled={busy || nav.current === 0} onTurn={() => navigate(BOOK_ENTRIES[nav.current - 1].key)}/>
+          <PageSurface side="left" busy={busy} disabled={busy || nav.current === 0} onTurn={() => navigate(BOOK_ENTRIES[nav.current - 1].key)}>
             {page(stationary.left, 'left')}
-          </article>
-          <article className="cg-page right" aria-label="Right page" inert={busy}>
-            <PageEdge side="right" disabled={busy || nav.current === BOOK_ENTRIES.length - 1} onTurn={() => navigate(BOOK_ENTRIES[nav.current + 1].key)}/>
+          </PageSurface>
+          <PageSurface side="right" busy={busy} disabled={busy || nav.current === BOOK_ENTRIES.length - 1} onTurn={() => navigate(BOOK_ENTRIES[nav.current + 1].key)}>
             {page(stationary.right, 'right')}
-          </article>
+          </PageSurface>
           <div className="cg-spine" aria-hidden="true"/>
           {turn && <TurningLeaf key={turn.id} turn={turn} duration={nav.duration} page={page} movingTabs={movingTabs}
             onFinish={id => dispatch({ type: 'finish', id })}/>}
