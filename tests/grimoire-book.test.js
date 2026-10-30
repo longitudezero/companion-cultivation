@@ -4,9 +4,9 @@ import { PLANTS, FUNGI } from '../src/core/species.js';
 import { createGrimoire, revealPlant, migrateGrimoire, observeFungalAction } from '../src/core/grimoire.js';
 import { TRANSFORMATIONS } from '../src/core/transformations.js';
 import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, runeName, atlasGraph, atlasLayout,
-  tabIsLeft, observedEffects, observedTransformations, initialNavigation, bookNavigation,
+  tabIsLeft, observedEffects, observedTransformations, fungusTransformationTargets, initialNavigation, bookNavigation,
   stationaryPages, turningPages, turnDuration, DISCOVERY_PHRASES, discoveryPhrase } from '../src/grimoire/book.js';
-import { previewFungusProfile, previewFungusEffects } from '../src/core/grimoire-preview.js';
+import { previewFungusProfile, previewFungusEffects, recipeReferencesFungus } from '../src/core/grimoire-preview.js';
 
 test('all Plant pages and references exist before discovery and keep their places as knowledge grows', () => {
   const ledger = createGrimoire(), before = JSON.stringify(ledger);
@@ -127,6 +127,28 @@ test('a helpful but unnamed Fungus does not receive a Transformation entry', () 
   assert.equal(observedTransformations(ledger, 'Prismorel', true).length, 1);
   assert.equal(observedTransformations(ledger, 'Emberbolete', true).length, 1);
   assert.equal(observedTransformations(ledger, 'Carrot').length, 1);
+});
+
+test('Fungus destinations contain only deduplicated qualifying results and keep unobserved routes hidden', () => {
+  let ledger = revealPlant(createGrimoire(), 'Carrot');
+  ledger = { ...ledger, transformations: [
+    { from: 'Beanstalk', into: 'Carrot', fungi: ['Prismorel', 'Dewmender'], conditions: {}, hours: 10 },
+    { from: 'Beanstalk', into: 'Carrot', fungi: ['Prismorel'], conditions: {}, hours: 10 },
+    { from: 'Beanstalk', into: 'Pumpkin', fungi: ['Emberbolete'], conditions: {}, hours: 24 },
+  ] };
+  const before = JSON.stringify(ledger);
+  assert.deepEqual(fungusTransformationTargets(ledger, 'Prismorel').map(entry => entry.species), ['Carrot']);
+  assert.deepEqual(fungusTransformationTargets(ledger, 'Dewmender'), []);
+  assert.deepEqual(fungusTransformationTargets(ledger, 'Emberbolete'), [], 'unknown results stay hidden');
+  for (const fungus of Object.keys(FUNGI)) {
+    const expected = new Set(Object.values(TRANSFORMATIONS).flatMap(recipes => recipes
+      .filter(recipe => recipeReferencesFungus(recipe, fungus)).map(recipe => recipe.into)));
+    const targets = fungusTransformationTargets(ledger, fungus, true);
+    assert.deepEqual(new Set(targets.map(entry => entry.species)), expected, fungus);
+    assert.equal(targets.length, expected.size);
+    assert.ok(targets.every(entry => entry.kind === 'plant'));
+  }
+  assert.equal(JSON.stringify(ledger), before);
 });
 
 test('forward and backward turns keep the outgoing stationary page until the sheet has turned', () => {

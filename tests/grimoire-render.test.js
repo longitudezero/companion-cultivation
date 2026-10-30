@@ -7,6 +7,8 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGrimoire, revealPlant, observeFungalAction } from '../src/core/grimoire.js';
+import { FUNGI } from '../src/core/species.js';
+import { effectAmount, EFFECT_DEFINITIONS } from '../src/grimoire/effects.js';
 import { BOOK_ENTRIES, entryName } from '../src/grimoire/book.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -85,17 +87,52 @@ test('developer reference shows canonical information while normal render stays 
   assert.ok(!text(spread(carrot, 'left', ledger)).includes('Carrot'));
 });
 
-test('observed effect terms have accessible help and shared Plant/Fungus copy', () => {
+test('Plant observations and public Fungus effects retain accessible glossary links', () => {
   let ledger = revealPlant(createGrimoire(), 'Carrot');
   ledger = observeFungalAction(ledger, 'Carrot', 'Dewmender', 'ripeningRate', 1);
   for (const species of ['Carrot', 'Dewmender']) {
     const entry = BOOK_ENTRIES.find(item => item.species === species);
     const rendered = spread(entry, 'right', ledger);
-    assert.match(text(rendered), /Ripening speed.*increased/);
+    assert.match(text(rendered), species === 'Carrot' ? /Ripening speed.*increased/ : /Ripening speed.*\+20%/);
     assert.match(rendered, /class="cg-effect-term"/);
     assert.match(rendered, /aria-describedby=/);
     assert.doesNotMatch(text(rendered), /shifted to Damp/);
   }
+});
+
+test('every Fungus exposes its base cultivation effects from the beginning without a Plant-response list', () => {
+  const ledger = createGrimoire(), before = JSON.stringify(ledger);
+  for (const entry of BOOK_ENTRIES.filter(item => item.kind === 'fungus')) {
+    const rendered = spread(entry, 'right', ledger), copy = text(rendered);
+    assert.match(rendered, /<h2>Cultivation Influence<\/h2>/);
+    assert.doesNotMatch(copy, /Observed Plant responses|Not yet observed/);
+    const effects = FUNGI[entry.species].cultivation?.effects || [];
+    if (!effects.length) assert.match(copy, /No cultivation influence/);
+    for (const effect of effects) {
+      assert.ok(copy.includes(EFFECT_DEFINITIONS[effect.kind].label), entry.species);
+      assert.ok(copy.includes(effectAmount(effect)), entry.species);
+    }
+    assert.match(copy, /No Transformation destinations discovered yet/);
+  }
+  assert.equal(JSON.stringify(ledger), before);
+});
+
+test('Fungus Transformations render only learned destination links, with no recipe instructions in either mode', () => {
+  const base = revealPlant(revealPlant(createGrimoire(), 'Carrot'), 'Pumpkin');
+  const ledger = { ...base, transformations: [
+    { from: 'Beanstalk', into: 'Carrot', fungi: ['Prismorel', 'Dewmender'], conditions: { Moisture: 'Dry' }, hours: 10 },
+    { from: 'Beanstalk', into: 'Carrot', fungi: ['Prismorel'], conditions: { Moisture: 'Dry' }, hours: 10 },
+  ] };
+  const prismorel = BOOK_ENTRIES.find(entry => entry.species === 'Prismorel');
+  const rendered = spread(prismorel, 'right', ledger);
+  assert.match(text(rendered), /This Fungus is necessary to transform into these Plants:/);
+  assert.equal((rendered.match(/aria-label="Open Carrot, page 7"/g) || []).length, 1);
+  assert.doesNotMatch(text(rendered), /Pumpkin|Beanstalk|Moisture:|Exposure:|Hold for|Living Fungus contact:/);
+  for (const entry of BOOK_ENTRIES.filter(item => item.kind === 'fungus')) {
+    assert.doesNotMatch(text(spread(entry, 'right', ledger, true)), /Hold for|Moisture:|Temperature:|Living Fungus contact:|Prepare:|Finish:/);
+  }
+  const helpfulOnly = BOOK_ENTRIES.find(entry => entry.species === 'Dewmender');
+  assert.doesNotMatch(spread(helpfulOnly, 'right', ledger), /aria-label="Open Carrot/);
 });
 
 test('the integrated modal opens at a family overview with engraved controls, sixteen sheets, and no numbered-name leaks', () => {
