@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { createGrimoire } from './core/grimoire.js';
-import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPages, tabIsLeft } from './grimoire/book.js';
+import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPages, turningPages, tabIsLeft } from './grimoire/book.js';
 import { EFFECT_DEFINITIONS } from './grimoire/effects.js';
 import { art, bookmarkStyle } from './grimoire/art.js';
 import BookSpread from './grimoire/BookSpread.jsx';
@@ -22,6 +22,22 @@ function TurningBookmark({ chapter, index }) {
   return <div className="cg-turn-bookmark" style={bookmarkStyle(chapter, index)}>
     <div className="cg-bookmark-face front"><Marks chapter={chapter}/></div>
     <div className="cg-bookmark-face back"><Marks chapter={chapter}/></div>
+  </div>;
+}
+
+export function TurningLeaf({ turn, duration, page, movingTabs, onFinish }) {
+  const leaf = useRef(null);
+  const faces = turningPages(turn);
+  useLayoutEffect(() => {
+    const front = leaf.current?.querySelector('.cg-turn-face.front .cg-page-content');
+    if (front) front.scrollTop = turn.outgoingScroll || 0;
+  }, [turn.id, turn.outgoingScroll]);
+  return <div ref={leaf} className={`cg-turn-leaf ${turn.to > turn.from ? 'forward' : 'backward'} turning`}
+    style={{ '--turn-duration': `${duration}ms` }} aria-hidden="true" inert
+    onAnimationEnd={event => { if (event.target === event.currentTarget) onFinish(turn.id); }}>
+    {Object.entries(faces).map(([face, { index, side }]) => <div key={face} className={`cg-turn-face ${face}`}
+      data-printed-page={BOOK_ENTRIES[index].page + (side === 'right' ? 1 : 0)}>{page(index, side)}</div>)}
+    <div className="cg-turn-bookmarks">{movingTabs.map(index => <TurningBookmark key={index} chapter={CHAPTERS[index]} index={index}/>)}</div>
   </div>;
 }
 
@@ -75,7 +91,11 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   useEffect(() => {
     if (reduced && (turn || nav.current !== nav.target)) dispatch({ type: 'settle' });
-    else if (!turn && nav.current !== nav.target) dispatch({ type: 'begin', ledger, preview });
+    else if (!turn && nav.current !== nav.target) {
+      const side = nav.target > nav.current ? 'right' : 'left';
+      const outgoingScroll = root.current?.querySelector(`.cg-page.${side} .cg-page-content`)?.scrollTop || 0;
+      dispatch({ type: 'begin', ledger, preview, outgoingScroll });
+    }
   }, [nav.current, nav.target, turn, ledger, preview, reduced]);
 
   useEffect(() => {
@@ -135,7 +155,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     return () => document.removeEventListener('keydown', onKey);
   }, [busy, glossary, nav.current, navigate, onClose]);
 
-  const page = (index, side) => <BookSpread entry={BOOK_ENTRIES[index]} side={side} ledger={viewLedger}
+  const page = (index, side) => <BookSpread key={`${index}-${side}`} entry={BOOK_ENTRIES[index]} side={side} ledger={viewLedger}
     preview={viewPreview} navigate={navigate} glossary={openGlossary}/>;
 
   return <div ref={root} className="cg-overlay" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
@@ -163,18 +183,17 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
               <Marks chapter={chapter}/>
             </button>;
           })}</nav>
-          <article className="cg-page left" aria-label="Left page" inert={busy}>{page(stationary.left, 'left')}</article>
-          <article className="cg-page right" aria-label="Right page" inert={busy}>{page(stationary.right, 'right')}</article>
+          <article className="cg-page left" aria-label="Left page" inert={busy}>
+            <PageEdge side="left" disabled={busy || nav.current === 0} onTurn={() => navigate(BOOK_ENTRIES[nav.current - 1].key)}/>
+            {page(stationary.left, 'left')}
+          </article>
+          <article className="cg-page right" aria-label="Right page" inert={busy}>
+            <PageEdge side="right" disabled={busy || nav.current === BOOK_ENTRIES.length - 1} onTurn={() => navigate(BOOK_ENTRIES[nav.current + 1].key)}/>
+            {page(stationary.right, 'right')}
+          </article>
           <div className="cg-spine" aria-hidden="true"/>
-          {turn && <div key={turn.id} className={`cg-turn-leaf ${turn.to > turn.from ? 'forward' : 'backward'} turning`}
-            style={{ '--turn-duration': `${nav.duration}ms` }} aria-hidden="true" inert
-            onAnimationEnd={event => { if (event.target === event.currentTarget) dispatch({ type: 'finish', id: turn.id }); }}>
-            <div className="cg-turn-face front">{turn.to > turn.from ? page(turn.from, 'right') : page(turn.from, 'left')}</div>
-            <div className="cg-turn-face back">{turn.to > turn.from ? page(turn.to, 'left') : page(turn.to, 'right')}</div>
-            <div className="cg-turn-bookmarks">{movingTabs.map(index => <TurningBookmark key={index} chapter={CHAPTERS[index]} index={index}/>)}</div>
-          </div>}
-          <PageEdge side="left" disabled={busy || nav.current === 0} onTurn={() => navigate(BOOK_ENTRIES[nav.current - 1].key)}/>
-          <PageEdge side="right" disabled={busy || nav.current === BOOK_ENTRIES.length - 1} onTurn={() => navigate(BOOK_ENTRIES[nav.current + 1].key)}/>
+          {turn && <TurningLeaf key={turn.id} turn={turn} duration={nav.duration} page={page} movingTabs={movingTabs}
+            onFinish={id => dispatch({ type: 'finish', id })}/>}
           <button ref={closeRef} type="button" className="cg-close-tab" aria-label="Close Grimoire" title="Close Grimoire (Escape)" onClick={onClose}>
             <span className="cg-close-glyph" aria-hidden="true"><img className="cg-close-icon" src={art('icons/close')} alt="" draggable="false"/>
               <img className="cg-close-icon-glow" src={art('icons/close')} alt="" draggable="false"/></span>

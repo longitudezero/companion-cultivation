@@ -1,7 +1,7 @@
 # Grimoire implementation plan
 
 Date: 30 October 2026  
-Status: Implemented in the Grimoire integration branch; browser visual QA remains unverified
+Status: Initial integration deployed; page-flow and readability follow-up implemented with automated checks complete
 
 ## Goal and working baseline
 
@@ -33,10 +33,11 @@ Primary targets: a small entry/page model beside the Grimoire, `src/CultivationG
 - Port the approved book shell, cover ornaments, thicker paper block, tab artwork, and fluorescent hover/focus treatment.
 - Move the bookmarks down slightly, keeping Index nearer the bottom edge than Ingredients is to the top. Retain their varied sizes, angles, and offsets.
 - Move a chapter's bookmark to the left when its first spread opens. Clicking a Plant family bookmark opens that family's overview. The family tabs provide the return path to the overview.
-- Turn pages through narrow clickable outer page margins. Give those margins a subtle hover curl or highlight and a visible keyboard focus state. Support keyboard arrows and touch taps.
+- Turn pages through the full outer botanical border, with text and controls above the target. Give that border a subtle hover highlight and a visible keyboard focus state. Support keyboard arrows and touch taps.
 - Preserve selection of the book's text. Page-turn handlers must ignore text-selection gestures and must not intercept links, dropdowns, or other content controls.
 - Keep the full sequence of intermediate page turns for atlas links, dropdown selections, and other longer jumps. Accelerate turns as the journey gets longer; judge the timing using the complete book.
 - Bind outgoing content to the moving sheet. Incoming content becomes visible as that sheet uncovers it. Keep front, back, stationary pages, and travelling bookmarks synchronized in both directions.
+- Mount the outgoing front and incoming reverse before rotation; explicitly hide the unexposed print during each half-turn. Preserve the outgoing scroll position and open each new printed page at the top.
 - Handle repeated input and closing during navigation consistently, without mismatched faces or stale destination content.
 - Preserve reduced-motion support. Close remains an engraved X on its red bookmark, visible on hover and positioned behind the pages.
 
@@ -48,8 +49,10 @@ Primary targets: `src/CultivationGrimoire.jsx`, `src/grimoire.css`, and modal in
 - Right overview page: a Transformation Atlas using the supplied gold-framed plaques, connected by clear directional arrows. Each plaque opens the matching entry.
 - Lay out the atlas from canonical transformation relationships. Unknown Plant nodes use their fixed rune labels; known nodes show their names. Do not reveal unobserved recipe conditions or required Fungi through the diagram or tooltips.
 - Size plaques around legible labels, allowing wider plaques or two lines for long names. Put small page references beneath plaques where useful. Route arrows to plaque edges and away from names.
+- Use noncrossing branches, with repeated destination plaques for rejoining routes and cycles. Mark those references ↪ and keep their original entry/page identity. Allow horizontal map scrolling rather than compressing labels, and emphasize related arrows on hover/focus.
 - Use full-color botanical borders on a chapter's opening spread and subdued monochrome borders on subsequent entry spreads.
 - Make all Plant entries accessible from the beginning. Undiscovered entries show their rune title, the supplied seed illustration in a subdued treatment, and a short whimsical anticipation note. Their real names and undiscovered facts remain masked in visible text, tooltips, alternative text, and accessible labels.
+- Select from twenty stable anticipation notes, including mildly worried variants. Named anecdotes must respect identity discovery.
 - Reveal the discovered name and available Plant artwork when the garden's existing knowledge model identifies that Plant. Keep growing conditions, hazards, responses, and Transformations governed by their own observation rules.
 - Keep the entry dropdown beneath each entry's description. It uses the same names, rune labels, and stable page destinations as the index and atlas.
 
@@ -77,6 +80,7 @@ Primary targets: `src/CultivationGrimoire.jsx`, the entry/page model, a focused 
 - Glossary definitions explain mechanics without disclosing hidden species-specific compatibility or recipes. Distinguish Growth from Ripening, percentage changes from percentage points, and ordinary production from hourly extra production.
 - Support keyboard dismissal and focus restoration. Escape closes the glossary before closing the book.
 - Place one small botanical divider between Transformation entries.
+- Stack facts, effects and Transformations in full-width rows. Text may overlap the subdued entry borders; retain clear insets around full-color opening art.
 - Keep the developer reference view complete and read-only. Switching views must not grant discoveries, erase observations, or leak developer-only information into the player view.
 
 Primary targets: `src/CultivationGrimoire.jsx`, `src/core/grimoire.js`, `src/core/grimoire-preview.js`, a shared effect-definition table, and Grimoire styles.

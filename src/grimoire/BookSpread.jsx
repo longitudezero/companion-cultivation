@@ -3,7 +3,7 @@ import { PLANTS } from '../core/species.js';
 import { formatRealDuration } from '../core/game-time.js';
 import { previewPlantConditions, previewPlantHazards, previewPlantCompatibility, previewPlantRecipes,
   previewFungusProfile, previewFungusEffects, previewFungusRecipes } from '../core/grimoire-preview.js';
-import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, observedEffects, observedTransformations } from './book.js';
+import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, discoveryPhrase, observedEffects, observedTransformations } from './book.js';
 import { EFFECT_DEFINITIONS, observedEffectText } from './effects.js';
 import { art } from './art.js';
 import TransformationAtlas from './TransformationAtlas.jsx';
@@ -80,7 +80,7 @@ export default function BookSpread({ entry, side, ledger, preview = false, navig
       </>;
       if (entry.chapter < 6) return <>
         <span className="cg-eyebrow">{chapter.label} · Connections</span><h1>Transformation Atlas</h1>
-        <p className="cg-small">Follow the branches. Select a name to open its entry.</p>
+        <p className="cg-small">Follow the arrows. Select a name to open its entry. A ↪ marks another route to the same page.</p>
         <TransformationAtlas chapter={entry.chapter} ledger={ledger} preview={preview} navigate={navigate}/>
       </>;
       return <>
@@ -106,7 +106,7 @@ export default function BookSpread({ entry, side, ledger, preview = false, navig
         {!known ? <img className="cg-seed-illustration" src={art('unknown-seeds')} alt="An undiscovered Plant, represented by enchanted seeds" draggable="false"/>
           : <><span className="cg-plate-symbol" aria-hidden="true">{chapter.symbol}</span><span className="cg-plate-caption">Botanical plate awaiting illustration</span></>}
       </div>
-      <p>{!known ? '“Oh, I can’t wait to see what this page is hiding from me. I’d better get to experimenting!”'
+      <p>{!known ? `“${discoveryPhrase(entry.species, ledger)}”`
         : entry.kind === 'fungus' ? 'An identified Fungus. Its environmental influence and cultivation reach are recorded below. Its interactions with individual Plants are learned through observation.'
           : `A member of the ${chapter.label} family. Its growing preferences, fungal interactions, and Transformations fill these pages as you observe them.`}</p>
       <Jump entry={entry} ledger={ledger} preview={preview} navigate={navigate}/>

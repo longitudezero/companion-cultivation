@@ -11,19 +11,40 @@ import { BOOK_ENTRIES, entryName } from '../src/grimoire/book.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const cache = await mkdtemp(join(root, 'node_modules', '.grimoire-render-'));
-let BookSpread, Grimoire;
+let BookSpread, Grimoire, TurningLeaf;
 try {
   await build({ entryPoints: { spread: join(root, 'src/grimoire/BookSpread.jsx'), modal: join(root, 'src/CultivationGrimoire.jsx') },
     outdir: cache, bundle: true, platform: 'node', format: 'esm', packages: 'external',
     loader: { '.css': 'empty' }, logLevel: 'silent' });
   BookSpread = (await import(pathToFileURL(join(cache, 'spread.js')))).default;
-  Grimoire = (await import(pathToFileURL(join(cache, 'modal.js')))).default;
+  const modal = await import(pathToFileURL(join(cache, 'modal.js')));
+  Grimoire = modal.default;
+  TurningLeaf = modal.TurningLeaf;
 } finally {
   await rm(cache, { recursive: true, force: true });
 }
 const text = markup => markup.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
 const spread = (entry, side, ledger, preview = false) => renderToStaticMarkup(React.createElement(BookSpread,
   { entry, side, ledger, preview, navigate() {}, glossary() {} }));
+
+test('both directions mount the correct incoming printed back page before a leaf begins turning', () => {
+  const ledger = createGrimoire();
+  for (const [from, to, frontSide, backSide] of [[1, 2, 'right', 'left'], [2, 1, 'left', 'right']]) {
+    const rendered = renderToStaticMarkup(React.createElement(TurningLeaf, {
+      turn: { id: 1, from, to }, duration: 820, movingTabs: [], onFinish() {},
+      page(index, side) { return React.createElement(BookSpread, {
+        entry: BOOK_ENTRIES[index], side, ledger, preview: false, navigate() {}, glossary() {},
+      }); },
+    }));
+    const frontPage = BOOK_ENTRIES[from].page + (frontSide === 'right' ? 1 : 0);
+    const backPage = BOOK_ENTRIES[to].page + (backSide === 'right' ? 1 : 0);
+    assert.ok(rendered.includes(`class="cg-turn-face front" data-printed-page="${frontPage}"`));
+    assert.ok(rendered.includes(`class="cg-turn-face back" data-printed-page="${backPage}"`));
+    const backStart = rendered.indexOf('class="cg-turn-face back"');
+    assert.ok(text(rendered.slice(0, backStart)).includes(text(spread(BOOK_ENTRIES[from], frontSide, ledger))));
+    assert.ok(text(rendered.slice(backStart)).includes(text(spread(BOOK_ENTRIES[to], backSide, ledger))));
+  }
+});
 
 test('every hidden Plant page masks its name and facts in rendered titles, copy, and image descriptions', () => {
   const ledger = createGrimoire(), before = JSON.stringify(ledger);
