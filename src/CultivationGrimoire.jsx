@@ -1,261 +1,197 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { PLANTS, FUNGI, plantKnown, fungusKnowledge } from './core/index.js';
-import { visibleGrimoirePlants, previewPlantConditions, previewPlantHazards, previewPlantCompatibility, previewPlantRecipes,
-  previewFungusProfile, previewFungusEffects, previewFungusRecipes } from './core/grimoire-preview.js';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { createGrimoire } from './core/grimoire.js';
+import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPages, tabIsLeft } from './grimoire/book.js';
+import { EFFECT_DEFINITIONS } from './grimoire/effects.js';
+import { art, bookmarkStyle } from './grimoire/art.js';
+import BookSpread from './grimoire/BookSpread.jsx';
 import './grimoire.css';
 
-const CHAPTERS = [
-  { key: 'Ingredients', label: 'Ingredients', short: 'ING', color: '#f04740', symbol: '❧' },
-  { key: 'Flowers', label: 'Flowers', short: 'FLW', color: '#fb943f', symbol: '✿' },
-  { key: 'Aquatic', label: 'Aquatic', short: 'AQU', color: '#f4d44e', symbol: '≋' },
-  { key: 'Woodlands', label: 'Woodlands', short: 'WDL', color: '#42b968', symbol: '♣' },
-  { key: 'Desert', label: 'Desert', short: 'DST', color: '#28a7dd', symbol: '✧' },
-  { key: 'Spices', label: 'Spices', short: 'SPC', color: '#5867d4', symbol: '✳' },
-  { key: 'Fungi', label: 'Fungi', short: 'FUN', color: '#ae5aab', symbol: '♧' },
-  { key: 'Index', label: 'Index', short: 'IDX', color: '#98d4e2', symbol: '❦' },
-];
+const EMPTY_LEDGER = createGrimoire();
+const SHEET_TONES = ['#eee3cf', '#e4d6bd', '#f0e6d3', '#dfd1b8', '#ebe0ca', '#ddceb4', '#e8dcc5', '#d7c7ad'];
+const reducedMotionQuery = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)');
 
-const EFFECTS = {
-  growthRate: 'Growth speed', ripeningRate: 'Ripening speed', leafYield: 'Leaf production',
-  seedYield: 'Seed production', germination: 'Germination chance', harvestWindow: 'Harvest window',
-  leafPeakTiming: 'Peak Leaf timing', seedTiming: 'Seed timing', hourlyLeaf: 'Leaves per 5s tick',
-  hourlySeed: 'Seeds per 5s tick', leafAllocation: 'Leaf allocation', seedAllocation: 'Seed allocation',
-};
-
-function readableEffect(effect) {
-  if (effect.kind.startsWith('environment:')) {
-    return `${effect.kind.split(':')[1]} shifted to ${effect.result}`;
-  }
-  return `${EFFECTS[effect.kind] || effect.kind} ${effect.direction > 0 ? 'increased'
-    : effect.direction < 0 ? 'decreased' : 'altered'}`;
-}
-
-function seenConditions(conditions) {
-  return Object.entries(conditions || {}).map(([name, value]) => `${name}: ${value}`).join(' · ');
-}
-
-function PageNumber({ number }) {
-  return <div className="cg-page-number">{number}</div>;
-}
-
-function EntryLeft({ entry, sectionEntries, pageNo, navigate, developerPreview }) {
-  const chapter = CHAPTERS[entry.chapter];
-  const index = entry.kind === 'index';
-  return <div className="cg-page-content">
-    <span className="cg-eyebrow">CULTIVATION GRIMOIRE · {chapter.label}</span>
-    <h1>{index ? 'Cultivation Grimoire' : entry.species}</h1>
-    <div className="cg-plate" aria-label="Illustration placeholder"><span className="cg-plate-symbol">{chapter.symbol}</span><span className="cg-plate-caption">Illustration to be commissioned</span></div>
-    {index ? <p>{developerPreview ? 'Developer reference: all species and canonical recipes. This view does not change your garden discoveries.'
-      : 'A living field book, written by your experiments. Each garden keeps its own discoveries.'}</p>
-      : entry.kind === 'fungus' ? <p>An identified Fungus. Observe it around growing Plants to discover how it changes their environment and cultivation.</p>
-        : <p>A member of the {chapter.label} family. Its behaviour and possible transformations are recorded as you witness them in your garden.</p>}
-    {sectionEntries.length > 1 && <label className="cg-entry-jump">FIND AN ENTRY
-      <select value={entry.key} onChange={event => navigate(event.target.value)} aria-label={`Find entry in ${chapter.label}`}>
-        {sectionEntries.map(item => <option key={item.key} value={item.key}>{item.species}</option>)}
-      </select>
-    </label>}
-    <span className="cg-small">{index ? 'Field index' : developerPreview ? `Developer reference · ${entry.kind === 'fungus' ? 'Fungus' : chapter.label}`
-      : entry.kind === 'fungus' ? 'Fungus · Identity known' : `Plant · ${chapter.label}`}</span>
-    <PageNumber number={pageNo}/>
-  </div>;
-}
-
-function Fact({ symbol, title, lines, empty = 'Not yet observed' }) {
-  return <section className="cg-fact"><div className="cg-fact-symbol" aria-hidden="true">{symbol}</div><div>
-    <h2>{title}</h2>
-    {lines.length ? lines.map((line, index) => <p key={index}>{line}</p>) : <p className="cg-unknown">{empty}</p>}
-  </div></section>;
-}
-
-function EntryRight({ entry, ledger, pageNo, navigate, entries, developerPreview }) {
-  if (entry.kind === 'index') {
-    return <div className="cg-page-content">
-      <span className="cg-eyebrow">CONTENTS · EIGHT SECTIONS</span><h1>Index</h1>
-      <p className="cg-small">Open a section with the colored bookmarks. {developerPreview
-        ? 'Every catalogued Plant and Fungus is available in this read-only preview.'
-        : 'Only Plants you have identified appear in this book.'}</p>
-      <div className="cg-index-list">{CHAPTERS.slice(0, 7).map((chapter, index) => {
-        const destination = entries.find(item => item.chapter === index);
-        return <button key={chapter.key} type="button" onClick={() => destination && navigate(destination.key)}>
-          <span>{String(index + 1).padStart(2, '0')} · {chapter.label}</span><span>↗</span>
-        </button>;
-      })}</div><PageNumber number={pageNo}/>
-    </div>;
-  }
-  const fungal = entry.kind === 'fungus';
-  const fungalRecord = fungal && !developerPreview ? fungusKnowledge(ledger, entry.species) : null;
-  const conditions = developerPreview ? (fungal ? [] : previewPlantConditions(entry.species))
-    : fungal ? [] : Object.values(ledger.environments?.[entry.species] || {})
-      .map(item => `${item.property}: ${item.condition} — ${item.signal} response`);
-  const hazards = developerPreview ? (fungal ? [] : previewPlantHazards(entry.species))
-    : fungal ? [] : Object.values(ledger.hazards?.[entry.species] || {})
-      .map(item => `${item.hazard}: ${item.outcome === 'death' ? 'observed death' : 'observed production or growth penalty'}`);
-  const effects = developerPreview ? (fungal ? previewFungusEffects(entry.species) : previewPlantCompatibility(entry.species))
-    : fungal ? fungalRecord.effects.map(item => `${item.plant} — ${readableEffect(item)}`)
-      : Object.values(ledger.fungalEffects?.[entry.species] || {})
-        .map(item => `${item.fungus} — ${readableEffect(item)}`);
-  const witnessed = developerPreview ? (fungal ? previewFungusRecipes(entry.species) : previewPlantRecipes(entry.species))
-    : (fungal ? fungalRecord.transformations
-      : (ledger.transformations || []).filter(item => item.from === entry.species || item.into === entry.species))
-      .map(item => `${item.from} → ${item.into}. ${seenConditions(item.conditions)}.${item.fungi.length
-        ? ` Present: ${item.fungi.join(', ')}.` : ''}`);
-  return <div className="cg-page-content">
-    <span className="cg-eyebrow">{developerPreview ? 'DEVELOPER REFERENCE · READ ONLY' : 'FIELD OBSERVATIONS'}</span>
-    <h1>{fungal ? developerPreview ? 'Fungus Profile' : 'Known Interactions' : 'Cultivation Notes'}</h1>
-      <p className="cg-small">{developerPreview ? 'Full catalogue data; times shown are real-time equivalents at the live pace. Your discoveries are unchanged.'
-      : 'Only events witnessed in this garden appear here.'}</p>
-    {developerPreview && fungal && <Fact symbol="◇" title="Habitat and Reach" lines={previewFungusProfile(entry.species)}/>}
-    {!fungal && <Fact symbol="◇" title={developerPreview ? 'Growing Profile' : 'Experienced Conditions'} lines={conditions}/>}
-    {!fungal && <Fact symbol="✥" title={developerPreview ? 'Exposure Hazards' : 'Hazards'} lines={hazards}/>}
-    <Fact symbol="♧" title={developerPreview ? fungal ? 'Cultivation Package' : 'Base Fungus Compatibility'
-      : fungal ? 'Effects on Plants' : 'Fungal Influences'} lines={effects}/>
-    <Fact symbol="❧" title={developerPreview ? 'All Transformation Recipes' : 'Confirmed Transformations'}
-      lines={witnessed} empty={developerPreview ? 'No recipes involving this species' : 'No transformations discovered'}/>
-    {developerPreview && !fungal && <p className="cg-small">Fungal effects may vary by recipient and conditions. See the Fungi chapter for the emitting packages.</p>}
-    <PageNumber number={pageNo}/>
-  </div>;
+function Marks({ chapter }) {
+  const marks = <><img className="cg-tab-icon" src={art(`icons/${chapter.art}`)} alt="" draggable="false"/>
+    <span className="cg-tab-label">{chapter.label}</span></>;
+  return <span className="cg-tab-content" aria-hidden="true"><span className="cg-pressed-mark">
+    {marks}<span className="cg-glow-mark">{marks}</span>
+  </span></span>;
 }
 
 function TurningBookmark({ chapter, index }) {
-  return <div className="cg-turn-bookmark" style={{ '--cg-tab-i': index, '--cg-tab-color': chapter.color }}>
-    <div className="cg-bookmark-face front"><span>{chapter.label}</span><b>{chapter.short}</b></div>
-    <div className="cg-bookmark-face back"><span>{chapter.label}</span><b>{chapter.short}</b></div>
+  return <div className="cg-turn-bookmark" style={bookmarkStyle(chapter, index)}>
+    <div className="cg-bookmark-face front"><Marks chapter={chapter}/></div>
+    <div className="cg-bookmark-face back"><Marks chapter={chapter}/></div>
   </div>;
 }
 
+function PageEdge({ side, disabled, onTurn }) {
+  const pointer = useRef(null), dragged = useRef(false);
+  return <button type="button" className={`cg-page-edge ${side}`} disabled={disabled}
+    aria-label={side === 'left' ? 'Previous spread' : 'Next spread'}
+    title={side === 'left' ? 'Previous spread (left arrow)' : 'Next spread (right arrow)'}
+    onPointerDown={event => { pointer.current = { x: event.clientX, y: event.clientY }; dragged.current = false; }}
+    onPointerUp={event => {
+      if (pointer.current) dragged.current = Math.hypot(event.clientX - pointer.current.x, event.clientY - pointer.current.y) > 5;
+      pointer.current = null;
+    }}
+    onPointerCancel={() => { pointer.current = null; dragged.current = true; }}
+    onClick={event => {
+      if (event.detail > 0 && dragged.current) return;
+      if (window.getSelection()?.isCollapsed === false) return;
+      onTurn();
+    }}><span aria-hidden="true"/></button>;
+}
+
 export default function CultivationGrimoire({ garden, onClose, developerTools = false }) {
-  const closeRef = useRef(null);
-  useEffect(() => { closeRef.current?.focus(); }, []);
-  const [developerPreview, setDeveloperPreview] = useState(false);
-  const ledger = garden.grimoire || { plants: {}, environments: {}, fungalEffects: {}, hazards: {}, transformations: [] };
-  const entries = useMemo(() => {
-    const result = [];
-    const visiblePlants = new Set(visibleGrimoirePlants(ledger, developerPreview));
-    CHAPTERS.slice(0, 6).forEach((chapter, chapterIndex) => {
-      for (const [species, definition] of Object.entries(PLANTS)) {
-        if (definition.family === chapter.key && visiblePlants.has(species)) {
-          result.push({ key: `plant:${species}`, chapter: chapterIndex, species, kind: 'plant' });
-        }
-      }
-    });
-    for (const species of Object.keys(FUNGI)) {
-      result.push({ key: `fungus:${species}`, chapter: 6, species, kind: 'fungus' });
-    }
-    result.push({ key: 'index', chapter: 7, species: 'Index', kind: 'index' });
-    return result;
-  }, [ledger.plants, developerPreview]);
-  const [currentKey, setCurrentKey] = useState(entries[0]?.key);
-  const [turn, setTurn] = useState(null);
-  const activeIndex = Math.max(0, entries.findIndex(entry => entry.key === currentKey));
-  const current = entries[activeIndex];
-  const destination = turn ? entries.find(item => item.key === turn.to) : null;
-  const page = destination || current;
-  const pageIndex = turn ? entries.indexOf(destination) : activeIndex;
-  const direction = turn ? Math.sign(pageIndex - activeIndex) : 0;
-  const movingTabs = turn ? CHAPTERS.map((chapter, i) => i).filter(i =>
-    (i < current.chapter || activeIndex === entries.length - 1)
-      !== (i < destination.chapter || pageIndex === entries.length - 1)) : [];
+  const root = useRef(null), closeRef = useRef(null), glossaryClose = useRef(null), termRef = useRef(null);
+  const previousGlossary = useRef(null);
+  const [previewRequested, setPreviewRequested] = useState(false);
+  const preview = developerTools && previewRequested;
+  const [glossary, setGlossary] = useState(null);
+  const [reduced, setReduced] = useState(() => Boolean(reducedMotionQuery()?.matches));
+  const [nav, dispatch] = useReducer(bookNavigation, initialNavigation);
+  const ledger = garden.grimoire || EMPTY_LEDGER;
+  const busy = Boolean(nav.turn) || nav.current !== nav.target;
+  const current = BOOK_ENTRIES[nav.current], turn = nav.turn;
+  const movingTabs = turn ? CHAPTERS.map((_, index) => index).filter(index =>
+    tabIsLeft(index, BOOK_ENTRIES[turn.from]) !== tabIsLeft(index, BOOK_ENTRIES[turn.to])) : [];
+  const stationary = stationaryPages(nav.current, turn);
+  const viewLedger = turn?.ledger || ledger, viewPreview = turn ? turn.preview : preview;
 
-  function togglePreview() {
-    if (!developerTools) return;
-    // An undiscovered species must not linger on the page when returning to
-    // the player view; the discovery ledger itself is never altered.
-    if (developerPreview && current.kind === 'plant' && !plantKnown(ledger, current.species)) {
-      setCurrentKey('plant:Beanstalk');
-    }
-    setTurn(null);
-    setDeveloperPreview(!developerPreview);
-  }
+  const navigate = useCallback(key => {
+    const to = BOOK_ENTRIES.findIndex(entry => entry.key === key);
+    dispatch({ type: 'navigate', to, reduced: Boolean(reducedMotionQuery()?.matches) });
+  }, []);
+  const openGlossary = useCallback((kind, element) => { termRef.current = element; setGlossary(kind); }, []);
 
-  function navigate(key) {
-    const targetIndex = entries.findIndex(entry => entry.key === key);
-    if (turn || targetIndex < 0 || targetIndex === activeIndex) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setCurrentKey(key);
-    else setTurn({ to: key, from: current.key });
-  }
+  useEffect(() => {
+    const query = reducedMotionQuery();
+    if (!query) return undefined;
+    const change = event => setReduced(event.matches);
+    query.addEventListener('change', change);
+    return () => query.removeEventListener('change', change);
+  }, []);
+
+  useEffect(() => {
+    if (reduced && (turn || nav.current !== nav.target)) dispatch({ type: 'settle' });
+    else if (!turn && nav.current !== nav.target) dispatch({ type: 'begin', ledger, preview });
+  }, [nav.current, nav.target, turn, ledger, preview, reduced]);
 
   useEffect(() => {
     if (!turn) return undefined;
-    const timer = window.setTimeout(() => {
-      setCurrentKey(turn.to);
-      setTurn(null);
-    }, 1030);
+    const timer = window.setTimeout(() => dispatch({ type: 'finish', id: turn.id }), nav.duration + 150);
     return () => window.clearTimeout(timer);
-  }, [turn]);
+  }, [turn, nav.duration]);
 
   useEffect(() => {
-    function keydown(event) {
-      if (event.key === 'Escape') { event.preventDefault(); onClose(); return; }
-      if (turn || ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
-      if (event.key === 'ArrowRight' && activeIndex < entries.length - 1) {
-        event.preventDefault(); navigate(entries[activeIndex + 1].key);
-      } else if (event.key === 'ArrowLeft' && activeIndex > 0) {
-        event.preventDefault(); navigate(entries[activeIndex - 1].key);
+    const previousFocus = document.activeElement;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeRef.current?.focus({ preventScroll: true });
+    return () => {
+      document.body.style.overflow = overflow;
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (glossary) {
+      glossaryClose.current?.focus({ preventScroll: true });
+      const selected = root.current?.querySelector(`[data-glossary-kind="${glossary}"]`);
+      selected?.scrollIntoView?.({ block: 'nearest' });
+    } else if (previousGlossary.current && termRef.current?.isConnected) termRef.current.focus({ preventScroll: true });
+    previousGlossary.current = glossary;
+  }, [glossary]);
+
+  useEffect(() => {
+    const onKey = event => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (glossary) setGlossary(null); else onClose();
+        return;
       }
-    }
-    document.addEventListener('keydown', keydown);
-    return () => document.removeEventListener('keydown', keydown);
-  });
+      if (event.key === 'Tab') {
+        const controls = [...(root.current?.querySelectorAll('button:not(:disabled), select:not(:disabled), [href], [tabindex="0"]') || [])]
+          .filter(element => !element.closest('[inert], [aria-hidden="true"]') && element.getClientRects().length > 0);
+        const first = controls[0], last = controls.at(-1);
+        if (event.shiftKey && (document.activeElement === first || !root.current?.contains(document.activeElement))) {
+          event.preventDefault(); last?.focus();
+        } else if (!event.shiftKey && (document.activeElement === last || !root.current?.contains(document.activeElement))) {
+          event.preventDefault(); first?.focus();
+        }
+        return;
+      }
+      if (busy || glossary || event.ctrlKey || event.metaKey || event.altKey
+        || ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)
+        || document.activeElement?.isContentEditable || window.getSelection()?.isCollapsed === false) return;
+      if (event.key === 'ArrowRight' && nav.current < BOOK_ENTRIES.length - 1) {
+        event.preventDefault(); navigate(BOOK_ENTRIES[nav.current + 1].key);
+      } else if (event.key === 'ArrowLeft' && nav.current > 0) {
+        event.preventDefault(); navigate(BOOK_ENTRIES[nav.current - 1].key);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [busy, glossary, nav.current, navigate, onClose]);
 
-  function pageLeft(entry, index) {
-    return <EntryLeft entry={entry} pageNo={index * 2 + 1} navigate={navigate}
-      sectionEntries={entries.filter(item => item.chapter === entry.chapter && item.kind !== 'index')}
-      developerPreview={developerPreview}/>;
-  }
+  const page = (index, side) => <BookSpread entry={BOOK_ENTRIES[index]} side={side} ledger={viewLedger}
+    preview={viewPreview} navigate={navigate} glossary={openGlossary}/>;
 
-  function pageRight(entry, index) {
-    return <EntryRight entry={entry} pageNo={index * 2 + 2} navigate={navigate} ledger={ledger}
-      entries={entries} developerPreview={developerPreview}/>;
-  }
-
-  return <div className="cg-overlay" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire">
+  return <div ref={root} className="cg-overlay" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
+    onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()} onWheel={event => event.stopPropagation()}>
     <div className="cg-scene">
-      <span className="cg-workbench-label">COMPANION CULTIVATION / CULTIVATION GRIMOIRE</span>
-      <div className="cg-shell">
+      <div className="cg-shell" inert={Boolean(glossary)}>
         {developerTools && <div className="cg-preview-tools">
-          <button type="button" className={developerPreview ? 'active' : ''} aria-pressed={developerPreview}
-            onClick={togglePreview}>{developerPreview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
-          <span>{developerPreview ? 'DEVELOPER PREVIEW · 60 PLANTS · 13 FUNGI · READ ONLY' : 'Developer testing · garden knowledge preserved'}</span>
+          <button type="button" disabled={busy} aria-pressed={preview}
+            onClick={() => setPreviewRequested(value => !value)}>{preview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
+          <span>{preview ? 'Developer reference · Read only' : 'Garden discoveries'}</span>
         </div>}
         <div className="cg-book-stage"><div className="cg-book">
-          <div className="cg-cover" aria-hidden="true"/>
-          <div className="cg-under-sheet second left" aria-hidden="true"/><div className="cg-under-sheet second right" aria-hidden="true"/>
-          <div className="cg-under-sheet left" aria-hidden="true"/><div className="cg-under-sheet right" aria-hidden="true"/>
-          <nav className="cg-tabs" aria-label="Grimoire sections">{CHAPTERS.map((chapter, i) => {
-            const left = i < current.chapter || activeIndex === entries.length - 1;
+          <div className="cg-cover" aria-hidden="true">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner =>
+            <img key={corner} className={`cg-cover-corner ${corner}`} src={art(`corners/${corner}`)} alt="" draggable="false"/>)}</div>
+          {Array.from({ length: 8 }, (_, i) => 8 - i).flatMap(depth => ['left', 'right'].map(side =>
+            <div key={`${depth}-${side}`} className={`cg-under-sheet ${side}`} aria-hidden="true"
+              style={{ '--sheet-depth': depth, '--sheet-tone': SHEET_TONES[depth - 1] }}/>))}
+          <nav className="cg-tabs" aria-label="Grimoire sections">{CHAPTERS.map((chapter, index) => {
+            const destination = BOOK_ENTRIES.find(entry => entry.chapter === index);
             return <button key={chapter.key} type="button"
-              className={`cg-tab ${left ? 'left' : 'right'} ${movingTabs.includes(i) ? 'travelling' : ''}`}
-              style={{ '--cg-tab-i': i, '--cg-tab-color': chapter.color }}
-              aria-current={page.chapter === i ? 'page' : undefined}
-              aria-label={`Open ${chapter.label} section`} title={chapter.label} disabled={Boolean(turn)}
-              onClick={() => navigate(entries.find(entry => entry.chapter === i)?.key)}>
-              <span>{chapter.label}</span><b>{chapter.short}</b>
+              className={`cg-tab ${tabIsLeft(index, current) ? 'left' : 'right'} ${movingTabs.includes(index) ? 'travelling' : ''}`}
+              style={bookmarkStyle(chapter, index)} disabled={busy}
+              aria-current={current.chapter === index ? 'page' : undefined} title={chapter.label}
+              aria-label={`Open ${chapter.label} section`} onClick={() => navigate(destination.key)}>
+              <Marks chapter={chapter}/>
             </button>;
           })}</nav>
-          <article className="cg-page left" aria-label="Left page">{pageLeft(page, pageIndex)}</article>
-          <article className="cg-page right" aria-label="Right page">{pageRight(page, pageIndex)}</article>
+          <article className="cg-page left" aria-label="Left page" inert={busy}>{page(stationary.left, 'left')}</article>
+          <article className="cg-page right" aria-label="Right page" inert={busy}>{page(stationary.right, 'right')}</article>
           <div className="cg-spine" aria-hidden="true"/>
-          {turn && <div className={`cg-turn-leaf ${direction > 0 ? 'forward' : 'backward'} turning`} aria-hidden="true"
-            onAnimationEnd={event => {
-              if (event.target !== event.currentTarget) return;
-              setCurrentKey(turn.to);
-              setTurn(null);
-            }}>
-            <div className="cg-turn-face front">{direction > 0 ? pageRight(current, activeIndex) : pageLeft(current, activeIndex)}</div>
-            <div className="cg-turn-face back">{direction > 0 ? pageLeft(destination, pageIndex) : pageRight(destination, pageIndex)}</div>
-            <div className="cg-turn-bookmarks">{movingTabs.map(i => <TurningBookmark key={i} chapter={CHAPTERS[i]} index={i}/>)}</div>
+          {turn && <div key={turn.id} className={`cg-turn-leaf ${turn.to > turn.from ? 'forward' : 'backward'} turning`}
+            style={{ '--turn-duration': `${nav.duration}ms` }} aria-hidden="true" inert
+            onAnimationEnd={event => { if (event.target === event.currentTarget) dispatch({ type: 'finish', id: turn.id }); }}>
+            <div className="cg-turn-face front">{turn.to > turn.from ? page(turn.from, 'right') : page(turn.from, 'left')}</div>
+            <div className="cg-turn-face back">{turn.to > turn.from ? page(turn.to, 'left') : page(turn.to, 'right')}</div>
+            <div className="cg-turn-bookmarks">{movingTabs.map(index => <TurningBookmark key={index} chapter={CHAPTERS[index]} index={index}/>)}</div>
           </div>}
-          <button className="cg-control previous" disabled={Boolean(turn) || activeIndex === 0}
-            aria-label="Previous spread" title="Previous spread (left arrow)"
-            onClick={() => navigate(entries[activeIndex - 1].key)}>←</button>
-          <button className="cg-control next" disabled={Boolean(turn) || activeIndex === entries.length - 1}
-            aria-label="Next spread" title="Next spread (right arrow)"
-            onClick={() => navigate(entries[activeIndex + 1].key)}>→</button>
-          <button ref={closeRef} className="cg-control close" aria-label="Close Grimoire" title="Close Grimoire (Escape)" onClick={onClose}>×</button>
+          <PageEdge side="left" disabled={busy || nav.current === 0} onTurn={() => navigate(BOOK_ENTRIES[nav.current - 1].key)}/>
+          <PageEdge side="right" disabled={busy || nav.current === BOOK_ENTRIES.length - 1} onTurn={() => navigate(BOOK_ENTRIES[nav.current + 1].key)}/>
+          <button ref={closeRef} type="button" className="cg-close-tab" aria-label="Close Grimoire" title="Close Grimoire (Escape)" onClick={onClose}>
+            <span className="cg-close-glyph" aria-hidden="true"><img className="cg-close-icon" src={art('icons/close')} alt="" draggable="false"/>
+              <img className="cg-close-icon-glow" src={art('icons/close')} alt="" draggable="false"/></span>
+          </button>
         </div></div>
-        <div className="cg-status" aria-live="polite">{CHAPTERS[page.chapter].label} · {pageIndex + 1} / {entries.length}</div>
-        <p className="cg-hint">Turn pages with ← →, select {developerPreview ? 'any' : 'a discovered'} entry, or use the colored bookmarks. Time continues in the garden.</p>
       </div>
+      <div className="cg-sr-only" aria-live="polite" aria-atomic="true">{CHAPTERS[current.chapter].label} · pages {current.page}–{current.page + 1}{busy ? ' · Turning pages' : ''}</div>
     </div>
+    {glossary && <div className="cg-glossary-backdrop"><section className="cg-glossary" role="dialog" aria-modal="true"
+      aria-labelledby="cg-glossary-title">
+      <header><div><span className="cg-eyebrow">A botanist’s reference</span><h2 id="cg-glossary-title">Cultivation Effects</h2></div>
+        <button ref={glossaryClose} type="button" onClick={() => setGlossary(null)} aria-label="Close effect glossary">×</button></header>
+      <p className="cg-glossary-intro">How the influences work. Each Plant’s individual responses are learned in the garden.</p>
+      <div className="cg-glossary-entries">{Object.entries(EFFECT_DEFINITIONS).map(([kind, effect]) =>
+        <section key={kind} data-glossary-kind={kind} className={glossary === kind ? 'selected' : ''}>
+          <h3>{effect.label}</h3><p>{effect.summary}</p><p>{effect.detail}</p>
+        </section>)}</div>
+    </section></div>}
   </div>;
 }
