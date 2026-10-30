@@ -5,7 +5,7 @@ import { createGrimoire, revealPlant, migrateGrimoire, observeFungalAction } fro
 import { TRANSFORMATIONS } from '../src/core/transformations.js';
 import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, runeName, atlasGraph, atlasLayout,
   tabIsLeft, observedEffects, observedTransformations, initialNavigation, bookNavigation,
-  stationaryPages, turnDuration } from '../src/grimoire/book.js';
+  stationaryPages, turningPages, turnDuration, DISCOVERY_PHRASES, discoveryPhrase } from '../src/grimoire/book.js';
 import { previewFungusProfile, previewFungusEffects } from '../src/core/grimoire-preview.js';
 
 test('all Plant pages and references exist before discovery and keep their places as knowledge grows', () => {
@@ -42,7 +42,7 @@ test('a chapter bookmark is on the left from its opening overview', () => {
   }
 });
 
-test('every atlas uses exactly the canonical in-family connections and stays readable at narrow widths', () => {
+test('every atlas keeps canonical connections in uncrossed branches with safe references for joins and cycles', () => {
   for (let chapter = 0; chapter < 6; chapter++) {
     const graph = atlasGraph(chapter), names = new Set(graph.entries.map(entry => entry.species));
     const expected = new Set([...names].flatMap(from => (TRANSFORMATIONS[from] || [])
@@ -50,16 +50,50 @@ test('every atlas uses exactly the canonical in-family connections and stays rea
     assert.deepEqual(new Set(graph.edges.map(edge => `${edge.from}->${edge.into}`)), expected);
     for (const width of [160, 300, 384, 520]) {
       const layout = atlasLayout(chapter, width);
-      assert.equal(layout.nodes.length, names.size);
-      assert.ok(layout.width <= Math.max(width, 152));
+      assert.equal(layout.nodes.filter(node => !node.reference).length, names.size);
+      assert.equal(new Set(layout.nodes.map(node => node.id)).size, layout.nodes.length);
+      assert.deepEqual(new Set(layout.edges.map(edge => `${edge.from}->${edge.into}`)), expected);
+      assert.equal(layout.edges.length, expected.size);
+      assert.ok(layout.width >= width, 'a readable diagram scrolls rather than shrinking its labels');
+      const byId = new Map(layout.nodes.map(node => [node.id, node]));
       for (const node of layout.nodes) {
-        assert.ok(node.width >= 112);
+        assert.ok(node.width >= 140);
         assert.ok(node.x >= 0 && node.x + node.width <= layout.width);
         assert.ok(node.y >= 0 && node.y + node.height <= layout.height);
+        if (node.reference) {
+          const original = byId.get(node.key);
+          assert.equal(node.page, original.page);
+          assert.equal(entryName(node, createGrimoire()), entryName(original, createGrimoire()));
+          assert.ok(!layout.edges.some(edge => edge.sourceId === node.id), 'reference leaves never expand cycles');
+        }
       }
-      for (const edge of layout.edges) assert.ok(!edge.path.includes('NaN'));
+      for (const edge of layout.edges) {
+        assert.ok(!edge.path.includes('NaN'));
+        const source = byId.get(edge.sourceId), target = byId.get(edge.targetId);
+        assert.equal(target.row, source.row + 1, 'every arrow stays in the gap between adjacent rows');
+        for (const other of layout.edges) {
+          const otherSource = byId.get(other.sourceId), otherTarget = byId.get(other.targetId);
+          if (source.row === otherSource.row) assert.ok((source.x - otherSource.x) * (target.x - otherTarget.x) >= 0,
+            'separate branches never cross or merge their lines');
+        }
+      }
     }
   }
+});
+
+test('twenty stable anticipation phrases include wary notes without naming undiscovered Plants', () => {
+  assert.equal(DISCOVERY_PHRASES.length, 20);
+  assert.equal(new Set(DISCOVERY_PHRASES).size, 20);
+  const ledger = createGrimoire(), before = JSON.stringify(ledger);
+  for (const species of Object.keys(PLANTS)) {
+    const phrase = discoveryPhrase(species, ledger);
+    assert.equal(phrase, discoveryPhrase(species, JSON.parse(before)));
+    for (const name of Object.keys(PLANTS)) assert.ok(!phrase.includes(name), name);
+  }
+  const wary = Object.keys(PLANTS).find(species => discoveryPhrase(species, ledger) === DISCOVERY_PHRASES[16]);
+  assert.ok(wary);
+  assert.match(discoveryPhrase(wary, revealPlant(ledger, 'Kelpergeist')), /doesn’t stink like the Kelpergeist/);
+  assert.equal(JSON.stringify(ledger), before);
 });
 
 test('both entries show the same observed cultivation response while environmental event logs stay out of the lists', () => {
@@ -91,6 +125,12 @@ test('forward and backward turns keep the outgoing stationary page until the she
   assert.deepEqual(stationaryPages(4, { from: 4, to: 5 }), { left: 4, right: 5 });
   assert.deepEqual(stationaryPages(5, { from: 5, to: 4 }), { left: 4, right: 5 });
   assert.deepEqual(stationaryPages(4, null), { left: 4, right: 4 });
+  assert.deepEqual(turningPages({ from: 4, to: 5 }), {
+    front: { index: 4, side: 'right' }, back: { index: 5, side: 'left' },
+  });
+  assert.deepEqual(turningPages({ from: 5, to: 4 }), {
+    front: { index: 5, side: 'left' }, back: { index: 4, side: 'right' },
+  });
 });
 
 test('long jumps traverse every spread faster, ignore overlapping input, and reject stale animation completions', () => {

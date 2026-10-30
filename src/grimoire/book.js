@@ -45,6 +45,38 @@ export function entryName(entry, ledger, preview = false) {
 }
 export const tabIsLeft = (chapter, entry) => chapter <= entry.chapter;
 
+export const DISCOVERY_PHRASES = Object.freeze([
+  'Oh, I can’t wait to see what this page is hiding from me. I’d better get to experimenting!',
+  'Someone saved a whole page for you. You must be worth meeting.',
+  'A few seeds, a little patience, and perhaps a very good story.',
+  'I wonder if you’ll be useful, beautiful, or wonderfully inconvenient.',
+  'If I listen closely enough, will you tell me what you need?',
+  'I have a spare pot and several unreasonably hopeful theories.',
+  'There’s a name hiding in these roots. Let’s see if we can coax it out.',
+  'I’d better leave room in the margins. You look like a complicated sort.',
+  'Perhaps a little light will help. Or perhaps that’s exactly the wrong idea.',
+  'I hope this one doesn’t bite. My gloves are mostly decorative.',
+  'Something tells me I should label the pot before I forget.',
+  'Please be kinder to the neighbours than the last experiment.',
+  'I wonder what you’ll become when you think nobody’s watching.',
+  'That is a suspiciously innocent-looking seed.',
+  'I’ll start with patience. I can always try mild panic later.',
+  'A pleasant surprise would be lovely. A manageable surprise would do.',
+  'I hope this one doesn’t stink. The garden has enough mysteries already.',
+  'If you start whispering, I’m fetching another notebook.',
+  'I should probably keep this one away from the good tablecloth.',
+  'One small experiment. What could possibly grow wrong?',
+]);
+
+export function discoveryPhrase(identity, ledger) {
+  let hash = 1;
+  for (const character of identity) hash = (Math.imul(hash, 31) + character.codePointAt(0)) >>> 0;
+  const index = hash % DISCOVERY_PHRASES.length;
+  // Named anecdotes must not identify a Plant the player has yet to meet.
+  return index === 16 && plantKnown(ledger, 'Kelpergeist')
+    ? 'I hope this one doesn’t stink like the Kelpergeist.' : DISCOVERY_PHRASES[index];
+}
+
 export function observedEffects(ledger, species, fungal = false) {
   return Object.entries(ledger?.fungalEffects || {}).flatMap(([plant, facts]) => {
     if (!plantKnown(ledger, plant) || (!fungal && plant !== species)) return [];
@@ -87,31 +119,47 @@ export function atlasGraph(chapter) {
 
 export function atlasLayout(chapter, availableWidth = 384) {
   const graph = atlasGraph(chapter);
-  const depthLevels = Array.from({ length: Math.max(0, ...graph.depth.values()) + 1 }, () => []);
-  for (const entry of graph.entries) depthLevels[graph.depth.get(entry.key)].push(entry);
-  const columnLimit = Math.max(1, Math.min(3, Math.floor((availableWidth - 8) / 136)));
-  const levels = depthLevels.flatMap(level => Array.from({ length: Math.ceil(level.length / columnLimit) },
-    (_, index) => level.slice(index * columnLimit, (index + 1) * columnLimit)));
-  const columns = Math.max(1, ...levels.map(level => level.length));
-  const nodeWidth = Math.max(112, Math.min(152, (availableWidth - 32 - (columns - 1) * 24) / columns));
-  const width = Math.max(availableWidth, 32 + columns * nodeWidth + (columns - 1) * 24);
-  const nodes = levels.flatMap((level, row) => level.map((entry, column) => ({ ...entry,
-    x: (width - level.length * nodeWidth - (level.length - 1) * 24) / 2 + column * (nodeWidth + 24),
-    y: 18 + row * 100, width: nodeWidth, height: 66, row,
-  })));
-  const byKey = new Map(nodes.map(node => [node.key, node]));
-  const edges = graph.edges.map((edge, index) => {
-    const from = byKey.get(edge.from), into = byKey.get(edge.into);
-    const x = from.x + nodeWidth / 2, y = from.y + from.height;
-    const toX = into.x + nodeWidth / 2, toY = into.y;
-    const middle = (y + toY) / 2;
-    const lane = index % 2 ? 6 : width - 6;
-    const path = into.row === from.row + 1
-      ? `M${x},${y} C${x},${middle} ${toX},${middle} ${toX},${toY - 3}`
-      : `M${x},${y} V${y + 12} H${lane} V${toY - 12} H${toX} V${toY - 3}`;
-    return { ...edge, path };
-  });
-  return { nodes, edges, width, height: Math.max(180, levels.length * 100 + 8) };
+  const byKey = new Map(graph.entries.map(entry => [entry.key, entry]));
+  const outgoing = key => graph.edges.filter(edge => edge.from === key);
+  const visited = new Set(), primaryParent = new Map(), roots = [];
+  // Expand each identity once, at its shortest path from a family root. Other
+  // incoming edges end at a repeated, clickable page reference, including cycles.
+  for (const entry of graph.entries) {
+    if (visited.has(entry.key)) continue;
+    roots.push(entry.key); visited.add(entry.key);
+    const queue = [entry.key];
+    for (let i = 0; i < queue.length; i++) for (const edge of outgoing(queue[i])) {
+      if (visited.has(edge.into)) continue;
+      primaryParent.set(edge.into, edge.from); visited.add(edge.into); queue.push(edge.into);
+    }
+  }
+  const nodeWidth = 144, gap = 24, rowHeight = 114, inset = 18;
+  function branch(key, from = null) {
+    const reference = from !== null && primaryParent.get(key) !== from;
+    const children = reference ? [] : outgoing(key).map(edge => branch(edge.into, key));
+    return { ...byKey.get(key), id: reference ? `${from}=>${key}` : key, reference, children,
+      span: Math.max(nodeWidth, children.reduce((sum, child) => sum + child.span, 0) + Math.max(0, children.length - 1) * gap) };
+  }
+  const trees = roots.map(key => branch(key));
+  const span = trees.reduce((sum, tree) => sum + tree.span, 0) + Math.max(0, trees.length - 1) * gap;
+  const width = Math.max(availableWidth, span + inset * 2), nodes = [], edges = [];
+  function place(tree, start, row, parent = null) {
+    const node = { ...tree, x: start + (tree.span - nodeWidth) / 2, y: 18 + row * rowHeight,
+      width: nodeWidth, height: 68, row };
+    delete node.children; delete node.span;
+    nodes.push(node);
+    if (parent) {
+      const x = parent.x + nodeWidth / 2, y = parent.y + parent.height;
+      const toX = node.x + nodeWidth / 2, toY = node.y - 4, middle = (y + toY) / 2;
+      edges.push({ from: parent.key, into: node.key, sourceId: parent.id, targetId: node.id,
+        path: `M${x},${y} C${x},${middle} ${toX},${middle} ${toX},${toY}` });
+    }
+    let next = start;
+    for (const child of tree.children) { place(child, next, row + 1, node); next += child.span + gap; }
+  }
+  let start = (width - span) / 2;
+  for (const tree of trees) { place(tree, start, 0); start += tree.span + gap; }
+  return { nodes, edges, width, height: Math.max(180, ...nodes.map(node => node.y + node.height + 16)) };
 }
 
 export const turnDuration = distance => distance === 1 ? 820 : Math.max(35, Math.min(300, Math.round(1600 / distance)));
@@ -126,7 +174,7 @@ export function bookNavigation(state, action) {
   if (action.type === 'begin' && !state.turn && state.current !== state.target) {
     return { ...state, serial: state.serial + 1, turn: { id: state.serial + 1,
       from: state.current, to: state.current + Math.sign(state.target - state.current),
-      ledger: action.ledger, preview: action.preview } };
+      ledger: action.ledger, preview: action.preview, outgoingScroll: action.outgoingScroll || 0 } };
   }
   if (action.type === 'finish' && state.turn && state.turn.id === action.id) return { ...state, current: state.turn.to, turn: null };
   if (action.type === 'settle') return { ...state, current: state.target, turn: null };
@@ -137,4 +185,11 @@ export function bookNavigation(state, action) {
 export function stationaryPages(current, turn) {
   return turn ? (turn.to > turn.from ? { left: current, right: turn.to } : { left: turn.to, right: current })
     : { left: current, right: current };
+}
+
+// A leaf carries two different printed pages. Both are mounted before rotation.
+export function turningPages(turn) {
+  const forward = turn.to > turn.from;
+  return { front: { index: turn.from, side: forward ? 'right' : 'left' },
+    back: { index: turn.to, side: forward ? 'left' : 'right' } };
 }
