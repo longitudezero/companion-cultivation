@@ -164,7 +164,7 @@ test('forward and backward turns keep the outgoing stationary page until the she
 });
 
 test('short trips visit every spread and long jumps use four nearby spreads then the destination at the prototype pace', () => {
-  const durations = [null, 820, 370, 335, 300, 265, 230, 195, 160];
+  const durations = [null, 600, 370, 335, 300, 265, 230, 195, 160];
   for (let start = 0; start < BOOK_ENTRIES.length; start++) for (let destination = 0; destination < BOOK_ENTRIES.length; destination++) {
     if (start === destination) continue;
     let state = { ...initialNavigation, current: start, target: start };
@@ -172,7 +172,7 @@ test('short trips visit every spread and long jumps use four nearby spreads then
     const count = Math.min(5, Math.abs(destination - start));
     const duration = durations[Math.min(8, Math.abs(destination - start))];
     assert.equal(MAX_JUMP_TURNS, 5);
-    assert.equal(PAGE_TURN_DURATION, 820);
+    assert.equal(PAGE_TURN_DURATION, 600);
     assert.equal(state.turnsRemaining, count);
     assert.equal(state.duration, duration);
     for (let i = 0; i < count; i++) {
@@ -207,7 +207,7 @@ test('an ordinary single-page turn returns to the slower pace after a fast journ
     }
     const to = destination + Math.sign(start - destination);
     state = bookNavigation(state, { type: 'navigate', to });
-    assert.equal(state.duration, 820);
+    assert.equal(state.duration, 600);
     assert.equal(state.turnsRemaining, 1);
     state = bookNavigation(state, { type: 'begin' });
     assert.equal(state.turn.to, to);
