@@ -1,7 +1,7 @@
 # Garden interface redesign
 
 Date: 30 October 2026  
-Status: **WORKING · agreed decisions recorded; implementation not started.** The open questions and proposed implementation defaults below are not additional approved gameplay rules.
+Status: **WORKING · layout, staging controls, and peak visibility agreed; implementation not started.** The three pre-implementation questions are resolved. A tilted garden view is exploratory; proposed implementation defaults are not additional approved gameplay rules.
 
 ## Purpose and reference
 
@@ -17,7 +17,7 @@ Use the same material language as the implemented Cultivation Grimoire: dark gre
 | Inventory | Illustrated inventory on the right, with readable quantities and item identities. |
 | Inspector | Parchment panel across the bottom, showing essential information first and allowing detailed Influence information to expand. |
 | Portrait | Keep the selected organism's illustration; put its name below the image. Remove the descriptive paragraph from this area. Keep useful family and health/status information compact. |
-| Staging controls | Place Apply and Undo at the lower-left of the garden, replacing the mockup's Drag to explore panel. |
+| Staging controls | Place Apply, Undo, and Cancel at the lower-left of the garden, replacing the mockup's Drag to explore panel. |
 | Decoration | Concentrate gold ornaments at major panel boundaries and corners. Use quieter internal dividers so selection and important activity remain prominent. |
 
 The prominent selected-hex outline and the relationship between garden, inventory, and inspector are retained from the mockup. Exact dimensions, typography sizes, spacing, and ornament density are to be tuned in the first visual review.
@@ -30,7 +30,9 @@ The prominent selected-hex outline and the relationship between garden, inventor
 - Remove the permanent **Harvest** button from the ordinary inspector. Dragging a living Plant or Fungus into the inventory remains the primary harvest interaction.
 - Harvest still consumes the organism once and collects its actual products together. This redesign does not add separate Leaf and Seed harvest actions or free relocation of living organisms.
 - Remove the persistent **Drag to explore** tutorial panel. Its location is used for real staging controls.
-- Apply retains its existing meaning: revalidate and commit the current proposed plantings together. **The precise meaning of Undo is still open.**
+- **Apply** retains its existing meaning: revalidate and commit the current proposed plantings together.
+- **Undo** reverses the most recent uncommitted staging action, including a placement, move, quantity edit, or other staging edit. It restores the previous proposed plan and corresponding reservations.
+- **Cancel** clears the whole current uncommitted staging phase and releases all its reservations. A new plan can begin immediately. It does not cancel or refund previously applied pending germinations, reverse a harvest, or rewind the live garden.
 
 These changes remove mode buttons, not the underlying actions. Existing [spatial inventory and staging rules](../design/systems/spatial-inventory-and-staging.md) also require non-drag placement and harvest alternatives. The proposed presentation is to use the same selectable hexes and inventory targets, without restoring permanent sowing or harvest buttons; the exact focus, pickup, destination, and cancellation feedback remains an implementation detail.
 
@@ -62,7 +64,7 @@ The Plant lifecycle retains its existing **0–200%** domain: Growth is 0–100%
 
 The [Plant lifecycle framework](../design/systems/plant-lifecycle.md), family profiles, and [prospective influence/production rules](../design/systems/influences-and-responses.md) remain authoritative. Moving a marker or displaying a range must not change the underlying yield calculations, retroactively award production, or imply a second harvest.
 
-**Still open:** whether exact peak markers are basic information from the first encounter or must be learned through experimentation. The timing guide also needs to distinguish native species peaks from changes caused by timing/window influences; the proposed initial behavior is described below.
+**Explicitly agreed:** show harvest-peak markers immediately when a Plant first appears; no experimentation or harvest-history unlock is required. These markers are basic field information. Growing preferences, species-specific responses, and Transformation recipes retain their existing discovery rules. The timing guide must distinguish native species peaks from changes caused by timing/window influences; the proposed initial behavior is described below.
 
 ## Inventory readability — agreed direction
 
@@ -88,29 +90,39 @@ The mockup's repeated mushroom/plant pictures and its 18 / 30 example do not cha
 
 ## Proposed implementation defaults — adjustable, not new approved mechanics
 
-1. **First-pass scope:** reorganize and restyle the features that currently work. Leave task/Gold/store runtime and inventory-capacity migration to their progression work. Include placement space for the already approved time controls, but implement their behavior as a separate explicit step rather than drawing inactive controls that look functional.
+1. **First-pass scope — layout first agreed:** reorganize and restyle the features that currently work using existing supplied artwork. A separate art pass can add illustrated terrain and in-world sprites. Leave task/Gold/store runtime and inventory-capacity migration to their progression work. Include placement space for the already approved time controls, but implement their behavior as a separate explicit step rather than drawing inactive controls that look functional.
 2. **Selection and alternatives:** clicking a hex inspects it without a mode. Selecting an inventory stack and then a hex preserves the existing non-drag planting route. A keyboard/tap pickup-and-destination flow can provide the corresponding harvest alternative without a permanent Harvest button.
-3. **Staging feedback:** show Apply, Undo, and the staged count when a plan has changes. Keep pending germination distinct from the new, uncommitted plan. Undo concerns uncommitted planting edits; it does not reverse elapsed garden time, committed attempts, harvesting, or inventory ownership.
+3. **Staging feedback:** show Apply, Undo, Cancel, and the staged count when a plan has changes. Keep pending germination distinct from the new, uncommitted plan. Undo history is scoped to that plan; successful Apply or Cancel ends its history. Neither Undo nor Cancel reverses elapsed garden time, committed attempts, harvesting, or inventory ownership.
 4. **Responsive layout:** let the desktop inventory and expanded inspector scroll within their own regions. On narrow screens, use an inventory drawer and an expandable bottom inspector; retain garden interaction and access to the same information.
 5. **Garden movement:** fit the current plot by default. If panning is needed, start it from empty ground without stealing item, organism, or staged-marker drags. Pan/zoom is not a new mechanic implied by the removed tutorial label.
 6. **Filters and arrangements:** category filters change the view of the same saved stacks. All preserves the manual arrangement; filtering must not create duplicate stacks, move saved slots, or alter capacity and reservations.
 7. **Peak calculations:** begin with the canonical species curves and explicit timing/window effects that the interface is allowed to reveal. Preserve multiple peaks, plateaus, sterility, and special products. Identify native timing when it is only a reference; do not claim to predict a guaranteed future harvest under changing conditions or accrued production history.
 8. **Other selections:** show contextual details for empty hexes, Fungi, temporary Source items, staged proposals, and pending germination. Use actual Spore production for Fungi rather than displaying Plant Leaf/Seed landmarks. Preserve Source placement/movement/pickup and staged Fungus heading controls.
 
-## Questions to resolve before implementation
+## Pre-implementation decisions — resolved 30 October 2026
 
-| ID | Decision needed | Recommendation |
-| --- | --- | --- |
-| UI-01 | Should the first pass use the existing garden/organism artwork with the new layout and framing, or also replace the garden with illustrated terrain and in-world plants close to the mockup? | Establish the layout with existing supplied art first; create or source any additional terrain/frame/sprite assets in a deliberate art pass. |
-| UI-02 | Does Undo reverse the most recent uncommitted planting edit, or clear the whole current planting plan? | Reverse the latest staging edit, including quantity or position changes. A future Clear plan action can have a separate name. |
-| UI-03 | Are harvest-peak markers basic information on a Plant's first appearance, or learned through experimentation? | Show the timing markers from the first appearance; continue keeping unknown growing responses and Transformation recipes discovery-gated. |
+| ID | User decision |
+| --- | --- |
+| UI-01 | **Layout first**, using existing artwork. |
+| UI-02 | **Undo the last staging action**, and add a separate **Cancel** button that clears the entire current staging phase. |
+| UI-03 | **Show harvest-peak markers immediately.** |
+
+## Optional tilted garden view — discussion only
+
+The user supplied **Fantasy Terrain Hex Tiles(1).png** and asked about a slight angled view. This is a feasibility question, not approval to change the first implementation's camera or adopt the supplied image as finished terrain assets.
+
+A shallow angled presentation is feasible with the existing SVG garden renderer. Apply one consistent projection to hex top surfaces, centers, selection outlines, influence paths, and edge controls. Keep logical hex coordinates, neighbours, propagation, and simulation unchanged. Upright organism art and readable labels can use separately positioned layers, with appropriate front-to-back drawing order and matching pointer/drop targets.
+
+The supplied reference shows individual raised terrain blocks. Their top faces need consistent geometry and anchors to meet in a grid; irregular silhouette edges, large side faces, separate cast shadows, and tall vegetation can otherwise create seams or obscure neighbours. A continuous soil surface with restrained exposed sides around the garden's perimeter is a candidate to test. Do not promise that simply repeating the complete three-block reference image will produce a seamless map.
+
+Recommendation: keep layout first, then compare a small flat and shallow-tilt tile cluster before committing to new art or renderer changes. Tilt strength, terrain treatment, and overlap remain open visual choices.
 
 ## Review checks for the first implementation
 
 - The left tool column and permanent ordinary sowing/harvest buttons are gone; planting, inspection, and harvesting still work through the agreed interactions.
-- Apply and Undo occupy the former Drag to explore area, with the agreed Undo behavior and correct reservation handling.
+- Apply, Undo, and Cancel occupy the former Drag to explore area. Undo restores the last staging action; Cancel clears the current phase; both keep reservations correct and preserve committed attempts.
 - The bottom portrait has its name underneath and no descriptive paragraph; useful information fits the compact inspector and expanded details remain reachable.
-- Lifecycle shows 0–200% with the numeric current value and genuine Leaf/Seed peak markers or bands, following the agreed visibility policy. There is no prominent 100% landmark.
+- Lifecycle shows 0–200% with the numeric current value and genuine Leaf/Seed peak markers or bands, available immediately. There is no prominent 100% landmark.
 - Inventory type, quantity, selection, capacity, and staged availability are readable; rearranging/filtering does not alter ownership or lose products.
 - Colored framing supports readable information and a prominent selected hex at desktop and narrow widths.
 - Concealed germination, hidden recipes, saved knowledge, existing saves, Source items, and developer separation retain their actual current semantics.
