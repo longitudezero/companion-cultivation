@@ -815,3 +815,15 @@
   font-style: normal; font-weight: 400 700; font-display: swap;
   unicode-range: U+16A0-16FF;
 }
+
+/* Keep live text inside the clear paper, away from the painted outside borders. */
+.cg-page-content.cg-chapter-left {
+  padding-left: clamp(40px, calc(var(--page-w) * .28), 180px);
+  padding-right: clamp(16px, calc(var(--page-w) * .075), 50px);
+}
+.cg-page-content.cg-chapter-right {
+  padding-left: clamp(16px, calc(var(--page-w) * .075), 50px);
+  padding-right: clamp(40px, calc(var(--page-w) * .28), 180px);
+}
+.cg-page-content h1 { overflow-wrap: break-word; }
+.cg-atlas-page h1 { font-size: clamp(16px, calc(var(--page-w) * .055), 28px); }
