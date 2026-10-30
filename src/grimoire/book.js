@@ -191,8 +191,11 @@ export function bookNavigation(state, action) {
   if (action.type === 'navigate') {
     if (state.turn || state.current !== state.target || !Number.isInteger(action.to)
       || action.to < 0 || action.to >= BOOK_ENTRIES.length || action.to === state.current) return state;
+    const distance = Math.abs(action.to - state.current);
     return { ...state, target: action.to, current: action.reduced ? action.to : state.current,
-      turnsRemaining: action.reduced ? 0 : Math.min(MAX_JUMP_TURNS, Math.abs(action.to - state.current)) };
+      // Restore the HTML prototype's multi-page rhythm, held steady for the whole journey.
+      duration: distance === 1 ? PAGE_TURN_DURATION : Math.max(160, 440 - distance * 35),
+      turnsRemaining: action.reduced ? 0 : Math.min(MAX_JUMP_TURNS, distance) };
   }
   if (action.type === 'begin' && !state.turn && state.current !== state.target) {
     return { ...state, serial: state.serial + 1, turn: { id: state.serial + 1,
