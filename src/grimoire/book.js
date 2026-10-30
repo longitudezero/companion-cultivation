@@ -183,22 +183,27 @@ export function atlasLayout(chapter, availableWidth = 384) {
   return { nodes, edges, groups, width, vertical, height: Math.max(180, top - 24) };
 }
 
-export const turnDuration = distance => distance === 1 ? 820 : Math.max(35, Math.min(300, Math.round(1600 / distance)));
-export const initialNavigation = { current: 0, target: 0, turn: null, serial: 0, duration: 820 };
+export const PAGE_TURN_DURATION = 820;
+export const MAX_JUMP_TURNS = 5;
+export const initialNavigation = { current: 0, target: 0, turn: null, serial: 0,
+  duration: PAGE_TURN_DURATION, turnsRemaining: 0 };
 export function bookNavigation(state, action) {
   if (action.type === 'navigate') {
     if (state.turn || state.current !== state.target || !Number.isInteger(action.to)
       || action.to < 0 || action.to >= BOOK_ENTRIES.length || action.to === state.current) return state;
     return { ...state, target: action.to, current: action.reduced ? action.to : state.current,
-      duration: turnDuration(Math.abs(action.to - state.current)) };
+      turnsRemaining: action.reduced ? 0 : Math.min(MAX_JUMP_TURNS, Math.abs(action.to - state.current)) };
   }
   if (action.type === 'begin' && !state.turn && state.current !== state.target) {
     return { ...state, serial: state.serial + 1, turn: { id: state.serial + 1,
-      from: state.current, to: state.current + Math.sign(state.target - state.current),
+      // Four neighbouring spreads convey travel; the last sheet reveals the destination.
+      from: state.current, to: state.turnsRemaining === 1 ? state.target
+        : state.current + Math.sign(state.target - state.current),
       ledger: action.ledger, preview: action.preview, outgoingScroll: action.outgoingScroll || 0 } };
   }
-  if (action.type === 'finish' && state.turn && state.turn.id === action.id) return { ...state, current: state.turn.to, turn: null };
-  if (action.type === 'settle') return { ...state, current: state.target, turn: null };
+  if (action.type === 'finish' && state.turn && state.turn.id === action.id) return { ...state,
+    current: state.turn.to, turn: null, turnsRemaining: state.turnsRemaining - 1 };
+  if (action.type === 'settle') return { ...state, current: state.target, turn: null, turnsRemaining: 0 };
   return state;
 }
 

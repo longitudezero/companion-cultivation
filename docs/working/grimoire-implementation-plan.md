@@ -35,7 +35,7 @@ Primary targets: a small entry/page model beside the Grimoire, `src/CultivationG
 - Move a chapter's bookmark to the left when its first spread opens. Clicking a Plant family bookmark opens that family's overview. The family tabs provide the return path to the overview.
 - Turn pages through enlarged outer margins, including blank areas inside the scrolling region; protect text, controls and scrollbar interactions. Give that border a subtle hover highlight and a visible keyboard focus state. Support keyboard arrows and touch taps.
 - Preserve selection of the book's text. Page-turn handlers must ignore text-selection gestures and must not intercept links, dropdowns, or other content controls.
-- Keep the full sequence of intermediate page turns for atlas links, dropdown selections, and other longer jumps. Accelerate turns as the journey gets longer; judge the timing using the complete book.
+- Cap atlas, dropdown, and chapter jumps at five turns at the ordinary 820 ms pace. Short trips visit every spread; long journeys turn through four neighbouring spreads, then reveal the requested destination on the final sheet. Reduced motion jumps immediately.
 - Bind outgoing content to the moving sheet. Incoming content becomes visible as that sheet uncovers it. Keep front, back, stationary pages, and travelling bookmarks synchronized in both directions.
 - Mount the outgoing front and incoming reverse before rotation; explicitly hide the unexposed print during each half-turn. Preserve the outgoing scroll position and open each new printed page at the top.
 - Handle repeated input and closing during navigation consistently, without mismatched faces or stale destination content.
@@ -102,7 +102,7 @@ Primary targets: `src/App.jsx`, `src/styles.css`, Grimoire components/styles, an
 - Opening the book, visiting a hidden page, reading the glossary, and toggling developer preview do not grant discoveries or alter saved knowledge.
 - Observed cultivation responses appear consistently in both Plant and Fungus entries. Fungus Transformations exclude recipes in which the Fungus is merely helpful.
 - Existing saves retain their observations, and page numbering remains stable as new facts are learned.
-- Single turns and accelerated multi-page journeys show correct content on both faces throughout the animation. Check forward, backward, long jumps, and repeated input.
+- Single turns and capped five-turn journeys show correct content on both faces, including the final skipped-to destination. Check forward, backward, short and full-book jumps, repeated input, stale completions, and reduced motion.
 - Selecting text and using links or dropdowns never accidentally turns a page. Book interactions never operate the garden underneath.
 - Close stays visible on hover, is clear of the gold corner, and remains behind the paper. Fluorescent lighting stays steady while hovered or keyboard-focused.
 - The glossary is usable by mouse, keyboard, and touch, with sensible Escape behavior and focus restoration.
