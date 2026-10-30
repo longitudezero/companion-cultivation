@@ -7,6 +7,7 @@ import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, discoveryPhrase, observe
   fungusTransformationTargets } from './book.js';
 import { EFFECT_DEFINITIONS, observedEffectText } from './effects.js';
 import { art } from './art.js';
+import { illustrationFor } from './illustrations.js';
 import TransformationAtlas from './TransformationAtlas.jsx';
 
 export function PageNumber({ number }) { return <div className="cg-page-number">{number}</div>; }
@@ -83,6 +84,7 @@ export default function BookSpread({ entry, side, ledger, preview = false, navig
   const chapter = CHAPTERS[entry.chapter], left = side === 'left';
   const opening = entry.kind === 'overview' || entry.kind === 'index';
   const known = entryKnown(entry, ledger, preview);
+  const illustration = known ? illustrationFor(entry.species) : null;
   const pageNo = entry.page + (left ? 0 : 1);
   const name = entryName(entry, ledger, preview);
   const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}`;
@@ -117,9 +119,11 @@ export default function BookSpread({ entry, side, ledger, preview = false, navig
     if (left) return <>
       <span className="cg-eyebrow">Cultivation Grimoire · {chapter.label}</span>
       <h1 className={known ? undefined : 'cg-runes'}>{name}</h1>
-      <div className={`cg-plate ${known ? '' : 'cg-undiscovered-plate'}`}>
+      <div className={`cg-plate ${known ? '' : 'cg-undiscovered-plate'}${illustration ? ' cg-illustrated-plate' : ''}`}>
         {!known ? <img className="cg-seed-illustration" src={art('unknown-seeds')} alt="An undiscovered Plant, represented by enchanted seeds" draggable="false"/>
-          : <><span className="cg-plate-symbol" aria-hidden="true">{chapter.symbol}</span><span className="cg-plate-caption">Botanical plate awaiting illustration</span></>}
+          : illustration ? <img className="cg-species-illustration" src={illustration.src} width={illustration.width}
+            height={illustration.height} alt={`${name} illustration`} decoding="async" draggable="false"/>
+            : <><span className="cg-plate-symbol" aria-hidden="true">{chapter.symbol}</span><span className="cg-plate-caption">Botanical plate awaiting illustration</span></>}
       </div>
       <p>{!known ? `“${discoveryPhrase(entry.species, ledger)}”`
         : entry.kind === 'fungus' ? 'An identified Fungus. Its affinity, reach and cultivation effects are part of your starting field knowledge. Successful experiments reveal the Plants it helps create.'

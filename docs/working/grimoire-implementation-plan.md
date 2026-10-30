@@ -22,7 +22,7 @@ Implement against the game's current catalog. Plant names, fungal profiles, and 
 - Preserve appropriate contents and entry views for the Fungi and general Index chapters.
 - Assign each undiscovered Plant a fixed, random-looking rune label derived from its stable identity. Use a fixed rune alphabet and deterministic generation so reopening or reloading preserves the label without requiring a new save field. Rune count must not encode the real name's length.
 - Use the same rune label in the index, atlas, dropdown, and entry. Show a readable page reference alongside hidden index names, such as `ᚱᛊᛏᚹᚲᛊ · p. 14`.
-- Prepare the approved borders, tab artwork, icons, gold corners, atlas plaque, seed illustration, book launcher image, and logo as local web assets. Preserve transparency and the supplied artwork's appearance.
+- Prepare the approved borders, tab artwork, icons, gold corners, atlas plaque, seed illustration, book launcher image, and logo as local web assets. Preserve transparency and the supplied artwork's appearance. Import all 60 Plant and 13 Fungus illustrations with an explicit catalogue mapping and source/output hashes. Keep hidden Plants on the seed placeholder and use the full art in read-only preview.
 
 Primary targets: a small entry/page model beside the Grimoire, `src/CultivationGrimoire.jsx`, and the game's static asset directory.
 
@@ -30,7 +30,7 @@ Primary targets: a small entry/page model beside the Grimoire, `src/CultivationG
 
 - Present the book as an overlay over the visible garden, removing the brown demonstration backdrop. Interactions inside the book must not plant, harvest, or otherwise operate the garden underneath it.
 - Opening or closing the Grimoire must preserve the simulation's running state. Maintain the current continuing-time behavior.
-- Port the approved book shell, cover ornaments, thicker paper block, tab artwork, and fluorescent hover/focus treatment.
+- Port the approved book shell, cover ornaments, thicker paper block, tab artwork, and fluorescent hover/focus treatment. Add a broad ambient shadow behind the cover so the book stands apart from the live garden.
 - Move the bookmarks down slightly, keeping Index nearer the bottom edge than Ingredients is to the top. Retain their varied sizes, angles, and offsets.
 - Move a chapter's bookmark to the left when its first spread opens. Clicking a Plant family bookmark opens that family's overview. The family tabs provide the return path to the overview.
 - Turn pages through enlarged outer margins, including blank areas inside the scrolling region; protect text, controls and scrollbar interactions. Give that border a subtle hover highlight and a visible keyboard focus state. Support keyboard arrows and touch taps.

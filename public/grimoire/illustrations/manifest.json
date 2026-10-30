@@ -1,0 +1,1408 @@
+{
+  "sourceArchive": "illustrations(1).zip",
+  "sourceArchiveSha256": "79929718f18a6af3623d9176d66ebc97b64e788cae90e7cc519f48667bc50458",
+  "source": "User-supplied artwork, imported at the user’s direction.",
+  "processing": {
+    "format": "WebP",
+    "maxEdge": 768,
+    "quality": 88,
+    "method": 6,
+    "resize": "Contain without cropping or upscaling; preserve alpha and artwork.",
+    "pillowVersion": "12.3.0"
+  },
+  "illustrations": [
+    {
+      "species": "Beanstalk",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/beanstalk.webp",
+      "source": "ingredients-illustration-collection/beanstalk.png",
+      "sourceSha256": "1fbc3718653c7eac0083410cfd536e5b564a51d3734fc760e58d6aa18c99673e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "6efc39b93c9aeb0d3cf1fb632e99e53adf8c24f69ccea50255a6e64b0e98fb4e",
+      "bytes": 256288
+    },
+    {
+      "species": "Rice",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/rice.webp",
+      "source": "ingredients-illustration-collection/rice.png",
+      "sourceSha256": "82b98e750deb14e4f5497669ac7664e000f04cfd5e0408517ffd62baff53377b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "2a8ee594807cafa9d6d4f44ccf1942a4c4f0af2212e00691f826851cc16f0077",
+      "bytes": 378532
+    },
+    {
+      "species": "Carrot",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/carrot.webp",
+      "source": "ingredients-illustration-collection/carrot.png",
+      "sourceSha256": "a243a9425ba4271f2b1ae2fdf94059d55ca3bf54d156bf024f5dfb6abfe64631",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "e957ae3f5d82cd1e7caed712c8c5092b3b548add574598523fe49bae08f29f24",
+      "bytes": 270158
+    },
+    {
+      "species": "Onion",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/onion.webp",
+      "source": "ingredients-illustration-collection/onion.png",
+      "sourceSha256": "88b6858513413c62d616f438ed08b5a449d2ba5d53b23c0d6c2c409b9b364973",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "285e0bd6ac5658ee8dfd322dd4777bd3afd76342c928921472366d0757fc88c0",
+      "bytes": 211242
+    },
+    {
+      "species": "Potato",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/potato.webp",
+      "source": "ingredients-illustration-collection/potato.png",
+      "sourceSha256": "110573d7aaa71a1bf18132bd193f5c441e85d0df01b8a263c03fdf73cdd365f5",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "6c75160e9481dda62187028f01c0de15ce6781e415edc443eb157a4e052c7c76",
+      "bytes": 321814
+    },
+    {
+      "species": "Pumpkin",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/pumpkin.webp",
+      "source": "ingredients-illustration-collection/pumpkin.png",
+      "sourceSha256": "4313023df48e7522f3a3a0dec017794142c542aad80aebbae59e0b410cea2152",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "07b1afc4c89900253646f69fe529dc8040092d3244dbb7b0fdf0694fc164dfe7",
+      "bytes": 376362
+    },
+    {
+      "species": "Strawberry",
+      "kind": "plant",
+      "family": "Ingredients",
+      "file": "plants/strawberry.webp",
+      "source": "ingredients-illustration-collection/strawberry.png",
+      "sourceSha256": "33ddd2fe538e5ccb32a87cd1159a58153bae87d804bbaf7361e01858c57bb31f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "dedc603293476c76844641a20a8044a4285d573c9cb8ae49d0cf327d273cfb67",
+      "bytes": 352774
+    },
+    {
+      "species": "Daisydaze",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/daisydaze.webp",
+      "source": "flower-illustration-study/daisydaze.png",
+      "sourceSha256": "757f5e8a78429fdcc94e5c9a31ffcbb4ec925fbd5cd105965fb71de134a9231f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "4a340e8a3201a61f9056706d37b5e23c183c1f47fbdbd59b94f2374a79acc210",
+      "bytes": 283874
+    },
+    {
+      "species": "Marigloom",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/marigloom.webp",
+      "source": "flower-illustration-study/marigloom.png",
+      "sourceSha256": "d2cef7cd636d25d69ebc0786f0a821bbbac5ec732f92ac92d35794a158823d76",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "6064f1e838a3656e78b5779cecd81aab39c546104f9756b0ae1b45fbb6e477c3",
+      "bytes": 277724
+    },
+    {
+      "species": "Orchiwitch",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/orchiwitch.webp",
+      "source": "flower-illustration-study/orchiwitch.png",
+      "sourceSha256": "3d4105711d7474683bdeffea54c31793a08d137070b762a6a29cb16f16558e2b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "66ea4798b7a06ea9520eec24d7cbe01efbf123c48fd8f0da9c07d1e9b684f8b4",
+      "bytes": 307990
+    },
+    {
+      "species": "Nightmarigold",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/nightmarigold.webp",
+      "source": "flower-illustration-study/nightmarigold.png",
+      "sourceSha256": "23dea0022ecd0288c87bc223ad95606c6f0362dfdbb5869bade03548bdb78c4b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "08f6b471af995c57beb25c50ae9305f6fd9d9ef555f00825462dd0051da2b6d4",
+      "bytes": 302852
+    },
+    {
+      "species": "Charmomile",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/charmomile.webp",
+      "source": "flower-illustration-study/charmomile.png",
+      "sourceSha256": "c76ceef0083b922c9b45197ef5fe19b634f2d80c2b72490e7c6e974748df5b12",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "01fe58e540a57ed0310fd21715c9e9e1c3ac9769f6eccbe52310a0316bbcd662",
+      "bytes": 359912
+    },
+    {
+      "species": "Chamomeleon",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/chamomeleon.webp",
+      "source": "flower-illustration-study/chamomeleon.png",
+      "sourceSha256": "9633d13540add92e3f9ef83e6fe1eafbf4c9b6c76d0f9d30090e81df991d8f16",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "74aeb0a09baf29c9ecc19a028e20f65af15e1424c7e4ee5c9a9dd82f7fb90097",
+      "bytes": 351778
+    },
+    {
+      "species": "Lavendream",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/lavendream.webp",
+      "source": "flower-illustration-study/lavendream.png",
+      "sourceSha256": "addcc2fd4b63e5ce353dd16f2cacf88b6b9a93a24711384c032e4290e60dea6c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "be63ff0050b69ee105ab4a4b98e62f5e86b4b9b619cb25e3f1e1e95e645df0cf",
+      "bytes": 280570
+    },
+    {
+      "species": "Lavendread",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/lavendread.webp",
+      "source": "flower-illustration-study/lavendread.png",
+      "sourceSha256": "b4e2363185b1d1bc6dd450747cd96d56cb168854cb91a61a95dddc801a63815d",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "81f872fabcaefb0ec1cb110e70f0636a8ce6263f656d0b1bc6786a637839db60",
+      "bytes": 368912
+    },
+    {
+      "species": "Rosewraith",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/rosewraith.webp",
+      "source": "flower-illustration-study/rosewraith.png",
+      "sourceSha256": "9e0d9e70bd84244fab95243b013628cb1c05050793fd13a3b57ecde7ad177163",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "a5681fa4acd69faf8758be04fc46d1e6c55dfca10218f079f90ee50803de1328",
+      "bytes": 340964
+    },
+    {
+      "species": "Orchidemon",
+      "kind": "plant",
+      "family": "Flowers",
+      "file": "plants/orchidemon.webp",
+      "source": "flower-illustration-study/orchidemon.png",
+      "sourceSha256": "21d22748fe046056cdf917dde6f381a9cb92337f2ea9b0d2b4c843d076be2abe",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "92ce29c4db4a58d4f680f887f28bf8a99c38b258fd83583f14a61e6229be0655",
+      "bytes": 293662
+    },
+    {
+      "species": "Algea",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/algea.webp",
+      "source": "aquatic-illustration-collection/algea.png",
+      "sourceSha256": "116a69dda71af235ff0c012fe56e43a6b093d3b3170ab475f5be5405373fba6e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "9311392f44bf1b620b2366e1aebf81f8724eb5574552febe7197af44de83bf73",
+      "bytes": 379706
+    },
+    {
+      "species": "Kelpfull",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/kelpfull.webp",
+      "source": "aquatic-illustration-collection/kelpfull.png",
+      "sourceSha256": "683f30a32c9c9c72962c05f3f9a2e7d895abe9bc752ef374d11633e3e2e3872b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "462505a6d604fed6c18a83f4865e05f84ed85ea1c2987112be9cb7fa31a7733a",
+      "bytes": 282886
+    },
+    {
+      "species": "Kelpergeist",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/kelpergeist.webp",
+      "source": "aquatic-illustration-collection/kelpergeist.png",
+      "sourceSha256": "099dc6b30b67b8745d5870299be99c75c93a10dd66281e0471a58658e9f82477",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "3edb82cfb10ce11fafa7614a3ef3d4cddbd294c4c9e00c33c7d937cac6f8475c",
+      "bytes": 327116
+    },
+    {
+      "species": "Kelpless",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/kelpless.webp",
+      "source": "aquatic-illustration-collection/kelpless.png",
+      "sourceSha256": "159a4aa4302e6ea1aefa424777f7a93e5d9f63547c951628671a80d6c34d1c3a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "0e730cdc9e6bd8034751d5cfe7978cea445afc35eaf0b1ea924861e8848fc2ab",
+      "bytes": 162140
+    },
+    {
+      "species": "Sunken Lotus",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/sunken-lotus.webp",
+      "source": "aquatic-illustration-collection/sunken-lotus.png",
+      "sourceSha256": "ae0393fb66fed9b5e97dbfecc40632788ab9345a5cbb0c7dd31ce71cce9c6a6c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "4d026651a5dd271aa0d596e2a7b5f8ba9171840fd7f3e03318ccb2cf97d3e593",
+      "bytes": 252168
+    },
+    {
+      "species": "Moonlit Lotus",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/moonlit-lotus.webp",
+      "source": "aquatic-illustration-collection/moonlit-lotus.png",
+      "sourceSha256": "621ca0ce051251276b40ef34b30a076b9578c086e932ecbe54d882e90b2842f8",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "d9875c2448e6c224d01e81d57c3279bb14e0d4abfa91a42e647db070c8e61295",
+      "bytes": 301928
+    },
+    {
+      "species": "Starlotus",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/starlotus.webp",
+      "source": "aquatic-illustration-collection/starlotus.png",
+      "sourceSha256": "9319e13cbae4192f1b36d5d0445bba7826092696a87a8974e18dd3616f65e6f4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "b7e39b170b47b71cb85b7a36f89715a0c350271aa8aa9c7c02488c109bf0d856",
+      "bytes": 298736
+    },
+    {
+      "species": "Pearlily",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/pearlily.webp",
+      "source": "aquatic-illustration-collection/pearlily.png",
+      "sourceSha256": "b131b55966e9b062082088dc7b824b589f67d5267bdf3ffa02dfab6cccb1123f",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "4b21375c7966805cc5b648b0462ea523cb247cae8f06be53bcd5f7b5a2b00d99",
+      "bytes": 289178
+    },
+    {
+      "species": "Wild Watercress",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/wild-watercress.webp",
+      "source": "aquatic-illustration-collection/wild-watercress.png",
+      "sourceSha256": "334a4efbeefbb6fc61ee57f285f61cb05337dc62f73dd3c500b0b58c0c1ee7e3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "c335cb9856e38539d173f51f5869c9ea16604c77928dee55f800d3eafaa48753",
+      "bytes": 337092
+    },
+    {
+      "species": "Silvercress",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/silvercress.webp",
+      "source": "aquatic-illustration-collection/silvercress.png",
+      "sourceSha256": "9abe33938130fbc9893d1ceafd6448b4e27dc61841c896628a1b27f4a51397a3",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "85b7a028d212d89b247d051ee9c47f2dc6fde5ad0b57e0b21ccbc49030251b75",
+      "bytes": 360348
+    },
+    {
+      "species": "Cresscent",
+      "kind": "plant",
+      "family": "Aquatic",
+      "file": "plants/cresscent.webp",
+      "source": "aquatic-illustration-collection/cresscent.png",
+      "sourceSha256": "99794d9560ce9ea08f9b8350b4e47db1e962e3a8f9ea60592ee66390443b5811",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "254b50aa94c7249fdd9a2d668ca1216bb847657f683cb94e04d6a7aa5b96a5ee",
+      "bytes": 285608
+    },
+    {
+      "species": "Moss",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/moss.webp",
+      "source": "woodlands/Primordial Velvet Moss-14.png",
+      "sourceSha256": "4976ea3312dd13376b367b295a3e6360c1888ce778cd4272b440b66c30a31785",
+      "sourceDimensions": [
+        1312,
+        1199
+      ],
+      "dimensions": [
+        768,
+        702
+      ],
+      "transparent": true,
+      "sha256": "c0403179b5475b256e1d3ae04f85aeac5e5cf641769f779f57e5f2b946131a50",
+      "bytes": 302068
+    },
+    {
+      "species": "Bamboom",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/bamboom.webp",
+      "source": "woodlands/Saffron-gold bamboo bloom-13.png",
+      "sourceSha256": "e10864fceefaed4a90d9baf578258c7e469fa4bee8019aa90afc44f89e43c2a1",
+      "sourceDimensions": [
+        1145,
+        1374
+      ],
+      "dimensions": [
+        640,
+        768
+      ],
+      "transparent": true,
+      "sha256": "7be2775789b53a442da6808ac8c5196bd779dcd9c365e795aff688690a9f165e",
+      "bytes": 347788
+    },
+    {
+      "species": "Bamboozeling",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/bamboozeling.webp",
+      "source": "woodlands/Bamboozeling_ Enchanted Bamboo Shoots-15.png",
+      "sourceSha256": "e64442b909383ca2f0ae167ead8323dc0f0d268af3e43c9d2f820dccd6f5cc00",
+      "sourceDimensions": [
+        1214,
+        1295
+      ],
+      "dimensions": [
+        720,
+        768
+      ],
+      "transparent": true,
+      "sha256": "93b764e495d937def73b79b38d9b32deb865c7a912680a211c9e9d587afa837d",
+      "bytes": 265536
+    },
+    {
+      "species": "Bamboozled",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/bamboozled.webp",
+      "source": "woodlands/Bamboozled.png",
+      "sourceSha256": "0f6e2ed9eccd13bfe11c64456396bea54d664d2d72a7a7ceb8d0953ea439560a",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": false,
+      "sha256": "0694b39254abe1a6cbd376be3d8992f5f9065e797c0d8ec0c8e51d23744318fc",
+      "bytes": 199598
+    },
+    {
+      "species": "Tanglethorn",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/tanglethorn.webp",
+      "source": "woodlands/Tanglethorn_ Thornwoven Forest Bramble-17.png",
+      "sourceSha256": "e7c94654b4cb8b1395dba32e3d18f8ebcf70ea0b720ed3bc49f374e6c9838232",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "31f3f5fab5d25052057050798a4ea1c529e4559ed0df4deabe0567be6fcea090",
+      "bytes": 233240
+    },
+    {
+      "species": "Mistlefoe",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/mistlefoe.webp",
+      "source": "woodlands/Thorned Mistletoe of the Wildwood-16.png",
+      "sourceSha256": "171675ea0fa4e93996dc58c8c47e1cd6c2db39c74857b02f49fe9c17c5935db6",
+      "sourceDimensions": [
+        1230,
+        1278
+      ],
+      "dimensions": [
+        739,
+        768
+      ],
+      "transparent": true,
+      "sha256": "217cad5ccd4c72ca79d35a9d0b5151c9ca244ace420a8df21cf275ced2137193",
+      "bytes": 346700
+    },
+    {
+      "species": "Mistlewoe",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/mistlewoe.webp",
+      "source": "woodlands/Weeping Sapphire Mistlewoe-21.png",
+      "sourceSha256": "5627f723cff17f840423ced25359103715c1773a4adf5186cc74c3cbccf727fc",
+      "sourceDimensions": [
+        1219,
+        1290
+      ],
+      "dimensions": [
+        726,
+        768
+      ],
+      "transparent": true,
+      "sha256": "a3ce77eac8ddf9d714fa2e6b7292c29c6003b4b14a22892f52d166a1729e86a5",
+      "bytes": 322848
+    },
+    {
+      "species": "Bramblewraith",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/bramblewraith.webp",
+      "source": "woodlands/Bramblewraith_ Ghost Thorn Botanical-20.png",
+      "sourceSha256": "8bc874eeafd6b0142f683300a896436d99b5e2ab73a9e3c7753e108d3316441b",
+      "sourceDimensions": [
+        1213,
+        1296
+      ],
+      "dimensions": [
+        719,
+        768
+      ],
+      "transparent": true,
+      "sha256": "4680faccc438a6c6fddaa28f519b5477616332f14507e2ae96e7a3a3772ddc93",
+      "bytes": 349284
+    },
+    {
+      "species": "Mandrabra",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/mandrabra.webp",
+      "source": "woodlands/Mandabra_ Enchanted Woodland Root-19.png",
+      "sourceSha256": "8db6d8be9d57f04d764cc3809267899c298483a146fa7dd6ea5901e0874f1b65",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "25f2c3357ab55a2a3198f0492a04f4915fdd2548b2b6c33885a4cad1aa14723e",
+      "bytes": 218786
+    },
+    {
+      "species": "Mandrakadabra",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/mandrakadabra.webp",
+      "source": "woodlands/Mandrakadabra_ goldenroot mandrake bloom-23.png",
+      "sourceSha256": "2c82edb3e5052b1c4ac5cfd5f5bda53bfbecca64670c922e278f8efb276794ef",
+      "sourceDimensions": [
+        1223,
+        1286
+      ],
+      "dimensions": [
+        730,
+        768
+      ],
+      "transparent": true,
+      "sha256": "abb1c85dd92fda0330fdbbe6841507a1d90b840ca036f9c610ffe82b694c3aae",
+      "bytes": 326480
+    },
+    {
+      "species": "Mandrakazam",
+      "kind": "plant",
+      "family": "Woodlands",
+      "file": "plants/mandrakazam.webp",
+      "source": "woodlands/Mandrazam_ Opaline Mandrake Bloom-22.png",
+      "sourceSha256": "7bb40261004f12394752f5efa4c3be1e6087ac4083980a01e73d76ff87934c9a",
+      "sourceDimensions": [
+        1156,
+        1361
+      ],
+      "dimensions": [
+        652,
+        768
+      ],
+      "transparent": true,
+      "sha256": "1d044548f0969944416a8ccc4d31625a8a34c31ddf4f698f140b44841079303d",
+      "bytes": 312598
+    },
+    {
+      "species": "Jadeheart",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/jadeheart.webp",
+      "source": "desert-illustration-collection/jadeheart.png",
+      "sourceSha256": "cb493f1147b7aec9e679a212ae994d2f087db4ebe2aa5fafe2053ca89bbb5d17",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "da06b63f51ba6eda8e9601b2c54fef19c1c6507f22e1277e37ddf6cf3e2df95f",
+      "bytes": 254552
+    },
+    {
+      "species": "Aloechemist",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/aloechemist.webp",
+      "source": "desert-illustration-collection/aloechemist.png",
+      "sourceSha256": "c2d3df28c896437b056feb603abf8e49c16e49f4e3e1de68fb6f0cef77c12a5e",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "1d0bd4874d23a884f125c1efb4d22bfe77cc2f752a5979ca46139e96634c37fd",
+      "bytes": 229390
+    },
+    {
+      "species": "Aloemancer",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/aloemancer.webp",
+      "source": "desert-illustration-collection/aloemancer.png",
+      "sourceSha256": "e5541138459139f7176c2d685296487fc600aec5b64b126d62ec00817c770777",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "ed59666fb1849fc47203555068774943b6b9baf17e7d2053b6224422b0b201a6",
+      "bytes": 250004
+    },
+    {
+      "species": "Cactastrophe",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/cactastrophe.webp",
+      "source": "desert-illustration-collection/cactastrophe.png",
+      "sourceSha256": "479986dedce5172ad96a53f89bc6c7bc3dea2fde8ded0fff7cf5164c596d6fcf",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "136a1b89fdd554ae486f1a9b2de7a6646120d296266290c37423c6293163c443",
+      "bytes": 296990
+    },
+    {
+      "species": "Moonjade",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/moonjade.webp",
+      "source": "desert-illustration-collection/moonjade.png",
+      "sourceSha256": "16cf6ae363c2c256650098386e9a9d6d7d220e0a87433559ebebf0622244306b",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "08145e31d191e1cea6b3b7322bc73a468781f9a5a8e3d3084e8eeb43cb4fde33",
+      "bytes": 237792
+    },
+    {
+      "species": "Jadewisp",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/jadewisp.webp",
+      "source": "desert-illustration-collection/jadewisp.png",
+      "sourceSha256": "a9ad0aad832c544fa9b8c4ce3cd2daf83cff9e2cb96b93cd720ae1786e14e5f2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "54d36702fc97ff1598b7401f0d7cca8717d2cfc387e56ccb6dbd2c9aee2dc234",
+      "bytes": 265236
+    },
+    {
+      "species": "Pearadox",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/pearadox.webp",
+      "source": "desert-illustration-collection/pearadox.png",
+      "sourceSha256": "4f6410713b4ee682ea37320662e48820a0310c20913392fb44cf2df3995ab1f2",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "b5b93e53410d7f826dbad79b374279fb7b16eae1efbd416446d51f2b49c38a06",
+      "bytes": 265952
+    },
+    {
+      "species": "Prickly Pearl",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/prickly-pearl.webp",
+      "source": "desert-illustration-collection/prickly-pearil.png",
+      "sourceSha256": "a6f92429c742a84386e019d92f1aacce0a563880b29ff7cab921d64e657de5c4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "ee9bc950d292f22f071face1feef5356f4c4fec5786f34ccf6d659b01c2f5ec6",
+      "bytes": 309074
+    },
+    {
+      "species": "Cactopus",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/cactopus.webp",
+      "source": "desert-illustration-collection/cactopus.png",
+      "sourceSha256": "002c65d5aeacf40e75cf1cf58c7f2cd28f38d9f2aaff81c0618e9d01a34f5bbb",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "67871fe9747729825f3a6d118ee315aa0a9db61738f80d04feafb02eaeccfc09",
+      "bytes": 331536
+    },
+    {
+      "species": "Cactacomb",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/cactacomb.webp",
+      "source": "desert-illustration-collection/cactacomb.png",
+      "sourceSha256": "8f3004f5ddafb1cc7ffc4b15e3020737af101343b799e0251e15772a156db6b4",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "f996b0be13c7028fbbb7b6bb20b4235b2d5332d3690eaf8624fdb4eac4f1dd36",
+      "bytes": 287900
+    },
+    {
+      "species": "Everjade",
+      "kind": "plant",
+      "family": "Desert",
+      "file": "plants/everjade.webp",
+      "source": "desert-illustration-collection/everjade.png",
+      "sourceSha256": "2585d2e10c0f823c395e24e0d262bad8607fa8868519d4ef6c627d09cab7419c",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "48e3f7da03ad25dafa63e2319a9e2ea8329332c2cdcda9de96b47872d32a1105",
+      "bytes": 312370
+    },
+    {
+      "species": "Thymekeeper",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/thymekeeper.webp",
+      "source": "spices-illustration-collection/thymekeeper.png",
+      "sourceSha256": "2a6d451a983e89d61d4f25cc1ea008fef07d7ce1cc689fc0e3531b04c23b5c22",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "78e6ddbda5d6d4a652049c53275c9dccb725612b45175cc26073e3414e13a377",
+      "bytes": 348836
+    },
+    {
+      "species": "Oreganoir",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/oreganoir.webp",
+      "source": "spices-illustration-collection/oreganoir.png",
+      "sourceSha256": "bbb2ae8d13f3744a0df9281f5403c37fa9ccdabf35aa49d6eef45b37bc253217",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "c8ba12626f566a77ab4028f74f0e90a71744b0fc921248680681acf0450b2d20",
+      "bytes": 336398
+    },
+    {
+      "species": "Clovely",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/clovely.webp",
+      "source": "spices-illustration-collection/clovely.png",
+      "sourceSha256": "e25ff0e23fcd466b5aed51db9f8af1057f92c6693430a18eb0d87e8aefc618ba",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "25cbd73fe469b13be1ac046e17dd8d04167dd0d9323ad6f29e24b958b45e0896",
+      "bytes": 276912
+    },
+    {
+      "species": "Dilly-Dally Dill",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/dilly-dally-dill.webp",
+      "source": "spices-illustration-collection/dilly-dally-dill.png",
+      "sourceSha256": "7c8bf0df5d6d854586b952569b6abd73d07e02c7f2eb086cab67d8c8a1f15945",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "59d4636231b350148e017d5d5b53bcb3aaa607f4ff8017909dd9780c4e2f30a0",
+      "bytes": 440644
+    },
+    {
+      "species": "Cinnamancer",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/cinnamancer.webp",
+      "source": "spices-illustration-collection/cinnamancer.png",
+      "sourceSha256": "75dc5755e78a17893eaf1005787507999e44fd33821ee8f9bfc20b19fe2f4859",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "47f80f8ad80dcc2014260e292ab473f0fcbb9b4b5e6aff15f6515ee2c0cd0367",
+      "bytes": 320782
+    },
+    {
+      "species": "Mighty Mint",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/mighty-mint.webp",
+      "source": "spices-illustration-collection/mighty-mint.png",
+      "sourceSha256": "15fc78af77ac6e909e6a2b884b94b5742b90018aa5251f61c7e622fef335ab01",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "7d42a2b331e580f6b18ea6d22d3c89cee6e957da7d3a4c02d834b59bfaf67de7",
+      "bytes": 333210
+    },
+    {
+      "species": "Saffrune",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/saffrune.webp",
+      "source": "spices-illustration-collection/saffrune.png",
+      "sourceSha256": "a8dc8709ff7425353e7a2055f85a7d4db66130d2352926bf1dfe6f03cb3dc7ff",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "525fb30ee2595b5a4c84fedb9c4da9b1fef9387245242ec9e1f9bdb84aa4c48c",
+      "bytes": 267846
+    },
+    {
+      "species": "Wyrmsalt",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/wyrmsalt.webp",
+      "source": "spices-illustration-collection/wyrmsalt.png",
+      "sourceSha256": "96f659fe6dd13294df652e9fc9c9500a350d3a1e2bdec740d386672b53823144",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "3e3056c0d25dcc7510993c495a002dedaf9b0ae6171a5efb8d2b9d88e7d7e7df",
+      "bytes": 372830
+    },
+    {
+      "species": "Papriking",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/papriking.webp",
+      "source": "spices-illustration-collection/papriking.png",
+      "sourceSha256": "1004b713c12646f29438cf735562d883d7f78c5e6bf757bc01ecfcf4260ea027",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "034dc9077daf9fca5e498f415c6799615eecca7c876fe8c800b9ef78d17708a3",
+      "bytes": 319852
+    },
+    {
+      "species": "Phantarragon",
+      "kind": "plant",
+      "family": "Spices",
+      "file": "plants/phantarragon.webp",
+      "source": "spices-illustration-collection/phantarragon.png",
+      "sourceSha256": "99de128bfc4f52eeebabbb8f2b9c04f6349bb8a16523d0836c8b186dbbbbac95",
+      "sourceDimensions": [
+        1254,
+        1254
+      ],
+      "dimensions": [
+        768,
+        768
+      ],
+      "transparent": true,
+      "sha256": "08b567b9b6a17d2f17a610f0b43ead478b0851f6a55cd0a3a479e85687f41a0e",
+      "bytes": 342066
+    },
+    {
+      "species": "Mycelord",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/mycelord.webp",
+      "source": "fungi-illustration-collection/Mycelord_ Majestic Corrupted Fungus-1.png",
+      "sourceSha256": "7c763d2b5dec7edf9a7ae7c220f30054feb45843ac1fa4a304128d5dcb12231f",
+      "sourceDimensions": [
+        1145,
+        1374
+      ],
+      "dimensions": [
+        640,
+        768
+      ],
+      "transparent": true,
+      "sha256": "7ea75b59fbdde5e8b347e45ef010f2d880232c6cd22674d97c2d3d70a557b9ab",
+      "bytes": 247816
+    },
+    {
+      "species": "Dewmender",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/dewmender.webp",
+      "source": "fungi-illustration-collection/Luminous Dewmender Fungus-2.png",
+      "sourceSha256": "c8aaa250cdce0a872e9b718eab9ec92f150d135dd7093b53709f91ad97399fa8",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "6d3bca3b9cf4799808d56e9603ae7764856918505c6a9d64affc9ed0f88d9889",
+      "bytes": 198184
+    },
+    {
+      "species": "Mistruffle",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/mistruffle.webp",
+      "source": "fungi-illustration-collection/Mistruffle, the Enchanted Truffle Cluster.png",
+      "sourceSha256": "4a77bacc2636319fff736e201c4e16b96ddad7daf887cbd328bbcee6b6437416",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "dimensions": [
+        768,
+        512
+      ],
+      "transparent": true,
+      "sha256": "2e516f3a90b6f28f509022feb37a9dca03f202af206c3afd8451c34b1ce47442",
+      "bytes": 196998
+    },
+    {
+      "species": "Emberbolete",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/emberbolete.webp",
+      "source": "fungi-illustration-collection/Emberbolete, the emberlit rustcap fungus.png",
+      "sourceSha256": "833d8f6dc2f6cc82d28526bffb8f9cd7b33f8712fb0c261aff9abe48d7144369",
+      "sourceDimensions": [
+        1222,
+        1287
+      ],
+      "dimensions": [
+        729,
+        768
+      ],
+      "transparent": true,
+      "sha256": "29cd21e42df2e3b9692ea3c5d36d77434061c8fe04824fc04bfc3a073b2b00ca",
+      "bytes": 284706
+    },
+    {
+      "species": "Rilllace",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/rilllace.webp",
+      "source": "fungi-illustration-collection/Rilllace_ Waterfall Veils of Blue-4.png",
+      "sourceSha256": "599f9616ede2355e5995369d12cd77cad986b795d745e7f8b945810cf82fad15",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "e6a5524293de77d48e5122cbcd74251d50fbc54daf7825fc8471908e9c78776e",
+      "bytes": 212638
+    },
+    {
+      "species": "Prismorel",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/prismorel.webp",
+      "source": "fungi-illustration-collection/Prismatic Morel Fungus Cluster-6.png",
+      "sourceSha256": "2f25a8ab963f25075a26ea1367fda474feeb80bdf1bc376b4dc653a5d7201d8f",
+      "sourceDimensions": [
+        1199,
+        1312
+      ],
+      "dimensions": [
+        702,
+        768
+      ],
+      "transparent": true,
+      "sha256": "77fef4bbb335cc873899d9fa79b290053cb01cc261474c7e83db89337a104912",
+      "bytes": 232860
+    },
+    {
+      "species": "Droughtcap",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/droughtcap.webp",
+      "source": "fungi-illustration-collection/Sunbaked Droughtcap Cluster-5.png",
+      "sourceSha256": "b84bacfaaf5d722ff7b0de1e8e12e1ba1767c2f902b429d015059f47db14eecc",
+      "sourceDimensions": [
+        1223,
+        1286
+      ],
+      "dimensions": [
+        730,
+        768
+      ],
+      "transparent": true,
+      "sha256": "153a83a0a40f17d13b9cb9f2a22f16cf093407fccbe22195a19faea6c3b43ff9",
+      "bytes": 322150
+    },
+    {
+      "species": "Hushroom",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/hushroom.webp",
+      "source": "fungi-illustration-collection/Hushroom_ Midnight velvet fungus-8.png",
+      "sourceSha256": "9d051a4d1eeb59d02b0bd4fba22739d3ec4d65cdffd7ea5cb0ad65125ed7a5fb",
+      "sourceDimensions": [
+        1536,
+        1024
+      ],
+      "dimensions": [
+        768,
+        512
+      ],
+      "transparent": true,
+      "sha256": "04a1ce7d9874dcfea47a1b5dea26145234861e3de2143c11ec1378adc0647b7a",
+      "bytes": 172190
+    },
+    {
+      "species": "Rainmorel",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/rainmorel.webp",
+      "source": "fungi-illustration-collection/Rainmorel_ Luminous honeycomb mushroom cluster-9.png",
+      "sourceSha256": "8c3e7fabc44ff55906dc76639854d42131de72b821b60b6b417dd1cee52e8027",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "8639d252fa3466eb75d211d508aa3fd2bd518e9160dc9456bc9a87d6c92d9054",
+      "bytes": 197134
+    },
+    {
+      "species": "Siltgill",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/siltgill.webp",
+      "source": "fungi-illustration-collection/Siltgill Riverbed Fungus Specimen-7.png",
+      "sourceSha256": "74b6b222fb432291890914f6de8f8f72b70a15445c65d884d4474dc8f79df10c",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "68f7c602eb7a6b301e9920fa4d690f576076e1587253fce67b2b74d16927baf5",
+      "bytes": 193134
+    },
+    {
+      "species": "Rushroom",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/rushroom.webp",
+      "source": "fungi-illustration-collection/Kinetic Rushroom fantasy fungus-10.png",
+      "sourceSha256": "279221e9faf1b211703664a53f0a90049e921f199af9a0b7337f56a928112b2b",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "51f7452cd0cb96b0ac7aecd3e9db950b82bf3b31ac8770ad01363f9df3619923",
+      "bytes": 196026
+    },
+    {
+      "species": "Frostfolio",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/frostfolio.webp",
+      "source": "fungi-illustration-collection/Frostfolio, the Frozen Folio Fungus-11.png",
+      "sourceSha256": "2d1c7592bb2281f4a25827cdd10c28b5749087bb01efb40387402696d3525e82",
+      "sourceDimensions": [
+        1024,
+        1536
+      ],
+      "dimensions": [
+        512,
+        768
+      ],
+      "transparent": true,
+      "sha256": "1e26f070c0b0af4b39a8514ab18c29bc6d261e5893c590917de202fab4e0de5b",
+      "bytes": 191430
+    },
+    {
+      "species": "Sim'mushro'dim",
+      "kind": "fungus",
+      "family": "Fungi",
+      "file": "fungi/sim-mushro-dim.webp",
+      "source": "fungi-illustration-collection/Sim'mushro'dim, the Arcane Spiral Fungus-12.png",
+      "sourceSha256": "c1d2fbd827f66224cd7cf8affae8ebca28fe809cbb26d7ff0bad0bd9732df79e",
+      "sourceDimensions": [
+        1199,
+        1312
+      ],
+      "dimensions": [
+        702,
+        768
+      ],
+      "transparent": true,
+      "sha256": "72cad602e8dc4c6250bfa7cb063c02bfc52375a8237978aba6889a48c881c4b6",
+      "bytes": 255360
+    }
+  ],
+  "unused": [
+    {
+      "source": "ingredients-illustration-collection/cocoa.png",
+      "reason": "Not in the current species catalogue"
+    }
+  ]
+}
