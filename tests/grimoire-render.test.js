@@ -32,7 +32,8 @@ const spread = (entry, side, ledger, preview = false) => renderToStaticMarkup(Re
 
 test('both directions mount the correct incoming printed back page before a leaf begins turning', () => {
   const ledger = createGrimoire();
-  for (const [from, to, frontSide, backSide] of [[1, 2, 'right', 'left'], [2, 1, 'left', 'right']]) {
+  for (const [from, to, frontSide, backSide] of [[1, 2, 'right', 'left'], [2, 1, 'left', 'right'],
+    [4, BOOK_ENTRIES.length - 1, 'right', 'left'], [BOOK_ENTRIES.length - 5, 0, 'left', 'right']]) {
     const rendered = renderToStaticMarkup(React.createElement(TurningLeaf, {
       turn: { id: 1, from, to }, duration: 820, movingTabs: [], onFinish() {},
       page(index, side) { return React.createElement(BookSpread, {

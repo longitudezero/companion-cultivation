@@ -5,7 +5,7 @@ import { createGrimoire, revealPlant, migrateGrimoire, observeFungalAction } fro
 import { TRANSFORMATIONS } from '../src/core/transformations.js';
 import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, runeName, atlasGraph, atlasLayout,
   tabIsLeft, observedEffects, observedTransformations, fungusTransformationTargets, initialNavigation, bookNavigation,
-  stationaryPages, turningPages, turnDuration, DISCOVERY_PHRASES, discoveryPhrase } from '../src/grimoire/book.js';
+  stationaryPages, turningPages, PAGE_TURN_DURATION, MAX_JUMP_TURNS, DISCOVERY_PHRASES, discoveryPhrase } from '../src/grimoire/book.js';
 import { previewFungusProfile, previewFungusEffects, recipeReferencesFungus } from '../src/core/grimoire-preview.js';
 
 test('all Plant pages and references exist before discovery and keep their places as knowledge grows', () => {
@@ -163,28 +163,79 @@ test('forward and backward turns keep the outgoing stationary page until the she
   });
 });
 
-test('long jumps traverse every spread faster, ignore overlapping input, and reject stale animation completions', () => {
-  for (const [start, destination] of [[0, BOOK_ENTRIES.length - 1], [BOOK_ENTRIES.length - 1, 0]]) {
+test('short trips visit every spread and long jumps use four nearby spreads then the destination at the normal pace', () => {
+  for (let start = 0; start < BOOK_ENTRIES.length; start++) for (let destination = 0; destination < BOOK_ENTRIES.length; destination++) {
+    if (start === destination) continue;
     let state = { ...initialNavigation, current: start, target: start };
     state = bookNavigation(state, { type: 'navigate', to: destination });
-    assert.ok(state.duration < turnDuration(1));
-    let turns = 0;
-    while (state.current !== destination) {
+    const count = Math.min(5, Math.abs(destination - start));
+    assert.equal(MAX_JUMP_TURNS, 5);
+    assert.equal(PAGE_TURN_DURATION, 820);
+    assert.equal(state.turnsRemaining, count);
+    for (let i = 0; i < count; i++) {
       const before = state.current;
       state = bookNavigation(state, { type: 'begin', ledger: createGrimoire(), preview: false });
-      assert.equal(state.turn.to, before + Math.sign(destination - before));
-      assert.equal(bookNavigation(state, { type: 'navigate', to: 4 }), state);
-      assert.equal(bookNavigation(state, { type: 'finish', id: state.turn.id - 1 }), state);
+      const to = i === count - 1 ? destination : before + Math.sign(destination - before);
+      assert.equal(state.turn.to, to, `${start} → ${destination}, turn ${i + 1}`);
+      assert.equal(state.duration, 820, 'distance never accelerates a turn');
+      const forward = destination > start;
+      assert.deepEqual(turningPages(state.turn), {
+        front: { index: before, side: forward ? 'right' : 'left' },
+        back: { index: to, side: forward ? 'left' : 'right' },
+      });
+      assert.deepEqual(stationaryPages(before, state.turn), forward
+        ? { left: before, right: to } : { left: to, right: before });
       state = bookNavigation(state, { type: 'finish', id: state.turn.id });
-      turns++;
     }
-    assert.equal(turns, Math.abs(destination - start));
+    assert.equal(state.current, destination);
+    assert.equal(state.turnsRemaining, 0);
     assert.equal(state.turn, null);
+    assert.equal(bookNavigation(state, { type: 'begin' }), state, 'arrival never starts another sheet');
   }
-  assert.equal(bookNavigation(initialNavigation, { type: 'navigate', to: -1 }), initialNavigation);
+});
+
+test('capped journeys ignore overlapping input and reject duplicate or stale animation completions', () => {
+  const ledger = createGrimoire();
+  let state = bookNavigation(initialNavigation, { type: 'navigate', to: BOOK_ENTRIES.length - 1 });
+  const stale = [];
+  while (state.current !== state.target) {
+    assert.equal(bookNavigation(state, { type: 'navigate', to: 0 }), state, 'busy between turns');
+    state = bookNavigation(state, { type: 'begin', ledger, preview: true, outgoingScroll: 123 });
+    assert.equal(state.turn.ledger, ledger);
+    assert.equal(state.turn.preview, true);
+    assert.equal(state.turn.outgoingScroll, 123);
+    assert.equal(bookNavigation(state, { type: 'begin' }), state);
+    assert.equal(bookNavigation(state, { type: 'navigate', to: 4 }), state);
+    for (const id of [0, ...stale]) assert.equal(bookNavigation(state, { type: 'finish', id }), state);
+    const id = state.turn.id;
+    state = bookNavigation(state, { type: 'finish', id });
+    assert.equal(bookNavigation(state, { type: 'finish', id }), state);
+    stale.push(id);
+  }
+  assert.equal(stale.length, 5);
+  state = bookNavigation(state, { type: 'navigate', to: 0 });
+  state = bookNavigation(state, { type: 'begin', ledger, preview: false });
+  for (const id of stale) assert.equal(bookNavigation(state, { type: 'finish', id }), state, 'previous journey cannot complete a new turn');
+});
+
+test('reduced motion lands directly, clears an active journey, and invalid destinations stay ignored', () => {
+  for (const to of [-1, BOOK_ENTRIES.length, 1.5, NaN, '12', 0]) {
+    assert.equal(bookNavigation(initialNavigation, { type: 'navigate', to }), initialNavigation);
+  }
   const reduced = bookNavigation(initialNavigation, { type: 'navigate', to: 12, reduced: true });
   assert.equal(reduced.current, 12);
+  assert.equal(reduced.target, 12);
+  assert.equal(reduced.turnsRemaining, 0);
   assert.equal(reduced.turn, null);
+  let state = bookNavigation(initialNavigation, { type: 'navigate', to: 12 });
+  for (const active of [state, bookNavigation(state, { type: 'begin', ledger: createGrimoire(), preview: false })]) {
+    const settled = bookNavigation(active, { type: 'settle' });
+    assert.equal(settled.current, 12);
+    assert.equal(settled.turn, null);
+    assert.equal(settled.turnsRemaining, 0);
+    assert.equal(bookNavigation(settled, { type: 'finish', id: 1 }), settled);
+    assert.equal(bookNavigation(settled, { type: 'begin' }), settled);
+  }
 });
 
 test('book labels describe shared Spread, initial radius, affinity, Waterborne continuation, and correct effect units', () => {
