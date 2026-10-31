@@ -1,3 +1,4 @@
+import { CARE_TASK, taskStatus } from '../core/tasks.js';
 import React from 'react';
 import { PLANTS, FUNGI, PROPERTIES, CONDITIONS, SOURCE_ITEMS, isPlayerSource,
   availableHarvest, stageOf, formatRealDuration, STARTING_DIRECTIONS } from '../core/index.js';
@@ -82,6 +83,11 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
           {object.species === 'Bamboozled' && <div className="inspector-value"><span>◆ Bamboo Steel</span><strong>{harvest.bambooSteel ? 'Ready' : 'Not ready'}</strong></div>}</>
           : <div className="inspector-value"><span>♧ Spores now</span><strong>{Math.floor(object.sporeStock || 0)}</strong></div>}
         <LifecycleBar object={object} contacts={contacts} conditions={conditions}/>
+        {object.species === 'Carrot' && ['active', 'ready'].includes(taskStatus(garden, CARE_TASK)) && conditions?.Moisture === 'Dry' &&
+          <div className="tutorial-dry-warning"><div className="inspector-value"><span>Dry exposure</span><strong>{simulationSpeed ? `${formatRealDuration(Math.max(0, PLANTS.Carrot.dryDeath - (object.exposure?.Dry || 0)) / simulationSpeed)} left` : 'Paused'}</strong></div>
+            <div role="progressbar" aria-label="Carrot Dry exposure" aria-valuemin={0} aria-valuemax={PLANTS.Carrot.dryDeath} aria-valuenow={object.exposure?.Dry || 0}>
+              <i style={{ width: `${Math.min(100, (object.exposure?.Dry || 0) / PLANTS.Carrot.dryDeath * 100)}%` }}/></div></div>}
+
       </> : staged ? <><p><strong>{staged.quantity} {staged.kind === 'plant' ? 'Seeds' : 'Spores'} reserved</strong></p><p>Uncommitted · nothing spent yet.</p>
         <div className="inspector-inline-actions"><button onClick={onEditStaged}>Edit quantity</button><button onClick={onUnstage}>Unstage</button></div>
         {directional && <div className="heading-buttons" aria-label="Staged Fungus direction">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`}

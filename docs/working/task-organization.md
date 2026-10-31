@@ -88,7 +88,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 **Opening task records:** [My First Transformation — M-3KJ45T](main-tasks.md#m-3kj45t), followed immediately by [A Thirsty Carrot — M-8NQ2VC](main-tasks.md#m-8nq2vc), then [Well, I'm Sure You Can Figure It Out — M-6PT9RX](main-tasks.md#m-6pt9rx), and [Leaves, Please — M-4HV7LK](main-tasks.md#m-4hv7lk). These records own the first recipe, care lesson, Spore handoffs, discovery targets, and reward amounts.
 
-**First-pass early rewards:** Task 1 grants **10 Gold + 8 Dewmender Spores**, with the Spores available immediately upon transformation; Task 2 grants **15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores**; Task 3 grants **30 Gold**; Task 4 grants **40 Gold + 8 Emberbolete Spores**. These are working balance values to test against the future shop economy. **Tasks 1–4 grant no hex or inventory expansion.** The Potato/Onion pair replaces the earlier unfinalized Rice/Potato candidate; Rice can be introduced later. Beanstalk remains the Base Plant.
+**First-pass early rewards:** Task 1 grants **10 Gold + 8 Dewmender Spores**, with the Spores available when the ready task is completed on the board; Task 2 grants **15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores**; Task 3 grants **30 Gold**; Task 4 grants **40 Gold + 8 Emberbolete Spores**. These are working balance values to test against the future shop economy. **Tasks 1–4 grant no hex or inventory expansion.** The Potato/Onion pair replaces the earlier unfinalized Rice/Potato candidate; Rice can be introduced later. Beanstalk remains the Base Plant.
 
 ## 3. Family unlock structure — agreed
 
@@ -164,7 +164,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - Pause stops simulated time. Players can still read menus, plan, and rearrange the garden; direct changes recalculate the current state without advancing biological timers.
 - Neither the full Taskboard nor the compact pinned-objectives tracker automatically pauses the garden or changes the selected speed.
 - The existing clock ratio of five real seconds per garden hour is the **1× baseline**. The agreed Carrot Dry grace is therefore 20 real minutes at 1×; slower/faster play changes the actual waiting time while preserving its 240-garden-hour threshold.
-- See [Simulation timing and event order](../design/systems/simulation-and-time.md) for the approved timing specification. The controls remain **design-only**.
+- See [Simulation timing and event order](../design/systems/simulation-and-time.md) for the approved timing specification. The controls are implemented in the garden HUD and Taskboard header.
 
 ## 9. Remaining design work
 
@@ -177,8 +177,21 @@ The following choices do **not** block beginning to write the task roster; resol
 5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
-**Implementation status:** Taskboard, quests, store, progression, task-earned garden/inventory expansion, purchasable inventory capacity, manual time controls, and guild narrative content remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
+**Implementation status:** Taskboard, quests, store, progression, task-earned garden/inventory expansion, purchasable inventory capacity, and later guild task content remain design-only. The first two tasks, Taskboard/tracker, explicit reward claims and manual time controls are implemented (31 October 2026). The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
 
 ---
 
 [Working index](README.md) · [Current implementation status](../implementation-status.md)
+
+
+## First Taskboard pass — implemented 31 October 2026
+
+Only My First Transformation and A Thirsty Carrot are playable. Objectives becoming fulfilled marks a task ready; it does not grant rewards. Complete task on the overlay awards the entire bundle once, displays a Task complete / You received receipt, and unlocks its successor. This supersedes the earlier immediate Dewmender handoff: the Spores, 10 Gold and care assignment now arrive together at the first claim. The second claim awards 15 Gold and 8 each of Rilllace and Droughtcap; no third task is exposed.
+
+Fresh browser games start an isolated 4 × 4 tutorial with 36 Beanstalk Seeds and 8 Prismorel Spores as playtest quantities. Existing saves retain their sandbox gardens; New tutorial garden on the board uses an explicit replacement confirmation. Inventory remains at the existing 200-square prototype capacity. The full family/store/capacity progression is deferred.
+
+The icon beside the Grimoire opens the overlay. Main and Completed tabs, pin/unpin controls, a collapsible Objectives tracker above inventory, and a persistent Gold balance cover the basic flow. Up to three tasks can be pinned; the first starts pinned. If it remains pinned when claimed, its pin transfers to the care task; unpinning is respected. The board retains the selected simulation speed and exposes the same clock controls. Opening/closing it never pauses automatically.
+
+An optional versioned tasks field persists readiness, milestones, claimed IDs, pins, tracker collapse and Gold in browser saves and .ccsave backups. Legacy saves without it remain compatible. Reward bundles are atomic: insufficient inventory space leaves the ready task, Gold and unlock untouched. A real transformation event is required for Task 1; Care requires actual Dewmender Wetting reaching a living Carrot on Damp, independently of its cultivation footprint.
+
+Successful harvests show an itemized four-second receipt at the garden viewport's lower-right edge, above the staging rail beside the inventory. Counts come from actual inventory changes, preserving species-specific Leaves/Seeds, Spores and trophies. Quick harvests combine within the same receipt. It does not intercept input, reserve a permanent row, or change the clock.

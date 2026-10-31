@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import HarvestReceipt from './HarvestReceipt.jsx';
 import { beginsPan, fitCamera, zoomAt } from './view-model.js';
 
-export default function GardenCamera({ world, children, notice, onInterruptDrag, controls }) {
+export default function GardenCamera({ world, children, notice, onInterruptDrag, controls, harvestReceipt }) {
   const viewport = useRef(null), initialized = useRef(false), cameraRef = useRef({ x: 0, y: 0, zoom: 1 });
   const [camera, setCamera] = useState(cameraRef.current);
   const size = useRef({ width: 0, height: 0 }), pan = useRef(null), touches = useRef(new Map()), pinch = useRef(null);
@@ -89,6 +90,7 @@ export default function GardenCamera({ world, children, notice, onInterruptDrag,
     <div className="garden-view-controls">{controls}<div className="camera-controls" aria-label="Garden zoom controls"><button onClick={() => stepZoom(1 / 1.2)} aria-label="Zoom out">−</button>
       <span aria-label="Garden zoom">{Math.round(camera.zoom * 100)}%</span><button onClick={() => stepZoom(1.2)} aria-label="Zoom in">+</button>
       <button onClick={() => update(fitCamera(world, size.current))}>Fit</button></div></div>
+    {harvestReceipt && <HarvestReceipt receipt={harvestReceipt}/>}
     {notice && <div className="garden-notification" role="status" key={notice.id}>{notice.text}</div>}
   </div>;
 }
