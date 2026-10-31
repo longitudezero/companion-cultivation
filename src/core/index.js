@@ -17,3 +17,4 @@ export * from './game-time.js';
 export * from './mycelial.js';
 export * from './transformations.js';
 export * from './grimoire.js';
+export * from './tasks.js';

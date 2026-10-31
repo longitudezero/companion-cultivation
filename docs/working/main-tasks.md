@@ -1,6 +1,6 @@
 # Main tasks
 
-> **TASK DESIGN · 29 October 2026.** Four opening tasks are recorded below. Tasks 3 and 4 have been reviewed in full and accepted, including Task 3's no-retroactive-credit rule and Task 4's harvest-timing warning. Reward values remain subject to later economy playtesting; fields explicitly marked **TBD** or **proposed** remain open. No task is implemented.
+> **TASK DESIGN · 29 October 2026.** Four opening tasks are recorded below. Tasks 3 and 4 have been reviewed in full and accepted, including Task 3's no-retroactive-credit rule and Task 4's harvest-timing warning. Reward values remain subject to later economy playtesting; fields explicitly marked **TBD** or **proposed** remain open. Tasks 1 and 2 are implemented in the first Taskboard pass (31 October 2026); Tasks 3 and 4 remain design-only.
 
 **Early reward baseline:** 10 / 15 / 30 / 40 Gold for Tasks 1 / 2 / 3 / 4; 8 Dewmender Spores from Task 1, 8 each of Rilllace and Droughtcap from Task 2, and 8 Emberbolete Spores from Task 4. **None of these four tasks awards garden hexes or inventory slots.** Shop prices are not yet set, so these amounts are not a finalized economy.
 
@@ -11,7 +11,7 @@
 **ID:** M-3KJ45T  
 **Order:** 1  
 **Name:** My First Transformation  
-**Status:** Agreed transformation and guided introduction; dialogue and 10 Gold / 8 Dewmender Spores are first-pass balance. Starting inventory quantities and detailed presentation remain open.  
+**Status:** Implemented first pass. Dialogue and 10 Gold / 8 Dewmender Spores remain first-pass balance. The isolated tutorial uses the proposed 36 Seeds / 8 Spores for playtesting.\
 **Prerequisites:** Start a new progression game.  
 **Speaker:** Instructor
 
@@ -31,12 +31,12 @@ Yes, those are the instructions. The fungus will help.
 
 **Completion:**
 
-A Beanstalk actually transforms into a Carrot under the approved recipe: **10 continuous simulated garden hours** with the stated conditions and contact. This is **50 real seconds at 1×**, after the conditions and contact are established; germination and setup are additional time. Task completion follows the actual transformation event, not a separate wall-clock countdown.
+A Beanstalk actually transforms into a Carrot under the approved recipe: **10 continuous simulated garden hours** with the stated conditions and contact. This is **50 real seconds at 1×**, after the conditions and contact are established; germination and setup are additional time. Readiness follows the actual transformation event, not a separate wall-clock countdown. The player then clicks Complete task on the Taskboard to collect rewards and unlock the care assignment.
 
 **Unlocks:**
 
 - **A Thirsty Carrot — M-8NQ2VC.**
-- **8 Dewmender Spores immediately upon this transformation**, so the new care task is actionable without waiting for another reward claim.
+- **8 Dewmender Spores when the player completes this ready task on the Taskboard**, alongside the Gold and care-task unlock. The reward receipt explicitly shows what was received (31 October revision).
 - **10 Gold**.
 - **No new hexes or inventory slots.**
 
@@ -61,7 +61,7 @@ Take these Dewmender Spores. Let's fix that before the complaint becomes a funer
 **ID:** M-8NQ2VC  
 **Order:** 2  
 **Name:** A Thirsty Carrot  
-**Status:** Agreed immediate care objective and instructor voice; 15 Gold / 8 each of Rilllace and Droughtcap Spores are first-pass balance. Detailed presentation remains open.  
+**Status:** Implemented first pass. Instructor voice and 15 Gold / 8 each of Rilllace and Droughtcap Spores remain first-pass balance.\
 **Prerequisites:** M-3KJ45T completes.  
 **Speaker:** Instructor
 
@@ -109,9 +109,9 @@ Take these Rilllace and Droughtcap Spores. Your next assignment involves a littl
 
 - Rilllace and Droughtcap are the two newly rewarded Fungi. Together with existing Dewmender, they supply the tools for the next Potato/Onion discoveries. Prismorel remains available, for a total of four Fungus species.
 - Teach that **transformation conditions** and **good growing conditions** are different.
-- Dewmender Spores come immediately from M-3KJ45T; do not make the player solve this care task before receiving them.
+- Dewmender Spores arrive when M-3KJ45T is completed on the Taskboard; this claim also unlocks the care task, so the player receives them before attempting it.
 - Carrot's continuous Dry death threshold is already **240 garden hours = 20 real minutes at 1×**. It is 40 minutes at 0.5× and 10 minutes at 2×; Pause stops exposure. Reaching non-Dry conditions resets the Dry exposure clock. Other Carrot hazard timers are unchanged.
-- The care task itself is not implemented. The recipe and extended Dry threshold are already implemented separately.
+- The care task is implemented, with readiness based on the actual living Carrot/Damp/Wetting state. Rewards wait for the Complete task click. The guided ordinary Inspector exposes the Carrot Dry timer while this task is active.
 - Suggested compact pinned text:
 
   > **A Thirsty Carrot**

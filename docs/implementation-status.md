@@ -1,5 +1,15 @@
 # Companion Cultivation — implementation status
 
+## Taskboard, first two assignments and harvest receipts — IMPLEMENTED (31 October 2026)
+
+The guild Taskboard opens from an icon beside the Grimoire. Its overlay has Main/Completed lists, readable instructor requests, objectives, rewards, pin controls and the shared speed controls. A compact collapsible tracker above inventory opens the selected task and flags readiness. Neither surface pauses the simulation automatically.
+
+Only My First Transformation and A Thirsty Carrot are implemented. Real simulation outcomes determine readiness; Complete task grants rewards exactly once and displays a receipt. The first claim awards 10 Gold + 8 Dewmender Spores and unlocks the care task. Its claim awards 15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores. Full inventories cannot partially consume a reward, claim or unlock. Task state/Gold/pins survive saves and resizing; legacy sandboxes stay intact. New tutorial garden offers a confirmation-gated 4 × 4 garden with the proposed 36 Beanstalk Seeds / 8 Prismorel Spores. New browser games start there. The 200-square inventory remains; store, family locks, expansions and later tasks are deferred.
+
+Harvest receipts now appear at the garden's lower-right corner near inventory, contain actual item identities/counts, combine rapid harvests and disappear after four seconds. The first care task also exposes its instructional Carrot Dry timer in the ordinary Inspector.
+
+**Validation:** `GITHUB_PAGES=true npm run check` passes **282 Node tests**, production frontend/CommonJS builds and the CommonJS smoke test. Coverage includes actual sowing through both tutorial tasks, readiness/claim boundaries, exact-once atomic rewards, non-retroactive recognition, large time skips, save migration/resizing, full-inventory refusal and species-specific harvest receipts. Desktop live review accompanies deployment.
+
 ## Garden layout and harvest timing guide — IMPLEMENTED (31 October 2026)
 
 The garden keeps its existing top-down view and fills the main workspace. The illustrated inventory moves to the right, with type filters, readable quantities, saved slot identities, and a drawer on narrow screens. A compact parchment inspector below shows the portrait/name, actual harvest output, resolved Conditions and an expandable Influence Breakdown. The ordinary Inspect/Sow mode buttons and permanent Harvest button are removed; drag controls and item/hex planting selection remain available. Portraits open the exact species Grimoire page; keyboard pickup is deferred to a later input-design pass. Advanced field notes stay behind the developer toggle.

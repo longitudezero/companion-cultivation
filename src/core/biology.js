@@ -1,3 +1,4 @@
+import { updateTaskProgress } from './tasks.js';
 import { calculateEnvironment } from './simulation.js';
 import { calculateCultivation } from './cultivation.js';
 import { accruePlantProduction, accrueFungusSpores, ECONOMY_TUNING } from './economy.js';
@@ -106,6 +107,7 @@ export function advanceGardenTime(garden, hours = 1) {
   let current = garden;
   const events = [];
   for (let hour = 0; hour < hours; hour += 1) {
+    const precedingGarden = current;
     const environment = calculateEnvironment(current);
     const cultivation = calculateCultivation(current, environment);
     // Colonization/retreat consumes the preceding real hour. Its newly
@@ -186,6 +188,7 @@ export function advanceGardenTime(garden, hours = 1) {
       }
       current = resolved;
     } else current = revealed.garden;
+    current = updateTaskProgress(current, precedingGarden);
   }
   return { garden: current, events };
 }
