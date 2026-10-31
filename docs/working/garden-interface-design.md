@@ -1,13 +1,13 @@
 # Garden interface redesign
 
 Date: 30 October 2026  
-Status: **WORKING · layout, staging controls, and peak visibility agreed; implementation not started.** The three pre-implementation questions are resolved. A tilted garden view is exploratory; proposed implementation defaults are not additional approved gameplay rules.
+Status: **WORKING · first layout pass implemented 31 October 2026; browser review pending.** The three pre-implementation questions are resolved. A tilted garden view is exploratory; proposed implementation defaults are not additional approved gameplay rules.
 
 ## Purpose and reference
 
 Redesign the ordinary garden interface around the user's supplied mockup, **Botanical Garden Simulation Interface(2).png**, and the decisions recorded in the following discussion. The mockup establishes the visual direction; the written decisions here take precedence over its labels, controls, quantities, and example species.
 
-Use the same material language as the implemented Cultivation Grimoire: dark green panels, aged gold, botanical decoration, illustrated organisms, and parchment for readable information. Keep the garden the main working surface. This document does not change cultivation, yields, inventory ownership, or discovery mechanics.
+Use the same material language as the implemented Cultivation Grimoire: dark green panels, aged gold, botanical decoration, illustrated organisms, and parchment for readable information. Keep the garden the main working surface. **The first layout pass keeps the existing top-down view.** A shallow tilted view remains a possible later upgrade. This document does not change cultivation, yields, inventory ownership, or discovery mechanics.
 
 ## Agreed layout and visual direction
 
@@ -115,7 +115,7 @@ A shallow angled presentation is feasible with the existing SVG garden renderer.
 
 The supplied reference shows individual raised terrain blocks. Their top faces need consistent geometry and anchors to meet in a grid; irregular silhouette edges, large side faces, separate cast shadows, and tall vegetation can otherwise create seams or obscure neighbours. A continuous soil surface with restrained exposed sides around the garden's perimeter is a candidate to test. Do not promise that simply repeating the complete three-block reference image will produce a seamless map.
 
-Recommendation: keep layout first, then compare a small flat and shallow-tilt tile cluster before committing to new art or renderer changes. Tilt strength, terrain treatment, and overlap remain open visual choices.
+User decision, 31 October 2026: **keep the current top-down view for this layout pass; leave tilt as a possible later upgrade.** A future comparison can test a small flat and shallow-tilt tile cluster before committing to new art or renderer changes. Tilt strength, terrain treatment, and overlap remain open visual choices.
 
 ## Review checks for the first implementation
 
@@ -127,3 +127,13 @@ Recommendation: keep layout first, then compare a small flat and shallow-tilt ti
 - Colored framing supports readable information and a prominent selected hex at desktop and narrow widths.
 - Concealed germination, hidden recipes, saved knowledge, existing saves, Source items, and developer separation retain their actual current semantics.
 - Review the integrated screen in the browser before declaring the visual work complete. This design document alone is not an implementation or a playtest pass.
+
+## First layout implementation — 31 October 2026
+
+The first pass expands the top-down garden, moves the illustrated inventory to the right and the compact parchment inspector below, and uses existing supplied artwork. Ordinary mode buttons and the permanent Harvest button are removed. The portrait provides a non-drag pickup, and Space on an organism hex supports keyboard pickup; the inventory then receives the harvest. Apply, Undo and Cancel are separate controls in the lower-left board rail.
+
+Undo stores only earlier uncommitted plans, revalidates them against current occupancy/stock, and preserves the live garden, inventory, discoveries and pending attempts. A compass drag forms one Undo step. History resets after Apply, Cancel, loading or replacing a garden; it is transient and not part of the save schema.
+
+The lifecycle guide derives its points, plateaus, multiple peaks, sterility and trophy timing from the canonical species/production schedule. Markers are available immediately and account for currently reaching timing effects, while current harvest quantities still come from actual earned output. Inventory filters retain real saved slot identities. Narrow screens use a toggleable inventory drawer and a stacked inspector. Advanced developer controls remain behind their toggle and an expandable field-notes panel.
+
+New terrain artwork, tilt, task/Gold/store runtime, capacity progression and manual speed controls remain separate work. Existing clock, simulation, save schema and Grimoire navigation remain unchanged.
