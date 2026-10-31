@@ -18,3 +18,5 @@ export * from './mycelial.js';
 export * from './transformations.js';
 export * from './grimoire.js';
 export * from './tasks.js';
+export * from './wallet.js';
+export * from './shop.js';

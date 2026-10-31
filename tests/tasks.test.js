@@ -51,11 +51,11 @@ test('first-task readiness follows an actual sowing/transformation event, and re
   garden = advanceGardenTime(garden, 1).garden;
   assert.equal(garden.objects['1,1'].species, 'Carrot');
   assert.equal(taskStatus(garden, FIRST_TASK), 'ready');
-  assert.equal(garden.tasks.gold, 0);
+  assert.equal(garden.shop.gold, 0);
   assert.equal(garden.inventory.spores.Dewmender, undefined);
   assert.equal(taskStatus(garden, CARE_TASK), 'locked');
   garden = claimTask(garden, FIRST_TASK);
-  assert.equal(garden.tasks.gold, 10);
+  assert.equal(garden.shop.gold, 10);
   assert.equal(garden.inventory.spores.Dewmender, 8);
   assert.equal(taskStatus(garden, CARE_TASK), 'active');
   assert.deepEqual(garden.tasks.pinned, [CARE_TASK]);
@@ -81,10 +81,10 @@ test('the care task recognizes real Dewmender Wetting without requiring Waterbor
   assert.equal(calculateEnvironment(garden).conditions['1,1'].Moisture, 'Damp');
   assert.equal((calculateCultivation(garden)['1,1'] || []).some(effect => effect.species === 'Dewmender'), false);
   assert.equal(taskStatus(garden, CARE_TASK), 'ready');
-  assert.equal(garden.tasks.gold, 10);
+  assert.equal(garden.shop.gold, 10);
   assert.equal(garden.inventory.spores.Rilllace, undefined);
   const completed = claimTask(garden, CARE_TASK);
-  assert.equal(completed.tasks.gold, 25);
+  assert.equal(completed.shop.gold, 25);
   assert.equal(completed.inventory.spores.Rilllace, 8);
   assert.equal(completed.inventory.spores.Droughtcap, 8);
   assert.deepEqual(completed.tasks.pinned, []);
@@ -126,7 +126,7 @@ test('one free square cannot partially accept the two-species second reward', ()
   const before = JSON.stringify(garden);
   assert.throws(() => claimTask(garden, CARE_TASK), /Inventory is full/);
   assert.equal(JSON.stringify(garden), before);
-  assert.equal(garden.tasks.gold, 10);
+  assert.equal(garden.shop.gold, 10);
 });
 
 test('the side delivery unlocks with the care task and uses current species-specific stock', () => {
@@ -156,7 +156,7 @@ test('explicit side delivery consumes exactly five Carrot Leaves once and retain
   const before = JSON.stringify(garden);
   const delivered = claimTask(garden, CARROT_DELIVERY_TASK);
   assert.deepEqual(delivered.inventory.leaves, { Carrot: 2, Beanstalk: 3 });
-  assert.equal(delivered.tasks.gold, 20);
+  assert.equal(delivered.shop.gold, 20);
   assert.deepEqual(delivered.tasks.pinned, [CARE_TASK]);
   assert.equal(taskStatus(delivered, CARE_TASK), 'active');
   assert.equal(taskStatus(delivered, CARROT_DELIVERY_TASK), 'completed');
@@ -173,7 +173,7 @@ test('explicit side delivery consumes exactly five Carrot Leaves once and retain
 test('a failed side reward leaves the delivery and claim untouched', () => {
   const garden = careActive();
   garden.inventory.leaves.Carrot = 5;
-  garden.tasks.gold = Number.MAX_SAFE_INTEGER;
+  garden.shop.gold = Number.MAX_SAFE_INTEGER;
   const before = JSON.stringify(garden);
   assert.throws(() => claimTask(garden, CARROT_DELIVERY_TASK), /Gold balance/);
   assert.equal(JSON.stringify(garden), before);

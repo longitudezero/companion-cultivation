@@ -1,6 +1,7 @@
 import { createGarden } from './grid.js';
 import { calculateEnvironment } from './simulation.js';
 import { ensureInventorySlots } from './inventory.js';
+import { goldBalance, withGold } from './wallet.js';
 
 export const FIRST_TASK = 'M-3KJ45T';
 export const CARE_TASK = 'M-8NQ2VC';
@@ -46,19 +47,19 @@ export const TASKS = {
 };
 
 export function createTaskProgress() {
-  return { version: 1, gold: 0, ready: [], claimed: [], pinned: [FIRST_TASK],
+  return { version: 1, ready: [], claimed: [], pinned: [FIRST_TASK],
     milestones: { beanstalk: false, prismorel: false }, trackerCollapsed: false };
 }
 
 export function createTutorialGarden() {
   const garden = createGarden(4, 4);
   // A playtest starter bundle; capacity/family progression is outside this pass.
-  return ensureInventorySlots({ ...garden, tasks: createTaskProgress(),
+  return ensureInventorySlots({ ...garden, shop: { version: 1, gold: 0, unlockedSpores: ['Prismorel'] }, tasks: createTaskProgress(),
     inventory: { ...garden.inventory, seeds: { Beanstalk: 36 }, spores: { Prismorel: 8 } } });
 }
 
 export function normalizeTaskProgress(saved) {
-  if (saved?.version !== 1 || !Number.isSafeInteger(saved.gold) || saved.gold < 0
+  if (saved?.version !== 1 || (Object.hasOwn(saved, 'gold') && (!Number.isSafeInteger(saved.gold) || saved.gold < 0))
     || !Array.isArray(saved.claimed) || !Array.isArray(saved.ready) || !Array.isArray(saved.pinned)) {
     throw new Error('Invalid or unsupported task progress.');
   }
@@ -68,7 +69,7 @@ export function normalizeTaskProgress(saved) {
   if (claimed.some(id => !unlocked(id))) throw new Error('Invalid task order.');
   // Deliveries depend on stock currently held, never a latched harvest count.
   const ready = ids([...saved.ready, ...claimed]).filter(id => !TASKS[id].delivery && unlocked(id));
-  return { version: 1, gold: saved.gold, claimed, ready,
+  return { version: 1, claimed, ready,
     pinned: ids(saved.pinned).filter(id => !claimed.includes(id) && unlocked(id)).slice(0, 3),
     milestones: { beanstalk: Boolean(saved.milestones?.beanstalk), prismorel: Boolean(saved.milestones?.prismorel) },
     trackerCollapsed: Boolean(saved.trackerCollapsed) };
@@ -134,13 +135,12 @@ export function claimTask(garden, id) {
     if (!Number.isSafeInteger(total)) throw new Error('Spore quantity is too large to collect this reward.');
     spores[species] = total;
   }
-  if (!Number.isSafeInteger(garden.tasks.gold + reward.gold)) throw new Error('Gold balance is too large to collect this reward.');
+  if (!Number.isSafeInteger(goldBalance(garden) + reward.gold)) throw new Error('Gold balance is too large to collect this reward.');
   const pinned = garden.tasks.pinned.filter(task => task !== id);
   if (id === FIRST_TASK && garden.tasks.pinned.includes(id)) pinned.push(CARE_TASK);
   // Validate the whole bundle before exposing Gold, a claim, or an unlock.
-  const next = ensureInventorySlots({ ...garden, inventory: { ...garden.inventory, leaves, spores },
-    tasks: { ...garden.tasks, gold: garden.tasks.gold + reward.gold,
-      claimed: [...garden.tasks.claimed, id], pinned } });
+  const next = ensureInventorySlots(withGold({ ...garden, inventory: { ...garden.inventory, leaves, spores },
+    tasks: { ...garden.tasks, claimed: [...garden.tasks.claimed, id], pinned } }, goldBalance(garden) + reward.gold));
   return updateTaskProgress(next);
 }
 
