@@ -1,0 +1,200 @@
+/* The garden and its information use the same materials as the Grimoire. */
+.app-shell { --ui-forest: #14271f; --ui-gold: #bfa069; --ui-paper: #f1e5cb; --ui-ink: #382f20; background: #102019; }
+.app-shell .topbar { height: 82px; padding: 8px 24px; background: #11231c; border-bottom: 1px solid #a0824f; }
+.topbar .game-logo { height: 66px; width: 150px; object-fit: contain; }
+.topbar .game-logo-heading { margin: 0; }
+.topbar .version-pill { display: none; }
+.app-shell .workspace { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 294px; grid-template-rows: minmax(380px, 1fr) auto; gap: 9px; height: calc(100dvh - 96px); min-height: 710px; max-width: 2000px; padding: 12px; margin: 0 auto; border: 1px solid #a38651; box-shadow: inset 0 0 0 4px #203b2c, inset 0 0 0 5px #79643e; }
+.layout-ornaments { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
+.layout-ornaments img { position: absolute; width: 60px; height: auto; }
+.layout-ornaments .top-left { left: -2px; top: -2px; }
+.layout-ornaments .top-right { right: -2px; top: -2px; }
+.layout-ornaments .bottom-left { left: -2px; bottom: -2px; }
+.layout-ornaments .bottom-right { right: -2px; bottom: -2px; }
+.app-shell .garden-area { display: flex; flex-direction: column; padding: 0; min-width: 0; min-height: 0; background: transparent; }
+.garden-property-toolbar { display: flex; align-items: center; gap: 12px; padding: 7px 12px; min-height: 42px; border: 1px solid #7d6c43; background: #1b3225; }
+.view-label { font: 11px Georgia, serif; color: #d9c18d; white-space: nowrap; }
+.garden-property-toolbar .overlay-list { flex-direction: row; flex-wrap: wrap; gap: 5px; margin: 0; }
+.garden-property-toolbar .overlay-choice { height: 28px; padding: 5px 8px; font-size: 11px; border: 1px solid transparent; border-radius: 3px; }
+.garden-property-toolbar .overlay-choice.chosen { border-color: #ac9461; background: #364932; }
+.garden-property-toolbar .overlay-dot, .garden-property-toolbar .overlay-choice span:last-child { display: none; }
+.garden-property-toolbar .legend-card { margin: 0 0 0 auto; border: 0; padding: 0; background: transparent; }
+.garden-property-toolbar .legend-card .mini-heading { display: none; }
+.garden-property-toolbar .legend-swatches { margin: 0; gap: 5px; }
+.garden-property-toolbar .legend-item { min-width: 35px; }
+.garden-property-toolbar .legend-item i { height: 5px; }
+.garden-property-toolbar .legend-item span { margin-top: 2px; font-size: 9px; color: #d4d7b9; }
+.app-shell .garden-heading { margin: 0; }
+.garden-heading > div:first-child { display: none; }
+.garden-heading .garden-actions { margin: 6px 0; }
+.garden-area .time-controls { flex: 0 0 auto; border: 0; border-radius: 0; background: transparent; padding: 7px 10px; margin: 0; justify-content: space-between; }
+.garden-area .time-controls > span { font-size: 10px; font-weight: 500; letter-spacing: .04em; }
+.garden-area .time-controls .live-time-label { font-size: 9px; }
+.app-shell .garden-surface { display: flex; flex-direction: column; flex: 1; min-height: 0; border: 1px solid #9e844d; border-radius: 3px; background: #1b3024; box-shadow: inset 0 0 0 3px #17271d; }
+.garden-surface .surface-topline { padding: 6px 12px; font-size: 9px; background: #1e3325; }
+.garden-area .svg-scroll { flex: 1; height: auto; min-height: 240px; position: relative; }
+.garden-area .svg-wrap { min-width: 0; padding: 8px; }
+.garden-area .garden-svg { max-height: none; min-height: 0; }
+.garden-plan-rail { display: flex; align-items: center; padding: 7px 10px; background: #1a3023; border-top: 1px solid #6e663e; }
+.garden-plan-rail .staging-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border: 0; background: transparent; padding: 0; margin: 0; }
+.garden-plan-rail .staging-bar strong { font: 14px Georgia, serif; color: #eddbb1; }
+.garden-plan-rail .staging-bar small { font-size: 9px; margin: 2px 12px 0 0; }
+.staging-bar button { border: 1px solid #a48b58; background: #2a4030; color: #ead5a5; padding: 8px 15px; border-radius: 3px; font-size: 12px; }
+.staging-bar button.apply-staging-button { background: #d4b575; color: #172e20; }
+.staging-bar button:disabled { opacity: .38; cursor: default; }
+.garden-surface .surface-bottomline { padding: 5px 10px; gap: 12px; font-size: 9px; background: #15271d; }
+.surface-bottomline .hint-right { display: none; }
+.garden-area .plot-footer { gap: 15px; margin: 6px 0 0; padding: 0 10px; }
+.plot-footer .plot-stat { display: flex; flex-direction: row; align-items: baseline; gap: 4px; }
+.plot-footer .plot-stat strong { font-size: 13px; }
+.plot-footer .plot-stat span { font-size: 9px; }
+.garden-area .notice-bar { margin-top: 5px; border: 0; border-radius: 0; background: transparent; padding: 3px 10px; color: #d8d1b7; font-size: 11px; min-height: 22px; }
+.garden-area .notice-bar span { font-size: 12px; }
+
+/* One inventory identity per saved slot, with art and explicit item types. */
+.garden-inventory { min-height: 0; min-width: 0; border: 1px solid #a58b51; border-radius: 3px; background: #14281e; overflow: hidden; }
+.garden-inventory .spatial-inventory { margin: 0; height: 100%; min-height: 0; display: flex; flex-direction: column; padding: 12px; background: transparent; border: 0; border-radius: 0; }
+.inventory-heading h3 { font: 22px Georgia, serif; color: #f3dfae; margin: 0; }
+.inventory-heading .mini-heading { font-size: 8px; letter-spacing: .15em; margin-bottom: 4px; }
+.inventory-heading > span { color: #e0c489; font-size: 11px; }
+.inventory-filters { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 12px; }
+.inventory-filters button { flex: 1; min-width: 38px; background: #1f3325; color: #dccb9d; padding: 6px 4px; border: 1px solid #4c5537; border-radius: 2px; font-size: 11px; }
+.inventory-filters button[aria-pressed="true"] { color: #302b1d; background: #e8d5a8; border-color: #d1af70; }
+.spatial-inventory .inventory-instruction { font-size: 10px; line-height: 1.4; margin: 9px 0; }
+.spatial-inventory .inventory-pages { flex-shrink: 0; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-bottom: 9px; }
+.spatial-inventory .inventory-pages button { font-size: 9px; padding: 6px 2px; border-radius: 2px; }
+.spatial-inventory .inventory-square-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; min-height: 0; overflow-y: auto; padding: 3px; gap: 6px; scrollbar-color: #7b794c #14251c; }
+.inventory-square-grid .inventory-square { aspect-ratio: auto; height: 104px; border: 1px solid #576342; border-radius: 5px; background: #192e22; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+.inventory-square-grid .inventory-square.has-item { background: radial-gradient(ellipse at 50% 40%, #3d5631, #1e3325); border-color: #ad945c; }
+.inventory-square-grid .inventory-square.item-spore { background: radial-gradient(ellipse at 50% 40%, #51414b, #243127); }
+.inventory-square-grid .inventory-square.is-held { outline: 2px solid #f7d788; box-shadow: 0 0 12px #d6b76677; }
+.inventory-type-badge { position: absolute; top: 3px; left: 4px; right: 3px; z-index: 1; color: #dbca9c; text-align: left; font-size: 8px; background: #17281bd9; padding: 1px 2px; border-radius: 2px; }
+.inventory-item-art { width: 64px; height: 66px; max-width: 90%; object-fit: contain; pointer-events: none; }
+.inventory-item-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 100%; font: 10px/1.15 Georgia, serif; color: #f2e4c1; padding: 0 3px; text-align: center; pointer-events: none; }
+.inventory-square-grid .inventory-item-glyph { font-size: 33px; line-height: 58px; }
+.inventory-square-grid .inventory-item-quantity { position: absolute; bottom: 24px; right: 2px; background: #17261a; border: 1px solid #bc9e5e; border-radius: 10px; padding: 2px 4px; font: 11px/1 Georgia, serif; color: #fff0c1; }
+.inventory-square-grid .item-source-item .inventory-item-quantity { font-size: 9px; }
+.inventory-held-hint { flex-shrink: 0; font-size: 11px; line-height: 1.4; padding-top: 8px; color: #e8d5a5; }
+.inventory-receive { margin-top: 8px; display: grid; gap: 5px; }
+.inventory-receive button { border: 1px dashed #e0c38a; color: #e9d5a8; background: #3a5035; padding: 8px; font-size: 11px; }
+.inventory-empty { margin: 18px 0; color: #c7c4a1; font: italic 13px Georgia, serif; }
+.inventory-toggle, .inventory-close { display: none; }
+
+/* Essential field information on parchment; longer contributions expand. */
+.garden-inspector { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(145px, .8fr) minmax(230px, 1.3fr) minmax(190px, 1fr) minmax(230px, 1.25fr); gap: 0; background: radial-gradient(ellipse at 18% 0, #fff9e5a6, transparent 60%), repeating-linear-gradient(0deg, #6e552b04 0 1px, transparent 1px 4px), linear-gradient(130deg, #f3e9d3, #e5d4ae); border: 3px double #ae8750; box-shadow: inset 0 0 0 4px #f1dfb9, 0 3px 8px #06110b77; color: var(--ui-ink); padding: 14px 18px; min-height: 252px; }
+.inspector-portrait { text-align: center; min-width: 0; padding: 0 14px 0 0; }
+.portrait-pickup { display: block; width: 100%; max-width: 190px; height: 142px; border: 0; padding: 0; background: transparent; margin: 0 auto; cursor: grab; }
+.portrait-pickup img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.portrait-pickup:focus-visible { outline: 2px solid #84673b; border-radius: 6px; }
+.portrait-pickup:hover { filter: brightness(1.06); }
+.portrait-symbol { height: 138px; display: grid; place-items: center; font: 76px Georgia, serif; color: #677a52; }
+.portrait-symbol.pending { color: #9b7c42; }
+.inspector-portrait h2 { font: 24px/1.1 Georgia, serif; margin: 4px 0 6px; overflow-wrap: anywhere; }
+.inspector-portrait p { font: 11px Georgia, serif; }
+.organism-status { display: inline-block; margin-left: 7px; color: #526c3e; }
+.inspector-section { min-width: 0; padding: 0 16px; border-left: 1px solid #bba37677; }
+.inspector-section h3 { font: 17px Georgia, serif; margin-bottom: 12px; padding-bottom: 7px; border-bottom: 1px solid #b8a17477; color: #463b25; }
+.inspector-section p { font: 12px/1.5 Georgia, serif; margin: 6px 0; }
+.inspector-value { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font: 12px Georgia, serif; padding: 4px 0; }
+.inspector-value strong { font-weight: 600; color: #3e422b; text-align: right; }
+.inspector-caption, .inspector-section p.inspector-caption { color: #77694e; font: italic 11px/1.5 Georgia, serif; }
+.lifecycle-guide { margin-top: 10px; }
+.harvest-timeline { position: relative; height: 50px; margin: 8px 12px 0; }
+.lifecycle-track { position: absolute; top: 20px; width: 100%; height: 10px; border: 1px solid #a29262; border-radius: 5px; overflow: hidden; background: #d3c09a; box-shadow: inset 0 1px 2px #6c573333; }
+.lifecycle-track > div { height: 100%; background: linear-gradient(90deg, #6c8f52, #a7b875); border-radius: 4px; transition: width .2s; }
+.harvest-marker { position: absolute; top: -3px; font: 21px/24px Georgia, serif; transform: translateX(-50%); color: #486139; z-index: 2; cursor: help; }
+.harvest-marker.seed, .harvest-marker.spore { top: 32px; font-size: 19px; color: #80622e; line-height: 17px; }
+.harvest-marker.trophy { color: #927433; }
+.harvest-marker::after { content: ''; position: absolute; width: 1px; height: 6px; background: currentColor; top: 20px; left: 50%; }
+.harvest-marker.seed::after, .harvest-marker.spore::after { top: -5px; }
+.peak-band { position: absolute; top: 17px; height: 16px; border: 1px solid #708748; background: #a6b96c55; border-radius: 3px; pointer-events: none; }
+.peak-band.seed { border-color: #ad8a49; background: #ba914344; }
+.peak-tooltip { display: none; position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); min-width: 100px; white-space: nowrap; font: 11px/1.4 Georgia, serif; padding: 6px 8px; background: #23382a; border: 1px solid #b69c64; color: #f8e8be; border-radius: 3px; z-index: 5; }
+.harvest-marker:hover .peak-tooltip, .harvest-marker:focus .peak-tooltip { display: block; }
+.harvest-guide-key { display: flex; flex-wrap: wrap; gap: 10px; font: 10px Georgia, serif; color: #626e41; }
+.environment-levels { display: flex; height: 7px; gap: 2px; border-radius: 4px; overflow: hidden; margin: 3px 0 13px; }
+.environment-levels span { flex: 1; background: #cabb9a; }
+.environment-levels .filled { background: #819d78; }
+.condition-temperature .environment-levels .filled { background: #ba8c56; }
+.condition-illumination .environment-levels .filled { background: #c4a343; }
+.ground-status { font: 10px Georgia, serif; color: #746c52; }
+.ground-status.colonized { color: #805b81; }
+.influence-breakdown { font: 12px Georgia, serif; }
+.influence-breakdown summary { padding: 6px 0 10px; cursor: pointer; color: #53643e; }
+.influence-breakdown[open] { max-height: 163px; overflow-y: auto; padding-right: 7px; }
+.influence-property { padding: 8px 0; border-bottom: 1px solid #b19e7366; }
+.influence-property p { font-size: 11px; }
+.inspector-section button { color: #435837; background: #e2d5ad; border: 1px solid #b8a16b; border-radius: 3px; padding: 6px 9px; font: 11px Georgia, serif; cursor: pointer; }
+.inspector-section .inspector-book-link { background: transparent; margin-top: 8px; }
+.inspector-inline-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.inspector-section .heading-buttons button.selected { background: #687a50; color: #fff6dc; }
+
+.app-shell .developer-workbench { position: fixed; left: 12px; top: 90px; width: 245px; max-height: calc(100dvh - 110px); overflow: auto; border: 1px solid #b19967; z-index: 8; box-shadow: 8px 10px 35px #071309aa; padding: 18px; }
+.developer-workbench .section-title h2 { font-size: 20px; }
+.developer-workbench .stop-placement { padding: 7px 10px; background: #324b37; border: 1px solid #a88e59; border-radius: 3px; color: #e7d7b3; }
+.developer-field-notes { grid-column: 1 / -1; color: #d6c89b; font-size: 12px; }
+.developer-field-notes > summary { cursor: pointer; padding: 10px; background: #263c2a; }
+.developer-field-notes .sidebar-right { max-height: 550px; width: 100%; border: 1px solid #6a7952; }
+.workspace:has(.developer-field-notes[open]) { height: auto; }
+.quantity-popover { z-index: 40; }
+.topbar .save-game-controls { gap: 7px; }
+
+@media (min-width: 1600px) { .app-shell .workspace { grid-template-columns: minmax(0, 1fr) 326px; } .inventory-square-grid .inventory-square { height: 114px; } .inventory-item-art { height: 75px; width: 74px; } }
+@media (max-width: 1100px) {
+  .app-shell .workspace { grid-template-columns: minmax(0, 1fr) 255px; min-height: 750px; }
+  .garden-inspector { grid-template-columns: 145px minmax(190px, 1.3fr) minmax(170px, 1fr); padding: 12px; }
+  .inspector-influences { grid-column: 1 / -1; margin-top: 9px; padding-top: 7px; border-top: 1px solid #bba37677; border-left: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px 14px; }
+  .inspector-influences h3 { font-size: 13px; margin: 0; padding: 0; border: 0; }
+  .inspector-influences > p { display: none; }
+  .inspector-influences .inspector-book-link { margin: 0; }
+  .influence-breakdown[open] { width: 100%; }
+  .garden-property-toolbar { flex-wrap: wrap; gap: 4px 8px; }
+  .garden-property-toolbar .legend-card { display: none; }
+}
+@media (max-width: 760px) {
+  .app-shell .topbar { height: auto; min-height: 76px; padding: 6px 12px; gap: 4px; flex-wrap: wrap; }
+  .topbar .game-logo { height: 52px; width: 112px; }
+  .topbar .brand-controls { gap: 6px; }
+  .topbar .developer-toggle { font-size: 9px; padding: 6px; }
+  .topbar .top-actions { gap: 7px; flex-wrap: wrap; }
+  .topbar .save-game-controls { gap: 5px; }
+  .topbar .autosave-indicator { display: none; }
+  .topbar .grimoire-launcher { width: 37px; height: 40px; }
+  .topbar .save-game-button, .topbar .load-game-button { font-size: 10px; padding: 6px; }
+  .topbar .subtle-button { font-size: 10px; }
+  .inventory-toggle { display: inline-block; background: #263e2b; color: #ead5a1; border: 1px solid #8d784c; border-radius: 3px; padding: 7px; font-size: 10px; }
+  .app-shell .workspace { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(410px, 57dvh) auto; height: auto; min-height: 0; padding: 8px; gap: 8px; }
+  .garden-area .svg-scroll { min-height: 200px; }
+  .garden-property-toolbar { padding: 6px; }
+  .garden-property-toolbar .overlay-list { display: flex; }
+  .garden-property-toolbar .overlay-choice { height: 26px; padding: 4px 6px; font-size: 10px; }
+  .view-label { font-size: 10px; }
+  .garden-area .time-controls { padding: 4px; }
+  .garden-area .time-controls .live-time-label { display: none; }
+  .garden-surface .surface-topline { font-size: 7px; padding: 5px 7px; }
+  .garden-surface .surface-bottomline, .garden-area .plot-footer { display: none; }
+  .staging-bar button { padding: 7px 12px; }
+  .garden-plan-rail { padding: 6px 8px; }
+  .garden-plan-rail .staging-bar { flex-direction: row; gap: 5px; }
+  .garden-plan-rail .apply-staging-button { width: auto; }
+  .garden-plan-rail .staging-bar small { display: none; }
+  .garden-area .notice-bar { font-size: 10px; line-height: 1.4; }
+  .garden-inventory { display: none; position: fixed; right: 8px; top: 90px; bottom: 8px; width: min(320px, calc(100vw - 16px)); z-index: 12; box-shadow: -12px 8px 45px #07150ddd; }
+  .garden-inventory.is-open { display: flex; flex-direction: column; }
+  .inventory-close { display: block; border: 0; border-bottom: 1px solid #9e8759; padding: 9px; background: #2e4630; color: #e3d0a5; }
+  .garden-inventory .spatial-inventory { width: 100%; flex: 1; }
+  .garden-inspector { grid-template-columns: minmax(120px, .8fr) minmax(180px, 1.2fr); gap: 16px 0; padding: 12px; min-height: 0; }
+  .inspector-portrait { padding-right: 10px; }
+  .portrait-pickup, .portrait-symbol { height: 120px; }
+  .inspector-portrait h2 { font-size: 21px; }
+  .inspector-section { padding: 0 10px; }
+  .inspector-section h3 { font-size: 15px; }
+  .inspector-environment { border-left: 0; padding: 0 10px 0 0; }
+  .inspector-influences { display: block; grid-column: auto; border-left: 1px solid #bba37677; border-top: 0; margin-top: 0; padding: 0 10px; }
+  .inspector-influences h3 { margin-bottom: 10px; }
+  .inspector-influences > p { display: block; }
+  .layout-ornaments img { width: 36px; }
+  .app-shell .developer-workbench { top: 120px; max-height: calc(100dvh - 140px); }
+}
+@media (prefers-reduced-motion: reduce) { .lifecycle-track > div, .hex-surface { transition: none; } }
+@media (max-width: 360px) { .garden-inspector { grid-template-columns: minmax(0, 1fr); } .inspector-section { border-left: 0; border-top: 1px solid #bba37677; padding: 10px 0 0; } }

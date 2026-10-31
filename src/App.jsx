@@ -2,8 +2,10 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import HexGrid, { PALETTES } from './HexGrid.jsx';
 import InventoryGrid from './InventoryGrid.jsx';
 import CultivationGrimoire from './CultivationGrimoire.jsx';
+import GardenInspector from './ui/GardenInspector.jsx';
+import { restoreStagingPlan } from './ui/garden-model.js';
 import { art as grimoireArt } from './grimoire/art.js';
-import { PLAYER_TOOLS, DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
+import { DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
 import './spread.css';
 import './adjacency.css';
 import './biology.css';
@@ -75,6 +77,9 @@ export default function App() {
   const [quantityPrompt, setQuantityPrompt] = useState(null);
   const [dragGhost, setDragGhost] = useState(null);
   const dragRef = useRef(null);
+  const stagingHistory = useRef([]), rotationSnapshot = useRef(null);
+  const [undoCount, setUndoCount] = useState(0);
+  const [inventoryOpen, setInventoryOpen] = useState(false);
   const [showDeveloperTools, setShowDeveloperTools] = useState(false);
   const [plantSpecies, setPlantSpecies] = useState('Beanstalk');
   const [fungusSpecies, setFungusSpecies] = useState('Dewmender');
@@ -143,6 +148,64 @@ export default function App() {
     setGarden(next);
   }
 
+  function clearPlanHistory() {
+    stagingHistory.current = [];
+    rotationSnapshot.current = null;
+    setUndoCount(0);
+  }
+
+  function rememberStaging(snapshot) {
+    stagingHistory.current.push(snapshot || {});
+    setUndoCount(stagingHistory.current.length);
+  }
+
+  function changeStaging(fn) {
+    const before = gardenRef.current.staged || {};
+    if (changeGarden(fn) && rotationSnapshot.current == null
+      && JSON.stringify(before) !== JSON.stringify(gardenRef.current.staged || {})) rememberStaging(before);
+  }
+
+  function undoPlanAction() {
+    if (!stagingHistory.current.length) return;
+    try {
+      replaceGarden(restoreStagingPlan(gardenRef.current, stagingHistory.current.at(-1)));
+      stagingHistory.current.pop();
+      setUndoCount(stagingHistory.current.length);
+      setQuantityPrompt(null);
+      setNotice('Last staging action undone. The garden is still progressing.');
+    } catch (error) { setNotice(`Cannot undo this edit: ${error.message} You can cancel the uncommitted plan.`); }
+  }
+
+  function cancelPlan() {
+    replaceGarden({ ...gardenRef.current, staged: {} });
+    clearPlanHistory();
+    setQuantityPrompt(null);
+    setHeldItem(null);
+    setNotice('Staging phase cancelled. All unspent reservations released.');
+  }
+
+  function pickUpOrganism(key) {
+    const object = gardenRef.current.objects[key];
+    if (!['plant', 'fungus'].includes(object?.type)) return;
+    setHeldItem({ type: 'organism', key, species: object.species });
+    setInventoryOpen(true);
+    setNotice(`${object.species} selected for harvest. Select the inventory to receive it, or press Escape to cancel.`);
+  }
+
+  function receiveOrganism() {
+    if (heldItem?.type === 'organism' && harvestAt(heldItem.key)) setHeldItem(null);
+  }
+
+  useEffect(() => {
+    const escape = event => {
+      if (event.key === 'Escape' && !showGrimoire && !showGuide) {
+        setHeldItem(null); setQuantityPrompt(null); setInventoryOpen(false);
+      }
+    };
+    window.addEventListener('keydown', escape);
+    return () => window.removeEventListener('keydown', escape);
+  }, [showGrimoire, showGuide]);
+
   function changeGarden(fn) {
     try {
       const previous = gardenRef.current;
@@ -176,6 +239,7 @@ export default function App() {
     const { key, kind, species, quantity, heading } = quantityPrompt;
     try {
       const next = stagePlanting(gardenRef.current, key, kind, species, quantity, heading);
+      if (JSON.stringify(next.staged) !== JSON.stringify(gardenRef.current.staged || {})) rememberStaging(gardenRef.current.staged);
       replaceGarden(next);
       setQuantityPrompt(null);
       setNotice(`Staged ${quantity} ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} on hex ${key}${kind === 'fungus' && species !== 'Mycelord' ? `, facing ${STARTING_DIRECTIONS[heading]}` : ''}. Press Apply when ready; no items spent yet.`);
@@ -186,6 +250,7 @@ export default function App() {
     try {
       const result = applyStaging(gardenRef.current);
       replaceGarden(result.garden);
+      clearPlanHistory();
       setHeldItem(null);
       setNotice(`Applied ${result.details.length} planting${result.details.length === 1 ? '' : 's'}. Germination results remain hidden for ${formatRealDuration(STAGING_TUNING.germinationRevealHours)}; you may stage more immediately.`);
     } catch (error) { setNotice(error.message); }
@@ -245,7 +310,8 @@ export default function App() {
         replaceGarden(reconcileTransformationClocks(harvestFungus(current, key), current));
         setNotice(`Harvested ${object.species}: ${output} Spores.`);
       }
-    } catch (error) { setNotice(error.message); }
+      return true;
+    } catch (error) { setNotice(error.message); return false; }
   }
 
   function harvestSelected() {
@@ -297,10 +363,10 @@ export default function App() {
       } else if (type === 'organism' && inventory) {
         harvestAt(payload.key);
       } else if (type === 'staged' && inventory) {
-        changeGarden(previous => unstagePlanting(previous, payload.key));
+        changeStaging(previous => unstagePlanting(previous, payload.key));
         setNotice('Staged Seeds/Spores returned to available inventory without being spent.');
       } else if (type === 'staged' && hex && hex !== payload.key) {
-        changeGarden(previous => moveStagedPlanting(previous, payload.key, hex));
+        changeStaging(previous => moveStagedPlanting(previous, payload.key, hex));
       }
     };
     const cancel = () => cleanup();
@@ -310,9 +376,8 @@ export default function App() {
   }
 
   function rotateSelectedHex(key, targetType, heading) {
-    changeGarden(previous => targetType === 'item'
-      ? rotateSourceItem(previous, key, heading)
-      : rotateStagedFungus(previous, key, heading));
+    if (targetType === 'item') changeGarden(previous => rotateSourceItem(previous, key, heading));
+    else changeStaging(previous => rotateStagedFungus(previous, key, heading));
   }
 
   function onEdgeClick(a, b) {
@@ -373,6 +438,7 @@ export default function App() {
   function loadDemo() {
     if (window.confirm('Replace your current garden with the example layout?')) {
       replaceGarden(ensureInventorySlots(createDemoGarden()));
+      clearPlanHistory();
       setSelection({ type: 'hex', key: keyAt(3, 3) });
       setNotice('Example layout restored. Try selecting the Waterborne Source near the channel.');
     }
@@ -381,6 +447,7 @@ export default function App() {
   function newGarden() {
     if (window.confirm('Start a blank garden? Your current layout will be replaced.')) {
       replaceGarden(ensureInventorySlots(createGarden(garden.columns, garden.rows)));
+      clearPlanHistory();
       setSelection({ type: 'hex', key: keyAt(0, 0) });
       setNotice('New garden created. Use the placement tools to experiment.');
     }
@@ -422,6 +489,7 @@ export default function App() {
         return;
       }
       replaceGarden(upgraded);
+      clearPlanHistory();
       setSelection({ type: 'hex', key: Object.keys(upgraded.hexes)[0] });
       setHeldItem(null);
       setQuantityPrompt(null);
@@ -446,7 +514,7 @@ export default function App() {
       <div className="brand-controls"><div className="brand"><h1 className="game-logo-heading"><img className="game-logo" src={grimoireArt('game-logo')} alt="Companion Cultivation" draggable="false"/></h1></div>
         <button className={`developer-toggle ${showDeveloperTools ? 'is-on' : ''}`} aria-pressed={showDeveloperTools} onClick={toggleDeveloperTools}>{showDeveloperTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
-      <div className="top-actions"><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 16</span>
+      <div className="top-actions"><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/200</button><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 16</span>
         <button className="grimoire-launcher" onClick={() => setShowGrimoire(true)} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire">
           <img src={grimoireArt('book-launcher')} alt="" draggable="false"/>
         </button>
@@ -461,9 +529,10 @@ export default function App() {
     </header>
 
     <div className="workspace">
-      <aside className="sidebar sidebar-left">
-        <SectionTitle eyebrow="YOUR WORKBENCH" title="Garden tools" />
-        <div className="tool-list">{PLAYER_TOOLS.map(renderTool)}</div>
+      <div className="layout-ornaments" aria-hidden="true">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner => <img key={corner} className={corner} src={grimoireArt(`corners/${corner}`)} alt=""/>)}</div>
+      {showDeveloperTools && <aside className="sidebar sidebar-left developer-workbench">
+        <SectionTitle eyebrow="TEST ONLY" title="Developer tools" />
+        <button className="stop-placement" onClick={() => setTool('inspect')}>Inspect only</button>
         {showDeveloperTools && <section className="developer-tools-panel" aria-label="Developer tools"><div className="mini-heading">DEVELOPER TOOLS · TEST ONLY</div><p>Bypass Seeds, Spores and normal placement rules to test the simulation.</p><div className="tool-list">{DEVELOPER_TOOLS.map(renderTool)}</div></section>}
         {showDeveloperTools && <div className="developer-item-dispenser">
           <div className="mini-heading">SOURCE ITEM DISPENSER · TEST ONLY</div>
@@ -491,41 +560,55 @@ export default function App() {
             : <p>Developer spawning skips Seed/Spore costs. One organism or Blocker per hex.</p>}
           {(tool === 'fungus' || tool === 'sow-fungus') && FUNGI[fungusSpecies].habitat === 'dependent' && <p className="prototype-warning">Sowing requires existing Mycelial ground. Free debug spawning bypasses that check, but habitat-loss grace still applies.</p>}
         </div>}
+      </aside>}
 
-        <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage}
-          heldId={heldItem?.id} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
-          reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
-          onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
-          onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
-          onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
-
-        <div className="section-divider"/>
-        <SectionTitle eyebrow="ENVIRONMENT" title="View by property" />
+      <main className="garden-area">
+        <div className="garden-property-toolbar">
+        <span className="view-label">View by property</span>
         <div className="overlay-list">{PROPERTIES.map((name) => <button key={name} className={`overlay-choice ${overlay === name ? 'chosen' : ''}`} onClick={() => setOverlay(name)}><span className="overlay-dot" style={{ background: Object.values(PALETTES[name])[Math.floor(Object.values(PALETTES[name]).length / 2)] }}/>{name}<span>{overlay === name ? '●' : '○'}</span></button>)}</div>
 
         <div className="legend-card"><div className="mini-heading">{overlay.toUpperCase()} SCALE</div><div className="legend-swatches">{Object.entries(PALETTES[overlay]).map(([name, color]) => <div key={name} title={name} className="legend-item"><i style={{ background: color }}/><span>{name}</span></div>)}</div></div>
-      </aside>
-
-      <main className="garden-area">
+</div>
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Sow Seeds and Spores. Tend your organisms and watch them develop.</p></div>{showDeveloperTools && <div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div>}</div>
 
         <div className="time-controls"><span>⏳ GARDEN ELAPSED · {formatRealDuration(garden.clockHours || 0)} at live pace</span><span className="live-time-label">LIVE · 5 real seconds per garden hour</span>{showDeveloperTools && <><div><button onClick={() => advanceTime(1)} title="Skip one game hour">+5s</button><button onClick={() => advanceTime(24)} title="Skip one game day">+2m</button></div><small>Developer skips are instant; staging never pauses the live clock.</small></>}</div>
 
-        <div className="staging-bar"><div><strong>PLANTING PLAN · {stagedCount} STAGED</strong><small>{pendingCount} pending germination · Existing Plants/Fungi keep growing while you plan.</small></div><button className="apply-staging-button" onClick={applyPlan} disabled={!stagedCount}>✓ Apply planting decisions</button></div>
+
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <div className="svg-scroll"><div className="svg-wrap"><HexGrid garden={garden} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
-            onRotateHeading={rotateSelectedHex}
+            onRotateHeading={rotateSelectedHex} onPickUpOrganism={pickUpOrganism}
+            onRotationStart={kind => { if (kind === 'staged') rotationSnapshot.current = gardenRef.current.staged || {}; }}
+            onRotationEnd={kind => { if (kind === 'staged') { const before = rotationSnapshot.current; rotationSnapshot.current = null;
+              if (before && JSON.stringify(before) !== JSON.stringify(gardenRef.current.staged || {})) rememberStaging(before); } }}
             onStartHexDrag={(key, type, event) => startPointerDrag(type, { key, itemId: garden.objects[key]?.itemId,
               name: garden.staged?.[key]?.species || (isPlayerSource(garden.objects[key])
                 ? SOURCE_ITEMS[garden.objects[key].catalogId].name : garden.objects[key]?.species) }, event)}/></div></div>
-          <div className="surface-bottomline"><span>❧ Plant</span><span>♧ Fungus</span><span><span className="mycelial-legend"/> Mycelial ground</span><span><span className="legend-symbol source-symbol">✦</span> Source</span><span><span className="legend-symbol tile-symbol">▧</span> Hex blocker</span><span><span className="edge-symbol"/> Edge blocker</span><span className="hint-right">{tool === 'edge' ? 'Click a border' : 'Click a hex'}</span></div>
+          <div className="garden-plan-rail"><div className="staging-bar" aria-label="Planting plan">
+            <div><strong>{stagedCount} staged</strong><small>{pendingCount} pending germination</small></div>
+            <button className="apply-staging-button" onClick={applyPlan} disabled={!stagedCount}>Apply</button>
+            <button onClick={undoPlanAction} disabled={!undoCount}>Undo</button>
+            <button onClick={cancelPlan} disabled={!stagedCount && !undoCount}>Cancel</button>
+          </div></div><div className="surface-bottomline"><span>❧ Plant</span><span>♧ Fungus</span><span><span className="mycelial-legend"/> Mycelial ground</span><span><span className="legend-symbol source-symbol">✦</span> Source</span><span><span className="legend-symbol tile-symbol">▧</span> Hex blocker</span><span><span className="edge-symbol"/> Edge blocker</span><span className="hint-right">{tool === 'edge' ? 'Click a border' : 'Click a hex'}</span></div>
         </div>
         <div className="plot-footer"><div className="plot-stat"><strong>{plantCount}</strong><span>Plants</span></div><div className="plot-stat"><strong>{fungusCount}</strong><span>Fungi</span></div><div className="plot-stat"><strong>{sourceCount}</strong><span>Test sources</span></div><div className="plot-stat"><strong>{deployedItemCount}</strong><span>Source items</span></div><div className="plot-stat"><strong>{blockerCount}</strong><span>Blockers</span></div>{showDeveloperTools && <div className="plot-resize"><span>GRID SIZE</span><div><button onClick={() => updateSize('columns', -1)} aria-label="Remove a column">−</button><b>{garden.columns}</b><button onClick={() => updateSize('columns', 1)} aria-label="Add a column">+</button><span className="multiply">×</span><button onClick={() => updateSize('rows', -1)} aria-label="Remove a row">−</button><b>{garden.rows}</b><button onClick={() => updateSize('rows', 1)} aria-label="Add a row">+</button></div></div>}</div>
         <div className="notice-bar"><span>✧</span> {notice}</div>
       </main>
 
-      <aside className="sidebar sidebar-right">
+      <aside className={`garden-inventory ${inventoryOpen ? 'is-open' : ''}`} aria-label="Garden inventory">
+        <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
+        <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage}
+          heldId={heldItem?.id} carriedOrganism={heldItem?.type === 'organism' ? heldItem.species : null} onReceiveOrganism={receiveOrganism} onCancelCarry={() => setHeldItem(null)} onItemPointerDown={(item, event) => { if (heldItem?.type !== 'organism') startPointerDrag('item', item, event); }}
+          reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
+          onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
+          onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
+          onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
+      </aside>
+      <GardenInspector garden={garden} selection={selection} simulation={simulation} cultivation={cultivation} mycelialHere={mycelialHere}
+        onPickUp={pickUpOrganism} onEditStaged={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}
+        onUnstage={() => changeStaging(previous => unstagePlanting(previous, selection.key))} onRotate={rotateSelectedHex}
+        onReturnSource={() => changeGarden(previous => pickupSourceItem(previous, selection.key))} onOpenBook={() => setShowGrimoire(true)}/>
+      {showDeveloperTools && <details className="developer-field-notes"><summary>Developer field notes · advanced controls</summary><aside className="sidebar sidebar-right">
         <SectionTitle eyebrow="FIELD NOTES" title="Inspector" right={<span className="inspector-tag">{selection.type === 'hex' ? 'HEX' : 'EDGE'}</span>}/>
         {selection.type === 'hex' && selectedHex ? <>
           <div className="selected-summary"><div className="selected-illustration" style={{ background: PALETTES.Moisture[simulation.conditions[selection.key].Moisture] }}>⬡</div><div><span className="mini-heading">SELECTED HEX</span><h3>Hex {selection.key}</h3><p>Three environmental Properties</p></div></div>
@@ -535,7 +618,7 @@ export default function App() {
               <div className="heading-buttons">{STARTING_DIRECTIONS.map((direction, heading) => <button key={direction} aria-label={`Face ${direction}`}
                 className={selectedStaged.heading === heading ? 'selected' : ''} onClick={() => rotateSelectedHex(selection.key, 'staged', heading)}>{heading + 1}</button>)}</div></>}
             <button onClick={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}>Edit planting quantity</button>
-            <button onClick={() => changeGarden(previous => unstagePlanting(previous, selection.key))}>Return to inventory · unstage</button></div>}
+            <button onClick={() => changeStaging(previous => unstagePlanting(previous, selection.key))}>Return to inventory · unstage</button></div>}
           {selectedPending && <div className="planting-inspector"><strong>◈ Awaiting germination · {selectedPending.species}</strong><p>{selectedPending.quantity} {selectedPending.kind === 'plant' ? 'Seeds' : 'Spores'} committed · approximately {formatRealDuration(Math.max(0, selectedPending.readyAt - (garden.clockHours || 0)))} until the result is revealed. Outcome unknown.</p></div>}
           {selectedObject && <div className="object-card"><div className="object-header"><div><span className="mini-heading">HEX OCCUPANT</span><strong>{isPlayerSource(selectedObject) ? `✧ ${SOURCE_ITEMS[selectedObject.catalogId].name}` : selectedObject.type === 'source' ? selectedObject.anchor ? '✥ Anchored Source' : '✦ Influence Source' : selectedObject.type === 'plant' ? `❧ ${selectedObject.species}` : selectedObject.type === 'fungus' ? `♧ ${selectedObject.species}` : '▣ Hex Blocker'}</strong></div>{showDeveloperTools && !isPlayerSource(selectedObject) && <button className="icon-button remove-button" title="Remove object" onClick={() => changeGarden((previous) => removeObject(previous, selection.key))}>×</button>}</div>
             {selectedObject.type === 'source' ? <>
@@ -578,7 +661,7 @@ export default function App() {
           </div>
         </> : selection.type === 'edge' ? <div className="edge-inspector"><div className="edge-inspector-icon">╱</div><h3>Shared hex edge</h3><p>{selection.a} ↔ {selection.b}</p><p className="empty-hint">One edge belongs to both adjacent hexes. Blocking works in both directions.</p>{selectedEdge ? <div className="object-card">{showDeveloperTools ? <><BlockerFields blocker={selectedEdge} onChange={updateSelectedBlocker}/><button className="danger-outline" onClick={() => changeGarden((previous) => removeEdgeBlocker(previous, selection.a, selection.b))}>Remove edge blocker</button></> : <p className="small-explanation">Blocks: {selectedEdge.rule === 'full' ? 'all effects' : `${selectedEdge.rule} ${selectedEdge.value}`}.</p>}</div> : showDeveloperTools && <button className="add-influence" onClick={() => changeGarden((previous) => placeEdgeBlocker(previous, selection.a, selection.b, makeBlocker()))}>＋ Place edge blocker</button>}</div> : null}
         {showDeveloperTools && <div className="data-actions"><button onClick={exportGarden}>↓ Export JSON</button><button onClick={() => fileInput.current?.click()}>↑ Import JSON</button></div>}
-      </aside>
+      </aside></details>}
     </div>
 
     {quantityPrompt && <div className="quantity-popover" role="dialog" aria-label="Choose planting quantity"
@@ -609,7 +692,7 @@ export default function App() {
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 16</span><h2>A garden of changing forms</h2>
       <p>Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Every Plant yields its own species-specific Leaves on harvest, rather than a shared Leaf currency. Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
-      <p>Arrange the four 50-square inventory pages, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply planting decisions</strong>. Attempts are consumed together and their results stay hidden for about <strong>{formatRealDuration(STAGING_TUNING.germinationRevealHours)}</strong>. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. The garden runs at a fixed rate of one game hour every five real seconds while this page is open; displayed durations are real-time equivalents at that pace.</p>
+      <p>Arrange the four 50-square inventory pages, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply</strong>. Attempts are consumed together and their results stay hidden for about <strong>{formatRealDuration(STAGING_TUNING.germinationRevealHours)}</strong>. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. For a non-drag harvest, select the portrait (or press Space on its hex), then select the inventory. Undo reverses the last staging edit; Cancel releases the whole uncommitted plan. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. The garden runs at a fixed rate of one game hour every five real seconds while this page is open; displayed durations are real-time equivalents at that pace.</p>
       <p>Your garden autosaves in this browser. Use <strong>Save Game</strong> to download a portable .ccsave backup, and <strong>Load Game</strong> to restore it here or on another device. Loading replaces your current browser save after confirmation; staged placements and hidden germination timers are included. Browser-closed progression is not implemented yet.</p>
       <div className="guide-grid">
         <div><b>01 · Start any family</b><p>Six base Plants have available Seeds: Beanstalk, Daisydaze, Algea, Moss, Jadeheart and Thymekeeper. Experiment to discover other Plants.</p></div>
