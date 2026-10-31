@@ -209,3 +209,14 @@ Replace the vertical Influence list and expandable scrolling breakdown with comp
 An unwitnessed route shows only **Unusual botanical activity…** and the supplied sprout ornament. A previously witnessed route may show its destination, progress and concise requirements, with fuller phase instructions on hover/focus. Learning one route does not reveal its siblings or unwitnessed compatible Fungus alternatives. Multi-stage routes retain their preparation and completion timings. The supplied sprout is rendered at 56 × 56 px from a transparent WebP export.
 
 Pause/0.5×/1×/2× sit beside zoom and Fit in one viewport-anchored garden HUD. These controls bypass garden drag/zoom input. The elapsed clock and developer skips remain in the header. Remove the inspector's generic discovery sentence and the inventory's Seeds, Spores & field supplies caption; selected-item guidance remains at the bottom of inventory.
+
+
+## Centered Transformation and inventory type colors — 31 October 2026
+
+Center Environment, Growth & Harvest, Influences & Observations and Transformation headings within their own segments. Center the sprout and put the Becoming/destination line below it, followed by the existing progress bar and requirements. Remove the simple Hold … at 1× line from the compact requirements; full timing remains in the detailed known recipe, and phase-specific sequence instructions retain their meaning.
+
+Adapt the supplied lightning-button markup into warm gold/amber arcs around the 56 px sprout. It is decorative, appears only in an ongoing Transformation segment, and is identical for known and unknown routes. CSS moves the strokes gently without flashing the segment or text. Reduced-motion users receive a static treatment. This does not change the garden clock or communicate hidden progress.
+
+Inventory squares retain fixed 80 × 80 px dimensions, species names and artwork. Replace visible type badges with colored border/background accents: **Seeds yellow, Spores purple, Leaves green, Items sky blue** (including miscellaneous trophy/legacy Items). Match filter accents to these colors. Keep type names in full item labels and hover details. Quantities and stored-item remaining times move to a compact upper-right badge aligned over the frame's corner, inside the square's footprint. Empty squares remain neutral. Slot IDs, quantities, filtering, drags and hover behavior are unchanged.
+
+The supplied Minimalist Botanical Inventory Frames sheet is an optional future art reference. This pass keeps the current frame shapes; no new raster frame assets are integrated.
