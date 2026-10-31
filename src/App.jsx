@@ -514,6 +514,7 @@ export default function App() {
       <div className="brand-controls"><div className="brand"><h1 className="game-logo-heading"><img className="game-logo" src={grimoireArt('game-logo')} alt="Companion Cultivation" draggable="false"/></h1></div>
         <button className={`developer-toggle ${showDeveloperTools ? 'is-on' : ''}`} aria-pressed={showDeveloperTools} onClick={toggleDeveloperTools}>{showDeveloperTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
+        <div className="time-controls"><span>⏳ GARDEN ELAPSED · {formatRealDuration(garden.clockHours || 0)} at live pace</span><span className="live-time-label">LIVE · 5 real seconds per garden hour</span>{showDeveloperTools && <><div><button onClick={() => advanceTime(1)} title="Skip one game hour">+5s</button><button onClick={() => advanceTime(24)} title="Skip one game day">+2m</button></div><small>Developer skips are instant; staging never pauses the live clock.</small></>}</div>
       <div className="top-actions"><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/200</button><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 16</span>
         <button className="grimoire-launcher" onClick={() => setShowGrimoire(true)} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire">
           <img src={grimoireArt('book-launcher')} alt="" draggable="false"/>
@@ -571,7 +572,7 @@ export default function App() {
 </div>
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Sow Seeds and Spores. Tend your organisms and watch them develop.</p></div>{showDeveloperTools && <div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div>}</div>
 
-        <div className="time-controls"><span>⏳ GARDEN ELAPSED · {formatRealDuration(garden.clockHours || 0)} at live pace</span><span className="live-time-label">LIVE · 5 real seconds per garden hour</span>{showDeveloperTools && <><div><button onClick={() => advanceTime(1)} title="Skip one game hour">+5s</button><button onClick={() => advanceTime(24)} title="Skip one game day">+2m</button></div><small>Developer skips are instant; staging never pauses the live clock.</small></>}</div>
+
 
 
 

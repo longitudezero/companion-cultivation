@@ -57,7 +57,7 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
         aria-label={`Pick up ${title} for inventory`}>{art ? <img src={art.src} alt={`${title} illustration`} draggable="false"/> : <span>❧</span>}</button>
         : <div className={`portrait-symbol ${pending ? 'pending' : ''}`} aria-hidden="true">{pending ? '?' : staged ? '◌' : source ? '✧' : '⬡'}</div>}
       <h2>{title}</h2>
-      <p>{organism ? object.type === 'plant' ? PLANTS[object.species].family : 'Fungi' : selection.type === 'edge' ? `${selection.a} ↔ ${selection.b}` : `Hex ${key}`}
+      <p>{organism ? object.type === 'plant' ? PLANTS[object.species].family : 'Fungi' : selection.type === 'edge' ? `${selection.a} ↔ ${selection.b}` : object || staged || pending ? `Hex ${key}` : 'Empty soil'}
         {organism && <span className="organism-status">{stageOf(object)}</span>}</p>
     </div>
 

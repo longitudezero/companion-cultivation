@@ -1,7 +1,7 @@
 # Garden interface redesign
 
 Date: 30 October 2026  
-Status: **WORKING · first layout pass implemented 31 October 2026; browser review pending.** The three pre-implementation questions are resolved. A tilted garden view is exploratory; proposed implementation defaults are not additional approved gameplay rules.
+Status: **WORKING · first layout pass implemented 31 October 2026; further responsive playtesting remains open.** The three pre-implementation questions are resolved. A tilted garden view is exploratory; proposed implementation defaults are not additional approved gameplay rules.
 
 ## Purpose and reference
 
