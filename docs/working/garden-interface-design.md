@@ -220,3 +220,14 @@ Adapt the supplied lightning-button markup into warm gold/amber arcs around the 
 Inventory squares retain fixed 80 × 80 px dimensions, species names and artwork. Replace visible type badges with colored border/background accents: **Seeds yellow, Spores purple, Leaves green, Items sky blue** (including miscellaneous trophy/legacy Items). Match filter accents to these colors. Keep type names in full item labels and hover details. Quantities and stored-item remaining times move to a compact upper-right badge aligned over the frame's corner, inside the square's footprint. Empty squares remain neutral. Slot IDs, quantities, filtering, drags and hover behavior are unchanged.
 
 The supplied Minimalist Botanical Inventory Frames sheet is an optional future art reference. This pass keeps the current frame shapes; no new raster frame assets are integrated.
+
+
+## Lifecycle cleanup, portrait spacing and stronger color separation — 31 October 2026
+
+Remove the Leaf/Seed legend and Current timing caption beneath the lifecycle bar. Preserve the 0–200% bar, actual peak markers, plateaus, and their hover/focus labels. This also reduces the inspector's vertical demand.
+
+Reduce the fixed portrait column to **144 px**, center its unchanged **128 × 128 px** illustration, remove its internal side padding, and use an **8 px left inset** on the inspector. Return the reclaimed width to the information sections; Environment remains 200 px and Growth & Harvest remains 225 px.
+
+Replace the circular Transformation treatment with loose, asymmetric gold wisps and small curls extending around the sprout, following the supplied effect illustration. Soft static tendrils and slowly traveling highlights retain a gentle magical feel; reduced motion keeps the static wisps. The effect still appears only during a genuine Transformation and does not reveal hidden state.
+
+Use brighter, clearly separated card backgrounds as well as borders: honey yellow for Seeds, emerald green for Leaves, violet for Spores, and sky blue for Items. The colored gradient edges no longer converge on a shared forest-green base. Dark nameplates and corner badges retain readable text. Empty squares and all inventory behavior remain unchanged.

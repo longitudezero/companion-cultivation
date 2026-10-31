@@ -115,7 +115,6 @@
 .peak-band.seed { border-color: #ad8a49; background: #ba914344; }
 .peak-tooltip { display: none; position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); min-width: 100px; white-space: nowrap; font: 11px/1.4 Georgia, serif; padding: 6px 8px; background: #23382a; border: 1px solid #b69c64; color: #f8e8be; border-radius: 3px; z-index: 5; }
 .harvest-marker:hover .peak-tooltip, .harvest-marker:focus .peak-tooltip { display: block; }
-.harvest-guide-key { display: flex; flex-wrap: wrap; gap: 10px; font: 10px Georgia, serif; color: #626e41; }
 .environment-levels { display: flex; height: 7px; gap: 2px; border-radius: 4px; overflow: hidden; margin: 3px 0 13px; }
 .environment-levels span { flex: 1; background: #cabb9a; }
 .environment-levels .filled { background: #819d78; }
