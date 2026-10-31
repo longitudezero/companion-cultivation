@@ -4,7 +4,7 @@
 
 ## Current documents
 
-- [Garden interface redesign](garden-interface-design.md) — **first top-down layout pass implemented; further responsive playtesting remains open**. Records the botanical mockup direction, drag-led controls, separate Undo/Cancel actions, bottom inspector, immediately visible harvest-peak landmarks on a 0–200% lifecycle, inventory readability, and an exploratory tilted garden view.
+- [Garden interface redesign](garden-interface-design.md) — **first top-down layout implemented; next refinements specified, not yet implemented**. Records fixed inspector/card sizing, temporary in-garden notices, fast non-interactive hover cards, resizable inventory, pan/zoom with middle-button dragging, manual speed controls, germination bars and the Transformation clue. Keyboard pickup controls are deferred; tilt remains a possible later upgrade.
 - [Task organization, store and progression](task-organization.md) — **agreed framework; implementation pending**. Defines M/S IDs, decimal Order, record fields, onboarding, capacity rewards, family unlocks, deliveries, the shop, Taskboard/pins, and time controls.
 - [Main tasks](main-tasks.md) — **four opening task records; implementation and balance playtesting pending**. My First Transformation, A Thirsty Carrot, the Potato/Onion discovery challenge, and Leaves, Please (8 Carrot Leaves). Task 3 has no retroactive transformation credit; Task 4 explains harvest timing and rewards Emberbolete. Dialogue stays in each task record.
 - [Side tasks](side-tasks.md) — **roster not yet authored**. Uses the same record structure without Order.

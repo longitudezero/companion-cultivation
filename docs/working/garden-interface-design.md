@@ -1,7 +1,7 @@
 # Garden interface redesign
 
 Date: 30 October 2026  
-Status: **WORKING · first layout pass implemented 31 October 2026; further responsive playtesting remains open.** The three pre-implementation questions are resolved. A tilted garden view is exploratory; proposed implementation defaults are not additional approved gameplay rules.
+Status: **WORKING · first layout pass implemented; next refinement decisions recorded 31 October 2026, not yet implemented.** The refinement section below supersedes conflicting first-pass presentation choices. A tilted garden view remains a possible future upgrade.
 
 ## Purpose and reference
 
@@ -34,7 +34,7 @@ The prominent selected-hex outline and the relationship between garden, inventor
 - **Undo** reverses the most recent uncommitted staging action, including a placement, move, quantity edit, or other staging edit. It restores the previous proposed plan and corresponding reservations.
 - **Cancel** clears the whole current uncommitted staging phase and releases all its reservations. A new plan can begin immediately. It does not cancel or refund previously applied pending germinations, reverse a harvest, or rewind the live garden.
 
-These changes remove mode buttons, not the underlying actions. Existing [spatial inventory and staging rules](../design/systems/spatial-inventory-and-staging.md) also require non-drag placement and harvest alternatives. The proposed presentation is to use the same selectable hexes and inventory targets, without restoring permanent sowing or harvest buttons; the exact focus, pickup, destination, and cancellation feedback remains an implementation detail.
+These changes remove mode buttons, not the underlying actions. The [spatial inventory and staging rules](../design/systems/spatial-inventory-and-staging.md) describe non-drag alternatives. **The user's later clarification defers keyboard pickup controls and their dedicated design pass.** The next refinement must not add keyboard pickup buttons or depend on the portrait as a pickup control.
 
 ## Bottom inspector
 
@@ -91,7 +91,7 @@ The mockup's repeated mushroom/plant pictures and its 18 / 30 example do not cha
 ## Proposed implementation defaults — adjustable, not new approved mechanics
 
 1. **First-pass scope — layout first agreed:** reorganize and restyle the features that currently work using existing supplied artwork. A separate art pass can add illustrated terrain and in-world sprites. Leave task/Gold/store runtime and inventory-capacity migration to their progression work. Include placement space for the already approved time controls, but implement their behavior as a separate explicit step rather than drawing inactive controls that look functional.
-2. **Selection and alternatives:** clicking a hex inspects it without a mode. Selecting an inventory stack and then a hex preserves the existing non-drag planting route. A keyboard/tap pickup-and-destination flow can provide the corresponding harvest alternative without a permanent Harvest button.
+2. **Selection and alternatives:** clicking a hex inspects it without a mode. Selecting an inventory stack and then a hex preserves the existing non-drag planting route. Portrait activation will open the corresponding Grimoire entry. Keyboard pickup controls are deferred to a dedicated later input-design pass.
 3. **Staging feedback:** show Apply, Undo, Cancel, and the staged count when a plan has changes. Keep pending germination distinct from the new, uncommitted plan. Undo history is scoped to that plan; successful Apply or Cancel ends its history. Neither Undo nor Cancel reverses elapsed garden time, committed attempts, harvesting, or inventory ownership.
 4. **Responsive layout:** let the desktop inventory and expanded inspector scroll within their own regions. On narrow screens, use an inventory drawer and an expandable bottom inspector; retain garden interaction and access to the same information.
 5. **Garden movement:** fit the current plot by default. If panning is needed, start it from empty ground without stealing item, organism, or staged-marker drags. Pan/zoom is not a new mechanic implied by the removed tutorial label.
@@ -137,3 +137,64 @@ Undo stores only earlier uncommitted plans, revalidates them against current occ
 The lifecycle guide derives its points, plateaus, multiple peaks, sterility and trophy timing from the canonical species/production schedule. Markers are available immediately and account for currently reaching timing effects, while current harvest quantities still come from actual earned output. Inventory filters retain real saved slot identities. Narrow screens use a toggleable inventory drawer and a stacked inspector. Advanced developer controls remain behind their toggle and an expandable field-notes panel.
 
 New terrain artwork, tilt, task/Gold/store runtime, capacity progression and manual speed controls remain separate work. Existing clock, simulation, save schema and Grimoire navigation remain unchanged.
+
+## Next interface refinement — decisions recorded 31 October 2026
+
+**Status: specified for the next pass; not implemented by this document update.** References are the supplied **Inventory Tooltip.png**, **notification location suggestion.png**, and **progress bar example.png**. The latest written decisions govern behavior; illustrative effect values and styling in the mockups are not replacements for canonical game data.
+
+### Compact fixed sections and more information space
+
+- Give the bottom portrait and Environment sections fixed, compact widths. Additional screen width primarily benefits **Influences & Observations**, with a comfortable minimum for Growth & Harvest.
+- Proposed starting dimensions are a **160 px portrait column**, **128 × 128 px illustration**, **200 px Environment column**, and **80 × 80 px inventory squares**. These are concrete sizing proposals for visual tuning, not new game mechanics. Sections can reflow at narrow widths while the illustration/card dimensions remain fixed.
+- The portrait keeps the name below the image. Activating it opens the selected Plant or Fungus's own Grimoire entry directly; it no longer initiates harvesting or pickup.
+- Remove the redundant Open Grimoire button from Influences & Observations. The main book launcher remains.
+- Do not add keyboard pickup buttons or develop that pickup interaction in this pass. A dedicated keyboard/input design pass is deferred. Dragging organisms from the garden to the inventory retains its harvest meaning.
+
+### Garden rail and transient notifications
+
+- Put organism/Source/Blocker summary counts on the **same rail as Apply, Undo and Cancel**, rather than reserving another row.
+- Remove the permanent general-purpose notice line, including the initial Select any hex to inspect message.
+- Errors and action results still need visible feedback: show a small **temporary notice inside the garden viewport, near the bottom-left above Apply**, following the placement reference.
+- The notice overlays the garden and reserves **no permanent layout height**. Anchor it to the viewport, so it does not travel with the soil when the camera pans or scale with zoom.
+- Notices appear when relevant and disappear automatically. A proposed timing is roughly 3 seconds for ordinary results and longer for errors; tune for readable message length. They should not intercept garden drags or button clicks. The exact durations remain implementation tuning.
+
+### Germination and manual time controls
+
+- Show **Germinating… centered inside the progress bar**, staying centered in the whole track as the fill advances. Do not place that label in a separate caption.
+- Remove Result in approximately… and The outcome is still concealed from ordinary inspection.
+- The bar represents the public waiting interval. Pending successes and failures must have the same appearance and progress behavior until the reveal; no outcome-dependent animation or art.
+- Add working **Pause / 0.5× / 1× / 2×** controls to the header, with a clear active state. This is now in scope for the refinement, using the already approved [whole-simulation speed rules](../design/systems/simulation-and-time.md). All elapsed-time systems, including germination, use the same chosen multiplier.
+
+### Inventory hover information — supersedes the selection-overlay proposal
+
+- Display a compact, **non-interactive hover card** almost immediately when the pointer enters an occupied inventory square.
+- Moving between inventory squares updates the contents immediately. The player never has to move into the card or keep an interactive overlay open to read another item.
+- Hide it when the pointer leaves the item or a drag starts. It must not capture pointer input or interfere with planting, harvesting, inventory movement, resizing or camera controls.
+- The card has **no clickable item name, links, buttons, repeated illustration, Owned row, or Hover item for details instruction**.
+- Keep the full item name, item class/family, a short useful description, and relevant known effects or placement requirements. Different classes get appropriate information; do not invent an Effects list for an item that has none.
+- Derive numeric effects from real data and respect discovery rules. In particular, remove vague unsupported Transformation claims. A Fungus's known base profile is available, while undiscovered Plant responses and recipe details remain concealed.
+- A proposed initial card width is **320 px**, positioned beside the slot or inventory panel and clamped inside the viewport. A very short initial delay, around 50 ms, can be tuned; switching between items should feel immediate and should not wait for a closing animation.
+
+### Resizable inventory and fixed-scale garden camera
+
+- Resize the inventory by dragging its **left boundary**, trading space with the garden. Increasing width adds columns; it does not enlarge inventory squares or alter saved slot identities/capacity.
+- Garden hexes have a stable pixel size at the selected zoom. Resizing the window or inventory changes how much of the garden is visible, not the scale of the hexes.
+- Support wheel/pinch zoom and a small minus/plus/Fit control group. Fit is an explicit zoom action, not something that runs again on every window resize.
+- Primary-button dragging on empty garden space pans. Primary dragging on an organism, Source item or staged marker retains the corresponding object interaction.
+- **Middle mouse / wheel-button dragging (M3) pans from anywhere**, including occupied hexes, so a full or zoomed-in garden remains navigable. This takes precedence over object pickup/harvest and does not change the contents of a hex.
+- Keep the existing top-down projection. Tilt remains a separate possible upgrade.
+
+### Transformation clue
+
+Restore an atmospheric **Unusual botanical activity…** cue when a real Transformation is underway. Preserve the existing discovery boundary: an unseen route's destination, exact requirements and exact progress are not automatically disclosed. The proposed presentation is an atmospheric cue for an unknown route, with more explicit progress available once that recipe is learned.
+
+### Refinement review checks
+
+- Portrait activation opens the correct species page; it does not enter pickup mode, and the redundant inspector book button is absent.
+- Portrait, Environment and inventory-square sizes stay fixed as more information space or more inventory columns becomes available.
+- Errors/results appear within the garden above the staging rail, disappear, do not reserve height, and remain screen-anchored during pan/zoom.
+- Germinating… stays inside the bar, and opposite hidden outcomes render identically.
+- Hovering quickly across several inventory slots replaces the card immediately; its contents cannot steal pointer input or expose undiscovered facts.
+- Middle-drag pans across occupied and empty hexes without harvesting, planting, moving or selecting objects accidentally. Window/panel resizing preserves the chosen zoom and hex size.
+- Pause and each multiplier affect all simulation clocks consistently; direct garden planning remains possible while paused.
+- A genuine unknown Transformation can show its clue without revealing its target or an unlearned recipe.
