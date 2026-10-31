@@ -98,6 +98,7 @@ test('125% fills 62.5% of the whole lifecycle and displays harvest landmarks imm
   assert.match(markup, /width:62.5%/);
   assert.match(markup, /Leaf peak · 110–175%/);
   assert.match(markup, /Seed peak · 200%/);
+  assert.doesNotMatch(markup, /harvest-guide-key|Current timing · harvest amounts reflect cultivation/);
 });
 
 test('pending inspection never distinguishes success from failure or reveals a species plate', () => {

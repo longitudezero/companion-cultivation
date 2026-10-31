@@ -30,8 +30,6 @@ export function LifecycleBar({ object, contacts, conditions }) {
         </React.Fragment>;
       })}
     </div>
-    <div className="harvest-guide-key">{[...new Set(markers.map(m => m.kind))].map(kind => <span key={kind}>{ICONS[kind]} {NAMES[kind]}</span>)}</div>
-    <small className="inspector-caption">Current timing · harvest amounts reflect cultivation</small>
   </div>;
 }
 
