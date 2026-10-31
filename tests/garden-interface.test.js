@@ -105,7 +105,8 @@ test('pending inspection never distinguishes success from failure or reveals a s
   const success = inspector({ ...garden, pending: { '0,0': { ...pending, success: true } } });
   const failure = inspector({ ...garden, pending: { '0,0': { ...pending, success: false } } });
   assert.equal(success, failure);
-  assert.match(success, /outcome is still concealed/);
+  assert.match(success, /Germinating…/);
+  assert.doesNotMatch(success, /outcome is still concealed|Result in approximately/);
   assert.doesNotMatch(success, /illustrations\/plants|Leaf peak|Carrot illustration/);
 });
 

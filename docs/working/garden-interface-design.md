@@ -1,7 +1,7 @@
 # Garden interface redesign
 
 Date: 30 October 2026  
-Status: **WORKING · first layout pass implemented; next refinement decisions recorded 31 October 2026, not yet implemented.** The refinement section below supersedes conflicting first-pass presentation choices. A tilted garden view remains a possible future upgrade.
+Status: **WORKING · first layout and interface refinements implemented 31 October 2026.** The refinement section below supersedes conflicting first-pass presentation choices. A tilted garden view remains a possible future upgrade.
 
 ## Purpose and reference
 
@@ -81,7 +81,7 @@ The mockup's repeated mushroom/plant pictures and its 18 / 30 example do not cha
 | Subject | Authority and boundary |
 | --- | --- |
 | Planting, harvesting, inventory | Preserve [spatial inventory and staging](../design/systems/spatial-inventory-and-staging.md), including quantity choice, safe capacity checks, actual item identities, and non-drag alternatives. |
-| Live time | Preserve the garden's running behavior. [Pause, 0.5×, 1×, and 2×](../design/systems/simulation-and-time.md) are already approved but not implemented; the mockup does not reopen their gameplay semantics. |
+| Live time | Preserve the garden's running behavior. [Pause, 0.5×, 1×, and 2×](../design/systems/simulation-and-time.md) are now implemented in the refinement below; the mockup does not reopen their gameplay semantics. |
 | Gold, tasks, store, capacity progression | These have [separate agreed designs and remaining work](task-organization.md). The mockup's currency and task examples are not implemented features or new balance values. |
 | Discovery | Preserve the [per-garden Grimoire knowledge boundaries](../design/systems/cultivation-grimoire.md). An Unusual botanical activity treatment must not automatically expose an unseen Transformation's identity, requirements, or exact progress. |
 | Grimoire | Keep the supplied launcher, working book, saved observations, and approved page navigation. This redesign concerns the surrounding garden interface. |
@@ -128,7 +128,7 @@ User decision, 31 October 2026: **keep the current top-down view for this layout
 - Concealed germination, hidden recipes, saved knowledge, existing saves, Source items, and developer separation retain their actual current semantics.
 - Review the integrated screen in the browser before declaring the visual work complete. This design document alone is not an implementation or a playtest pass.
 
-## First layout implementation — 31 October 2026
+## First layout implementation — 31 October 2026 (historical first pass)
 
 The first pass expands the top-down garden, moves the illustrated inventory to the right and the compact parchment inspector below, and uses existing supplied artwork. Ordinary mode buttons and the permanent Harvest button are removed. The portrait provides a non-drag pickup, and Space on an organism hex supports keyboard pickup; the inventory then receives the harvest. Apply, Undo and Cancel are separate controls in the lower-left board rail.
 
@@ -138,14 +138,14 @@ The lifecycle guide derives its points, plateaus, multiple peaks, sterility and 
 
 New terrain artwork, tilt, task/Gold/store runtime, capacity progression and manual speed controls remain separate work. Existing clock, simulation, save schema and Grimoire navigation remain unchanged.
 
-## Next interface refinement — decisions recorded 31 October 2026
+## Interface refinements — implemented 31 October 2026
 
-**Status: specified for the next pass; not implemented by this document update.** References are the supplied **Inventory Tooltip.png**, **notification location suggestion.png**, and **progress bar example.png**. The latest written decisions govern behavior; illustrative effect values and styling in the mockups are not replacements for canonical game data.
+**Status: implemented 31 October 2026, with automated validation and deployment browser review.** References are the supplied **Inventory Tooltip.png**, **notification location suggestion.png**, and **progress bar example.png**. The latest written decisions govern behavior; illustrative effect values and styling in the mockups are not replacements for canonical game data.
 
 ### Compact fixed sections and more information space
 
 - Give the bottom portrait and Environment sections fixed, compact widths. Additional screen width primarily benefits **Influences & Observations**, with a comfortable minimum for Growth & Harvest.
-- Proposed starting dimensions are a **160 px portrait column**, **128 × 128 px illustration**, **200 px Environment column**, and **80 × 80 px inventory squares**. These are concrete sizing proposals for visual tuning, not new game mechanics. Sections can reflow at narrow widths while the illustration/card dimensions remain fixed.
+- Implemented dimensions are a **160 px portrait column**, **128 × 128 px illustration**, **200 px Environment column**, and **80 × 80 px inventory squares**. These are presentation dimensions, not new game mechanics. Sections can reflow at narrow widths while the illustration/card dimensions remain fixed.
 - The portrait keeps the name below the image. Activating it opens the selected Plant or Fungus's own Grimoire entry directly; it no longer initiates harvesting or pickup.
 - Remove the redundant Open Grimoire button from Influences & Observations. The main book launcher remains.
 - Do not add keyboard pickup buttons or develop that pickup interaction in this pass. A dedicated keyboard/input design pass is deferred. Dragging organisms from the garden to the inventory retains its harvest meaning.
@@ -156,7 +156,7 @@ New terrain artwork, tilt, task/Gold/store runtime, capacity progression and man
 - Remove the permanent general-purpose notice line, including the initial Select any hex to inspect message.
 - Errors and action results still need visible feedback: show a small **temporary notice inside the garden viewport, near the bottom-left above Apply**, following the placement reference.
 - The notice overlays the garden and reserves **no permanent layout height**. Anchor it to the viewport, so it does not travel with the soil when the camera pans or scale with zoom.
-- Notices appear when relevant and disappear automatically. A proposed timing is roughly 3 seconds for ordinary results and longer for errors; tune for readable message length. They should not intercept garden drags or button clicks. The exact durations remain implementation tuning.
+- Notices appear when relevant and disappear automatically. Ordinary notices remain for 3.5 seconds, and errors for 7 seconds; these durations can be tuned for message length. They should not intercept garden drags or button clicks. The durations remain presentation tuning.
 
 ### Germination and manual time controls
 

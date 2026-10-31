@@ -76,14 +76,17 @@ function PageSurface({ side, disabled, busy, onTurn, children }) {
   </article>;
 }
 
-export default function CultivationGrimoire({ garden, onClose, developerTools = false }) {
+export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null }) {
   const root = useRef(null), closeRef = useRef(null), glossaryClose = useRef(null), termRef = useRef(null);
   const previousGlossary = useRef(null);
   const [previewRequested, setPreviewRequested] = useState(false);
   const preview = developerTools && previewRequested;
   const [glossary, setGlossary] = useState(null);
   const [reduced, setReduced] = useState(() => Boolean(reducedMotionQuery()?.matches));
-  const [nav, dispatch] = useReducer(bookNavigation, initialNavigation);
+  const [nav, dispatch] = useReducer(bookNavigation, initialEntryKey, key => {
+    const index = BOOK_ENTRIES.findIndex(entry => entry.key === key);
+    return index < 0 ? initialNavigation : { ...initialNavigation, current: index, target: index };
+  });
   const ledger = garden.grimoire || EMPTY_LEDGER;
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
   const current = BOOK_ENTRIES[nav.current], turn = nav.turn;

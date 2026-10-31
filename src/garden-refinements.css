@@ -1,0 +1,91 @@
+/* Stable physical sizes. Extra room belongs to facts and additional slots. */
+.app-shell .workspace { grid-template-columns: minmax(0, 1fr) var(--inventory-width, 300px); }
+.garden-inspector { grid-template-columns: 160px minmax(230px, 1fr) 200px minmax(300px, 1.65fr); align-items: start; }
+.inspector-portrait { width: 160px; padding: 0 16px; }
+.portrait-entry { display: block; width: 128px; height: 128px; padding: 0; margin: 0; border: 0; background: transparent; cursor: pointer; }
+.portrait-entry img { display: block; width: 128px; height: 128px; object-fit: contain; }
+.portrait-entry:hover { filter: brightness(1.08); }
+.portrait-entry:focus-visible { outline: 2px solid #987741; border-radius: 3px; }
+.portrait-symbol { width: 128px; height: 128px; }
+.inspector-portrait h2 { font-size: 21px; margin-top: 7px; }
+.inspector-environment { width: 200px; }
+.inspector-influences { grid-column: auto; display: block; max-height: 203px; overflow-y: auto; scrollbar-color: #aa9369 #dfd0ac; margin: 0; padding: 0 8px 0 16px; border-top: 0; border-left: 1px solid #bba37677; }
+.inspector-influences h3 { font: 17px Georgia, serif; margin-bottom: 12px; padding-bottom: 7px; border-bottom: 1px solid #b8a17477; }
+.inspector-influences > p { display: block; }
+.active-observations { margin: 0 0 10px; padding: 0; list-style: none; font: 12px/1.5 Georgia, serif; }
+.active-observations li { padding: 4px 0; border-bottom: 1px solid #ad94633b; }
+.inspector-influences .influence-breakdown[open] { max-height: none; overflow: visible; }
+.inspector-influences .inspector-caption { margin-top: 7px; font-size: 10px; }
+.transformation-clue { background: #b49c4b22; border-left: 2px solid #ad8748; padding: 3px 9px; margin: 6px 0 10px; }
+.transformation-clue p { color: #7c5d29; font-style: italic; }
+.transformation-clue span { font: 11px Georgia, serif; }
+.known-transformation-progress { height: 6px; background: #d0c19e; border-radius: 4px; overflow: hidden; margin: 4px 0 7px; }
+.known-transformation-progress i { display: block; height: 100%; background: #79944f; }
+.germination-bar { position: relative; height: 30px; overflow: hidden; border: 1px solid #7b8956; border-radius: 4px; background: #213c2b; margin-top: 13px; }
+.germination-bar > div { height: 100%; background: linear-gradient(90deg, #4b7345, #92a861); transition: width .2s linear; }
+.germination-bar > span { position: absolute; inset: 0; display: grid; place-items: center; color: #fff7df; font: 14px Georgia, serif; text-shadow: 0 1px 3px #122918; }
+
+.topbar .simulation-speeds { display: flex; gap: 2px; }
+.topbar .simulation-speeds button { font-size: 11px; padding: 5px 9px; background: #1e3527; border: 1px solid #76683f; border-radius: 2px; color: #e8d7b0; }
+.topbar .simulation-speeds button[aria-pressed="true"] { background: #d1b378; color: #1c3223; border-color: #e1c88e; }
+
+.garden-plan-rail { justify-content: space-between; flex-wrap: wrap; gap: 5px 16px; }
+.garden-plan-rail .plot-footer { margin: 0; padding: 0; flex-wrap: wrap; gap: 9px; }
+.garden-plan-rail .plot-stat strong, .garden-plan-rail .plot-stat span { font-size: 9px; }
+.garden-plan-rail .plot-resize { flex-direction: row; align-items: center; gap: 6px; }
+.garden-notification { position: absolute; left: 12px; bottom: 8px; z-index: 5; max-width: min(520px, calc(100% - 24px)); color: #f0d99f; background: #10271eea; border-left: 2px solid #b29a62; border-radius: 2px; padding: 7px 11px; font: 12px/1.4 Georgia, serif; box-shadow: 0 2px 12px #07140a88; pointer-events: none; }
+
+/* The world is a fixed pixel drawing viewed through a changing viewport. */
+.garden-camera-viewport { position: relative; flex: 1; min-height: 240px; min-width: 0; overflow: hidden; touch-action: none; background: radial-gradient(ellipse at center, #304a35, #192f23 75%); }
+.garden-camera-viewport::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(#d6e3c41c 1px, transparent 1px); background-size: 22px 22px; pointer-events: none; }
+.garden-camera-world { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
+.garden-camera-world .garden-svg { display: block; width: 100%; height: 100%; max-height: none; }
+.camera-controls { position: absolute; right: 10px; top: 9px; z-index: 4; display: flex; align-items: center; gap: 1px; background: #152c21ed; border: 1px solid #877746; border-radius: 3px; padding: 2px; }
+.camera-controls button { min-width: 29px; padding: 5px 7px; color: #e6d2a3; background: #28452f; border: 0; border-radius: 2px; font: 12px Georgia, serif; cursor: pointer; }
+.camera-controls button:hover { background: #45613b; }
+.camera-controls span { min-width: 42px; text-align: center; color: #d5c697; font-size: 10px; }
+
+.garden-inventory { position: relative; overflow: visible; }
+.garden-inventory .spatial-inventory { overflow: hidden; }
+.inventory-resizer { position: absolute; left: -7px; top: 0; bottom: 0; width: 12px; cursor: ew-resize; z-index: 7; touch-action: none; }
+.inventory-resizer::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 2px; background: #b79b61; opacity: .5; }
+.inventory-resizer:hover::before, .inventory-resizer:focus-visible::before { width: 3px; opacity: 1; }
+.spatial-inventory .inventory-square-grid { grid-template-columns: repeat(auto-fill, 80px); justify-content: start; gap: 8px; }
+.inventory-square-grid .inventory-square { width: 80px; height: 80px; }
+.inventory-square-grid .inventory-item-art { width: 49px; height: 49px; }
+.inventory-square-grid .inventory-item-name { position: absolute; bottom: 3px; left: 3px; right: 3px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 10px; }
+.inventory-square-grid .inventory-item-quantity { bottom: 16px; right: 3px; }
+.inventory-type-badge { font-size: 8px; }
+.inventory-tooltip { position: fixed; z-index: 65; width: min(320px, calc(100vw - 16px)); max-height: calc(100dvh - 16px); overflow: hidden; pointer-events: none; border: 3px double #b69a62; border-radius: 5px; box-shadow: 0 9px 30px #06140bc4; color: #3d3320; }
+.inventory-tooltip header { padding: 13px 15px 10px; background: linear-gradient(125deg, #233d2c, #10291f); border-bottom: 1px solid #b89c5a; }
+.inventory-tooltip h3 { color: #f0dbad; font: 22px/1.15 Georgia, serif; margin-bottom: 6px; }
+.inventory-tooltip header p { color: #c9b881; font: 12px Georgia, serif; }
+.inventory-tooltip-body { padding: 12px 15px; background: radial-gradient(ellipse at 20% 0, #fff7e2, #e7d5af); font: 12px/1.5 Georgia, serif; }
+.inventory-tooltip-body > p { font-style: italic; margin-bottom: 8px; }
+.inventory-tooltip-body ul { padding-left: 15px; }
+.inventory-tooltip-body li { margin: 5px 0; }
+
+@media (max-width: 980px) {
+  .garden-inspector { grid-template-columns: 200px minmax(0, 1fr); }
+  .inspector-portrait { justify-self: start; }
+  .inspector-environment { grid-column: 1; width: 200px; padding-left: 10px; }
+  .inspector-influences { grid-column: 2; display: block; border-left: 1px solid #bba37677; border-top: 0; margin: 0; padding-top: 0; }
+  .inspector-influences h3 { font-size: 15px; margin-bottom: 10px; }
+  .inspector-influences > p { display: block; }
+}
+@media (max-width: 760px) {
+  .app-shell .workspace { grid-template-columns: minmax(0, 1fr); }
+  .garden-inventory { position: fixed; width: min(var(--inventory-width, 300px), calc(100vw - 16px)); }
+  .inventory-resizer { display: none; }
+  .garden-camera-viewport { min-height: 220px; }
+  .garden-plan-rail .plot-footer { display: flex; }
+  .garden-plan-rail .plot-resize { display: none; }
+  .topbar .time-controls { flex-direction: row; align-items: center; gap: 8px; }
+  .garden-inspector { grid-template-columns: 160px minmax(0, 1fr); padding: 8px; }
+  .inspector-portrait { padding: 0 16px; }
+  .inspector-environment { grid-column: 1 / -1; width: 200px; }
+  .inspector-influences { grid-column: 1 / -1; border-left: 0; border-top: 1px solid #bba37677; padding: 10px 0 0; max-height: 240px; }
+  .portrait-entry, .portrait-symbol { width: 128px; height: 128px; }
+}
+@media (max-width: 360px) { .garden-inspector { grid-template-columns: minmax(0, 1fr); } .inspector-portrait { width: 160px; } }
+@media (prefers-reduced-motion: reduce) { .germination-bar > div { transition: none; } }

@@ -4,6 +4,8 @@ import { neighborsOf, edgeKey, offsetOf, isMycelial, isPlayerSource, SOURCE_ITEM
 const SIZE = 33;
 const DX = Math.sqrt(3) * SIZE;
 const Y_STEP = 1.5 * SIZE;
+export const gridDimensions = garden => ({ width: 130 + (garden.columns - 1 + .5) * DX,
+  height: 118 + (garden.rows - 1) * Y_STEP });
 
 export const PALETTES = {
   Moisture: { Dry: '#b59b75', Damp: '#729e86', Flooded: '#477eac' },
@@ -36,10 +38,9 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd, onPickUpOrganism }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
   const keys = Object.keys(garden.hexes);
-  const width = 130 + (garden.columns - 1 + 0.5) * DX;
-  const height = 118 + (garden.rows - 1) * Y_STEP;
+  const { width, height } = gridDimensions(garden);
   const selectedSource = selection.type === 'hex' && ['source', 'fungus'].includes(garden.objects[selection.key]?.type) ? selection.key : null;
   const selectedKey = selection.type === 'hex' ? selection.key : null;
   const selectedObject = garden.objects[selectedKey];
@@ -132,9 +133,9 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-            <g key={key} data-garden-hex={key} className="hex-cell" onClick={(event) => onHexClick(key, event)}
+            <g key={key} data-garden-hex={key} data-occupied={Boolean(object || staged || pending)} className="hex-cell" onClick={(event) => onHexClick(key, event)}
              onPointerDown={(event) => { if (staged || isPlayerSource(object) || ['plant', 'fungus'].includes(object?.type)) onStartHexDrag(key, staged ? 'staged' : isPlayerSource(object) ? 'placed-item' : 'organism', event); }}
-            tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); if (event.key === ' ' && ['plant', 'fungus'].includes(object?.type)) { event.preventDefault(); onPickUpOrganism?.(key); } }}>
+            tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
             {highlighted.has(key) && <polygon points={polygonFor(c)} fill="none" stroke="#efde9b" strokeWidth="5" opacity=".65"/>}
             <polygon points={polygonFor(c)} fill={fill} stroke={active ? '#ffe4a8' : '#243b32'} strokeWidth={active ? '2.3' : '2.5'} className="hex-surface"/>
