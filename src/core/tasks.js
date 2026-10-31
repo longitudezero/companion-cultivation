@@ -4,10 +4,11 @@ import { ensureInventorySlots } from './inventory.js';
 
 export const FIRST_TASK = 'M-3KJ45T';
 export const CARE_TASK = 'M-8NQ2VC';
-export const TASK_IDS = [FIRST_TASK, CARE_TASK];
+export const CARROT_DELIVERY_TASK = 'S-5CRTLF';
+export const TASK_IDS = [FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK];
 export const TASKS = {
   [FIRST_TASK]: {
-    id: FIRST_TASK, title: 'My First Transformation', speaker: 'Instructor',
+    id: FIRST_TASK, category: 'main', title: 'My First Transformation', speaker: 'Instructor',
     description: ["Welcome to the guild’s gardening department. Your first assignment is to grow a Beanstalk.",
       'Then turn it into a Carrot.', 'Yes, those are the instructions. The fungus will help.'],
     instructions: ['Drag Beanstalk Seeds onto an empty hex, choose an amount, and Apply. Four Seeds guarantee germination in this tutorial.',
@@ -19,7 +20,7 @@ export const TASKS = {
       'Take these Dewmender Spores. Let’s fix that before the complaint becomes a funeral.'],
   },
   [CARE_TASK]: {
-    id: CARE_TASK, title: 'A Thirsty Carrot', speaker: 'Instructor',
+    id: CARE_TASK, category: 'main', requires: FIRST_TASK, title: 'A Thirsty Carrot', speaker: 'Instructor',
     description: ['Your first transformation was a success! Congratulations!',
       'Unfortunately, Carrot prefers damp soil, and you’ve grown it somewhere considerably less damp.',
       'That’s fine. We can fix that.', 'Also, it’s going to FREAKING DIE if you don’t.',
@@ -31,6 +32,16 @@ export const TASKS = {
     completion: ['There. Damp soil. Living Carrot. A much better arrangement.',
       'You’ve learned how to change a Plant and how to stop the result from dying. We consider both useful skills.',
       'Take these Rilllace and Droughtcap Spores. Your next assignment involves a little less instruction.'],
+  },
+  [CARROT_DELIVERY_TASK]: {
+    id: CARROT_DELIVERY_TASK, category: 'side', requires: FIRST_TASK, title: 'A Few Carrot Leaves', speaker: 'Guild Cook',
+    description: ['I need five Carrot Leaves for tonight’s soup.',
+      'The Carrots can keep their roots. I’m only asking for the leafy bits.'],
+    instructions: ['Harvest Carrots while the Inspector shows Leaves available. Harvesting removes the Plant, so check its yield first.',
+      'Bring 5 Carrot Leaves to the board. Complete task hands them over together; nothing is taken before you click.'],
+    delivery: { species: 'Carrot', quantity: 5 },
+    rewards: { gold: 10, spores: {} },
+    completion: ['Five Carrot Leaves. Just what the soup needed.', 'Here’s your Gold. Try not to spend it all on more soup.'],
   },
 };
 
@@ -53,10 +64,12 @@ export function normalizeTaskProgress(saved) {
   }
   const ids = values => [...new Set(values.filter(id => TASK_IDS.includes(id)))];
   const claimed = ids(saved.claimed);
-  if (claimed.includes(CARE_TASK) && !claimed.includes(FIRST_TASK)) throw new Error('Invalid task order.');
-  const ready = ids([...saved.ready, ...claimed]).filter(id => id === FIRST_TASK || claimed.includes(FIRST_TASK));
+  const unlocked = id => !TASKS[id].requires || claimed.includes(TASKS[id].requires);
+  if (claimed.some(id => !unlocked(id))) throw new Error('Invalid task order.');
+  // Deliveries depend on stock currently held, never a latched harvest count.
+  const ready = ids([...saved.ready, ...claimed]).filter(id => !TASKS[id].delivery && unlocked(id));
   return { version: 1, gold: saved.gold, claimed, ready,
-    pinned: ids(saved.pinned).filter(id => !claimed.includes(id) && (id === FIRST_TASK || claimed.includes(FIRST_TASK))).slice(0, 3),
+    pinned: ids(saved.pinned).filter(id => !claimed.includes(id) && unlocked(id)).slice(0, 3),
     milestones: { beanstalk: Boolean(saved.milestones?.beanstalk), prismorel: Boolean(saved.milestones?.prismorel) },
     trackerCollapsed: Boolean(saved.trackerCollapsed) };
 }
@@ -65,7 +78,9 @@ export function taskStatus(garden, id) {
   if (!TASKS[id]) return 'locked';
   if (!garden.tasks) return id === FIRST_TASK ? 'not-started' : 'locked';
   if (garden.tasks.claimed.includes(id)) return 'completed';
-  if (id === CARE_TASK && !garden.tasks.claimed.includes(FIRST_TASK)) return 'locked';
+  if (TASKS[id].requires && !garden.tasks.claimed.includes(TASKS[id].requires)) return 'locked';
+  const delivery = TASKS[id].delivery;
+  if (delivery) return (garden.inventory.leaves?.[delivery.species] || 0) >= delivery.quantity ? 'ready' : 'active';
   return garden.tasks.ready.includes(id) ? 'ready' : 'active';
 }
 
@@ -94,6 +109,12 @@ export function updateTaskProgress(garden, previous = garden) {
 }
 
 export function taskObjectives(garden, id) {
+  const delivery = TASKS[id]?.delivery;
+  if (delivery) {
+    const completed = taskStatus(garden, id) === 'completed';
+    const held = completed ? delivery.quantity : Math.min(delivery.quantity, garden.inventory.leaves?.[delivery.species] || 0);
+    return [{ text: `${completed ? 'Delivered' : 'Give'} ${delivery.quantity} ${delivery.species} Leaves · ${held} / ${delivery.quantity}`, done: held >= delivery.quantity }];
+  }
   const finished = ['ready', 'completed'].includes(taskStatus(garden, id));
   return id === FIRST_TASK ? [
     { text: 'Grow a Beanstalk', done: finished || Boolean(garden.tasks?.milestones.beanstalk) },
@@ -105,6 +126,8 @@ export function taskObjectives(garden, id) {
 export function claimTask(garden, id) {
   if (!TASKS[id] || taskStatus(garden, id) !== 'ready') throw new Error('This task is not ready to complete.');
   const reward = TASKS[id].rewards;
+  const leaves = { ...garden.inventory.leaves }, delivery = TASKS[id].delivery;
+  if (delivery) leaves[delivery.species] -= delivery.quantity;
   const spores = { ...garden.inventory.spores };
   for (const [species, quantity] of Object.entries(reward.spores)) {
     const total = (spores[species] || 0) + quantity;
@@ -115,7 +138,7 @@ export function claimTask(garden, id) {
   const pinned = garden.tasks.pinned.filter(task => task !== id);
   if (id === FIRST_TASK && garden.tasks.pinned.includes(id)) pinned.push(CARE_TASK);
   // Validate the whole bundle before exposing Gold, a claim, or an unlock.
-  const next = ensureInventorySlots({ ...garden, inventory: { ...garden.inventory, spores },
+  const next = ensureInventorySlots({ ...garden, inventory: { ...garden.inventory, leaves, spores },
     tasks: { ...garden.tasks, gold: garden.tasks.gold + reward.gold,
       claimed: [...garden.tasks.claimed, id], pinned } });
   return updateTaskProgress(next);

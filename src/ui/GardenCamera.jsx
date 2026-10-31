@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import HarvestReceipt from './HarvestReceipt.jsx';
 import { beginsPan, fitCamera, zoomAt } from './view-model.js';
 
-export default function GardenCamera({ world, children, notice, onInterruptDrag, controls, harvestReceipt }) {
+export default function GardenCamera({ world, children, notice, onInterruptDrag, controls, tracker, harvestReceipt }) {
   const viewport = useRef(null), initialized = useRef(false), cameraRef = useRef({ x: 0, y: 0, zoom: 1 });
   const [camera, setCamera] = useState(cameraRef.current);
   const size = useRef({ width: 0, height: 0 }), pan = useRef(null), touches = useRef(new Map()), pinch = useRef(null);
@@ -23,14 +23,14 @@ export default function GardenCamera({ world, children, notice, onInterruptDrag,
       }
     });
     observer.observe(el);
-    const wheel = event => { if (event.target.closest('.garden-view-controls')) return; event.preventDefault(); update(zoomAt(cameraRef.current, local(event), cameraRef.current.zoom * Math.exp(-Math.max(-120, Math.min(120, event.deltaY)) * .002))); };
+    const wheel = event => { if (event.target.closest('.garden-hud')) return; event.preventDefault(); update(zoomAt(cameraRef.current, local(event), cameraRef.current.zoom * Math.exp(-Math.max(-120, Math.min(120, event.deltaY)) * .002))); };
     el.addEventListener('wheel', wheel, { passive: false });
     return () => { observer.disconnect(); el.removeEventListener('wheel', wheel); };
   }, []);
 
   function down(event) {
     suppressedClick.current = false;
-    if (event.target.closest('.garden-view-controls')) { suppressedClick.current = false; return; }
+    if (event.target.closest('.garden-hud')) { suppressedClick.current = false; return; }
     if (event.pointerType === 'touch') {
       touches.current.set(event.pointerId, local(event));
       if (touches.current.size === 2) {
@@ -87,9 +87,9 @@ export default function GardenCamera({ world, children, notice, onInterruptDrag,
     onAuxClickCapture={event => { if (event.button === 1) { event.preventDefault(); event.stopPropagation(); } }}>
     <div className="garden-camera-world" style={{ width: world.width, height: world.height,
       transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})` }}>{children}</div>
-    <div className="garden-view-controls">{controls}<div className="camera-controls" aria-label="Garden zoom controls"><button onClick={() => stepZoom(1 / 1.2)} aria-label="Zoom out">−</button>
+    <div className="garden-hud"><div className="garden-view-controls">{controls}<div className="camera-controls" aria-label="Garden zoom controls"><button onClick={() => stepZoom(1 / 1.2)} aria-label="Zoom out">−</button>
       <span aria-label="Garden zoom">{Math.round(camera.zoom * 100)}%</span><button onClick={() => stepZoom(1.2)} aria-label="Zoom in">+</button>
-      <button onClick={() => update(fitCamera(world, size.current))}>Fit</button></div></div>
+      <button onClick={() => update(fitCamera(world, size.current))}>Fit</button></div></div>{tracker}</div>
     {harvestReceipt && <HarvestReceipt receipt={harvestReceipt}/>}
     {notice && <div className="garden-notification" role="status" key={notice.id}>{notice.text}</div>}
   </div>;
