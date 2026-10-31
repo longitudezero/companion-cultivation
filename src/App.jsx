@@ -8,7 +8,7 @@ import SimulationControls from './ui/SimulationControls.jsx';
 import Taskboard, { TaskboardIcon } from './ui/Taskboard.jsx';
 import TaskTracker from './ui/TaskTracker.jsx';
 import { harvestItems, mergeHarvestReceipt } from './ui/harvest-receipts.js';
-import { createTutorialGarden, updateTaskProgress, claimTask, toggleTaskPin, TASKS, FIRST_TASK } from './core/tasks.js';
+import { createTutorialGarden, updateTaskProgress, claimTask, toggleTaskPin, taskStatus, TASKS, TASK_IDS, FIRST_TASK } from './core/tasks.js';
 import InventoryResizer from './ui/InventoryResizer.jsx';
 import useSimulationClock from './ui/useSimulationClock.js';
 import { inventoryWidthFor } from './ui/view-model.js';
@@ -569,7 +569,7 @@ export default function App() {
           <img src={grimoireArt('book-launcher')} alt="" draggable="false"/>
         </button>
         <button className="taskboard-launcher" onClick={() => openTaskboard()} aria-label="Open Taskboard" title="Open Taskboard">
-          <TaskboardIcon/>{garden.tasks?.ready.filter(id => !garden.tasks.claimed.includes(id)).length > 0 && <span className="task-ready-badge" aria-label="Tasks ready to complete">!</span>}
+          <TaskboardIcon/>{TASK_IDS.some(id => taskStatus(garden, id) === 'ready') && <span className="task-ready-badge" aria-label="Tasks ready to complete">!</span>}
         </button>
         <div className="save-game-controls" aria-label="Save and load game">
           <span className={`autosave-indicator ${autosaveStatus === 'Autosaved' ? '' : 'is-warning'}`} role="status">{autosaveStatus === 'Autosaved' ? '✓ ' : '⚠ '}{autosaveStatus}</span>
@@ -629,7 +629,10 @@ export default function App() {
 
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
-          <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<SimulationControls speed={clock.speed} onChange={clock.setSpeed}/>} world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
+          <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<SimulationControls speed={clock.speed} onChange={clock.setSpeed}/>}
+            tracker={<TaskTracker garden={garden} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
+              tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
+            world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
             onRotateHeading={rotateSelectedHex}
             onRotationStart={kind => { if (kind === 'staged') rotationSnapshot.current = gardenRef.current.staged || {}; }}
             onRotationEnd={kind => { if (kind === 'staged') { const before = rotationSnapshot.current; rotationSnapshot.current = null;
@@ -650,8 +653,6 @@ export default function App() {
       <aside className={`garden-inventory ${inventoryOpen ? 'is-open' : ''}`} aria-label="Garden inventory">
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
         <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
-        <TaskTracker garden={garden} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
-          tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>
         <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage}
           heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || showGrimoire || showGuide || showTaskboard} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}

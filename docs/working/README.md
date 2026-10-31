@@ -5,9 +5,9 @@
 ## Current documents
 
 - [Garden interface redesign](garden-interface-design.md) — **top-down layout and interface refinements implemented**. Records fixed inspector/card sizing, temporary in-garden notices, fast non-interactive hover cards, resizable inventory, pan/zoom with middle-button dragging, manual speed controls, germination bars and the Transformation clue. Keyboard pickup controls are deferred; tilt remains a possible later upgrade.
-- [Task organization, store and progression](task-organization.md) — **first two tasks and Taskboard implemented; later progression/store pending**. Defines M/S IDs, decimal Order, record fields, onboarding, capacity rewards, family unlocks, deliveries, the shop, Taskboard/pins, and time controls.
+- [Task organization, store and progression](task-organization.md) — **first two main tasks, one side delivery and Taskboard implemented; later progression/store pending**. Defines M/S IDs, decimal Order, record fields, onboarding, capacity rewards, family unlocks, deliveries, the shop, Taskboard/pins, and time controls.
 - [Main tasks](main-tasks.md) — **four opening records; first two implemented, later tasks and balance playtesting pending**. My First Transformation, A Thirsty Carrot, the Potato/Onion discovery challenge, and Leaves, Please (8 Carrot Leaves). Task 3 has no retroactive transformation credit; Task 4 explains harvest timing and rewards Emberbolete. Dialogue stays in each task record.
-- [Side tasks](side-tasks.md) — **roster not yet authored**. Uses the same record structure without Order.
+- [Side tasks](side-tasks.md) — **one basic Carrot Leaf delivery implemented**. Five Leaves for a provisional 10 Gold; uses the same record structure without Order.
 - [Temporary player Source items](temporary-source-items.md) — **completed and player-tested**. Records the 26-item roster and interactions implemented on `main`.
 
 The approved [Guild setting and task voice](../design/setting-and-task-voice.md) lives in the active design area and guides future tutorial, main-task, and side-task writing. Individual task entries live in the main/side rosters above; their Status fields distinguish agreed content from open details.

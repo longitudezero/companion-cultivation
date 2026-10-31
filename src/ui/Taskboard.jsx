@@ -16,7 +16,7 @@ function Rewards({ rewards }) {
 }
 
 export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange, onClose, onClaim, onPin, onStartTutorial, onInspectCarrot }) {
-  const [selected, setSelected] = useState(initialTaskId || FIRST_TASK), [tab, setTab] = useState('main');
+  const [selected, setSelected] = useState(initialTaskId || FIRST_TASK), [tab, setTab] = useState(TASKS[initialTaskId]?.category === 'side' ? 'side' : 'main');
   const [receipt, setReceipt] = useState(null), [confirm, setConfirm] = useState(false), [error, setError] = useState('');
   const modal = useRef(null), close = useRef(onClose); close.current = onClose;
   useEffect(() => {
@@ -36,7 +36,9 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
     return () => { document.removeEventListener('keydown', keys); document.body.style.overflow = oldOverflow; if (previous?.isConnected) previous.focus(); };
   }, []);
   const available = TASK_IDS.filter(id => taskStatus(garden, id) !== 'locked');
-  const shown = available.filter(id => (taskStatus(garden, id) === 'completed') === (tab === 'completed'));
+  const inTab = (candidate, section) => section === 'completed' ? taskStatus(garden, candidate) === 'completed'
+    : taskStatus(garden, candidate) !== 'completed' && TASKS[candidate].category === section;
+  const shown = available.filter(candidate => inTab(candidate, tab));
   const id = shown.includes(selected) ? selected : shown[0] || FIRST_TASK, task = TASKS[id], status = taskStatus(garden, id);
   const pinned = garden.tasks?.pinned.includes(id);
   function complete() {
@@ -44,9 +46,12 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
     catch (issue) { setError(issue.message); }
   }
   function continueFromReceipt() {
-    setReceipt(null); setTab('main');
-    const next = TASK_IDS.find(candidate => ['active', 'ready'].includes(taskStatus(garden, candidate)));
-    if (next) setSelected(next); else onClose();
+    setReceipt(null);
+    if (receipt.id === FIRST_TASK) { setTab('main'); setSelected(CARE_TASK); }
+    else onClose();
+  }
+  function selectTab(section) {
+    setTab(section); setSelected(available.find(candidate => inTab(candidate, section)) || FIRST_TASK); setError('');
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
     <header className="taskboard-header"><div><span className="eyebrow">ADVENTURERS’ GUILD</span><h2>Taskboard</h2></div>
@@ -54,12 +59,13 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
       <button className="taskboard-close" aria-label="Close Taskboard" onClick={onClose}>×</button></header>
     <div className="taskboard-content" inert={confirm || Boolean(receipt)}>
       <aside className="taskboard-list"><div className="task-tabs" role="tablist" aria-label="Task sections">
-        <button role="tab" aria-selected={tab === 'main'} onClick={() => { setTab('main'); setSelected(available.find(candidate => taskStatus(garden, candidate) !== 'completed') || FIRST_TASK); }}>Main</button>
-        <button role="tab" aria-selected={tab === 'completed'} onClick={() => { setTab('completed'); setSelected(available.find(candidate => taskStatus(garden, candidate) === 'completed') || FIRST_TASK); }}>Completed</button></div>
+        <button role="tab" aria-selected={tab === 'main'} onClick={() => selectTab('main')}>Main</button>
+        <button role="tab" aria-selected={tab === 'side'} onClick={() => selectTab('side')}>Side</button>
+        <button role="tab" aria-selected={tab === 'completed'} onClick={() => selectTab('completed')}>Completed</button></div>
         <div className="task-list-entries">{shown.map(candidate => <button key={candidate} className={id === candidate ? 'selected' : ''}
           aria-pressed={id === candidate} onClick={() => { setSelected(candidate); setError(''); }}>
           <strong>{TASKS[candidate].title}</strong><span>{taskStatus(garden, candidate) === 'ready' ? '✧ Ready to complete' : taskStatus(garden, candidate) === 'completed' ? '✓ Completed' : taskStatus(garden, candidate) === 'not-started' ? 'Begin your guild assignment' : 'In progress'}{garden.tasks?.pinned.includes(candidate) ? ' · Pinned' : ''}</span></button>)}</div>
-        {!shown.length && <p className="task-list-empty">{tab === 'completed' ? 'Your completed assignments will be kept here.' : 'You’re all caught up.'}</p>}
+        {!shown.length && <p className="task-list-empty">{tab === 'completed' ? 'Your completed assignments will be kept here.' : tab === 'side' && !garden.tasks?.claimed.includes(FIRST_TASK) ? 'No side requests are available yet.' : 'You’re all caught up.'}</p>}
         <button className="new-tutorial" onClick={() => setConfirm(true)}>New tutorial garden</button>
       </aside>
       <article className="task-detail">{shown.includes(id) ? <>
@@ -72,12 +78,13 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
           {id === CARE_TASK && status !== 'completed' && Object.values(garden.objects).some(object => object.species === 'Carrot') && <button onClick={onInspectCarrot}>Inspect my Carrot</button>}
         </div>
         <footer className="task-detail-footer"><h4>{status === 'completed' ? 'Rewards received' : 'Rewards'}</h4><Rewards rewards={task.rewards}/>
+          {task.delivery && status !== 'completed' && <p className="task-delivery-note">Completing this request uses {task.delivery.quantity} {task.delivery.species} Leaves from your inventory.</p>}
           {error && <p className="task-error" role="alert">{error}</p>}
           {status === 'not-started' ? <button className="task-primary" onClick={() => setConfirm(true)}>Begin tutorial</button>
             : status === 'completed' ? <p className="task-received">✓ Rewards received</p>
               : <button className="task-primary" disabled={status !== 'ready'} onClick={complete}>Complete task</button>}
         </footer>
-      </> : <div className="task-no-selection">{tab === 'completed' ? 'Completed requests and their rewards remain available for reference.' : 'The guild has no outstanding assignments for you.'}</div>}</article>
+      </> : <div className="task-no-selection">{tab === 'completed' ? 'Completed requests and their rewards remain available for reference.' : tab === 'side' ? garden.tasks?.claimed.includes(FIRST_TASK) ? 'The guild has no outstanding side requests for you.' : 'Side requests appear after your first guild assignment.' : 'The guild has no outstanding main assignments for you.'}</div>}</article>
     </div>
     {confirm && <div className="taskboard-inner-overlay"><section className="task-confirm" role="alertdialog" aria-label="Start a new tutorial garden">
       <h3>Start a new tutorial garden?</h3><p>This replaces the current garden and task progress. Use Save Game first if you want to keep them.</p>

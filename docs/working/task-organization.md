@@ -155,7 +155,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - For Leaf deliveries, the tracker may show that the player has enough resources, but **submission remains an explicit action on the Taskboard** and consumes the required Leaves only when confirmed.
 - Keep pins, task states, discovery history and deliveries persistent across saves. The interface must protect the playable hex grid and work on smaller screens.
 
-**Presentation proposals, not yet locked:** a large Taskboard overlay or journal-style page; Main / Optional / Completed sections; approximately two or three visible pins; and a small collapsible Objectives panel above the existing right-hand Inspector in today's three-column UI. The final position, pin limit, styling, and mobile behavior require visual playtesting.
+**Current presentation:** a Taskboard overlay with Main / Side / Completed sections and up to three pins. All pinned tasks appear in a collapsible list at the garden’s upper right, over a fading half-opacity shadow. The Objectives title toggles collapse; task entries and the header icon open the board. Speed and zoom controls occupy the garden’s upper left. Narrow screens stack the two HUD groups.
 
 ## 8. Manual simulation controls — agreed
 
@@ -177,7 +177,7 @@ The following choices do **not** block beginning to write the task roster; resol
 5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
-**Implementation status:** Taskboard, quests, store, progression, task-earned garden/inventory expansion, purchasable inventory capacity, and later guild task content remain design-only. The first two tasks, Taskboard/tracker, explicit reward claims and manual time controls are implemented (31 October 2026). The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
+**Implementation status:** The first two main tasks, one basic side delivery, Taskboard/tracker, explicit reward claims and manual time controls are implemented (31 October 2026). Store, later progression, task-earned expansions and purchasable inventory capacity remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
 
 ---
 
@@ -186,11 +186,11 @@ The following choices do **not** block beginning to write the task roster; resol
 
 ## First Taskboard pass — implemented 31 October 2026
 
-Only My First Transformation and A Thirsty Carrot are playable. Objectives becoming fulfilled marks a task ready; it does not grant rewards. Complete task on the overlay awards the entire bundle once, displays a Task complete / You received receipt, and unlocks its successor. This supersedes the earlier immediate Dewmender handoff: the Spores, 10 Gold and care assignment now arrive together at the first claim. The second claim awards 15 Gold and 8 each of Rilllace and Droughtcap; no third task is exposed.
+My First Transformation and A Thirsty Carrot are playable, along with A Few Carrot Leaves (S-5CRTLF), the basic side-delivery test. Objectives becoming fulfilled marks a task ready; it does not grant rewards. Complete task on the overlay awards the entire bundle once, displays a Task complete / You received receipt, and unlocks its successor. This supersedes the earlier immediate Dewmender handoff: the Spores, 10 Gold and care assignment now arrive together at the first claim. The second claim awards 15 Gold and 8 each of Rilllace and Droughtcap; no third main task is exposed. The optional side task unlocks with the care task, accepts any 5 currently held Carrot Leaves, and consumes them only when Complete task grants its provisional 10 Gold reward. Falling below five revokes readiness.
 
 Fresh browser games start an isolated 4 × 4 tutorial with 36 Beanstalk Seeds and 8 Prismorel Spores as playtest quantities. Existing saves retain their sandbox gardens; New tutorial garden on the board uses an explicit replacement confirmation. Inventory remains at the existing 200-square prototype capacity. The full family/store/capacity progression is deferred.
 
-The icon beside the Grimoire opens the overlay. Main and Completed tabs, pin/unpin controls, a collapsible Objectives tracker above inventory, and a persistent Gold balance cover the basic flow. Up to three tasks can be pinned; the first starts pinned. If it remains pinned when claimed, its pin transfers to the care task; unpinning is respected. The board retains the selected simulation speed and exposes the same clock controls. Opening/closing it never pauses automatically.
+The icon beside the Grimoire opens the overlay. Main, Side and Completed tabs, pin/unpin controls, a collapsible Objectives tracker in the garden’s upper-right corner, and a persistent Gold balance cover the basic flow. Up to three tasks can be pinned; the first starts pinned. If it remains pinned when claimed, its pin transfers to the care task; unpinning is respected. The board retains the selected simulation speed and exposes the same clock controls. Opening/closing it never pauses automatically.
 
 An optional versioned tasks field persists readiness, milestones, claimed IDs, pins, tracker collapse and Gold in browser saves and .ccsave backups. Legacy saves without it remain compatible. Reward bundles are atomic: insufficient inventory space leaves the ready task, Gold and unlock untouched. A real transformation event is required for Task 1; Care requires actual Dewmender Wetting reaching a living Carrot on Damp, independently of its cultivation footprint.
 

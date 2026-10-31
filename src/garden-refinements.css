@@ -69,12 +69,19 @@
 .garden-camera-viewport::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(#d6e3c41c 1px, transparent 1px); background-size: 22px 22px; pointer-events: none; }
 .garden-camera-world { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
 .garden-camera-world .garden-svg { display: block; width: 100%; height: 100%; max-height: none; }
-.garden-view-controls { position: absolute; right: 10px; top: 9px; z-index: 4; display: flex; align-items: flex-start; justify-content: flex-end; flex-wrap: wrap; gap: 6px; max-width: calc(100% - 20px); }
+.garden-hud { position: absolute; left: 10px; right: 10px; top: 9px; z-index: 4; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; pointer-events: none; }
+.garden-hud > * { pointer-events: auto; }
+.garden-view-controls { display: flex; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; flex: 0 1 330px; gap: 6px; }
 .garden-view-controls .simulation-speeds { border: 1px solid #877746; padding: 2px; background: #152c21ed; border-radius: 3px; }
 .camera-controls { display: flex; align-items: center; gap: 1px; background: #152c21ed; border: 1px solid #877746; border-radius: 3px; padding: 2px; }
 .camera-controls button { min-width: 29px; padding: 5px 7px; color: #e6d2a3; background: #28452f; border: 0; border-radius: 2px; font: 12px Georgia, serif; cursor: pointer; }
 .camera-controls button:hover { background: #45613b; }
 .camera-controls span { min-width: 42px; text-align: center; color: #d5c697; font-size: 10px; }
+@media (max-width: 600px) {
+  .garden-hud { flex-wrap: wrap; gap: 7px; }
+  .garden-hud .garden-view-controls { flex-basis: 100%; }
+  .garden-hud .task-tracker { flex-basis: 250px; margin-left: auto; }
+}
 
 .garden-inventory { position: relative; overflow: visible; }
 .garden-inventory .spatial-inventory { overflow: hidden; }

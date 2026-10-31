@@ -6,10 +6,10 @@ import { build } from 'esbuild';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { createGarden, createDemoGarden, createTutorialGarden, FIRST_TASK, CARE_TASK, TASK_IDS,
+import { createGarden, createDemoGarden, createTutorialGarden, FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK, TASK_IDS,
   taskStatus, taskObjectives, updateTaskProgress, claimTask, toggleTaskPin, normalizeTaskProgress,
   stagePlanting, applyStaging, advanceGardenTime, makePlant, placeObject, makeSource, makeInfluence,
-  setBaseline, calculateEnvironment, calculateCultivation, grantSourceItem, inventoryItems,
+  setBaseline, calculateEnvironment, calculateCultivation, grantSourceItem, inventoryItems, ensureInventorySlots,
   serializeGameSave, deserializeGameSave, resizeGarden } from '../src/core/index.js';
 import { harvestItems, mergeHarvestReceipt } from '../src/ui/harvest-receipts.js';
 
@@ -27,14 +27,15 @@ function careReady() {
   return advanceGardenTime(garden, 6).garden;
 }
 
-test('the tutorial has two tasks, one initial pin, and its isolated starter bundle', () => {
+test('the tutorial has two main tasks and one side request, one initial pin, and its isolated starter bundle', () => {
   const garden = createTutorialGarden();
   assert.equal(garden.columns * garden.rows, 16);
   assert.deepEqual(garden.inventory.seeds, { Beanstalk: 36 });
   assert.deepEqual(garden.inventory.spores, { Prismorel: 8 });
   assert.deepEqual(garden.tasks.pinned, [FIRST_TASK]);
-  assert.equal(TASK_IDS.length, 2);
+  assert.equal(TASK_IDS.length, 3);
   assert.equal(taskStatus(garden, CARE_TASK), 'locked');
+  assert.equal(taskStatus(garden, CARROT_DELIVERY_TASK), 'locked');
   const restored = deserializeGameSave(serializeGameSave(garden));
   assert.deepEqual(restored.inventory, garden.inventory);
   const spent = { ...garden, inventory: { ...garden.inventory, seeds: { Beanstalk: 0 }, spores: { Prismorel: 0 } } };
@@ -128,6 +129,56 @@ test('one free square cannot partially accept the two-species second reward', ()
   assert.equal(garden.tasks.gold, 10);
 });
 
+test('the side delivery unlocks with the care task and uses current species-specific stock', () => {
+  const garden = careActive();
+  assert.equal(taskStatus(garden, CARROT_DELIVERY_TASK), 'active');
+  garden.inventory.leaves = { Carrot: 4, Beanstalk: 50 };
+  garden.inventory.legacyLeaves = 100;
+  assert.equal(taskStatus(garden, CARROT_DELIVERY_TASK), 'active');
+  garden.inventory.leaves.Carrot = 5;
+  assert.equal(taskStatus(garden, CARROT_DELIVERY_TASK), 'ready');
+  assert.match(taskObjectives(garden, CARROT_DELIVERY_TASK)[0].text, /5 \/ 5/);
+  const observed = updateTaskProgress(garden);
+  assert.equal(observed.inventory.leaves.Carrot, 5, 'readiness never delivers automatically');
+  observed.inventory.leaves.Carrot = 4;
+  observed.tasks.ready.push(CARROT_DELIVERY_TASK);
+  assert.equal(taskStatus(observed, CARROT_DELIVERY_TASK), 'active', 'spending stock revokes readiness');
+  const loaded = deserializeGameSave(serializeGameSave(observed));
+  assert.equal(taskStatus(loaded, CARROT_DELIVERY_TASK), 'active');
+  assert.equal(loaded.tasks.ready.includes(CARROT_DELIVERY_TASK), false);
+  assert.throws(() => claimTask(loaded, CARROT_DELIVERY_TASK), /not ready/);
+});
+
+test('explicit side delivery consumes exactly five Carrot Leaves once and retains other pins and stock', () => {
+  let garden = careActive();
+  garden.inventory.leaves = { Carrot: 7, Beanstalk: 3 };
+  garden = toggleTaskPin(garden, CARROT_DELIVERY_TASK);
+  const before = JSON.stringify(garden);
+  const delivered = claimTask(garden, CARROT_DELIVERY_TASK);
+  assert.deepEqual(delivered.inventory.leaves, { Carrot: 2, Beanstalk: 3 });
+  assert.equal(delivered.tasks.gold, 20);
+  assert.deepEqual(delivered.tasks.pinned, [CARE_TASK]);
+  assert.equal(taskStatus(delivered, CARE_TASK), 'active');
+  assert.equal(taskStatus(delivered, CARROT_DELIVERY_TASK), 'completed');
+  assert.equal(JSON.stringify(garden), before);
+  const loaded = deserializeGameSave(serializeGameSave(delivered));
+  assert.equal(taskStatus(loaded, CARROT_DELIVERY_TASK), 'completed');
+  assert.equal(loaded.inventory.leaves.Carrot, 2);
+  assert.throws(() => claimTask(loaded, CARROT_DELIVERY_TASK), /not ready/);
+  garden.inventory.leaves.Carrot = 5;
+  garden = ensureInventorySlots(garden);
+  assert.equal('leaf:Carrot' in claimTask(garden, CARROT_DELIVERY_TASK).inventorySlots, false);
+});
+
+test('a failed side reward leaves the delivery and claim untouched', () => {
+  const garden = careActive();
+  garden.inventory.leaves.Carrot = 5;
+  garden.tasks.gold = Number.MAX_SAFE_INTEGER;
+  const before = JSON.stringify(garden);
+  assert.throws(() => claimTask(garden, CARROT_DELIVERY_TASK), /Gold balance/);
+  assert.equal(JSON.stringify(garden), before);
+});
+
 test('task progress, pins, Gold and claims survive file round-trips and plot resizing', () => {
   let garden = toggleTaskPin(careActive(), CARE_TASK);
   garden.tasks.trackerCollapsed = true;
@@ -176,6 +227,14 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.match(nextBoard, /<h3>A Thirsty Carrot<\/h3>/);
   assert.doesNotMatch(nextBoard, /no outstanding assignments/);
   assert.match(renderToStaticMarkup(React.createElement(Tracker, { garden })), /Grow a Beanstalk/);
+  const multiple = toggleTaskPin(careActive(), CARROT_DELIVERY_TASK);
+  const tracker = renderToStaticMarkup(React.createElement(Tracker, { garden: multiple }));
+  assert.match(tracker, /<ul[^>]*>[\s\S]*A Thirsty Carrot[\s\S]*A Few Carrot Leaves[\s\S]*<\/ul>/);
+  assert.match(tracker, /Give 5 Carrot Leaves · 0 \/ 5/);
+  const sideBoard = renderToStaticMarkup(React.createElement(Board, { garden: multiple, initialTaskId: CARROT_DELIVERY_TASK, speed: 1 }));
+  assert.match(sideBoard, /aria-selected="true">Side<\/button>/);
+  assert.match(sideBoard, /<h3>A Few Carrot Leaves<\/h3>/);
+  assert.match(sideBoard, /uses 5 Carrot Leaves from your inventory/);
   const receipt = renderToStaticMarkup(React.createElement(Receipt, { receipt: { id: 1, items: [{ id: 'seed:Algea', type: 'seed', species: 'Algea', name: 'Algea Seeds', quantity: 3 }] } }));
   assert.match(receipt, /Harvested!|Algea Seeds/);
 });
