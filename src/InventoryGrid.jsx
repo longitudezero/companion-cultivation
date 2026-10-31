@@ -28,7 +28,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
         const item = occupied.get(slot);
         const picture = item?.species ? illustrationFor(item.species) : null;
         return <button key={slot} type="button" data-inventory-slot={slot}
-          className={`inventory-square ${item ? `has-item item-${item.type}` : ''} ${heldId === item?.id ? 'is-held' : ''}`}
+          className={`inventory-square ${item ? `has-item item-${item.type}` : ''} ${item && heldId === item.id ? 'is-held' : ''}`}
           title={item ? item.type === 'source-item' ? `${item.name}: ${formatRealDuration(item.remainingHours)} remaining, paused` : `${item.name}: ${item.quantity} owned` : `Empty square ${slot + 1}`}
           aria-label={item ? item.type === 'source-item' ? `${item.name}, ${formatRealDuration(item.remainingHours)} paused, square ${slot + 1}` : `${item.name}, ${item.quantity} owned, square ${slot + 1}` : `Empty square ${slot + 1}`}
           onPointerDown={(event) => item && onItemPointerDown(item, event)}
