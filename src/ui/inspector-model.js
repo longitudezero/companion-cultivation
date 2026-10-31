@@ -26,10 +26,9 @@ export function learnedRecipe(route, records) {
   const contacts = (current?.contacts || []).map(group => group.join(' or ')).join(' + ');
   const requirements = [conditionLine(current?.conditions), contacts && `Contact: ${contacts}`].filter(Boolean);
   if (recovery) requirements.push(`${route.sequence === 'heat-to-warm' ? 'Hot' : 'Freezing'} exposure: ${route.early ? 'under' : 'at least'} ${formatRealDuration(route.hours)} at 1×`);
-  else if (!route.sequence) requirements.push(`Hold ${formatRealDuration(route.hours)} at 1×`);
-  else if (route.phase === 'crossing') requirements.push(`Finish within ${formatRealDuration(route.hours)} at 1×`);
-  else if (route.phase === 'ready' || route.phase === 'armed') requirements.push('Prepared · awaiting the next change');
-  else requirements.push(`Prepare for ${formatRealDuration(route.hours)} at 1×`);
+  else if (route.sequence && route.phase === 'crossing') requirements.push(`Finish within ${formatRealDuration(route.hours)} at 1×`);
+  else if (route.sequence && (route.phase === 'ready' || route.phase === 'armed')) requirements.push('Prepared · awaiting the next change');
+  else if (route.sequence) requirements.push(`Prepare for ${formatRealDuration(route.hours)} at 1×`);
   return { requirements, details: describeFullRecipe(records[0].from, recipe) };
 }
 

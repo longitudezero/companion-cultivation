@@ -1,6 +1,7 @@
 import React, { useId, useState } from 'react';
 import { art } from '../grimoire/art.js';
 import HoverDetails from './HoverDetails.jsx';
+import TransformationAura from './TransformationAura.jsx';
 
 export default function TransformationPanel({ clue }) {
   const [page, setPage] = useState(0), [anchor, setAnchor] = useState(null), tooltip = useId();
@@ -8,8 +9,9 @@ export default function TransformationPanel({ clue }) {
   function show(element) { const r = element.getBoundingClientRect(); setAnchor({ left: r.left, top: r.top, bottom: r.bottom }); }
   return <div className="inspector-transformation inspector-section" aria-label="Ongoing Transformation">
     <h3>Transformation</h3>
-    <div className="transformation-heading"><img src={art('icons/transformation-sprout')} alt="" draggable="false"/>
-      {route ? <div><span>Becoming</span><strong>{route.into}</strong></div> : <p>Unusual botanical activity…</p>}</div>
+    <div className="transformation-heading"><div className="transformation-sprout"><TransformationAura/>
+      <img src={art('icons/transformation-sprout')} alt="" draggable="false"/></div>
+      {route ? <div className="transformation-destination"><span>Becoming</span><strong>{route.into}</strong></div> : <p>Unusual botanical activity…</p>}</div>
     {route && <div className="learned-transformation" tabIndex={0} aria-describedby={anchor ? tooltip : undefined}
       onPointerEnter={event => show(event.currentTarget)} onPointerLeave={() => setAnchor(null)}
       onFocus={event => show(event.currentTarget)} onBlur={() => setAnchor(null)}>

@@ -110,7 +110,7 @@ test('the Transformation clue removes unknown target names and timers from prese
   const learned = transformationClue(garden, '0,0', environment, cultivation);
   assert.equal(learned.learned[0].into, 'Carrot');
   assert.equal(learned.learned[0].progress, 50);
-  assert.deepEqual(learned.learned[0].requirements, ['Dry · Temperate · Dim', 'Contact: Prismorel', 'Hold 50s at 1×']);
+  assert.deepEqual(learned.learned[0].requirements, ['Dry · Temperate · Dim', 'Contact: Prismorel']);
   assert.doesNotMatch(JSON.stringify(learned), /Rice|Dewmender/);
 });
 

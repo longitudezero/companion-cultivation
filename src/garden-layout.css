@@ -55,7 +55,7 @@
 .garden-area .notice-bar { margin-top: 5px; border: 0; border-radius: 0; background: transparent; padding: 3px 10px; color: #d8d1b7; font-size: 11px; min-height: 22px; }
 .garden-area .notice-bar span { font-size: 12px; }
 
-/* One inventory identity per saved slot, with art and explicit item types. */
+/* One inventory identity per saved slot, with art and type accents. */
 .garden-inventory { min-height: 0; min-width: 0; border: 1px solid #a58b51; border-radius: 3px; background: #14281e; overflow: hidden; }
 .garden-inventory .spatial-inventory { margin: 0; height: 100%; min-height: 0; display: flex; flex-direction: column; padding: 12px; background: transparent; border: 0; border-radius: 0; }
 .inventory-heading h3 { font: 22px Georgia, serif; color: #f3dfae; margin: 0; }
@@ -73,7 +73,6 @@
 .inventory-square-grid .inventory-square.has-item { background: radial-gradient(ellipse at 50% 40%, #3d5631, #1e3325); border-color: #ad945c; }
 .inventory-square-grid .inventory-square.item-spore { background: radial-gradient(ellipse at 50% 40%, #51414b, #243127); }
 .inventory-square-grid .inventory-square.is-held { outline: 2px solid #f7d788; box-shadow: 0 0 12px #d6b76677; }
-.inventory-type-badge { position: absolute; top: 3px; left: 4px; right: 3px; z-index: 1; color: #dbca9c; text-align: left; font-size: 8px; background: #17281bd9; padding: 1px 2px; border-radius: 2px; }
 .inventory-item-art { width: 64px; height: 66px; max-width: 90%; object-fit: contain; pointer-events: none; }
 .inventory-item-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 100%; font: 10px/1.15 Georgia, serif; color: #f2e4c1; padding: 0 3px; text-align: center; pointer-events: none; }
 .inventory-square-grid .inventory-item-glyph { font-size: 33px; line-height: 58px; }

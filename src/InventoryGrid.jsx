@@ -5,7 +5,6 @@ import { itemCategory } from './ui/garden-model.js';
 import InventoryTooltip from './ui/InventoryTooltip.jsx';
 
 const ICON = { seed: '◌', spore: '◈', leaf: '❧', trophy: '◆', legacy: '□', 'source-item': '✧' };
-const TYPE = { seed: 'Seeds', spore: 'Spores', leaf: 'Leaves', trophy: 'Trophy', legacy: 'Legacy', 'source-item': 'Item' };
 const FILTERS = { all: 'All', seed: 'Seeds', spore: 'Spores', leaf: 'Leaves', item: 'Items' };
 
 export default function InventoryGrid({ items, activePage, onPageChange, heldId, onItemPointerDown,
@@ -30,7 +29,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
     : items.filter(item => itemCategory(item) === filter).map(item => item.slot);
   return <section className="spatial-inventory" data-inventory-dropzone="true" aria-label="Inventory: 200 squares">
     <div className="inventory-heading"><div><div className="mini-heading">YOUR COLLECTION</div><h3>Inventory</h3></div><span>{items.length} / 200 slots</span></div>
-    <div className="inventory-filters" role="group" aria-label="Filter inventory">{Object.entries(FILTERS).map(([key, label]) => <button key={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}</div>
+    <div className="inventory-filters" role="group" aria-label="Filter inventory">{Object.entries(FILTERS).map(([key, label]) => <button key={key} data-inventory-type={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}</div>
     {filter === 'all' && <div className="inventory-pages" aria-label="Inventory pages">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
       <button key={page} className={activePage === page ? 'is-open' : ''}
         aria-expanded={activePage === page} onPointerEnter={() => onPageHover(page)}
@@ -51,7 +50,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
             if (event.detail === 0 && item) onChooseItem(item);
             else if (!item) onChooseSlot(slot);
           }}>
-          {item && <><span className="inventory-type-badge">{ICON[item.type]} {TYPE[item.type]}</span>
+          {item && <>
             {picture ? <img className="inventory-item-art" src={picture.src} alt="" loading="lazy" draggable="false"/> : <span className="inventory-item-glyph">{ICON[item.type]}</span>}
             <span className="inventory-item-name">{item.species || item.name}</span><span className="inventory-item-quantity">{item.type === 'source-item' ? formatRealDuration(item.remainingHours) : item.quantity}</span></>}
         </button>;

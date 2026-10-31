@@ -20,6 +20,8 @@ Pause/0.5×/1×/2× drive one shared time accumulator for every elapsed-time sys
 
 The inspector order is portrait/name, Environment, Growth & Harvest, Influences & Observations, then a conditional Transformation segment. The last segment uses the supplied sprout and returns its space when no Transformation is active. Known routes show concise requirements without revealing unwitnessed Fungus alternatives; unknown routes retain only the atmospheric cue. Influence cards replace vertical scrolling with paged rows and hover/focus details. Speed controls now sit beside garden zoom/Fit; the generic inspector and idle-inventory captions are removed.
 
+Segment headings are centered. The Transformation sprout sits above the centered destination line and has a warm decorative arc effect with a static reduced-motion alternative. Compact ordinary-route requirements omit the Hold line while detailed known recipes retain timing. Inventory types use yellow Seed, purple Spore, green Leaf and sky-blue Item accents; visible type badges are removed, while names and hover details remain. Quantities/timers sit at the upper-right frame corner inside the existing 80 px squares. Optional raster inventory frames remain deferred.
+
 **Validation:** the full check passes 269 Node tests, production frontend/CommonJS builds and the CommonJS smoke test. Added coverage exercises shared clock rates, pause transitions, organism/Source/germination timing, camera geometry and input arbitration, fixed-width bounds, hover-card discovery limits, exact-page book opening and unknown Transformation concealment. Desktop browser review accompanies deployment.
 
 ## Illustrated Grimoire, family atlases and rune entries — IMPLEMENTED (30 October 2026)

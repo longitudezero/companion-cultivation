@@ -84,7 +84,8 @@ test('ordinary play has inventory, a bottom inspector and separate staging actio
   assert.match(markup, />Cancel<\/button>/);
   assert.doesNotMatch(markup, /class="sidebar sidebar-left|class="harvest-button"|>Sow Seeds<|>Sow Spores</);
   assert.match(markup, /aria-label="Filter inventory"/);
-  assert.match(markup, /inventory-type-badge/);
+  assert.doesNotMatch(markup, /inventory-type-badge/);
+  assert.match(markup, /Beanstalk Seeds, 16 owned, square 1/);
   assert.doesNotMatch(markup, /class="inventory-square\s+is-held"/, 'empty slots never inherit an undefined held item');
   assert.match(markup, /Beanstalk illustration|illustrations\/plants\/beanstalk.webp/);
 });
