@@ -31,7 +31,6 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
   return <section className="spatial-inventory" data-inventory-dropzone="true" aria-label="Inventory: 200 squares">
     <div className="inventory-heading"><div><div className="mini-heading">YOUR COLLECTION</div><h3>Inventory</h3></div><span>{items.length} / 200 slots</span></div>
     <div className="inventory-filters" role="group" aria-label="Filter inventory">{Object.entries(FILTERS).map(([key, label]) => <button key={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}</div>
-    <p className="inventory-instruction">{held ? 'Choose a hex or another inventory square. Escape releases selection.' : 'Seeds, Spores & field supplies'}</p>
     {filter === 'all' && <div className="inventory-pages" aria-label="Inventory pages">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
       <button key={page} className={activePage === page ? 'is-open' : ''}
         aria-expanded={activePage === page} onPointerEnter={() => onPageHover(page)}

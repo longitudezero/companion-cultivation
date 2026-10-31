@@ -28,7 +28,7 @@ While paused, players can read menus, plan, and rearrange things. Direct player 
 
 **Opening the Taskboard does not pause the game or change the selected speed.** The compact pinned-objectives tracker also never pauses gameplay. Players may choose Pause themselves before reading or planning.
 
-The header controls one shared browser-time accumulator feeding the whole-hour simulation. Switching speed first settles the preceding interval at its old multiplier; Pause retains the partial hour. Replacing/importing a garden resets the partial tick. The selected speed persists as a browser UI preference outside the garden save. The selected Source timer reflects current speed or Paused; Grimoire reference durations retain the 1× baseline. A suspended-tab callback processes at most five real seconds, preserving the prototype’s lack of offline catch-up. See the [progression framework](../../working/task-organization.md) for Taskboard behavior.
+The garden HUD controls one shared browser-time accumulator feeding the whole-hour simulation. Switching speed first settles the preceding interval at its old multiplier; Pause retains the partial hour. Replacing/importing a garden resets the partial tick. The selected speed persists as a browser UI preference outside the garden save. The selected Source timer reflects current speed or Paused; Grimoire reference durations retain the 1× baseline. A suspended-tab callback processes at most five real seconds, preserving the prototype’s lack of offline catch-up. See the [progression framework](../../working/task-organization.md) for Taskboard behavior.
 
 ## 64. Whole-garden event and update order — APPROVED
 
