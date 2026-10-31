@@ -1,4 +1,5 @@
 import { normalizeTaskProgress } from './tasks.js';
+import { normalizeShop } from './shop.js';
 import { CONDITIONS, PROPERTIES, createGarden, distanceBetween, isGarden } from './grid.js';
 import { INFLUENCE_TYPES, KINDS, MODES, makeInfluence, makeSpreadInfluence } from './influences.js';
 import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
@@ -242,5 +243,6 @@ export function migrateGarden(saved) {
   }
   garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects, plantName);
   if (saved.tasks != null) garden.tasks = normalizeTaskProgress(saved.tasks);
+  if (saved.shop != null || saved.tasks != null) garden.shop = normalizeShop(saved.shop, saved);
   return ensureInventorySlots(garden);
 }

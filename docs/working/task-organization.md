@@ -117,13 +117,13 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 - **Gold coins** are the currency used for store purchases.
 - **Only Leaves can be sold.** Players cannot sell Seeds or Spores (nor other possessions, absent a future explicit design change). Leaves are earned through cultivation and harvesting and retain their existing species-specific identities.
-- **Beanstalk Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Beanstalks without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted: it still costs cultivation time and available garden hexes.
+- **Beanstalk Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Beanstalks without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted as a design goal: it still costs cultivation time and available garden hexes. The first shop pass found that current Dry/Dark Beanstalk biology prevents this zero-Gold/no-Fungi recovery route; a separate balance decision is still needed, as recorded in [shop rules](shop-first-pass.md).
 - The store sells **hex-space expansions, inventory expansions, Blockers, Seeds, Spores, and temporary Source items**. Inventory expansion packs add **10 slots** after task rewards have brought capacity to 50; exact prices and availability milestones remain to be designed.
 - Product availability grows with progression. The previously agreed **26 temporary Source items in seven groups** should be unlocked progressively rather than immediately.
 - **Temporary Source items should be relatively expensive** so they function as emergency tools/conveniences rather than replacing the central challenge of combining Fungi. Exact prices and item unlock triggers are not yet decided.
 - Seed/Spore access through the store must support recovery after early mistakes or exhausted supplies; players should not become permanently unable to make progress.
-- Exact per-Leaf sale values, purchase prices, and stock limits (if any) remain open. The main-task records now set initial Gold rewards for Tasks 1–4; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
-- Until the store is implemented, the existing **developer-only Source-item dispenser** remains a testing mechanism, not normal player acquisition.
+- **First playable shop prices (31 October):** Beanstalk Seeds are free, unlocked Spores cost 2 Gold each, named Leaves sell for 1 Gold each, and stock is unlimited. Other products and final economy balance remain open. The main-task records now set initial Gold rewards for Tasks 1–4; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
+- Source-item purchases remain deferred; the existing **developer-only Source-item dispenser** remains their testing acquisition mechanism.
 
 ## Garden and inventory capacity — agreed 29 October 2026
 
@@ -177,7 +177,7 @@ The following choices do **not** block beginning to write the task roster; resol
 5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
-**Implementation status:** The first two main tasks, one basic side delivery, Taskboard/tracker, explicit reward claims and manual time controls are implemented (31 October 2026). Store, later progression, task-earned expansions and purchasable inventory capacity remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
+**Implementation status:** The first two main tasks, one basic side delivery, Taskboard/tracker, explicit reward claims and manual time controls are implemented (31 October 2026). Basic Buy/Sell is implemented with a shared Gold wallet, free Beanstalk Seeds, unlocked Spores and Leaf sales. Later progression, expansion/Blocker/Source-item products and purchasable inventory capacity remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
 
 ---
 

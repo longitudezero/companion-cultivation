@@ -7,6 +7,8 @@ import GardenCamera from './ui/GardenCamera.jsx';
 import SimulationControls from './ui/SimulationControls.jsx';
 import Taskboard, { TaskboardIcon } from './ui/Taskboard.jsx';
 import TaskTracker from './ui/TaskTracker.jsx';
+import Shop, { ShopIcon } from './ui/Shop.jsx';
+import { tradeShop } from './core/shop.js';
 import { harvestItems, mergeHarvestReceipt } from './ui/harvest-receipts.js';
 import { createTutorialGarden, updateTaskProgress, claimTask, toggleTaskPin, taskStatus, TASKS, TASK_IDS, FIRST_TASK } from './core/tasks.js';
 import InventoryResizer from './ui/InventoryResizer.jsx';
@@ -102,6 +104,7 @@ export default function App() {
   const [showGrimoire, setShowGrimoire] = useState(false);
   const [bookEntry, setBookEntry] = useState(null);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
+  const [showShop, setShowShop] = useState(false);
   const [harvestReceipt, setHarvestReceipt] = useState(null), [cameraRevision, setCameraRevision] = useState(0);
   const harvestSequence = useRef(0);
   const fileInput = useRef(null);
@@ -177,7 +180,16 @@ export default function App() {
 
   function openTaskboard(id = FIRST_TASK) {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setTaskEntry(id); setShowTaskboard(true);
+    setShowGrimoire(false); setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
+  }
+  function openShop() {
+    dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
+    setShowGrimoire(false); setShowTaskboard(false); setShowGuide(false); setShowShop(true);
+  }
+  function tradeInShop(mode, id, quantity) {
+    const result = tradeShop(gardenRef.current, mode, id, quantity);
+    replaceGarden(result.garden);
+    return result.receipt;
   }
   function startTutorial() {
     replaceGarden(createTutorialGarden()); clock.reset(); setCameraRevision(value => value + 1);
@@ -195,6 +207,7 @@ export default function App() {
   }
 
   function openSpeciesEntry(object) {
+    setShowShop(false);
     setBookEntry(`${object.type === 'fungus' ? 'fungus' : 'plant'}:${object.species}`);
     setShowGrimoire(true);
   }
@@ -242,13 +255,13 @@ export default function App() {
 
   useEffect(() => {
     const escape = event => {
-      if (event.key === 'Escape' && !showGrimoire && !showGuide && !showTaskboard) {
+      if (event.key === 'Escape' && !showGrimoire && !showGuide && !showTaskboard && !showShop) {
         setHeldItem(null); setQuantityPrompt(null); setInventoryOpen(false);
       }
     };
     window.addEventListener('keydown', escape);
     return () => window.removeEventListener('keydown', escape);
-  }, [showGrimoire, showGuide, showTaskboard]);
+  }, [showGrimoire, showGuide, showTaskboard, showShop]);
 
   function changeGarden(fn) {
     try {
@@ -565,12 +578,13 @@ export default function App() {
         {showDeveloperTools && <div><button onClick={() => advanceTime(1)} title="Skip one game hour">+5s</button><button onClick={() => advanceTime(24)} title="Skip one game day">+2m</button></div>}
       </div>
       <div className="top-actions"><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/200</button><span className="version-pill"><span className="live-dot"/> GRIMOIRE · PROTOTYPE 16</span>
-        <button className="grimoire-launcher" onClick={() => { setBookEntry(null); setShowTaskboard(false); setShowGrimoire(true); }} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire">
+        <button className="grimoire-launcher" onClick={() => { setBookEntry(null); setShowTaskboard(false); setShowShop(false); setShowGrimoire(true); }} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire">
           <img src={grimoireArt('book-launcher')} alt="" draggable="false"/>
         </button>
         <button className="taskboard-launcher" onClick={() => openTaskboard()} aria-label="Open Taskboard" title="Open Taskboard">
           <TaskboardIcon/>{TASK_IDS.some(id => taskStatus(garden, id) === 'ready') && <span className="task-ready-badge" aria-label="Tasks ready to complete">!</span>}
         </button>
+        <button className="shop-launcher" onClick={openShop} aria-label="Open Shop" title="Open Shop"><ShopIcon/></button>
         <div className="save-game-controls" aria-label="Save and load game">
           <span className={`autosave-indicator ${autosaveStatus === 'Autosaved' ? '' : 'is-warning'}`} role="status">{autosaveStatus === 'Autosaved' ? '✓ ' : '⚠ '}{autosaveStatus}</span>
           <button className="save-game-button" onClick={saveGameFile} title="Download a complete copy of your current garden">↓ Save Game</button>
@@ -654,7 +668,7 @@ export default function App() {
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
         <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
         <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage}
-          heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || showGrimoire || showGuide || showTaskboard} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
+          heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || showGrimoire || showGuide || showTaskboard || showShop} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
           onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
           onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
@@ -742,6 +756,7 @@ export default function App() {
     </div>}
     {dragGhost && <div className="garden-drag-ghost" style={{ left: dragGhost.x, top: dragGhost.y }}>✤ {dragGhost.title}</div>}
 
+    {showShop && <Shop garden={garden} speed={clock.speed} onSpeedChange={clock.setSpeed} onClose={() => setShowShop(false)} onTrade={tradeInShop}/>}
     {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry} speed={clock.speed} onSpeedChange={clock.setSpeed}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onStartTutorial={startTutorial} onInspectCarrot={inspectCarrot}/>}

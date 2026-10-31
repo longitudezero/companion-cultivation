@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { TASKS, TASK_IDS, FIRST_TASK, CARE_TASK, taskStatus, taskObjectives } from '../core/tasks.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import SimulationControls from './SimulationControls.jsx';
+import { goldBalance } from '../core/wallet.js';
 
 export function TaskboardIcon() {
   return <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 8h32v35H8z" fill="#253d2c" stroke="#bd9b58" strokeWidth="2"/>
@@ -55,7 +56,7 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
     <header className="taskboard-header"><div><span className="eyebrow">ADVENTURERS’ GUILD</span><h2>Taskboard</h2></div>
-      <span className="task-wallet">◉ {garden.tasks?.gold || 0} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
+      <span className="task-wallet">◉ {goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
       <button className="taskboard-close" aria-label="Close Taskboard" onClick={onClose}>×</button></header>
     <div className="taskboard-content" inert={confirm || Boolean(receipt)}>
       <aside className="taskboard-list"><div className="task-tabs" role="tablist" aria-label="Task sections">
