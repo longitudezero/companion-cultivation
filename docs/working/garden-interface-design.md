@@ -145,7 +145,7 @@ New terrain artwork, tilt, task/Gold/store runtime, capacity progression and man
 ### Compact fixed sections and more information space
 
 - Give the bottom portrait and Environment sections fixed, compact widths. Additional screen width primarily benefits **Influences & Observations**, with a comfortable minimum for Growth & Harvest.
-- Implemented dimensions are a **160 px portrait column**, **128 × 128 px illustration**, **200 px Environment column**, and **80 × 80 px inventory squares**. These are presentation dimensions, not new game mechanics. Sections can reflow at narrow widths while the illustration/card dimensions remain fixed.
+- Implemented dimensions are a **160 px portrait column**, **128 × 128 px illustration**, **200 px Environment column**, **225 px Growth & Harvest column**, and **80 × 80 px inventory squares**. These are presentation dimensions, not new game mechanics. Sections can reflow at narrow widths while the illustration/card dimensions remain fixed.
 - The portrait keeps the name below the image. Activating it opens the selected Plant or Fungus's own Grimoire entry directly; it no longer initiates harvesting or pickup.
 - Remove the redundant Open Grimoire button from Influences & Observations. The main book launcher remains.
 - Do not add keyboard pickup buttons or develop that pickup interaction in this pass. A dedicated keyboard/input design pass is deferred. Dragging organisms from the garden to the inventory retains its harvest meaning.
@@ -163,7 +163,7 @@ New terrain artwork, tilt, task/Gold/store runtime, capacity progression and man
 - Show **Germinating… centered inside the progress bar**, staying centered in the whole track as the fill advances. Do not place that label in a separate caption.
 - Remove Result in approximately… and The outcome is still concealed from ordinary inspection.
 - The bar represents the public waiting interval. Pending successes and failures must have the same appearance and progress behavior until the reveal; no outcome-dependent animation or art.
-- Add working **Pause / 0.5× / 1× / 2×** controls to the header, with a clear active state. This is now in scope for the refinement, using the already approved [whole-simulation speed rules](../design/systems/simulation-and-time.md). All elapsed-time systems, including germination, use the same chosen multiplier.
+- Add working **Pause / 0.5× / 1× / 2×** controls inside the garden beside zoom and Fit, with a clear active state. This is now in scope for the refinement, using the already approved [whole-simulation speed rules](../design/systems/simulation-and-time.md). All elapsed-time systems, including germination, use the same chosen multiplier.
 
 ### Inventory hover information — supersedes the selection-overlay proposal
 
@@ -198,3 +198,14 @@ Restore an atmospheric **Unusual botanical activity…** cue when a real Transfo
 - Middle-drag pans across occupied and empty hexes without harvesting, planting, moving or selecting objects accidentally. Window/panel resizing preserves the chosen zoom and hex size.
 - Pause and each multiplier affect all simulation clocks consistently; direct garden planning remains possible while paused.
 - A genuine unknown Transformation can show its clue without revealing its target or an unlearned recipe.
+
+
+## Inspector segments and garden HUD — 31 October 2026
+
+The latest agreed order is **illustration/name → Environment → Growth & Harvest → Influences & Observations → Transformation**. Portrait remains 160 px with 128 × 128 px art; Environment is 200 px and Growth & Harvest is 225 px. Influences & Observations receives the remaining width. The 260 px Transformation segment exists only while a genuine Transformation is underway; its absent width returns to Influences & Observations. Sections wrap in the same reading order on narrower windows.
+
+Replace the vertical Influence list and expandable scrolling breakdown with compact effect cards, using two rows and one to three columns according to available width. Small arrows page through additional effects. Cards show an effect, its short result and source; non-interactive hover/focus details supply full contributions or effect explanations. Fungal base effects remain public. Plant response cards require both an observed response and current matching contact. Unknown recipes remain concealed.
+
+An unwitnessed route shows only **Unusual botanical activity…** and the supplied sprout ornament. A previously witnessed route may show its destination, progress and concise requirements, with fuller phase instructions on hover/focus. Learning one route does not reveal its siblings or unwitnessed compatible Fungus alternatives. Multi-stage routes retain their preparation and completion timings. The supplied sprout is rendered at 56 × 56 px from a transparent WebP export.
+
+Pause/0.5×/1×/2× sit beside zoom and Fit in one viewport-anchored garden HUD. These controls bypass garden drag/zoom input. The elapsed clock and developer skips remain in the header. Remove the inspector's generic discovery sentence and the inventory's Seeds, Spores & field supplies caption; selected-item guidance remains at the bottom of inventory.

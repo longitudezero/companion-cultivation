@@ -4,9 +4,9 @@ import { PLANTS, FUNGI, PROPERTIES, CONDITIONS, SOURCE_ITEMS, isPlayerSource,
 import { illustrationFor } from '../grimoire/illustrations.js';
 import { harvestLandmarks, transformationClue } from './garden-model.js';
 import { germinationProgress } from './view-model.js';
-import { observedEffects } from '../grimoire/book.js';
-import { observedEffectText } from '../grimoire/effects.js';
-import { previewFungusEffects } from '../core/grimoire-preview.js';
+import { inspectorInfluences } from './inspector-model.js';
+import InfluenceCards from './InfluenceCards.jsx';
+import TransformationPanel from './TransformationPanel.jsx';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const NAMES = { leaf: 'Leaf peak', seed: 'Seed peak', trophy: 'Bamboo Steel ready', spore: 'Spore peak' };
@@ -55,10 +55,9 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
   const directional = source ? headingProfile.propagation === 'spread-budget'
     : headingProfile?.environment?.propagation === 'spread-budget' || headingProfile?.cultivation?.propagation === 'spread-budget';
   const clue = organism && object.type === 'plant' ? transformationClue(garden, key, simulation, cultivation) : { active: false, learned: [] };
-  const effects = object?.type === 'plant' ? observedEffects(garden.grimoire, object.species).filter(fact =>
-    contacts.some(contact => contact.species === fact.fungus && contact.kind === fact.kind && Math.sign(contact.amount) === fact.direction)) : [];
+  const cards = inspectorInfluences(garden, key, simulation, cultivation);
 
-  return <section className="garden-inspector" aria-label="Garden inspector">
+  return <section className={`garden-inspector${clue.active ? ' has-transformation' : ''}`} aria-label="Garden inspector">
     <div className="inspector-portrait">
       {organism ? <button className="portrait-entry" onClick={() => onOpenEntry(object)} title={`Read ${title} in the Grimoire`}
         aria-label={`Open ${title} Grimoire entry`}>{art ? <img src={art.src} alt={`${title} illustration`} draggable="false"/> : <span>❧</span>}</button>
@@ -66,6 +65,15 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
       <h2>{title}</h2>
       <p>{organism ? object.type === 'plant' ? PLANTS[object.species].family : 'Fungi' : selection.type === 'edge' ? `${selection.a} ↔ ${selection.b}` : object || staged || pending ? `Hex ${key}` : 'Empty soil'}
         {organism && <span className="organism-status">{stageOf(object)}</span>}</p>
+    </div>
+
+    <div className="inspector-environment inspector-section"><h3>Environment</h3>
+      {hex && conditions ? PROPERTIES.map(property => <div className={`compact-condition condition-${property.toLowerCase()}`} key={property}>
+        <div className="inspector-value"><span>{property === 'Moisture' ? '◈' : property === 'Temperature' ? '♨' : '☼'} {property}</span><strong>{conditions[property]}</strong></div>
+        <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map((name, i) =>
+          <span key={name} title={name} className={i <= CONDITIONS[property].indexOf(conditions[property]) ? 'filled' : ''}/>)}</div>
+      </div>) : <p>Select a hex to inspect its resolved Conditions.</p>}
+      {hex && <span className={`ground-status ${mycelialHere ? 'colonized' : ''}`}>{mycelialHere ? '✥ Mycelial ground' : 'Uncolonized ground'}</span>}
     </div>
 
     <div className="inspector-growth inspector-section">
@@ -91,28 +99,10 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
             : selection.type === 'edge' ? 'A shared boundary between two neighbouring hexes.' : 'Select an inventory item, then an empty hex to place it.'}</p>}
     </div>
 
-    <div className="inspector-environment inspector-section"><h3>Environment</h3>
-      {hex && conditions ? PROPERTIES.map(property => <div className={`compact-condition condition-${property.toLowerCase()}`} key={property}>
-        <div className="inspector-value"><span>{property === 'Moisture' ? '◈' : property === 'Temperature' ? '♨' : '☼'} {property}</span><strong>{conditions[property]}</strong></div>
-        <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map((name, i) =>
-          <span key={name} title={name} className={i <= CONDITIONS[property].indexOf(conditions[property]) ? 'filled' : ''}/>)}</div>
-      </div>) : <p>Select a hex to inspect its resolved Conditions.</p>}
-      {hex && <span className={`ground-status ${mycelialHere ? 'colonized' : ''}`}>{mycelialHere ? '✥ Mycelial ground' : 'Uncolonized ground'}</span>}
-    </div>
-
     <div className="inspector-influences inspector-section"><h3>Influences & Observations</h3>
-      {effects.length > 0 && <ul className="active-observations">{effects.map((effect, i) => <li key={i}><strong>{effect.fungus}</strong> · {observedEffectText(effect)}</li>)}</ul>}
-      {object?.type === 'fungus' && <ul className="active-observations">{previewFungusEffects(object.species).map((text, i) => <li key={i}>{text}</li>)}</ul>}
-      {clue.active && <div className="transformation-clue"><p>✧ Unusual botanical activity…</p>
-        {clue.learned.map(route => <div key={route.into}><span>{route.into}</span><div className="known-transformation-progress" role="progressbar" aria-label={`${route.into} Transformation`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={route.progress}><i style={{ width: `${route.progress}%` }}/></div></div>)}</div>}
-      <details className="influence-breakdown"><summary>Influence Breakdown</summary>
-        {hex && PROPERTIES.map(property => <div className="influence-property" key={property}><strong>{property}</strong>
-          <p>Baseline {hex.baselines[property]} → {conditions[property]}</p>
-          {(simulation.modifiers[key]?.[property] || []).map((effect, i) => <p key={i}>{effect.influence} ({effect.modifier > 0 ? '+' : ''}{effect.modifier}) · hex {effect.source}</p>)}
-          {(simulation.adjacency[key] || []).filter(e => e.property === property).map((effect, i) => <p key={`a${i}`}>Adjacency ({effect.modifier > 0 ? '+' : ''}{effect.modifier}) · {effect.before} → {effect.after}</p>)}
-        </div>)}
-      </details>
-      <p className="inspector-caption">Growing preferences and Transformation recipes are recorded as you discover them.</p>
+      <InfluenceCards key={`${selection.type}:${key}:${object?.species || object?.type || ''}`} cards={cards}/>
     </div>
+    {clue.active && <TransformationPanel key={`${key}:${object.species}`} clue={clue}/>}
+
   </section>;
 }

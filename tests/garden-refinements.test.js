@@ -106,8 +106,12 @@ test('the Transformation clue removes unknown target names and timers from prese
   const environment = calculateEnvironment(garden), cultivation = calculateCultivation(garden);
   const unknown = transformationClue(garden, '0,0', environment, cultivation);
   assert.deepEqual(unknown, { active: true, learned: [] });
-  garden = { ...garden, grimoire: { ...garden.grimoire, transformations: [{ from: 'Beanstalk', into: 'Carrot' }] } };
-  assert.deepEqual(transformationClue(garden, '0,0', environment, cultivation), { active: true, learned: [{ into: 'Carrot', progress: 50 }] });
+  garden = { ...garden, grimoire: { ...garden.grimoire, transformations: [{ from: 'Beanstalk', into: 'Carrot', fungi: ['Prismorel'] }] } };
+  const learned = transformationClue(garden, '0,0', environment, cultivation);
+  assert.equal(learned.learned[0].into, 'Carrot');
+  assert.equal(learned.learned[0].progress, 50);
+  assert.deepEqual(learned.learned[0].requirements, ['Dry · Temperate · Dim', 'Contact: Prismorel', 'Hold 50s at 1×']);
+  assert.doesNotMatch(JSON.stringify(learned), /Rice|Dewmender/);
 });
 
 const root = fileURLToPath(new URL('../', import.meta.url));

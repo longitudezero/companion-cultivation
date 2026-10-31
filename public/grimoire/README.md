@@ -11,3 +11,5 @@ The botanical borders, gold corners, leather tabs, icons, atlas plaque, enchante
 The runtime map is generated in `src/grimoire/illustrations.js`. Only identified entries render their species art; unknown Plants keep the enchanted-seed placeholder. Developer preview can show the complete art without writing discoveries. Authored species descriptions remain separate future content.
 
 The source names `Mandabra`, `Mandrazam` and `Prickly Pearil` map to the current `Mandrabra`, `Mandrakazam` and `Prickly Pearl` entries. Other descriptive Woodlands/Fungi filenames are mapped explicitly by the importer. `Bamboozled.png` is an opaque bamboo-sword scene and is preserved as supplied. The extra Cocoa image is not imported because Cocoa is outside the current catalogue. The source archive is not modified or bundled with the game.
+
+- `icons/transformation-sprout.webp`: user-supplied Hand-Painted Fantasy Sprout Icon (31 October 2026), exported with transparency and resized to 188 × 192 px for the 56 px inspector ornament. The original uploaded illustration is unchanged.

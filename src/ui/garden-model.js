@@ -1,3 +1,4 @@
+import { learnedRecipe } from './inspector-model.js';
 import { PLANTS, productionSchedule, stagePlanting, transformationStatus } from '../core/index.js';
 
 const clamp = value => Math.max(0, Math.min(200, value));
@@ -39,5 +40,6 @@ export function transformationClue(garden, key, environment, cultivation) {
     route.elapsed > 0 || ['ready', 'armed', 'crossing'].includes(route.phase));
   return { active: active.length > 0, learned: active.filter(route => garden.grimoire?.transformations
     ?.some(record => record.from === plant.species && record.into === route.into))
-    .map(route => ({ into: route.into, progress: Math.min(100, route.elapsed / route.hours * 100) })) };
+    .map(route => ({ into: route.into, progress: Math.min(100, route.elapsed / route.hours * 100),
+      ...learnedRecipe(route, garden.grimoire.transformations.filter(record => record.from === plant.species && record.into === route.into)) })) };
 }
