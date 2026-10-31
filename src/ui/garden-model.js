@@ -1,4 +1,4 @@
-import { PLANTS, productionSchedule, stagePlanting } from '../core/index.js';
+import { PLANTS, productionSchedule, stagePlanting, transformationStatus } from '../core/index.js';
 
 const clamp = value => Math.max(0, Math.min(200, value));
 
@@ -30,3 +30,14 @@ export function harvestLandmarks(species, contacts = [], conditions = null) {
 }
 
 export const itemCategory = item => ['seed', 'spore', 'leaf'].includes(item.type) ? item.type : 'item';
+
+// Return only public presentation data. Unknown targets/timers never enter DOM props.
+export function transformationClue(garden, key, environment, cultivation) {
+  const plant = garden.objects[key];
+  if (plant?.type !== 'plant') return { active: false, learned: [] };
+  const active = transformationStatus(garden, key, environment, cultivation).filter(route =>
+    route.elapsed > 0 || ['ready', 'armed', 'crossing'].includes(route.phase));
+  return { active: active.length > 0, learned: active.filter(route => garden.grimoire?.transformations
+    ?.some(record => record.from === plant.species && record.into === route.into))
+    .map(route => ({ into: route.into, progress: Math.min(100, route.elapsed / route.hours * 100) })) };
+}

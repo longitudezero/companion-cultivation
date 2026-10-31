@@ -2,7 +2,7 @@
 
 > **ACTIVE · APPROVED FRAMEWORK — Prototype 16.** The environmental and biological event order is implemented. The **live clock conversion is approved**; individual biological durations and balance remain subject to playtesting. First-pass “not implemented” statements below are historical; [V9](../fungi/random-roster-v9.md) defines the current recipe predicates.
 
-**Implementation boundary:** the live simulation covers environmental recalculation and time-advanced organism/Mycelial events, with automated tests and provisional timing values. **Manual Pause/0.5×/1×/2× controls are approved design, not yet implemented.** See [Environment](environment.md), [Mycelial](mycelial.md) and [implementation status](../../implementation-status.md).
+**Implementation boundary:** the live simulation covers environmental recalculation and time-advanced organism/Mycelial events, with automated tests and provisional timing values. **Manual Pause/0.5×/1×/2× controls are implemented (31 October 2026).** See [Environment](environment.md), [Mycelial](mycelial.md) and [implementation status](../../implementation-status.md).
 
 ## Live clock and player-facing time — APPROVED 28 October 2026
 
@@ -11,7 +11,7 @@
 - Developer time skips advance the simulated garden instantly; their equivalent live durations are 5s for one garden hour and 2m for one garden day. A skipped interval is not actual wall-clock time spent playing.
 - The clock continues during staging. **No closed-page catch-up is currently implemented**, and background-browser throttling may delay updates. Individual growth, hazard, Spore and reveal durations remain separately tuneable; approving the clock conversion does not lock their numerical balance.
 
-## Manual simulation speed — APPROVED 29 October 2026, implementation pending
+## Manual simulation speed — APPROVED 29 October 2026, IMPLEMENTED 31 October 2026
 
 Players control the simulation with permanently accessible **Pause, 0.5×, 1×, and 2×** controls. Half speed means 0.5×, not 0.5%.
 
@@ -28,7 +28,7 @@ While paused, players can read menus, plan, and rearrange things. Direct player 
 
 **Opening the Taskboard does not pause the game or change the selected speed.** The compact pinned-objectives tracker also never pauses gameplay. Players may choose Pause themselves before reading or planning.
 
-Exact control placement, speed-aware duration presentation, and speed-setting persistence remain implementation/UI details. See the [progression framework](../../working/task-organization.md) for Taskboard behavior.
+The header controls one shared browser-time accumulator feeding the whole-hour simulation. Switching speed first settles the preceding interval at its old multiplier; Pause retains the partial hour. Replacing/importing a garden resets the partial tick. The selected speed persists as a browser UI preference outside the garden save. The selected Source timer reflects current speed or Paused; Grimoire reference durations retain the 1× baseline. A suspended-tab callback processes at most five real seconds, preserving the prototype’s lack of offline catch-up. See the [progression framework](../../working/task-organization.md) for Taskboard behavior.
 
 ## 64. Whole-garden event and update order — APPROVED
 

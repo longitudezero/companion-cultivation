@@ -2,7 +2,11 @@ import React from 'react';
 import { PLANTS, FUNGI, PROPERTIES, CONDITIONS, SOURCE_ITEMS, isPlayerSource,
   availableHarvest, stageOf, formatRealDuration, STARTING_DIRECTIONS } from '../core/index.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
-import { harvestLandmarks } from './garden-model.js';
+import { harvestLandmarks, transformationClue } from './garden-model.js';
+import { germinationProgress } from './view-model.js';
+import { observedEffects } from '../grimoire/book.js';
+import { observedEffectText } from '../grimoire/effects.js';
+import { previewFungusEffects } from '../core/grimoire-preview.js';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const NAMES = { leaf: 'Leaf peak', seed: 'Seed peak', trophy: 'Bamboo Steel ready', spore: 'Spore peak' };
@@ -32,7 +36,7 @@ export function LifecycleBar({ object, contacts, conditions }) {
 }
 
 export default function GardenInspector({ garden, selection, simulation, cultivation, mycelialHere,
-  onPickUp, onEditStaged, onUnstage, onRotate, onReturnSource, onOpenBook }) {
+  onOpenEntry, onEditStaged, onUnstage, onRotate, onReturnSource, clockFraction = 0, simulationSpeed = 1 }) {
   const key = selection.key;
   const object = selection.type === 'hex' ? garden.objects[key] : null;
   const staged = selection.type === 'hex' ? garden.staged?.[key] : null;
@@ -50,11 +54,14 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
   const headingProfile = staged?.kind === 'fungus' ? FUNGI[staged.species] : source ? SOURCE_ITEMS[object.catalogId] : null;
   const directional = source ? headingProfile.propagation === 'spread-budget'
     : headingProfile?.environment?.propagation === 'spread-budget' || headingProfile?.cultivation?.propagation === 'spread-budget';
+  const clue = organism && object.type === 'plant' ? transformationClue(garden, key, simulation, cultivation) : { active: false, learned: [] };
+  const effects = object?.type === 'plant' ? observedEffects(garden.grimoire, object.species).filter(fact =>
+    contacts.some(contact => contact.species === fact.fungus && contact.kind === fact.kind && Math.sign(contact.amount) === fact.direction)) : [];
 
   return <section className="garden-inspector" aria-label="Garden inspector">
     <div className="inspector-portrait">
-      {organism ? <button className="portrait-pickup" onClick={() => onPickUp(key)} title={`Pick up ${title}, then select the inventory to harvest`}
-        aria-label={`Pick up ${title} for inventory`}>{art ? <img src={art.src} alt={`${title} illustration`} draggable="false"/> : <span>❧</span>}</button>
+      {organism ? <button className="portrait-entry" onClick={() => onOpenEntry(object)} title={`Read ${title} in the Grimoire`}
+        aria-label={`Open ${title} Grimoire entry`}>{art ? <img src={art.src} alt={`${title} illustration`} draggable="false"/> : <span>❧</span>}</button>
         : <div className={`portrait-symbol ${pending ? 'pending' : ''}`} aria-hidden="true">{pending ? '?' : staged ? '◌' : source ? '✧' : '⬡'}</div>}
       <h2>{title}</h2>
       <p>{organism ? object.type === 'plant' ? PLANTS[object.species].family : 'Fungi' : selection.type === 'edge' ? `${selection.a} ↔ ${selection.b}` : object || staged || pending ? `Hex ${key}` : 'Empty soil'}
@@ -73,9 +80,11 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
         <div className="inspector-inline-actions"><button onClick={onEditStaged}>Edit quantity</button><button onClick={onUnstage}>Unstage</button></div>
         {directional && <div className="heading-buttons" aria-label="Staged Fungus direction">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`}
           className={staged.heading === heading ? 'selected' : ''} onClick={() => onRotate(key, 'staged', heading)}>{heading + 1}</button>)}</div>}
-      </> : pending ? <><p>{pending.quantity} {pending.kind === 'plant' ? 'Seeds' : 'Spores'} committed.</p>
-        <p>Result in approximately {formatRealDuration(Math.max(0, pending.readyAt - (garden.clockHours || 0)))}.</p><p className="inspector-caption">The outcome is still concealed.</p></>
-        : source ? <><div className="inspector-value"><span>Active time remaining</span><strong>{formatRealDuration(object.remainingHours)}</strong></div>
+      </> : pending ? <><p>{pending.quantity} {pending.kind === 'plant' ? 'Seeds' : 'Spores'} sown.</p>
+        <div className="germination-bar" role="progressbar" aria-label="Germination" aria-valuemin={0} aria-valuemax={100}
+          aria-valuenow={Math.round(germinationProgress(pending, garden.clockHours || 0, clockFraction))}>
+          <div style={{ width: `${germinationProgress(pending, garden.clockHours || 0, clockFraction)}%` }}/><span>Germinating…</span></div></>
+        : source ? <><div className="inspector-value"><span>Active time remaining</span><strong>{simulationSpeed ? formatRealDuration(object.remainingHours / simulationSpeed) : 'Paused'}</strong></div>
           <button onClick={onReturnSource}>Return item to inventory</button>
           {directional && <div className="heading-buttons">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`} className={object.heading === heading ? 'selected' : ''} onClick={() => onRotate(key, 'item', heading)}>{heading + 1}</button>)}</div>}</>
           : <p>{object?.type === 'blocker' ? `Blocks ${object.rule === 'full' ? 'all influences' : `${object.rule}: ${object.value}`}.`
@@ -92,6 +101,10 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     </div>
 
     <div className="inspector-influences inspector-section"><h3>Influences & Observations</h3>
+      {effects.length > 0 && <ul className="active-observations">{effects.map((effect, i) => <li key={i}><strong>{effect.fungus}</strong> · {observedEffectText(effect)}</li>)}</ul>}
+      {object?.type === 'fungus' && <ul className="active-observations">{previewFungusEffects(object.species).map((text, i) => <li key={i}>{text}</li>)}</ul>}
+      {clue.active && <div className="transformation-clue"><p>✧ Unusual botanical activity…</p>
+        {clue.learned.map(route => <div key={route.into}><span>{route.into}</span><div className="known-transformation-progress" role="progressbar" aria-label={`${route.into} Transformation`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={route.progress}><i style={{ width: `${route.progress}%` }}/></div></div>)}</div>}
       <details className="influence-breakdown"><summary>Influence Breakdown</summary>
         {hex && PROPERTIES.map(property => <div className="influence-property" key={property}><strong>{property}</strong>
           <p>Baseline {hex.baselines[property]} → {conditions[property]}</p>
@@ -100,7 +113,6 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
         </div>)}
       </details>
       <p className="inspector-caption">Growing preferences and Transformation recipes are recorded as you discover them.</p>
-      <button className="inspector-book-link" onClick={onOpenBook}>❦ Open Grimoire</button>
     </div>
   </section>;
 }
