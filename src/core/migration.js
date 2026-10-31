@@ -51,9 +51,10 @@ export function migrateGarden(saved) {
     garden.inventory = {
       leaves: typedLeaves,
       legacyLeaves: Math.min(Number.MAX_SAFE_INTEGER, priorLegacy + oldTotal),
-      // Missing starter slots get the provisional default, without replenishing
-      // players who have explicitly spent a stack down to zero.
-      seeds: { Daisydaze: 16, 'Algea': 16, 'Moss': 16, Jadeheart: 16, Thymekeeper: 16,
+      // Legacy sandboxes receive missing provisional starter stacks. Tutorial
+      // saves keep their exact stock, including families not yet introduced.
+      seeds: { ...(saved.tasks == null
+        ? { Daisydaze: 16, Algea: 16, Moss: 16, Jadeheart: 16, Thymekeeper: 16 } : {}),
         ...Object.fromEntries(Object.entries(saved.inventory.seeds || {})
         .filter(([name]) => PLANTS[plantName(name)]).map(([name, amount]) => [plantName(name), cleanCount(amount)])) },
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})

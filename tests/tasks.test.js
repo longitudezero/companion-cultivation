@@ -35,6 +35,10 @@ test('the tutorial has two tasks, one initial pin, and its isolated starter bund
   assert.deepEqual(garden.tasks.pinned, [FIRST_TASK]);
   assert.equal(TASK_IDS.length, 2);
   assert.equal(taskStatus(garden, CARE_TASK), 'locked');
+  const restored = deserializeGameSave(serializeGameSave(garden));
+  assert.deepEqual(restored.inventory, garden.inventory);
+  const spent = { ...garden, inventory: { ...garden.inventory, seeds: { Beanstalk: 0 }, spores: { Prismorel: 0 } } };
+  assert.deepEqual(deserializeGameSave(serializeGameSave(spent)).inventory, spent.inventory);
   const sandbox = createDemoGarden();
   assert.equal(updateTaskProgress(sandbox), sandbox);
   assert.equal(deserializeGameSave(serializeGameSave(sandbox)).tasks, undefined);
@@ -168,6 +172,9 @@ test('the board and tracker expose only available tasks; receipts retain species
   const board = renderToStaticMarkup(React.createElement(Board, { garden, speed: 1 }));
   assert.match(board, /Guild Taskboard|My First Transformation|Pause simulation|Complete task/);
   assert.doesNotMatch(board, /A Thirsty Carrot|Well, I|Leaves, Please/);
+  const nextBoard = renderToStaticMarkup(React.createElement(Board, { garden: careActive(), initialTaskId: FIRST_TASK, speed: 1 }));
+  assert.match(nextBoard, /<h3>A Thirsty Carrot<\/h3>/);
+  assert.doesNotMatch(nextBoard, /no outstanding assignments/);
   assert.match(renderToStaticMarkup(React.createElement(Tracker, { garden })), /Grow a Beanstalk/);
   const receipt = renderToStaticMarkup(React.createElement(Receipt, { receipt: { id: 1, items: [{ id: 'seed:Algea', type: 'seed', species: 'Algea', name: 'Algea Seeds', quantity: 3 }] } }));
   assert.match(receipt, /Harvested!|Algea Seeds/);

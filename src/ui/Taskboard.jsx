@@ -37,7 +37,7 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
   }, []);
   const available = TASK_IDS.filter(id => taskStatus(garden, id) !== 'locked');
   const shown = available.filter(id => (taskStatus(garden, id) === 'completed') === (tab === 'completed'));
-  const id = available.includes(selected) ? selected : FIRST_TASK, task = TASKS[id], status = taskStatus(garden, id);
+  const id = shown.includes(selected) ? selected : shown[0] || FIRST_TASK, task = TASKS[id], status = taskStatus(garden, id);
   const pinned = garden.tasks?.pinned.includes(id);
   function complete() {
     try { const awarded = onClaim(id); setReceipt(awarded); setError(''); }
