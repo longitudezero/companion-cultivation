@@ -3,8 +3,8 @@ import React, { useId } from 'react';
 // A single warm-gold hue with tonal shading; source alpha and files stay intact.
 export function GoldVine({ corner = 'top', className = '' }) {
   const tone = useId();
-  const right = corner === 'right', width = right ? 600 : 1448, height = right ? 453 : 1086;
-  const file = right ? 'ivy-right.png' : `ivy-${corner}-left.png`;
+  const right = corner === 'right', width = right ? 600 : 1448, height = right ? 363 : 1086;
+  const file = right ? 'ivy-right.webp' : `ivy-${corner}-left.png`;
   return <svg className={`gold-vine ${className}`} viewBox={`0 0 ${width} ${height}`} aria-hidden="true" focusable="false">
     <defs><filter id={tone} colorInterpolationFilters="sRGB">
       <feColorMatrix type="matrix" values=".051024 .171648 .017328 0 .68 .05315 .1788 .01805 0 .60 .044646 .150192 .015162 0 .40 0 0 0 1 0"/>

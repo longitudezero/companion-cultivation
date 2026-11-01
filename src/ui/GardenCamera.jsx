@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import HarvestReceipt from './HarvestReceipt.jsx';
+import IllustratedButton from './IllustratedButton.jsx';
 import { beginsPan, fitCamera, zoomAt } from './view-model.js';
 
 export default function GardenCamera({ world, children, notice, onInterruptDrag, controls, tracker, harvestReceipt }) {
@@ -87,9 +88,9 @@ export default function GardenCamera({ world, children, notice, onInterruptDrag,
     onAuxClickCapture={event => { if (event.button === 1) { event.preventDefault(); event.stopPropagation(); } }}>
     <div className="garden-camera-world" style={{ width: world.width, height: world.height,
       transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})` }}>{children}</div>
-    <div className="garden-hud"><div className="garden-view-controls">{controls}<div className="camera-controls" aria-label="Garden zoom controls"><button onClick={() => stepZoom(1 / 1.2)} aria-label="Zoom out">−</button>
-      <span aria-label="Garden zoom">{Math.round(camera.zoom * 100)}%</span><button onClick={() => stepZoom(1.2)} aria-label="Zoom in">+</button>
-      <button onClick={() => update(fitCamera(world, size.current))}>Fit</button></div></div>{tracker}</div>
+    <div className="garden-hud"><div className="garden-view-controls">{controls}<div className="camera-controls" aria-label="Garden zoom controls"><IllustratedButton art="minus" label="Zoom out" onClick={() => stepZoom(1 / 1.2)}/>
+      <span aria-label="Garden zoom">{Math.round(camera.zoom * 100)}%</span><IllustratedButton art="plus" label="Zoom in" onClick={() => stepZoom(1.2)}/>
+      <IllustratedButton art="fit" label="Fit garden" onClick={() => update(fitCamera(world, size.current))}/></div></div>{tracker}</div>
     {harvestReceipt && <HarvestReceipt receipt={harvestReceipt}/>}
     {notice && <div className="garden-notification" role="status" key={notice.id}>{notice.text}</div>}
   </div>;

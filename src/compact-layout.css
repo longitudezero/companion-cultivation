@@ -1,0 +1,46 @@
+/* The shell uses the real header height, leaving no strip below the Inspector. */
+@media (min-width: 761px) {
+  .app-shell { display: flex; flex-direction: column; height: 100dvh; min-height: 100dvh; }
+  .app-shell .topbar { flex-shrink: 0; }
+  .app-shell .workspace { flex: 1 0 0%; width: 100%; height: auto; }
+  .app-shell:has(.developer-field-notes[open]) { height: auto; }
+}
+.app-shell .workspace { padding-bottom: 0; border-bottom: 0; grid-template-rows: minmax(380px, 1fr) 18px auto; row-gap: 2px; }
+.layout-ornaments img { width: 82px; }
+.garden-property-toolbar { padding-left: 64px; }
+.inventory-heading { padding-right: 34px; }
+.harvest-amount { justify-content: flex-start; align-items: center; gap: 8px; }
+.harvest-amount > .game-art { width: 22px; height: 24px; }
+.harvest-amount > strong { min-width: 16px; font-variant-numeric: tabular-nums; }
+.harvest-amount > span { flex: 1; }
+.harvest-timeline { height: 56px; }
+.harvest-marker .game-art { width: 22px; height: 22px; }
+/* Tabs attach to the inventory edge instead of floating as separate buttons. */
+.spatial-inventory .inventory-bags { gap: 4px; margin: 4px -12px -12px; padding: 0 10px; border-top: 1px solid #b4995b88; }
+.inventory-bags button { min-height: 41px; padding: 1px 2px; border: 1px solid #75805166; border-bottom: 0; border-radius: 8px 8px 0 0; background: #1b3225bb; }
+.inventory-bags button.is-open { border-color: #ccac65; background: #354d2e; box-shadow: inset 0 2px 6px #c2a55822; }
+.inventory-bags .bag-icon { height: 35px; }
+.inventory-bags .bag-number { height: 27px; }
+.inventory-bags button:is(:hover, :focus-visible) { transform: none; box-shadow: inset 0 0 9px #c6a45855; }
+.spatial-inventory > .slot-vines { bottom: 42px; }
+.rune-divider { height: 18px; }
+.divider-inscription { font-size: 18px; line-height: 18px; }
+/* The same supplied frame treatment works for zoom and both quantity steppers. */
+button.illustrated-control { display: grid; place-items: center; flex-shrink: 0; width: 38px; min-width: 38px; height: 38px; padding: 0; border: 0; border-radius: 9px; background: none; transition: transform .2s ease; }
+button.illustrated-control > .game-art { width: 36px; height: 36px; filter: drop-shadow(0 2px 2px #0006); transition: filter .2s ease; }
+button.illustrated-control:not(:disabled):is(:hover, :focus-visible) { transform: translateY(-2px); }
+button.illustrated-control:not(:disabled):is(:hover, :focus-visible) > .game-art { filter: brightness(1.18) drop-shadow(0 0 4px #ddb85f88); }
+button.illustrated-control:not(:disabled):active { transform: scale(.95); }
+.camera-controls { align-items: center; }
+.shop-quantity { align-items: center; }
+.quantity-stepper button.illustrated-control { width: 40px; min-width: 40px; height: 40px; }
+.quantity-stepper button.illustrated-control > .game-art { width: 38px; height: 38px; }
+@media (max-width: 760px) {
+  .app-shell .workspace { grid-template-rows: minmax(410px, 57dvh) 18px auto; padding-bottom: 0; }
+  .layout-ornaments img { width: 52px; }
+  .garden-property-toolbar { padding-left: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button.illustrated-control, button.illustrated-control > .game-art { transition: none; }
+  button.illustrated-control:not(:disabled):is(:hover, :focus-visible, :active) { transform: none; }
+}

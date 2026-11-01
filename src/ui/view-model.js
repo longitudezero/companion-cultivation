@@ -3,7 +3,8 @@ import { REAL_MILLISECONDS_PER_GAME_HOUR, STAGING_TUNING } from '../core/index.j
 export const SPEEDS = [0, .5, 1, 2];
 export const clampZoom = value => Math.max(.15, Math.min(3, value));
 export const beginsPan = (button, occupied, control = false) => !control && (button === 1 || (button === 0 && !occupied));
-export const inventoryWidthFor = (value, viewport) => Math.max(208, Math.min(value, 720, Math.max(208, viewport - 380)));
+export const MAX_INVENTORY_WIDTH = 768;
+export const inventoryWidthFor = (value, viewport) => Math.max(208, Math.min(value, MAX_INVENTORY_WIDTH, Math.max(208, viewport - 380)));
 
 export function sampleClock(state, now, speed) {
   const accumulated = state.remainderMs + Math.max(0, now - state.lastMs) * speed;

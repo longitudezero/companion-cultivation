@@ -6,6 +6,7 @@ import GardenInspector from './ui/GardenInspector.jsx';
 import GardenCamera from './ui/GardenCamera.jsx';
 import SimulationControls from './ui/SimulationControls.jsx';
 import RuneDivider from './ui/RuneDivider.jsx';
+import IllustratedButton from './ui/IllustratedButton.jsx';
 import Taskboard, { TaskboardIcon } from './ui/Taskboard.jsx';
 import TaskTracker from './ui/TaskTracker.jsx';
 import TutorialResetDialog from './ui/TutorialResetDialog.jsx';
@@ -748,10 +749,10 @@ export default function App() {
     {quantityPrompt && <div className="quantity-popover" role="dialog" aria-label="Choose planting quantity"
       style={{ left: quantityPrompt.x, top: quantityPrompt.y }}>
       <div className="mini-heading">STAGE {quantityPrompt.species.toUpperCase()} {quantityPrompt.kind === 'plant' ? 'SEEDS' : 'SPORES'}</div>
-      <div className="quantity-stepper"><button aria-label="Decrease quantity" onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.max(1, previous.quantity - 1) }))}>−</button>
+      <div className="quantity-stepper"><IllustratedButton art="minus" label="Decrease quantity" disabled={quantityPrompt.quantity <= 1} onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.max(1, previous.quantity - 1) }))}/>
         <input type="number" aria-label="Planting quantity" min="1" max={quantityPrompt.max} value={quantityPrompt.quantity}
           onChange={(event) => setQuantityPrompt(previous => ({ ...previous, quantity: Math.max(1, Math.min(previous.max, Math.floor(Number(event.target.value) || 1))) }))}/>
-        <button aria-label="Increase quantity" onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.min(previous.max, previous.quantity + 1) }))}>＋</button></div>
+        <IllustratedButton art="plus" label="Increase quantity" disabled={quantityPrompt.quantity >= quantityPrompt.max} onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.min(previous.max, previous.quantity + 1) }))}/></div>
       <div className="quantity-presets">{[3, 5, 9, 15].map(n => <button key={n} disabled={n > quantityPrompt.max}
         className={n === quantityPrompt.quantity ? 'selected' : ''} onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: n }))}>{n}</button>)}</div>
       {quantityPrompt.kind === 'fungus' && quantityPrompt.species !== 'Mycelord' &&

@@ -90,6 +90,8 @@ test('ordinary play has inventory, a bottom inspector and separate staging actio
   assert.doesNotMatch(markup, /class="inventory-square\s+is-held"/, 'empty slots never inherit an undefined held item');
   assert.match(markup, /Beanstalk illustration|illustrations\/plants\/beanstalk.webp/);
   for (const bag of [1, 2, 3, 4]) assert.match(markup, new RegExp(`aria-label="Bag ${bag}"`));
+  assert.match(markup, /role="tablist" aria-label="Inventory bags"/);
+  assert.match(markup, /role="tab"[^>]*aria-label="Bag 1"[^>]*aria-selected="true"/);
   assert.ok(markup.indexOf('inventory-bags') > markup.indexOf('inventory-square-grid'));
   assert.doesNotMatch(markup, /aria-label="Inventory pages"/);
   assert.match(markup, /aria-label="Save and load game"[\s\S]*New tutorial garden[\s\S]*Choose a game save file/);
