@@ -96,9 +96,8 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
         {directional && <div className="heading-buttons" aria-label="Staged Fungus direction">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`}
           className={staged.heading === heading ? 'selected' : ''} onClick={() => onRotate(key, 'staged', heading)}>{heading + 1}</button>)}</div>}
       </> : pending ? <><p>{pending.quantity} {pending.kind === 'plant' ? 'Seeds' : 'Spores'} sown.</p>
-        <div className="germination-bar" role="progressbar" aria-label="Germination" aria-valuemin={0} aria-valuemax={100}
-          aria-valuenow={Math.round(germinationProgress(pending, garden.clockHours || 0, clockFraction))}>
-          <div style={{ width: `${germinationProgress(pending, garden.clockHours || 0, clockFraction)}%` }}/><span>Germinating…</span></div></>
+        <RuneProgress label="Germination" max={100} text="Germinating…"
+          value={germinationProgress(pending, garden.clockHours || 0, clockFraction)}/></>
         : source ? <><div className="inspector-value"><span>Active time remaining</span><strong>{simulationSpeed ? formatRealDuration(object.remainingHours / simulationSpeed) : 'Paused'}</strong></div>
           <button onClick={onReturnSource}>Return item to inventory</button>
           {directional && <div className="heading-buttons">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`} className={object.heading === heading ? 'selected' : ''} onClick={() => onRotate(key, 'item', heading)}>{heading + 1}</button>)}</div>}</>

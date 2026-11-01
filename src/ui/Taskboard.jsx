@@ -19,6 +19,13 @@ export function TaskRewards({ rewards }) {
 const taskImage = id => illustrationFor(TASKS[id].delivery?.species || (id === FIRST_TASK ? 'Beanstalk' : 'Carrot'));
 const stateLabel = status => ({ ready: 'Ready to complete', completed: 'Completed', 'not-started': 'Begin your guild assignment', active: 'In progress' })[status];
 
+// Two identical fields make the reference's slow lateral glow loop seamlessly.
+function HeadingWisps() {
+  return <span className="task-heading-aura" aria-hidden="true"><span className="task-heading-strip">
+    <span className="task-heading-tile"/><span className="task-heading-tile"/>
+  </span></span>;
+}
+
 export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange, onClose, onClaim, onPin, onRequestTutorial, onInspectCarrot }) {
   const [selected, setSelected] = useState(() => initialTaskSelection(garden, initialTaskId));
   const [collapsed, setCollapsed] = useState(() => ({ main: false, side: false, completed: taskSection(garden, selected) !== 'completed' }));
@@ -64,6 +71,7 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
         <div className="task-list-scroll">{TASK_SECTIONS.map(section => <section className="task-group" key={section.id}>
           <h3><button className="task-group-toggle" aria-expanded={!collapsed[section.id]} aria-controls={`${prefix}-${section.id}`}
             onClick={() => setCollapsed(previous => ({ ...previous, [section.id]: !previous[section.id] }))}>
+            <HeadingWisps/>
             <span className="group-chevron" aria-hidden="true">{collapsed[section.id] ? '›' : '⌄'}</span>{section.title}<span className="group-count">{groups[section.id].length}</span></button></h3>
           <div id={`${prefix}-${section.id}`} hidden={collapsed[section.id]}>
             <ul className="task-list-entries">{groups[section.id].map(candidate => {
