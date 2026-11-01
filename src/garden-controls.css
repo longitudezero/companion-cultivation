@@ -1,0 +1,44 @@
+.guild-modal-header .header-vine-right { position: absolute; z-index: -1; top: -7px; right: -12px; width: 27%; max-width: 300px; height: auto; opacity: .16; }
+.guild-header-actions { position: relative; isolation: isolate; }
+.guild-header-actions::before { content: ''; position: absolute; z-index: -1; inset: -8px; background: radial-gradient(ellipse, #11281ec7, transparent 75%); pointer-events: none; }
+.shop-modal .guild-back { font-size: 16px; }
+/* Illustrated time controls remain one shared clock in the garden. */
+.garden-view-controls .simulation-speeds { border: 0; padding: 0; gap: 5px; background: transparent; }
+.simulation-speeds .speed-art-button { position: relative; isolation: isolate; display: grid; place-items: center; width: 45px; height: 45px; padding: 0; border: 0; border-radius: 11px; background: none; transition: transform .2s ease; }
+.simulation-speeds .speed-art-button > .game-art { width: 43px; height: 43px; filter: drop-shadow(0 3px 2px #0008); transition: filter .2s ease; }
+.speed-halo { position: absolute; z-index: -1; inset: 5px; border-radius: 10px; background: #e7c67488; filter: blur(7px); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
+.simulation-speeds .speed-art-button[aria-pressed="true"] { background: #c9a55220; box-shadow: 0 0 0 1px #e1bf70aa, 0 0 9px #d3b05f38; }
+.simulation-speeds .speed-art-button[aria-pressed="true"] > .game-art { filter: brightness(1.18) drop-shadow(0 0 3px #ddb85f77); }
+.simulation-speeds .speed-art-button:is(:hover, :focus-visible) { transform: translateY(-2px); }
+.simulation-speeds .speed-art-button:is(:hover, :focus-visible) > .game-art { filter: brightness(1.2) drop-shadow(0 0 5px #edc96d88); }
+.simulation-speeds .speed-art-button:is(:hover, :focus-visible) .speed-halo { opacity: 1; }
+.simulation-speeds .speed-art-button:active { transform: scale(.95); }
+.simulation-speeds .speed-art-button:focus-visible { outline: 1px solid #ffe1a1; outline-offset: 3px; }
+/* The same four sets of fifty slots, with the bag selector fixed at the foot. */
+.spatial-inventory .inventory-square-grid { flex: 1 1 auto; margin-top: 8px; }
+.spatial-inventory .inventory-bags { flex-shrink: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; margin-top: auto; padding-top: 9px; border-top: 1px solid #b4995b66; }
+.inventory-bags button { display: flex; justify-content: center; align-items: center; gap: 3px; min-width: 0; min-height: 52px; padding: 3px 2px; border: 1px solid transparent; border-radius: 9px; background: #13251b66; transition: transform .2s ease, box-shadow .2s ease; }
+.inventory-bags .bag-icon { width: clamp(20px, calc((var(--inventory-width, 300px) - 140px) / 5), 36px); height: 43px; }
+.inventory-bags .bag-number { width: clamp(13px, calc(var(--inventory-width, 300px) / 18), 18px); height: 30px; }
+.inventory-bags button.is-open { border-color: #ccac65; background: #354d2e99; box-shadow: inset 0 0 10px #c2a55822, 0 0 6px #b6974833; }
+.inventory-bags button:is(:hover, :focus-visible) { transform: translateY(-2px); box-shadow: 0 0 8px #c6a45866; }
+.inventory-bags button:is(:hover, :focus-visible) .game-art { filter: brightness(1.15) drop-shadow(0 0 3px #dfbc6b66); }
+.spatial-inventory > .slot-vines { top: 80px; bottom: 65px; }
+/* Two inscriptions share their layout; a small mask reveals only nearby glow. */
+.app-shell .workspace { grid-template-rows: minmax(380px, 1fr) 24px auto; row-gap: 4px; }
+.rune-divider { grid-column: 1 / -1; position: relative; height: 24px; overflow: hidden; user-select: none; }
+.divider-inscription { position: absolute; left: 0; top: 0; display: block; white-space: nowrap; font: 16px/24px 'Segoe UI Symbol', 'Noto Sans Runic', sans-serif; letter-spacing: 8px; color: #d5b87a; opacity: .18; pointer-events: none; }
+.rune-divider .rune-glow { opacity: 0; color: #ffe4a6; text-shadow: 0 0 4px #f4cc73, 0 0 9px #dba64b; mask-image: radial-gradient(85px 36px at var(--rune-x, -200px) var(--rune-y, 12px), #000 15%, transparent 100%); transition: opacity .25s ease; }
+.rune-divider:hover .rune-glow { opacity: 1; }
+@media (max-width: 1200px) { .guild-modal-header .header-vine-right { width: 240px; } }
+@media (max-width: 760px) { .app-shell .workspace { grid-template-rows: minmax(410px, 57dvh) 24px auto; } }
+@media (max-width: 580px) {
+  .simulation-speeds .speed-art-button { width: 38px; height: 38px; }
+  .simulation-speeds .speed-art-button > .game-art { width: 36px; height: 36px; }
+  .inventory-bags .bag-icon { width: 24px; }.inventory-bags .bag-number { width: 14px; }
+  .guild-modal-header .header-vine-right { width: 180px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simulation-speeds .speed-art-button, .simulation-speeds .speed-art-button > .game-art, .speed-halo, .inventory-bags button, .rune-divider .rune-glow { transition: none; }
+  .simulation-speeds .speed-art-button:is(:hover, :focus-visible, :active), .inventory-bags button:is(:hover, :focus-visible) { transform: none; }
+}

@@ -166,6 +166,8 @@ try {
 test('the shop exposes Buy/Sell, free recovery Seeds, current funds and only unlocked Spores', () => {
   const markup = renderToStaticMarkup(React.createElement(Shop, { garden: createTutorialGarden(), speed: 1 }));
   assert.match(markup, /aria-label="Guild Shop"/);
+  assert.match(markup, /aria-label="Back to garden"/);
+  assert.doesNotMatch(markup, /simulation-speeds|Pause simulation|Close Shop/);
   assert.match(markup, /role="tab" aria-selected="true">Buy/);
   assert.match(markup, />Sell<\/button>/);
   assert.match(markup, /Beanstalk Seeds, Free, 36 owned/);

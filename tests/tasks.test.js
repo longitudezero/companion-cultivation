@@ -225,6 +225,7 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.match(board, /Guild Taskboard|My First Transformation|Pause simulation|Complete task/);
   assert.doesNotMatch(board, /A Thirsty Carrot|Well, I|Leaves, Please/);
   assert.doesNotMatch(board, /New tutorial garden/);
+  assert.doesNotMatch(board, /simulation-speeds|Pause simulation/);
   assert.match(board, /aria-label="Unpin task"[^>]*aria-pressed="true"/);
   assert.ok(board.indexOf('ui/pin.webp') < board.indexOf('ui/botanical-badges.png', board.indexOf('task-badge-row')));
   const nextBoard = renderToStaticMarkup(React.createElement(Board, { garden: careActive(), initialTaskId: FIRST_TASK, speed: 1 }));
