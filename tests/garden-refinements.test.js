@@ -69,7 +69,7 @@ test('middle mouse pans occupied hexes, while primary drags preserve object inte
   assert.equal(beginsPan(0, false), true);
   assert.equal(beginsPan(2, false), false);
   assert.equal(beginsPan(1, true, true), false);
-  assert.equal(inventoryWidthFor(900, 1363), 720);
+  assert.equal(inventoryWidthFor(900, 1363), 768);
   assert.equal(inventoryWidthFor(100, 1363), 208);
   assert.ok(inventoryWidthFor(720, 900) <= 520);
 });

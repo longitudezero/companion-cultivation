@@ -6,6 +6,7 @@ import GuildBackButton from './GuildBackButton.jsx';
 import GameArt from './GameArt.jsx';
 import SlotVines from './GoldVines.jsx';
 import GuildHeader from './GuildHeader.jsx';
+import IllustratedButton from './IllustratedButton.jsx';
 
 export function ShopIcon() { return <GameArt name="shop"/>; }
 
@@ -69,9 +70,9 @@ export default function Shop({ garden, onClose, onTrade }) {
         <p className="shop-product-note">{mode === 'sell' ? 'Keep any Leaves you need for guild requests. Only the amount below will be sold.'
           : product.type === 'seed' ? 'Always free. Take what you need to start growing again.' : 'Unlocked Spores stay in stock, even when your own supply runs out.'}</p>
         <label className="shop-quantity-label" htmlFor="shop-quantity">Quantity</label>
-        <div className="shop-quantity"><button aria-label="Decrease shop quantity" disabled={Number(quantity) <= 1} onClick={() => amount(Math.max(1, Number(quantity) - 1))}>−</button>
+        <div className="shop-quantity"><IllustratedButton art="minus" label="Decrease shop quantity" disabled={Number(quantity) <= 1} onClick={() => amount(Math.max(1, Number(quantity) - 1))}/>
           <input id="shop-quantity" aria-label="Shop quantity" type="number" min="1" max={Math.max(1, max)} step="1" value={quantity} onChange={event => amount(event.target.value)}/>
-          <button aria-label="Increase shop quantity" disabled={Number(quantity) >= max} onClick={() => amount(Math.min(max, Math.max(1, Number(quantity) + 1)))}>+</button></div>
+          <IllustratedButton art="plus" label="Increase shop quantity" disabled={Number(quantity) >= max} onClick={() => amount(Math.min(max, Math.max(1, Number(quantity) + 1)))}/></div>
         <div className="shop-quick-amounts">{(mode === 'buy' ? [1, 4, 10] : [1, 5]).map(value => <button key={value} disabled={value > max} onClick={() => amount(value)}>{value}</button>)}
           {(mode === 'sell' || product.price > 0) && <button disabled={!max} onClick={() => amount(max)}>{mode === 'sell' ? 'All' : 'Max'}</button>}</div>
         <div className="shop-transaction"><div><span>{mode === 'buy' ? 'Total cost' : 'You receive'}</span><strong>{quote ? `${quote.total} Gold` : '—'}</strong></div>

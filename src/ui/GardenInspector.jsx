@@ -13,6 +13,7 @@ import RuneProgress from './RuneProgress.jsx';
 import { PALETTES } from '../HexGrid.jsx';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
+const PEAK_ART = { leaf: 'leaves', seed: 'seeds', spore: 'spores' };
 const NAMES = { leaf: 'Leaf peak', seed: 'Seed peak', trophy: 'Bamboo Steel ready', spore: 'Spore peak' };
 
 export function LifecycleBar({ object, contacts, conditions }) {
@@ -30,7 +31,7 @@ export function LifecycleBar({ object, contacts, conditions }) {
         return <React.Fragment key={`${kind}-${i}`}>
           {to > from && <span aria-hidden="true" className={`peak-band ${kind}`} style={{ left: `${from / 2}%`, width: `${(to - from) / 2}%` }}/>}
           <span className={`harvest-marker ${kind}`} tabIndex={0} role="img" aria-label={label}
-            style={{ left: `${from / 2}%` }}><span aria-hidden="true">{ICONS[kind]}</span><span className="peak-tooltip">{label}</span></span>
+            style={{ left: `${from / 2}%` }}><span aria-hidden="true">{PEAK_ART[kind] ? <GameArt name={PEAK_ART[kind]}/> : ICONS[kind]}</span><span className="peak-tooltip">{label}</span></span>
         </React.Fragment>;
       })}
     </div>
@@ -82,10 +83,10 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     <div className="inspector-growth inspector-section">
       <h3>{organism ? 'Growth & Harvest' : 'Field Notes'}</h3>
       {organism ? <>
-        {harvest ? <><div className="inspector-value"><span className="yield-property"><GameArt name="leaves"/> Leaves now</span><strong>{harvest.leaves}</strong></div>
-          <div className="inspector-value"><span className="yield-property"><GameArt name="seeds"/> Seeds now</span><strong>{harvest.seeds}</strong></div>
+        {harvest ? <><div className="inspector-value harvest-amount"><GameArt name="leaves"/><strong>{harvest.leaves}</strong><span>Leaves now</span></div>
+          <div className="inspector-value harvest-amount"><GameArt name="seeds"/><strong>{harvest.seeds}</strong><span>Seeds now</span></div>
           {object.species === 'Bamboozled' && <div className="inspector-value"><span>◆ Bamboo Steel</span><strong>{harvest.bambooSteel ? 'Ready' : 'Not ready'}</strong></div>}</>
-          : <div className="inspector-value"><span className="yield-property"><GameArt name="spores"/> Spores now</span><strong>{Math.floor(object.sporeStock || 0)}</strong></div>}
+          : <div className="inspector-value harvest-amount"><GameArt name="spores"/><strong>{Math.floor(object.sporeStock || 0)}</strong><span>Spores now</span></div>}
         <LifecycleBar object={object} contacts={contacts} conditions={conditions}/>
         {object.species === 'Carrot' && ['active', 'ready'].includes(taskStatus(garden, CARE_TASK)) && conditions?.Moisture === 'Dry' &&
           <div className="tutorial-dry-warning"><div className="inspector-value"><span className="yield-property"><GameArt name="warning"/> Dry exposure</span><strong>{simulationSpeed ? `${formatRealDuration(Math.max(0, PLANTS.Carrot.dryDeath - (object.exposure?.Dry || 0)) / simulationSpeed)} left` : 'Paused'}</strong></div>

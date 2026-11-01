@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { inventoryWidthFor } from './view-model.js';
+import { inventoryWidthFor, MAX_INVENTORY_WIDTH } from './view-model.js';
 
 export default function InventoryResizer({ width, onResize }) {
   const cleanup = useRef(null);
@@ -17,6 +17,6 @@ export default function InventoryResizer({ width, onResize }) {
     window.addEventListener('pointercancel', end);
   }
   return <div className="inventory-resizer" role="separator" aria-label="Resize inventory" aria-orientation="vertical"
-    aria-valuenow={Math.round(width)} aria-valuemin={208} aria-valuemax={720} tabIndex={0} onPointerDown={start}
+    aria-valuenow={Math.round(width)} aria-valuemin={208} aria-valuemax={MAX_INVENTORY_WIDTH} tabIndex={0} onPointerDown={start}
     onKeyDown={event => { if (['ArrowLeft', 'ArrowRight'].includes(event.key)) { event.preventDefault(); onResize(inventoryWidthFor(width + (event.key === 'ArrowLeft' ? 40 : -40), window.innerWidth)); } }}/>
 }
