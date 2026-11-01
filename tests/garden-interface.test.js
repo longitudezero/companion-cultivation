@@ -191,6 +191,7 @@ test('each hex presents resolved moisture, temperature and illumination simultan
     assert.ok(cell.includes(`Moisture ${conditions.Moisture}; Temperature ${conditions.Temperature}; Illumination ${conditions.Illumination}`));
     assert.ok(cell.includes(`fill="${PALETTES.Moisture[conditions.Moisture]}" stroke="${PALETTES.Temperature[conditions.Temperature]}"`));
     assert.ok(cell.includes(`ui/light-${conditions.Illumination.toLowerCase()}.webp`));
+    assert.match(cell, /width="24" height="24" viewBox=/, 'nested art has an explicit viewport, independent of its source dimensions');
     assert.ok(cell.includes('class="hex-selection"'), 'selection keeps a separate inset ring');
   }
   assert.equal(PALETTES.Temperature.Freezing, '#fff5e4');

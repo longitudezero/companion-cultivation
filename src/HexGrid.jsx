@@ -151,7 +151,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, tool
             {pending && <g className="pending-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#414438" stroke="#d6c99c" strokeWidth="2"/><text x={c.x} y={c.y - 2} fontSize="19" textAnchor="middle" fill="#e7d29d">?</text></g>}
             </g>
             <g className="hex-illumination" role="img" aria-label={`Illumination: ${Illumination}`} pointerEvents="none">
-              <GameArt name={CONDITION_ART.Illumination[Illumination]} x={c.x + (object || proposal || pending ? 8 : -12)} y={c.y - 27}/>
+              <GameArt name={CONDITION_ART.Illumination[Illumination]} x={c.x + (object || proposal || pending ? 8 : -12)} y={c.y - 27} width={24} height={24}/>
             </g>
             <text x={c.x} y={c.y + 31} textAnchor="middle" className="hex-label">{Moisture}</text>
           </g>
