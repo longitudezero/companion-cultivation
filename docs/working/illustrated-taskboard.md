@@ -51,5 +51,5 @@ Validation covers task grouping and selection across unlock/completion boundarie
 ## Capsule task section headings
 
 - Main, Side and Completed task selectors use fully rounded capsule ends with a gold perimeter instead of slanted clipping. The 34-second green wisp animation, hover/focus brightness and reduced-motion treatment remain in place.
-- The supplied title-decoration WebP is copied unchanged; its leafy left cap is selected with the shared GameArt view-box method. Consistent title padding leaves it clear of chevrons/text, with a smaller version on narrow screens.
+- The supplied title-decoration WebP is copied unchanged and shown in full, at its original aspect ratio. Its long gold arm extends over the top of the heading and its shorter lower arm frames the first part of the title. Consistent title padding leaves it clear of chevrons/text, with a smaller version on narrow screens. Heading spacing keeps the full ornament clear of task cards.
 - The task selector’s two corner ornaments are removed, and its inner padding is even. The task viewer retains all four corner ornaments. Task groups still collapse and keep their counts and keyboard behavior.
