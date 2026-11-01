@@ -1,5 +1,5 @@
 import React from 'react';
-import { neighborsOf, edgeKey, offsetOf, isMycelial, isPlayerSource, SOURCE_ITEMS, FUNGI } from './core/index.js';
+import { neighborsOf, edgeKey, offsetOf, isMycelial, isPlayerSource, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
 const SIZE = 33;
 const DX = Math.sqrt(3) * SIZE;
@@ -38,19 +38,20 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, overlay, tool, selection, plantingPreview, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
   const keys = Object.keys(garden.hexes);
   const { width, height } = gridDimensions(garden);
   const selectedSource = selection.type === 'hex' && ['source', 'fungus'].includes(garden.objects[selection.key]?.type) ? selection.key : null;
   const selectedKey = selection.type === 'hex' ? selection.key : null;
   const selectedObject = garden.objects[selectedKey];
-  const selectedStaged = garden.staged?.[selectedKey];
+  const previewing = plantingPreview?.key === selectedKey;
+  const selectedStaged = previewing ? plantingPreview : garden.staged?.[selectedKey];
   const fungusProfile = selectedStaged?.kind === 'fungus' ? FUNGI[selectedStaged.species] : null;
   const rotatingItem = isPlayerSource(selectedObject) && SOURCE_ITEMS[selectedObject.catalogId]?.propagation === 'spread-budget';
   const rotatingFungus = selectedStaged?.kind === 'fungus' && (fungusProfile?.environment?.propagation === 'spread-budget'
     || fungusProfile?.cultivation?.propagation === 'spread-budget');
   const rotator = selectedKey && (rotatingItem || rotatingFungus)
-    ? { key: selectedKey, kind: rotatingItem ? 'item' : 'staged', heading: rotatingItem ? selectedObject.heading : selectedStaged.heading }
+    ? { key: selectedKey, kind: rotatingItem ? 'item' : previewing ? 'preview' : 'staged', heading: rotatingItem ? selectedObject.heading : selectedStaged.heading }
     : null;
   const highlighted = new Set();
   if (selectedSource) {
@@ -125,7 +126,9 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
         const fill = PALETTES[overlay][condition];
         const label = condition;
         const object = garden.objects[key];
+        const preview = plantingPreview?.key === key ? plantingPreview : null;
         const staged = garden.staged?.[key];
+        const proposal = preview || staged;
         const pending = garden.pending?.[key];
         const mycelial = isMycelial(garden, key);
         const mycelialSupported = mycelial && Object.values(mycelialSupport)
@@ -133,7 +136,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-            <g key={key} data-garden-hex={key} data-occupied={Boolean(object || staged || pending)} className="hex-cell" onClick={(event) => onHexClick(key, event)}
+            <g key={key} data-garden-hex={key} data-occupied={Boolean(object || proposal || pending)} className="hex-cell" onClick={(event) => onHexClick(key, event)}
              onPointerDown={(event) => { if (staged || isPlayerSource(object) || ['plant', 'fungus'].includes(object?.type)) onStartHexDrag(key, staged ? 'staged' : isPlayerSource(object) ? 'placed-item' : 'organism', event); }}
             tabIndex={0} role="button" aria-label={`Hex ${key}: ${overlay} ${condition}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             {active && <polygon points={polygonFor(c)} fill="none" stroke="#eacb86" strokeWidth="7" opacity=".55"/>}
@@ -161,7 +164,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.47},${c.y-4+(y-(c.y-4))*.47}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
               <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text>
             </>}
-            {staged && <g className="staged-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#354b3b" stroke="#f1d28d" strokeDasharray="3 2" strokeWidth="2"/><text x={c.x} y={c.y - 3} fontSize="15" textAnchor="middle" fill="#f2d39a">{staged.kind === 'plant' ? '◌' : '◈'}</text><text x={c.x} y={c.y + 10} fontSize="10" textAnchor="middle" fill="#fff2cc">×{staged.quantity}</text></g>}
+            {proposal && <g className={preview ? 'planting-preview-glyph' : 'staged-glyph'} pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#354b3b" stroke="#f1d28d" strokeDasharray="3 2" strokeWidth="2"/><text x={c.x} y={c.y - 3} fontSize="15" textAnchor="middle" fill="#f2d39a">{proposal.kind === 'plant' ? '◌' : '◈'}</text><text x={c.x} y={c.y + 10} fontSize="10" textAnchor="middle" fill="#fff2cc">×{proposal.quantity}</text></g>}
             {pending && <g className="pending-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#414438" stroke="#d6c99c" strokeWidth="2"/><text x={c.x} y={c.y - 2} fontSize="19" textAnchor="middle" fill="#e7d29d">?</text></g>}
             <text x={c.x} y={c.y + (object ? 19 : 5)} textAnchor="middle" className={`hex-label ${object ? 'hex-label-small' : ''}`}
               style={label.length >= 8 ? { fontSize: object ? '6.5px' : '7.5px', letterSpacing: 0 } : undefined}>
@@ -196,7 +199,11 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, over
             stroke="#283f30" strokeWidth="2" pointerEvents="none"/>)}
           <circle cx={markers[rotator.heading].x} cy={markers[rotator.heading].y - 2} r="17"
             className="rotation-drag-handle" fill="transparent" stroke="transparent"
-            onPointerDown={startRotation} aria-label="Drag to rotate Source direction"/>
+            onPointerDown={startRotation} role="button" tabIndex={0}
+            aria-label={`${rotator.kind === 'preview' ? 'Rotate planting direction' : 'Rotate Source direction'}, ${STARTING_DIRECTIONS[rotator.heading]}`}
+            onKeyDown={event => { if (['ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(event.key)) {
+              event.preventDefault(); event.stopPropagation(); onRotateHeading?.(rotator.key, rotator.kind, (rotator.heading + (event.key === 'ArrowLeft' ? 5 : 1)) % 6);
+            } }}/>
         </g>;
       })()}
       {edges.map(({ id, a, b, blocker }) => {

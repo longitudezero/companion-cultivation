@@ -29,3 +29,12 @@
 - Zoom Minus/Plus/Fit and Shop/planting quantity Minus/Plus share the supplied illustrated controls. Inventory width caps at 768px while retaining a 380px garden allowance. Bag navigation uses shorter, edge-attached tabs with selected states and standard arrow/Home/End navigation; choosing the active tab keeps its contents visible. The replacement right vine is used by both headers.
 
 Validation covers task grouping and selection across unlock/completion boundaries, real objective/Leaf progress, historical completion and existing atomic claims. The full check passes 302 tests plus frontend/CommonJS builds and the CommonJS smoke test. Live review verifies scrolling, pinned navigation, collapse controls, reward receipts and Back-button interaction.
+
+
+## Main menu and optional staging
+
+- Remove the top bar. Main menu, Grimoire, Taskboard and Shop live in a compact vertical rail on the Inspector’s right. A code-native green/gold botanical menu icon joins the supplied launchers; hover, focus and reduced-motion behavior remain consistent. The mobile Inventory button stays available beside garden controls.
+- The logo heads a native modal menu with New garden, Load Game, Save Game, Display/Hide developer tools in that order. Staging, elapsed time and autosave status follow; How it works sits at the foot. The native dialog keeps background playfield input inert and traps focus; Back/Escape returns to the launcher. New garden retains its existing confirmation.
+- Staging defaults on and is remembered separately as a browser preference. Turn it off to consume and plant a single placement on quantity confirmation, without a separate Apply. Existing germination time, concealed roll, inventory, habitat and discovery rules remain canonical. Existing proposals must be applied or cancelled before disabling staging; loading a saved plan enables staging to keep it editable.
+- The staging action bar is present only while proposals exist, including after Undo or Cancel. Pending germinations alone do not keep it open.
+- Quantity selection produces an ephemeral preview. Budget Fungi show the same six-direction drag handle while the selector remains open, with a direction dropdown and keyboard arrows as alternatives. Preview rotation never reserves or spends stock; Cancel/Escape/navigation discards it. Confirm commits its selected heading in either planting mode.

@@ -4,7 +4,7 @@ import {
   createGarden, keyAt, moveInventoryStack, ensureInventorySlots, inventoryItems,
   INVENTORY_CAPACITY, INVENTORY_PAGES, INVENTORY_PAGE_SLOTS, migrateGarden,
   stagePlanting, unstagePlanting, moveStagedPlanting, availableToStage,
-  applyStaging, advanceGardenTime, STAGING_TUNING, makePlant, placeObject,
+  applyStaging, plantImmediately, advanceGardenTime, STAGING_TUNING, makePlant, placeObject,
   sowPlant, resizeGarden, harvestPlant, calculateEnvironment, calculateCultivation,
 } from '../src/core/index.js';
 
@@ -156,4 +156,48 @@ test('a secretly successful pending Fungus supplies no environmental or cultivat
   assert.deepEqual(calculateCultivation(garden), calculateCultivation(blank));
   garden = advanceGardenTime(garden, STAGING_TUNING.germinationRevealHours).garden;
   assert.equal(garden.objects[A].species, 'Dewmender');
+});
+
+
+test('direct planting commits only its own cohort and respects other stock reservations', () => {
+  const garden = stagePlanting(createGarden(), A, 'plant', 'Beanstalk', 5);
+  const before = JSON.stringify(garden);
+  let rolls = 0;
+  const result = plantImmediately(garden, B, 'plant', 'Beanstalk', 4, 0, () => { rolls++; return 0; });
+  assert.equal(rolls, 1);
+  assert.equal(result.garden.inventory.seeds.Beanstalk, 12);
+  assert.deepEqual(result.garden.staged, garden.staged);
+  assert.equal(result.garden.pending[A], undefined);
+  assert.equal(result.garden.pending[B].quantity, 4);
+  assert.equal(result.garden.objects[B], undefined);
+  assert.equal(advanceGardenTime(result.garden, STAGING_TUNING.germinationRevealHours).garden.objects[B].species, 'Beanstalk');
+  assert.throws(() => plantImmediately(garden, B, 'plant', 'Beanstalk', 12), /available/);
+  assert.throws(() => plantImmediately(garden, A, 'plant', 'Beanstalk', 1), /staged planting/);
+  assert.equal(JSON.stringify(garden), before);
+});
+
+test('direct fungal planting preserves its chosen direction and validates habitat before rolling or spending', () => {
+  const garden = createGarden();
+  garden.inventory.spores.Emberbolete = 4;
+  garden.inventory.spores.Rushroom = 3;
+  const result = plantImmediately(garden, A, 'fungus', 'Emberbolete', 3, 4, () => 0);
+  assert.equal(result.garden.pending[A].heading, 4);
+  assert.equal(result.garden.inventory.spores.Emberbolete, 1);
+  assert.equal(advanceGardenTime(result.garden, STAGING_TUNING.germinationRevealHours).garden.objects[A].heading, 4);
+  assert.throws(() => plantImmediately(garden, B, 'fungus', 'Rushroom', 2, 0, () => { throw new Error('must not roll'); }), /Mycelial/);
+  assert.equal(garden.inventory.spores.Rushroom, 3);
+  assert.deepEqual(garden.pending, {});
+  assert.throws(() => plantImmediately(garden, A, 'fungus', 'Emberbolete', 1, 6), /six hex headings/);
+});
+
+test('failed direct planting still consumes once and stays concealed for the normal germination time', () => {
+  const garden = plantImmediately(createGarden(), A, 'plant', 'Beanstalk', 1, 0, () => 1).garden;
+  assert.equal(garden.inventory.seeds.Beanstalk, 15);
+  assert.deepEqual(garden.staged, {});
+  assert.equal(garden.pending[A].success, false);
+  assert.equal(garden.objects[A], undefined);
+  const revealed = advanceGardenTime(garden, STAGING_TUNING.germinationRevealHours).garden;
+  assert.equal(revealed.pending[A], undefined);
+  assert.equal(revealed.objects[A], undefined);
+  assert.equal(revealed.inventory.seeds.Beanstalk, 15);
 });

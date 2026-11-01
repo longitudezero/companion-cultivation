@@ -134,6 +134,15 @@ export function applyStaging(garden, random = Math.random) {
     grimoire, staged: {}, pending }), details };
 }
 
+// Commit just this placement through the same stock, habitat and germination
+// rules as Apply. Other saved proposals remain reserved and uncommitted.
+export function plantImmediately(garden, key, kind, species, quantity, heading = 0, random = Math.random) {
+  if (garden.staged?.[key]) throw new Error('This hex already has a staged planting.');
+  const proposal = stagePlanting(garden, key, kind, species, quantity, heading);
+  const result = applyStaging({ ...proposal, staged: { [key]: proposal.staged[key] } }, random);
+  return { ...result, garden: { ...result.garden, staged: garden.staged || {} } };
+}
+
 export function revealGerminations(garden) {
   const ready = Object.entries(garden.pending || {}).filter(([, entry]) => entry.readyAt <= (garden.clockHours || 0));
   if (!ready.length) return { garden, events: [] };

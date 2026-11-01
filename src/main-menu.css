@@ -1,0 +1,58 @@
+/* The playfield reaches the top edge; navigation belongs beside the Inspector. */
+.app-shell .workspace { min-height: 100dvh; }
+.inspector-dock { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) 68px; gap: 7px; min-width: 0; }
+.inspector-dock .garden-inspector { grid-column: auto; min-width: 0; }
+.inspector-navigation { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 7px 3px 27px; border: 1px solid var(--ui-gold); border-bottom: 0; background: #162c20; }
+.inspector-navigation button { position: relative; display: grid; place-items: center; width: 54px; height: 51px; min-width: 0; padding: 0; border: 0; background: transparent; transition: transform .2s ease, filter .2s ease; }
+.inspector-navigation button > .game-art, .inspector-navigation button > img, .main-menu-icon { display: block; width: 50px; height: 49px; object-fit: contain; filter: drop-shadow(0 2px 2px #0007); }
+.inspector-navigation button:is(:hover, :focus-visible) { transform: translateY(-2px); filter: brightness(1.16) drop-shadow(0 0 5px #d6b16288); }
+.inspector-navigation button:active { transform: scale(.95); }
+.inspector-navigation .task-ready-badge { top: 0; right: 0; }
+.garden-plan-rail:not(.has-plan) { padding-block: 3px; min-height: 21px; }
+.garden-plan-rail:not(.has-plan) .plot-footer { margin: 0 0 0 auto; }
+.main-menu { width: min(366px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 3px double var(--ui-gold); border-radius: 7px; background: var(--ui-forest); color: var(--ui-paper); box-shadow: inset 0 0 0 3px #78653d66, 0 20px 80px #0009; }
+.main-menu::backdrop { background: #07140dd6; backdrop-filter: blur(5px); }
+.main-menu-content { position: relative; isolation: isolate; padding: 23px 30px 18px; text-align: center; }
+.main-menu h1 { margin: 0 0 7px; }
+.main-menu h1 img { width: 220px; max-width: 100%; height: 137px; object-fit: contain; }
+.main-menu .corner-ornaments { z-index: -1; }
+.main-menu .ornament { width: 52px; height: 52px; }
+.main-menu .menu-vine { position: absolute; z-index: -1; bottom: 15px; left: 0; width: 100%; opacity: .09; pointer-events: none; }
+.main-menu .guild-back { display: block; width: 160px; height: 42px; margin: 0 auto 15px; font-size: 14px; }
+.main-menu-actions { display: flex; flex-direction: column; gap: 9px; }
+.main-menu-actions > button { padding: 11px 12px; border: 1px solid #ad8c4e; border-radius: 4px; color: #f3dfaa; background: linear-gradient(#344b32, #243e2c); font: 16px Georgia, serif; box-shadow: inset 0 0 0 2px #142b2066; }
+.main-menu-actions > button:is(:hover, :focus-visible) { border-color: #ead18b; background: #3c5738; box-shadow: inset 0 0 12px #d3b87822, 0 0 8px #cdb36733; }
+.staging-setting { text-align: left; margin-top: 19px; padding-top: 15px; border-top: 1px solid #b79a5b66; }
+.staging-setting label { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 14px/1.4 Georgia, serif; color: #e8d7aa; cursor: pointer; }
+.staging-setting input { width: 18px; height: 18px; flex-shrink: 0; accent-color: #b9a463; }
+.staging-setting p { margin-top: 7px; font: 12px/1.5 Georgia, serif; color: #c4bb99; }
+.menu-garden-status { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; font-size: 9px; color: #bdb896; }
+.menu-time-tools { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+.menu-time-tools button { padding: 5px 10px; border: 1px solid #a9915e; background: #29422f; color: #ead7a7; border-radius: 3px; }
+.menu-guide-link { margin-top: 20px; padding: 7px; border: 0; background: none; color: #e5ce94; font: italic 14px Georgia, serif; text-decoration: underline; text-underline-offset: 4px; }
+.quantity-popover { width: 270px; max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); overflow-y: auto; }
+.quantity-popover .rotation-prompt-hint { color: #f1dca2; }
+.rotation-drag-handle:focus-visible { stroke: #fff0ba; stroke-width: 2px; outline: none; }
+@media (min-width: 761px) { .app-shell .workspace { min-height: 0; } }
+@media (max-width: 760px) {
+  .inspector-dock { grid-template-columns: minmax(0, 1fr) 54px; gap: 4px; }
+  .inspector-navigation { justify-content: flex-start; padding: 10px 0 38px; }
+  .inspector-navigation button { width: 46px; height: 47px; }
+  .inspector-navigation button > .game-art, .inspector-navigation button > img, .main-menu-icon { width: 44px; height: 44px; }
+  .garden-view-controls .inventory-toggle { margin-top: 4px; align-self: flex-start; }
+  .garden-plan-rail:not(.has-plan) { display: none; }
+  .app-shell .developer-workbench { top: 12px; max-height: calc(100dvh - 24px); }
+  .garden-inventory { top: 12px; }
+}
+@media (max-width: 580px) {
+  .inspector-dock .garden-inspector { display: flex; flex-direction: column; padding: 12px; }
+  .inspector-dock .inspector-section { width: 100%; min-width: 0; flex-basis: auto; border-left: 0; border-top: 1px solid #bba37677; padding: 12px 0 0; }
+  .inspector-dock .inspector-portrait { align-self: center; flex-basis: auto; }
+  .inspector-dock .inspector-influences { min-width: 0; }
+  .inspector-navigation { position: sticky; top: 12px; align-self: start; }
+  .quantity-popover { top: auto !important; bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inspector-navigation button { transition: none; }
+  .inspector-navigation button:is(:hover, :focus-visible, :active) { transform: none; }
+}
