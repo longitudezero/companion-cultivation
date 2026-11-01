@@ -3,7 +3,7 @@ import React from 'react';
 // View boxes normalize the visible artwork without cropping or repainting the
 // supplied files. The two collections remain shared, unmodified sprite sheets.
 export const GAME_ART = {
-  titleDecoration: ['title-decoration.webp', 2048, 682, [50, 130, 485, 400]],
+  titleDecoration: ['title-decoration.webp', 2048, 682, [0, 0, 2048, 682]],
   plus: ['plus.webp', 1254, 1254, [185, 185, 875, 875]],
   minus: ['minus.webp', 1254, 1254, [175, 150, 900, 920]],
   fit: ['fit.webp', 1254, 1254, [185, 185, 875, 875]],

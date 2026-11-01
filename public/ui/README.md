@@ -14,4 +14,4 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 
 - `garden-clearing.png` is the supplied `Mossy Subterranean Garden Clearing2.png` (1672 × 941), copied byte-for-byte. The camera viewport displays it behind the existing 22px dot pattern; pan and zoom move the hex world independently.
 
-- `title-decoration.webp` is the supplied title ornament, copied unchanged. Task section headings select its leafy left cap through an SVG view box; the title background keeps rounded capsule ends and the existing slow green wisps.
+- `title-decoration.webp` is the supplied title ornament, copied unchanged. Task section headings display its complete canvas at its original aspect ratio, including the long top arm and short lower arm; the title background keeps rounded capsule ends and the existing slow green wisps.
