@@ -9,6 +9,7 @@ import { join } from 'node:path';
 import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, applyStaging,
   advanceGardenTime, PLANTS, makePlant, makeFungus, placeObject, calculateEnvironment, calculateCultivation,
   grantSourceItem, placeSourceItem } from '../src/core/index.js';
+import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
@@ -88,6 +89,7 @@ test('ordinary play has inventory, a bottom inspector and separate staging actio
   assert.match(markup, /Beanstalk Seeds, 36 owned, square 1/);
   assert.doesNotMatch(markup, /class="inventory-square\s+is-held"/, 'empty slots never inherit an undefined held item');
   assert.match(markup, /Beanstalk illustration|illustrations\/plants\/beanstalk.webp/);
+  assert.match(markup, /aria-label="Save and load game"[\s\S]*New tutorial garden[\s\S]*Choose a game save file/);
 });
 
 test('125% fills 62.5% of the whole lifecycle and displays harvest landmarks immediately', () => {
@@ -115,6 +117,7 @@ test('pending inspection never distinguishes success from failure or reveals a s
 test('Fungi and temporary items have their own production and timer views', () => {
   const fungus = inspector(placeObject(createGarden(), '0,0', makeFungus('Dewmender')));
   assert.match(fungus, /Spores now/);
+  assert.match(fungus, /moisture-damp.webp/);
   assert.doesNotMatch(fungus, /Leaves now|Seed peak/);
   let garden = grantSourceItem(createGarden(), 'ember-pebble');
   const id = Object.keys(garden.inventory.sourceItems)[0];
@@ -122,4 +125,16 @@ test('Fungi and temporary items have their own production and timer views', () =
   const item = inspector(garden);
   assert.match(item, /Active time remaining/);
   assert.match(item, /Return item to inventory/);
+});
+
+test('the warned exposure bar retains the actual accumulated timer and limit', () => {
+  let garden = createTutorialGarden();
+  garden = stagePlanting(garden, '1,1', 'plant', 'Beanstalk', 4);
+  garden = stagePlanting(garden, '0,1', 'fungus', 'Prismorel', 4);
+  garden = advanceGardenTime(applyStaging(garden, () => 0).garden, 16).garden;
+  garden = advanceGardenTime(claimTask(garden, FIRST_TASK), 24).garden;
+  const markup = render(GardenInspector, { garden, selection: { type: 'hex', key: '1,1' },
+    simulation: calculateEnvironment(garden), cultivation: calculateCultivation(garden), simulationSpeed: 1 });
+  assert.match(markup, /ui\/warning.webp/);
+  assert.match(markup, new RegExp(`class="rune-progress rune-progress-danger"[^>]*aria-label="Carrot Dry exposure"[^>]*aria-valuemax="${PLANTS.Carrot.dryDeath}"[^>]*aria-valuenow="${garden.objects['1,1'].exposure.Dry}"`));
 });

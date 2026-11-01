@@ -6,4 +6,5 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 - The four Illumination icons map to Dark, Dim, Lit and Bright.
 - The expansion icons are available artwork; this presentation pass does not add expansion rewards or products.
 - Fungus rewards keep their individual species illustrations.
-- Moisture retains the existing glyph until matching artwork is supplied.
+- Moisture uses the supplied Dry, Damp and Flooded droplets. The supplied Leaf, warning and pin icons are also copied unchanged.
+- Taskboard corners select six distinct designs from the original sheet. Complete task uses the bottom-right botanical badge.
