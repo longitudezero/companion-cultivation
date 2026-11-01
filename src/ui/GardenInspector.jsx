@@ -8,6 +8,7 @@ import { germinationProgress } from './view-model.js';
 import { inspectorInfluences } from './inspector-model.js';
 import InfluenceCards from './InfluenceCards.jsx';
 import TransformationPanel from './TransformationPanel.jsx';
+import GameArt, { CONDITION_ART } from './GameArt.jsx';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const NAMES = { leaf: 'Leaf peak', seed: 'Seed peak', trophy: 'Bamboo Steel ready', spore: 'Spore peak' };
@@ -68,7 +69,8 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
 
     <div className="inspector-environment inspector-section"><h3>Environment</h3>
       {hex && conditions ? PROPERTIES.map(property => <div className={`compact-condition condition-${property.toLowerCase()}`} key={property}>
-        <div className="inspector-value"><span>{property === 'Moisture' ? '◈' : property === 'Temperature' ? '♨' : '☼'} {property}</span><strong>{conditions[property]}</strong></div>
+        <div className="inspector-value"><span className="condition-property">{CONDITION_ART[property]?.[conditions[property]]
+          ? <GameArt name={CONDITION_ART[property][conditions[property]]}/> : <span aria-hidden="true">◈</span>} {property}</span><strong>{conditions[property]}</strong></div>
         <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map((name, i) =>
           <span key={name} title={name} className={i <= CONDITIONS[property].indexOf(conditions[property]) ? 'filled' : ''}/>)}</div>
       </div>) : <p>Select a hex to inspect its resolved Conditions.</p>}
@@ -79,9 +81,9 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
       <h3>{organism ? 'Growth & Harvest' : 'Field Notes'}</h3>
       {organism ? <>
         {harvest ? <><div className="inspector-value"><span>❧ Leaves now</span><strong>{harvest.leaves}</strong></div>
-          <div className="inspector-value"><span>◌ Seeds now</span><strong>{harvest.seeds}</strong></div>
+          <div className="inspector-value"><span className="yield-property"><GameArt name="seeds"/> Seeds now</span><strong>{harvest.seeds}</strong></div>
           {object.species === 'Bamboozled' && <div className="inspector-value"><span>◆ Bamboo Steel</span><strong>{harvest.bambooSteel ? 'Ready' : 'Not ready'}</strong></div>}</>
-          : <div className="inspector-value"><span>♧ Spores now</span><strong>{Math.floor(object.sporeStock || 0)}</strong></div>}
+          : <div className="inspector-value"><span className="yield-property"><GameArt name="spores"/> Spores now</span><strong>{Math.floor(object.sporeStock || 0)}</strong></div>}
         <LifecycleBar object={object} contacts={contacts} conditions={conditions}/>
         {object.species === 'Carrot' && ['active', 'ready'].includes(taskStatus(garden, CARE_TASK)) && conditions?.Moisture === 'Dry' &&
           <div className="tutorial-dry-warning"><div className="inspector-value"><span>Dry exposure</span><strong>{simulationSpeed ? `${formatRealDuration(Math.max(0, PLANTS.Carrot.dryDeath - (object.exposure?.Dry || 0)) / simulationSpeed)} left` : 'Paused'}</strong></div>

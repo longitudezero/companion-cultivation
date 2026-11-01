@@ -3,15 +3,9 @@ import { goldBalance } from '../core/wallet.js';
 import { shopProducts, shopQuote } from '../core/shop.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import SimulationControls from './SimulationControls.jsx';
+import GameArt from './GameArt.jsx';
 
-export function ShopIcon() {
-  return <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-    <path d="M10 20h28v23H10z" fill="#25432e" stroke="#d0ad66" strokeWidth="1.6"/>
-    <path d="m7 11 5-6h24l5 6v10c-2 5-6 5-9 0-2 5-6 5-8 0-2 5-6 5-8 0-3 5-7 5-9 0z" fill="#b99b58" stroke="#f0d492" strokeWidth="1.3"/>
-    <path d="m16 6-2 15m10-15v15m8-15 2 15" stroke="#486441" strokeWidth="4"/>
-    <path d="M17 29h14v14H17z" fill="#d8bf84" stroke="#a58a4e"/><path d="M24 30v12" stroke="#6d7448"/>
-  </svg>;
-}
+export function ShopIcon() { return <GameArt name="shop"/>; }
 
 export default function Shop({ garden, speed, onSpeedChange, onClose, onTrade }) {
   const [mode, setMode] = useState('buy'), [selected, setSelected] = useState('seed:Beanstalk');
@@ -52,7 +46,7 @@ export default function Shop({ garden, speed, onSpeedChange, onClose, onTrade })
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
     <header className="taskboard-header"><div><span className="eyebrow">ADVENTURERS’ GUILD</span><h2>Shop</h2></div>
-      <span className="task-wallet">◉ {goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
+      <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
       <button className="taskboard-close" aria-label="Close Shop" onClick={onClose}>×</button></header>
     <div className="shop-body"><section className="shop-stock" aria-label={mode === 'buy' ? 'Shop stock' : 'Leaves to sell'}>
       <div className="shop-tabs task-tabs" role="tablist" aria-label="Shop sections">

@@ -1,0 +1,15 @@
+# Illustrated Taskboard and interface
+
+**Implemented · 1 November 2026.** The supplied mockup is a visual guideline; only the existing two main tasks and one side delivery remain playable.
+
+- Main Tasks, Side Tasks and Completed Tasks appear in that order in a single parchment list. All three groups collapse independently and retain their headings/counts. Completed begins collapsed unless history is the initial selection. Empty groups explain their availability. Selecting a pinned request opens its entry and expands its section.
+- A fulfilled objective has a green checkmark; unfinished objectives have an empty box. These are status indicators, not manually selectable inputs. Ready to complete remains distinct from Completed, which requires claiming on the board and showing the reward receipt.
+- List rows have a species thumbnail, title, current status, pin state and compact progress. Delivery requests use current held quantities; completed deliveries retain their completed history after consuming Leaves.
+- The explanation is wider than the list. Its title, task-type badge, rewards/progress/actions and four corner ornaments stay fixed while the descriptive middle scrolls. The list scrolls inside fixed left-side ornaments, with no right-side corner art. Narrow layouts stack the panels with bounded scrolling areas.
+- Gold rewards use the supplied coins; Spore rewards keep each Fungus's existing illustration, name and quantity. Expansion artwork is available for later actual rewards; this presentation pass adds no example rewards or gameplay tasks from the mockup.
+- The supplied Shop and Taskboard illustrations replace the code-drawn header icons. Current Temperature and Illumination icons appear beside Inspector labels/values, preserving fixed widths and the existing bars. Seed/Spore yield rows use the supplied generic resource artwork. Moisture retains its existing glyph pending a matching set.
+- The orange thermometer maps to Warm and the red/fire thermometer to Hot. Freezing, Cold and Temperate keep their names. There is no added Scorching condition.
+- The supplied Back button CSS is adapted to a green/gold badge: a small hover lift, warm rim light, arrow response and slight press scale. Generic page resets, glassy white highlights, global contrast and large z-index values are omitted. Keyboard focus gets the same feedback, reduced motion removes movement, Escape closes, and focus returns to the launcher.
+- Original PNG/WebP assets are copied without altering pixels. SVG view boxes normalize visible drawing size and select badge/corner regions from the shared sheets, keeping source art reproducible. See `public/ui/README.md` and `src/ui/GameArt.jsx`.
+
+Validation covers task grouping and selection across unlock/completion boundaries, real objective/Leaf progress, historical completion and existing atomic claims. The full check passes 301 tests plus frontend/CommonJS builds and the CommonJS smoke test. Live review verifies scrolling, pinned navigation, collapse controls, reward receipts and Back-button interaction.

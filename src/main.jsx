@@ -6,6 +6,7 @@ import './garden-layout.css';
 import './garden-refinements.css';
 import './taskboard.css';
 import './shop.css';
+import './illustrated-ui.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>,

@@ -1,5 +1,13 @@
 # Companion Cultivation — implementation status
 
+## Illustrated Taskboard and interface — IMPLEMENTED (1 November 2026)
+
+Main, Side and Completed tasks share a stacked, independently collapsible parchment list. Available task grouping, initial selection and progress use current task status: completed default requests yield to the next active task; pinned side requests select and expand their section; fully completed boards open the history. Completed objectives show visual green checkboxes with accessible Complete/Pending text, while reward claiming remains explicit. Delivery progress shows held Leaves out of the required quantity, retaining historical completion after delivery.
+
+The supplied green badges, antique corners, Gold icon and Shop/Taskboard launchers are integrated. Task explanations have four fixed ornaments and the list has only left-side ornaments; the middle text and list rows scroll independently of those corners. Back closes to the garden with a scoped warm-gold version of the supplied CSS lift/arrow/press effect, including a reduced-motion alternative. Fungus rewards retain individual species artwork. Resource and current Temperature/Illumination icons appear in the Inspector without increasing its fixed column widths. Orange is Warm, red is Hot; no Scorching game state is added. Expansion assets are prepared but no new rewards/products are fabricated.
+
+**Validation:** 301 Node tests, production frontend/CommonJS builds and CommonJS smoke test pass. New checks cover grouping across unlocks/claims, initial side and completed selection, current-stock delivery progress and accessible completed objectives. Live visual/input review follows deployment. See [presentation decisions](working/illustrated-taskboard.md).
+
 ## Guild Shop — IMPLEMENTED (31 October 2026)
 
 The third header icon opens a forest/parchment Buy/Sell overlay, with the same manual speed controls as the Taskboard. Beanstalk Seeds are always free, starter/task-unlocked Spores cost 2 Gold each, and species-specific Leaves sell for 1 Gold each. Stock is unlimited. Product selection shows owned quantities, quantity controls, total cost/proceeds, resulting balance and a receipt. Only Leaves can be sold; no Seed/Spore/trophy/Source-item or unattributed legacy Leaf sales are added.

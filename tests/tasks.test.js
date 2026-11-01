@@ -12,6 +12,7 @@ import { createGarden, createDemoGarden, createTutorialGarden, FIRST_TASK, CARE_
   setBaseline, calculateEnvironment, calculateCultivation, grantSourceItem, inventoryItems, ensureInventorySlots,
   serializeGameSave, deserializeGameSave, resizeGarden } from '../src/core/index.js';
 import { harvestItems, mergeHarvestReceipt } from '../src/ui/harvest-receipts.js';
+import { groupedTasks, initialTaskSelection, taskProgress } from '../src/ui/taskboard-model.js';
 
 function planted() {
   let garden = createTutorialGarden();
@@ -232,9 +233,47 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.match(tracker, /<ul[^>]*>[\s\S]*A Thirsty Carrot[\s\S]*A Few Carrot Leaves[\s\S]*<\/ul>/);
   assert.match(tracker, /Give 5 Carrot Leaves · 0 \/ 5/);
   const sideBoard = renderToStaticMarkup(React.createElement(Board, { garden: multiple, initialTaskId: CARROT_DELIVERY_TASK, speed: 1 }));
-  assert.match(sideBoard, /aria-selected="true">Side<\/button>/);
+  assert.match(sideBoard, />Side Tasks<span/);
   assert.match(sideBoard, /<h3>A Few Carrot Leaves<\/h3>/);
   assert.match(sideBoard, /uses 5 Carrot Leaves from your inventory/);
   const receipt = renderToStaticMarkup(React.createElement(Receipt, { receipt: { id: 1, items: [{ id: 'seed:Algea', type: 'seed', species: 'Algea', name: 'Algea Seeds', quantity: 3 }] } }));
   assert.match(receipt, /Harvested!|Algea Seeds/);
+});
+
+test('task sections keep Main then Side then Completed membership, excluding locked assignments', () => {
+  assert.deepEqual(groupedTasks(createTutorialGarden()), { main: [FIRST_TASK], side: [], completed: [] });
+  const garden = careActive();
+  assert.deepEqual(groupedTasks(garden), { main: [CARE_TASK], side: [CARROT_DELIVERY_TASK], completed: [FIRST_TASK] });
+  garden.inventory.leaves.Carrot = 5;
+  const delivered = claimTask(garden, CARROT_DELIVERY_TASK);
+  assert.deepEqual(groupedTasks(delivered), { main: [CARE_TASK], side: [], completed: [FIRST_TASK, CARROT_DELIVERY_TASK] });
+});
+
+test('pinned tasks select their entry while a completed default selects the next active assignment', () => {
+  const garden = careActive();
+  assert.equal(initialTaskSelection(garden, CARROT_DELIVERY_TASK), CARROT_DELIVERY_TASK);
+  assert.equal(initialTaskSelection(garden, FIRST_TASK), CARE_TASK);
+  assert.equal(initialTaskSelection(createTutorialGarden(), CARE_TASK), FIRST_TASK);
+});
+
+test('task progress shows actual objective completion and current delivery holdings, retaining completed history', () => {
+  assert.deepEqual(taskProgress(advanceGardenTime(planted(), 6).garden, FIRST_TASK), { current: 2, total: 3, unit: 'objectives' });
+  const garden = careActive(); garden.inventory.leaves.Carrot = 3;
+  assert.deepEqual(taskProgress(garden, CARROT_DELIVERY_TASK), { current: 3, total: 5, unit: 'Leaves' });
+  garden.inventory.leaves.Carrot = 5;
+  const delivered = claimTask(garden, CARROT_DELIVERY_TASK);
+  assert.equal(delivered.inventory.leaves.Carrot, 0);
+  assert.deepEqual(taskProgress(delivered, CARROT_DELIVERY_TASK), { current: 5, total: 5, unit: 'Leaves' });
+});
+
+test('a fully completed board opens its history with status checks, supplied reward art and a Back control', () => {
+  let garden = careReady(); garden.inventory.leaves.Carrot = 5;
+  garden = claimTask(claimTask(garden, CARE_TASK), CARROT_DELIVERY_TASK);
+  const markup = renderToStaticMarkup(React.createElement(Board, { garden, initialTaskId: FIRST_TASK, speed: 1 }));
+  assert.match(markup, /aria-expanded="true" aria-controls="[^"]*-completed"/);
+  assert.match(markup, /aria-label="Back to garden"/);
+  assert.match(markup, /ui\/gold.webp/);
+  assert.match(markup, /grimoire\/illustrations\/fungi\/dewmender.webp/);
+  assert.match(markup, /Complete: /);
+  assert.doesNotMatch(markup, /role="checkbox"|type="checkbox"/);
 });
