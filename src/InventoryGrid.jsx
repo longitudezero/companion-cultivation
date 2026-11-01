@@ -3,6 +3,7 @@ import { INVENTORY_PAGES, INVENTORY_PAGE_SLOTS, formatRealDuration } from './cor
 import { illustrationFor } from './grimoire/illustrations.js';
 import { itemCategory } from './ui/garden-model.js';
 import InventoryTooltip from './ui/InventoryTooltip.jsx';
+import SlotVines from './ui/GoldVines.jsx';
 
 const ICON = { seed: '◌', spore: '◈', leaf: '❧', trophy: '◆', legacy: '□', 'source-item': '✧' };
 const FILTERS = { all: 'All', seed: 'Seeds', spore: 'Spores', leaf: 'Leaves', item: 'Items' };
@@ -28,6 +29,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
   const slots = filter === 'all' ? activePage == null ? [] : Array.from({ length: INVENTORY_PAGE_SLOTS }, (_, cell) => activePage * INVENTORY_PAGE_SLOTS + cell)
     : items.filter(item => itemCategory(item) === filter).map(item => item.slot);
   return <section className="spatial-inventory" data-inventory-dropzone="true" aria-label="Inventory: 200 squares">
+    <SlotVines/>
     <div className="inventory-heading"><div><div className="mini-heading">YOUR COLLECTION</div><h3>Inventory</h3></div><span>{items.length} / 200 slots</span></div>
     <div className="inventory-filters" role="group" aria-label="Filter inventory">{Object.entries(FILTERS).map(([key, label]) => <button key={key} data-inventory-type={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}</div>
     {filter === 'all' && <div className="inventory-pages" aria-label="Inventory pages">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
