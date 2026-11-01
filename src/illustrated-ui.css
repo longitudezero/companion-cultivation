@@ -80,6 +80,7 @@
 .guild-taskboard .task-overall-progress strong { min-width: 27px; font-weight: normal; }
 .guild-taskboard .task-primary { min-height: 38px; padding: 8px 22px; font-size: 14px; }
 .guild-taskboard .task-received { padding: 7px 0; margin: 0; }
+.guild-taskboard .task-detail-footer > .task-primary, .guild-taskboard .task-detail-footer > .task-received { margin-left: 44px; }
 .guild-taskboard .taskboard-inner-overlay { inset: 112px 0 0; }
 .guild-taskboard .task-complete-receipt .task-rewards { padding: 13px 0; }
 .guild-taskboard .task-complete-receipt .task-reward { flex: 0 1 auto; }
@@ -109,6 +110,7 @@
   .guild-taskboard .task-reward { flex-basis: 90px; font-size: 11px; gap: 5px; }.guild-taskboard .task-reward strong { font-size: 14px; }
   .guild-taskboard .task-rewards { margin-bottom: 7px; gap: 7px; }.guild-taskboard .task-overall-progress { margin: 4px 0 8px; }
   .guild-taskboard .corner-ornaments .ornament { width: 54px; height: 58px; }
+  .guild-taskboard .task-detail-footer > .task-primary, .guild-taskboard .task-detail-footer > .task-received { margin-left: 30px; }
   .guild-taskboard .taskboard-inner-overlay { inset: 110px 0 0; }
 }
 @media (prefers-reduced-motion: reduce) {
