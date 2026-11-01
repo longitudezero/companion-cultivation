@@ -8,3 +8,4 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 - Fungus rewards keep their individual species illustrations.
 - Moisture uses the supplied Dry, Damp and Flooded droplets. The supplied Leaf, warning and pin icons are also copied unchanged.
 - Taskboard corners select six distinct designs from the original sheet. Complete task uses the bottom-right botanical badge.
+- `ivy-top-left.png` and `ivy-bottom-left.png` are the two supplied transparent ivy corners, copied without changing their pixels. `GoldVines.jsx` applies a pale-gold tonal filter at render time, retaining their alpha and shading. Other supplied sheets retain visible background haze, so these two transparent variants are used for the faint watermarks.

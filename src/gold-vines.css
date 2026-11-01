@@ -1,0 +1,31 @@
+.gold-vine { display: block; pointer-events: none; user-select: none; }
+/* Fixed watermarks sit behind the slots, including unused space and filters. */
+.spatial-inventory, .shop-stock { position: relative; isolation: isolate; }
+.slot-vines { position: absolute; z-index: -1; inset: 106px 0 0; overflow: hidden; pointer-events: none; }
+.slot-vines .gold-vine { position: absolute; width: max(100%, 300px); height: auto; opacity: .17; }
+.slot-vines .vine-top { top: -12px; right: -18px; transform: scaleX(-1); }
+.slot-vines .vine-bottom { left: -22px; bottom: -8px; }
+.inventory-square-grid .inventory-square:not(.has-item) { background: #192e2240; }
+.shop-stock > .slot-vines { inset: 100px 0 0; }
+.shop-stock .vine-top { left: -24px; right: auto; top: 0; width: 75%; max-width: 470px; transform: none; opacity: .13; }
+.shop-stock .vine-bottom { left: auto; right: -40px; bottom: -20px; width: 90%; max-width: 570px; transform: scaleX(-1); opacity: .17; }
+/* Equal side columns keep the title centered on the whole modal. */
+.guild-modal-header { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px) minmax(0, 1fr); overflow: hidden; }
+.guild-modal-header .header-vine { position: absolute; z-index: -1; top: -6px; left: -12px; width: 33%; max-width: 360px; height: auto; opacity: .18; }
+.guild-modal-header .taskboard-heading { grid-column: 2; text-align: center; min-width: 0; }
+.guild-modal-header .taskboard-heading h2 { color: #f3dfae; font-size: 34px; margin: 3px 0 4px; }
+.guild-header-actions { grid-column: 3; display: flex; align-items: center; justify-content: flex-end; gap: 12px; min-width: 0; }
+.guild-modal-header .simulation-speeds { order: initial; flex-basis: auto; flex-shrink: 0; }
+.guild-modal-header .task-wallet { margin-left: 0; }
+@media (max-width: 1200px) {
+  .guild-modal-header { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+  .guild-modal-header .taskboard-heading, .guild-header-actions { grid-column: 1; }
+  .guild-header-actions { justify-content: center; }
+  .guild-modal-header .header-vine { width: 260px; }
+}
+@media (max-width: 580px) {
+  .guild-modal-header .taskboard-heading h2 { font-size: 28px; }
+  .guild-header-actions { flex-wrap: wrap; gap: 8px 14px; }
+  .guild-modal-header .simulation-speeds { order: 3; flex-basis: 100%; justify-content: center; }
+  .guild-modal-header .header-vine { width: 210px; opacity: .15; }
+}

@@ -5,6 +5,7 @@ import SimulationControls from './SimulationControls.jsx';
 import { goldBalance } from '../core/wallet.js';
 import GameArt, { CornerOrnaments, TaskBadge } from './GameArt.jsx';
 import RuneProgress from './RuneProgress.jsx';
+import GuildHeader from './GuildHeader.jsx';
 import { TASK_SECTIONS, groupedTasks, taskSection, initialTaskSelection, taskProgress } from './taskboard-model.js';
 
 export function TaskboardIcon() { return <GameArt name="taskboard"/>; }
@@ -61,11 +62,10 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
     if (receipt.id === FIRST_TASK) selectTask(CARE_TASK); else onClose();
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal guild-taskboard" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
-    <header className="taskboard-header"><div className="taskboard-heading"><span className="eyebrow">ADVENTURERS’ GUILD</span><h2>Taskboard</h2>
-      <p>Guild requests, ongoing assignments, and completed work.</p></div>
+    <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work.">
       <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
       <button className="guild-back" aria-label="Back to garden" onClick={onClose}><GameArt name="badgeBack" stretch/>
-        <span className="back-arrow" aria-hidden="true">←</span><span>Back</span><i className="back-halo" aria-hidden="true"/></button></header>
+        <span className="back-arrow" aria-hidden="true">←</span><span>Back</span><i className="back-halo" aria-hidden="true"/></button></GuildHeader>
     <div className="taskboard-content" inert={Boolean(receipt)}>
       <aside className="taskboard-list" aria-label="Task list"><CornerOrnaments leftOnly/>
         <div className="task-list-scroll">{TASK_SECTIONS.map(section => <section className="task-group" key={section.id}>

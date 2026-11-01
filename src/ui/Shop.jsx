@@ -4,6 +4,8 @@ import { shopProducts, shopQuote } from '../core/shop.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import SimulationControls from './SimulationControls.jsx';
 import GameArt from './GameArt.jsx';
+import SlotVines from './GoldVines.jsx';
+import GuildHeader from './GuildHeader.jsx';
 
 export function ShopIcon() { return <GameArt name="shop"/>; }
 
@@ -45,10 +47,11 @@ export default function Shop({ garden, speed, onSpeedChange, onClose, onTrade })
     } catch (issue) { setError(issue.message); setReceipt(null); }
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
-    <header className="taskboard-header"><div><span className="eyebrow">ADVENTURERS’ GUILD</span><h2>Shop</h2></div>
+    <GuildHeader title="Shop">
       <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
-      <button className="taskboard-close" aria-label="Close Shop" onClick={onClose}>×</button></header>
+      <button className="taskboard-close" aria-label="Close Shop" onClick={onClose}>×</button></GuildHeader>
     <div className="shop-body"><section className="shop-stock" aria-label={mode === 'buy' ? 'Shop stock' : 'Leaves to sell'}>
+      <SlotVines/>
       <div className="shop-tabs task-tabs" role="tablist" aria-label="Shop sections">
         <button role="tab" aria-selected={mode === 'buy'} onClick={() => selectMode('buy')}>Buy</button>
         <button role="tab" aria-selected={mode === 'sell'} onClick={() => selectMode('sell')}>Sell</button></div>
