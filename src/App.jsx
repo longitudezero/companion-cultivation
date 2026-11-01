@@ -18,6 +18,7 @@ import { createTutorialGarden, updateTaskProgress, claimTask, toggleTaskPin, tas
 import InventoryResizer from './ui/InventoryResizer.jsx';
 import useSimulationClock from './ui/useSimulationClock.js';
 import { inventoryWidthFor } from './ui/view-model.js';
+import { HEX_SIZE, plantingPopoverPosition } from './ui/hex-model.js';
 import { restoreStagingPlan } from './ui/garden-model.js';
 import { art as grimoireArt } from './grimoire/art.js';
 import { DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
@@ -310,11 +311,12 @@ export default function App() {
       if (current.objects[key] || current.pending?.[key]) throw new Error('This hex is already occupied.');
       const max = availableToStage(current, kind, species, key);
       if (max < 1) throw new Error(`No available ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} to stage.`);
+      const bounds = document.querySelector(`[data-garden-hex="${key}"]`)?.getBoundingClientRect()
+        || { left: (event?.clientX ?? window.innerWidth / 2) - Math.sqrt(3) * HEX_SIZE / 2,
+          top: (event?.clientY ?? window.innerHeight / 3) - HEX_SIZE, width: Math.sqrt(3) * HEX_SIZE, height: 2 * HEX_SIZE };
       setQuantityPrompt({ key, kind, species, quantity: Math.min(preferred, max), max,
         heading: kind === 'fungus' ? current.staged?.[key]?.heading ?? 0 : 0,
-        x: Math.max(12, Math.min(window.innerWidth - 270, (event?.clientX ?? window.innerWidth / 2) + 372 < window.innerWidth
-          ? (event?.clientX ?? window.innerWidth / 2) + 102 : (event?.clientX ?? window.innerWidth / 2) - 372)),
-        y: Math.max(12, Math.min(window.innerHeight - 340, (event?.clientY ?? window.innerHeight / 3) - 90)) });
+        ...plantingPopoverPosition(bounds, { width: window.innerWidth, height: window.innerHeight }) });
     } catch (error) { setNotice(error.message); }
   }
 
