@@ -65,11 +65,12 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
     <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work.">
       <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></GuildHeader>
     <div className="taskboard-content" inert={Boolean(receipt)}>
-      <aside className="taskboard-list" aria-label="Task list"><CornerOrnaments leftOnly/>
+      <aside className="taskboard-list" aria-label="Task list">
         <div className="task-list-scroll">{TASK_SECTIONS.map(section => <section className="task-group" key={section.id}>
           <h3><button className="task-group-toggle" aria-expanded={!collapsed[section.id]} aria-controls={`${prefix}-${section.id}`}
             onClick={() => setCollapsed(previous => ({ ...previous, [section.id]: !previous[section.id] }))}>
             <HeadingWisps/>
+            <GameArt name="titleDecoration" className="task-heading-ornament"/>
             <span className="group-chevron" aria-hidden="true">{collapsed[section.id] ? '›' : '⌄'}</span>{section.title}<span className="group-count">{groups[section.id].length}</span></button></h3>
           <div id={`${prefix}-${section.id}`} hidden={collapsed[section.id]}>
             <ul className="task-list-entries">{groups[section.id].map(candidate => {

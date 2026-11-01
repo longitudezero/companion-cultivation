@@ -46,3 +46,10 @@ Validation covers task grouping and selection across unlock/completion boundarie
 - Moisture remains the soil fill and text label. Temperature uses an inset colored perimeter, including warm white for Freezing and blue for Cold. The same palette supplies Inspector segments. The selected hex uses an independent inset dashed gold ring; hover/focus brighten without replacing the temperature color.
 - Every hex carries the supplied Dark/Dim/Lit/Bright artwork. Occupants, proposal quantities and germination markers share the room beside that icon. Accessible labels and native hover titles give all three resolved conditions together. The View by property controls and their scale are removed.
 - The supplied clearing PNG is copied unchanged as the viewport background. The existing dot overlay is retained. The camera still pans/zooms only the world, and all current gameplay rules, stock, saves and condition calculations remain unchanged.
+
+
+## Capsule task section headings
+
+- Main, Side and Completed task selectors use fully rounded capsule ends with a gold perimeter instead of slanted clipping. The 34-second green wisp animation, hover/focus brightness and reduced-motion treatment remain in place.
+- The supplied title-decoration WebP is copied unchanged; its leafy left cap is selected with the shared GameArt view-box method. Consistent title padding leaves it clear of chevrons/text, with a smaller version on narrow screens.
+- The task selector’s two corner ornaments are removed, and its inner padding is even. The task viewer retains all four corner ornaments. Task groups still collapse and keep their counts and keyboard behavior.
