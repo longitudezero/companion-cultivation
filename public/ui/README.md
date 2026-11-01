@@ -13,3 +13,5 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 - The supplied Plus, Minus and Fit icons are used unchanged for zoom and the Shop/planting quantity controls. Crop view boxes normalize their visible frames, as with the speed artwork.
 
 - `garden-clearing.png` is the supplied `Mossy Subterranean Garden Clearing2.png` (1672 × 941), copied byte-for-byte. The camera viewport displays it behind the existing 22px dot pattern; pan and zoom move the hex world independently.
+
+- `title-decoration.webp` is the supplied title ornament, copied unchanged. Task section headings select its leafy left cap through an SVG view box; the title background keeps rounded capsule ends and the existing slow green wisps.
