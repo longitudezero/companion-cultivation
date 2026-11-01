@@ -85,7 +85,6 @@ export default function App() {
   const [garden, setGarden] = useState(initialGarden);
   const gardenRef = useRef(garden);
   gardenRef.current = garden;
-  const [overlay, setOverlay] = useState('Moisture');
   const [tool, setTool] = useState('inspect');
   const [inventoryPage, setInventoryPage] = useState(0);
   const [heldItem, setHeldItem] = useState(null);
@@ -313,8 +312,8 @@ export default function App() {
       if (max < 1) throw new Error(`No available ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} to stage.`);
       setQuantityPrompt({ key, kind, species, quantity: Math.min(preferred, max), max,
         heading: kind === 'fungus' ? current.staged?.[key]?.heading ?? 0 : 0,
-        x: Math.max(12, Math.min(window.innerWidth - 270, (event?.clientX ?? window.innerWidth / 2) + 350 < window.innerWidth
-          ? (event?.clientX ?? window.innerWidth / 2) + 80 : (event?.clientX ?? window.innerWidth / 2) - 350)),
+        x: Math.max(12, Math.min(window.innerWidth - 270, (event?.clientX ?? window.innerWidth / 2) + 372 < window.innerWidth
+          ? (event?.clientX ?? window.innerWidth / 2) + 102 : (event?.clientX ?? window.innerWidth / 2) - 372)),
         y: Math.max(12, Math.min(window.innerHeight - 340, (event?.clientY ?? window.innerHeight / 3) - 90)) });
     } catch (error) { setNotice(error.message); }
   }
@@ -646,12 +645,6 @@ export default function App() {
       </aside>}
 
       <main className="garden-area">
-        <div className="garden-property-toolbar">
-        <span className="view-label">View by property</span>
-        <div className="overlay-list">{PROPERTIES.map((name) => <button key={name} className={`overlay-choice ${overlay === name ? 'chosen' : ''}`} onClick={() => setOverlay(name)}><span className="overlay-dot" style={{ background: Object.values(PALETTES[name])[Math.floor(Object.values(PALETTES[name]).length / 2)] }}/>{name}<span>{overlay === name ? '●' : '○'}</span></button>)}</div>
-
-        <div className="legend-card"><div className="mini-heading">{overlay.toUpperCase()} SCALE</div><div className="legend-swatches">{Object.entries(PALETTES[overlay]).map(([name, color]) => <div key={name} title={name} className="legend-item"><i style={{ background: color }}/><span>{name}</span></div>)}</div></div>
-</div>
         <div className="garden-heading"><div><span className="eyebrow">BIOLOGICAL SANDBOX</span><h2>The cultivation plot <span className="leaf-decoration">❧</span></h2><p>Sow Seeds and Spores. Tend your organisms and watch them develop.</p></div>{showDeveloperTools && <div className="garden-actions"><button onClick={loadDemo} title="Restore the example garden">↺ <span>Demo layout</span></button><button onClick={newGarden} title="Start a blank plot">＋ <span>New plot</span></button></div>}</div>
 
 
@@ -662,7 +655,7 @@ export default function App() {
           <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/200</button></>}
             tracker={<TaskTracker garden={garden} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
               tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
-            world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} plantingPreview={quantityPrompt} simulation={simulation} mycelialSupport={mycelialSupport} overlay={overlay} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
+            world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} plantingPreview={quantityPrompt} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
             onRotateHeading={rotateSelectedHex}
             onRotationStart={kind => { if (kind === 'staged') rotationSnapshot.current = gardenRef.current.staged || {}; }}
             onRotationEnd={kind => { if (kind === 'staged') { const before = rotationSnapshot.current; rotationSnapshot.current = null;
@@ -797,6 +790,7 @@ export default function App() {
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 16</span><h2>A garden of changing forms</h2>
       <p>Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Every Plant yields its own species-specific Leaves on harvest, rather than a shared Leaf currency. Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
+      <p>Each hex shows its Conditions together: the soil fill shows Moisture, the border shows Temperature, and the icon shows Illumination. Freezing has a white border; Cold has a blue one. Select a hex to read its exact Conditions in the Inspector.</p>
       <p>Arrange the four 50-square inventory bags, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply</strong>. Turn staging off in the main menu to plant as soon as you confirm the amount. Directional Fungi can be rotated while the amount selector is open. Attempts are consumed on confirmation or Apply, and their results stay hidden for about <strong>{formatRealDuration(STAGING_TUNING.germinationRevealHours)}</strong>. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Select a portrait to open its species in the Grimoire. Undo reverses the last staging edit; Cancel releases the whole uncommitted plan. Use <strong>Display developer tools</strong> in the main menu for unrestricted testing. Use Pause, 0.5×, 1× and 2× beside the garden zoom controls to control the whole garden. One game hour takes five real seconds at 1×; Grimoire durations use that baseline. Drag empty ground or use the middle mouse button to pan; scroll to zoom.</p>
       <p>Your garden autosaves in this browser. Use <strong>Save Game</strong> to download a portable .ccsave backup, and <strong>Load Game</strong> to restore it here or on another device. Loading replaces your current browser save after confirmation; staged placements and hidden germination timers are included. Browser-closed progression is not implemented yet.</p>
       <div className="guide-grid">

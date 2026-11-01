@@ -10,7 +10,7 @@ import InfluenceCards from './InfluenceCards.jsx';
 import TransformationPanel from './TransformationPanel.jsx';
 import GameArt, { CONDITION_ART } from './GameArt.jsx';
 import RuneProgress from './RuneProgress.jsx';
-import { PALETTES } from '../HexGrid.jsx';
+import { PALETTES } from './hex-model.js';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const PEAK_ART = { leaf: 'leaves', seed: 'seeds', spore: 'spores' };

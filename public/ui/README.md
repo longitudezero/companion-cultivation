@@ -11,3 +11,5 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 - `ivy-top-left.png` and `ivy-bottom-left.png` are the two supplied transparent ivy corners, copied without changing their pixels. `GoldVines.jsx` applies a pale-gold tonal filter at render time, retaining their alpha and shading. Other supplied sheets retain visible background haze, so these two transparent variants are used for the faint watermarks.
 - `ivy-right.webp` uses the replacement supplied right vine, with its 600 × 363 bounds and the same gold treatment. Speed Pause/0.5×/1×/2× icons and the Bag/1–4 numeral images are copied unchanged. The latest supplied `2x(1).webp` is used for `speed-double.webp`.
 - The supplied Plus, Minus and Fit icons are used unchanged for zoom and the Shop/planting quantity controls. Crop view boxes normalize their visible frames, as with the speed artwork.
+
+- `garden-clearing.png` is the supplied `Mossy Subterranean Garden Clearing2.png` (1672 × 941), copied byte-for-byte. The camera viewport displays it behind the existing 22px dot pattern; pan and zoom move the hex world independently.

@@ -8,9 +8,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, applyStaging,
   advanceGardenTime, PLANTS, makePlant, makeFungus, placeObject, calculateEnvironment, calculateCultivation,
-  grantSourceItem, placeSourceItem } from '../src/core/index.js';
+  grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
+import { HEX_SIZE, HEX_ROTATION_RADIUS, hexCenter, hexPolygon, gridDimensions, PALETTES } from '../src/ui/hex-model.js';
+import { neighborsOf } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
   let garden = ensureInventorySlots(createGarden());
@@ -86,6 +88,7 @@ test('ordinary play has bottom navigation and hides empty staging and menu contr
   assert.doesNotMatch(markup, /class="topbar"|>Save Game<|>Load Game<|>Display developer tools</);
   for (const label of ['Open main menu', 'Open Cultivation Grimoire', 'Open Taskboard', 'Open Shop']) assert.match(markup, new RegExp(`aria-label="${label}"`));
   assert.match(markup, /aria-label="Garden navigation"/);
+  assert.doesNotMatch(markup, /View by property|garden-property-toolbar|MOISTURE SCALE/);
   assert.doesNotMatch(markup, /class="sidebar sidebar-left|class="harvest-button"|>Sow Seeds<|>Sow Spores</);
   assert.match(markup, /aria-label="Filter inventory"/);
   assert.doesNotMatch(markup, /inventory-type-badge/);
@@ -165,7 +168,7 @@ test('main menu keeps system actions ordered and protects an existing planting p
 test('directional planting previews show a rotation handle without changing the garden', () => {
   const garden = createGarden();
   const before = JSON.stringify(garden);
-  const props = { garden, simulation: calculateEnvironment(garden), overlay: 'Moisture', tool: 'inspect', selection: { type: 'hex', key: '0,0' } };
+  const props = { garden, simulation: calculateEnvironment(garden), tool: 'inspect', selection: { type: 'hex', key: '0,0' } };
   const preview = { key: '0,0', kind: 'fungus', species: 'Emberbolete', heading: 4, quantity: 3 };
   const markup = render(HexGrid, { ...props, plantingPreview: preview });
   assert.match(markup, /Rotate planting direction/);
@@ -173,4 +176,42 @@ test('directional planting previews show a rotation handle without changing the 
   assert.doesNotMatch(render(HexGrid, { ...props, plantingPreview: { ...preview, species: 'Mycelord' } }), /Rotate planting direction/);
   assert.equal(JSON.stringify(garden), before);
   assert.deepEqual(garden.staged, {});
+});
+
+
+test('each hex presents resolved moisture, temperature and illumination simultaneously', () => {
+  for (const moisture of CONDITIONS.Moisture) for (const temperature of CONDITIONS.Temperature) for (const illumination of CONDITIONS.Illumination) {
+    let garden = createGarden(3, 3);
+    for (const [property, value] of [['Moisture', moisture], ['Temperature', temperature], ['Illumination', illumination]]) {
+      garden = setBaseline(garden, '0,0', property, value);
+    }
+    const simulation = calculateEnvironment(garden), conditions = simulation.conditions['0,0'];
+    const markup = render(HexGrid, { garden, simulation, tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
+    const cell = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
+    assert.ok(cell.includes(`Moisture ${conditions.Moisture}; Temperature ${conditions.Temperature}; Illumination ${conditions.Illumination}`));
+    assert.ok(cell.includes(`fill="${PALETTES.Moisture[conditions.Moisture]}" stroke="${PALETTES.Temperature[conditions.Temperature]}"`));
+    assert.ok(cell.includes(`ui/light-${conditions.Illumination.toLowerCase()}.webp`));
+    assert.ok(cell.includes('class="hex-selection"'), 'selection keeps a separate inset ring');
+  }
+  assert.equal(PALETTES.Temperature.Freezing, '#fff5e4');
+  assert.notEqual(PALETTES.Temperature.Freezing, PALETTES.Temperature.Cold);
+});
+
+test('enlarged grid bounds contain every hex and directional handle on supported plot sizes', () => {
+  for (const columns of [3, 4, 9, 20]) for (const rows of [3, 4, 7, 20]) {
+    const garden = createGarden(columns, rows), world = gridDimensions(garden);
+    for (const key of Object.keys(garden.hexes)) {
+      const center = hexCenter(key), halo = HEX_ROTATION_RADIUS + 17;
+      assert.ok(center.x - halo >= 0 && center.y - halo >= 0);
+      assert.ok(center.x + halo <= world.width && center.y + halo <= world.height);
+      for (const point of hexPolygon(center).split(' ')) {
+        const [x, y] = point.split(',').map(Number);
+        assert.ok(x >= 0 && x <= world.width && y >= 0 && y <= world.height);
+      }
+      for (const neighbor of neighborsOf(key)) {
+        const other = hexCenter(neighbor);
+        assert.ok(Math.abs(Math.hypot(other.x-center.x, other.y-center.y) - Math.sqrt(3)*HEX_SIZE) < 1e-8);
+      }
+    }
+  }
 });

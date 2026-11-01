@@ -1,0 +1,7 @@
+/* The clearing stays with the viewport; the dotted overlay remains above it. */
+.garden-camera-viewport { background: #14251d url('/ui/garden-clearing.png') center / cover no-repeat; }
+.garden-hud { left: 66px; }
+.hex-illumination > .game-art { width: 24px; height: 24px; filter: drop-shadow(0 1px 2px #102219aa); }
+.hex-label { font-size: 11px; stroke: #17291ee6; stroke-width: 2px; }
+.hex-selection { filter: drop-shadow(0 0 2px #ffe4a766); }
+@media (max-width: 760px) { .garden-hud { left: 42px; } }
