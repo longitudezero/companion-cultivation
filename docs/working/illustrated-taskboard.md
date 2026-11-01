@@ -53,3 +53,9 @@ Validation covers task grouping and selection across unlock/completion boundarie
 - Main, Side and Completed task selectors use fully rounded capsule ends with a gold perimeter instead of slanted clipping. The 34-second green wisp animation, hover/focus brightness and reduced-motion treatment remain in place.
 - The supplied title-decoration WebP is copied unchanged and shown in full, at its original aspect ratio. Its long gold arm extends over the top of the heading and its shorter lower arm frames the first part of the title. Consistent title padding leaves it clear of chevrons/text, with a smaller version on narrow screens. Heading spacing keeps the full ornament clear of task cards.
 - The task selector’s two corner ornaments are removed, and its inner padding is even. The task viewer retains all four corner ornaments. Task groups still collapse and keep their counts and keyboard behavior.
+
+
+## Taskboard title-bar wisps
+
+- Move the full section ornament another 8px left on desktop (6px on narrow screens), covering the capsule’s exposed left edge. Its original proportions and complete canvas remain intact.
+- Reuse the two-field green wisp effect across the Taskboard window title bar, with a slower 64-second lateral loop. Explicit layers put vines at 0, wisps at 1, and title/actions at 2. The layer is decorative, ignores pointer input, and uses the existing reduced-motion rule. The Shop header is unchanged.
