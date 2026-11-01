@@ -9,6 +9,8 @@ import { inspectorInfluences } from './inspector-model.js';
 import InfluenceCards from './InfluenceCards.jsx';
 import TransformationPanel from './TransformationPanel.jsx';
 import GameArt, { CONDITION_ART } from './GameArt.jsx';
+import RuneProgress from './RuneProgress.jsx';
+import { PALETTES } from '../HexGrid.jsx';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const NAMES = { leaf: 'Leaf peak', seed: 'Seed peak', trophy: 'Bamboo Steel ready', spore: 'Spore peak' };
@@ -71,8 +73,8 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
       {hex && conditions ? PROPERTIES.map(property => <div className={`compact-condition condition-${property.toLowerCase()}`} key={property}>
         <div className="inspector-value"><span className="condition-property">{CONDITION_ART[property]?.[conditions[property]]
           ? <GameArt name={CONDITION_ART[property][conditions[property]]}/> : <span aria-hidden="true">◈</span>} {property}</span><strong>{conditions[property]}</strong></div>
-        <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map((name, i) =>
-          <span key={name} title={name} className={i <= CONDITIONS[property].indexOf(conditions[property]) ? 'filled' : ''}/>)}</div>
+        <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map(name =>
+          <span key={name} title={name} className={name === conditions[property] ? 'is-current' : ''} style={{ '--condition-color': PALETTES[property][name] }}/>)}</div>
       </div>) : <p>Select a hex to inspect its resolved Conditions.</p>}
       {hex && <span className={`ground-status ${mycelialHere ? 'colonized' : ''}`}>{mycelialHere ? '✥ Mycelial ground' : 'Uncolonized ground'}</span>}
     </div>
@@ -80,15 +82,14 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     <div className="inspector-growth inspector-section">
       <h3>{organism ? 'Growth & Harvest' : 'Field Notes'}</h3>
       {organism ? <>
-        {harvest ? <><div className="inspector-value"><span>❧ Leaves now</span><strong>{harvest.leaves}</strong></div>
+        {harvest ? <><div className="inspector-value"><span className="yield-property"><GameArt name="leaves"/> Leaves now</span><strong>{harvest.leaves}</strong></div>
           <div className="inspector-value"><span className="yield-property"><GameArt name="seeds"/> Seeds now</span><strong>{harvest.seeds}</strong></div>
           {object.species === 'Bamboozled' && <div className="inspector-value"><span>◆ Bamboo Steel</span><strong>{harvest.bambooSteel ? 'Ready' : 'Not ready'}</strong></div>}</>
           : <div className="inspector-value"><span className="yield-property"><GameArt name="spores"/> Spores now</span><strong>{Math.floor(object.sporeStock || 0)}</strong></div>}
         <LifecycleBar object={object} contacts={contacts} conditions={conditions}/>
         {object.species === 'Carrot' && ['active', 'ready'].includes(taskStatus(garden, CARE_TASK)) && conditions?.Moisture === 'Dry' &&
-          <div className="tutorial-dry-warning"><div className="inspector-value"><span>Dry exposure</span><strong>{simulationSpeed ? `${formatRealDuration(Math.max(0, PLANTS.Carrot.dryDeath - (object.exposure?.Dry || 0)) / simulationSpeed)} left` : 'Paused'}</strong></div>
-            <div role="progressbar" aria-label="Carrot Dry exposure" aria-valuemin={0} aria-valuemax={PLANTS.Carrot.dryDeath} aria-valuenow={object.exposure?.Dry || 0}>
-              <i style={{ width: `${Math.min(100, (object.exposure?.Dry || 0) / PLANTS.Carrot.dryDeath * 100)}%` }}/></div></div>}
+          <div className="tutorial-dry-warning"><div className="inspector-value"><span className="yield-property"><GameArt name="warning"/> Dry exposure</span><strong>{simulationSpeed ? `${formatRealDuration(Math.max(0, PLANTS.Carrot.dryDeath - (object.exposure?.Dry || 0)) / simulationSpeed)} left` : 'Paused'}</strong></div>
+            <RuneProgress danger label="Carrot Dry exposure" max={PLANTS.Carrot.dryDeath} value={object.exposure?.Dry || 0}/></div>}
 
       </> : staged ? <><p><strong>{staged.quantity} {staged.kind === 'plant' ? 'Seeds' : 'Spores'} reserved</strong></p><p>Uncommitted · nothing spent yet.</p>
         <div className="inspector-inline-actions"><button onClick={onEditStaged}>Edit quantity</button><button onClick={onUnstage}>Unstage</button></div>

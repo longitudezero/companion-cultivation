@@ -6,6 +6,12 @@ export const GAME_ART = {
   gold: ['gold.webp', 1254, 1254, [286, 318, 667, 648]],
   seeds: ['seeds.webp', 177, 201, [17, 21, 136, 154]],
   spores: ['spores.webp', 1254, 1254, [255, 196, 752, 862]],
+  leaves: ['leaves.webp', 295, 338, [30, 30, 240, 275]],
+  warning: ['warning.webp', 358, 332, [45, 5, 265, 270]],
+  pin: ['pin.webp', 1254, 1254, [275, 90, 840, 1010]],
+  moistureDry: ['moisture-dry.webp', 1254, 1254, [310, 125, 625, 955]],
+  moistureDamp: ['moisture-damp.webp', 1254, 1254, [360, 215, 540, 800]],
+  moistureFlooded: ['moisture-flooded.webp', 1254, 1254, [280, 105, 690, 1010]],
   hexExpansion: ['hex-expansion.webp', 345, 242, [15, 7, 311, 225]],
   inventoryExpansion: ['inventory-expansion.webp', 1254, 1254, [300, 286, 653, 663]],
   shop: ['shop.webp', 512, 512, [27, 14, 457, 484]],
@@ -21,11 +27,17 @@ export const GAME_ART = {
   temperatureHot: ['temperature-hot.webp', 512, 512, [74, 27, 362, 457]],
   badgeBack: ['botanical-badges.png', 1448, 1086, [22, 123, 694, 223]],
   badgeLeaf: ['botanical-badges.png', 1448, 1086, [18, 446, 700, 210]],
+  badgeComplete: ['botanical-badges.png', 1448, 1086, [739, 739, 688, 247]],
   cornerTop: ['gold-corners.png', 1448, 1086, [385, 124, 337, 353]],
-  cornerBottom: ['gold-corners.png', 1448, 1086, [385, 580, 340, 360]],
+  cornerVineTop: ['gold-corners.png', 1448, 1086, [23, 119, 350, 382]],
+  cornerFlowerTop: ['gold-corners.png', 1448, 1086, [727, 119, 344, 382]],
+  cornerFlowerBottom: ['gold-corners.png', 1448, 1086, [23, 566, 349, 374]],
+  cornerGemBottom: ['gold-corners.png', 1448, 1086, [727, 573, 344, 371]],
+  cornerFiligreeBottom: ['gold-corners.png', 1448, 1086, [1084, 570, 343, 375]],
 };
 
 export const CONDITION_ART = {
+  Moisture: { Dry: 'moistureDry', Damp: 'moistureDamp', Flooded: 'moistureFlooded' },
   Temperature: { Freezing: 'temperatureFreezing', Cold: 'temperatureCold', Temperate: 'temperatureTemperate', Warm: 'temperatureWarm', Hot: 'temperatureHot' },
   Illumination: { Dark: 'lightDark', Dim: 'lightDim', Lit: 'lightLit', Bright: 'lightBright' },
 };
@@ -38,9 +50,9 @@ export default function GameArt({ name, className = '', stretch = false }) {
 
 export function CornerOrnaments({ leftOnly = false }) {
   return <div className="corner-ornaments" aria-hidden="true">
-    <GameArt name="cornerTop" className="ornament ornament-tl"/>
-    <GameArt name="cornerBottom" className="ornament ornament-bl"/>
-    {!leftOnly && <><GameArt name="cornerTop" className="ornament ornament-tr"/><GameArt name="cornerBottom" className="ornament ornament-br"/></>}
+    <GameArt name={leftOnly ? 'cornerVineTop' : 'cornerTop'} className="ornament ornament-tl"/>
+    <GameArt name={leftOnly ? 'cornerFlowerBottom' : 'cornerGemBottom'} className={`ornament ornament-bl${leftOnly ? '' : ' ornament-mirrored'}`}/>
+    {!leftOnly && <><GameArt name="cornerFlowerTop" className="ornament ornament-tr"/><GameArt name="cornerFiligreeBottom" className="ornament ornament-br"/></>}
   </div>;
 }
 

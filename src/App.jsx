@@ -7,6 +7,7 @@ import GardenCamera from './ui/GardenCamera.jsx';
 import SimulationControls from './ui/SimulationControls.jsx';
 import Taskboard, { TaskboardIcon } from './ui/Taskboard.jsx';
 import TaskTracker from './ui/TaskTracker.jsx';
+import TutorialResetDialog from './ui/TutorialResetDialog.jsx';
 import Shop, { ShopIcon } from './ui/Shop.jsx';
 import { tradeShop } from './core/shop.js';
 import { harvestItems, mergeHarvestReceipt } from './ui/harvest-receipts.js';
@@ -105,6 +106,7 @@ export default function App() {
   const [bookEntry, setBookEntry] = useState(null);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
+  const [showTutorialReset, setShowTutorialReset] = useState(false);
   const [harvestReceipt, setHarvestReceipt] = useState(null), [cameraRevision, setCameraRevision] = useState(0);
   const harvestSequence = useRef(0);
   const fileInput = useRef(null);
@@ -196,6 +198,12 @@ export default function App() {
     clearPlanHistory(); setSelection({ type: 'hex', key: '0,0' }); setTool('inspect');
     setHeldItem(null); setQuantityPrompt(null); setInventoryPage(0); setShowDeveloperTools(false);
     setHarvestReceipt(null); setNoticeState(null);
+    setShowTutorialReset(false);
+  }
+  function requestTutorial() {
+    dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
+    setShowTaskboard(false); setShowShop(false); setShowGrimoire(false); setShowGuide(false);
+    setShowTutorialReset(true);
   }
   function completeTask(id) {
     replaceGarden(claimTask(gardenRef.current, id));
@@ -589,6 +597,7 @@ export default function App() {
           <span className={`autosave-indicator ${autosaveStatus === 'Autosaved' ? '' : 'is-warning'}`} role="status">{autosaveStatus === 'Autosaved' ? '✓ ' : '⚠ '}{autosaveStatus}</span>
           <button className="save-game-button" onClick={saveGameFile} title="Download a complete copy of your current garden">↓ Save Game</button>
           <button className="load-game-button" onClick={() => fileInput.current?.click()} title="Load a .ccsave file or earlier garden JSON">↑ Load Game</button>
+          <button className="new-garden-button" onClick={requestTutorial}>New tutorial garden</button>
           <input ref={fileInput} type="file" accept=".ccsave,.json,application/json" hidden aria-label="Choose a game save file" onChange={importGarden}/>
         </div>
         <button className="subtle-button" onClick={() => setShowGuide(true)}>How it works <span>↗</span></button>
@@ -759,7 +768,8 @@ export default function App() {
     {showShop && <Shop garden={garden} speed={clock.speed} onSpeedChange={clock.setSpeed} onClose={() => setShowShop(false)} onTrade={tradeInShop}/>}
     {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry} speed={clock.speed} onSpeedChange={clock.setSpeed}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
-      onStartTutorial={startTutorial} onInspectCarrot={inspectCarrot}/>}
+      onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
+    {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}
       onClose={() => setShowGrimoire(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
