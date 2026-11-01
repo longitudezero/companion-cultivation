@@ -11,7 +11,7 @@ import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, 
   grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
-import { HEX_SIZE, HEX_ROTATION_RADIUS, hexCenter, hexPolygon, gridDimensions, PALETTES } from '../src/ui/hex-model.js';
+import { HEX_SIZE, HEX_ROTATION_RADIUS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
 import { neighborsOf } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
@@ -215,4 +215,16 @@ test('enlarged grid bounds contain every hex and directional handle on supported
       }
     }
   }
+});
+
+test('the quantity selector clears the full rotation handle as zoom and viewport change', () => {
+  for (const zoom of [.5, 1, 1.5, 3]) for (const centerX of [280, 680, 1100]) {
+    const width = Math.sqrt(3)*HEX_SIZE*zoom, height = 2*HEX_SIZE*zoom;
+    const popup = plantingPopoverPosition({ left: centerX-width/2, top: 180, width, height }, { width: 1363, height: 936 });
+    const halo = (HEX_ROTATION_RADIUS+17)*zoom;
+    assert.ok(popup.x >= 12 && popup.x+270 <= 1351);
+    assert.ok(popup.x >= centerX+halo || popup.x+270 <= centerX-halo);
+  }
+  const mobile = plantingPopoverPosition({ left: 100, top: 300, width: 83, height: 96 }, { width: 320, height: 640 });
+  assert.ok(mobile.x >= 12 && mobile.x+270 <= 308);
 });
