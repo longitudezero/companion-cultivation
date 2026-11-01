@@ -21,8 +21,8 @@ const taskImage = id => illustrationFor(TASKS[id].delivery?.species || (id === F
 const stateLabel = status => ({ ready: 'Ready to complete', completed: 'Completed', 'not-started': 'Begin your guild assignment', active: 'In progress' })[status];
 
 // Two identical fields make the reference's slow lateral glow loop seamlessly.
-function HeadingWisps() {
-  return <span className="task-heading-aura" aria-hidden="true"><span className="task-heading-strip">
+function HeadingWisps({ className = '' }) {
+  return <span className={`task-heading-aura${className ? ` ${className}` : ''}`} aria-hidden="true"><span className="task-heading-strip">
     <span className="task-heading-tile"/><span className="task-heading-tile"/>
   </span></span>;
 }
@@ -62,7 +62,8 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
     if (receipt.id === FIRST_TASK) selectTask(CARE_TASK); else onClose();
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal guild-taskboard" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
-    <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work.">
+    <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work."
+      decoration={<HeadingWisps className="taskboard-header-wisps"/>}>
       <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></GuildHeader>
     <div className="taskboard-content" inert={Boolean(receipt)}>
       <aside className="taskboard-list" aria-label="Task list">
