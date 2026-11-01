@@ -155,7 +155,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - For Leaf deliveries, the tracker may show that the player has enough resources, but **submission remains an explicit action on the Taskboard** and consumes the required Leaves only when confirmed.
 - Keep pins, task states, discovery history and deliveries persistent across saves. The interface must protect the playable hex grid and work on smaller screens.
 
-**Current presentation:** a Taskboard overlay with Main / Side / Completed sections and up to three pins. All pinned tasks appear in a collapsible list at the garden’s upper right, over a fading half-opacity shadow. The Objectives title toggles collapse; task entries and the header icon open the board. Speed and zoom controls occupy the garden’s upper left. Narrow screens stack the two HUD groups.
+**Current presentation:** a Taskboard overlay with stacked collapsible Main / Side / Completed sections and up to three pins. All pinned tasks appear in a collapsible list at the garden’s upper right, over a fading half-opacity shadow. The Objectives title toggles collapse; task entries and the header icon open the board. Speed and zoom controls occupy the garden’s upper left. Narrow screens stack the two HUD groups.
 
 ## 8. Manual simulation controls — agreed
 
@@ -190,7 +190,7 @@ My First Transformation and A Thirsty Carrot are playable, along with A Few Carr
 
 Fresh browser games start an isolated 4 × 4 tutorial with 36 Beanstalk Seeds and 8 Prismorel Spores as playtest quantities. Existing saves retain their sandbox gardens; New tutorial garden on the board uses an explicit replacement confirmation. Inventory remains at the existing 200-square prototype capacity. The full family/store/capacity progression is deferred.
 
-The icon beside the Grimoire opens the overlay. Main, Side and Completed tabs, pin/unpin controls, a collapsible Objectives tracker in the garden’s upper-right corner, and a persistent Gold balance cover the basic flow. Up to three tasks can be pinned; the first starts pinned. If it remains pinned when claimed, its pin transfers to the care task; unpinning is respected. The board retains the selected simulation speed and exposes the same clock controls. Opening/closing it never pauses automatically.
+The icon beside the Grimoire opens the overlay. Stacked collapsible Main, Side and Completed groups, pin/unpin controls, a collapsible Objectives tracker in the garden’s upper-right corner, and a persistent Gold balance cover the basic flow. Up to three tasks can be pinned; the first starts pinned. If it remains pinned when claimed, its pin transfers to the care task; unpinning is respected. The board retains the selected simulation speed and exposes the same clock controls. Opening/closing it never pauses automatically.
 
 An optional versioned tasks field persists readiness, milestones, claimed IDs, pins, tracker collapse and Gold in browser saves and .ccsave backups. Legacy saves without it remain compatible. Reward bundles are atomic: insufficient inventory space leaves the ready task, Gold and unlock untouched. A real transformation event is required for Task 1; Care requires actual Dewmender Wetting reaching a living Carrot on Damp, independently of its cultivation footprint.
 
