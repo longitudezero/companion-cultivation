@@ -54,9 +54,9 @@ export const CONDITION_ART = {
   Illumination: { Dark: 'lightDark', Dim: 'lightDim', Lit: 'lightLit', Bright: 'lightBright' },
 };
 
-export default function GameArt({ name, className = '', stretch = false }) {
+export default function GameArt({ name, className = '', stretch = false, x, y }) {
   const [file, width, height, box] = GAME_ART[name];
-  return <svg className={`game-art ${className}`} viewBox={box.join(' ')} preserveAspectRatio={stretch ? 'none' : 'xMidYMid meet'}
+  return <svg className={`game-art ${className}`} x={x} y={y} viewBox={box.join(' ')} preserveAspectRatio={stretch ? 'none' : 'xMidYMid meet'}
     aria-hidden="true" focusable="false"><image href={`${import.meta.env?.BASE_URL || '/'}ui/${file}`} width={width} height={height}/></svg>;
 }
 

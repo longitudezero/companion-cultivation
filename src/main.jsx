@@ -11,6 +11,7 @@ import './gold-vines.css';
 import './garden-controls.css';
 import './compact-layout.css';
 import './main-menu.css';
+import './garden-environment.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>,

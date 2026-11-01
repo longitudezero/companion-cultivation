@@ -38,3 +38,11 @@ Validation covers task grouping and selection across unlock/completion boundarie
 - Staging defaults on and is remembered separately as a browser preference. Turn it off to consume and plant a single placement on quantity confirmation, without a separate Apply. Existing germination time, concealed roll, inventory, habitat and discovery rules remain canonical. Existing proposals must be applied or cancelled before disabling staging; loading a saved plan enables staging to keep it editable.
 - The staging action bar is present only while proposals exist, including after Undo or Cancel. Pending germinations alone do not keep it open.
 - Quantity selection produces an ephemeral preview. Budget Fungi show the same six-direction drag handle while the selector remains open, with a direction dropdown and keyboard arrows as alternatives. Preview rotation never reserves or spends stock; Cancel/Escape/navigation discards it. Confirm commits its selected heading in either planting mode.
+
+
+## Simultaneous environment on larger hexes
+
+- Hex radius increases from 33 to 48 pixels. Shared geometry updates the camera world bounds, centers, edges, routes and the 68px rotation ring. Plot-edge padding also contains its 17px direction handle.
+- Moisture remains the soil fill and text label. Temperature uses an inset colored perimeter, including warm white for Freezing and blue for Cold. The same palette supplies Inspector segments. The selected hex uses an independent inset dashed gold ring; hover/focus brighten without replacing the temperature color.
+- Every hex carries the supplied Dark/Dim/Lit/Bright artwork. Occupants, proposal quantities and germination markers share the room beside that icon. Accessible labels and native hover titles give all three resolved conditions together. The View by property controls and their scale are removed.
+- The supplied clearing PNG is copied unchanged as the viewport background. The existing dot overlay is retained. The camera still pans/zooms only the world, and all current gameplay rules, stock, saves and condition calculations remain unchanged.
