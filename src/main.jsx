@@ -10,6 +10,7 @@ import './illustrated-ui.css';
 import './gold-vines.css';
 import './garden-controls.css';
 import './compact-layout.css';
+import './main-menu.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>,

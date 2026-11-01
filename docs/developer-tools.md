@@ -4,7 +4,7 @@ This page describes **the current interface**, not a new or finalized gameplay d
 
 ## Toggle and default view
 
-The top bar, next to the Companion Cultivation logo, offers **Display developer tools**. It is **off by default on page load**. Click it to show a separate **Developer tools · test only** section and other test-only controls throughout the interface. Click **Hide developer tools** to return to the player-facing view.
+The main menu beside the Inspector offers **Display developer tools**. It is **off by default on page load**. Click it to show a separate **Developer tools · test only** section and other test-only controls throughout the interface. Click **Hide developer tools** to return to the player-facing view.
 
 If a debug placement tool is active when the developer tools are hidden, the selection automatically returns to ordinary inspection. Existing garden objects, environmental state, and inventories are **not** altered. Browser-local garden saving is unchanged. The visibility preference is intentionally not stored with the garden.
 
@@ -21,7 +21,7 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 - **Harvest:** Drag a living Plant/Fungus from its hex into the inventory. Clicking the bottom portrait opens its exact Grimoire page. Keyboard pickup controls are deferred to a later design pass. There is no permanent Harvest button in ordinary play. An itemized harvest receipt appears at the garden’s lower-right edge beside inventory for four seconds. Its existing one-time yield and restrictions remain in effect; outputs merge into species-specific stacks.
 - **Garden camera:** Wheel/pinch or ± zoom around the current view; Fit frames the whole plot. Drag empty ground to pan, or use the middle mouse button anywhere, including occupied hexes. Resizing the window or inventory reveals more/less garden without changing hex size.
 - **Environment, plot contents and clock:** Inspection remains available. Pause/0.5×/1×/2× control the whole simulation. When running, the clock **advances automatically even while staging**, so existing Growth, Transformations, hazards and Mycelial activity update live. Existing Sources/Blockers keep affecting the simulation even when editing them is hidden.
-- **Autosave, Save Game and Load Game:** The header reports whether writing to browser-local storage succeeded. Save Game downloads a complete portable `.ccsave` snapshot; Load Game validates a `.ccsave` or older `.json` garden, then asks for confirmation before replacing the active garden and browser autosave. Both work during staging or pending germination and do not spend items or advance time. See [saving and backups](design/systems/saving-and-backups.md).
+- **Autosave, Save Game and Load Game:** The main menu reports whether writing to browser-local storage succeeded. Save Game downloads a complete portable `.ccsave` snapshot; Load Game validates a `.ccsave` or older `.json` garden, then asks for confirmation before replacing the active garden and browser autosave. Both work during staging or pending germination and do not spend items or advance time. See [saving and backups](design/systems/saving-and-backups.md).
 
 ### Visible only with developer tools on
 
@@ -36,7 +36,7 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 | Change Blocker filtering | Relevant inspector controls; committed Fungi retain their original heading |
 | Inspect undiscovered recipe eligibility and clocks, full hazard thresholds, source contributions and raw Fungal cultivation magnitudes | Organism and hex inspector; hidden for ordinary players to preserve Grimoire discovery |
 | Preview every Plant, Fungus profile and all related Transformation recipes in the Grimoire | Turn on developer tools, open **❦ Cultivation Grimoire**, then select **Preview full Grimoire**. Select **Return to discoveries** to restore the normal view. The preview is read-only; it does not unlock entries or alter the saved discovery ledger. |
-| Instant time skip equivalent to 5s (one game hour) or 2m (one game day) | Buttons beside the read-only garden clock; their labels show live real-time equivalents |
+| Instant time skip equivalent to 5s (one game hour) or 2m (one game day) | Buttons in the main menu beside the read-only garden clock; their labels show live real-time equivalents |
 | Restore demo, start a blank plot, resize the grid | Plot controls |
 | Export raw garden JSON | Inspector footer; technically inspectable full state, including hidden germination outcomes |
 | Import earlier raw JSON | Inspector footer; reuses the same validated, confirmation-gated player Load Game path |

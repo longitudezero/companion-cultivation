@@ -99,8 +99,8 @@ test('inspector order is logical and the unknown Transformation segment contains
 
 test('simulation controls belong to the garden HUD and the empty inventory caption is removed', () => {
   const markup = renderToStaticMarkup(React.createElement(App));
-  const header = markup.slice(0, markup.indexOf('</header>'));
-  assert.doesNotMatch(header, /simulation-speeds|Pause simulation/);
+  assert.doesNotMatch(markup, /class="topbar"/);
+  assert.match(markup, /aria-label="Garden navigation"/);
   assert.ok(markup.indexOf('Simulation speed') > markup.indexOf('garden-view-controls'));
   assert.doesNotMatch(markup, /Seeds, Spores &amp; field supplies/);
 });
