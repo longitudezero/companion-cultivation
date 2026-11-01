@@ -3,6 +3,15 @@ import React from 'react';
 // View boxes normalize the visible artwork without cropping or repainting the
 // supplied files. The two collections remain shared, unmodified sprite sheets.
 export const GAME_ART = {
+  bag: ['bag.webp', 1254, 1254, [240, 150, 780, 875]],
+  bagNumber1: ['number-1.webp', 250, 336, [45, 20, 163, 292]],
+  bagNumber2: ['number-2.webp', 250, 336, [20, 20, 215, 292]],
+  bagNumber3: ['number-3.webp', 250, 336, [25, 20, 205, 295]],
+  bagNumber4: ['number-4.webp', 250, 336, [13, 20, 225, 292]],
+  speedPause: ['speed-pause.webp', 1254, 1254, [195, 175, 860, 865]],
+  speedHalf: ['speed-half.webp', 1254, 1254, [180, 185, 880, 855]],
+  speedNormal: ['speed-normal.webp', 1254, 1254, [190, 185, 870, 875]],
+  speedDouble: ['speed-double.webp', 1254, 1254, [180, 170, 880, 875]],
   gold: ['gold.webp', 1254, 1254, [286, 318, 667, 648]],
   seeds: ['seeds.webp', 177, 201, [17, 21, 136, 154]],
   spores: ['spores.webp', 1254, 1254, [255, 196, 752, 862]],

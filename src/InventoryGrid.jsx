@@ -4,6 +4,7 @@ import { illustrationFor } from './grimoire/illustrations.js';
 import { itemCategory } from './ui/garden-model.js';
 import InventoryTooltip from './ui/InventoryTooltip.jsx';
 import SlotVines from './ui/GoldVines.jsx';
+import GameArt from './ui/GameArt.jsx';
 
 const ICON = { seed: '◌', spore: '◈', leaf: '❧', trophy: '◆', legacy: '□', 'source-item': '✧' };
 const FILTERS = { all: 'All', seed: 'Seeds', spore: 'Spores', leaf: 'Leaves', item: 'Items' };
@@ -32,11 +33,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
     <SlotVines/>
     <div className="inventory-heading"><div><div className="mini-heading">YOUR COLLECTION</div><h3>Inventory</h3></div><span>{items.length} / 200 slots</span></div>
     <div className="inventory-filters" role="group" aria-label="Filter inventory">{Object.entries(FILTERS).map(([key, label]) => <button key={key} data-inventory-type={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}</div>
-    {filter === 'all' && <div className="inventory-pages" aria-label="Inventory pages">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
-      <button key={page} className={activePage === page ? 'is-open' : ''}
-        aria-expanded={activePage === page} onPointerEnter={() => onPageHover(page)}
-        onClick={() => onPageChange(activePage === page ? null : page)}>Page {page + 1} <span>{activePage === page ? '−' : '+'}</span></button>)}</div>}
-    {!!slots.length && <div className="inventory-square-grid" role="group" aria-label={filter === 'all' ? `Inventory page ${activePage + 1}, 50 squares` : `${FILTERS[filter]} in inventory`}>
+    {!!slots.length && <div className="inventory-square-grid" role="group" aria-label={filter === 'all' ? `Bag ${activePage + 1}, 50 squares` : `${FILTERS[filter]} in inventory`}>
       {slots.map(slot => {
         const item = occupied.get(slot);
         const picture = item?.species ? illustrationFor(item.species) : null;
@@ -61,5 +58,11 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
     {filter !== 'all' && !slots.length && <p className="inventory-empty">No {FILTERS[filter].toLowerCase()} collected yet.</p>}
     {hover && !dragging && <InventoryTooltip id={tooltipId} {...hover} ledger={ledger}/>}
     {held && <p className="inventory-held-hint"><strong>{held.name}</strong> · {held.type === 'source-item' ? `${formatRealDuration(held.remainingHours)} paused. Tap an empty hex to place it` : `owned ${held.quantity}${['seed', 'spore'].includes(held.type) ? ` · staged ${reservedForHeld} · available ${Math.max(0, held.quantity - reservedForHeld)}` : ''}. Tap a hex to stage Seeds/Spores`}, or another square to rearrange.</p>}
+    <div className="inventory-bags" role="group" aria-label="Inventory bags">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
+      <button key={page} className={filter === 'all' && activePage === page ? 'is-open' : ''} aria-label={`Bag ${page + 1}`} title={`Bag ${page + 1} · 50 squares`}
+        aria-expanded={filter === 'all' && activePage === page} onPointerEnter={() => { if (dragging) setFilter('all'); onPageHover(page); }}
+        onClick={() => { hide(); setFilter('all'); onPageChange(filter === 'all' && activePage === page ? null : page); }}>
+        <GameArt name={`bagNumber${page + 1}`} className="bag-number"/><GameArt name="bag" className="bag-icon"/>
+      </button>)}</div>
   </section>;
 }

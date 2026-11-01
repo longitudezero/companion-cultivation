@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { goldBalance } from '../core/wallet.js';
 import { shopProducts, shopQuote } from '../core/shop.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
-import SimulationControls from './SimulationControls.jsx';
+import GuildBackButton from './GuildBackButton.jsx';
 import GameArt from './GameArt.jsx';
 import SlotVines from './GoldVines.jsx';
 import GuildHeader from './GuildHeader.jsx';
 
 export function ShopIcon() { return <GameArt name="shop"/>; }
 
-export default function Shop({ garden, speed, onSpeedChange, onClose, onTrade }) {
+export default function Shop({ garden, onClose, onTrade }) {
   const [mode, setMode] = useState('buy'), [selected, setSelected] = useState('seed:Beanstalk');
   const [quantity, setQuantity] = useState('10'), [receipt, setReceipt] = useState(null), [error, setError] = useState('');
   const modal = useRef(null), close = useRef(onClose); close.current = onClose;
   useEffect(() => {
     const previous = document.activeElement, overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden'; modal.current.querySelector('[aria-label="Close Shop"]').focus();
+    document.body.style.overflow = 'hidden'; modal.current.querySelector('[aria-label="Back to garden"]').focus();
     const keys = event => {
       if (event.key === 'Escape') { event.preventDefault(); close.current(); }
       if (event.key !== 'Tab') return;
@@ -48,8 +48,7 @@ export default function Shop({ garden, speed, onSpeedChange, onClose, onTrade })
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
     <GuildHeader title="Shop">
-      <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
-      <button className="taskboard-close" aria-label="Close Shop" onClick={onClose}>×</button></GuildHeader>
+      <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></GuildHeader>
     <div className="shop-body"><section className="shop-stock" aria-label={mode === 'buy' ? 'Shop stock' : 'Leaves to sell'}>
       <SlotVines/>
       <div className="shop-tabs task-tabs" role="tablist" aria-label="Shop sections">

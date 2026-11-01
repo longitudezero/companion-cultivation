@@ -1,7 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { TASKS, FIRST_TASK, CARE_TASK, taskStatus, taskObjectives } from '../core/tasks.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
-import SimulationControls from './SimulationControls.jsx';
+import GuildBackButton from './GuildBackButton.jsx';
 import { goldBalance } from '../core/wallet.js';
 import GameArt, { CornerOrnaments, TaskBadge } from './GameArt.jsx';
 import RuneProgress from './RuneProgress.jsx';
@@ -27,7 +27,7 @@ function HeadingWisps() {
   </span></span>;
 }
 
-export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange, onClose, onClaim, onPin, onRequestTutorial, onInspectCarrot }) {
+export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onPin, onRequestTutorial, onInspectCarrot }) {
   const [selected, setSelected] = useState(() => initialTaskSelection(garden, initialTaskId));
   const [collapsed, setCollapsed] = useState(() => ({ main: false, side: false, completed: taskSection(garden, selected) !== 'completed' }));
   const [receipt, setReceipt] = useState(null), [error, setError] = useState('');
@@ -63,9 +63,7 @@ export default function Taskboard({ garden, initialTaskId, speed, onSpeedChange,
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal guild-taskboard" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
     <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work.">
-      <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><SimulationControls speed={speed} onChange={onSpeedChange}/>
-      <button className="guild-back" aria-label="Back to garden" onClick={onClose}><GameArt name="badgeBack" stretch/>
-        <span className="back-arrow" aria-hidden="true">←</span><span>Back</span><i className="back-halo" aria-hidden="true"/></button></GuildHeader>
+      <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></GuildHeader>
     <div className="taskboard-content" inert={Boolean(receipt)}>
       <aside className="taskboard-list" aria-label="Task list"><CornerOrnaments leftOnly/>
         <div className="task-list-scroll">{TASK_SECTIONS.map(section => <section className="task-group" key={section.id}>

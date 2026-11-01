@@ -5,6 +5,7 @@ import CultivationGrimoire from './CultivationGrimoire.jsx';
 import GardenInspector from './ui/GardenInspector.jsx';
 import GardenCamera from './ui/GardenCamera.jsx';
 import SimulationControls from './ui/SimulationControls.jsx';
+import RuneDivider from './ui/RuneDivider.jsx';
 import Taskboard, { TaskboardIcon } from './ui/Taskboard.jsx';
 import TaskTracker from './ui/TaskTracker.jsx';
 import TutorialResetDialog from './ui/TutorialResetDialog.jsx';
@@ -683,6 +684,7 @@ export default function App() {
           onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
           onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
       </aside>
+      <RuneDivider/>
       <GardenInspector garden={garden} selection={selection} simulation={simulation} cultivation={cultivation} mycelialHere={mycelialHere}
         onOpenEntry={openSpeciesEntry} clockFraction={clock.fraction} simulationSpeed={clock.speed} onEditStaged={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}
         onUnstage={() => changeStaging(previous => unstagePlanting(previous, selection.key))} onRotate={rotateSelectedHex}
@@ -765,8 +767,8 @@ export default function App() {
     </div>}
     {dragGhost && <div className="garden-drag-ghost" style={{ left: dragGhost.x, top: dragGhost.y }}>✤ {dragGhost.title}</div>}
 
-    {showShop && <Shop garden={garden} speed={clock.speed} onSpeedChange={clock.setSpeed} onClose={() => setShowShop(false)} onTrade={tradeInShop}/>}
-    {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry} speed={clock.speed} onSpeedChange={clock.setSpeed}
+    {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}/>}
+    {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
@@ -776,7 +778,7 @@ export default function App() {
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 16</span><h2>A garden of changing forms</h2>
       <p>Transformations across Ingredients, Flowers, Aquatic, Woodlands, Desert and Spices are active. Every Plant yields its own species-specific Leaves on harvest, rather than a shared Leaf currency. Fungi must actually reach a Plant through their environmental or cultivation footprints. Transformations create fresh 0% Plants; the physical light, water and temperature environment still matters after conversion.</p>
-      <p>Arrange the four 50-square inventory pages, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply</strong>. Attempts are consumed together and their results stay hidden for about <strong>{formatRealDuration(STAGING_TUNING.germinationRevealHours)}</strong>. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Select a portrait to open its species in the Grimoire. Undo reverses the last staging edit; Cancel releases the whole uncommitted plan. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. Use Pause, 0.5×, 1× and 2× beside the garden zoom controls to control the whole garden. One game hour takes five real seconds at 1×; Grimoire durations use that baseline. Drag empty ground or use the middle mouse button to pan; scroll to zoom.</p>
+      <p>Arrange the four 50-square inventory bags, drag Seeds or Spores to empty hexes, choose an amount, and press <strong>Apply</strong>. Attempts are consumed together and their results stay hidden for about <strong>{formatRealDuration(STAGING_TUNING.germinationRevealHours)}</strong>. You can stage more immediately, and existing organisms keep progressing while you plan. Drag living organisms back to inventory to harvest. Select a portrait to open its species in the Grimoire. Undo reverses the last staging edit; Cancel releases the whole uncommitted plan. Use <strong>Display developer tools</strong> beside the logo for unrestricted testing. Use Pause, 0.5×, 1× and 2× beside the garden zoom controls to control the whole garden. One game hour takes five real seconds at 1×; Grimoire durations use that baseline. Drag empty ground or use the middle mouse button to pan; scroll to zoom.</p>
       <p>Your garden autosaves in this browser. Use <strong>Save Game</strong> to download a portable .ccsave backup, and <strong>Load Game</strong> to restore it here or on another device. Loading replaces your current browser save after confirmation; staged placements and hidden germination timers are included. Browser-closed progression is not implemented yet.</p>
       <div className="guide-grid">
         <div><b>01 · Start any family</b><p>Six base Plants have available Seeds: Beanstalk, Daisydaze, Algea, Moss, Jadeheart and Thymekeeper. Experiment to discover other Plants.</p></div>

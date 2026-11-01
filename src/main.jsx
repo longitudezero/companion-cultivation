@@ -8,6 +8,7 @@ import './taskboard.css';
 import './shop.css';
 import './illustrated-ui.css';
 import './gold-vines.css';
+import './garden-controls.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>,
