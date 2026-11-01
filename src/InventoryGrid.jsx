@@ -10,7 +10,7 @@ const ICON = { seed: '◌', spore: '◈', leaf: '❧', trophy: '◆', legacy: '�
 const FILTERS = { all: 'All', seed: 'Seeds', spore: 'Spores', leaf: 'Leaves', item: 'Items' };
 
 export default function InventoryGrid({ items, activePage, onPageChange, heldId, onItemPointerDown,
-  onChooseItem, onChooseSlot, onPageHover, reservedForHeld = 0, ledger, dragging = false }) {
+  onChooseItem, onChooseSlot, onPageHover, reservedForHeld = 0, stagingEnabled = true, ledger, dragging = false }) {
   const [filter, setFilter] = useState('all');
   const [hover, setHover] = useState(null);
   const visible = useRef(null), hoverTimer = useRef(null), tooltipId = useId();
@@ -66,7 +66,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
     </div>}
     {filter !== 'all' && !slots.length && <p className="inventory-empty">No {FILTERS[filter].toLowerCase()} collected yet.</p>}
     {hover && !dragging && <InventoryTooltip id={tooltipId} {...hover} ledger={ledger}/>}
-    {held && <p className="inventory-held-hint"><strong>{held.name}</strong> · {held.type === 'source-item' ? `${formatRealDuration(held.remainingHours)} paused. Tap an empty hex to place it` : `owned ${held.quantity}${['seed', 'spore'].includes(held.type) ? ` · staged ${reservedForHeld} · available ${Math.max(0, held.quantity - reservedForHeld)}` : ''}. Tap a hex to stage Seeds/Spores`}, or another square to rearrange.</p>}
+    {held && <p className="inventory-held-hint"><strong>{held.name}</strong> · {held.type === 'source-item' ? `${formatRealDuration(held.remainingHours)} paused. Tap an empty hex to place it` : `owned ${held.quantity}${['seed', 'spore'].includes(held.type) ? `${stagingEnabled ? ` · staged ${reservedForHeld}` : ''} · available ${Math.max(0, held.quantity - reservedForHeld)}. Tap a hex to ${stagingEnabled ? 'stage' : 'plant'} Seeds/Spores` : ''}`}, or another square to rearrange.</p>}
     <div className="inventory-bags" role="tablist" aria-label="Inventory bags">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
       <button key={page} id={`${bagsId}-tab-${page}`} role="tab" aria-controls={`${bagsId}-contents`}
         className={filter === 'all' && activePage === page ? 'is-open' : ''} aria-label={`Bag ${page + 1}`} title={`Bag ${page + 1} · 50 squares`}

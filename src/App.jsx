@@ -683,7 +683,7 @@ export default function App() {
       <aside className={`garden-inventory ${inventoryOpen ? 'is-open' : ''}`} aria-label="Garden inventory">
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
         <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
-        <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage}
+        <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage} stagingEnabled={stagingEnabled}
           heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || showGrimoire || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
           onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
