@@ -32,6 +32,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
   const [selected, setSelected] = useState(() => initialTaskSelection(garden, initialTaskId));
   const [collapsed, setCollapsed] = useState(() => ({ main: false, side: false, completed: taskSection(garden, selected) !== 'completed' }));
   const [receipt, setReceipt] = useState(null), [error, setError] = useState('');
+  const [rewardsExpanded, setRewardsExpanded] = useState(false);
   const modal = useRef(null), close = useRef(onClose), prefix = useId(); close.current = onClose;
   useEffect(() => {
     const previous = document.activeElement, oldOverflow = document.body.style.overflow;
@@ -105,7 +106,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
           {status !== 'completed' && <><h4>Field instructions</h4><ol className="task-instructions">{task.instructions.map((line, index) => <li key={index}>{line}</li>)}</ol></>}
           {id === CARE_TASK && status !== 'completed' && Object.values(garden.objects).some(object => object.species === 'Carrot') && <button onClick={onInspectCarrot}>Inspect my Carrot</button>}
         </div>
-        <footer className="task-detail-footer"><h4>{status === 'completed' ? 'Rewards received' : 'Rewards'}</h4><TaskRewards rewards={task.rewards}/>
+        <footer className="task-detail-footer">
           <div className="task-overall-progress"><span>Progress</span><RuneProgress label={`${task.title} progress`} max={progress.total}
             value={progress.current} valueText={`${progress.current} of ${progress.total} ${progress.unit}`}/><strong>{progress.current}/{progress.total}</strong></div>
           {task.delivery && status !== 'completed' && <p className="task-delivery-note">Completing this request uses {task.delivery.quantity} {task.delivery.species} Leaves from your inventory.</p>}
@@ -113,6 +114,14 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
           <div className="task-footer-action">{status === 'not-started' ? <button className="task-primary" onClick={onRequestTutorial}>Begin tutorial</button>
             : status === 'completed' ? <p className="task-received">✓ Rewards received</p>
               : <button className="task-primary task-complete-badge" disabled={status !== 'ready'} onClick={complete}><GameArt name="badgeComplete" stretch/><span>Complete task</span></button>}</div>
+          <section className="task-rewards-panel">
+            <h4><button className="task-rewards-toggle" aria-expanded={rewardsExpanded} aria-controls={`${prefix}-rewards`}
+              onClick={() => setRewardsExpanded(expanded => !expanded)}>
+              <span>{status === 'completed' ? 'Rewards received' : 'Rewards'}</span>
+              <span aria-hidden="true">{rewardsExpanded ? '⌄' : '⌃'}</span>
+            </button></h4>
+            <div id={`${prefix}-rewards`} className="task-rewards-content" hidden={!rewardsExpanded}><TaskRewards rewards={task.rewards}/></div>
+          </section>
         </footer>
       </article>
     </div>

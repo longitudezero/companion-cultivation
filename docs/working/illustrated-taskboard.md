@@ -67,3 +67,10 @@ Validation covers task grouping and selection across unlock/completion boundarie
 - Section capsules now have 24 little dots and one short, faint streak per field, replacing the former five dots/four streaks. Their 34-second sideways loop and complete botanical ornaments remain.
 - The Taskboard title bar uses the supplied noticeboard artwork, copied unchanged. A taller responsive header shows the frame and central green board, with text/actions above a restrained scrim. The Shop retains its vine header.
 - Only the window title bar gets free-floating dust: 64 small motes with stable seeded starting positions, three varied X/Y waypoints, individual 22–42-second durations and negative phase offsets. These are independent CSS paths rather than a horizontally scrolling field. The layer ignores input and stays behind title/actions. Narrow screens show 40 motes; reduced motion makes them static.
+
+
+## Header fit and collapsible rewards
+
+- Give the illustrated header an explicit full width and a shorter responsive height (164–260px). The centered artwork covers its entire box, with top/bottom cropping on wide layouts instead of an aspect-ratio constraint shrinking the header. Free-floating title dust is unchanged.
+- Restore four softly glowing lateral streaks to each section-heading field, retaining all 24 specks and the existing 34-second motion.
+- Rewards start collapsed in a keyboard-accessible disclosure at the bottom of the task viewer. Expanding reveals the same rewards and quantities; Progress and Complete task remain visible above the disclosure in either state. The dialogue/instructions scroller gains the released space, and an expanded reward list is bounded on short screens.
