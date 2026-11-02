@@ -79,8 +79,8 @@ export function TaskBadge({ children }) {
 
 export function TaskboardWindowOrnaments() {
   return <div className="taskboard-window-ornaments" aria-hidden="true">
-    <GameArt name="cornerBellflowers" className="window-ornament window-ornament-tl"/>
-    <GameArt name="cornerIvy" className="window-ornament window-ornament-tr"/>
-    <GameArt name="cornerAtlasFlowerBottom" className="window-ornament window-ornament-bl"/>
+    <GameArt name="cornerBellflowers" className="window-ornament window-ornament-tl" stretch/>
+    <GameArt name="cornerIvy" className="window-ornament window-ornament-tr" stretch/>
+    <GameArt name="cornerAtlasFlowerBottom" className="window-ornament window-ornament-bl" stretch/>
   </div>;
 }

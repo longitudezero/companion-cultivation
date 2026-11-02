@@ -9,8 +9,8 @@
 .topbar .time-controls .live-time-label { font-size: 8px; }
 .topbar .time-controls small { display: none; }
 .app-shell .workspace { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 294px; grid-template-rows: minmax(380px, 1fr) auto; gap: 9px; height: calc(100dvh - 96px); min-height: 710px; max-width: 2000px; padding: 12px; margin: 0 auto; border: 1px solid #a38651; box-shadow: inset 0 0 0 4px #203b2c, inset 0 0 0 5px #79643e; }
-.layout-ornaments { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 6; }
-.layout-ornaments img { position: absolute; width: 60px; height: auto; }
+.layout-ornaments { position: absolute; inset: -1px; overflow: visible; pointer-events: none; z-index: 6; }
+.layout-ornaments img { position: absolute; width: var(--layout-corner-size, 60px); height: calc(var(--layout-corner-size, 60px) * 1.08); }
 .layout-ornaments .top-left { left: -2px; top: -2px; }
 .layout-ornaments .top-right { right: -2px; top: -2px; }
 .layout-ornaments .bottom-left { left: -2px; bottom: -2px; }
@@ -198,7 +198,7 @@
   .inspector-influences { display: block; grid-column: auto; border-left: 1px solid #bba37677; border-top: 0; margin-top: 0; padding: 0 10px; }
   .inspector-influences h3 { margin-bottom: 10px; }
   .inspector-influences > p { display: block; }
-  .layout-ornaments img { width: 36px; }
+  .layout-ornaments { --layout-corner-size: 36px; }
   .app-shell .developer-workbench { top: 120px; max-height: calc(100dvh - 140px); }
 }
 @media (prefers-reduced-motion: reduce) { .lifecycle-track > div, .hex-surface { transition: none; } }

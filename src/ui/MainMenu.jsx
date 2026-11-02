@@ -24,8 +24,8 @@ export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDevel
   }, []);
   return <dialog ref={modal} className="main-menu" aria-label="Main menu" onCancel={event => { event.preventDefault(); onClose(); }}
     onClick={event => { if (event.target === event.currentTarget) onClose(); }}>
+    <CornerOrnaments/>
     <div className="main-menu-content">
-      <CornerOrnaments/>
       <GoldVine className="menu-vine"/>
       <h1><img src={art('game-logo')} alt="Companion Cultivation" draggable="false"/></h1>
       <GuildBackButton onClick={onClose}/>

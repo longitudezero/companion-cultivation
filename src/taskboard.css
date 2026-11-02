@@ -67,7 +67,7 @@
 .task-confirm h3, .task-complete-receipt h3 { font: 29px Georgia, serif; color: #4a6236; margin-bottom: 15px; }
 .task-confirm > div { display: flex; justify-content: center; gap: 10px; margin-top: 18px; }
 .task-complete-receipt .task-rewards { justify-content: center; margin: 16px 0 20px; padding: 12px; background: #b69e5722; border-top: 1px solid #bea367; border-bottom: 1px solid #bea367; }
-.task-complete-receipt > p { font: 14px Georgia, serif; }
+.task-receipt-scroll > p { font: 14px Georgia, serif; }
 .receipt-seal { display: inline-grid; place-items: center; width: 40px; height: 40px; margin-bottom: 10px; color: #dfbe78; background: #4c673b; border: 2px solid #a58c4f; border-radius: 50%; font-size: 25px; }
 .task-unlocked { color: #667544; margin: 15px 0; }
 .harvest-receipt { position: absolute; right: 12px; bottom: 8px; z-index: 6; width: max-content; max-width: min(300px, calc(100% - 24px)); padding: 11px 14px; color: #f3e4bc; background: #173022f5; border: 1px solid #c0a362; border-radius: 4px; box-shadow: 0 5px 22px #07130c88; pointer-events: none; animation: harvest-receipt-life 4s both; }

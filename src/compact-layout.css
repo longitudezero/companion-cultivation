@@ -6,7 +6,7 @@
   .app-shell:has(.developer-field-notes[open]) { height: auto; }
 }
 .app-shell .workspace { padding-bottom: 0; border-bottom: 0; grid-template-rows: minmax(380px, 1fr) 18px auto; row-gap: 2px; }
-.layout-ornaments img { width: 82px; }
+.layout-ornaments { --layout-corner-size: 82px; }
 .garden-property-toolbar { padding-left: 64px; }
 .inventory-heading { padding-right: 34px; }
 .harvest-amount { justify-content: flex-start; align-items: center; gap: 8px; }
@@ -37,7 +37,7 @@ button.illustrated-control:not(:disabled):active { transform: scale(.95); }
 .quantity-stepper button.illustrated-control > .game-art { width: 38px; height: 38px; }
 @media (max-width: 760px) {
   .app-shell .workspace { grid-template-rows: minmax(410px, 57dvh) 18px auto; padding-bottom: 0; }
-  .layout-ornaments img { width: 52px; }
+  .layout-ornaments { --layout-corner-size: 52px; }
   .garden-property-toolbar { padding-left: 42px; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -10,13 +10,17 @@
 .inspector-navigation .task-ready-badge { top: 0; right: 0; }
 .garden-plan-rail:not(.has-plan) { padding-block: 3px; min-height: 21px; }
 .garden-plan-rail:not(.has-plan) .plot-footer { margin: 0 0 0 auto; }
-.main-menu { width: min(366px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: hidden; padding: 0; border: 3px double var(--ui-gold); border-radius: 7px; background: var(--ui-forest); color: var(--ui-paper); box-shadow: inset 0 0 0 3px #78653d66, 0 20px 80px #0009; }
+.main-menu { width: min(366px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: visible; padding: 0; border: 3px double var(--ui-gold); border-radius: 7px; background: var(--ui-forest); color: var(--ui-paper); box-shadow: inset 0 0 0 3px #78653d66, 0 20px 80px #0009; }
 .main-menu::backdrop { background: #07140dd6; backdrop-filter: blur(5px); }
 .main-menu-content { position: relative; isolation: isolate; max-height: calc(100dvh - 30px); overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; padding: 23px 30px 18px; text-align: center; }
 .main-menu h1 { margin: 0 0 7px; }
 .main-menu h1 img { width: 220px; max-width: 100%; height: 137px; object-fit: contain; }
-.main-menu .corner-ornaments { z-index: -1; inset: 11px 10px; }
-.main-menu .ornament { width: 52px; height: 52px; }
+.main-menu > .corner-ornaments { z-index: 3; inset: 0; }
+.main-menu .ornament { width: 52px; height: 56px; }
+.main-menu .ornament-tl, .main-menu .ornament-bl { left: -5px; }
+.main-menu .ornament-tr, .main-menu .ornament-br { right: -5px; }
+.main-menu .ornament-tl, .main-menu .ornament-tr { top: -5px; }
+.main-menu .ornament-bl, .main-menu .ornament-br { bottom: -5px; }
 .main-menu .menu-vine { position: absolute; z-index: -1; bottom: 15px; left: 0; width: 100%; opacity: .09; pointer-events: none; }
 .main-menu .guild-back { display: flex; width: 160px; height: 42px; margin: 0 auto 15px; font-size: 14px; }
 .main-menu-actions { display: flex; flex-direction: column; gap: 9px; }
