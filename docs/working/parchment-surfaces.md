@@ -15,3 +15,5 @@ The material is painted as background layers rather than pseudo-element overlays
 | Grimoire effect glossary | `.cg-overlay .cg-glossary` |
 
 Tooltip bodies use 65% stain strength for their denser text. Nested translucent cards continue to show the parent paper through their existing selection and hover tints. Dark forest panels, the painted Taskboard header, garden scenery, controls and source illustrations retain their own materials. New paper surfaces can opt in with `.aged-parchment`; `--parchment-wear` adjusts edge staining when needed.
+
+Standalone confirmations explicitly use dark parchment ink; otherwise those dialogs inherit the main game's light forest-panel text instead of the Taskboard's dark text.
