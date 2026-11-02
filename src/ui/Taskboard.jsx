@@ -40,6 +40,7 @@ function SealStamp({ onFinish }) {
 export function TaskCompletionReceipt({ receipt, onContinue }) {
   const [ready, setReady] = useState(reducedReceiptMotion);
   const panel = useRef(null), action = useRef(null), prefix = useId();
+  const actionLabel = receipt.id === FIRST_TASK ? 'Continue' : 'Return to garden';
   useEffect(() => {
     panel.current?.focus({ preventScroll: true });
     const query = window.matchMedia?.('(prefers-reduced-motion: reduce)');
@@ -55,10 +56,10 @@ export function TaskCompletionReceipt({ receipt, onContinue }) {
   return <section ref={panel} className={`task-complete-receipt task-receipt-reveal${ready ? ' is-ready' : ''}`}
     role="status" aria-live="polite" aria-labelledby={`${prefix}-title`} tabIndex={-1}>
     <CornerOrnaments/>
+    <div className="receipt-checkmark-fitting" aria-hidden="true"><GameArt name="completionCheckmark" className="receipt-checkmark"/></div>
     <div className="task-receipt-scroll">
       <header className="receipt-heading">
         <h3 id={`${prefix}-title`}><GameArt name="completionTitle" className="receipt-title-art"/><span className="sr-only">Task complete</span></h3>
-        <GameArt name="completionCheckmark" className="receipt-checkmark"/>
       </header>
       <div className="receipt-award-copy"><h4>{receipt.title}</h4><p>You received:</p><TaskRewards rewards={receipt.rewards}/>
         <div className="completion-dialogue">{receipt.completion.map((line, index) => <p key={index}>{line}</p>)}</div>
@@ -67,11 +68,10 @@ export function TaskCompletionReceipt({ receipt, onContinue }) {
     </div>
     <div className="receipt-action-stage">
       <span className="receipt-stamp-shadow" aria-hidden="true"/>
-      <span className="receipt-stamp-imprint" aria-hidden="true"><GameArt name="completionContinue"/></span>
       <SealStamp onFinish={() => setReady(true)}/>
-      <button ref={action} className="task-primary receipt-continue" disabled={!ready} onClick={onContinue}>
+      <button ref={action} className="task-primary receipt-continue" disabled={!ready} aria-label={actionLabel} onClick={onContinue}>
         <GameArt name="completionContinue" className="receipt-continue-art"/>
-        <span className="receipt-continue-label">{receipt.id === FIRST_TASK ? 'Continue' : 'Return to garden'}</span></button>
+        <span className="receipt-continue-label">{actionLabel}</span></button>
     </div>
   </section>;
 }
@@ -96,7 +96,8 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
     const keys = event => {
       if (event.key === 'Escape') { event.preventDefault(); close.current(); }
       if (event.key !== 'Tab') return;
-      const focusable = [...modal.current.querySelectorAll('button:not(:disabled), [tabindex="0"]')]
+      const scope = modal.current.querySelector('.task-complete-receipt') || modal.current;
+      const focusable = [...scope.querySelectorAll('button:not(:disabled), [tabindex="0"]')]
         .filter(element => !element.closest('[inert]') && element.getBoundingClientRect().width > 0);
       const index = focusable.indexOf(document.activeElement);
       if (event.shiftKey && index <= 0) { event.preventDefault(); focusable.at(-1)?.focus(); }
@@ -180,6 +181,6 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
         </footer>
       </article>
     </div>
-    {receipt && <div className="taskboard-inner-overlay"><TaskCompletionReceipt key={receipt.id} receipt={receipt} onContinue={continueFromReceipt}/></div>}
+    {receipt && <div className="taskboard-inner-overlay task-completion-backdrop"><TaskCompletionReceipt key={receipt.id} receipt={receipt} onContinue={continueFromReceipt}/></div>}
   </section></div>;
 }

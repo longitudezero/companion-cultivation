@@ -262,6 +262,7 @@ test('completion receipts retain each reward and next action while the initial a
     for (const art of ['task-complete.webp', 'completion-checkmark.webp', 'completion-continue.webp', 'completion-seal-stamp.webp']) {
       assert.ok(markup.includes(`ui/${art}`), `the completion sequence uses ${art}`);
     }
+    assert.equal((markup.match(/ui\/completion-continue\.webp/g) || []).length, 1, 'one persistent wax seal becomes the next action');
     assert.ok(markup.includes(id === FIRST_TASK ? '>Continue<' : '>Return to garden<'));
     assert.equal(JSON.stringify(receipt), before, 'presentation never changes the awarded receipt');
   }

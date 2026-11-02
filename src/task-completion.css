@@ -1,26 +1,26 @@
-/* The receipt arrives before its lettering; the seal presses the action area
-   once, then lifts away to reveal the next step. Timings are independent of
-   the garden's simulation speed. */
+/* The seal appears at contact and stays fixed while only the stamp lifts away.
+   The checkmark belongs to the frame, outside the scrollable receipt text. */
+.guild-taskboard .task-completion-backdrop { position: fixed; inset: 0; z-index: 90; padding: 70px 20px 20px; background: #07130bd9; overscroll-behavior: contain; }
 .task-receipt-reveal { isolation: isolate; animation: receipt-paper-arrive .28s ease-out both; }
 .task-receipt-reveal:focus { outline: none; }
 .task-receipt-reveal .task-receipt-scroll { padding-bottom: 2px; }
-.receipt-heading { display: flex; flex-direction: column; align-items: center; margin: -14px -8px -14px; }
+.receipt-heading { display: flex; flex-direction: column; align-items: center; margin: 10px -8px -14px; }
 .task-complete-receipt .receipt-heading h3 { display: grid; place-items: center; width: 100%; margin: 0; line-height: 0; animation: receipt-ink-appear .3s ease-out .32s both; }
 .receipt-title-art { display: block; width: min(100%, 430px); height: auto; aspect-ratio: 3; }
-.receipt-checkmark { display: block; width: min(90%, 320px); height: auto; aspect-ratio: 3; margin-top: clamp(-40px, -7vw, -24px); animation: receipt-check-appear .34s cubic-bezier(.2,.8,.3,1.2) .52s both; }
+.receipt-checkmark-fitting { position: absolute; z-index: 4; left: 50%; top: 0; width: min(82%, 400px); transform: translate(-50%, -48%); pointer-events: none; }
+.receipt-checkmark { display: block; width: 100%; height: auto; aspect-ratio: 3; animation: receipt-check-appear .34s cubic-bezier(.2,.8,.3,1.2) .52s both; }
 .receipt-award-copy { animation: receipt-ink-appear .3s ease-out .66s both; }
 .receipt-action-stage { position: relative; flex: 0 0 156px; min-height: 156px; display: grid; place-items: center; padding: 8px 24px 18px; }
 .receipt-stamp { position: absolute; z-index: 2; left: calc(50% - 110px); bottom: 14px; width: 220px; height: 220px; pointer-events: none; transform-origin: 50% 86%; animation: receipt-seal-press 1.2s cubic-bezier(.22,.65,.3,1) .8s both; }
 .receipt-stamp svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .receipt-stamp-shadow { position: absolute; left: calc(50% - 56px); bottom: 40px; width: 112px; height: 24px; border-radius: 50%; background: #49351e; pointer-events: none; animation: receipt-seal-shadow 1.2s ease .8s both; }
-.receipt-stamp-imprint { position: absolute; display: block; left: calc(50% - 55px); top: 8px; width: 110px; height: 110px; pointer-events: none; animation: receipt-seal-imprint .7s ease 1.16s both; }
-.receipt-stamp-imprint > .game-art { display: block; width: 100%; height: 100%; }
-.task-complete-receipt .receipt-continue { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; width: 140px; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #3f552e; opacity: 0; visibility: hidden; transform: translateY(7px); transition: opacity .22s ease, transform .22s ease; }
-.receipt-continue-art { display: block; width: 110px; height: 110px; filter: drop-shadow(0 2px 2px #61462055); transition: filter .2s ease, transform .2s ease; }
-.receipt-continue-label { font: 14px/1.2 Georgia, serif; }
-.task-complete-receipt.is-ready .receipt-continue { opacity: 1; visibility: visible; transform: translateY(0); }
+.task-complete-receipt .receipt-continue { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; width: 140px; min-width: 0; min-height: 0; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #3f552e; opacity: 1; }
+.task-complete-receipt .receipt-continue:disabled { cursor: default; }
+.receipt-continue-art { display: block; width: 110px; height: 110px; filter: drop-shadow(0 2px 2px #61462055); animation: receipt-seal-imprint .12s linear 1.18s both; transition: filter .2s ease; }
+.receipt-continue-label { font: 14px/1.2 Georgia, serif; opacity: 0; visibility: hidden; transition: opacity .22s ease; }
+.task-complete-receipt.is-ready .receipt-continue-label { opacity: 1; visibility: visible; }
 .task-complete-receipt .receipt-continue:not(:disabled):is(:hover,:focus-visible) { background: transparent; }
-.receipt-continue:not(:disabled):is(:hover,:focus-visible) .receipt-continue-art { transform: translateY(-2px); filter: brightness(1.1) drop-shadow(0 0 5px #dab968aa); }
+.receipt-continue:not(:disabled):is(:hover,:focus-visible) .receipt-continue-art { filter: brightness(1.1) drop-shadow(0 0 5px #dab968aa); }
 .receipt-continue:focus-visible { outline: 2px solid #8c713b; outline-offset: 4px; }
 @keyframes receipt-paper-arrive {
   from { opacity: 0; transform: translateY(14px) scale(.97); }
@@ -47,14 +47,13 @@
   100% { opacity: 0; transform: scale(1.6); filter: blur(8px); }
 }
 @keyframes receipt-seal-imprint {
-  0% { opacity: 0; transform: scale(.94) rotate(-8deg); }
-  12%, 70% { opacity: .55; transform: scale(1) rotate(-8deg); }
-  100% { opacity: 0; transform: scale(1) rotate(-8deg); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
+@media (max-width: 540px) { .guild-taskboard .task-completion-backdrop { padding: 56px 12px 12px; } }
 @media (prefers-reduced-motion: reduce) {
   .task-receipt-reveal, .task-complete-receipt .receipt-heading h3, .receipt-checkmark, .receipt-award-copy { animation: none; }
-  .receipt-stamp, .receipt-stamp-shadow, .receipt-stamp-imprint { display: none; animation: none; }
-  .task-complete-receipt .receipt-continue { transition: none; }
-  .receipt-continue-art { transition: none; }
-  .receipt-continue:not(:disabled):is(:hover,:focus-visible) .receipt-continue-art { transform: none; }
+  .receipt-stamp, .receipt-stamp-shadow { display: none; animation: none; }
+  .receipt-continue-art { animation: none; transition: none; }
+  .receipt-continue-label { transition: none; }
 }
