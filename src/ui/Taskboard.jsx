@@ -125,10 +125,12 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
     </div>
     {receipt && <div className="taskboard-inner-overlay"><section className="task-complete-receipt" role="status" aria-live="polite">
       <CornerOrnaments/>
+      <div className="task-receipt-scroll">
       <span className="receipt-seal" aria-hidden="true">✓</span><h3>Task complete</h3><h4>{receipt.title}</h4><p>You received:</p><TaskRewards rewards={receipt.rewards}/>
       <div className="completion-dialogue">{receipt.completion.map((line, index) => <p key={index}>{line}</p>)}</div>
       {receipt.id === FIRST_TASK && <p className="task-unlocked">New assignment: A Thirsty Carrot</p>}
       <button className="task-primary" autoFocus onClick={continueFromReceipt}>{receipt.id === FIRST_TASK ? 'Continue' : 'Return to garden'}</button>
+      </div>
     </section></div>}
   </section></div>;
 }
