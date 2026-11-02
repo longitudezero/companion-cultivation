@@ -19,3 +19,8 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 - `taskboard-noticeboard.webp` is the supplied Enchanted Forest Scholar’s Noticeboard, copied unchanged (2048 × 592). It sits behind the Taskboard title, controls and floating dust. The Shop keeps its existing vine header.
 
 `rewards-expand.webp` is the supplied Ornate Forest Green Expand Button, copied unchanged (314×314). Its GameArt view box removes transparent margins without repainting the asset. Only the icon rotates between the Rewards disclosure states.
+
+
+`fantasy-corners.png` is the supplied Ornate Gilded Fantasy Corner Ornament Atlas, copied unchanged (1536×1024). GameArt view boxes select plain bellflower, ivy and flower corners; the two atlas variants containing painted Back buttons are not used.
+
+`florals/` contains the four supplied botanical WebPs, copied unchanged as `paw-left`, `clover-right`, `violets-left` and `wildflowers-right`. Matching `-faded.svg` backgrounds embed the original WebP bytes at 42% opacity in their full original canvas. These self-contained wrappers allow opacity without affecting text or introducing overlay layers, while preserving every source pixel and all leaf tips.

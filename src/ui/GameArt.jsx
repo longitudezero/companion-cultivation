@@ -3,6 +3,9 @@ import React from 'react';
 // View boxes normalize the visible artwork without cropping or repainting the
 // supplied files. The two collections remain shared, unmodified sprite sheets.
 export const GAME_ART = {
+  cornerBellflowers: ['fantasy-corners.png', 1536, 1024, [40, 441, 225, 223]],
+  cornerIvy: ['fantasy-corners.png', 1536, 1024, [1030, 441, 220, 223]],
+  cornerAtlasFlowerBottom: ['fantasy-corners.png', 1536, 1024, [39, 197, 167, 155]],
   rewardsExpand: ['rewards-expand.webp', 314, 314, [42, 44, 224, 224]],
   titleDecoration: ['title-decoration.webp', 2048, 682, [0, 0, 2048, 682]],
   plus: ['plus.webp', 1254, 1254, [185, 185, 875, 875]],
@@ -72,4 +75,12 @@ export function CornerOrnaments({ leftOnly = false }) {
 
 export function TaskBadge({ children }) {
   return <span className="task-type-badge"><GameArt name="badgeLeaf" stretch/><span>{children}</span></span>;
+}
+
+export function TaskboardWindowOrnaments() {
+  return <div className="taskboard-window-ornaments" aria-hidden="true">
+    <GameArt name="cornerBellflowers" className="window-ornament window-ornament-tl"/>
+    <GameArt name="cornerIvy" className="window-ornament window-ornament-tr"/>
+    <GameArt name="cornerAtlasFlowerBottom" className="window-ornament window-ornament-bl"/>
+  </div>;
 }
