@@ -17,3 +17,7 @@ The material is painted as background layers rather than pseudo-element overlays
 Tooltip bodies use 65% stain strength for their denser text. Nested translucent cards continue to show the parent paper through their existing selection and hover tints. Dark forest panels, the painted Taskboard header, garden scenery, controls and source illustrations retain their own materials. New paper surfaces can opt in with `.aged-parchment`; `--parchment-wear` adjusts edge staining when needed.
 
 Standalone confirmations explicitly use dark parchment ink; otherwise those dialogs inherit the main game's light forest-panel text instead of the Taskboard's dark text.
+
+The Grimoire's binding-facing edges use 20% stain strength: the right edge of a left page and the left edge of a right page. Other edges, grain, paper color, and the original book-fold shading stay the same. Turning faces carry `data-page-side` so the same treatment follows the printed page in both turn directions. All other panels retain their original aging strength.
+
+The Inspector retains its frame and outer shadow but drops the old 4px flat inset rim, allowing the aged paper to reach the inside edge of its border.
