@@ -3,7 +3,6 @@
 .guild-taskboard .has-artwork::after { content: ''; position: absolute; z-index: 0; inset: 0; background: linear-gradient(90deg, #071b0c0d, #06180d26 35% 65%, #071b0c33); pointer-events: none; }
 .guild-taskboard .has-artwork .taskboard-heading { text-shadow: 0 2px 3px #04190c, 0 0 12px #04190c99; }
 .guild-taskboard .has-artwork .taskboard-heading p { color: #e0d4a9; }
-.guild-taskboard .has-artwork .task-wallet { text-shadow: 0 2px 3px #04190c, 0 0 8px #04190c; }
 .guild-dust { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; }
 .guild-dust-mote { position: absolute; width: var(--dust-size); height: var(--dust-size); border-radius: 50%; background: #ffe9b6; box-shadow: 0 0 4px #f6d58caa; animation: guild-dust-drift var(--dust-duration) ease-in-out var(--dust-delay) infinite; }
 @keyframes guild-dust-drift {

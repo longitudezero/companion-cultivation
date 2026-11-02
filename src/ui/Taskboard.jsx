@@ -2,9 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { TASKS, FIRST_TASK, CARE_TASK, taskStatus, taskObjectives } from '../core/tasks.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import GuildBackButton from './GuildBackButton.jsx';
-import { goldBalance } from '../core/wallet.js';
-import GameArt, { CornerOrnaments, TaskBadge } from './GameArt.jsx';
-import RuneProgress from './RuneProgress.jsx';
+import GameArt, { CornerOrnaments } from './GameArt.jsx';
 import GuildHeader from './GuildHeader.jsx';
 import FloatingDust from './FloatingDust.jsx';
 import { TASK_SECTIONS, groupedTasks, taskSection, initialTaskSelection, taskProgress } from './taskboard-model.js';
@@ -51,7 +49,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
     return () => { document.removeEventListener('keydown', keys); document.body.style.overflow = oldOverflow; if (previous?.isConnected) previous.focus(); };
   }, []);
   const groups = groupedTasks(garden), id = selected, task = TASKS[id], status = taskStatus(garden, id);
-  const pinned = garden.tasks?.pinned.includes(id), progress = taskProgress(garden, id), objectives = taskObjectives(garden, id);
+  const pinned = garden.tasks?.pinned.includes(id), objectives = taskObjectives(garden, id);
   function selectTask(candidate) {
     setSelected(candidate); setCollapsed(previous => ({ ...previous, [taskSection(garden, candidate)]: false })); setError('');
   }
@@ -66,7 +64,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
   return <div className="taskboard-backdrop"><section className="taskboard-modal guild-taskboard" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
     <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work."
       backgroundImage={`${import.meta.env?.BASE_URL || '/'}ui/taskboard-noticeboard.webp`} decoration={<FloatingDust/>}>
-      <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></GuildHeader>
+      <GuildBackButton onClick={onClose}/></GuildHeader>
     <div className="taskboard-content" inert={Boolean(receipt)}>
       <aside className="taskboard-list" aria-label="Task list">
         <div className="task-list-scroll">{TASK_SECTIONS.map(section => <section className="task-group" key={section.id}>
@@ -95,10 +93,14 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
         </section>)}</div>
       </aside>
       <article className="task-detail" aria-label="Task explanation"><CornerOrnaments/>
-        <div className="task-title-row"><div><span className="task-speaker">{task.speaker}</span><h3>{task.title}</h3>
-          <div className="task-badge-row">
+        <div className="task-title-row"><div className="task-title-copy"><span className="task-speaker">{task.speaker}</span>
+          <div className="task-name-row"><h3>{task.title}</h3>
             {['active', 'ready'].includes(status) && <button className={`task-pin${pinned ? ' is-pinned' : ''}`} aria-label={pinned ? 'Unpin task' : 'Pin task'} title={pinned ? 'Unpin task' : 'Pin task'} aria-pressed={pinned} onClick={() => onPin(id)}><GameArt name="pin"/></button>}
-            <TaskBadge>{task.category === 'side' ? 'Side Task' : 'Main Task'}</TaskBadge><span className={`task-state ${status}`}>{stateLabel(status)}</span></div></div></div>
+          </div></div>
+          <div className="task-title-action">{status === 'not-started' ? <button className="task-primary" onClick={onRequestTutorial}>Begin tutorial</button>
+            : status === 'completed' ? <p className="task-received">✓ Rewards received</p>
+              : <button className="task-primary task-complete-badge" disabled={status !== 'ready'} onClick={complete}><GameArt name="badgeComplete" stretch/><span>Complete task</span></button>}</div>
+        </div>
         <div className="task-detail-scroll">
           <div className="task-dialogue">{(status === 'completed' ? task.completion : task.description).map((line, index) => <p key={index}>{line}</p>)}</div>
           <h4>Objectives</h4><ul className="task-objectives">{objectives.map((objective, index) => <li key={index} className={objective.done ? 'done' : ''}>
@@ -107,18 +109,13 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
           {id === CARE_TASK && status !== 'completed' && Object.values(garden.objects).some(object => object.species === 'Carrot') && <button onClick={onInspectCarrot}>Inspect my Carrot</button>}
         </div>
         <footer className="task-detail-footer">
-          <div className="task-overall-progress"><span>Progress</span><RuneProgress label={`${task.title} progress`} max={progress.total}
-            value={progress.current} valueText={`${progress.current} of ${progress.total} ${progress.unit}`}/><strong>{progress.current}/{progress.total}</strong></div>
           {task.delivery && status !== 'completed' && <p className="task-delivery-note">Completing this request uses {task.delivery.quantity} {task.delivery.species} Leaves from your inventory.</p>}
           {error && <p className="task-error" role="alert">{error}</p>}
-          <div className="task-footer-action">{status === 'not-started' ? <button className="task-primary" onClick={onRequestTutorial}>Begin tutorial</button>
-            : status === 'completed' ? <p className="task-received">✓ Rewards received</p>
-              : <button className="task-primary task-complete-badge" disabled={status !== 'ready'} onClick={complete}><GameArt name="badgeComplete" stretch/><span>Complete task</span></button>}</div>
           <section className="task-rewards-panel">
             <h4><button className="task-rewards-toggle" aria-expanded={rewardsExpanded} aria-controls={`${prefix}-rewards`}
               onClick={() => setRewardsExpanded(expanded => !expanded)}>
+              <GameArt name="rewardsExpand" className="task-rewards-icon"/>
               <span>{status === 'completed' ? 'Rewards received' : 'Rewards'}</span>
-              <span aria-hidden="true">{rewardsExpanded ? '⌄' : '⌃'}</span>
             </button></h4>
             <div id={`${prefix}-rewards`} className="task-rewards-content" hidden={!rewardsExpanded}><TaskRewards rewards={task.rewards}/></div>
           </section>

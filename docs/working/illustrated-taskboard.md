@@ -74,3 +74,10 @@ Validation covers task grouping and selection across unlock/completion boundarie
 - Give the illustrated header an explicit full width and a shorter responsive height (164–260px). The centered artwork covers its entire box, with top/bottom cropping on wide layouts instead of an aspect-ratio constraint shrinking the header. Free-floating title dust is unchanged.
 - Restore four softly glowing lateral streaks to each section-heading field, retaining all 24 specks and the existing 34-second motion.
 - Rewards start collapsed in a keyboard-accessible disclosure at the bottom of the task viewer. Expanding reveals the same rewards and quantities; Progress and Complete task remain visible above the disclosure in either state. The dialogue/instructions scroller gains the released space, and an expanded reward list is bounded on short screens.
+
+
+## Compact viewer controls and Rewards icon
+
+- Remove the Taskboard title wallet, the viewer's large progress bar, and the Main/Side badges and duplicate state line. Keep task-list progress, status text, objective checkboxes and pinning. The Shop wallet is unaffected.
+- Complete task (and the corresponding Begin tutorial/received state) moves to the viewer's top right. The pin sits beside the task title; narrow layouts wrap the action without overlapping the title or corner ornaments.
+- Rewards remains collapsed by default at the viewer's bottom. The supplied expand artwork sits centered above its label across a faint divider. Its own 180-degree rotation points up while collapsed and down while expanded; hover/focus add the established lift and gold glow, and active presses compress slightly. Reduced motion switches states instantly and omits movement on hover. Reward values, claim eligibility and receipt behavior are unchanged.
