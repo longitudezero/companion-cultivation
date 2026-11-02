@@ -28,8 +28,11 @@ export const LEGACY_PLANT_NAMES = Object.freeze({
   'Mirage Rose': 'Everjade',
   Sandrose: 'Prickly Pearl',
   Cactaclysm: 'Cactacomb',
+  Bramblewraith: 'Branshee',
 });
 
+// This later cosmetic rename is unambiguous in every accepted save schema.
+export const renamePlantIdentity = name => name === 'Bramblewraith' ? 'Branshee' : name;
 export const renameLegacyPlant = name => LEGACY_PLANT_NAMES[name] || name;
 export const legacyPlantName = name =>
   Object.keys(LEGACY_PLANT_NAMES).find(old => LEGACY_PLANT_NAMES[old] === name) || name;

@@ -79,8 +79,8 @@ export const SPECIES_ILLUSTRATIONS = Object.freeze({
   },
   "Rosewraith": {
     "asset": "illustrations/plants/rosewraith",
-    "width": 768,
-    "height": 768
+    "width": 1254,
+    "height": 1254
   },
   "Orchidemon": {
     "asset": "illustrations/plants/orchidemon",
@@ -99,8 +99,8 @@ export const SPECIES_ILLUSTRATIONS = Object.freeze({
   },
   "Kelpergeist": {
     "asset": "illustrations/plants/kelpergeist",
-    "width": 768,
-    "height": 768
+    "width": 1254,
+    "height": 1254
   },
   "Kelpless": {
     "asset": "illustrations/plants/kelpless",
@@ -177,10 +177,10 @@ export const SPECIES_ILLUSTRATIONS = Object.freeze({
     "width": 726,
     "height": 768
   },
-  "Bramblewraith": {
-    "asset": "illustrations/plants/bramblewraith",
-    "width": 719,
-    "height": 768
+  "Branshee": {
+    "asset": "illustrations/plants/branshee",
+    "width": 1254,
+    "height": 1254
   },
   "Mandrabra": {
     "asset": "illustrations/plants/mandrabra",
@@ -244,8 +244,8 @@ export const SPECIES_ILLUSTRATIONS = Object.freeze({
   },
   "Cactacomb": {
     "asset": "illustrations/plants/cactacomb",
-    "width": 768,
-    "height": 768
+    "width": 1312,
+    "height": 1199
   },
   "Everjade": {
     "asset": "illustrations/plants/everjade",
@@ -299,8 +299,8 @@ export const SPECIES_ILLUSTRATIONS = Object.freeze({
   },
   "Phantarragon": {
     "asset": "illustrations/plants/phantarragon",
-    "width": 768,
-    "height": 768
+    "width": 1254,
+    "height": 1254
   },
   "Mycelord": {
     "asset": "illustrations/fungi/mycelord",

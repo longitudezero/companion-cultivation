@@ -185,12 +185,12 @@ test('Mandrakazam recipe permits Mycelial soil if contact and state persist', ()
   assert.equal(transformationStatus(garden, target).find(r => r.into === 'Mandrakazam').eligible, true);
 });
 
-test('Bramblewraith keeps living after more than 48h of actual Mycelial overlay', () => {
-  let garden = start('Bramblewraith');
+test('Branshee keeps living after more than 48h of actual Mycelial overlay', () => {
+  let garden = start('Branshee');
   garden = placeObject(garden, neighbors[0], makeFungus('Mycelord'));
   garden = advanceGardenTime(garden, 96).garden;
   assert.equal(isMycelial(garden, target), true);
-  assert.equal(garden.objects[target].species, 'Bramblewraith');
+  assert.equal(garden.objects[target].species, 'Branshee');
   assert.ok(garden.objects[target].exposure.Mycelial >= 48);
 });
 
@@ -209,17 +209,17 @@ test('Mandrakadabra dies at exactly four uninterrupted hours of Bright, but Lit 
   assert.ok(last.events.some(event => event.includes('20s of Bright')));
 });
 
-test('Bramblewraith survives extreme Temperature and Mycelial indefinitely without protection buffs', () => {
-  let garden = setBaseline(start('Bramblewraith'), target, 'Temperature', 'Hot');
+test('Branshee survives extreme Temperature and Mycelial indefinitely without protection buffs', () => {
+  let garden = setBaseline(start('Branshee'), target, 'Temperature', 'Hot');
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = advanceGardenTime(garden, 100).garden;
   assert.equal(garden.objects[target].exposure.Hot, 100);
-  assert.equal(garden.objects[target].species, 'Bramblewraith');
+  assert.equal(garden.objects[target].species, 'Branshee');
   garden = reconcileTransformationClocks(setBaseline(garden, target, 'Temperature', 'Freezing'), garden);
   garden = advanceGardenTime(garden, 100).garden;
   assert.equal(garden.objects[target].exposure.Freezing, 100);
-  assert.equal(garden.objects[target].species, 'Bramblewraith');
-  assert.equal(PLANTS.Bramblewraith.mycelialDeath, Infinity);
+  assert.equal(garden.objects[target].species, 'Branshee');
+  assert.equal(PLANTS.Branshee.mycelialDeath, Infinity);
 });
 
 test('Bamboozled is ordinary-output sterile but yields one Bamboo Steel trophy after 100%', () => {
@@ -262,7 +262,7 @@ test('Woodlands compatibility multipliers remain tied to specified receiving con
   assert.equal(effectCompatibility(PLANTS.Mandrakadabra, 'leafYield', { ...damp, Illumination: 'Dim' }), 2);
   assert.equal(effectCompatibility(PLANTS.Mandrakazam, 'seedYield', { ...damp, Illumination: 'Dim' }), 2.5);
   assert.equal(effectCompatibility(PLANTS.Mandrabra, 'harvestWindow', damp), 1.6);
-  assert.equal(PLANTS.Bramblewraith.compatibility.harvestWindow, .3);
+  assert.equal(PLANTS.Branshee.compatibility.harvestWindow, .3);
 });
 
 test('Mandrakazam Seeds allow direct Mandrakadabra planting at approved 12% per Seed', () => {

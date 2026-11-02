@@ -16,7 +16,12 @@ test('the supplied illustration set covers the catalogue exactly with valid, tra
   for (const record of manifest.illustrations) {
     assert.match(record.file, /^(plants|fungi)\/[a-z0-9-]+\.webp$/);
     assert.match(record.sourceSha256, /^[a-f0-9]{64}$/);
-    assert.ok(record.dimensions.every(value => value > 0 && value <= 768));
+    const original = record.processing === 'Original WebP retained unchanged';
+    assert.ok(record.dimensions.every(value => Number.isSafeInteger(value) && value > 0 && value <= (original ? 2048 : 768)));
+    if (original) {
+      assert.deepEqual(record.dimensions, record.sourceDimensions);
+      assert.equal(record.sha256, record.sourceSha256);
+    }
     assert.equal(record.kind, PLANTS[record.species] ? 'plant' : 'fungus');
     const data = await readFile(new URL(`../public/grimoire/illustrations/${record.file}`, import.meta.url));
     assert.equal(data.toString('ascii', 0, 4), 'RIFF');

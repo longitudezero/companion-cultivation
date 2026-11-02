@@ -7,7 +7,6 @@ import BookSpread from './grimoire/BookSpread.jsx';
 import './grimoire.css';
 
 const EMPTY_LEDGER = createGrimoire();
-const SHEET_TONES = ['#eee3cf', '#e4d6bd', '#f0e6d3', '#dfd1b8', '#ebe0ca', '#ddceb4', '#e8dcc5', '#d7c7ad'];
 const reducedMotionQuery = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function Marks({ chapter }) {
@@ -192,7 +191,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
             <img key={corner} className={`cg-cover-corner ${corner}`} src={art(`corners/${corner}`)} alt="" draggable="false"/>)}</div>
           {Array.from({ length: 8 }, (_, i) => 8 - i).flatMap(depth => ['left', 'right'].map(side =>
             <div key={`${depth}-${side}`} className={`cg-under-sheet ${side}`} aria-hidden="true"
-              style={{ '--sheet-depth': depth, '--sheet-tone': SHEET_TONES[depth - 1] }}/>))}
+              style={{ '--sheet-depth': depth }}/>))}
           <nav className="cg-tabs" aria-label="Grimoire sections">{CHAPTERS.map((chapter, index) => {
             const destination = BOOK_ENTRIES.find(entry => entry.chapter === index);
             return <button key={chapter.key} type="button"

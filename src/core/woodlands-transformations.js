@@ -12,7 +12,7 @@ export const WOODLANDS_TRANSFORMATIONS = Object.freeze({
   Bamboozeling: [route('Bamboozled', { Moisture: 'Damp', Temperature: 'Warm' }, [['Emberbolete'], ['Rainmorel']], 16)],
   Tanglethorn: [
     route('Mistlefoe', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom']], 16),
-    route('Bramblewraith', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel'], ['Droughtcap']], 28),
+    route('Branshee', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel'], ['Droughtcap']], 28),
   ],
   Mistlefoe: [
     {

@@ -33,7 +33,7 @@ ALIASES = {
     'Tanglethorn': 'woodlands/Tanglethorn_ Thornwoven Forest Bramble-17.png',
     'Mistlefoe': 'woodlands/Thorned Mistletoe of the Wildwood-16.png',
     'Mistlewoe': 'woodlands/Weeping Sapphire Mistlewoe-21.png',
-    'Bramblewraith': 'woodlands/Bramblewraith_ Ghost Thorn Botanical-20.png',
+    'Branshee': 'woodlands/Bramblewraith_ Ghost Thorn Botanical-20.png',
     'Mandrabra': 'woodlands/Mandabra_ Enchanted Woodland Root-19.png',
     'Mandrakadabra': 'woodlands/Mandrakadabra_ goldenroot mandrake bloom-23.png',
     'Mandrakazam': 'woodlands/Mandrazam_ Opaline Mandrake Bloom-22.png',
