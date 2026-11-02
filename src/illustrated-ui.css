@@ -61,11 +61,12 @@
 .guild-taskboard .task-detail { padding: 26px 30px 24px; }
 .guild-taskboard .task-title-row { align-items: flex-start; padding: 5px 0 12px 17px; gap: 10px; }
 .guild-taskboard .task-title-row > div { min-width: 0; }
+.guild-taskboard .task-title-copy { flex: 1; }
+.guild-taskboard .task-name-row { display: flex; align-items: center; gap: 10px; }
+.guild-taskboard .task-name-row h3 { min-width: 0; }
+.guild-taskboard .task-title-action { flex-shrink: 0; margin-right: 24px; }
 .guild-taskboard .task-title-row h3 { font-size: 29px; line-height: 1.15; margin-top: 4px; color: #383625; }
 .guild-taskboard .task-speaker { font-size: 12px; }
-.guild-taskboard .task-badge-row { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin: 6px 0 0; }
-.guild-taskboard .task-state { font: italic 12px Georgia, serif; color: #857249; }
-.guild-taskboard .task-state.ready { color: #607839; }.guild-taskboard .task-state.completed { color: #61754a; }
 .guild-taskboard .task-pin { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 43px; margin: 0; padding: 0; border: 0; background: none; border-radius: 6px; }
 .guild-taskboard .task-pin .game-art { width: 32px; height: 38px; transform: rotate(-24deg); opacity: .74; transition: transform .22s ease, opacity .22s ease, filter .22s ease; }
 .guild-taskboard .task-pin.is-pinned .game-art { transform: rotate(0); opacity: 1; filter: drop-shadow(0 2px 2px #6c461a66); }
@@ -80,12 +81,20 @@
 .guild-taskboard .done .objective-check { background: #718657; color: #fff2bb; border-color: #6e7649; text-shadow: 0 1px 1px #303e23; }
 .guild-taskboard .objective-copy { flex: 1; color: inherit; }
 .guild-taskboard .task-instructions { font-size: 12px; line-height: 1.55; }
-.guild-taskboard .task-detail-footer { padding-top: 3px; padding-bottom: 3px; }
+.guild-taskboard .task-detail-footer { flex-shrink: 0; padding: 0; border-top: 0; }
 .guild-taskboard .task-detail-footer h4 { margin-top: 10px; }
-.guild-taskboard .task-rewards-panel { margin-top: 4px; border-top: 1px solid var(--task-line); }
-.guild-taskboard .task-rewards-panel h4 { margin: 0; }
-.guild-taskboard .task-detail .task-rewards-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 31px; padding: 5px 2px; border: 0; border-radius: 0; background: transparent; color: #4a4d31; text-align: left; font: 16px Georgia, serif; }
-.guild-taskboard .task-rewards-toggle:hover { color: #7c5926; background: #bda26812; }
+.guild-taskboard .task-rewards-panel { margin-top: 4px; }
+.guild-taskboard .task-rewards-panel h4 { position: relative; margin: 0; }
+.guild-taskboard .task-rewards-panel h4::before { content: ''; position: absolute; left: 0; right: 0; top: 29px; height: 1px; background: var(--task-line); pointer-events: none; }
+/* The icon turns independently, so the Rewards label stays upright. */
+.guild-taskboard .task-detail .task-rewards-toggle { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; width: max-content; max-width: 100%; min-width: 90px; margin: 0 auto; padding: 0 6px; border: 0; border-radius: 10px; background: transparent; color: #4a4d31; font: 16px/1.2 Georgia, serif; transition: transform .2s ease, color .2s ease; }
+.guild-taskboard .task-rewards-icon { display: block; width: 58px; height: 58px; transform: rotate(180deg); filter: drop-shadow(0 2px 2px #53351066); transition: transform .45s ease, filter .2s ease; }
+.guild-taskboard .task-rewards-toggle[aria-expanded="true"] .task-rewards-icon { transform: rotate(0deg); }
+.guild-taskboard .task-rewards-toggle::before { content: ''; position: absolute; z-index: -1; width: 48px; height: 48px; top: 5px; border-radius: 13px; background: #dcb95c88; filter: blur(8px); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
+.guild-taskboard .task-rewards-toggle:is(:hover, :focus-visible) { transform: translateY(-2px); color: #7c5926; }
+.guild-taskboard .task-rewards-toggle:is(:hover, :focus-visible)::before { opacity: 1; }
+.guild-taskboard .task-rewards-toggle:is(:hover, :focus-visible) .task-rewards-icon { filter: brightness(1.14) drop-shadow(0 0 5px #dda64099); }
+.guild-taskboard .task-rewards-toggle:active { transform: scale(.97); }
 .guild-taskboard .task-rewards-toggle:focus-visible { outline: 2px solid #9a7137; outline-offset: 2px; }
 .guild-taskboard .task-rewards-content { max-height: min(150px, 20dvh); overflow-y: auto; padding-top: 4px; scrollbar-color: #ac955d #e0d0a9; }
 .guild-taskboard .task-rewards-content .task-rewards { margin-bottom: 4px; }
@@ -93,13 +102,8 @@
 .guild-taskboard .task-reward { flex: 1 1 110px; display: flex; align-items: center; gap: 9px; padding-right: 6px; font-size: 13px; }
 .guild-taskboard .task-reward img, .guild-taskboard .task-reward .game-art { width: 48px; height: 50px; flex-shrink: 0; object-fit: contain; }
 .guild-taskboard .task-reward strong { display: inline; font-size: 17px; }
-.guild-taskboard .task-overall-progress { display: flex; align-items: center; gap: 9px; margin: 6px 0 13px; font: 12px Georgia, serif; color: #6e603d; }
-.guild-taskboard .task-overall-progress .rune-progress { flex: 1; height: 26px; border-width: 3px; border-color: #b18743; border-radius: 999px; background: #10291c; }
-.guild-taskboard .task-overall-progress .rune-progress-fill { border-radius: 999px; background: linear-gradient(#396f48, #245235 46%, #103b26); box-shadow: inset 0 1px 2px #92b57866, 0 0 7px #507f4666; }
-.guild-taskboard .task-overall-progress strong { min-width: 27px; font-weight: normal; }
 .guild-taskboard .task-primary { min-height: 38px; padding: 8px 22px; font-size: 14px; }
 .guild-taskboard .task-received { padding: 7px 0; margin: 0; }
-.guild-taskboard .task-footer-action { display: flex; justify-content: center; align-items: center; min-height: 48px; padding: 0 42px; }
 .guild-taskboard .task-complete-badge { position: relative; display: inline-grid; place-items: center; width: 194px; height: 52px; padding: 8px 30px; border: 0; border-radius: 0; background: none; color: #f6df9b; font: 16px Georgia, serif; isolation: isolate; transition: transform .2s ease; }
 .guild-taskboard .task-complete-badge > .game-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; filter: drop-shadow(0 2px 2px #5c441a66); transition: filter .2s ease; }
 .guild-taskboard .task-complete-badge:disabled { opacity: .58; cursor: default; }
@@ -155,18 +159,24 @@
   .guild-taskboard .task-list-entry { padding: 7px; margin-bottom: 5px; }
   .guild-taskboard .task-detail { flex: 1; min-height: 0; padding: 17px 20px 16px; }.guild-taskboard .task-title-row { padding: 0 0 6px 16px; }
   .guild-taskboard .task-title-row h3 { font-size: 23px; }
-  .guild-taskboard .task-type-badge { width: 132px; height: 39px; font-size: 12px; }.guild-taskboard .task-badge-row { gap: 4px 8px; }
+  .guild-taskboard .task-title-row { flex-wrap: wrap; }
+  .guild-taskboard .task-title-copy { flex: 1 1 200px; }
+  .guild-taskboard .task-title-action { margin-left: auto; margin-right: 14px; }
+  .guild-taskboard .task-rewards-icon { width: 48px; height: 48px; }
+  .guild-taskboard .task-rewards-panel h4::before { top: 24px; }
+  .guild-taskboard .task-rewards-toggle::before { width: 40px; height: 40px; top: 4px; }
   .guild-taskboard .task-dialogue p { font-size: 13px; }.guild-taskboard .task-objectives li { font-size: 12px; }
   .guild-taskboard h4 { font-size: 16px; margin: 9px 0 7px; }
   .guild-taskboard .task-reward img, .guild-taskboard .task-reward .game-art { width: 34px; height: 36px; }
   .guild-taskboard .task-reward { flex-basis: 90px; font-size: 11px; gap: 5px; }.guild-taskboard .task-reward strong { font-size: 14px; }
-  .guild-taskboard .task-rewards { margin-bottom: 7px; gap: 7px; }.guild-taskboard .task-overall-progress { margin: 4px 0 8px; }
+  .guild-taskboard .task-rewards { margin-bottom: 7px; gap: 7px; }
   .guild-taskboard .corner-ornaments .ornament { width: 54px; height: 58px; }
-  .guild-taskboard .task-footer-action { padding: 0 24px; min-height: 42px; }
   .guild-taskboard .task-complete-badge { height: 45px; width: 175px; font-size: 14px; }
   .guild-taskboard .taskboard-inner-overlay { inset: 110px 0 0; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .guild-taskboard .task-rewards-toggle, .guild-taskboard .task-rewards-icon, .guild-taskboard .task-rewards-toggle::before { transition: none; }
+  .guild-taskboard .task-rewards-toggle:is(:hover, :focus-visible, :active) { transform: none; }
   .guild-back, .guild-back > .game-art, .guild-back .back-arrow, .guild-back .back-halo, .guild-taskboard .task-pin .game-art { transition: none; }
   .rune-progress::after { transition: none; display: none; }
   .guild-back:hover, .guild-back:focus-visible, .guild-back:hover .back-arrow, .guild-back:focus-visible .back-arrow, .guild-back:active { transform: none; }

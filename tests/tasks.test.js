@@ -227,7 +227,7 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.doesNotMatch(board, /New tutorial garden/);
   assert.doesNotMatch(board, /simulation-speeds|Pause simulation/);
   assert.match(board, /aria-label="Unpin task"[^>]*aria-pressed="true"/);
-  assert.ok(board.indexOf('ui/pin.webp') < board.indexOf('ui/botanical-badges.png', board.indexOf('task-badge-row')));
+  assert.doesNotMatch(board, /task-type-badge|task-overall-progress|task-wallet/);
   const nextBoard = renderToStaticMarkup(React.createElement(Board, { garden: careActive(), initialTaskId: FIRST_TASK, speed: 1 }));
   assert.match(nextBoard, /<h3>A Thirsty Carrot<\/h3>/);
   assert.doesNotMatch(nextBoard, /no outstanding assignments/);
@@ -240,7 +240,7 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.match(sideBoard, />Side Tasks<span/);
   assert.match(sideBoard, /<h3>A Few Carrot Leaves<\/h3>/);
   assert.match(sideBoard, /uses 5 Carrot Leaves from your inventory/);
-  assert.match(sideBoard, /aria-label="A Few Carrot Leaves progress"[^>]*aria-valuenow="0"[^>]*aria-valuetext="0 of 5 Leaves"/);
+  assert.match(sideBoard, /aria-label="A Few Carrot Leaves, In progress, 0 of 5/);
   const receipt = renderToStaticMarkup(React.createElement(Receipt, { receipt: { id: 1, items: [{ id: 'seed:Algea', type: 'seed', species: 'Algea', name: 'Algea Seeds', quantity: 3 }] } }));
   assert.match(receipt, /Harvested!|Algea Seeds/);
 });

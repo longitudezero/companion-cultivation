@@ -17,3 +17,5 @@ User-supplied artwork, 1 November 2026. PNG/WebP bytes are copied unchanged from
 - `title-decoration.webp` is the supplied title ornament, copied unchanged. Task section headings display its complete canvas at its original aspect ratio, including the long top arm and short lower arm; the title background keeps rounded capsule ends and the existing slow green wisps.
 
 - `taskboard-noticeboard.webp` is the supplied Enchanted Forest Scholar’s Noticeboard, copied unchanged (2048 × 592). It sits behind the Taskboard title, controls and floating dust. The Shop keeps its existing vine header.
+
+`rewards-expand.webp` is the supplied Ornate Forest Green Expand Button, copied unchanged (314×314). Its GameArt view box removes transparent margins without repainting the asset. Only the icon rotates between the Rewards disclosure states.
