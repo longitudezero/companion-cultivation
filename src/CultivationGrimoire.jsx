@@ -36,7 +36,7 @@ export function TurningLeaf({ turn, duration, page, movingTabs, onFinish }) {
     style={{ '--turn-duration': `${duration}ms` }} aria-hidden="true" inert
     onAnimationEnd={event => { if (event.target === event.currentTarget) onFinish(turn.id); }}>
     {Object.entries(faces).map(([face, { index, side }]) => <div key={face} className={`cg-turn-face ${face}`}
-      data-printed-page={BOOK_ENTRIES[index].page + (side === 'right' ? 1 : 0)}>{page(index, side)}</div>)}
+      data-printed-page={BOOK_ENTRIES[index].page + (side === 'right' ? 1 : 0)} data-page-side={side}>{page(index, side)}</div>)}
     <div className="cg-turn-bookmarks">{movingTabs.map(index => <TurningBookmark key={index} chapter={CHAPTERS[index]} index={index}/>)}</div>
   </div>;
 }
