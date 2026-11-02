@@ -9,7 +9,7 @@
 .topbar .time-controls .live-time-label { font-size: 8px; }
 .topbar .time-controls small { display: none; }
 .app-shell .workspace { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 294px; grid-template-rows: minmax(380px, 1fr) auto; gap: 9px; height: calc(100dvh - 96px); min-height: 710px; max-width: 2000px; padding: 12px; margin: 0 auto; border: 1px solid #a38651; box-shadow: inset 0 0 0 4px #203b2c, inset 0 0 0 5px #79643e; }
-.layout-ornaments { position: absolute; inset: -1px; overflow: hidden; pointer-events: none; z-index: 6; }
+.layout-ornaments { position: absolute; inset: -1px -1px 0; overflow: hidden; pointer-events: none; z-index: 6; }
 .layout-ornaments img { position: absolute; width: var(--layout-corner-size, 60px); height: calc(var(--layout-corner-size, 60px) * 1.08); }
 .layout-ornaments .top-left { left: -2px; top: -2px; }
 .layout-ornaments .top-right { right: -2px; top: -2px; }
