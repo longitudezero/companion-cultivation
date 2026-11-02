@@ -54,15 +54,18 @@ function PageSurface({ side, disabled, busy, onTurn, children }) {
       && event.clientY >= rect.top && event.clientY <= rect.bottom;
   };
   const turn = event => {
-    if (disabled || (event.detail > 0 && dragged.current) || window.getSelection()?.isCollapsed === false) return;
+    if (disabled || (event.detail > 0 && dragged.current)) return;
     onTurn();
   };
   return <article className={`cg-page ${side}`} aria-label={side === 'left' ? 'Left page' : 'Right page'} inert={busy}
-    onPointerMove={event => setHovered(!disabled && inMargin(event) && !protectedTarget(event))}
+    onPointerMove={event => {
+      if (pointer.current && Math.hypot(event.clientX - pointer.current.x, event.clientY - pointer.current.y) > 5) dragged.current = true;
+      setHovered(!disabled && inMargin(event) && !protectedTarget(event));
+    }}
     onPointerLeave={() => setHovered(false)}
     onPointerDown={event => { pointer.current = { x: event.clientX, y: event.clientY }; dragged.current = false; }}
     onPointerUp={event => {
-      if (pointer.current) dragged.current = Math.hypot(event.clientX - pointer.current.x, event.clientY - pointer.current.y) > 5;
+      if (pointer.current) dragged.current ||= Math.hypot(event.clientX - pointer.current.x, event.clientY - pointer.current.y) > 5;
       pointer.current = null;
     }}
     onPointerCancel={() => { pointer.current = null; dragged.current = true; }}
@@ -96,6 +99,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   const navigate = useCallback(key => {
     const to = BOOK_ENTRIES.findIndex(entry => entry.key === key);
+    window.getSelection()?.removeAllRanges();
     dispatch({ type: 'navigate', to, reduced: Boolean(reducedMotionQuery()?.matches) });
   }, []);
   const openGlossary = useCallback((kind, element) => { termRef.current = element; setGlossary(kind); }, []);
@@ -161,9 +165,9 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
         }
         return;
       }
-      if (busy || glossary || event.ctrlKey || event.metaKey || event.altKey
+      if (busy || glossary || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey
         || ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)
-        || document.activeElement?.isContentEditable || window.getSelection()?.isCollapsed === false) return;
+        || document.activeElement?.isContentEditable) return;
       if (event.key === 'ArrowRight' && nav.current < BOOK_ENTRIES.length - 1) {
         event.preventDefault(); navigate(BOOK_ENTRIES[nav.current + 1].key);
       } else if (event.key === 'ArrowLeft' && nav.current > 0) {
