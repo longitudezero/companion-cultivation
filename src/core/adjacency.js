@@ -43,7 +43,7 @@ export function applyEnvironmentalAdjacency(garden, beforeAdjacency) {
       const oldIndex = choices.indexOf(before[property]);
       const nextIndex = oldIndex + modifier;
       const allowed = property === 'Temperature'
-        ? (modifier > 0 ? oldIndex < choices.indexOf('Warm') : oldIndex > choices.indexOf('Cold'))
+        ? (modifier > 0 ? oldIndex < choices.indexOf('Hot') : oldIndex > choices.indexOf('Cold'))
         : (modifier > 0 ? oldIndex < choices.indexOf('Lit') : oldIndex > choices.indexOf('Dim'));
       if (!allowed) return;
       conditions[key][property] = choices[nextIndex];
@@ -56,7 +56,7 @@ export function applyEnvironmentalAdjacency(garden, beforeAdjacency) {
       entries.push({ property: 'Moisture', ...ADJACENCY_EFFECTS.Moisture, modifier: 1, trigger: 'Flooded', from: flooded, before: 'Dry', after: 'Damp' });
     }
 
-    for (const [property, high, low] of [['Temperature', 'Hot', 'Freezing'], ['Illumination', 'Bright', 'Dark']]) {
+    for (const [property, high, low] of [['Temperature', 'Scorching', 'Freezing'], ['Illumination', 'Bright', 'Dark']]) {
       const eligible = eligibleNeighbors(property);
       const warmer = eligible.filter((neighbor) => beforeAdjacency[neighbor][property] === high);
       const cooler = eligible.filter((neighbor) => beforeAdjacency[neighbor][property] === low);

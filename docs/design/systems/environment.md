@@ -12,7 +12,7 @@ Each hex has editable Baselines and recalculated current Conditions for exactly 
 | Property | Ordered Conditions (low → high) | Environmental Influence Kind |
 | --- | --- | --- |
 | Moisture | Dry → Damp → Flooded | Aqueous |
-| Temperature | Freezing → Cold → Temperate → Warm → Hot | Thermal |
+| Temperature | Freezing → Cold → Temperate → Hot → Scorching | Thermal |
 | Illumination | Dark → Dim → Lit → Bright | Luminous |
 
 **Fertility and permanent hex Materials (Dirt, Sand, Clay, Stone) have been removed from the game.** There is no material selection tool, Material property, Fertility baseline, Nutrient Kind, Enrichment or Depletion emission. The former four-Property / 16-Condition architecture is superseded by **three Properties / 12 Conditions**. A hex's environmental state is not defined by a ground Material.
@@ -51,12 +51,12 @@ One **simultaneous**, **non-chaining**, **capped** neighboring-Condition pass fo
 | Neighbor trigger | Target adjustment | Kind / Mode for Blockers |
 | --- | --- | --- |
 | Flooded neighbor | Dry → Damp, but never Damp → Flooded | Aqueous / Waterborne |
-| Hot neighbor | One step warmer, never Warm → Hot | Thermal / Airborne |
+| Scorching neighbor | One step warmer, never Hot → Scorching | Thermal / Airborne |
 | Freezing neighbor | One step colder, never Cold → Freezing | Thermal / Airborne |
 | Bright neighbor | One step brighter, never Lit → Bright | Luminous / Airborne |
 | Dark neighbor | One step darker, never Dim → Dark | Luminous / Airborne |
 
-Multiple identical neighboring triggers cause at most one adjustment. Opposing **Hot/Freezing** or **Bright/Dark** triggers cancel when both are permitted across applicable Blockers. Blocked neighbors do not participate in this cancellation. An anchored target is immune to adjacency on its anchored Property. These adjustments can soften an existing extreme and may affect the surrounding final Conditions, but **never create Flooded**.
+Multiple identical neighboring triggers cause at most one adjustment. Opposing **Scorching/Freezing** or **Bright/Dark** triggers cancel when both are permitted across applicable Blockers. Blocked neighbors do not participate in this cancellation. An anchored target is immune to adjacency on its anchored Property. These adjustments can soften an existing extreme and may affect the surrounding final Conditions, but **never create Flooded**.
 
 The adjacency **Mode tag is for Blocker matching only**: a Waterborne-tagged Flooded→Damp adjacency effect can change a directly adjacent Dry hex without using Waterborne flooded-network propagation.
 

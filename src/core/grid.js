@@ -1,6 +1,6 @@
 export const CONDITIONS = Object.freeze({
   Moisture: Object.freeze(['Dry', 'Damp', 'Flooded']),
-  Temperature: Object.freeze(['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']),
+  Temperature: Object.freeze(['Freezing', 'Cold', 'Temperate', 'Hot', 'Scorching']),
   Illumination: Object.freeze(['Dark', 'Dim', 'Lit', 'Bright']),
 });
 export const PROPERTIES = Object.freeze(Object.keys(CONDITIONS));
@@ -47,7 +47,7 @@ export function createGarden(columns = 9, rows = 7) {
   // Initial Seed quantity is a sandbox tuning value, not an approved balance decision.
   const starterSeeds = { Beanstalk: 16, Daisydaze: 16, 'Algea': 16,
     'Moss': 16, Jadeheart: 16, Thymekeeper: 16 };
-  return { schemaVersion: 7, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, itemNonce: 0,
+  return { schemaVersion: 8, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, itemNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
     inventorySlots: {}, staged: {}, pending: {},
     grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
@@ -145,9 +145,9 @@ export function removeEdgeBlocker(garden, a, b) {
 }
 
 export function isGarden(value) {
-  // V6 retains the V8/V9 fungal roster and can be upgraded by renaming plant
-  // identities; pre-V6 data refers to retired Fungi and remains unsupported.
-  return [6, 7].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
+  // V6/V7 retain the current roster; V8 renames temperature levels. Older
+  // prototypes refer to retired Fungi and remain unsupported.
+  return [6, 7, 8].includes(value?.schemaVersion) && Number.isInteger(value.columns) && Number.isInteger(value.rows)
     && value.hexes && typeof value.hexes === 'object' && value.objects && typeof value.objects === 'object'
     && value.edges && typeof value.edges === 'object';
 }

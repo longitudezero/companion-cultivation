@@ -32,7 +32,7 @@ export const WOODLANDS_PLANTS = Object.freeze({
   'Moss': woodlands('Moss', 4, 8, .28, 10, 100, 10, 'Moss',
     { productiveWindow: [80, 135] }),
   Bamboom: woodlands('Bamboom', 3, 6.5, null, 6, 105, 18, 'Moss',
-    { preferredTemperature: ['Temperate', 'Warm'] }),
+    { preferredTemperature: ['Temperate', 'Hot'] }),
   Bamboozeling: woodlands('Bamboozeling', 3.5, 7.5, null, 4, 110, 7, 'Moss'),
   Bamboozled: woodlands('Bamboozled', 4, 8, null, 0, 110, 0, null),
   Tanglethorn: woodlands('Tanglethorn', 4, 8, .23, 11, 125, 9, 'Tanglethorn'),

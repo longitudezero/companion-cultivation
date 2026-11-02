@@ -14,7 +14,7 @@ function readyPlant(species, leaves, seeds = 0) {
 
 test('new schema 7 gardens track separate Leaf stacks rather than generic fungible currency', () => {
   const garden = createGarden();
-  assert.equal(garden.schemaVersion, 7);
+  assert.equal(garden.schemaVersion, 8);
   assert.equal(isGarden(garden), true);
   assert.deepEqual(garden.inventory.leaves, {});
   assert.equal(garden.inventory.legacyLeaves, 0);
@@ -88,7 +88,7 @@ test('V6 generic Leaves remain unattributed and never turn into Beanstalk Leaves
   const saved = structuredClone(old);
   const migrated = migrateGarden(old);
   assert.deepEqual(old, saved, 'migration does not modify the supplied save');
-  assert.equal(migrated.schemaVersion, 7);
+  assert.equal(migrated.schemaVersion, 8);
   assert.deepEqual(migrated.inventory.leaves, {});
   assert.equal(migrated.inventory.legacyLeaves, 73);
   const harvested = harvestPlant(placeObject(migrated, '2,2', readyPlant('Beanstalk', 8)), '2,2');

@@ -19,7 +19,7 @@
 .guild-back:hover .back-halo, .guild-back:focus-visible .back-halo { opacity: 1; }
 .guild-back:active { transform: scale(.97); }
 .guild-back:focus-visible { outline: 1px solid #ffe5a4; outline-offset: 4px; border-radius: 10px; }
-.guild-taskboard { --task-parchment: #eadbb7; --task-ink: #3d3927; --task-line: #b59b65; --task-frame: #8c612b; width: min(1180px, 96vw); height: min(840px, 94dvh); border-color: #d2ae68; }
+.guild-taskboard { --task-parchment: #eadbb7; --task-ink: #3d3927; --task-line: #b59b65; --task-frame: #8c612b; width: min(1180px, 96vw); border-color: #d2ae68; }
 .guild-taskboard .taskboard-header { flex-wrap: nowrap; padding: 15px 22px 13px; gap: 14px; border-bottom: 3px double #ad8c4d; background: radial-gradient(ellipse at 20% 0, #3a4d2c55, transparent 65%), #11281e; }
 .guild-taskboard .taskboard-heading { min-width: 0; }
 .guild-taskboard .taskboard-heading h2 { font-size: 34px; margin: 2px 0 4px; color: #f3dfae; }
@@ -145,7 +145,7 @@
 .tutorial-reset-backdrop .task-confirm button { border: 1px solid #a58b55; border-radius: 3px; padding: 9px 16px; background: #e4d4a9; color: #354c2e; font: 13px Georgia, serif; cursor: pointer; }
 .tutorial-reset-backdrop .task-confirm .task-primary { background: #506b3e; color: #fff1cd; }
 @media (max-width: 820px) {
-  .guild-taskboard { width: 98vw; height: 96dvh; }
+  .guild-taskboard { width: 98vw; }
   .guild-taskboard .taskboard-header { flex-wrap: wrap; padding: 10px 14px; gap: 5px 12px; }
   .guild-taskboard .taskboard-heading h2 { font-size: 27px; }.guild-taskboard .taskboard-heading p { display: none; }
   .guild-taskboard .task-wallet { margin-left: auto; font-size: 13px; }

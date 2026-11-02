@@ -19,8 +19,8 @@ export function createDemoGarden() {
     makeInfluence('Cooling', 1, 2),
   ]));
   // A fixed-temperature example: its neighbors warm naturally, while its
-  // anchored hex remains Hot regardless of the surrounding Conditions.
-  garden = placeObject(garden, keyAt(7, 5), makeAnchoredSource('Temperature', 'Hot', []));
+  // anchored hex remains Scorching regardless of the surrounding Conditions.
+  garden = placeObject(garden, keyAt(7, 5), makeAnchoredSource('Temperature', 'Scorching', []));
   garden = placeObject(garden, keyAt(4, 2), makeBlocker('full'));
   garden = placeEdgeBlocker(garden, keyAt(4, 3), keyAt(5, 3), makeBlocker('mode', 'waterborne'));
   return garden;

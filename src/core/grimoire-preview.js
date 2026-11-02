@@ -32,7 +32,7 @@ export function previewPlantHazards(species) {
   const plant = PLANTS[species];
   if (!plant) return [];
   return [
-    ['Dry', plant.dryDeath], ['Hot', plant.hotDeath],
+    ['Dry', plant.dryDeath], ['Scorching', plant.hotDeath],
     ['Freezing', plant.freezingDeath], ['Mycelial', plant.mycelialDeath],
     ['Bright', plant.brightDeath],
   ].filter(([, hours]) => Number.isFinite(hours))
@@ -68,8 +68,8 @@ export function describeFullRecipe(from, recipe) {
     return `${prefix} — ${stage} for ${formatRealDuration(recipe.hours)} to under ${formatRealDuration(recipe.beforeHours)}. Then lose ${completion.remove} contact while retaining ${contactsText(completion.retain)}; ${conditionText(completion.conditions)}.`;
   }
   if (recipe.sequence === 'heat-to-warm' || recipe.sequence === 'freeze-to-cold') {
-    const exposure = recipe.sequence === 'heat-to-warm' ? 'Hot' : 'Freezing';
-    return `${prefix} — Accumulate ${recipe.early ? `under ${formatRealDuration(recipe.hours)}` : `at least ${formatRealDuration(recipe.hours)}`} of ${exposure} exposure, then change the hex from ${exposure} to ${recipe.sequence === 'heat-to-warm' ? 'Warm' : 'Cold'}. ${finish}.`;
+    const exposure = recipe.sequence === 'heat-to-warm' ? 'Scorching' : 'Freezing';
+    return `${prefix} — Accumulate ${recipe.early ? `under ${formatRealDuration(recipe.hours)}` : `at least ${formatRealDuration(recipe.hours)}`} of ${exposure} exposure, then change the hex from ${exposure} to ${recipe.sequence === 'heat-to-warm' ? 'Hot' : 'Cold'}. ${finish}.`;
   }
   if (recipe.sequence === 'flood-to-damp') {
     return `${prefix} — ${stage} for ${formatRealDuration(recipe.hours)}, then change the hex directly from Flooded to Damp while the preparation contact was still active before the change.`;

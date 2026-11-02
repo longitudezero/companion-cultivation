@@ -2,8 +2,10 @@ import React from 'react';
 import { neighborsOf, edgeKey, isMycelial, isPlayerSource, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
 import GameArt, { CONDITION_ART } from './ui/GameArt.jsx';
-import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
+import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
+const HEX_WIDTH = Math.sqrt(3) * SIZE;
+const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
 
 function edgeSegment(a, b) {
   const one = centerFor(a);
@@ -121,8 +123,13 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, tool
             tabIndex={0} role="button" aria-label={`Hex ${key}: Moisture ${Moisture}; Temperature ${Temperature}; Illumination ${Illumination}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             <title>{`Moisture: ${Moisture} · Temperature: ${Temperature} · Illumination: ${Illumination}`}</title>
             <polygon points={polygonFor(c)} fill="#182c22" stroke="#102219" strokeWidth="1.5"/>
-            <polygon points={polygonFor(c, SIZE - 3.5)} fill={fill} stroke={border} strokeWidth="3.5" className="hex-surface"/>
-            <polygon points={polygonFor(c, SIZE - 5)} fill="url(#grain)" pointerEvents="none"/>
+            <polygon points={polygonFor(c, SIZE - 3.5)} fill={fill} className="hex-surface"/>
+            <image className="hex-moisture-art" href={hexArt(HEX_ART.Moisture[Moisture])}
+              x={c.x - HEX_WIDTH * .52} y={c.y - SIZE * 1.04} width={HEX_WIDTH * 1.04} height={SIZE * 2.08}
+              preserveAspectRatio="none" pointerEvents="none"/>
+            <image className="hex-temperature-art" href={hexArt(HEX_ART.Temperature[Temperature])}
+              x={c.x - HEX_WIDTH * .6} y={c.y - SIZE} width={HEX_WIDTH * 1.2} height={SIZE * 2}
+              preserveAspectRatio="none" pointerEvents="none"/>
             {highlighted.has(key) && <polygon points={polygonFor(c, SIZE - 8)} fill="none" stroke="#efde9b" strokeWidth="2" opacity=".65" pointerEvents="none"/>}
             {active && <polygon className="hex-selection" points={polygonFor(c, SIZE - 9)} fill="none" stroke="#ffe3a0" strokeWidth="2" strokeDasharray="4 3" pointerEvents="none"/>}
             {mycelial && <g pointerEvents="none" className={`mycelial-overlay ${mycelialSupported ? '' : 'is-retreating'}`}>
@@ -153,7 +160,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, tool
             <g className="hex-illumination" role="img" aria-label={`Illumination: ${Illumination}`} pointerEvents="none">
               <GameArt name={CONDITION_ART.Illumination[Illumination]} x={c.x + (object || proposal || pending ? 8 : -12)} y={c.y - 27} width={24} height={24}/>
             </g>
-            <text x={c.x} y={c.y + 31} textAnchor="middle" className="hex-label">{Moisture}</text>
+            <text x={c.x} y={c.y + 25} textAnchor="middle" className="hex-label">{Moisture}</text>
           </g>
         );
       })}

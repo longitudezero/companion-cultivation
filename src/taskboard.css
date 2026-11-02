@@ -17,13 +17,13 @@
 .tracker-entry.ready span { color: #f4ce75; }
 .tracker-entry:hover strong { color: #f6df9b; }
 .taskboard-backdrop { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 18px; background: #07130bcc; backdrop-filter: blur(2px); }
-.taskboard-modal { position: relative; display: flex; flex-direction: column; width: min(1000px, 96vw); height: min(720px, 92dvh); color: #3c3424; border: 4px double #c2a169; border-radius: 7px; box-shadow: 0 24px 90px #000e, inset 0 0 0 4px #10281e; background: #192f23; overflow: hidden; }
+.taskboard-modal { position: relative; display: flex; flex-direction: column; width: min(1000px, 96vw); height: calc(100dvh - 36px); min-height: 0; color: #3c3424; border: 4px double #c2a169; border-radius: 7px; box-shadow: 0 24px 90px #000e, inset 0 0 0 4px #10281e; background: #192f23; overflow: hidden; }
 .taskboard-header { flex: 0 0 auto; display: flex; align-items: center; gap: 18px; padding: 15px 20px; color: #ebd4a1; background: linear-gradient(125deg, #243e2c, #11271e); border-bottom: 1px solid #a58b53; }
 .taskboard-header .eyebrow { font-size: 8px; }
 .taskboard-header h2 { font: 28px Georgia, serif; margin-top: 3px; }
 .task-wallet { margin-left: auto; font: 15px Georgia, serif; white-space: nowrap; color: #ecc367; }
 .taskboard-close { flex-shrink: 0; background: transparent; color: #f0d7a3; border: 0; padding: 0 3px; font: 30px/1 Georgia, serif; }
-.taskboard-content { display: flex; flex: 1; min-height: 0; }
+.taskboard-content { display: flex; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .taskboard-list { flex: 0 0 245px; display: flex; flex-direction: column; min-height: 0; padding: 16px 12px; background: #203629; border-right: 1px solid #a58b53; color: #dbc99f; }
 .task-tabs { display: flex; gap: 5px; margin-bottom: 16px; }
 .task-tabs button { flex: 1; padding: 7px 4px; border: 1px solid #7e724b; background: #172c21; color: #d9c89b; border-radius: 3px; font: 12px Georgia, serif; }
@@ -83,7 +83,7 @@
 @media (min-width: 761px) and (max-width: 1150px) { .app-shell .topbar { height: auto; min-height: 82px; flex-wrap: wrap; gap: 8px 12px; } .topbar .time-controls { order: 3; flex-basis: 100%; } }
 @media (max-width: 760px) {
   .garden-inventory { display: none; }.garden-inventory.is-open { display: flex; }
-  .taskboard-backdrop { padding: 7px; }.taskboard-modal { width: 100%; height: 96dvh; }
+  .taskboard-backdrop { padding: 12px; }.taskboard-modal { width: 100%; height: calc(100dvh - 24px); }
   .taskboard-header { padding: 10px; gap: 8px; flex-wrap: wrap; }.taskboard-header h2 { font-size: 23px; }
   .taskboard-header .simulation-speeds { order: 4; flex-basis: 100%; }.taskboard-close { margin-left: auto; }
   .taskboard-content { flex-direction: column; }.taskboard-list { flex: 0 0 auto; padding: 8px; border-right: 0; border-bottom: 1px solid #9b8150; }

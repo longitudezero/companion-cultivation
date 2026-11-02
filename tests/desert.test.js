@@ -44,7 +44,7 @@ function arrangeStatic(from, recipe) {
       neighborsOf(neighbors[index]).indexOf(key)));
   });
   for (const moisture of ['Dry', 'Damp', 'Flooded']) {
-    for (const temperature of ['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']) {
+    for (const temperature of ['Freezing', 'Cold', 'Temperate', 'Hot', 'Scorching']) {
       for (const illumination of ['Dark', 'Dim', 'Lit', 'Bright']) {
         const baselines = atmosphere(moisture, temperature, illumination);
         const candidate = { ...garden, hexes: Object.fromEntries(Object.keys(garden.hexes)
@@ -124,7 +124,7 @@ test('all nine ordinary Desert transformations complete through live fungal foot
     garden = advanceGardenTime(garden, 1).garden;
     assert.equal(garden.objects[key].species, recipe.into, `${from} → ${recipe.into} did not complete`);
     assert.equal(garden.objects[key].progress, 0);
-    assert.equal(garden.objects[key].exposure.Hot, 0);
+    assert.equal(garden.objects[key].exposure.Scorching, 0);
   }
 });
 
@@ -151,9 +151,9 @@ test('ordinary Desert recipe OR alternatives are real interchangeable contacts',
   }
 });
 
-test('Aloechemist Hot Growth +30%, natural Leaves +50%, and signed recipient effects are separate', () => {
-  const hot = atmosphere('Damp', 'Hot', 'Lit');
-  const warm = atmosphere('Damp', 'Warm', 'Lit');
+test('Aloechemist Scorching Growth +30%, natural Leaves +50%, and signed recipient effects are separate', () => {
+  const hot = atmosphere('Damp', 'Scorching', 'Lit');
+  const warm = atmosphere('Damp', 'Hot', 'Lit');
   const ember = makePlant('Aloechemist');
   assert.equal(plantGrowthRates(ember, hot).growth, 1.3);
   assert.equal(plantGrowthRates(ember, hot).ripening, 1);
@@ -171,40 +171,40 @@ test('Aloechemist Hot Growth +30%, natural Leaves +50%, and signed recipient eff
 
 test('Aloechemist qualifies early as Cactastrophe, at exactly 36h as Aloemancer, never from cooling alone', () => {
   for (const [hours, expected] of [[1, 'Cactastrophe'], [35, 'Cactastrophe'], [36, 'Aloemancer'], [40, 'Aloemancer']]) {
-    let garden = start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit'));
+    let garden = start('Aloechemist', atmosphere('Damp', 'Scorching', 'Lit'));
     garden = advanceGardenTime(garden, hours).garden;
-    assert.equal(garden.objects[key].exposure.Hot, hours);
-    garden = addFungus(garden, 'Rilllace'); // Cooling creates Hot → Warm with contact.
-    assert.equal(calculateEnvironment(garden).conditions[key].Temperature, 'Warm');
-    assert.equal(garden.objects[key].species, expected, `Hot recovery at ${hours}h`);
+    assert.equal(garden.objects[key].exposure.Scorching, hours);
+    garden = addFungus(garden, 'Rilllace'); // Cooling creates Scorching → Hot with contact.
+    assert.equal(calculateEnvironment(garden).conditions[key].Temperature, 'Hot');
+    assert.equal(garden.objects[key].species, expected, `Scorching recovery at ${hours}h`);
     assert.equal(garden.objects[key].progress, 0);
-    assert.equal(garden.objects[key].exposure.Hot, 0);
+    assert.equal(garden.objects[key].exposure.Scorching, 0);
   }
-  let garden = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
-  garden = edit(garden, 'Temperature', 'Warm');
+  let garden = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Scorching', 'Lit')), 36).garden;
+  garden = edit(garden, 'Temperature', 'Hot');
   assert.equal(garden.objects[key].species, 'Aloechemist', 'no fungus means no recovery');
   garden = advanceGardenTime(garden, 1).garden;
-  assert.equal(garden.objects[key].exposure.Hot, 0);
-  garden = edit(garden, 'Temperature', 'Hot');
+  assert.equal(garden.objects[key].exposure.Scorching, 0);
+  garden = edit(garden, 'Temperature', 'Scorching');
   garden = advanceGardenTime(garden, 1).garden;
   garden = addFungus(garden, 'Rilllace');
   assert.equal(garden.objects[key].species, 'Cactastrophe', 'the interrupted exposure did not bank 36h');
 
-  let alternate = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let alternate = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Scorching', 'Lit')), 36).garden;
   alternate = addFungus(alternate, 'Rilllace');
   assert.equal(alternate.objects[key].species, 'Aloemancer', 'the named recovery Fungus works');
 
-  let wrong = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let wrong = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Scorching', 'Lit')), 36).garden;
   wrong = edit(wrong, 'Temperature', 'Cold');
-  assert.equal(wrong.objects[key].exposure.Hot, 0, 'endurance resets on the edit, without advancing time');
+  assert.equal(wrong.objects[key].exposure.Scorching, 0, 'endurance resets on the edit, without advancing time');
   wrong = addFungus(wrong, 'Rilllace');
-  assert.equal(wrong.objects[key].species, 'Aloechemist', 'Hot → Cold does not count as Hot → Warm');
+  assert.equal(wrong.objects[key].species, 'Aloechemist', 'Scorching → Cold does not count as Scorching → Hot');
 
-  let instant = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Hot', 'Lit')), 36).garden;
+  let instant = advanceGardenTime(start('Aloechemist', atmosphere('Damp', 'Scorching', 'Lit')), 36).garden;
   instant = edit(instant, 'Temperature', 'Cold');
-  instant = edit(instant, 'Temperature', 'Hot');
+  instant = edit(instant, 'Temperature', 'Scorching');
   instant = addFungus(instant, 'Rilllace');
-  assert.equal(instant.objects[key].species, 'Cactastrophe', 'zero-time toggles cannot bank old Hot exposure');
+  assert.equal(instant.objects[key].species, 'Cactastrophe', 'zero-time toggles cannot bank old Scorching exposure');
 });
 
 test('Moonjade Freezing is indefinitely nonlethal Dormancy, while exposure still accumulates', () => {
@@ -302,8 +302,8 @@ test('Moonjade alternate thaw to Pearadox needs two distinct named contact group
   assert.equal(dim.objects[key].species, 'Moonjade', 'both groups are insufficient at Dim');
 });
 
-test('Pearadox Hot Leaves and Freezing Seeds apply prospectively; Freezing remains productive', () => {
-  const hot = atmosphere('Damp', 'Hot', 'Lit');
+test('Pearadox Scorching Leaves and Freezing Seeds apply prospectively; Freezing remains productive', () => {
+  const hot = atmosphere('Damp', 'Scorching', 'Lit');
   const frozen = atmosphere('Damp', 'Freezing', 'Lit');
   assert.equal(plantGrowthRates(makePlant('Pearadox'), frozen).growth, .75);
   assert.equal(plantOutputRate('Pearadox', hot), 1.7);
@@ -318,13 +318,13 @@ test('Pearadox Hot Leaves and Freezing Seeds apply prospectively; Freezing remai
   assert.equal(availableHarvest(garden.objects[key]).seeds, 27);
 });
 
-test('Cactacomb is sterile and earns 48 native Leaves in Hot, only 65% in Warm', () => {
-  assert.equal(plantOutputRate('Cactacomb', atmosphere('Damp', 'Hot', 'Lit')), 1);
-  assert.equal(plantOutputRate('Cactacomb', atmosphere('Damp', 'Warm', 'Lit')), .65);
+test('Cactacomb is sterile and earns 48 native Leaves in Scorching, only 65% in Hot', () => {
+  assert.equal(plantOutputRate('Cactacomb', atmosphere('Damp', 'Scorching', 'Lit')), 1);
+  assert.equal(plantOutputRate('Cactacomb', atmosphere('Damp', 'Hot', 'Lit')), .65);
   const cactaclysm = makePlant('Cactacomb');
   cactaclysm.progress = 130;
   const planted = accruePlantProduction({ ...cactaclysm, progress: 0 }, 130,
-    atmosphere('Damp', 'Hot', 'Lit'), [{ kind: 'seedYield', amount: 5 },
+    atmosphere('Damp', 'Scorching', 'Lit'), [{ kind: 'seedYield', amount: 5 },
       { kind: 'hourlySeed', amount: 5, window: [119, 130] }]);
   assert.equal(planted.ordinarySeeds, 0);
   assert.equal(planted.hourlySeeds, 0);
@@ -375,20 +375,20 @@ test('natural Everjade Ripening accrues 14+14 Seeds, independent of origin', () 
   });
 });
 
-test('Desert plant survival and output distinguish Hot, Freezing, Dry, and Mycelial hazards', () => {
+test('Desert plant survival and output distinguish Scorching, Freezing, Dry, and Mycelial hazards', () => {
   assert.equal(PLANTS.Jadeheart.hotDeath, 72);
   assert.equal(PLANTS.Jadeheart.freezingDeath, 48);
   assert.equal(PLANTS.Jadeheart.dryDeath, Infinity);
   assert.equal(PLANTS['Prickly Pearl'].hotDeath, Infinity);
   assert.equal(PLANTS['Prickly Pearl'].freezingDeath, 72);
   assert.equal(PLANTS['Everjade'].mycelialDeath, 48);
-  let garden = start('Jadeheart', atmosphere('Dry', 'Hot', 'Lit'));
+  let garden = start('Jadeheart', atmosphere('Dry', 'Scorching', 'Lit'));
   garden = advanceGardenTime(garden, 71).garden;
   assert.equal(garden.objects[key].species, 'Jadeheart');
   const fatal = advanceGardenTime(garden, 1);
   assert.equal(fatal.garden.objects[key], undefined);
-  assert.ok(fatal.events.some(event => event.includes('6m of Hot')));
-  garden = start('Prickly Pearl', atmosphere('Dry', 'Hot', 'Lit'));
+  assert.ok(fatal.events.some(event => event.includes('6m of Scorching')));
+  garden = start('Prickly Pearl', atmosphere('Dry', 'Scorching', 'Lit'));
   garden = advanceGardenTime(garden, 100).garden;
   assert.equal(garden.objects[key].species, 'Prickly Pearl');
 });

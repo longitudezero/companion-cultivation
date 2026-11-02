@@ -35,7 +35,7 @@ export function plantEnvironmentRate(species, conditions, stage = 'growth') {
   let temperature = 1;
   if (profile.temperature?.[conditions.Temperature]) {
     temperature = profile.temperature[conditions.Temperature][stage];
-  } else if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
+  } else if (['Scorching', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
   else if (!profile.preferredTemperature.includes(conditions.Temperature)) {
     temperature = species === 'Pumpkin' && conditions.Temperature === 'Cold' ? .55 : .85;
   }
@@ -91,7 +91,7 @@ function nextExposure(plant, conditions, mycelial) {
   const previous = plant.exposure || {};
   return {
     Dry: conditions.Moisture === 'Dry' ? (previous.Dry || 0) + 1 : 0,
-    Hot: conditions.Temperature === 'Hot' ? (previous.Hot || 0) + 1 : 0,
+    Scorching: conditions.Temperature === 'Scorching' ? (previous.Scorching || 0) + 1 : 0,
     Freezing: conditions.Temperature === 'Freezing' ? (previous.Freezing || 0) + 1 : 0,
     Mycelial: mycelial ? (previous.Mycelial || 0) + 1 : 0,
     ...(plant.species === 'Mandrakadabra' ? {
@@ -130,7 +130,7 @@ export function advanceGardenTime(garden, hours = 1) {
           events.push(`${object.species} transformed into ${transformation.into} on hex ${key}.`);
           continue;
         }
-        const dyingFrom = Object.entries({ Dry: profile.dryDeath, Hot: profile.hotDeath,
+        const dyingFrom = Object.entries({ Dry: profile.dryDeath, Scorching: profile.hotDeath,
           Freezing: profile.freezingDeath, Mycelial: profile.mycelialDeath,
           ...(profile.brightDeath ? { Bright: profile.brightDeath } : {}) })
           .find(([hazard, threshold]) => exposure[hazard] >= threshold);

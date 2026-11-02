@@ -42,7 +42,7 @@ function temperatureSignal(profile, actual) {
     return valueSignal(profile.temperature[actual].growth, entries);
   }
   return profile.preferredTemperature?.includes(actual) ? 'favourable'
-    : ['Hot', 'Freezing'].includes(actual) ? 'reduced' : 'reduced';
+    : ['Scorching', 'Freezing'].includes(actual) ? 'reduced' : 'reduced';
 }
 
 // Called only for a living Plant after a real simulated hour. Conditions are
@@ -187,7 +187,7 @@ export function fungusKnowledge(ledger, fungus) {
 
 // Strictly rehydrate recognized facts. Old schema gardens may show an already
 // living Plant, but cannot reconstruct a lost Transformation recipe from it.
-export function migrateGrimoire(saved, existingObjects = {}, plantName = name => name) {
+export function migrateGrimoire(saved, existingObjects = {}, plantName = name => name, temperatureName = name => name) {
   let clean = createGrimoire();
   for (const object of Object.values(existingObjects)) {
     if (object.type === 'plant') clean = revealPlant(clean, object.species);
@@ -199,11 +199,12 @@ export function migrateGrimoire(saved, existingObjects = {}, plantName = name =>
   for (const [oldPlant, entries] of Object.entries(saved.environments || {})) {
     const plant = plantName(oldPlant);
     if (!PLANTS[plant]) continue;
-    for (const value of Object.values(entries || {})) {
+    for (const previous of Object.values(entries || {})) {
+      const value = previous?.property === 'Temperature' ? { ...previous, condition: temperatureName(previous.condition) } : previous;
       if (!PROPERTIES.has(value?.property)
         || !(value.property === 'Moisture' ? MOISTURE
           : value.property === 'Illumination' ? LIGHT
-            : ['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']).includes(value.condition)
+            : ['Freezing', 'Cold', 'Temperate', 'Hot', 'Scorching']).includes(value.condition)
         || !['favourable', 'reduced', 'dormant'].includes(value.signal)) continue;
       clean = put(clean, 'environments', plant, `${value.property}:${value.condition}`, value);
     }
@@ -217,7 +218,7 @@ export function migrateGrimoire(saved, existingObjects = {}, plantName = name =>
       const direction = Math.sign(Number(value.direction) || 0);
       clean = put(clean, 'fungalEffects', plant, `${value.fungus}:${value.kind}:${direction}`,
         { fungus: value.fungus, kind: value.kind, direction,
-          ...(typeof value.result === 'string' ? { result: value.result } : {}) });
+          ...(typeof value.result === 'string' ? { result: value.kind === 'environment:Temperature' ? temperatureName(value.result) : value.result } : {}) });
     }
   }
   for (const [oldPlant, entries] of Object.entries(saved.hazards || {})) {
@@ -225,7 +226,7 @@ export function migrateGrimoire(saved, existingObjects = {}, plantName = name =>
     if (!PLANTS[plant]) continue;
     for (const value of Object.values(entries || {})) {
       if (typeof value?.hazard === 'string' && ['death', 'penalty'].includes(value.outcome)) {
-        clean = observeHazard(clean, plant, value.hazard, value.outcome);
+        clean = observeHazard(clean, plant, temperatureName(value.hazard), value.outcome);
       }
     }
   }
@@ -236,7 +237,8 @@ export function migrateGrimoire(saved, existingObjects = {}, plantName = name =>
       || !Number.isFinite(value.hours) || !Number.isFinite(value.observedAt)) continue;
     const fungi = Array.isArray(value.fungi) ? [...new Set(value.fungi.filter(name => FUNGI[name]))] : [];
     const conditions = Object.fromEntries(Object.entries(value.conditions)
-      .filter(([property, condition]) => PROPERTIES.has(property) && typeof condition === 'string'));
+      .filter(([property, condition]) => PROPERTIES.has(property) && typeof condition === 'string')
+      .map(([property, condition]) => [property, property === 'Temperature' ? temperatureName(condition) : condition]));
     const signature = JSON.stringify([from, into, conditions, fungi.sort(), value.sequence || null]);
     if (clean.transformations.some(record => record.signature === signature)) continue;
     clean = revealPlant(revealPlant(clean, from), into);

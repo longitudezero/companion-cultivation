@@ -19,6 +19,10 @@ import { renameLegacyPlant, legacyPlantName, renamePlantIdentity } from './plant
 export function migrateGarden(saved) {
   if (!isGarden(saved)) throw new Error('Unsupported garden file.');
   const legacy = saved.schemaVersion === 6;
+  // V8 renames levels without changing their ordinal position or biology.
+  // Gate the translation by schema: an already-upgraded Hot must stay Hot.
+  const temperatureName = name => saved.schemaVersion < 8
+    ? ({ Warm: 'Hot', Hot: 'Scorching' }[name] || name) : name;
   const plantName = name => renamePlantIdentity(legacy ? renameLegacyPlant(name) : name);
   const oldPlantName = name => legacy ? legacyPlantName(name) : name;
   const plantRecord = (records, name) => records?.[oldPlantName(name)]
@@ -79,7 +83,8 @@ export function migrateGarden(saved) {
     if (!previous) continue;
     garden.hexes[key] = {
       baselines: Object.fromEntries(PROPERTIES.map((property) => {
-        const condition = previous.baselines?.[property];
+        const previousCondition = previous.baselines?.[property];
+        const condition = property === 'Temperature' ? temperatureName(previousCondition) : previousCondition;
         return [property, CONDITIONS[property].includes(condition) ? condition : hex.baselines[property]];
       })),
     };
@@ -105,14 +110,15 @@ export function migrateGarden(saved) {
       clean.progress = Math.max(0, Math.min(200, Number(object.progress) || 0));
       clean.ageHours = Math.max(0, Number(object.ageHours) || 0);
       for (const hazard of Object.keys(clean.exposure)) {
-        clean.exposure[hazard] = Math.max(0, Number(object.exposure?.[hazard]) || 0);
+        const oldHazard = saved.schemaVersion < 8 && hazard === 'Scorching' ? 'Hot' : hazard;
+        clean.exposure[hazard] = Math.max(0, Number(object.exposure?.[oldHazard]) || 0);
       }
       for (const field of Object.keys(clean.production)) {
         const value = object.production?.[field];
         clean.production[field] = Number.isFinite(value) && value >= 0 ? value : 0;
       }
       for (const recipe of TRANSFORMATIONS[species] || []) {
-        if (isDesertRecovery(recipe)) continue; // Endurance lives in exposure.Hot/Freezing.
+        if (isDesertRecovery(recipe)) continue; // Endurance lives in exposure.Scorching/Freezing.
         if (recipe.sequence) {
           const state = plantRecord(object.transformationSequence, recipe.into);
           const aquatic = recipe.sequence === 'flood-to-damp';
@@ -183,7 +189,8 @@ export function migrateGarden(saved) {
           : makeInfluence(emission.name, strength, emission.range ?? 2, emission.mode ?? 'airborne')];
       } catch { return []; }
     });
-    const anchor = object.anchor;
+    const anchor = object.anchor && { ...object.anchor, condition: object.anchor.property === 'Temperature'
+      ? temperatureName(object.anchor.condition) : object.anchor.condition };
     garden.objects[key] = {
       type: 'source', emissions,
       ...(CONDITIONS[anchor?.property]?.includes(anchor?.condition) ? { anchor: { property: anchor.property, condition: anchor.condition } } : {}),
@@ -243,7 +250,7 @@ export function migrateGarden(saved) {
         return [`${id.slice(0, separator + 1)}${plantName(id.slice(separator + 1))}`, slot];
       }));
   }
-  garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects, plantName);
+  garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects, plantName, temperatureName);
   if (saved.tasks != null) garden.tasks = normalizeTaskProgress(saved.tasks);
   if (saved.shop != null || saved.tasks != null) garden.shop = normalizeShop(saved.shop, saved);
   return ensureInventorySlots(garden);

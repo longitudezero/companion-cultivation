@@ -31,7 +31,7 @@ export function plantOutputRate(species, conditions, kind = 'leaf') {
   let temperature = 1;
   if (profile.temperature?.[conditions.Temperature]) {
     temperature = profile.temperature[conditions.Temperature][kind === 'seed' ? 'seed' : 'leaf'];
-  } else if (['Hot', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
+  } else if (['Scorching', 'Freezing'].includes(conditions.Temperature)) temperature = .5;
   else if (!profile.preferredTemperature.includes(conditions.Temperature)) {
     temperature = species === 'Pumpkin' && conditions.Temperature === 'Cold' ? .55 : .85;
   }

@@ -8,15 +8,15 @@ export const FLOWER_TRANSFORMATIONS = Object.freeze({
   Daisydaze: [
     route('Marigloom', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel']], 12),
     route('Charmomile', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Mistruffle']], 20),
-    route('Lavendream', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Emberbolete']], 16),
+    route('Lavendream', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Bright' }, [['Emberbolete']], 16),
   ],
   Marigloom: [
-    route('Orchiwitch', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Prismorel']], 12),
+    route('Orchiwitch', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Bright' }, [['Prismorel']], 12),
     route('Nightmarigold', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dim' }, [['Rilllace']], 24),
   ],
   Charmomile: [
     route('Chamomeleon', { Moisture: 'Damp', Temperature: 'Cold', Illumination: 'Dark' }, [['Rilllace'], ['Hushroom']], 22),
-    route('Orchidemon', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' }, [['Siltgill'], ['Prismorel']], 32),
+    route('Orchidemon', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Bright' }, [['Siltgill'], ['Prismorel']], 32),
   ],
   Orchiwitch: [{
     into: 'Orchidemon', sequence: 'dusk-to-bright', hours: 10,

@@ -2,6 +2,11 @@ import { offsetOf } from '../core/grid.js';
 
 export const HEX_SIZE = 48;
 export const HEX_ROTATION_RADIUS = 68;
+export const HEX_ART = {
+  Moisture: { Dry: 'moisture-dry.webp', Damp: 'moisture-damp.webp', Flooded: 'moisture-flooded.webp' },
+  Temperature: { Freezing: 'temperature-freezing.webp', Cold: 'temperature-cold.webp',
+    Temperate: 'temperature-temperate.webp', Hot: 'temperature-hot.webp', Scorching: 'temperature-scorching.webp' },
+};
 const DX = Math.sqrt(3) * HEX_SIZE;
 const Y_STEP = 1.5 * HEX_SIZE;
 const ORIGIN = 90; // Leaves room for the direction handle at every plot edge.
@@ -36,6 +41,6 @@ export function plantingPopoverPosition(bounds, viewport) {
 
 export const PALETTES = {
   Moisture: { Dry: '#b59b75', Damp: '#729e86', Flooded: '#477eac' },
-  Temperature: { Freezing: '#fff5e4', Cold: '#8aa9ba', Temperate: '#7b9a7c', Warm: '#c69a5e', Hot: '#c46e53' },
+  Temperature: { Freezing: '#fff5e4', Cold: '#8aa9ba', Temperate: '#7b9a7c', Hot: '#c69a5e', Scorching: '#c46e53' },
   Illumination: { Dark: '#49545c', Dim: '#777e83', Lit: '#b9a36e', Bright: '#ddbc6d' },
 };

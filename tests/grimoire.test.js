@@ -78,7 +78,7 @@ test('V6 repairs a missing Grimoire without inventing recipes; old saves are rej
   assert.throws(() => migrateGarden({ ...garden, schemaVersion: 5 }), /Unsupported garden file/);
   garden = { ...garden, grimoire: undefined };
   const old = migrateGarden(garden);
-  assert.equal(old.schemaVersion, 7);
+  assert.equal(old.schemaVersion, 8);
   assert.equal(plantKnown(old.grimoire, 'Rice'), true);
   assert.deepEqual(old.grimoire.transformations, []);
   assert.equal(plantKnown(old.grimoire, 'Carrot'), false);
@@ -99,7 +99,7 @@ test('fungal germination effects are observed on Apply, independent of concealed
 
 test('event-based Desert transformation records only its witnessed recovery fungus', () => {
   let garden = placeObject(createGarden(), key, makePlant('Aloechemist'));
-  for (const [property, condition] of [['Moisture', 'Damp'], ['Temperature', 'Hot'], ['Illumination', 'Lit']]) {
+  for (const [property, condition] of [['Moisture', 'Damp'], ['Temperature', 'Scorching'], ['Illumination', 'Lit']]) {
     garden = setBaseline(garden, key, property, condition);
   }
   garden = advanceGardenTime(garden, 1).garden;

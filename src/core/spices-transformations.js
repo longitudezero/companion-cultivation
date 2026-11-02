@@ -13,7 +13,7 @@ export const SPICES_TRANSFORMATIONS = Object.freeze({
       [['Hushroom']], 16),
   ],
   Oreganoir: [
-    route('Cinnamancer', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
+    route('Cinnamancer', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Bright' },
       [['Prismorel'], ['Emberbolete']], 18),
     route("Papriking", { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
       [['Prismorel'], ['Mistruffle']], 24),
@@ -28,7 +28,7 @@ export const SPICES_TRANSFORMATIONS = Object.freeze({
     { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' },
     [['Rainmorel']], 18)],
   Cinnamancer: [route('Phantarragon',
-    { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Bright' },
+    { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Bright' },
     [['Rushroom'], ['Mistruffle']], 28)],
   'Saffrune': [{
     into: 'Phantarragon', sequence: 'dark-to-lit', hours: 12,
@@ -38,7 +38,7 @@ export const SPICES_TRANSFORMATIONS = Object.freeze({
       Illumination: 'Lit' }, contacts: [['Prismorel']], withinHours: 8 },
   }],
   Wyrmsalt: [route("Papriking",
-    { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' },
+    { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Lit' },
     [['Rushroom'], ['Hushroom']], 22)],
 });
 

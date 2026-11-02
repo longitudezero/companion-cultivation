@@ -38,7 +38,7 @@ test('every developer Plant and Fungus page comes from a complete canonical defi
 
 test('recipe references include named contacts, resolved conditions and multi-step exceptions', () => {
   const pumpkin = previewPlantRecipes('Beanstalk').find(line => line.includes('Pumpkin'));
-  assert.match(pumpkin, /Temperature: Warm/);
+  assert.match(pumpkin, /Temperature: Hot/);
   assert.match(pumpkin, /Emberbolete/);
   assert.match(pumpkin, /Hold for 2m/);
   assert.doesNotMatch(pumpkin, /emission.*\+1/i);

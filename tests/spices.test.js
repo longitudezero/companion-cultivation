@@ -44,7 +44,7 @@ function arrange(from, recipe, alternatives = null) {
         heading ?? neighborsOf(neighbors[index]).indexOf(key)));
     });
     for (const moisture of ['Dry', 'Damp', 'Flooded']) {
-      for (const temperature of ['Freezing', 'Cold', 'Temperate', 'Warm', 'Hot']) {
+      for (const temperature of ['Freezing', 'Cold', 'Temperate', 'Hot', 'Scorching']) {
         for (const illumination of ['Dark', 'Dim', 'Lit', 'Bright']) {
           const baselines = condition(moisture, temperature, illumination);
           const candidate = { ...base, hexes: Object.fromEntries(Object.keys(base.hexes)
@@ -211,7 +211,7 @@ test('Saffrune rejects incomplete preparation, lost Damp/valid Temperature, and 
     garden = advanceGardenTime(garden, broken === 'early' ? 11 : 12).garden;
     garden = remove(garden, neighbors[0]);
     if (broken === 'dry') garden = edit(garden, 'Moisture', 'Dry');
-    if (broken === 'hot') garden = edit(garden, 'Temperature', 'Hot');
+    if (broken === 'hot') garden = edit(garden, 'Temperature', 'Scorching');
     if (broken === 'return') garden = fungus(garden, 'Hushroom', neighbors[1]);
     garden = remove(garden, neighbors[1]) || garden;
     if (broken === 'dry') garden = edit(garden, 'Moisture', 'Damp');
@@ -239,7 +239,7 @@ test('approved Spices light and moisture tables govern both lifecycle and increm
   assert.equal(plantGrowthRates(makePlant('Clovely'),
     condition('Dry', 'Cold', 'Dim')).growth, .55);
   assert.equal(plantOutputRate('Oreganoir', condition('Dry', 'Cold', 'Bright')), .5 * .85);
-  assert.equal(plantOutputRate('Cinnamancer', condition('Flooded', 'Warm', 'Bright')), .65);
+  assert.equal(plantOutputRate('Cinnamancer', condition('Flooded', 'Hot', 'Bright')), .65);
 });
 
 test('conditional recipient Effect compatibility never rewrites emitter direction', () => {

@@ -1,6 +1,6 @@
-/* Floral prints sit within the paper, under its existing grain and stains.
-   Self-contained SVGs retain the supplied WebP pixels at 42% opacity, so the
-   artwork can remain a background without introducing input or scroll layers. */
+/* Full-color floral prints at 75% opacity sit under the parchment grain.
+   Negative background offsets let the paper edge crop the illustration without
+   clipping the separate metal corner fittings or intercepting any controls. */
 .garden-inspector,
 .guild-taskboard .taskboard-list,
 .guild-taskboard .task-detail,
@@ -9,36 +9,43 @@
 .task-confirm,
 .task-complete-receipt {
   --paper-floral-left: url('/ui/florals/violets-left-faded.svg');
-  --paper-floral-right: url('/ui/florals/clover-right-faded.svg');
-  --paper-floral-left-size: min(52%, 200px) auto;
-  --paper-floral-right-size: min(48%, 170px) auto;
+  --paper-floral-right: none;
+  --paper-floral-left-size: min(70%, 280px) auto;
+  --paper-floral-right-size: min(65%, 270px) auto;
   background-image: var(--parchment-grain), var(--parchment-stains), var(--paper-floral-left), var(--paper-floral-right), radial-gradient(ellipse at 45% 42%, #fff0cf 0%, #f8e5bf 51%, #e1b977 100%);
   background-size: 160px 160px, auto, auto, auto, auto, auto, auto, auto, auto, var(--paper-floral-left-size), var(--paper-floral-right-size), auto;
-  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, left 4px bottom 4px, right 4px bottom 4px, 0 0;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, left -22px bottom -20px, right -20px bottom -20px, 0 0;
   background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-blend-mode: multiply, normal, normal, normal, normal, normal, normal, normal, normal, multiply, multiply, normal;
+  background-blend-mode: multiply, normal, normal, normal, normal, normal, normal, normal, normal, normal, normal, normal;
 }
 
 .garden-inspector {
   --paper-floral-left: url('/ui/florals/paw-left-faded.svg');
-  --paper-floral-left-size: 150px auto;
-  --paper-floral-right-size: 135px auto;
+  --paper-floral-right: url('/ui/florals/clover-right-faded.svg');
+  --paper-floral-left-size: 200px auto;
+  --paper-floral-right-size: 180px auto;
 }
-.guild-taskboard .taskboard-list { --paper-floral-left-size: min(60%, 230px) auto; --paper-floral-right-size: min(42%, 165px) auto; }
+.guild-taskboard .taskboard-list { --paper-floral-left-size: min(90%, 340px) auto; }
 .guild-taskboard .task-detail {
-  --paper-floral-left: url('/ui/florals/paw-left-faded.svg');
+  --paper-floral-left: none;
   --paper-floral-right: url('/ui/florals/wildflowers-right-faded.svg');
-  --paper-floral-left-size: min(40%, 190px) auto;
-  --paper-floral-right-size: min(38%, 165px) auto;
+  --paper-floral-right-size: min(65%, 300px) auto;
 }
 .shop-trade {
   --paper-floral-left: url('/ui/florals/paw-left-faded.svg');
-  --paper-floral-right: url('/ui/florals/wildflowers-right-faded.svg');
+  --paper-floral-left-size: min(95%, 290px) auto;
 }
-.inventory-tooltip-body { --paper-floral-left-size: min(35%, 95px) auto; --paper-floral-right-size: min(32%, 85px) auto; }
-.task-confirm { --paper-floral-left-size: min(34%, 135px) auto; --paper-floral-right-size: min(32%, 125px) auto; }
-.task-complete-receipt { position: relative; display: flex; flex-direction: column; overflow: visible; padding: 0; --paper-floral-left-size: min(40%, 185px) auto; --paper-floral-right-size: min(38%, 175px) auto; }
+.inventory-tooltip-body { --paper-floral-left-size: min(45%, 120px) auto; }
+.task-confirm { --paper-floral-left-size: min(50%, 190px) auto; }
+.task-complete-receipt { position: relative; display: flex; flex-direction: column; overflow: visible; padding: 0; --paper-floral-left-size: min(55%, 250px) auto; }
 .task-receipt-scroll { min-height: 0; overflow-y: auto; padding: 25px 30px; }
+
+/* Preserve usable content height in short windows; the content area scrolls
+   below the unchanged window header when the panels cannot fit side by side. */
+.guild-taskboard .task-detail { min-height: 320px; flex: 1 0 320px; }
+.guild-taskboard .task-title-row, .guild-taskboard .task-detail-footer { flex-shrink: 0; }
+.guild-taskboard .taskboard-content { grid-template-rows: minmax(320px, 1fr); }
+.guild-taskboard .task-list-scroll, .guild-taskboard .task-detail-scroll { overscroll-behavior: contain; }
 
 /* Three outer corners: the viewer already supplies the bottom-right corner. */
 .guild-taskboard { --window-corner-size: 110px; overflow: visible; }
@@ -61,6 +68,6 @@
   .taskboard-window-back { top: 8px; right: -1px; }
   .taskboard-window-back .guild-back { width: 82px; height: 32px; gap: 2px; padding-inline: 6px; font-size: 14px; }
   .taskboard-window-back .back-arrow { width: 16px; }
-  .guild-taskboard .taskboard-list { --paper-floral-left-size: min(48%, 145px) auto; --paper-floral-right-size: min(36%, 110px) auto; }
-  .guild-taskboard .task-detail { --paper-floral-left-size: min(35%, 130px) auto; --paper-floral-right-size: min(35%, 125px) auto; }
+  .guild-taskboard .taskboard-list { --paper-floral-left-size: min(75%, 260px) auto; }
+  .guild-taskboard .task-detail { --paper-floral-right-size: min(60%, 240px) auto; }
 }

@@ -58,7 +58,7 @@ test('known sequence details retain preparation timing while current progress us
   assert.match(known.details, /for 50s/);
   assert.doesNotMatch(known.details, /Mistruffle/);
   const recovery = learnedRecipe(TRANSFORMATIONS.Aloechemist[0], [{ from: 'Aloechemist', fungi: ['Rilllace'] }]);
-  assert.ok(recovery.requirements.includes('Hot exposure: under 3m at 1×'));
+  assert.ok(recovery.requirements.includes('Scorching exposure: under 3m at 1×'));
 });
 
 test('witnessing one route does not disclose another active route from the same Plant', () => {

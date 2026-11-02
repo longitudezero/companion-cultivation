@@ -88,22 +88,22 @@ export function effectCompatibility(profile, kind, conditions = null, amount = 0
   if (profile.family === 'Desert') {
     const temperature = conditions.Temperature;
     const name = profile.name;
-    if (name === 'Aloechemist' && temperature === 'Hot') {
+    if (name === 'Aloechemist' && temperature === 'Scorching') {
       if (kind === 'growthRate') return 1.8;
       if (kind === 'leafYield') return 2.3;
     }
     if (name === 'Aloemancer' && kind === 'leafYield'
-      && ['Temperate', 'Warm'].includes(temperature)) return 2;
+      && ['Temperate', 'Hot'].includes(temperature)) return 2;
     if (name === 'Jadewisp' && kind === 'seedYield'
       && ['Cold', 'Temperate'].includes(temperature)) return 2.4;
     if (name === 'Pearadox') {
-      if (kind === 'leafYield' && temperature === 'Hot') return 2.2;
+      if (kind === 'leafYield' && temperature === 'Scorching') return 2.2;
       if (kind === 'seedYield' && temperature === 'Freezing') return 2.5;
       if (kind === 'seedTiming' && temperature === 'Freezing') return 1.8;
-      if (kind === 'hourlyLeaf' && temperature === 'Hot') return 1.5;
+      if (kind === 'hourlyLeaf' && temperature === 'Scorching') return 1.5;
       if (kind === 'hourlySeed' && temperature === 'Freezing') return 1.8;
     }
-    if (name === 'Cactacomb' && kind === 'leafYield' && temperature === 'Hot') return 2.6;
+    if (name === 'Cactacomb' && kind === 'leafYield' && temperature === 'Scorching') return 2.6;
     return ordinary;
   }
   if (profile.family === 'Spices') {
@@ -141,7 +141,7 @@ export const PLANTS = Object.freeze({
     dryDeath: 72, hotDeath: 72, freezingDeath: 72, mycelialDeath: 48, compatibility: { growthRate: 1, ripeningRate: 1, ...compat('Beanstalk') },
   }),
   Rice: ingredient(4.75, 9.5, .30, 8, 110, 22, {
-    moisture: [.40, .85, 1], light: [.75, .90, 1, .90], preferredTemperature: ['Temperate', 'Warm'],
+    moisture: [.40, .85, 1], light: [.75, .90, 1, .90], preferredTemperature: ['Temperate', 'Hot'],
     lightOutput: [.65, .85, 1, .85], productiveWindow: [100, 140],
     dryDeath: 48, hotDeath: 72, freezingDeath: 48, mycelialDeath: 48, compatibility: { growthRate: .9, ripeningRate: 1.1, ...compat('Rice') },
   }),
@@ -161,12 +161,12 @@ export const PLANTS = Object.freeze({
     dryDeath: 72, hotDeath: 72, freezingDeath: 72, mycelialDeath: 48, compatibility: { growthRate: .9, ripeningRate: 1.5, ...compat('Potato') },
   }),
   Pumpkin: ingredient(6.5, 14, .20, 42, 170, 9, {
-    moisture: [.70, 1, .45], light: [.60, .85, 1, 1], preferredTemperature: ['Warm'],
+    moisture: [.70, 1, .45], light: [.60, .85, 1, 1], preferredTemperature: ['Hot'],
     lightOutput: [.50, .75, 1, 1], productiveWindow: [155, 185],
     dryDeath: 96, hotDeath: 48, freezingDeath: 48, mycelialDeath: 72, compatibility: { growthRate: .75, ripeningRate: 1.7, ...compat('Pumpkin') },
   }),
   Strawberry: ingredient(2.25, 5.5, .35, 22, 115, 7, {
-    moisture: [.45, 1, .55], light: [.45, .70, .95, 1], preferredTemperature: ['Temperate', 'Warm'],
+    moisture: [.45, 1, .55], light: [.45, .70, .95, 1], preferredTemperature: ['Temperate', 'Hot'],
     lightOutput: [.35, .60, .90, 1], productiveWindow: [105, 125],
     dryDeath: 48, hotDeath: 48, freezingDeath: 36, mycelialDeath: 36, compatibility: { growthRate: 2.1, ripeningRate: 1.3, ...compat('Strawberry') },
   }),
@@ -178,12 +178,12 @@ export const PLANTS = Object.freeze({
   Marigloom: flower('Marigloom', 3.25, 7, .26, 14, 90, 8, {
     name: 'Marigloom', seedSpecies: 'Marigloom', productiveWindow: [70, 125],
     moisture: [.50, 1, .80], moistureOutput: [.55, 1, .75], lightOutput: [.55, .75, 1, .90],
-    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+    preferredTemperature: ['Temperate', 'Hot'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
   }),
   Orchiwitch: flower('Orchiwitch', 2.5, 5, null, 24, 75, 4, {
     name: 'Orchiwitch', seedSpecies: 'Marigloom', productiveWindow: [66, 84],
     moisture: [.45, 1, .70], moistureOutput: [.45, 1, .70], lightOutput: [.35, .55, .85, 1],
-    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 48, mycelialDeath: 24, hotDeath: 48, freezingDeath: 48,
+    preferredTemperature: ['Temperate', 'Hot'], dryDeath: 48, mycelialDeath: 24, hotDeath: 48, freezingDeath: 48,
   }),
   Nightmarigold: flower('Nightmarigold', 6, 16, .15, 38, 170, 5, {
     name: 'Nightmarigold', seedSpecies: 'Nightmarigold', productiveWindow: [160, 177],
@@ -205,7 +205,7 @@ export const PLANTS = Object.freeze({
     name: 'Lavendream', seedSpecies: 'Lavendream', productiveWindow: [95, 135],
     seedCurve: [[100, 0], [175, 13], [200, 22]],
     moisture: [.55, 1, .75], moistureOutput: [.50, 1, .75], lightOutput: [.55, .80, 1, 1],
-    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
+    preferredTemperature: ['Temperate', 'Hot'], dryDeath: 72, mycelialDeath: 48, hotDeath: 72, freezingDeath: 72,
   }),
   'Lavendread': flower('Lavendread', 4, 9, null, 24, 180, 9, {
     name: 'Lavendread', seedSpecies: 'Lavendream', productiveWindow: [165, 190],
@@ -221,7 +221,7 @@ export const PLANTS = Object.freeze({
   Orchidemon: flower('Orchidemon', 4.5, 9.5, null, 55, 145, 0, {
     name: 'Orchidemon', seedSpecies: null, productiveWindow: [137, 153],
     moisture: [.45, 1, .65], moistureOutput: [.45, 1, .65], lightOutput: [.20, .35, .70, 1],
-    preferredTemperature: ['Temperate', 'Warm'], dryDeath: 48, mycelialDeath: 36, hotDeath: 48, freezingDeath: 48,
+    preferredTemperature: ['Temperate', 'Hot'], dryDeath: 48, mycelialDeath: 36, hotDeath: 48, freezingDeath: 48,
   }),
   ...AQUATIC_PLANTS,
   ...WOODLANDS_PLANTS,
@@ -277,7 +277,7 @@ export const FUNGI = Object.freeze({
 export function makePlant(species, attunement = null) {
   if (!PLANTS[species]) throw new Error(`Unknown Plant species: ${species}`);
   return { type: 'plant', species, progress: 0, ageHours: 0,
-    exposure: { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0, ...(species === 'Mandrakadabra' ? { Bright: 0 } : {}) },
+    exposure: { Dry: 0, Scorching: 0, Freezing: 0, Mycelial: 0, ...(species === 'Mandrakadabra' ? { Bright: 0 } : {}) },
     production: { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 },
     transformationClocks: {}, transformationSequence: {},
     ...(species === 'Starlotus' && ['Damp', 'Flooded'].includes(attunement) ? { attunement } : {}) };

@@ -19,7 +19,7 @@ export function deserializeGameSave(text) {
   try { file = JSON.parse(text); }
   catch { throw new Error('This file is not valid JSON.'); }
 
-  // Only the new V6 garden schema is accepted. Older prototypes use retired
+  // V6 and later garden schemas can upgrade. Older prototypes use retired
   // Fungi and obsolete contact rules; reject them explicitly without mutating
   // the player's still-available old file or browser-storage key.
   if (file?.format === SAVE_FILE_FORMAT) {

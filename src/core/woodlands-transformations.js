@@ -4,12 +4,12 @@ const route = (into, conditions, contacts, hours, extra = {}) =>
 
 export const WOODLANDS_TRANSFORMATIONS = Object.freeze({
   'Moss': [
-    route('Bamboom', { Moisture: 'Damp', Temperature: 'Warm', Illumination: 'Lit' }, [['Emberbolete']], 14),
+    route('Bamboom', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Lit' }, [['Emberbolete']], 14),
     route('Mandrabra', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel']], 20),
     route('Tanglethorn', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Mistruffle']], 12),
   ],
-  Bamboom: [route('Bamboozeling', { Moisture: 'Damp', Temperature: 'Warm' }, [['Rainmorel']], 24)],
-  Bamboozeling: [route('Bamboozled', { Moisture: 'Damp', Temperature: 'Warm' }, [['Emberbolete'], ['Rainmorel']], 16)],
+  Bamboom: [route('Bamboozeling', { Moisture: 'Damp', Temperature: 'Hot' }, [['Rainmorel']], 24)],
+  Bamboozeling: [route('Bamboozled', { Moisture: 'Damp', Temperature: 'Hot' }, [['Emberbolete'], ['Rainmorel']], 16)],
   Tanglethorn: [
     route('Mistlefoe', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Dim' }, [['Hushroom']], 16),
     route('Branshee', { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Lit' }, [['Prismorel'], ['Droughtcap']], 28),

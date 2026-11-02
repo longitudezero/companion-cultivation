@@ -46,7 +46,7 @@ export function makeSource(emissions = [makeInfluence()]) {
   return { type: 'source', emissions };
 }
 
-export function makeAnchoredSource(property = 'Temperature', condition = 'Hot', emissions = [makeInfluence()]) {
+export function makeAnchoredSource(property = 'Temperature', condition = 'Scorching', emissions = [makeInfluence()]) {
   if (!CONDITIONS[property]?.includes(condition)) throw new Error('Invalid anchored Property or Condition.');
   return { ...makeSource(emissions), anchor: { property, condition } };
 }

@@ -87,7 +87,7 @@ test('V6 save migration preserves renamed living plants, both Potato identities,
   const original = structuredClone(old);
   const migrated = migrateGarden(old);
   assert.deepEqual(old, original, 'the input save must not be mutated');
-  assert.equal(migrated.schemaVersion, 7);
+  assert.equal(migrated.schemaVersion, 8);
   assert.equal(migrated.objects[base].species, 'Beanstalk');
   assert.equal(migrated.objects[base].progress, 83);
   assert.equal(migrated.objects[base].transformationClocks.Potato, 7);

@@ -56,7 +56,7 @@ test('all six approved Beanstalk routes are triggered by physically reachable li
     assert.equal(after.garden.objects[target].ageHours, 0);
     assert.deepEqual(after.garden.objects[target].transformationClocks, {});
     assert.deepEqual(after.garden.objects[target].exposure,
-      { Dry: 0, Hot: 0, Freezing: 0, Mycelial: 0 });
+      { Dry: 0, Scorching: 0, Freezing: 0, Mycelial: 0 });
     assert.deepEqual(after.garden.objects[target].production,
       { ordinaryLeaves: 0, ordinarySeeds: 0, hourlyLeaves: 0, hourlySeeds: 0 });
     assert.equal(after.events.length, 1);
@@ -115,7 +115,7 @@ test('each uninterrupted timer resets on environmental changes and resumes from 
   const recipe = TRANSFORMATIONS.Beanstalk.find(item => item.into === 'Potato');
   let garden = advanceGardenTime(arrange(recipe), 8).garden;
   assert.equal(garden.objects[target].transformationClocks.Potato, 8);
-  garden = setBaseline(garden, target, 'Temperature', 'Hot');
+  garden = setBaseline(garden, target, 'Temperature', 'Scorching');
   garden = reconcileTransformationClocks(garden);
   assert.equal(garden.objects[target].transformationClocks.Potato, 0,
     'player events must interrupt exposure without waiting for the next hour');
@@ -141,7 +141,7 @@ test('contact changes reset a clock even if fungal coverage is later restored', 
 test('all six routes ignore Plant stage, and a transform/death exact-time tie favors Transformation', () => {
   let garden = arrange(TRANSFORMATIONS.Beanstalk.find(item => item.into === 'Onion'));
   const potato = { ...garden.objects[target], progress: 200, ageHours: 900,
-    exposure: { Dry: 71, Hot: 0, Freezing: 0, Mycelial: 0 },
+    exposure: { Dry: 71, Scorching: 0, Freezing: 0, Mycelial: 0 },
     transformationClocks: { Onion: 13 },
     production: { ordinaryLeaves: 9, ordinarySeeds: 8, hourlyLeaves: 7, hourlySeeds: 6 } };
   garden = { ...garden, objects: { ...garden.objects, [target]: potato } };

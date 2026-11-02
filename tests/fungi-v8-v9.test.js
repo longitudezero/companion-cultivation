@@ -152,9 +152,9 @@ test('V9 uses named fungal contacts plus resolved hex Conditions, never exact em
     garden = placeEdgeBlocker(garden, target, adjacent, makeBlocker('kind', 'Thermal'));
   }
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
-  garden = setBaseline(garden, target, 'Temperature', 'Warm');
+  garden = setBaseline(garden, target, 'Temperature', 'Hot');
   assert.equal(calculateEnvironment(garden).modifiers[target].Temperature.length, 0,
-    'Emberbolete does not need to cause the Warm state');
+    'Emberbolete does not need to cause the Hot state');
   assert.equal(transformationStatus(garden, target).find(recipe => recipe.into === 'Pumpkin').eligible, true);
   assert.equal(advanceGardenTime(garden, 24).garden.objects[target].species, 'Pumpkin');
   const without = removeObject(garden, neighbor);

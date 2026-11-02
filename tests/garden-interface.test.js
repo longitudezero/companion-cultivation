@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { build } from 'esbuild';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, applyStaging,
@@ -11,7 +11,7 @@ import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, 
   grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
-import { HEX_SIZE, HEX_ROTATION_RADIUS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
+import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
 import { neighborsOf } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
@@ -189,13 +189,26 @@ test('each hex presents resolved moisture, temperature and illumination simultan
     const markup = render(HexGrid, { garden, simulation, tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
     const cell = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
     assert.ok(cell.includes(`Moisture ${conditions.Moisture}; Temperature ${conditions.Temperature}; Illumination ${conditions.Illumination}`));
-    assert.ok(cell.includes(`fill="${PALETTES.Moisture[conditions.Moisture]}" stroke="${PALETTES.Temperature[conditions.Temperature]}"`));
+    assert.ok(cell.includes(`ui/hexes/${HEX_ART.Moisture[conditions.Moisture]}`), 'resolved moisture selects the soil artwork');
+    assert.ok(cell.includes(`ui/hexes/${HEX_ART.Temperature[conditions.Temperature]}`), 'resolved temperature selects the rim artwork');
+    assert.ok(cell.indexOf('hex-moisture-art') < cell.indexOf('hex-temperature-art'));
+    assert.ok(cell.indexOf('hex-temperature-art') < cell.indexOf('hex-selection'), 'selection stays above the illustrated rim');
     assert.ok(cell.includes(`ui/light-${conditions.Illumination.toLowerCase()}.webp`));
     assert.match(cell, /width="24" height="24" viewBox=/, 'nested art has an explicit viewport, independent of its source dimensions');
     assert.ok(cell.includes('class="hex-selection"'), 'selection keeps a separate inset ring');
   }
   assert.equal(PALETTES.Temperature.Freezing, '#fff5e4');
   assert.notEqual(PALETTES.Temperature.Freezing, PALETTES.Temperature.Cold);
+});
+
+test('every condition has an available WebP hex asset', async () => {
+  for (const property of ['Moisture', 'Temperature']) for (const condition of CONDITIONS[property]) {
+    const file = HEX_ART[property][condition];
+    assert.ok(file, `${property}: ${condition}`);
+    const bytes = await readFile(new URL(`../public/ui/hexes/${file}`, import.meta.url));
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+  }
 });
 
 test('enlarged grid bounds contain every hex and directional handle on supported plot sizes', () => {

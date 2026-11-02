@@ -4,29 +4,29 @@
 const route = (into, conditions, contacts, hours) => ({ into, conditions, contacts, hours });
 const recovery = (into, sequence, hours, conditions, contacts, early = false) => ({
   into, sequence, hours, early,
-  preparation: { conditions: { Temperature: sequence === 'heat-to-warm' ? 'Hot' : 'Freezing' } },
+  preparation: { conditions: { Temperature: sequence === 'heat-to-warm' ? 'Scorching' : 'Freezing' } },
   completion: { conditions, contacts },
 });
 
 export const DESERT_TRANSFORMATIONS = Object.freeze({
   Jadeheart: [
-    route('Aloechemist', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Lit' },
+    route('Aloechemist', { Moisture: 'Damp', Temperature: 'Scorching', Illumination: 'Lit' },
       [['Emberbolete']], 18),
     route('Moonjade', { Moisture: 'Damp', Temperature: 'Freezing', Illumination: 'Dim' },
       [['Rilllace', 'Frostfolio']], 20),
-    route('Cactopus', { Moisture: 'Dry', Temperature: 'Warm', Illumination: 'Lit' },
+    route('Cactopus', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Lit' },
       [['Droughtcap']], 16),
   ],
   'Aloechemist': [
-    recovery('Cactastrophe', 'heat-to-warm', 36, { Temperature: 'Warm' },
+    recovery('Cactastrophe', 'heat-to-warm', 36, { Temperature: 'Hot' },
       [['Rilllace']], true),
-    recovery('Aloemancer', 'heat-to-warm', 36, { Temperature: 'Warm' },
+    recovery('Aloemancer', 'heat-to-warm', 36, { Temperature: 'Hot' },
       [['Rilllace']]),
   ],
   'Cactastrophe': [route('Prickly Pearl',
     { Moisture: 'Dry', Temperature: 'Temperate', Illumination: 'Dim' },
     [["Sim'mushro'dim"]], 12)],
-  'Prickly Pearl': [route('Cactopus', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Lit' },
+  'Prickly Pearl': [route('Cactopus', { Moisture: 'Dry', Temperature: 'Scorching', Illumination: 'Lit' },
     [['Emberbolete', 'Siltgill']], 18)],
   Moonjade: [
     recovery('Jadewisp', 'freeze-to-cold', 48,
@@ -37,9 +37,9 @@ export const DESERT_TRANSFORMATIONS = Object.freeze({
       [['Emberbolete'], ['Mistruffle']]),
   ],
   Cactopus: [
-    route('Cactacomb', { Moisture: 'Dry', Temperature: 'Hot', Illumination: 'Bright' },
+    route('Cactacomb', { Moisture: 'Dry', Temperature: 'Scorching', Illumination: 'Bright' },
       [['Siltgill'], ['Prismorel']], 24),
-    route('Pearadox', { Moisture: 'Damp', Temperature: 'Hot', Illumination: 'Dim' },
+    route('Pearadox', { Moisture: 'Damp', Temperature: 'Scorching', Illumination: 'Dim' },
       [['Mistruffle'], ['Rainmorel']], 20),
   ],
   Aloemancer: [route('Everjade',
@@ -54,11 +54,11 @@ export const isDesertRecovery = recipe =>
   ['heat-to-warm', 'freeze-to-cold'].includes(recipe.sequence);
 
 // These recipes have NO preparation object to save. The canonical continuous
-// Hot/Freezing exposure is already on the living Plant and survives migration.
+// Scorching/Freezing exposure is already on the living Plant and survives migration.
 export function desertRecoveryStatus(plant, recipe, environment, key) {
   const heat = recipe.sequence === 'heat-to-warm';
-  const elapsed = plant.exposure?.[heat ? 'Hot' : 'Freezing'] || 0;
-  const eligible = environment.conditions[key]?.Temperature === (heat ? 'Hot' : 'Freezing')
+  const elapsed = plant.exposure?.[heat ? 'Scorching' : 'Freezing'] || 0;
+  const eligible = environment.conditions[key]?.Temperature === (heat ? 'Scorching' : 'Freezing')
     && (heat ? recipe.early ? elapsed < recipe.hours : elapsed >= recipe.hours
       : elapsed >= recipe.hours);
   return { ...recipe, elapsed, eligible,
@@ -79,9 +79,9 @@ export function completedDesertRecovery(garden, previousGarden, key, recipes,
   const matching = recipes.filter(recipe => {
     if (!isDesertRecovery(recipe)) return false;
     const heat = recipe.sequence === 'heat-to-warm';
-    if (before.Temperature !== (heat ? 'Hot' : 'Freezing')
-      || after.Temperature !== (heat ? 'Warm' : 'Cold')) return false;
-    const elapsed = current.exposure?.[heat ? 'Hot' : 'Freezing'] || 0;
+    if (before.Temperature !== (heat ? 'Scorching' : 'Freezing')
+      || after.Temperature !== (heat ? 'Hot' : 'Cold')) return false;
+    const elapsed = current.exposure?.[heat ? 'Scorching' : 'Freezing'] || 0;
     if (heat ? (recipe.early ? elapsed >= recipe.hours : elapsed < recipe.hours)
       : elapsed < recipe.hours) return false;
     return matchesConditions(after, recipe.completion.conditions)

@@ -55,7 +55,7 @@ export const GAME_ART = {
 
 export const CONDITION_ART = {
   Moisture: { Dry: 'moistureDry', Damp: 'moistureDamp', Flooded: 'moistureFlooded' },
-  Temperature: { Freezing: 'temperatureFreezing', Cold: 'temperatureCold', Temperate: 'temperatureTemperate', Warm: 'temperatureWarm', Hot: 'temperatureHot' },
+  Temperature: { Freezing: 'temperatureFreezing', Cold: 'temperatureCold', Temperate: 'temperatureTemperate', Hot: 'temperatureWarm', Scorching: 'temperatureHot' },
   Illumination: { Dark: 'lightDark', Dim: 'lightDim', Lit: 'lightLit', Bright: 'lightBright' },
 };
 

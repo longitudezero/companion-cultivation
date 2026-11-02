@@ -210,10 +210,10 @@ test('Mandrakadabra dies at exactly four uninterrupted hours of Bright, but Lit 
 });
 
 test('Branshee survives extreme Temperature and Mycelial indefinitely without protection buffs', () => {
-  let garden = setBaseline(start('Branshee'), target, 'Temperature', 'Hot');
+  let garden = setBaseline(start('Branshee'), target, 'Temperature', 'Scorching');
   garden = setBaseline(garden, target, 'Moisture', 'Damp');
   garden = advanceGardenTime(garden, 100).garden;
-  assert.equal(garden.objects[target].exposure.Hot, 100);
+  assert.equal(garden.objects[target].exposure.Scorching, 100);
   assert.equal(garden.objects[target].species, 'Branshee');
   garden = reconcileTransformationClocks(setBaseline(garden, target, 'Temperature', 'Freezing'), garden);
   garden = advanceGardenTime(garden, 100).garden;

@@ -46,8 +46,8 @@ import {
   grantSourceItem, placeSourceItem, moveSourceItem, pickupSourceItem, rotateSourceItem, rotateStagedFungus,
 } from './core/index.js';
 
-// Keep the same autosave key: loading upgrades V6 plant names to V7 once,
-// preserving existing gardens before the first V7 autosave is written.
+// Keep the autosave key so existing gardens upgrade their names and temperature
+// levels before the first V8 autosave is written.
 const STORAGE_KEY = 'companion-cultivation:sandbox:v6';
 const titleCase = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 function initialGarden() {
@@ -502,7 +502,7 @@ export default function App() {
   function updateSourceType(value) {
     if (selectedObject?.type !== 'source') return;
     const next = value === 'anchored'
-      ? makeAnchoredSource('Temperature', 'Hot', selectedObject.emissions)
+      ? makeAnchoredSource('Temperature', 'Scorching', selectedObject.emissions)
       : makeSource(selectedObject.emissions);
     changeGarden((previous) => updateObject(previous, selection.key, next));
   }
@@ -820,29 +820,32 @@ function OrganismFields({ object, conditions, contacts, recipes, mycelialHere, d
       {object.species === 'Starlotus' && <p>Origin attunement: <strong>{object.attunement || 'unattuned test spawn'}</strong>. Native +60% Leaves {object.attunement && conditions.Moisture === object.attunement ? 'active' : 'inactive'} at current Moisture.</p>}
       {object.species === 'Silvercress' && <p>Native trait: +60% Growth while Flooded in Growth; +50% ordinary Leaves while Damp in Ripening.</p>}
       {object.species === 'Mandrakadabra' && <p>Bright vulnerability: <strong>{formatRealDuration(object.exposure?.Bright || 0)} / {formatRealDuration(4)}</strong> of continuous resolved Bright is lethal. Lit is safest for Leaf farming.</p>}
-      {object.species === 'Branshee' && <p>Resilient specialist: Hot, Freezing and Mycelial reduce development/output but never directly kill it.</p>}
+      {object.species === 'Branshee' && <p>Resilient specialist: Scorching, Freezing and Mycelial reduce development/output but never directly kill it.</p>}
       {object.species === 'Bamboozled' && <p>{object.progress >= 100 ? '◆ Bamboo Steel trophy ready. Harvest for one trophy and zero Leaves/Seeds.' : 'Bamboo Steel trophy unlocks at 100% Growth. Ordinary Leaves and Seeds always stay zero.'}</p>}
-      {object.species === 'Aloechemist' && <p>Heat endurance: <strong>{formatRealDuration(object.exposure?.Hot || 0)} of continuous Hot</strong>. A qualifying Hot → Warm event with Rilllace contact gives Cactastrophe before {formatRealDuration(36)}, or Aloemancer at {formatRealDuration(36)} or later. It does not happen from cooling alone.</p>}
+      {object.species === 'Aloechemist' && <p>Heat endurance: <strong>{formatRealDuration(object.exposure?.Scorching || 0)} of continuous Scorching</strong>. A qualifying Scorching → Hot event with Rilllace contact gives Cactastrophe before {formatRealDuration(36)}, or Aloemancer at {formatRealDuration(36)} or later. It does not happen from cooling alone.</p>}
       {object.species === 'Moonjade' && <p>{conditions.Temperature === 'Freezing' ? 'Dormant: 0 progression and no new output.' : 'Active: progression resumes outside Freezing.'} Freezing endurance: <strong>{formatRealDuration(object.exposure?.Freezing || 0)} / {formatRealDuration(48)}</strong>. A qualified Freezing → Cold thaw can yield Jadewisp or Pearadox.</p>}
-      {object.species === 'Pearadox' && <p>Hot: +70% natural Leaves. Freezing: 75% lifecycle rate and +80% natural Seeds; neither extreme is lethal by itself.</p>}
-      {object.species === 'Cactacomb' && <p>Sterile Leaf specialist: 48 natural Leaves near 140% in Hot; Warm reduces its natural Leaf yield to 65% of the Hot peak.</p>}
+      {object.species === 'Pearadox' && <p>Scorching: +70% natural Leaves. Freezing: 75% lifecycle rate and +80% natural Seeds; neither extreme is lethal by itself.</p>}
+      {object.species === 'Cactacomb' && <p>Sterile Leaf specialist: 48 natural Leaves near 140% in Scorching; Hot reduces its natural Leaf yield to 65% of the Scorching peak.</p>}
       {(object.species === 'Oreganoir' || object.species === 'Cinnamancer' || object.species === 'Phantarragon') && <p>Bright-field crop: resolved Bright gives its best natural Leaf yield. {object.species === 'Phantarragon' ? 'Its Seeds grow Cinnamancer, not Phantarragon.' : object.species === 'Cinnamancer' ? 'Its Seeds grow Oreganoir; Phantarragon can produce Cinnamancer Seeds.' : 'Mighty Mint can also supply its Oreganoir Seeds from Dim fields.'}</p>}
       {(object.species === 'Clovely' || object.species === 'Mighty Mint') && <p>Dim-field Seed specialist. {object.species === 'Mighty Mint' ? 'Its harvest makes 28 Oreganoir Seeds at full optimal maturity, not Mighty Mint Seeds.' : 'Its own 20 Clovely Seeds sustain planting in Dim fields.'}</p>}
       {object.species === 'Saffrune' && <p>Dark-field Leaf specialist producing Clovely Seeds. For Phantarragon, prepare Dark / Damp / Temperate-or-Cold with Hushroom contact for {formatRealDuration(12)}; then leave Dark and reach Lit within {formatRealDuration(8)} with Prismorel contact.</p>}
-      {object.species === 'Wyrmsalt' && <p>Dim and Lit are equally productive. Its Papriking route needs final Damp / Warm / Lit and actual Rushroom plus Hushroom contact; either Fungus may reach through cultivation or environment.</p>}
+      {object.species === 'Wyrmsalt' && <p>Dim and Lit are equally productive. Its Papriking route needs final Damp / Hot / Lit and actual Rushroom plus Hushroom contact; either Fungus may reach through cultivation or environment.</p>}
       {object.species === "Papriking" && <p>Sterile Lit specialist: up to 46 natural Leaves around 145%; Bright halves native output. The required named contacts do not need to cause the resolved Lit state.</p>}
       <div className="mini-heading">HAZARD EXPOSURE</div>
-      <div className="exposure-list">{['Dry', 'Hot', 'Freezing', 'Mycelial'].map(hazard => <span key={hazard}>{hazard}: {formatRealDuration(object.exposure?.[hazard] || 0)} / {Number.isFinite(definition[`${hazard.toLowerCase()}Death`]) ? formatRealDuration(definition[`${hazard.toLowerCase()}Death`]) : 'nonlethal'}</span>)}</div>
+      <div className="exposure-list">{['Dry', 'Scorching', 'Freezing', 'Mycelial'].map(hazard => {
+        const limit = definition[hazard === 'Scorching' ? 'hotDeath' : `${hazard.toLowerCase()}Death`];
+        return <span key={hazard}>{hazard}: {formatRealDuration(object.exposure?.[hazard] || 0)} / {Number.isFinite(limit) ? formatRealDuration(limit) : 'nonlethal'}</span>;
+      })}</div>
       {recipes.length > 0 && <><div className="mini-heading">TRANSFORMATION EXPOSURE</div>
         <div className="exposure-list">{recipes.map(recipe => <span key={recipe.into} title={recipe.sequence
-          ? recipe.sequence === 'heat-to-warm' ? `Hot → Warm with Rilllace contact on the new environment, ${recipe.early ? `before ${formatRealDuration(36)}` : `at least ${formatRealDuration(36)}`} of continuous prior Hot exposure`
+          ? recipe.sequence === 'heat-to-warm' ? `Scorching → Hot with Rilllace contact on the new environment, ${recipe.early ? `before ${formatRealDuration(36)}` : `at least ${formatRealDuration(36)}`} of continuous prior Scorching exposure`
             : recipe.sequence === 'freeze-to-cold' ? `After ${formatRealDuration(48)} uninterrupted Freezing Dormancy, thaw to Cold with ${Object.entries(recipe.completion.conditions).map(([property, value]) => `${property}: ${value}`).join(' · ')} and named fungi: ${recipe.completion.contacts.map(group => group.join(' OR ')).join(' AND ')}`
             : recipe.sequence === 'mistruffle-departure' ? `Damp / Dim, Mistruffle AND Dewmender for ${formatRealDuration(12)} to under ${formatRealDuration(20)}, then remove Mistruffle contact while retaining Damp / Dim and Dewmender`
             : recipe.sequence === 'flood-to-damp' ? `${formatRealDuration(24)} Flooded / Cold / Dim with Rainmorel, then Flooded → Damp drainage; pre-drain contact counts`
             : recipe.sequence === 'dark-to-lit' ? `${formatRealDuration(12)} Damp / Temperate-or-Cold / Dark with Hushroom; leave Dark, then reach Lit with Prismorel within ${formatRealDuration(8)} while keeping Damp and valid Temperature`
             : `${formatRealDuration(10)} Damp / Temperate / Dim with Mistruffle; leave Dim, then reach Bright with Prismorel within ${formatRealDuration(8)}`
           : `${Object.entries(recipe.conditions).map(([property, value]) => `${property}: ${Array.isArray(value) ? value.join(' or ') : value}`).join(' · ')}${recipe.environmentalOnly ? ' · no fungus required; timer resets if Flooded returns' : ` · named fungi: ${recipe.contacts.map(group => group.join(' OR ')).join(' AND ')}`} }`}>
-          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'armed' ? `Armed ${formatRealDuration(recipe.elapsed)} · remove Mistruffle before ${formatRealDuration(20)}` : recipe.phase === 'early-recovery' ? `${formatRealDuration(recipe.elapsed)} Hot · recover before ${formatRealDuration(36)}` : recipe.phase === 'ready' ? recipe.sequence === 'flood-to-damp' ? 'Prepared · drain to Damp' : recipe.sequence === 'freeze-to-cold' ? 'Prepared · thaw to Cold' : recipe.sequence === 'heat-to-warm' ? 'Qualified · recover to Warm' : 'Prepared' : `${formatRealDuration(recipe.elapsed)} / ${formatRealDuration(recipe.hours)}`}{recipe.phase === 'crossing' ? recipe.sequence === 'dark-to-lit' ? ' · Lit window' : ' · Bright window' : ''}
+          {recipe.eligible ? '◆' : '○'} {recipe.into}: {recipe.phase === 'armed' ? `Armed ${formatRealDuration(recipe.elapsed)} · remove Mistruffle before ${formatRealDuration(20)}` : recipe.phase === 'early-recovery' ? `${formatRealDuration(recipe.elapsed)} Scorching · recover before ${formatRealDuration(36)}` : recipe.phase === 'ready' ? recipe.sequence === 'flood-to-damp' ? 'Prepared · drain to Damp' : recipe.sequence === 'freeze-to-cold' ? 'Prepared · thaw to Cold' : recipe.sequence === 'heat-to-warm' ? 'Qualified · recover to Hot' : 'Prepared' : `${formatRealDuration(recipe.elapsed)} / ${formatRealDuration(recipe.hours)}`}{recipe.phase === 'crossing' ? recipe.sequence === 'dark-to-lit' ? ' · Lit window' : ' · Bright window' : ''}
         </span>)}</div>
         <p>◆ The current recipe phase qualifies. Any interruption resets its clock; hover for exact fungal and environmental requirements.</p></>}
       <div className="mini-heading">REACHING FUNGAL EFFECTS</div>

@@ -28,7 +28,7 @@ export const TRANSFORMATIONS = Object.freeze({
     { into: 'Carrot', conditions: { Moisture: 'Dry', Temperature: 'Temperate', Illumination: 'Dim' }, contacts: [['Prismorel']], hours: 10 },
     { into: 'Onion', conditions: { Moisture: 'Dry', Temperature: 'Cold' }, contacts: [['Droughtcap']], hours: 14 },
     { into: 'Potato', conditions: { Moisture: 'Damp', Temperature: 'Cold' }, contacts: [['Rilllace']], hours: 20 },
-    { into: 'Pumpkin', conditions: { Moisture: 'Damp', Temperature: 'Warm' }, contacts: [['Emberbolete']], hours: 24 },
+    { into: 'Pumpkin', conditions: { Moisture: 'Damp', Temperature: 'Hot' }, contacts: [['Emberbolete']], hours: 24 },
     { into: 'Strawberry', conditions: { Moisture: 'Damp', Temperature: 'Temperate', Illumination: 'Bright' }, contacts: [['Rainmorel']], hours: 16 },
   ]),
   ...Object.fromEntries(Object.entries(FLOWER_TRANSFORMATIONS)
@@ -122,8 +122,8 @@ export function reconcileTransformationClocks(garden, previousGarden = null) {
     // edit-back. Evaluate the transition with the pre-edit hours FIRST, then
     // clear the qualifying clock immediately if the event did not transform.
     const temperature = environment.conditions[key].Temperature;
-    if (plant.species === 'Aloechemist' && temperature !== 'Hot') {
-      updated = { ...updated, exposure: { ...plant.exposure, Hot: 0 } };
+    if (plant.species === 'Aloechemist' && temperature !== 'Scorching') {
+      updated = { ...updated, exposure: { ...plant.exposure, Scorching: 0 } };
     } else if (plant.species === 'Moonjade' && temperature !== 'Freezing') {
       updated = { ...updated, exposure: { ...plant.exposure, Freezing: 0 } };
     }
