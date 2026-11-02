@@ -52,7 +52,7 @@
   100% { opacity: 0; transform: scale(1) rotate(-8deg); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .task-receipt-reveal, .receipt-heading h3, .receipt-checkmark, .receipt-award-copy { animation: none; }
+  .task-receipt-reveal, .task-complete-receipt .receipt-heading h3, .receipt-checkmark, .receipt-award-copy { animation: none; }
   .receipt-stamp, .receipt-stamp-shadow, .receipt-stamp-imprint { display: none; animation: none; }
   .task-complete-receipt .receipt-continue { transition: none; }
   .receipt-continue-art { transition: none; }
