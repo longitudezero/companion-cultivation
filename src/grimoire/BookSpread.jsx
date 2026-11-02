@@ -87,7 +87,7 @@ export default function BookSpread({ entry, side, ledger, preview = false, navig
   const illustration = known ? illustrationFor(entry.species) : null;
   const pageNo = entry.page + (left ? 0 : 1);
   const name = entryName(entry, ledger, preview);
-  const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}`;
+  const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${entry.kind === 'overview' ? ' cg-family-opening' : ''}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}`;
   const content = (() => {
     if (entry.kind === 'overview') {
       if (left) return <>

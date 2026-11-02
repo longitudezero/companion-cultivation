@@ -1,6 +1,6 @@
 /* Shared paper finish adapted from the supplied parchment.css demo.
    Paint only the material: existing geometry, frames, shadows and ornaments
-   stay in their own components. No overlay can cover text or intercept input. */
+   stay in their own components. Artwork-only overlays stay below live text. */
 .aged-parchment,
 .garden-inspector,
 .guild-taskboard .taskboard-list,
@@ -13,9 +13,10 @@
 .cg-overlay .cg-turn-face,
 .cg-overlay .cg-glossary {
   background-color: #f4dfb9;
-  background-image:
-    /* The demo's .70 grain at .32 overlay opacity becomes .224 here. */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23grain)' opacity='.224'/%3E%3C/svg%3E"),
+  /* Transparent material layers can also age art without painting over it. */
+  /* The demo's .70 grain at .32 overlay opacity becomes .224 here. */
+  --parchment-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23grain)' opacity='.224'/%3E%3C/svg%3E");
+  --parchment-stains:
     radial-gradient(ellipse 155px 105px at -3% 0%, rgb(112 70 24 / calc(.42 * var(--parchment-wear-left, var(--parchment-wear, 1)))), transparent 90%),
     radial-gradient(ellipse 190px 145px at 104% -5%, rgb(124 70 21 / calc(.35 * var(--parchment-wear-right, var(--parchment-wear, 1)))), transparent 84%),
     radial-gradient(ellipse 135px 185px at -4% 105%, rgb(111 71 32 / calc(.35 * var(--parchment-wear-left, var(--parchment-wear, 1)))), transparent 90%),
@@ -23,7 +24,8 @@
     radial-gradient(ellipse 130px 65px at 38% -5%, rgb(125 84 34 / calc(.22 * var(--parchment-wear, 1))), transparent 90%),
     radial-gradient(ellipse 150px 75px at 70% 105%, rgb(134 79 27 / calc(.18 * var(--parchment-wear, 1))), transparent 90%),
     linear-gradient(90deg, rgb(121 67 20 / calc(.28 * var(--parchment-wear-left, var(--parchment-wear, 1)))), transparent 8%, transparent 91%, rgb(110 65 20 / calc(.27 * var(--parchment-wear-right, var(--parchment-wear, 1))))),
-    linear-gradient(0deg, rgb(121 68 21 / calc(.27 * var(--parchment-wear, 1))), transparent 10%, transparent 91%, rgb(105 64 24 / calc(.24 * var(--parchment-wear, 1)))),
+    linear-gradient(0deg, rgb(121 68 21 / calc(.27 * var(--parchment-wear, 1))), transparent 10%, transparent 91%, rgb(105 64 24 / calc(.24 * var(--parchment-wear, 1))));
+  background-image: var(--parchment-grain), var(--parchment-stains),
     radial-gradient(ellipse at 45% 42%, #fff0cf 0%, #f8e5bf 51%, #e1b977 100%);
   /* Only the 160px grain tile repeats. The stains stay tied to panel edges,
      including scrollable panels and both sides of a turning book leaf. */
@@ -48,3 +50,32 @@
 
 /* The old flat inset rim hid the outer four pixels of the Inspector paper. */
 .garden-inspector { box-shadow: 0 3px 8px #06110b77; }
+
+/* Family openings keep their colors, with the same paper finish over the ink.
+   The artwork mask and binding fade keep the extra texture off the clear page. */
+.cg-overlay .cg-page-content.cg-family-opening::before {
+  opacity: .65;
+  mix-blend-mode: multiply;
+}
+.cg-family-opening.cg-chapter-left { --opening-art-fade: linear-gradient(to right, #000 0%, #000 86%, transparent 97%); }
+.cg-family-opening.cg-chapter-right { --opening-art-fade: linear-gradient(to left, #000 0%, #000 86%, transparent 97%); }
+.cg-overlay .cg-page-content.cg-family-opening::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: var(--parchment-grain), var(--parchment-stains);
+  background-size: 160px 160px, auto, auto, auto, auto, auto, auto, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-blend-mode: multiply, normal, normal, normal, normal, normal, normal, normal, normal;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: var(--page-border), var(--opening-art-fade);
+  mask-image: var(--page-border), var(--opening-art-fade);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}

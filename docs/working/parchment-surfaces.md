@@ -21,3 +21,5 @@ Standalone confirmations explicitly use dark parchment ink; otherwise those dial
 The Grimoire's binding-facing edges use 20% stain strength: the right edge of a left page and the left edge of a right page. Other edges, grain, paper color, and the original book-fold shading stay the same. Turning faces carry `data-page-side` so the same treatment follows the printed page in both turn directions. All other panels retain their original aging strength.
 
 The Inspector retains its frame and outer shadow but drops the old 4px flat inset rim, allowing the aged paper to reach the inside edge of its border.
+
+Family-opening spreads use `cg-family-opening`: their colored botanical border art is 65% opaque and blends into the paper with multiply. A second decorative layer reuses the transparent grain/stains, masked to the artwork's alpha and existing binding fade, above the art but below live text and controls. It follows the page during turns. Entry-page watermarks, specimen illustrations, the Index and other game surfaces retain their existing treatment. The original artwork files are unchanged.
