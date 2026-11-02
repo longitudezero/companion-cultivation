@@ -42,6 +42,7 @@
 .guild-taskboard .taskboard-header-wisps { z-index: 1; border: 0; border-radius: 0; background: none; box-shadow: none; opacity: .8; }
 .taskboard-header-wisps::after { display: none; }
 .taskboard-header-wisps .task-heading-strip { animation-duration: 64s; }
+.taskboard-header-wisps .task-heading-tile { background-size: 25% 100%; background-repeat: repeat-x; }
 .guild-taskboard .guild-modal-header > .taskboard-heading, .guild-taskboard .guild-modal-header > .guild-header-actions { position: relative; z-index: 2; }
 .guild-taskboard .task-group-toggle:hover .task-heading-aura, .guild-taskboard .task-group-toggle:focus-visible .task-heading-aura { filter: brightness(1.14); }
 @keyframes task-heading-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
