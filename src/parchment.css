@@ -35,3 +35,6 @@
 
 /* Small tooltip bodies need less edge staining around their denser text. */
 .inventory-tooltip-body { --parchment-wear: .65; }
+
+/* Standalone confirmations sit outside the dark-ink Taskboard container. */
+.aged-parchment, .task-confirm { color: #33351c; }
