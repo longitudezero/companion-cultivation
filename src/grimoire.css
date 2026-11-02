@@ -114,10 +114,10 @@
       user-select: none;
       filter: drop-shadow(1px 2px 1px rgba(12, 9, 4, .37));
     }
-    .cg-cover-corner.top-left { top: -6px; left: -6px; }
-    .cg-cover-corner.top-right { top: -6px; right: -6px; }
-    .cg-cover-corner.bottom-left { bottom: -6px; left: -6px; }
-    .cg-cover-corner.bottom-right { bottom: -6px; right: -6px; }
+    .cg-cover-corner.top-left { top: -10px; left: -10px; }
+    .cg-cover-corner.top-right { top: -10px; right: -10px; }
+    .cg-cover-corner.bottom-left { bottom: -10px; left: -10px; }
+    .cg-cover-corner.bottom-right { bottom: -10px; right: -10px; }
 
     /* Eight fine-edged leaves on each side give the paper block visible depth.
        The farther sheets are painted first; none protrude through the spine. */

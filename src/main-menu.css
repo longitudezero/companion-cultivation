@@ -17,10 +17,10 @@
 .main-menu h1 img { width: 220px; max-width: 100%; height: 137px; object-fit: contain; }
 .main-menu > .corner-ornaments { z-index: 3; inset: 0; }
 .main-menu .ornament { width: 52px; height: 56px; }
-.main-menu .ornament-tl, .main-menu .ornament-bl { left: -5px; }
-.main-menu .ornament-tr, .main-menu .ornament-br { right: -5px; }
-.main-menu .ornament-tl, .main-menu .ornament-tr { top: -5px; }
-.main-menu .ornament-bl, .main-menu .ornament-br { bottom: -5px; }
+.main-menu .ornament-tl, .main-menu .ornament-bl { left: -9px; }
+.main-menu .ornament-tr, .main-menu .ornament-br { right: -9px; }
+.main-menu .ornament-tl, .main-menu .ornament-tr { top: -9px; }
+.main-menu .ornament-bl, .main-menu .ornament-br { bottom: -9px; }
 .main-menu .menu-vine { position: absolute; z-index: -1; bottom: 15px; left: 0; width: 100%; opacity: .09; pointer-events: none; }
 .main-menu .guild-back { display: flex; width: 160px; height: 42px; margin: 0 auto 15px; font-size: 14px; }
 .main-menu-actions { display: flex; flex-direction: column; gap: 9px; }
