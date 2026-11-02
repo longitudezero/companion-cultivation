@@ -13,6 +13,7 @@ import './compact-layout.css';
 import './main-menu.css';
 import './garden-environment.css';
 import './taskboard-dust.css';
+import './parchment.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>,
