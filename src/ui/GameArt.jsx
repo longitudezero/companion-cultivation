@@ -3,6 +3,10 @@ import React from 'react';
 // View boxes normalize the visible artwork without cropping or repainting the
 // supplied files. The two collections remain shared, unmodified sprite sheets.
 export const GAME_ART = {
+  completionTitle: ['task-complete.webp', 1086, 362, [0, 0, 1086, 362]],
+  completionCheckmark: ['completion-checkmark.webp', 1086, 362, [0, 0, 1086, 362]],
+  completionContinue: ['completion-continue.webp', 627, 627, [0, 0, 627, 627]],
+  completionSealStamp: ['completion-seal-stamp.webp', 627, 627, [0, 0, 627, 627]],
   cornerBellflowers: ['fantasy-corners.png', 1536, 1024, [40, 441, 225, 223]],
   cornerIvy: ['fantasy-corners.png', 1536, 1024, [1030, 441, 220, 223]],
   cornerAtlasFlowerBottom: ['fantasy-corners.png', 1536, 1024, [39, 197, 167, 155]],

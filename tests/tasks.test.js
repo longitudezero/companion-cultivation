@@ -259,6 +259,9 @@ test('completion receipts retain each reward and next action while the initial a
       assert.ok(markup.includes(`<strong>${quantity}</strong>`));
     }
     assert.match(markup, /class="task-primary receipt-continue" disabled=""/);
+    for (const art of ['task-complete.webp', 'completion-checkmark.webp', 'completion-continue.webp', 'completion-seal-stamp.webp']) {
+      assert.ok(markup.includes(`ui/${art}`), `the completion sequence uses ${art}`);
+    }
     assert.ok(markup.includes(id === FIRST_TASK ? '>Continue<' : '>Return to garden<'));
     assert.equal(JSON.stringify(receipt), before, 'presentation never changes the awarded receipt');
   }

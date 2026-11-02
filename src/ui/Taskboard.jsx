@@ -2,7 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { TASKS, FIRST_TASK, CARE_TASK, taskStatus, taskObjectives } from '../core/tasks.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import GuildBackButton from './GuildBackButton.jsx';
-import GameArt, { CornerOrnaments, TaskboardWindowOrnaments } from './GameArt.jsx';
+import GameArt, { GAME_ART, CornerOrnaments, TaskboardWindowOrnaments } from './GameArt.jsx';
 import GuildHeader from './GuildHeader.jsx';
 import FloatingDust from './FloatingDust.jsx';
 import { TASK_SECTIONS, groupedTasks, taskSection, initialTaskSelection, taskProgress } from './taskboard-model.js';
@@ -31,22 +31,9 @@ const reducedReceiptMotion = () => typeof window !== 'undefined'
   && Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
 
 function SealStamp({ onFinish }) {
-  const prefix = useId();
   return <span className="receipt-stamp" aria-hidden="true"
     onAnimationEnd={event => { if (event.target === event.currentTarget) onFinish(); }}>
-    <svg viewBox="0 0 110 150" focusable="false">
-      <defs>
-        <linearGradient id={`${prefix}-wood`} x1="0" x2="1"><stop stopColor="#402414"/><stop offset=".36" stopColor="#a16d36"/><stop offset=".56" stopColor="#c48d49"/><stop offset="1" stopColor="#54301a"/></linearGradient>
-        <linearGradient id={`${prefix}-gold`} x1="0" x2="1"><stop stopColor="#74501d"/><stop offset=".25" stopColor="#d4a654"/><stop offset=".48" stopColor="#ffe3a0"/><stop offset=".7" stopColor="#c8953b"/><stop offset="1" stopColor="#72501d"/></linearGradient>
-      </defs>
-      <path d="M43 30 C29 21 34 5 55 5 C76 5 81 21 67 30 C59 37 60 48 64 64 L69 87 L41 87 L46 64 C50 48 51 37 43 30Z" fill={`url(#${prefix}-wood)`} stroke="#57371c" strokeWidth="2"/>
-      <path d="M44 31 Q55 36 66 31 M46 44 Q55 47 64 44 M45 62 Q55 66 65 62" fill="none" stroke="#e2b476" opacity=".45"/>
-      <path d="M42 78 Q55 74 68 78 L71 90 L39 90Z" fill={`url(#${prefix}-gold)`} stroke="#775020"/>
-      <path d="M29 99 Q55 87 81 99 L87 118 Q55 137 23 118Z" fill={`url(#${prefix}-gold)`} stroke="#775020" strokeWidth="2"/>
-      <ellipse cx="55" cy="101" rx="27" ry="9" fill="#eed199" stroke="#94702f" strokeWidth="2"/>
-      <path d="M32 116 Q55 126 78 116" fill="none" stroke="#ffdf8e" strokeWidth="2"/>
-      <path d="M49 95 Q42 89 42 100 Q48 106 55 103 Q62 106 68 100 Q68 89 61 95 M55 96 L55 107" fill="none" stroke="#5e713c" strokeWidth="1.8" strokeLinecap="round"/>
-    </svg>
+    <GameArt name="completionSealStamp"/>
   </span>;
 }
 
@@ -69,8 +56,10 @@ export function TaskCompletionReceipt({ receipt, onContinue }) {
     role="status" aria-live="polite" aria-labelledby={`${prefix}-title`} tabIndex={-1}>
     <CornerOrnaments/>
     <div className="task-receipt-scroll">
-      <header className="receipt-heading"><span className="receipt-seal receipt-checkmark" aria-hidden="true">✓</span>
-        <h3 id={`${prefix}-title`}>Task complete</h3></header>
+      <header className="receipt-heading">
+        <h3 id={`${prefix}-title`}><GameArt name="completionTitle" className="receipt-title-art"/><span className="sr-only">Task complete</span></h3>
+        <GameArt name="completionCheckmark" className="receipt-checkmark"/>
+      </header>
       <div className="receipt-award-copy"><h4>{receipt.title}</h4><p>You received:</p><TaskRewards rewards={receipt.rewards}/>
         <div className="completion-dialogue">{receipt.completion.map((line, index) => <p key={index}>{line}</p>)}</div>
         {receipt.id === FIRST_TASK && <p className="task-unlocked">New assignment: A Thirsty Carrot</p>}
@@ -78,10 +67,11 @@ export function TaskCompletionReceipt({ receipt, onContinue }) {
     </div>
     <div className="receipt-action-stage">
       <span className="receipt-stamp-shadow" aria-hidden="true"/>
-      <span className="receipt-stamp-imprint" aria-hidden="true">❦</span>
+      <span className="receipt-stamp-imprint" aria-hidden="true"><GameArt name="completionContinue"/></span>
       <SealStamp onFinish={() => setReady(true)}/>
       <button ref={action} className="task-primary receipt-continue" disabled={!ready} onClick={onContinue}>
-        {receipt.id === FIRST_TASK ? 'Continue' : 'Return to garden'}</button>
+        <GameArt name="completionContinue" className="receipt-continue-art"/>
+        <span className="receipt-continue-label">{receipt.id === FIRST_TASK ? 'Continue' : 'Return to garden'}</span></button>
     </div>
   </section>;
 }
@@ -92,6 +82,13 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
   const [receipt, setReceipt] = useState(null), [error, setError] = useState('');
   const [rewardsExpanded, setRewardsExpanded] = useState(false);
   const modal = useRef(null), close = useRef(onClose), prefix = useId(); close.current = onClose;
+  useEffect(() => {
+    // Warm the artwork cache while the player reads the task, before its reveal.
+    for (const name of ['completionTitle', 'completionCheckmark', 'completionContinue', 'completionSealStamp']) {
+      const image = new window.Image();
+      image.src = `${import.meta.env?.BASE_URL || '/'}ui/${GAME_ART[name][0]}`;
+    }
+  }, []);
   useEffect(() => {
     const previous = document.activeElement, oldOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
