@@ -2,7 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { TASKS, FIRST_TASK, CARE_TASK, taskStatus, taskObjectives } from '../core/tasks.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import GuildBackButton from './GuildBackButton.jsx';
-import GameArt, { CornerOrnaments } from './GameArt.jsx';
+import GameArt, { CornerOrnaments, TaskboardWindowOrnaments } from './GameArt.jsx';
 import GuildHeader from './GuildHeader.jsx';
 import FloatingDust from './FloatingDust.jsx';
 import { TASK_SECTIONS, groupedTasks, taskSection, initialTaskSelection, taskProgress } from './taskboard-model.js';
@@ -62,9 +62,10 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
     if (receipt.id === FIRST_TASK) selectTask(CARE_TASK); else onClose();
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal guild-taskboard" ref={modal} role="dialog" aria-modal="true" aria-label="Guild Taskboard">
+    <TaskboardWindowOrnaments/>
+    <div className="taskboard-window-back"><GuildBackButton onClick={onClose}/></div>
     <GuildHeader title="Taskboard" subtitle="Guild requests, ongoing assignments, and completed work."
-      backgroundImage={`${import.meta.env?.BASE_URL || '/'}ui/taskboard-noticeboard.webp`} decoration={<FloatingDust/>}>
-      <GuildBackButton onClick={onClose}/></GuildHeader>
+      backgroundImage={`${import.meta.env?.BASE_URL || '/'}ui/taskboard-noticeboard.webp`} decoration={<FloatingDust/>}/>
     <div className="taskboard-content" inert={Boolean(receipt)}>
       <aside className="taskboard-list" aria-label="Task list">
         <div className="task-list-scroll">{TASK_SECTIONS.map(section => <section className="task-group" key={section.id}>
@@ -123,6 +124,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
       </article>
     </div>
     {receipt && <div className="taskboard-inner-overlay"><section className="task-complete-receipt" role="status" aria-live="polite">
+      <CornerOrnaments/>
       <span className="receipt-seal" aria-hidden="true">✓</span><h3>Task complete</h3><h4>{receipt.title}</h4><p>You received:</p><TaskRewards rewards={receipt.rewards}/>
       <div className="completion-dialogue">{receipt.completion.map((line, index) => <p key={index}>{line}</p>)}</div>
       {receipt.id === FIRST_TASK && <p className="task-unlocked">New assignment: A Thirsty Carrot</p>}
