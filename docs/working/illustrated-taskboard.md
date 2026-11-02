@@ -60,3 +60,10 @@ Validation covers task grouping and selection across unlock/completion boundarie
 - Move the full section ornament another 8px left on desktop (6px on narrow screens), covering the capsule’s exposed left edge. Its original proportions and complete canvas remain intact.
 - Reuse the two-field green wisp effect across the Taskboard window title bar, with a slower 64-second lateral loop. Explicit layers put vines at 0, wisps at 1, and title/actions at 2. The layer is decorative, ignores pointer input, and uses the existing reduced-motion rule. The Shop header is unchanged.
 - The window title-bar field repeats four times horizontally within each tile, giving four times the wisp/particle density at the same size, brightness and drift speed. Section-title fields retain their existing density.
+
+
+## Noticeboard artwork and dust
+
+- Section capsules now have 24 little dots and one short, faint streak per field, replacing the former five dots/four streaks. Their 34-second sideways loop and complete botanical ornaments remain.
+- The Taskboard title bar uses the supplied noticeboard artwork, copied unchanged. A taller responsive header shows the frame and central green board, with text/actions above a restrained scrim. The Shop retains its vine header.
+- Only the window title bar gets free-floating dust: 64 small motes with stable seeded starting positions, three varied X/Y waypoints, individual 22–42-second durations and negative phase offsets. These are independent CSS paths rather than a horizontally scrolling field. The layer ignores input and stays behind title/actions. Narrow screens show 40 motes; reduced motion makes them static.
