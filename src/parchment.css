@@ -1,0 +1,37 @@
+/* Shared paper finish adapted from the supplied parchment.css demo.
+   Paint only the material: existing geometry, frames, shadows and ornaments
+   stay in their own components. No overlay can cover text or intercept input. */
+.aged-parchment,
+.garden-inspector,
+.guild-taskboard .taskboard-list,
+.guild-taskboard .task-detail,
+.shop-trade,
+.inventory-tooltip-body,
+.task-confirm,
+.task-complete-receipt,
+.cg-overlay .cg-page,
+.cg-overlay .cg-turn-face,
+.cg-overlay .cg-glossary {
+  background-color: #f4dfb9;
+  background-image:
+    /* The demo's .70 grain at .32 overlay opacity becomes .224 here. */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23grain)' opacity='.224'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 155px 105px at -3% 0%, rgb(112 70 24 / calc(.42 * var(--parchment-wear, 1))), transparent 90%),
+    radial-gradient(ellipse 190px 145px at 104% -5%, rgb(124 70 21 / calc(.35 * var(--parchment-wear, 1))), transparent 84%),
+    radial-gradient(ellipse 135px 185px at -4% 105%, rgb(111 71 32 / calc(.35 * var(--parchment-wear, 1))), transparent 90%),
+    radial-gradient(ellipse 200px 110px at 104% 104%, rgb(115 65 23 / calc(.42 * var(--parchment-wear, 1))), transparent 90%),
+    radial-gradient(ellipse 130px 65px at 38% -5%, rgb(125 84 34 / calc(.22 * var(--parchment-wear, 1))), transparent 90%),
+    radial-gradient(ellipse 150px 75px at 70% 105%, rgb(134 79 27 / calc(.18 * var(--parchment-wear, 1))), transparent 90%),
+    linear-gradient(90deg, rgb(121 67 20 / calc(.28 * var(--parchment-wear, 1))), transparent 8%, transparent 91%, rgb(110 65 20 / calc(.27 * var(--parchment-wear, 1)))),
+    linear-gradient(0deg, rgb(121 68 21 / calc(.27 * var(--parchment-wear, 1))), transparent 10%, transparent 91%, rgb(105 64 24 / calc(.24 * var(--parchment-wear, 1)))),
+    radial-gradient(ellipse at 45% 42%, #fff0cf 0%, #f8e5bf 51%, #e1b977 100%);
+  /* Only the 160px grain tile repeats. The stains stay tied to panel edges,
+     including scrollable panels and both sides of a turning book leaf. */
+  background-size: 160px 160px, auto, auto, auto, auto, auto, auto, auto, auto, auto;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-blend-mode: multiply, normal, normal, normal, normal, normal, normal, normal, normal, normal;
+  background-attachment: scroll;
+}
+
+/* Small tooltip bodies need less edge staining around their denser text. */
+.inventory-tooltip-body { --parchment-wear: .65; }
