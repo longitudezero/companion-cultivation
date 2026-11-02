@@ -11,7 +11,7 @@ import { stagePlanting } from './staging.js';
 import { migrateGrimoire } from './grimoire.js';
 import { makePlayerSource, validItemId } from './source-items.js';
 import { SOURCE_ITEMS } from './source-item-catalog.js';
-import { renameLegacyPlant, legacyPlantName } from './plant-names.js';
+import { renameLegacyPlant, legacyPlantName, renamePlantIdentity } from './plant-names.js';
 
 // V6 used the previous plant labels; V7 freezes the new identities. Translate
 // V6 names once, including reused labels, without mutating the original JSON.
@@ -19,8 +19,10 @@ import { renameLegacyPlant, legacyPlantName } from './plant-names.js';
 export function migrateGarden(saved) {
   if (!isGarden(saved)) throw new Error('Unsupported garden file.');
   const legacy = saved.schemaVersion === 6;
-  const plantName = name => legacy ? renameLegacyPlant(name) : name;
+  const plantName = name => renamePlantIdentity(legacy ? renameLegacyPlant(name) : name);
   const oldPlantName = name => legacy ? legacyPlantName(name) : name;
+  const plantRecord = (records, name) => records?.[oldPlantName(name)]
+    ?? (name === 'Branshee' ? records?.Bramblewraith : undefined);
   const garden = createGarden(saved.columns, saved.rows);
   garden.routeNonce = Number.isInteger(saved.routeNonce) ? saved.routeNonce : 0;
   garden.itemNonce = Number.isSafeInteger(saved.itemNonce) && saved.itemNonce >= 0 ? saved.itemNonce : 0;
@@ -112,7 +114,7 @@ export function migrateGarden(saved) {
       for (const recipe of TRANSFORMATIONS[species] || []) {
         if (isDesertRecovery(recipe)) continue; // Endurance lives in exposure.Hot/Freezing.
         if (recipe.sequence) {
-          const state = object.transformationSequence?.[oldPlantName(recipe.into)];
+          const state = plantRecord(object.transformationSequence, recipe.into);
           const aquatic = recipe.sequence === 'flood-to-damp';
           const woodlands = recipe.sequence === 'mistruffle-departure';
           const validPhases = aquatic ? ['preparing', 'ready'] : woodlands
@@ -131,7 +133,7 @@ export function migrateGarden(saved) {
           };
           continue;
         }
-        const hours = object.transformationClocks?.[oldPlantName(recipe.into)];
+        const hours = plantRecord(object.transformationClocks, recipe.into);
         clean.transformationClocks[recipe.into] = Number.isSafeInteger(hours) && hours >= 0
           ? Math.min(hours, recipe.hours - 1) : 0;
       }
@@ -236,7 +238,7 @@ export function migrateGarden(saved) {
     }
     garden.inventorySlots = Object.fromEntries(Object.entries(saved.inventorySlots || {})
       .map(([id, slot]) => {
-        if (!legacy || !/^(seed|leaf):/.test(id)) return [id, slot];
+        if (!/^(seed|leaf):/.test(id)) return [id, slot];
         const separator = id.indexOf(':');
         return [`${id.slice(0, separator + 1)}${plantName(id.slice(separator + 1))}`, slot];
       }));

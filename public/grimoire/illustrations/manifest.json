@@ -301,19 +301,20 @@
       "kind": "plant",
       "family": "Flowers",
       "file": "plants/rosewraith.webp",
-      "source": "flower-illustration-study/rosewraith.png",
-      "sourceSha256": "9e0d9e70bd84244fab95243b013628cb1c05050793fd13a3b57ecde7ad177163",
+      "source": "Rosewraith_ Spectral Undead Rose.webp",
+      "sourceSha256": "29a45bbe8b7c1568eaf8c6d9652b9398cf3e591d211ccb1631c9878ba3a97e70",
       "sourceDimensions": [
         1254,
         1254
       ],
       "dimensions": [
-        768,
-        768
+        1254,
+        1254
       ],
       "transparent": true,
-      "sha256": "a5681fa4acd69faf8758be04fc46d1e6c55dfca10218f079f90ee50803de1328",
-      "bytes": 340964
+      "sha256": "29a45bbe8b7c1568eaf8c6d9652b9398cf3e591d211ccb1631c9878ba3a97e70",
+      "bytes": 542472,
+      "processing": "Original WebP retained unchanged"
     },
     {
       "species": "Orchidemon",
@@ -377,19 +378,20 @@
       "kind": "plant",
       "family": "Aquatic",
       "file": "plants/kelpergeist.webp",
-      "source": "aquatic-illustration-collection/kelpergeist.png",
-      "sourceSha256": "099dc6b30b67b8745d5870299be99c75c93a10dd66281e0471a58658e9f82477",
+      "source": "Haunted Spectral Kelp Bloom.webp",
+      "sourceSha256": "ebdde983557ff06e655f6a04bdb1a72dae59cc3a065430a79fdeadc8656db485",
       "sourceDimensions": [
         1254,
         1254
       ],
       "dimensions": [
-        768,
-        768
+        1254,
+        1254
       ],
       "transparent": true,
-      "sha256": "3edb82cfb10ce11fafa7614a3ef3d4cddbd294c4c9e00c33c7d937cac6f8475c",
-      "bytes": 327116
+      "sha256": "ebdde983557ff06e655f6a04bdb1a72dae59cc3a065430a79fdeadc8656db485",
+      "bytes": 700456,
+      "processing": "Original WebP retained unchanged"
     },
     {
       "species": "Kelpless",
@@ -677,23 +679,24 @@
       "bytes": 322848
     },
     {
-      "species": "Bramblewraith",
+      "species": "Branshee",
       "kind": "plant",
       "family": "Woodlands",
-      "file": "plants/bramblewraith.webp",
-      "source": "woodlands/Bramblewraith_ Ghost Thorn Botanical-20.png",
-      "sourceSha256": "8bc874eeafd6b0142f683300a896436d99b5e2ab73a9e3c7753e108d3316441b",
+      "file": "plants/branshee.webp",
+      "source": "Branshee Bramble.webp",
+      "sourceSha256": "32702f28687e992d69720b35b1007081573bada1b0203750e78f92453c294350",
       "sourceDimensions": [
-        1213,
-        1296
+        1254,
+        1254
       ],
       "dimensions": [
-        719,
-        768
+        1254,
+        1254
       ],
       "transparent": true,
-      "sha256": "4680faccc438a6c6fddaa28f519b5477616332f14507e2ae96e7a3a3772ddc93",
-      "bytes": 349284
+      "sha256": "32702f28687e992d69720b35b1007081573bada1b0203750e78f92453c294350",
+      "bytes": 828634,
+      "processing": "Original WebP retained unchanged"
     },
     {
       "species": "Mandrabra",
@@ -928,19 +931,20 @@
       "kind": "plant",
       "family": "Desert",
       "file": "plants/cactacomb.webp",
-      "source": "desert-illustration-collection/cactacomb.png",
-      "sourceSha256": "8f3004f5ddafb1cc7ffc4b15e3020737af101343b799e0251e15772a156db6b4",
+      "source": "Cactacomb_ Skull-Blooming Desert Cathedral.webp",
+      "sourceSha256": "7811685bd0356c8e7f06b9b9e4bafebdc384e7be89b7c1a422f30cfe7bab0cb7",
       "sourceDimensions": [
-        1254,
-        1254
+        1312,
+        1199
       ],
       "dimensions": [
-        768,
-        768
+        1312,
+        1199
       ],
       "transparent": true,
-      "sha256": "f996b0be13c7028fbbb7b6bb20b4235b2d5332d3690eaf8624fdb4eac4f1dd36",
-      "bytes": 287900
+      "sha256": "7811685bd0356c8e7f06b9b9e4bafebdc384e7be89b7c1a422f30cfe7bab0cb7",
+      "bytes": 513550,
+      "processing": "Original WebP retained unchanged"
     },
     {
       "species": "Everjade",
@@ -1137,19 +1141,20 @@
       "kind": "plant",
       "family": "Spices",
       "file": "plants/phantarragon.webp",
-      "source": "spices-illustration-collection/phantarragon.png",
-      "sourceSha256": "99de128bfc4f52eeebabbb8f2b9c04f6349bb8a16523d0836c8b186dbbbbac95",
+      "source": "Phantarragon.webp",
+      "sourceSha256": "f830a3192389399a5c46f0655d0f64a045c4652f90f61b5f887f26ecf979af6b",
       "sourceDimensions": [
         1254,
         1254
       ],
       "dimensions": [
-        768,
-        768
+        1254,
+        1254
       ],
       "transparent": true,
-      "sha256": "08b567b9b6a17d2f17a610f0b43ead478b0851f6a55cd0a3a479e85687f41a0e",
-      "bytes": 342066
+      "sha256": "f830a3192389399a5c46f0655d0f64a045c4652f90f61b5f887f26ecf979af6b",
+      "bytes": 612434,
+      "processing": "Original WebP retained unchanged"
     },
     {
       "species": "Mycelord",
@@ -1404,5 +1409,6 @@
       "source": "ingredients-illustration-collection/cocoa.png",
       "reason": "Not in the current species catalogue"
     }
-  ]
+  ],
+  "replacementProcessing": "Subsequently supplied WebP illustrations retain their original bytes, resolution and alpha; per-record processing overrides the archive conversion settings."
 }

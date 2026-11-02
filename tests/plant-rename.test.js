@@ -3,6 +3,44 @@ import assert from 'node:assert/strict';
 import { createGarden, makePlant, migrateGarden, keyAt, PLANTS, TRANSFORMATIONS } from '../src/core/index.js';
 import { LEGACY_PLANT_NAMES, renameLegacyPlant } from '../src/core/plant-names.js';
 
+test('Branshee preserves Bramblewraith objects, stock, plans, clocks and discoveries from V6 and V7 saves', () => {
+  for (const schemaVersion of [6, 7]) {
+    const garden = createGarden();
+    const [living, transforming, pending, staged] = Array.from({ length: 4 }, (_, x) => keyAt(x, 0));
+    const saved = { ...garden, schemaVersion,
+      objects: {
+        [living]: { ...makePlant('Branshee'), species: 'Bramblewraith', progress: 153, ageHours: 80 },
+        [transforming]: { ...makePlant('Tanglethorn'), transformationClocks: { Bramblewraith: 7 } },
+      },
+      inventory: { ...garden.inventory, seeds: { Bramblewraith: 12 }, leaves: { Bramblewraith: 9 } },
+      inventorySlots: { 'seed:Bramblewraith': 25, 'leaf:Bramblewraith': 26 },
+      pending: { [pending]: { kind: 'plant', species: 'Bramblewraith', quantity: 4, success: true, readyAt: 9 } },
+      staged: { [staged]: { kind: 'plant', species: 'Bramblewraith', quantity: 2 } },
+      grimoire: { plants: { Bramblewraith: true },
+        environments: { Bramblewraith: { dry: { property: 'Moisture', condition: 'Dry', signal: 'reduced' } } },
+        transformations: [{ from: 'Tanglethorn', into: 'Bramblewraith', conditions: { Moisture: 'Damp' },
+          fungi: ['Prismorel'], hours: 28, observedAt: 40 }],
+      },
+    };
+    const original = structuredClone(saved), migrated = migrateGarden(saved);
+    assert.deepEqual(saved, original);
+    assert.equal(migrated.objects[living].species, 'Branshee');
+    assert.equal(migrated.objects[living].progress, 153);
+    assert.equal(migrated.objects[living].ageHours, 80);
+    assert.equal(migrated.objects[transforming].transformationClocks.Branshee, 7);
+    assert.equal(migrated.inventory.seeds.Branshee, 12);
+    assert.equal(migrated.inventory.leaves.Branshee, 9);
+    assert.equal(migrated.inventorySlots['seed:Branshee'], 25);
+    assert.equal(migrated.inventorySlots['leaf:Branshee'], 26);
+    assert.equal(migrated.pending[pending].species, 'Branshee');
+    assert.equal(migrated.staged[staged].species, 'Branshee');
+    assert.equal(migrated.grimoire.plants.Branshee, true);
+    assert.equal(migrated.grimoire.environments.Branshee['Moisture:Dry'].signal, 'reduced');
+    assert.equal(migrated.grimoire.transformations[0].into, 'Branshee');
+    assert.deepEqual(migrateGarden(migrated), migrated);
+  }
+});
+
 test('every V6 plant identity maps to one current species without losing the seven-ingredient roster', () => {
   const targets = Object.values(LEGACY_PLANT_NAMES);
   assert.equal(new Set(targets).size, targets.length, 'renamed species must have unique destinations');
