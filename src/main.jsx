@@ -15,6 +15,7 @@ import './garden-environment.css';
 import './taskboard-dust.css';
 import './parchment.css';
 import './parchment-ornaments.css';
+import './task-completion.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode><App /></React.StrictMode>,

@@ -7,7 +7,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createGarden, createDemoGarden, createTutorialGarden, FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK, TASK_IDS,
-  taskStatus, taskObjectives, updateTaskProgress, claimTask, toggleTaskPin, normalizeTaskProgress,
+  TASKS, taskStatus, taskObjectives, updateTaskProgress, claimTask, toggleTaskPin, normalizeTaskProgress,
   stagePlanting, applyStaging, advanceGardenTime, makePlant, placeObject, makeSource, makeInfluence,
   setBaseline, calculateEnvironment, calculateCultivation, grantSourceItem, inventoryItems, ensureInventorySlots,
   serializeGameSave, deserializeGameSave, resizeGarden } from '../src/core/index.js';
@@ -210,11 +210,13 @@ test('harvest receipts use actual item identities and combine only quick consecu
 });
 
 const root = fileURLToPath(new URL('../', import.meta.url)), cache = await mkdtemp(join(root, 'node_modules', '.taskboard-'));
-let Board, Tracker, Receipt;
+let Board, Tracker, Receipt, CompletionReceipt;
 try {
   await build({ entryPoints: { board: join(root, 'src/ui/Taskboard.jsx'), tracker: join(root, 'src/ui/TaskTracker.jsx'), receipt: join(root, 'src/ui/HarvestReceipt.jsx') },
     outdir: cache, bundle: true, platform: 'node', format: 'esm', packages: 'external', logLevel: 'silent' });
-  Board = (await import(pathToFileURL(join(cache, 'board.js')))).default;
+  const boardModule = await import(pathToFileURL(join(cache, 'board.js')));
+  Board = boardModule.default;
+  CompletionReceipt = boardModule.TaskCompletionReceipt;
   Tracker = (await import(pathToFileURL(join(cache, 'tracker.js')))).default;
   Receipt = (await import(pathToFileURL(join(cache, 'receipt.js')))).default;
 } finally { await rm(cache, { recursive: true, force: true }); }
@@ -243,6 +245,23 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.match(sideBoard, /aria-label="A Few Carrot Leaves, In progress, 0 of 5/);
   const receipt = renderToStaticMarkup(React.createElement(Receipt, { receipt: { id: 1, items: [{ id: 'seed:Algea', type: 'seed', species: 'Algea', name: 'Algea Seeds', quantity: 3 }] } }));
   assert.match(receipt, /Harvested!|Algea Seeds/);
+});
+
+test('completion receipts retain each reward and next action while the initial animated button is disabled', () => {
+  for (const id of TASK_IDS) {
+    const receipt = TASKS[id], before = JSON.stringify(receipt);
+    const markup = renderToStaticMarkup(React.createElement(CompletionReceipt, { receipt, onContinue() {} }));
+    assert.match(markup, /role="status" aria-live="polite" aria-labelledby=/);
+    assert.ok(markup.includes(receipt.title));
+    assert.ok(markup.includes(`<strong>${receipt.rewards.gold}</strong>`));
+    for (const [fungus, quantity] of Object.entries(receipt.rewards.spores)) {
+      assert.ok(markup.includes(fungus));
+      assert.ok(markup.includes(`<strong>${quantity}</strong>`));
+    }
+    assert.match(markup, /class="task-primary receipt-continue" disabled=""/);
+    assert.ok(markup.includes(id === FIRST_TASK ? '>Continue<' : '>Return to garden<'));
+    assert.equal(JSON.stringify(receipt), before, 'presentation never changes the awarded receipt');
+  }
 });
 
 test('task sections keep Main then Side then Completed membership, excluding locked assignments', () => {
