@@ -19,12 +19,13 @@
 .cg-personal-bookmark.edge-bottom:is(:hover, :focus-within) { translate: 0 13px; }
 .cg-personal-bookmark.is-dragging { rotate: 0deg; translate: none; z-index: 40; }
 .cg-personal-bookmark.is-dragging .cg-marker-body { animation: none; transform: none; clip-path: none; }
-.cg-marker-handle { top: 60px; height: 78px; color: var(--marker-ink); }
+.cg-marker-handle { top: 65px; height: 68px; width: min(44px, 38%); min-width: 24px; color: var(--marker-ink); }
+.cg-personal-bookmark.left .cg-marker-handle { left: auto; right: 0; }
 .cg-marker-handle::after { display: none; }
 .cg-marker-handle:hover, .cg-marker-handle:focus-visible { background: transparent; }
-.cg-marker-tab-title { display: block; position: absolute; top: 8px; left: var(--marker-write-left); right: var(--marker-write-right);
+.cg-marker-tab-title { pointer-events: none; display: block; position: absolute; top: 68px; left: var(--marker-write-left); right: var(--marker-write-right);
   max-height: 54px; overflow: hidden; overflow-wrap: anywhere; text-align: center; font: 700 clamp(12px, 1.4vw, 18px)/1.15 var(--handwriting); text-shadow: 0 1px 2px #0004; }
-.cg-marker-page { top: auto; bottom: -3px; font: 11px/14px Georgia,serif; padding: 0 3px; opacity: .9; }
+.cg-marker-page { pointer-events: none; top: 125px; bottom: auto; font: 11px/14px Georgia,serif; padding: 0 3px; opacity: .9; }
 .cg-personal-bookmark.is-open .cg-marker-tab-title { visibility: hidden; }
 .cg-marker-surface-name { position: absolute; top: 25%; left: var(--marker-write-left); right: var(--marker-write-right);
   color: var(--marker-ink); font: 700 clamp(13px, 1.5vw, 20px)/1.2 var(--handwriting); text-align: center; overflow-wrap: anywhere; }

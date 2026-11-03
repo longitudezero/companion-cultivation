@@ -50,7 +50,7 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
   return <div ref={anchor} data-marker-slot={marker.slot} data-marked-page={markerPage(marker)} data-marker-side={left ? 'left' : 'right'}
     className={`cg-personal-bookmark edge-${marker.edge} ${left ? 'left' : 'right'}${active ? ' is-open' : ''}${travelling ? ' travelling' : ''}${draft ? ' is-dragging' : ''}`}
     style={{ ...markerWritingStyle(marker.styleId), '--marker-half': Number(!left), '--marker-outer-left': Number(left), '--marker-x': markerDisplayX(marker, left) / 100,
-      '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-open-angle': `${(left ? 1 : -1) * (marker.edge === 'bottom' ? 38 : 138)}deg`,
+      '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-open-angle': `${(left ? 1 : -1) * (marker.edge === 'bottom' ? 38 : 110)}deg`,
       '--marker-rest-angle': marker.edge === 'bottom' ? '180deg' : '0deg',
       ...(draft ? { left: draft.left, top: draft.top } : {}) }}
     onPointerDown={start} onPointerMove={move} onPointerUp={event => finish(event)}
@@ -58,6 +58,8 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
     onClick={event => { event.stopPropagation(); if (busy) return;
       if (event.detail > 0 && suppress.current) { suppress.current = false; return; } if (active) onEdit?.(marker); else navigate(entry.key); }}>
     <MarkerArtwork key={active ? current.key : 'rest'} marker={marker}/>
+    <span className="cg-marker-tab-title" aria-hidden="true">{marker.name || markerPage(marker)}</span>
+    <span className="cg-marker-page" aria-hidden="true">{markerPage(marker)}</span>
     <button className="cg-marker-handle" disabled={busy} title={`${label}. Drag onto a page to move this marker.`}
       aria-label={`${active ? 'Edit marker' : 'Open marked page'}: ${label}`} aria-current={active ? 'page' : undefined}
       onKeyDown={event => {
@@ -68,8 +70,7 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
         const x = event.altKey ? marker.x : marker.x + (event.key === 'ArrowLeft' ? -2 : 2);
         try { onChange(garden => movePageMarker(garden, marker.slot, entryKey, side, x)); }
         catch (issue) { onIssue?.(issue.message); }
-      }}><span className="cg-marker-tab-title">{marker.name || markerPage(marker)}</span>
-      <span className="cg-marker-page">{markerPage(marker)}</span></button>
+      }}/>
   </div>;
 }
 
