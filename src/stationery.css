@@ -91,7 +91,6 @@
 @media (max-width: 600px) {
   .cg-scene { padding-top: 94px; }
   .cg-book-stage { padding-bottom: calc(460px + var(--note-dock)); }
-  .cg-book-stage.has-tucked-note { --note-dock: 220px; }
   .cg-personal-bookmarks { top: -66px; left: 3%; right: 17%; }
   .cg-personal-bookmark { width: 39px; height: 110px; }.cg-marker-page { top: 34px; font-size: 10px; }
   .cg-loose-note { --note-w: min(280px, calc(var(--page-w) * .95)); }
