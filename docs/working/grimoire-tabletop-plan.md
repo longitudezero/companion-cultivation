@@ -200,6 +200,7 @@ These are checkpoints within the authorized experiment, not automatic requests f
 | 3 November 2026 | H2 | **Verified by automated regression checks.** `GITHUB_PAGES=true npm run check` passes 358 Node tests, the production build and one CommonJS smoke test. All 21 optional DOM interaction scenarios pass, including byte-equivalent serialized garden data for view-only controls using a backed-up garden. That backup was loaded only into the DOM harness; the live garden was never altered, so no live restore was necessary. Existing journal/save migration and hidden-knowledge tests pass. No core rules, task rewards or prices changed. |
 | 3 November 2026 | H3 | **Review deliverable prepared; native browser review pending.** The standalone review builder now maps both Grimoire and interface assets and records its source commit. A linked-art review boots/opens the book in DOM QA and maps all rendered images through 209 existing assets. The synthetic review save includes twelve markers, three notes and all stationery styles. See [review instructions](grimoire-tabletop-review.md). Production was not deployed. |
 | 3 November 2026 | Browser review blocker | Both `sites-preview start` and `sites-preview status` report that the preview daemon mailbox is unavailable. No native screenshots, animation recording, touch test or visual pass is claimed. All items requiring that evidence remain unchecked. |
+| 3 November 2026 | Review handoff | Application source **`160f756df023964be8caf308a7e9d5d1508deef5`** is on the experiment branch. `Grimoire-Tabletop-Review.zip` contains the standalone HTML, synthetic save and instructions. Its exact-source DOM boot/image-mapping check passes; the three-file ZIP passes integrity validation. The separate review package is available in the chat. Later documentation-only progress updates do not change that application source. |
 
 Append dated rows as work progresses. For each completed item, name the relevant test(s) and browser evidence. Keep unresolved issues beside the affected item IDs so they cannot disappear into a general “tests passed” statement.
 
@@ -223,6 +224,6 @@ The unchecked items A1–A3, B1–B4, B6, C1–C2, D1–D2, E1, F1–F4, G1–G3
 - [x] All mandatory A–H items are checked with evidence, or explicitly listed as unresolved for the user's review.
 - [ ] The physical-book goal holds in combined interactions, not only isolated component tests.
 - [x] Final chosen tuning values and any remaining turning-note overhang limitation are recorded.
-- [ ] The user has a separate playable branch review and can choose to merge, revise or discard it.
+- [x] The user has a separate playable branch review and can choose to merge, revise or discard it.
 
 The main tabletop's final illustration and the deferred stationery starter-kit task reward are future decisions. No new starter kit is part of this branch.
