@@ -1,5 +1,5 @@
 const papers = [
-  ['starlight', 'Starlight Paper', 419, 334, [27, 15, 23, 16]],
+  ['starlight', 'Starlight Paper', 419, 334, [31, 15, 23, 23]],
   ['botanist', 'Botanist’s Paper', 480, 345, [27, 12, 15, 15]],
   ['herbarium', 'Herbarium Paper', 310, 354, [29, 15, 32, 15]],
   ['sunburst', 'Sunburst Paper', 336, 346, [31, 18, 27, 18]],
