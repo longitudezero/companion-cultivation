@@ -14,7 +14,7 @@
 /* This tray is a direct child of the overlay, outside the scrolling book. */
 .cg-stationery-tools { --table-size: clamp(280px, 28vw, 370px); --table-crop: clamp(32px, 3.5vw, 48px); --table-peek: 48px;
   position: fixed; top: calc(var(--table-size) * -.2); right: calc(-1 * var(--table-crop)); left: auto;
-  width: var(--table-size); height: var(--table-size); z-index: 25; display: block; pointer-events: auto;
+  width: var(--table-size); height: var(--table-size); transform: none; z-index: 25; display: block; pointer-events: auto;
   translate: calc(var(--table-size) - var(--table-crop) - var(--table-peek)) 0;
   transition: translate .38s cubic-bezier(.22,.7,.3,1); }
 .cg-stationery-tools.is-expanded { translate: 0 0; }
