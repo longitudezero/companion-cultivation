@@ -81,7 +81,7 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
         <h3>{product.name}</h3><p className="shop-owned">{product.permanent ? product.owned ? 'In your stationery collection' : 'Permanent style · reusable' : `${product.owned} currently held`}</p>
         <p className="shop-product-note">{mode === 'sell' ? 'Keep any Leaves you need for guild requests. Only the amount below will be sold.'
           : product.permanent ? product.type === 'paper' ? 'Use this paper for as many field notes as you like. Write from the inkwell beside your Grimoire.'
-            : 'Mark up to four pages in your Grimoire. You can reuse this style and move your markers freely.'
+            : 'Mark up to twelve pages: six markers above the book and six below. Name them, write on them, and move them freely.'
             : product.type === 'seed' ? 'Always free. Take what you need to start growing again.' : 'Unlocked Spores stay in stock, even when your own supply runs out.'}</p>
         {!product.permanent && <><label className="shop-quantity-label" htmlFor="shop-quantity">Quantity</label>
         <div className="shop-quantity"><IllustratedButton art="minus" label="Decrease shop quantity" disabled={Number(quantity) <= 1} onClick={() => amount(Math.max(1, Number(quantity) - 1))}/>

@@ -7,11 +7,11 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { build } from 'esbuild';
 import { createTutorialGarden, createJournal, normalizeJournal, writeNote, positionNote, removeNote, markPage,
-  removePageMarker, movePageMarker, pageNotes, NOTE_PAPERS, PAGE_MARKERS, shopProducts, shopQuote, tradeShop, withGold, goldBalance,
+  removePageMarker, movePageMarker, editPageMarker, pageNotes, MARKER_LIMIT, NOTE_PAPERS, PAGE_MARKERS, shopProducts, shopQuote, tradeShop, withGold, goldBalance,
   serializeGameSave, deserializeGameSave, resizeGarden, advanceGardenTime, grantSourceItem, inventoryItems,
   FIRST_TASK, claimTask } from '../src/core/index.js';
 import { BOOK_ENTRIES } from '../src/grimoire/book.js';
-import { markerPage, markerIsLeft, markerDisplayX, travellingMarkers, noteDrop, markerDrop } from '../src/grimoire/stationery-model.js';
+import { markerPage, markerIsLeft, markerDisplayX, travellingMarkers, noteDrop, markerDrop, noteGeometry } from '../src/grimoire/stationery-model.js';
 
 function collected() {
   let garden = withGold(createTutorialGarden(), 100);
@@ -63,7 +63,7 @@ test('many notes can share a printed page; editing one preserves every other not
   garden = writeNote(garden, 'plant:Beanstalk', 'right', 'Compare Dark and Dim.', 'moonlit', 'note:1');
   garden = writeNote(garden, 'plant:Beanstalk', 'right', 'Another experiment.', 'starlight');
   garden = writeNote(garden, 'plant:Beanstalk', 'left', 'Sketch side.', 'starlight');
-  assert.deepEqual(garden.journal.notes['note:1'], { id: 'note:1', entryKey: 'plant:Beanstalk', side: 'right',
+  assert.deepEqual(garden.journal.notes['note:1'], { id: 'note:1', entryKey: 'plant:Beanstalk', side: 'right', rotation: -2, scale: 1,
     text: 'Compare Dark and Dim.', paperId: 'moonlit', x: 72.25, y: 22.5, tucked: true });
   assert.equal(Object.keys(garden.journal.notes).length, 3);
   for (const entry of BOOK_ENTRIES) assert.doesNotThrow(() => writeNote(garden, entry.key, 'right', 'Observation', 'starlight'));
@@ -89,19 +89,19 @@ test('note bounds, text limits, unknown pages and unowned stationery cannot corr
   assert.equal(JSON.stringify(garden), before);
 });
 
-test('four bookmarks can reuse a style and move without extra purchases or duplicate page markers', () => {
+test('twelve bookmarks can reuse a style and move without extra purchases or duplicate page markers', () => {
   let garden = collected();
-  for (const [slot, entry] of BOOK_ENTRIES.slice(0, 4).entries()) garden = markPage(garden, entry.key, 'right', 'forest-tassel', slot);
+  for (const [slot, entry] of BOOK_ENTRIES.slice(0, MARKER_LIMIT).entries()) garden = markPage(garden, entry.key, 'right', 'forest-tassel', slot);
   const before = JSON.stringify(garden), gold = goldBalance(garden);
-  assert.throws(() => markPage(garden, 'index', 'right', 'forest-tassel'), /four markers/);
+  assert.throws(() => markPage(garden, 'index', 'right', 'forest-tassel'), /twelve markers/);
   assert.equal(JSON.stringify(garden), before);
   garden = markPage(garden, 'index', 'right', 'garnet-moon', 2);
-  assert.equal(garden.journal.bookmarks.length, 4); assert.equal(garden.journal.bookmarks[2].entryKey, 'index');
+  assert.equal(garden.journal.bookmarks.length, 12); assert.equal(garden.journal.bookmarks[2].entryKey, 'index');
   garden = markPage(garden, 'index', 'right', 'forest-tassel');
   assert.equal(garden.journal.bookmarks[2].styleId, 'forest-tassel'); assert.equal(goldBalance(garden), gold);
   assert.throws(() => markPage(garden, 'index', 'right', 'forest-tassel', 1), /already has a marker/);
   assert.throws(() => markPage(garden, 'index', 'left', 'teal-star', 2), /your collection/);
-  garden = removePageMarker(garden, 2); assert.equal(garden.journal.bookmarks.length, 3);
+  garden = removePageMarker(garden, 2); assert.equal(garden.journal.bookmarks.length, 11);
   assert.deepEqual(garden.journal.markers, ['forest-tassel', 'garnet-moon']);
 });
 
@@ -126,7 +126,7 @@ test('journal import rejects unsupported formats and cleans invalid styles, page
     bookmarks: [{ slot: 0, entryKey: 'index', side: 'right', styleId: 'forest-tassel' },
       { slot: 1, entryKey: 'index', side: 'right', styleId: 'forest-tassel' },
       { slot: 0, entryKey: 'index', side: 'left', styleId: 'forest-tassel' },
-      { slot: 4, entryKey: 'index', side: 'left', styleId: 'forest-tassel' }] });
+      { slot: 12, entryKey: 'index', side: 'left', styleId: 'forest-tassel' }] });
   assert.deepEqual(clean.papers, ['starlight']); assert.deepEqual(clean.markers, ['forest-tassel']);
   assert.equal(clean.notes['note:1'].text.length, 250); assert.equal(clean.notes['note:1'].x, 50);
   assert.equal(clean.notes['note:1'].y, 100); assert.equal(Object.keys(clean.notes).length, 1);
@@ -162,8 +162,8 @@ test('existing V1 notes upgrade without losing text, paper, position, tucked sta
     'index/left': { text: 'Index note', paperId: 'moonlit', x: 10, y: 88, tucked: false },
   }, bookmarks: [{ slot: 0, entryKey: 'plant:Beanstalk', side: 'right', styleId: 'forest-tassel' }] };
   const snapshot = JSON.stringify(old), migrated = normalizeJournal(old);
-  assert.equal(migrated.version, 2); assert.equal(migrated.noteNonce, 2);
-  assert.deepEqual(migrated.notes['note:1'], { id: 'note:1', entryKey: 'plant:Beanstalk', side: 'right', ...old.notes['plant:Beanstalk/right'] });
+  assert.equal(migrated.version, 3); assert.equal(migrated.noteNonce, 2);
+  assert.deepEqual(migrated.notes['note:1'], { id: 'note:1', entryKey: 'plant:Beanstalk', side: 'right', rotation: -2, scale: 1, ...old.notes['plant:Beanstalk/right'] });
   assert.equal(migrated.notes['note:2'].text, 'Index note');
   assert.deepEqual(normalizeJournal(migrated), migrated); assert.equal(JSON.stringify(old), snapshot);
   assert.equal(migrated.bookmarks[0].entryKey, old.bookmarks[0].entryKey);
@@ -232,7 +232,7 @@ test('bookmarks do not reveal undiscovered Plant names and note text is escaped'
   garden = markPage(garden, 'plant:Carrot', 'right', 'forest-tassel');
   const entry = BOOK_ENTRIES.find(item => item.key === 'plant:Carrot');
   const markup = render(Stationery.PersonalBookmarks, { journal: garden.journal, ledger: garden.grimoire, current: entry });
-  assert.match(markup, /Open marked page:/); assert.doesNotMatch(markup, /Carrot/);
+  assert.match(markup, /Edit marker:/); assert.doesNotMatch(markup, /Carrot/);
   const note = render(Stationery.GrimoireNote, { note: garden.journal.notes['note:1'], entry });
   assert.match(note, /&lt;img/); assert.doesNotMatch(note, /<img src=x/);
 });
@@ -256,4 +256,90 @@ test('a crowded spread renders its independent note controls and leaves other pa
   assert.doesNotMatch(markup, /Other page note/);
   assert.match(markup, /data-note-page="plant:Beanstalk\/left"/);
   assert.match(markup, /data-note-page="plant:Beanstalk\/right"/);
+});
+
+test('six markers fit on each edge, and moving a seventh onto a full edge fails atomically', () => {
+  let garden = collected();
+  for (const [slot, entry] of BOOK_ENTRIES.slice(0, 12).entries()) garden = markPage(garden, entry.key, 'right', 'forest-tassel', slot);
+  assert.equal(garden.journal.bookmarks.filter(marker => marker.edge === 'top').length, 6);
+  assert.equal(garden.journal.bookmarks.filter(marker => marker.edge === 'bottom').length, 6);
+  const before = JSON.stringify(garden);
+  assert.throws(() => editPageMarker(garden, 6, { edge: 'top' }), /six top/);
+  assert.throws(() => movePageMarker(garden, 6, 'index', 'right', 25, 'top'), /six top/);
+  assert.equal(JSON.stringify(garden), before);
+  garden = removePageMarker(garden, 0);
+  garden = movePageMarker(garden, 6, 'index', 'right', 25, 'top');
+  assert.equal(garden.journal.bookmarks.find(marker => marker.slot === 6).edge, 'top');
+  assert.deepEqual(deserializeGameSave(serializeGameSave(garden)), garden);
+});
+
+test('optional names and writing can be edited without moving a marker or spending its style', () => {
+  let garden = markPage(collected(), 'plant:Beanstalk', 'right', 'forest-tassel');
+  const gold = goldBalance(garden);
+  garden = editPageMarker(garden, 0, { name: 'Light experiments', description: 'Compare Dim and Lit.', styleId: 'garnet-moon' });
+  assert.equal(garden.journal.bookmarks[0].name, 'Light experiments');
+  assert.equal(garden.journal.bookmarks[0].description, 'Compare Dim and Lit.');
+  garden = movePageMarker(garden, 0, 'index', 'left', 45, 'bottom');
+  assert.equal(garden.journal.bookmarks[0].name, 'Light experiments');
+  assert.equal(garden.journal.bookmarks[0].description, 'Compare Dim and Lit.');
+  assert.equal(goldBalance(garden), gold);
+  const before = JSON.stringify(garden);
+  for (const details of [{ name: 'a'.repeat(33) }, { description: 'a'.repeat(251) }, { styleId: 'ivory-bloom' }, { edge: 'side' }]) {
+    assert.throws(() => editPageMarker(garden, 0, details));
+  }
+  assert.equal(JSON.stringify(garden), before);
+  assert.deepEqual(deserializeGameSave(serializeGameSave(garden)), garden);
+});
+
+test('rotation and resizing preserve note text and position, normalize safe ranges and survive import', () => {
+  let garden = writeNote(collected(), 'index', 'left', 'Keep my observations.', 'starlight');
+  garden = positionNote(garden, 'note:1', { ...garden.journal.notes['note:1'], rotation: 405, scale: 1.35 });
+  assert.equal(garden.journal.notes['note:1'].rotation, 45); assert.equal(garden.journal.notes['note:1'].scale, 1.35);
+  garden = writeNote(garden, 'index', 'left', 'Edited observations.', 'moonlit', 'note:1');
+  assert.equal(garden.journal.notes['note:1'].rotation, 45); assert.equal(garden.journal.notes['note:1'].scale, 1.35);
+  garden = positionNote(garden, 'note:1', { ...garden.journal.notes['note:1'], scale: 20 });
+  assert.equal(garden.journal.notes['note:1'].scale, 1.6);
+  assert.throws(() => positionNote(garden, 'note:1', { ...garden.journal.notes['note:1'], rotation: NaN }), /Invalid/);
+  assert.deepEqual(deserializeGameSave(serializeGameSave(garden)), garden);
+});
+
+test('rotated note bounds stay inside both large and narrow pages at every supported paper size', () => {
+  for (const width of [138, 250, 460, 645]) for (const height of [390, 650]) for (const rotation of [-180, -90, -37, 0, 63, 90, 175])
+    for (const scale of [.55, 1, 1.6]) for (const paper of Object.values(NOTE_PAPERS)) for (const position of [0, 50, 100]) {
+      const geometry = noteGeometry({ rotation, scale, x: position, y: position }, { width, height }, paper.width / paper.height);
+      assert.ok(geometry.width > 0 && geometry.height > 0);
+      assert.ok(geometry.left >= 8 - 1e-8 && geometry.top >= 8 - 1e-8);
+      assert.ok(geometry.left + geometry.boxWidth <= width - 8 + 1e-8);
+      assert.ok(geometry.top + geometry.boxHeight <= height - 8 + 1e-8);
+    }
+});
+
+test('previous V2 journals upgrade with default note controls and all original marker placements', () => {
+  const old = { version: 2, noteNonce: 9, papers: ['starlight'], markers: ['forest-tassel'],
+    notes: { 'note:9': { id: 'note:9', entryKey: 'index', side: 'right', text: 'My existing note.', paperId: 'starlight', x: 75, y: 20, tucked: true } },
+    bookmarks: [{ slot: 0, entryKey: 'index', side: 'right', styleId: 'forest-tassel', x: 80 }] };
+  const clean = normalizeJournal(old);
+  assert.equal(clean.version, 3); assert.equal(clean.noteNonce, 9); assert.equal(clean.notes['note:9'].text, 'My existing note.');
+  assert.equal(clean.notes['note:9'].rotation, -2); assert.equal(clean.notes['note:9'].scale, 1);
+  assert.equal(clean.bookmarks[0].x, 80); assert.equal(clean.bookmarks[0].name, ''); assert.equal(clean.bookmarks[0].description, '');
+  assert.equal(clean.bookmarks[0].edge, 'top');
+});
+
+test('note controls and read-only turning prints preserve writing without interactive controls on the leaf', () => {
+  const garden = writeNote(collected(), 'index', 'left', 'A note that travels with its page.', 'starlight');
+  const entry = BOOK_ENTRIES.find(item => item.key === 'index');
+  const note = render(Stationery.GrimoireNote, { note: garden.journal.notes['note:1'], entry });
+  assert.match(note, /aria-label="Remove note 1"/); assert.match(note, /aria-label="Rotate note 1"/); assert.match(note, /aria-label="Resize note 1"/);
+  const print = render(Stationery.StaticPageNotes, { journal: garden.journal, entryKey: 'index', side: 'left' });
+  assert.match(print, /data-turning-note="note:1"/); assert.match(print, /A note that travels with its page/);
+  assert.doesNotMatch(print, /<button|tabindex/);
+});
+
+test('the marker editor exposes names, writing, edge selection and owned appearance choices', () => {
+  let garden = markPage(collected(), 'index', 'right', 'forest-tassel', null, { name: 'My research', description: '<script>not executable</script>' });
+  const entry = BOOK_ENTRIES.find(item => item.key === 'index');
+  const markup = render(Stationery.StationeryDesk, { garden, entry, ledger: garden.grimoire, initialTab: 'markers' });
+  for (const label of ['Marker name', 'Marker description', 'Marker edge', 'Owned page markers']) assert.ok(markup.includes(`aria-label="${label}"`));
+  assert.match(markup, /My research/); assert.match(markup, /&lt;script&gt;/); assert.doesNotMatch(markup, /<script>/);
+  assert.match(markup, /Six markers above/); assert.match(markup, /Save marker/);
 });
