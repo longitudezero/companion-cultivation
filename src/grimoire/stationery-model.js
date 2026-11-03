@@ -16,7 +16,8 @@ export function noteDrop(book, width, height, left, top) {
   return { side, x: fraction(x, pageWidth - width), y: fraction(top, book.height - height), tucked: false };
 }
 export function markerDrop(book, pointerX, width) {
-  const side = pointerX < book.width / 2 ? 'left' : 'right';
-  const left = pointerX - (side === 'right' ? book.width / 2 : 0) - width / 2;
-  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, book.width / 2 - width) * 100)) };
+  const pageWidth = book.width / 2, inset = 40;
+  const side = pointerX < pageWidth ? 'left' : 'right';
+  const left = pointerX - (side === 'right' ? pageWidth : inset) - width / 2;
+  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, pageWidth - width - inset) * 100)) };
 }

@@ -41,7 +41,7 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
   }
   return <div ref={anchor} data-marker-slot={marker.slot} data-marked-page={markerPage(marker)} data-marker-side={left ? 'left' : 'right'}
     className={`cg-personal-bookmark ${left ? 'left' : 'right'}${active ? ' is-open' : ''}${travelling ? ' travelling' : ''}${draft ? ' is-dragging' : ''}`}
-    style={{ '--marker-half': Number(!left), '--marker-x': markerDisplayX(marker, left) / 100,
+    style={{ '--marker-half': Number(!left), '--marker-outer-left': Number(left), '--marker-x': markerDisplayX(marker, left) / 100,
       ...(draft ? { left: draft.left, top: draft.top } : {}) }}
     onPointerDown={start} onPointerMove={move} onPointerUp={event => finish(event)}
     onPointerCancel={event => finish(event, true)} onLostPointerCapture={event => finish(event, true)}
@@ -72,7 +72,7 @@ export function TurningPersonalMarkers({ markers, turn }) {
   return <div className="cg-turn-personal-markers" aria-hidden="true">{markers.map(marker => {
     const x = markerDisplayX(marker, markerIsLeft(marker, from));
     return <div key={marker.slot} className="cg-turn-personal-marker" data-turning-marker={marker.slot}
-      style={{ '--marker-x': x / 100 }}><div className="cg-turn-marker-front"><MarkerArtwork marker={marker}/></div>
+      style={{ '--marker-x': x / 100, '--marker-outer-left': Number(markerIsLeft(marker, from)) }}><div className="cg-turn-marker-front"><MarkerArtwork marker={marker}/></div>
       <div className="cg-turn-marker-back"><MarkerArtwork marker={marker}/></div></div>;
   })}</div>;
 }
