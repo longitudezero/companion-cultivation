@@ -51,7 +51,8 @@ export function normalizeJournal(saved) {
       x: Number.isFinite(note.x) ? coordinate(note.x) : 50,
       y: Number.isFinite(note.y) ? coordinate(note.y) : 45, tucked: note.tucked === true,
       rotation: Number.isFinite(note.rotation) ? noteRotation(note.rotation) : -2,
-      scale: Number.isFinite(note.scale) ? noteScale(note.scale) : 1 };
+      scale: Number.isFinite(note.scale) ? noteScale(note.scale) : 1,
+      ...(typeof note.overhang === 'boolean' ? { overhang: note.overhang } : {}) };
   }
   const usedSlots = new Set(), usedPages = new Set(), edgeCounts = { top: 0, bottom: 0 };
   for (const marker of saved.bookmarks) {
@@ -89,15 +90,17 @@ export function writeNote(garden, entryKey, side, text, paperId, noteId = null, 
     id, entryKey, side, text: text.trim(), paperId };
   return { ...garden, journal: { ...journal, noteNonce: nonce, notes: putNote(journal.notes, id, note) } };
 }
-export function positionNote(garden, id, { x, y, tucked, entryKey, side, rotation, scale }) {
+export function positionNote(garden, id, { x, y, tucked, entryKey, side, rotation, scale, overhang }) {
   const journal = garden.journal || createJournal(), note = journal.notes[id];
   if (!note) throw new Error('There is no note on this page.');
   entryKey ??= note.entryKey; side ??= note.side;
   page(entryKey, side);
   rotation ??= note.rotation; scale ??= note.scale;
+  if (overhang !== undefined && typeof overhang !== 'boolean') throw new Error('Invalid note position.');
   if (![x, y, rotation, scale].every(Number.isFinite) || typeof tucked !== 'boolean') throw new Error('Invalid note position.');
   return { ...garden, journal: { ...journal, notes: putNote(journal.notes, id,
-    { ...note, entryKey, side, x: coordinate(x), y: coordinate(y), tucked, rotation: noteRotation(rotation), scale: noteScale(scale) }) } };
+    { ...note, entryKey, side, x: coordinate(x), y: coordinate(y), tucked, rotation: noteRotation(rotation), scale: noteScale(scale),
+      ...(overhang === undefined ? {} : { overhang }) }) } };
 }
 export function removeNote(garden, id) {
   const journal = garden.journal || createJournal(), notes = { ...journal.notes };

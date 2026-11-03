@@ -272,17 +272,18 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
             <span className="cg-close-glyph" aria-hidden="true"><img className="cg-close-icon" src={art('icons/close')} alt="" draggable="false"/>
               <img className="cg-close-icon-glow" src={art('icons/close')} alt="" draggable="false"/></span>
           </button>
-          <div className="cg-stationery-tools">
-            <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note"
-              onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
-              <img src={stationeryArt('inkwell.webp')} alt="" draggable="false"/><span>Field notes</span></button>
-            <MarkerTool bookRef={bookRef} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
-              onClick={() => setDesk({ tab: 'markers', side: 'right' })} onDrop={dropMarker}/>
-            {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
-          </div>
         </div></div>
       </div>
       <div className="cg-sr-only" aria-live="polite" aria-atomic="true">{CHAPTERS[current.chapter].label} · pages {current.page}–{current.page + 1}{busy ? ' · Turning pages' : ''}</div>
+    </div>
+    <div className="cg-stationery-tools" role="group" aria-label="Grimoire stationery" inert={Boolean(glossary || desk || pendingDelete)}>
+      <img className="cg-stationery-table" src={stationeryArt('cultivation-tabletop.webp')} alt="" aria-hidden="true" draggable="false"/>
+      <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
+        onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
+        <img src={stationeryArt('inkwell.webp')} alt="" draggable="false"/><span>Field notes</span></button>
+      <MarkerTool bookRef={bookRef} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
+        onClick={() => setDesk({ tab: 'markers', side: 'right' })} onDrop={dropMarker}/>
+      {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     </div>
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
       onChange={onJournalChange} onClose={() => setDesk(null)} onShop={category => onOpenShop(category, current.key)}/>}

@@ -7,21 +7,25 @@ export const markerDisplayX = (marker, left) => (left ? 'left' : 'right') === ma
 export const travellingMarkers = (markers, turn) => !turn ? [] : markers.filter(marker =>
   markerIsLeft(marker, BOOK_ENTRIES[turn.from]) !== markerIsLeft(marker, BOOK_ENTRIES[turn.to]));
 
-// Positions use the remaining space on a page, so a change of viewport keeps
-// each note inside its new page. The note centre decides which page receives it.
+// New placements save the note centre as a fraction of its page. The centre
+// stays on the paper, allowing up to half the note to hang over any edge.
 export function noteDrop(book, width, height, left, top) {
   const pageWidth = book.width / 2, side = left + width / 2 < pageWidth ? 'left' : 'right';
-  const x = left - (side === 'right' ? pageWidth : 0);
-  const fraction = (position, available) => available > 0 ? Math.max(0, Math.min(100, (position - 8) / available * 100)) : 50;
-  return { side, x: fraction(x, pageWidth - width - 16), y: fraction(top, book.height - height - 16), tucked: false };
+  const x = left + width / 2 - (side === 'right' ? pageWidth : 0);
+  const fraction = (position, available) => Math.max(0, Math.min(100, position / available * 100));
+  return { side, x: fraction(x, pageWidth), y: fraction(top + height / 2, book.height), tucked: false, overhang: true };
 }
 export function markerDrop(book, pointerX, width, pointerY, previousEdge = 'top') {
   const pageWidth = book.width / 2, inset = markerInset(pageWidth);
   const side = pointerX < pageWidth ? 'left' : 'right';
-  const edge = pointerY == null ? previousEdge : pointerY > book.height * .65 ? 'bottom' : pointerY < book.height * .35 ? 'top' : previousEdge;
-  const reserve = markerCornerReserve(pageWidth, side, edge);
+  const edge = pointerY == null ? previousEdge : pointerY > book.height / 2 ? 'bottom' : 'top';
   const left = pointerX - (side === 'right' ? pageWidth : 0) - inset - width / 2;
-  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, pageWidth - width - inset * 2 - reserve) * 100)), edge };
+  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, pageWidth - width - inset * 2) * 100)), edge };
+}
+
+export function withinMarkerDropArea(book, x, y) {
+  const margin = Math.min(144, markerWidth(book.width / 2) * 2.5 * .42);
+  return x >= book.left && x <= book.right && y >= book.top - margin && y <= book.bottom + margin;
 }
 
 export function noteGeometry(note, page, ratio) {
@@ -33,15 +37,15 @@ export function noteGeometry(note, page, ratio) {
   const paperWidth = desired * fit, paperHeight = paperWidth / ratio;
   const boxWidth = paperWidth * c + paperHeight * s, boxHeight = paperWidth * s + paperHeight * c;
   return { width: paperWidth, height: paperHeight, boxWidth, boxHeight,
-    left: 8 + Math.max(0, width - boxWidth - 16) * note.x / 100,
-    top: 8 + Math.max(0, height - boxHeight - 16) * note.y / 100,
+    // Keep the original mapping for untouched notes in older saves.
+    left: note.overhang ? width * note.x / 100 - boxWidth / 2 : 8 + Math.max(0, width - boxWidth - 16) * note.x / 100,
+    top: note.overhang ? height * note.y / 100 - boxHeight / 2 : 8 + Math.max(0, height - boxHeight - 16) * note.y / 100,
     offsetX: (boxWidth - paperWidth) / 2, offsetY: (boxHeight - paperHeight) / 2 };
 }
 
 
 export const markerWidth = pageWidth => Math.max(44, Math.min(150, pageWidth * .26));
 export const markerInset = pageWidth => Math.max(8, Math.min(16, pageWidth * .025));
-export const markerCornerReserve = (pageWidth, side, edge) => side === 'right' && edge === 'top' ? Math.min(68, pageWidth * .15) : 0;
 
 // Fan markers across their physical page edge. Saved x values determine their
 // order, while the display positions leave every head exposed in a full stack.

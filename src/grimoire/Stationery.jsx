@@ -58,13 +58,13 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
   const [slot, setSlot] = useState(existing?.slot ?? '');
   const [styleId, setStyleId] = useState(existing?.styleId || journal.markers[0] || '');
   const [name, setName] = useState(existing?.name || ''), [description, setDescription] = useState(existing?.description || '');
-  const [edge, setEdge] = useState(existing?.edge || initialDrop?.edge || (journal.bookmarks.filter(m => m.edge === 'top').length < 6 ? 'top' : 'bottom'));
+  const [edge, setEdge] = useState(initialDrop?.edge || existing?.edge || (journal.bookmarks.filter(m => m.edge === 'top').length < 6 ? 'top' : 'bottom'));
   const [error, setError] = useState(''), [status, setStatus] = useState('');
   const selected = journal.bookmarks.find(marker => marker.slot === slot);
   function chooseSlot(value) {
     const next = value === '' ? '' : Number(value), marker = journal.bookmarks.find(item => item.slot === next);
     setSlot(next); setName(marker?.name || ''); setDescription(marker?.description || '');
-    setStyleId(marker?.styleId || journal.markers[0]); setEdge(marker?.edge || 'top'); setError('');
+    setStyleId(marker?.styleId || journal.markers[0]); setEdge(initialDrop?.edge || marker?.edge || 'top'); setError('');
   }
   function save(event) {
     event.preventDefault();

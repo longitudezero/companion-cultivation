@@ -6,26 +6,34 @@
   --marker-reveal: min(144px, calc(var(--marker-h) * .42));
   --marker-pivot: calc(var(--marker-reveal) * .72);
   --marker-inset: clamp(8px, calc(var(--page-w) * .025), 16px);
-  --marker-reserve: 0px;
 }
 .cg-scene { padding-top: 180px; }
 .cg-scene.has-markers { padding-top: clamp(230px, calc(var(--page-w) * .66), 410px); }
 .cg-book-stage { --marker-dock: 0px; padding-bottom: calc(40px + var(--note-dock) + var(--marker-dock)); }
 .cg-book-stage.has-bottom-markers { --marker-dock: calc(var(--marker-h) + 56px); }
-.cg-stationery-tools { top: -165px; left: auto; right: calc(-1 * clamp(0px, calc((100vw - 2 * var(--page-w)) / 2 - 24px), 180px)); transform: none; z-index: 30; gap: 22px; }
-.has-personal-markers .cg-stationery-tools { top: calc(-1 * var(--marker-reveal) - 112px); }
+/* This tray is a direct child of the overlay, outside the scrolling book. */
+.cg-stationery-tools { --table-size: clamp(280px, 28vw, 370px); --table-crop: clamp(68px, 7vw, 92px);
+  position: fixed; top: calc(var(--table-size) * -.2); right: calc(-1 * var(--table-crop)); left: auto;
+  width: var(--table-size); height: var(--table-size); transform: none; z-index: 25; display: block; pointer-events: none; }
+.cg-stationery-tools > .cg-stationery-table { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  filter: drop-shadow(-4px 7px 8px #0005); user-select: none; pointer-events: none; }
+.cg-stationery-tools button { position: absolute; display: grid; place-items: center; pointer-events: auto; }
+.cg-stationery-tools .cg-inkwell { top: 33%; right: 33%; width: 34%; height: 46%; }
+.cg-stationery-tools .cg-marker-tool { top: 34%; left: 15%; width: 20%; height: 42%; rotate: 15deg; }
+.cg-stationery-tools button img, .cg-stationery-tools .cg-marker-tool img { width: 100%; height: 100%; object-fit: contain; }
+.cg-stationery-tools button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.cg-stationery-tools button:focus-visible { outline-offset: -3px; border-radius: 10px; }
 .cg-marker-tool { touch-action: none; }
-.cg-stationery-issue { position: absolute; top: 100%; width: min(300px, 80vw); right: 0; color: #f7deac; font: 13px/1.5 Georgia,serif; text-align: right; }
+.cg-stationery-issue { position: absolute; top: calc(100% - 28px); width: min(270px, 80vw); right: calc(var(--table-crop) + 18px); color: #f7deac; font: 13px/1.5 Georgia,serif; text-align: right; }
 .cg-marker-tool-ghost { position: absolute; z-index: 60; width: 65px; height: 160px; object-fit: contain; pointer-events: none; filter: drop-shadow(3px 5px 4px #0008); }
 /* Hover may reorder a pile, but this whole layer stays below the printed pages. */
 .cg-personal-bookmarks { z-index: 2; isolation: isolate; }
 .cg-personal-bookmark, .cg-turn-personal-marker {
   top: calc(-1 * var(--marker-reveal)); height: var(--marker-h);
-  left: calc(var(--marker-half) * 50% + var(--marker-inset) + (50% - var(--marker-w) - 2 * var(--marker-inset) - var(--marker-reserve)) * var(--marker-x));
+  left: calc(var(--marker-half) * 50% + var(--marker-inset) + (50% - var(--marker-w) - 2 * var(--marker-inset)) * var(--marker-x));
   rotate: var(--marker-tilt); transform-origin: 50% var(--marker-pivot);
   transition: translate .22s ease, filter .22s ease;
 }
-.cg-personal-bookmark.right.edge-top, .cg-turn-personal-marker.right.edge-top { --marker-reserve: min(68px, calc(var(--page-w) * .15)); }
 .cg-personal-bookmark.edge-bottom, .cg-turn-personal-marker.edge-bottom {
   top: calc(100% + var(--marker-reveal) - var(--marker-h));
   transform-origin: 50% calc(var(--marker-h) - var(--marker-pivot));
@@ -60,7 +68,8 @@
   text-align: center; overflow-wrap: anywhere; overflow: hidden; max-height: 18%;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; pointer-events: none; }
 .cg-personal-bookmark .cg-marker-surface-name, .cg-turn-personal-marker .cg-marker-surface-name {
-  top: calc(var(--marker-reveal) * .55); max-height: calc(var(--marker-reveal) * .4);
+  top: calc(var(--marker-reveal) * .74); max-height: calc(var(--marker-reveal) * .24);
+  font-size: clamp(10px, calc(var(--marker-w) * .11), 15px); line-height: 1.05;
   color: #fff3d4; text-shadow: 0 1px 2px #102c21, 0 0 3px #102c21;
 }
 .cg-personal-bookmark.is-open .cg-marker-surface-name { top: 38%; max-height: 16%; }
@@ -68,15 +77,16 @@
   overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--marker-ink); font: 15px/1.25 var(--handwriting); text-align: center; pointer-events: none; }
 .cg-personal-bookmark:not(.is-open):not(.is-drag-preview) .cg-marker-description, .cg-turn-personal-marker .cg-marker-description { visibility: hidden; }
 .cg-personal-bookmark.is-open .cg-marker-description { top: 55%; }
-.cg-turn-personal-marker { left: calc(var(--marker-inset) + (100% - var(--marker-w) - 2 * var(--marker-inset) - var(--marker-reserve)) * var(--marker-x)); }
+.cg-turn-personal-marker { left: calc(var(--marker-inset) + (100% - var(--marker-w) - 2 * var(--marker-inset)) * var(--marker-x)); }
 .cg-turn-personal-marker .cg-marker-body { transform: none; clip-path: none; pointer-events: none; }
 .cg-turn-marker-front { transform: translateZ(-1px); }
 .cg-turn-marker-back { transform: rotateY(180deg) translateZ(-1px); }
-/* The lower third of the close tab disappears naturally under the right page. */
-.cg-close-tab { right: 28px; top: -50px; padding: 10px 11px 32px; rotate: -4deg; z-index: 2;
-  transform-origin: 50% 60px; transition: right .25s, rotate .25s, translate .25s; }
-.has-personal-markers .cg-close-tab { right: 24px; rotate: 8deg; translate: none; }
-.cg-close-tab:is(:hover, :focus-visible) { translate: 0 -6px; rotate: 4deg; }
+/* The close ribbon stays on the left stack above Ingredients, under the paper. */
+.cg-close-tab, .has-personal-markers .cg-close-tab { left: -66px; right: auto; top: -69px;
+  width: 62px; height: 132px; padding: 0; rotate: 90deg; translate: none; z-index: 2;
+  transform-origin: 50% 50%; transition: translate .2s ease, rotate .2s ease; }
+.cg-close-glyph { width: 100%; height: 100%; }
+.cg-close-tab:is(:hover, :focus-visible) { translate: -6px 0; rotate: 88deg; }
 .cg-loose-note { width: auto; rotate: none; filter: drop-shadow(2px 5px 4px #281d1844); }
 .cg-loose-note.is-tucked, .cg-loose-note.is-dragging { rotate: none; }
 .cg-note-sheet { position: absolute; transform-origin: center; }
@@ -103,15 +113,18 @@
 .cg-marker-fields > input, .cg-marker-fields textarea { width: 100%; padding: 8px 10px; border: 1px solid #b09a6e; border-radius: 4px; background: #fff8e6; color: #483722; font: 18px/1.4 var(--handwriting); }
 .cg-marker-fields textarea { resize: vertical; min-height: 125px; max-height: 300px; }
 .cg-marker-preview { position: relative; width: 165px; height: 390px; justify-self: center; filter: drop-shadow(2px 4px 4px #6d4e2e44); }
-.cg-marker-preview .cg-marker-surface-name { font-size: 20px; }.cg-marker-preview .cg-marker-description { font-size: 17px; }
+.cg-marker-preview .cg-marker-surface-name { top: 32%; font-size: 20px; }.cg-marker-preview .cg-marker-description { top: 50%; font-size: 17px; }
 @media (max-width: 1100px) {
   .cg-book-stage { padding-bottom: calc(306px + var(--note-dock) + var(--marker-dock)); }.cg-tabs { top: calc(100% + 165px + var(--note-dock) + var(--marker-dock)); }
 }
 @media (max-width: 600px) {
   .cg-scene, .cg-scene.has-markers { padding-top: 210px; }.cg-book-stage { padding-bottom: calc(460px + var(--note-dock) + var(--marker-dock)); }
-  .cg-close-tab { right: 22px; top: -47px; padding: 9px 9px 28px; }.has-personal-markers .cg-close-tab { right: 20px; }
-  .cg-marker-description { font-size: 11px; }.cg-stationery-tools { gap: 16px; right: 0; top: -185px; }
-  .has-personal-markers .cg-stationery-tools { top: calc(-1 * var(--marker-reveal) - 112px); }
+  .cg-close-tab, .has-personal-markers .cg-close-tab { left: 8px; right: auto; top: -51px;
+    width: 48px; height: 76px; padding: 9px 9px 28px; rotate: -4deg; }
+  .cg-close-tab:is(:hover, :focus-visible) { translate: 0 -6px; rotate: -4deg; }
+  .cg-marker-description { font-size: 11px; }.cg-stationery-tools { --table-size: 240px; --table-crop: 70px; }
+  .cg-personal-bookmark .cg-marker-surface-name, .cg-turn-personal-marker .cg-marker-surface-name {
+    top: calc(var(--marker-reveal) - 13px); max-height: 12px; white-space: nowrap; display: block; text-overflow: ellipsis; }
   .cg-note-appearance { grid-template-columns: 1fr; gap: 8px; }.cg-marker-composer { grid-template-columns: 1fr; gap: 10px; }.cg-marker-preview { width: 145px; height: 340px; }
   .cg-note-preview-stage { height: 280px; }.cg-paper-writing, .cg-note-layer .cg-edit-note { font-size: 15px; }
 }

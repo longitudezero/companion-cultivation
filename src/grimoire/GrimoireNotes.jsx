@@ -81,8 +81,11 @@ export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete
           onKeyDown={event => {
             const vector = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[event.key];
             if (!vector) return; event.preventDefault(); event.stopPropagation();
-            if (event.altKey && vector[0]) save({ ...note, tucked: false, side: vector[0] < 0 ? 'left' : 'right' });
-            else save({ ...note, tucked: false, x: note.x + vector[0] * (event.shiftKey ? 10 : 2), y: note.y + vector[1] * (event.shiftKey ? 10 : 2) });
+            const centered = note.overhang ? note : { ...note, overhang: true,
+              x: (geometry.left + geometry.boxWidth / 2) / width * 100,
+              y: (geometry.top + geometry.boxHeight / 2) / height * 100 };
+            if (event.altKey && vector[0]) save({ ...centered, tucked: false, side: vector[0] < 0 ? 'left' : 'right' });
+            else save({ ...centered, tucked: false, x: centered.x + vector[0] * (event.shiftKey ? 10 : 2), y: centered.y + vector[1] * (event.shiftKey ? 10 : 2) });
           }}/>
         <button className="cg-paper-writing cg-edit-note" aria-label={`Edit note ${number} on ${note.side} page`} onClick={onEdit}>{note.text}</button>
         <button className="cg-note-delete" aria-label={`Remove note ${number}`} title="Remove note" onClick={event => { event.stopPropagation(); onDelete(note.id); }}>×</button>

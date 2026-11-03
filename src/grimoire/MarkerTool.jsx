@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { stationeryArt } from './stationery-art.js';
 import { PAGE_MARKERS } from '../core/stationery.js';
-import { markerDrop, markerWidth } from './stationery-model.js';
+import { markerDrop, markerWidth, withinMarkerDropArea } from './stationery-model.js';
 
 export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', onClick, onDrop }) {
   const gesture = useRef(null), suppress = useRef(false), [draft, setDraft] = useState(null);
@@ -19,8 +19,9 @@ export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', o
     event.stopPropagation();
     if (!drag.dragged && Math.hypot(event.clientX - drag.x, event.clientY - drag.y) <= 5) return;
     drag.dragged = true;
+    drag.book = bookRef.current.getBoundingClientRect();
     drag.drop = markerDrop(drag.book, event.clientX - drag.book.left, markerWidth(drag.book.width / 2), event.clientY - drag.book.top);
-    drag.inside = event.clientX >= drag.book.left && event.clientX <= drag.book.right && event.clientY >= drag.book.top && event.clientY <= drag.book.bottom;
+    drag.inside = withinMarkerDropArea(drag.book, event.clientX, event.clientY);
     setDraft({ left: event.clientX - drag.book.left - 30, top: event.clientY - drag.book.top - 25 });
   }
   function finish(event, cancelled = false) {

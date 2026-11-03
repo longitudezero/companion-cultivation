@@ -11,7 +11,7 @@ import { createTutorialGarden, createJournal, normalizeJournal, writeNote, posit
   serializeGameSave, deserializeGameSave, resizeGarden, advanceGardenTime, grantSourceItem, inventoryItems,
   FIRST_TASK, claimTask } from '../src/core/index.js';
 import { BOOK_ENTRIES } from '../src/grimoire/book.js';
-import { markerPage, markerIsLeft, markerDisplayX, travellingMarkers, noteDrop, markerDrop, noteGeometry, layoutPageMarkers, markerWidth, markerInset, markerCornerReserve } from '../src/grimoire/stationery-model.js';
+import { markerPage, markerIsLeft, markerDisplayX, travellingMarkers, noteDrop, markerDrop, noteGeometry, layoutPageMarkers, markerWidth, markerInset, withinMarkerDropArea } from '../src/grimoire/stationery-model.js';
 
 function collected() {
   let garden = withGold(createTutorialGarden(), 100);
@@ -134,7 +134,7 @@ test('journal import rejects unsupported formats and cleans invalid styles, page
 });
 
 test('every stationery style and the inkwell has its supplied WebP asset', async () => {
-  for (const file of [...Object.values(NOTE_PAPERS), ...Object.values(PAGE_MARKERS)].map(style => style.file).concat('inkwell.webp')) {
+  for (const file of [...Object.values(NOTE_PAPERS), ...Object.values(PAGE_MARKERS)].map(style => style.file).concat('inkwell.webp', 'cultivation-tabletop.webp')) {
     const bytes = await readFile(new URL(`../public/grimoire/stationery/${file}`, import.meta.url));
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF'); assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
   }
@@ -364,11 +364,10 @@ test('crowded marker stacks fan across each physical edge without changing saved
   assert.equal(JSON.stringify(markers), before);
 });
 
-test('marker drops match the expanded edge geometry and reserve the close tab corner', () => {
+test('marker drops use the full page edge after the close ribbon moves to the side', () => {
   for (const pageWidth of [138, 250, 460, 645]) for (const side of ['left', 'right']) for (const edge of ['top', 'bottom']) {
     const width = markerWidth(pageWidth), inset = markerInset(pageWidth);
-    const reserve = markerCornerReserve(pageWidth, side, edge);
-    const available = pageWidth - width - inset * 2 - reserve;
+    const available = pageWidth - width - inset * 2;
     for (const x of [0, 25, 50, 100]) {
       const pointer = (side === 'right' ? pageWidth : 0) + inset + available * x / 100 + width / 2;
       const drop = markerDrop({ width: pageWidth * 2, height: 600 }, pointer, width, edge === 'top' ? 0 : 600);
@@ -376,7 +375,7 @@ test('marker drops match the expanded edge geometry and reserve the close tab co
       assert.ok(Math.abs(drop.x - x) < 1e-8);
     }
     assert.ok(available > 0);
-    if (side === 'right' && edge === 'top') assert.ok(inset + available + width <= pageWidth - reserve);
+    assert.ok(Math.abs(inset + available + width - (pageWidth - inset)) < 1e-8);
   }
 });
 
@@ -390,4 +389,61 @@ test('marker labels sit inside their artwork, use a page number only as the unna
   assert.equal((markup.match(/class="cg-marker-orientation"/g) || []).length, 2);
   assert.equal((markup.match(/aria-label="Open marked page:/g) || []).length, 2);
   assert.doesNotMatch(markup, /class="cg-marker-body" aria-hidden="true"/);
+});
+
+test('notes can hang halfway over page edges without snapping inward, across rotations and paper sizes', () => {
+  for (const pageWidth of [138, 250, 460, 645]) for (const paper of Object.values(NOTE_PAPERS)) for (const rotation of [-90, -23, 0, 47, 180]) {
+    const page = { width: pageWidth, height: 600 }, book = { width: pageWidth * 2, height: page.height };
+    for (const side of ['left', 'right']) for (const x of [0, 50, 100]) for (const y of [0, 50, 100]) {
+      const note = { x, y, rotation, scale: 1.35, overhang: true };
+      const geometry = noteGeometry(note, page, paper.width / paper.height);
+      assert.ok(Math.abs(geometry.left + geometry.boxWidth / 2 - page.width * x / 100) < 1e-8);
+      assert.ok(Math.abs(geometry.top + geometry.boxHeight / 2 - page.height * y / 100) < 1e-8);
+      assert.ok(geometry.left >= -geometry.boxWidth / 2 - 1e-8);
+      assert.ok(geometry.top >= -geometry.boxHeight / 2 - 1e-8);
+      const drop = noteDrop(book, geometry.boxWidth, geometry.boxHeight,
+        geometry.left + (side === 'right' ? pageWidth : 0), geometry.top);
+      const settled = noteGeometry({ ...note, ...drop }, page, paper.width / paper.height);
+      assert.ok(Math.abs(settled.left + Number(drop.side === 'right') * pageWidth - geometry.left - Number(side === 'right') * pageWidth) < 1e-8);
+      assert.ok(Math.abs(settled.top - geometry.top) < 1e-8);
+    }
+  }
+});
+
+test('overhanging notes survive editing, tucking and save reloads while older note positions keep their original mapping', () => {
+  let garden = writeNote(collected(), 'plant:Beanstalk', 'left', 'Keep this at the edge.', 'starlight');
+  const old = { ...garden.journal.notes['note:1'] }, page = { width: 460, height: 650 };
+  const before = noteGeometry(old, page, 419 / 334);
+  garden = deserializeGameSave(serializeGameSave(garden));
+  assert.deepEqual(noteGeometry(garden.journal.notes['note:1'], page, 419 / 334), before);
+  garden = positionNote(garden, 'note:1', { x: 0, y: 0, tucked: false, overhang: true });
+  garden = writeNote(garden, 'plant:Beanstalk', 'left', 'Still at the edge.', 'moonlit', 'note:1');
+  garden = positionNote(garden, 'note:1', { ...garden.journal.notes['note:1'], tucked: true });
+  const loaded = deserializeGameSave(serializeGameSave(garden));
+  assert.deepEqual(loaded, garden); assert.equal(loaded.journal.notes['note:1'].overhang, true);
+  assert.equal(loaded.journal.notes['note:1'].x, 0); assert.equal(loaded.journal.notes['note:1'].y, 0);
+  assert.throws(() => positionNote(garden, 'note:1', { x: 0, y: 0, tucked: false, overhang: 'yes' }), /Invalid note position/);
+});
+
+test('pointer drops choose the nearest edge and include the exposed marker heads outside the book', () => {
+  const book = { left: 100, top: 200, right: 1020, bottom: 850, width: 920, height: 650 };
+  for (const previous of ['top', 'bottom']) {
+    for (const y of [-70, 0, 100, 324, 325]) assert.equal(markerDrop(book, 700, 120, y, previous).edge, 'top');
+    for (const y of [326, 500, 650, 720]) assert.equal(markerDrop(book, 700, 120, y, previous).edge, 'bottom');
+    assert.equal(markerDrop(book, 700, 120, undefined, previous).edge, previous);
+  }
+  assert.equal(withinMarkerDropArea(book, 700, 140), true);
+  assert.equal(withinMarkerDropArea(book, 700, 910), true);
+  assert.equal(withinMarkerDropArea(book, 99, 210), false);
+  assert.equal(withinMarkerDropArea(book, 1021, 210), false);
+  assert.equal(withinMarkerDropArea(book, 700, -100), false);
+  assert.equal(withinMarkerDropArea(book, 700, 1200), false);
+});
+
+test('a dragged marker drop preselects its new edge even when that page already has a marker', () => {
+  const garden = markPage(collected(), 'plant:Beanstalk', 'right', 'forest-tassel', 0, { edge: 'bottom' });
+  const entry = BOOK_ENTRIES.find(item => item.key === 'plant:Beanstalk');
+  const markup = render(Stationery.StationeryDesk, { garden, entry, ledger: garden.grimoire, initialTab: 'markers', initialMarkerSlot: 0, initialDrop: { side: 'right', edge: 'top', x: 25 } });
+  assert.match(markup, /<option value="top" selected="">Top/);
+  assert.doesNotMatch(markup, /<option value="bottom" selected=/);
 });
