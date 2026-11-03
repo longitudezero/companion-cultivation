@@ -1,20 +1,22 @@
 import React, { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { PAGE_MARKERS } from '../core/stationery.js';
 import { movePageMarker } from '../core/journal.js';
 import { stationeryArt } from './stationery-art.js';
 import { BOOK_ENTRIES, entryName } from './book.js';
-import { markerPage, markerIsLeft, markerDisplayX, markerDrop, markerTilt, markerWritingStyle } from './stationery-model.js';
+import { markerPage, markerIsLeft, markerDisplayX, markerDrop, markerTilt, markerWritingStyle, layoutPageMarkers, markerWidth } from './stationery-model.js';
 
-function MarkerArtwork({ marker }) {
-  return <span className="cg-marker-body" aria-hidden="true"><img src={stationeryArt(PAGE_MARKERS[marker.styleId].file)} alt="" draggable="false"/>
-    {marker.name && <strong className="cg-marker-surface-name">{marker.name}</strong>}
-    {marker.description && <span className="cg-marker-description">{marker.description}</span>}</span>;
+function MarkerArtwork({ marker, children }) {
+  const name = marker.name || (marker.entryKey ? String(markerPage(marker)) : '');
+  return <span className="cg-marker-body" aria-hidden={children ? undefined : true}><img src={stationeryArt(PAGE_MARKERS[marker.styleId].file)} alt="" draggable="false"/>
+    {name && <strong className="cg-marker-surface-name" aria-hidden="true">{name}</strong>}
+    {marker.description && <span className="cg-marker-description" aria-hidden="true">{marker.description}</span>}{children}</span>;
 }
 export function MarkerPreview({ marker }) {
   return <div className="cg-marker-preview" style={markerWritingStyle(marker.styleId)}><MarkerArtwork marker={marker}/></div>;
 }
 
-function PageMarker({ marker, ledger, current, busy, travelling, navigate, onChange, onEdit, onIssue }) {
+function PageMarker({ marker, ledger, current, busy, travelling, navigate, onChange, onEdit, onIssue, displayX }) {
   const anchor = useRef(null), gesture = useRef(null), suppress = useRef(false);
   const [draft, setDraft] = useState(null);
   const entry = BOOK_ENTRIES.find(item => item.key === marker.entryKey), left = markerIsLeft(marker, current);
@@ -23,8 +25,8 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
   function start(event) {
     if (event.button !== 0 || busy) return;
     event.stopPropagation(); suppress.current = false;
-    const book = anchor.current.closest('.cg-book').getBoundingClientRect(), rect = anchor.current.getBoundingClientRect();
-    gesture.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, book, width: rect.width, dragged: false };
+    const book = anchor.current.closest('.cg-book').getBoundingClientRect();
+    gesture.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, book, width: markerWidth(book.width / 2), dragged: false };
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
   function move(event) {
@@ -47,19 +49,16 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
     setDraft(null);
     if (event.currentTarget.hasPointerCapture?.(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   }
-  return <div ref={anchor} data-marker-slot={marker.slot} data-marked-page={markerPage(marker)} data-marker-side={left ? 'left' : 'right'}
+  return <><div ref={anchor} data-marker-slot={marker.slot} data-marked-page={markerPage(marker)} data-marker-side={left ? 'left' : 'right'}
     className={`cg-personal-bookmark edge-${marker.edge} ${left ? 'left' : 'right'}${active ? ' is-open' : ''}${travelling ? ' travelling' : ''}${draft ? ' is-dragging' : ''}`}
-    style={{ ...markerWritingStyle(marker.styleId), '--marker-half': Number(!left), '--marker-outer-left': Number(left), '--marker-x': markerDisplayX(marker, left) / 100,
-      '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-open-angle': `${(left ? 1 : -1) * (marker.edge === 'bottom' ? 38 : 110)}deg`,
-      '--marker-rest-angle': marker.edge === 'bottom' ? '180deg' : '0deg',
-      ...(draft ? { left: draft.left, top: draft.top } : {}) }}
+    style={{ ...markerWritingStyle(marker.styleId), '--marker-half': Number(!left), '--marker-outer-left': Number(left), '--marker-x': displayX / 100,
+      '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-open-angle': `${(left ? -1 : 1) * 158}deg`,
+      '--marker-rest-angle': '0deg' }}
     onPointerDown={start} onPointerMove={move} onPointerUp={event => finish(event)}
     onPointerCancel={event => finish(event, true)} onLostPointerCapture={event => finish(event, true)}
     onClick={event => { event.stopPropagation(); if (busy) return;
       if (event.detail > 0 && suppress.current) { suppress.current = false; return; } if (active) onEdit?.(marker); else navigate(entry.key); }}>
-    <MarkerArtwork key={active ? current.key : 'rest'} marker={marker}/>
-    <span className="cg-marker-tab-title" aria-hidden="true">{marker.name || markerPage(marker)}</span>
-    <span className="cg-marker-page" aria-hidden="true">{markerPage(marker)}</span>
+    <span className="cg-marker-orientation"><MarkerArtwork key={active ? current.key : 'rest'} marker={marker}>
     <button className="cg-marker-handle" disabled={busy} title={`${label}. Drag onto a page to move this marker.`}
       aria-label={`${active ? 'Edit marker' : 'Open marked page'}: ${label}`} aria-current={active ? 'page' : undefined}
       onKeyDown={event => {
@@ -71,21 +70,27 @@ function PageMarker({ marker, ledger, current, busy, travelling, navigate, onCha
         try { onChange(garden => movePageMarker(garden, marker.slot, entryKey, side, x)); }
         catch (issue) { onIssue?.(issue.message); }
       }}/>
-  </div>;
+    </MarkerArtwork></span>
+  </div>
+    {draft && anchor.current && createPortal(<div className="cg-personal-bookmark is-drag-preview" aria-hidden="true"
+      style={{ ...markerWritingStyle(marker.styleId), left: draft.left, top: draft.top }}>
+      <MarkerArtwork marker={marker}/></div>, anchor.current.closest('.cg-book'))}
+  </>;
 }
 
 export function PersonalBookmarks({ journal, ledger, current, busy, navigate, movingMarkers = [], onChange, onEdit, onIssue }) {
+  const positions = layoutPageMarkers(journal.bookmarks, current);
   return <nav className="cg-personal-bookmarks" aria-label="Marked pages">{journal.bookmarks.map(marker =>
     <PageMarker key={marker.slot} marker={marker} ledger={ledger} current={current} busy={busy} navigate={navigate}
-      travelling={movingMarkers.some(item => item.slot === marker.slot)} onChange={onChange} onEdit={onEdit} onIssue={onIssue}/>)}</nav>;
+      displayX={positions.get(marker.slot)} travelling={movingMarkers.some(item => item.slot === marker.slot)} onChange={onChange} onEdit={onEdit} onIssue={onIssue}/>)}</nav>;
 }
 
 export function TurningPersonalMarkers({ markers, turn }) {
   const from = BOOK_ENTRIES[turn.from];
   return <div className="cg-turn-personal-markers" aria-hidden="true">{markers.map(marker => {
-    const x = markerDisplayX(marker, markerIsLeft(marker, from));
-    return <div key={marker.slot} className={`cg-turn-personal-marker edge-${marker.edge}`} data-turning-marker={marker.slot}
-      style={{ ...markerWritingStyle(marker.styleId), '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-x': x / 100, '--marker-outer-left': Number(markerIsLeft(marker, from)) }}><div className="cg-turn-marker-front"><MarkerArtwork marker={marker}/></div>
-      <div className="cg-turn-marker-back"><MarkerArtwork marker={marker}/></div></div>;
+    const left = markerIsLeft(marker, from), x = marker.displayX ?? markerDisplayX(marker, left);
+    return <div key={marker.slot} className={`cg-turn-personal-marker edge-${marker.edge} ${left ? 'left' : 'right'}`} data-turning-marker={marker.slot}
+      style={{ ...markerWritingStyle(marker.styleId), '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-x': x / 100, '--marker-outer-left': Number(markerIsLeft(marker, from)) }}><div className="cg-turn-marker-front"><span className="cg-marker-orientation"><MarkerArtwork marker={marker}/></span></div>
+      <div className="cg-turn-marker-back"><span className="cg-marker-orientation"><MarkerArtwork marker={marker}/></span></div></div>;
   })}</div>;
 }

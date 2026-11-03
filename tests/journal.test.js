@@ -11,7 +11,7 @@ import { createTutorialGarden, createJournal, normalizeJournal, writeNote, posit
   serializeGameSave, deserializeGameSave, resizeGarden, advanceGardenTime, grantSourceItem, inventoryItems,
   FIRST_TASK, claimTask } from '../src/core/index.js';
 import { BOOK_ENTRIES } from '../src/grimoire/book.js';
-import { markerPage, markerIsLeft, markerDisplayX, travellingMarkers, noteDrop, markerDrop, noteGeometry } from '../src/grimoire/stationery-model.js';
+import { markerPage, markerIsLeft, markerDisplayX, travellingMarkers, noteDrop, markerDrop, noteGeometry, layoutPageMarkers, markerWidth, markerInset, markerCornerReserve } from '../src/grimoire/stationery-model.js';
 
 function collected() {
   let garden = withGold(createTutorialGarden(), 100);
@@ -342,4 +342,52 @@ test('the marker editor exposes names, writing, edge selection and owned appeara
   for (const label of ['Marker name', 'Marker description', 'Marker edge', 'Owned page markers']) assert.ok(markup.includes(`aria-label="${label}"`));
   assert.match(markup, /My research/); assert.match(markup, /&lt;script&gt;/); assert.doesNotMatch(markup, /<script>/);
   assert.match(markup, /Six markers above/); assert.match(markup, /Save marker/);
+});
+
+test('crowded marker stacks fan across each physical edge without changing saved positions or page attachments', () => {
+  const markers = BOOK_ENTRIES.slice(1, 13).map((entry, slot) => ({
+    slot, entryKey: entry.key, side: 'right', edge: slot < 6 ? 'top' : 'bottom', x: 50,
+  }));
+  const before = JSON.stringify(markers);
+  for (const current of [BOOK_ENTRIES[0], BOOK_ENTRIES[5], BOOK_ENTRIES[9], BOOK_ENTRIES.at(-1)]) {
+    const positions = layoutPageMarkers(markers, current);
+    assert.equal(positions.size, 12);
+    for (const edge of ['top', 'bottom']) for (const left of [true, false]) {
+      const group = markers.filter(marker => marker.edge === edge && markerIsLeft(marker, current) === left);
+      const values = group.map(marker => positions.get(marker.slot)).sort((a, b) => a - b);
+      if (group.length > 1) {
+        assert.equal(values[0], 0); assert.equal(values.at(-1), 100);
+        for (let i = 1; i < values.length; i++) assert.ok(Math.abs(values[i] - values[i - 1] - 100 / (values.length - 1)) < 1e-8);
+      } else if (group.length) assert.equal(values[0], markerDisplayX(group[0], left));
+    }
+  }
+  assert.equal(JSON.stringify(markers), before);
+});
+
+test('marker drops match the expanded edge geometry and reserve the close tab corner', () => {
+  for (const pageWidth of [138, 250, 460, 645]) for (const side of ['left', 'right']) for (const edge of ['top', 'bottom']) {
+    const width = markerWidth(pageWidth), inset = markerInset(pageWidth);
+    const reserve = markerCornerReserve(pageWidth, side, edge);
+    const available = pageWidth - width - inset * 2 - reserve;
+    for (const x of [0, 25, 50, 100]) {
+      const pointer = (side === 'right' ? pageWidth : 0) + inset + available * x / 100 + width / 2;
+      const drop = markerDrop({ width: pageWidth * 2, height: 600 }, pointer, width, edge === 'top' ? 0 : 600);
+      assert.equal(drop.side, side); assert.equal(drop.edge, edge);
+      assert.ok(Math.abs(drop.x - x) < 1e-8);
+    }
+    assert.ok(available > 0);
+    if (side === 'right' && edge === 'top') assert.ok(inset + available + width <= pageWidth - reserve);
+  }
+});
+
+test('marker labels sit inside their artwork, use a page number only as the unnamed title and retain accessible controls', () => {
+  let garden = markPage(collected(), 'plant:Beanstalk', 'right', 'forest-tassel', 0, { name: 'Garden trials' });
+  garden = markPage(garden, 'plant:Carrot', 'left', 'garnet-moon', 1, { edge: 'bottom' });
+  const markup = render(Stationery.PersonalBookmarks, { journal: garden.journal, ledger: garden.grimoire, current: BOOK_ENTRIES[0] });
+  assert.match(markup, /class="cg-marker-body"><img[^>]*\/><strong class="cg-marker-surface-name" aria-hidden="true">Garden trials<\/strong>/);
+  assert.match(markup, /class="cg-marker-surface-name" aria-hidden="true">7<\/strong>/);
+  assert.doesNotMatch(markup, /cg-marker-page|cg-marker-tab-title/);
+  assert.equal((markup.match(/class="cg-marker-orientation"/g) || []).length, 2);
+  assert.equal((markup.match(/aria-label="Open marked page:/g) || []).length, 2);
+  assert.doesNotMatch(markup, /class="cg-marker-body" aria-hidden="true"/);
 });

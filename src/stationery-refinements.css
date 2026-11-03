@@ -1,41 +1,82 @@
-/* Loose papers and handwritten slips remain part of the physical book. */
+/* Full marker artwork sits behind the page; the paper hides its tucked end. */
 .cg-overlay { --handwriting: 'Kalam', 'Segoe Print', 'Bradley Hand', cursive; }
-.cg-scene { padding-top: 156px; }
-.cg-book-stage { --marker-dock: 0px; padding-bottom: calc(136px + var(--note-dock) + var(--marker-dock)); }
-.cg-book-stage.has-bottom-markers { --marker-dock: 330px; }
-.cg-stationery-tools { top: calc(100% + 48px + var(--note-dock) + var(--marker-dock)); }
+.cg-overlay, .cg-personal-bookmark, .cg-turn-personal-marker {
+  --marker-w: clamp(44px, calc(var(--page-w) * .26), 150px);
+  --marker-h: calc(var(--marker-w) * 2.5);
+  --marker-reveal: min(144px, calc(var(--marker-h) * .42));
+  --marker-pivot: calc(var(--marker-reveal) * .72);
+  --marker-inset: clamp(8px, calc(var(--page-w) * .025), 16px);
+  --marker-reserve: 0px;
+}
+.cg-scene { padding-top: 180px; }
+.cg-scene.has-markers { padding-top: clamp(230px, calc(var(--page-w) * .66), 410px); }
+.cg-book-stage { --marker-dock: 0px; padding-bottom: calc(40px + var(--note-dock) + var(--marker-dock)); }
+.cg-book-stage.has-bottom-markers { --marker-dock: calc(var(--marker-h) + 56px); }
+.cg-stationery-tools { top: -165px; left: auto; right: calc(-1 * clamp(0px, calc((100vw - 2 * var(--page-w)) / 2 - 24px), 180px)); transform: none; z-index: 30; gap: 22px; }
+.has-personal-markers .cg-stationery-tools { top: calc(-1 * var(--marker-reveal) - 112px); }
 .cg-marker-tool { touch-action: none; }
-.cg-stationery-issue { position: absolute; top: 100%; width: 300px; left: 50%; transform: translateX(-50%); color: #f7deac; font: 13px/1.5 Georgia,serif; text-align: center; }
+.cg-stationery-issue { position: absolute; top: 100%; width: min(300px, 80vw); right: 0; color: #f7deac; font: 13px/1.5 Georgia,serif; text-align: right; }
 .cg-marker-tool-ghost { position: absolute; z-index: 60; width: 65px; height: 160px; object-fit: contain; pointer-events: none; filter: drop-shadow(3px 5px 4px #0008); }
-.cg-personal-bookmark, .cg-turn-personal-marker { --marker-w: clamp(56px, calc(var(--page-w) * .32), 165px);
-  --marker-inset: min(100px, calc(var(--page-w) * .26)); --marker-pivot: 100px;
-  top: -150px; height: calc(var(--marker-w) * 2.5); rotate: var(--marker-tilt); transform-origin: 50% 100px; transition: translate .22s ease, filter .22s ease; }
-.cg-personal-bookmark.edge-bottom, .cg-turn-personal-marker.edge-bottom { top: calc(100% - 40px); --marker-pivot: 40px; transform-origin: 50% 40px; }
-.cg-marker-body { transform-origin: 50% var(--marker-pivot); }
-.cg-personal-bookmark:not(.is-open):not(.is-dragging) .cg-marker-body { clip-path: inset(0 0 max(0px, calc(100% - 150px)) 0); }
-.cg-personal-bookmark.is-open .cg-marker-body { transform: rotate(var(--marker-open-angle)); animation: cg-marker-open .7s cubic-bezier(.3,.05,.3,1) .2s both; }
-@keyframes cg-marker-open { from { transform: rotate(var(--marker-rest-angle)); } to { transform: rotate(var(--marker-open-angle)); } }
-.cg-personal-bookmark:is(:hover, :focus-within) { translate: 0 -13px; z-index: 27; filter: brightness(1.06); }
-.cg-personal-bookmark.edge-bottom:is(:hover, :focus-within) { translate: 0 13px; }
-.cg-personal-bookmark.is-dragging { rotate: 0deg; translate: none; z-index: 40; }
-.cg-personal-bookmark.is-dragging .cg-marker-body { animation: none; transform: none; clip-path: none; }
-.cg-marker-handle { top: 65px; height: 68px; width: min(44px, 38%); min-width: 24px; color: var(--marker-ink); }
-.cg-personal-bookmark.left .cg-marker-handle { left: auto; right: 0; }
+/* Hover may reorder a pile, but this whole layer stays below the printed pages. */
+.cg-personal-bookmarks { z-index: 2; isolation: isolate; }
+.cg-personal-bookmark, .cg-turn-personal-marker {
+  top: calc(-1 * var(--marker-reveal)); height: var(--marker-h);
+  left: calc(var(--marker-half) * 50% + var(--marker-inset) + (50% - var(--marker-w) - 2 * var(--marker-inset) - var(--marker-reserve)) * var(--marker-x));
+  rotate: var(--marker-tilt); transform-origin: 50% var(--marker-pivot);
+  transition: translate .22s ease, filter .22s ease;
+}
+.cg-personal-bookmark.right.edge-top, .cg-turn-personal-marker.right.edge-top { --marker-reserve: min(68px, calc(var(--page-w) * .15)); }
+.cg-personal-bookmark.edge-bottom, .cg-turn-personal-marker.edge-bottom {
+  top: calc(100% + var(--marker-reveal) - var(--marker-h));
+  transform-origin: 50% calc(var(--marker-h) - var(--marker-pivot));
+}
+.cg-marker-orientation { position: absolute; inset: 0; display: block; pointer-events: none; }
+.edge-bottom .cg-marker-orientation { transform: rotate(180deg); }
+.cg-marker-body { transform-origin: 50% var(--marker-pivot); clip-path: none; }
+.cg-personal-bookmark.is-open { z-index: 0; }
+.cg-personal-bookmark.is-open .cg-marker-body {
+  transform: translateY(calc(var(--marker-reveal) * -.45)) rotate(var(--marker-open-angle));
+  animation: cg-marker-open .7s cubic-bezier(.3,.05,.3,1) .2s both;
+}
+@keyframes cg-marker-open {
+  from { transform: translateY(0) rotate(0deg); }
+  to { transform: translateY(calc(var(--marker-reveal) * -.45)) rotate(var(--marker-open-angle)); }
+}
+.cg-personal-bookmark:not(.is-open):is(:hover, :focus-within) { translate: 0 -10px; z-index: 5; filter: brightness(1.06); }
+.cg-personal-bookmark.edge-bottom:not(.is-open):is(:hover, :focus-within) { translate: 0 10px; }
+.cg-personal-bookmark.is-dragging { opacity: 0; }
+.cg-personal-bookmark.is-drag-preview { opacity: 1; z-index: 40; rotate: 0deg; translate: none; pointer-events: none; }
+.cg-personal-bookmark.is-drag-preview .cg-marker-body { animation: none; transform: none; pointer-events: none; }
+.cg-marker-handle { top: calc(var(--marker-reveal) * .45); height: calc(var(--marker-reveal) * .5);
+  left: 5%; right: auto; width: min(40px, 30%); min-width: 20px; color: #fff3d4; }
+.cg-personal-bookmark.left .cg-marker-handle { left: auto; right: 5%; }
+.cg-personal-bookmark.edge-bottom.right .cg-marker-handle { left: auto; right: 5%; }
+.cg-personal-bookmark.edge-bottom.left .cg-marker-handle { left: 5%; right: auto; }
+.cg-personal-bookmark.is-open .cg-marker-handle { top: 32%; left: 18%; right: auto; width: 64%; height: 42%; }
 .cg-marker-handle::after { display: none; }
 .cg-marker-handle:hover, .cg-marker-handle:focus-visible { background: transparent; }
-.cg-marker-tab-title { pointer-events: none; display: block; position: absolute; top: 68px; left: var(--marker-write-left); right: var(--marker-write-right);
-  max-height: 54px; overflow: hidden; overflow-wrap: anywhere; text-align: center; font: 700 clamp(12px, 1.4vw, 18px)/1.15 var(--handwriting); text-shadow: 0 1px 2px #0004; }
-.cg-marker-page { pointer-events: none; top: 125px; bottom: auto; font: 11px/14px Georgia,serif; padding: 0 3px; opacity: .9; }
-.cg-personal-bookmark.is-open .cg-marker-tab-title { visibility: hidden; }
 .cg-marker-surface-name { position: absolute; top: 25%; left: var(--marker-write-left); right: var(--marker-write-right);
-  color: var(--marker-ink); font: 700 clamp(13px, 1.5vw, 20px)/1.2 var(--handwriting); text-align: center; overflow-wrap: anywhere; }
-.cg-personal-bookmark:not(.is-open):not(.is-dragging) .cg-marker-surface-name { visibility: hidden; }
+  color: var(--marker-ink); font: 700 clamp(11px, calc(var(--marker-w) * .12), 18px)/1.1 var(--handwriting);
+  text-align: center; overflow-wrap: anywhere; overflow: hidden; max-height: 18%;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; pointer-events: none; }
+.cg-personal-bookmark .cg-marker-surface-name, .cg-turn-personal-marker .cg-marker-surface-name {
+  top: calc(var(--marker-reveal) * .55); max-height: calc(var(--marker-reveal) * .4);
+  color: #fff3d4; text-shadow: 0 1px 2px #102c21, 0 0 3px #102c21;
+}
+.cg-personal-bookmark.is-open .cg-marker-surface-name { top: 38%; max-height: 16%; }
 .cg-marker-description { position: absolute; top: 43%; bottom: 15%; left: var(--marker-write-left); right: var(--marker-write-right);
-  overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--marker-ink); font: 15px/1.25 var(--handwriting); text-align: center; }
-.cg-turn-personal-marker .cg-marker-body { transform: none; clip-path: inset(0 0 max(0px, calc(100% - 150px)) 0); }
-.cg-close-tab { right: 22px; top: -75px; rotate: -4deg; z-index: 34; transform-origin: 50% 64px; transition: right .25s, rotate .25s, translate .25s; }
-.has-personal-markers .cg-close-tab { right: 8px; rotate: 24deg; translate: 0 -3px; }
-.cg-close-tab:is(:hover, :focus-visible) { translate: 7px -8px; rotate: 30deg; }
+  overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--marker-ink); font: 15px/1.25 var(--handwriting); text-align: center; pointer-events: none; }
+.cg-personal-bookmark:not(.is-open):not(.is-drag-preview) .cg-marker-description, .cg-turn-personal-marker .cg-marker-description { visibility: hidden; }
+.cg-personal-bookmark.is-open .cg-marker-description { top: 55%; }
+.cg-turn-personal-marker { left: calc(var(--marker-inset) + (100% - var(--marker-w) - 2 * var(--marker-inset) - var(--marker-reserve)) * var(--marker-x)); }
+.cg-turn-personal-marker .cg-marker-body { transform: none; clip-path: none; pointer-events: none; }
+.cg-turn-marker-front { transform: translateZ(-1px); }
+.cg-turn-marker-back { transform: rotateY(180deg) translateZ(-1px); }
+/* The lower third of the close tab disappears naturally under the right page. */
+.cg-close-tab { right: 28px; top: -50px; padding: 10px 11px 32px; rotate: -4deg; z-index: 2;
+  transform-origin: 50% 60px; transition: right .25s, rotate .25s, translate .25s; }
+.has-personal-markers .cg-close-tab { right: 24px; rotate: 8deg; translate: none; }
+.cg-close-tab:is(:hover, :focus-visible) { translate: 0 -6px; rotate: 4deg; }
 .cg-loose-note { width: auto; rotate: none; filter: drop-shadow(2px 5px 4px #281d1844); }
 .cg-loose-note.is-tucked, .cg-loose-note.is-dragging { rotate: none; }
 .cg-note-sheet { position: absolute; transform-origin: center; }
@@ -67,10 +108,10 @@
   .cg-book-stage { padding-bottom: calc(306px + var(--note-dock) + var(--marker-dock)); }.cg-tabs { top: calc(100% + 165px + var(--note-dock) + var(--marker-dock)); }
 }
 @media (max-width: 600px) {
-  .cg-scene { padding-top: 160px; }.cg-book-stage { padding-bottom: calc(460px + var(--note-dock) + var(--marker-dock)); }
-  .cg-personal-bookmark, .cg-turn-personal-marker { --marker-w: clamp(48px, calc(var(--page-w) * .37), 95px); }
-  .cg-close-tab { right: 16px; }.has-personal-markers .cg-close-tab { right: 5px; }
-  .cg-marker-tab-title { font-size: 12px; }.cg-marker-description { font-size: 11px; }.cg-marker-handle { min-width: 44px; }
+  .cg-scene, .cg-scene.has-markers { padding-top: 210px; }.cg-book-stage { padding-bottom: calc(460px + var(--note-dock) + var(--marker-dock)); }
+  .cg-close-tab { right: 22px; top: -47px; padding: 9px 9px 28px; }.has-personal-markers .cg-close-tab { right: 20px; }
+  .cg-marker-description { font-size: 11px; }.cg-stationery-tools { gap: 16px; right: 0; top: -185px; }
+  .has-personal-markers .cg-stationery-tools { top: calc(-1 * var(--marker-reveal) - 112px); }
   .cg-note-appearance { grid-template-columns: 1fr; gap: 8px; }.cg-marker-composer { grid-template-columns: 1fr; gap: 10px; }.cg-marker-preview { width: 145px; height: 340px; }
   .cg-note-preview-stage { height: 280px; }.cg-paper-writing, .cg-note-layer .cg-edit-note { font-size: 15px; }
 }

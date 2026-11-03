@@ -9,7 +9,7 @@ import { stationeryArt } from './grimoire/stationery-art.js';
 import { GrimoireNote, PersonalBookmarks, StationeryDesk, StaticPageNotes, NoteDeleteDialog } from './grimoire/Stationery.jsx';
 import MarkerTool from './grimoire/MarkerTool.jsx';
 import { TurningPersonalMarkers } from './grimoire/PageMarkers.jsx';
-import { travellingMarkers } from './grimoire/stationery-model.js';
+import { travellingMarkers, layoutPageMarkers } from './grimoire/stationery-model.js';
 import './grimoire.css';
 import './stationery.css';
 import './stationery-refinements.css';
@@ -111,7 +111,9 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const hasBottomMarkers = journal.bookmarks.some(marker => marker.edge === 'bottom');
   const dockIndices = new Map(), dockCounts = { left: 0, right: 0 };
   for (const note of currentNotes) if (note.tucked) dockIndices.set(note.id, dockCounts[note.side]++);
-  const movingMarkers = travellingMarkers(journal.bookmarks, turn);
+  const markerPositions = layoutPageMarkers(journal.bookmarks, current);
+  const movingMarkers = travellingMarkers(journal.bookmarks, turn)
+    .map(marker => ({ ...marker, displayX: markerPositions.get(marker.slot) }));
   const movingTabs = turn ? CHAPTERS.map((_, index) => index).filter(index =>
     tabIsLeft(index, BOOK_ENTRIES[turn.from]) !== tabIsLeft(index, BOOK_ENTRIES[turn.to])) : [];
   const stationary = stationaryPages(nav.current, turn);
@@ -225,7 +227,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   return <div ref={root} className="cg-overlay" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
     onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()} onWheel={event => event.stopPropagation()}>
-    <div className="cg-scene">
+    <div className={`cg-scene${journal.bookmarks.length ? ' has-markers' : ''}`}>
       <div className="cg-shell" inert={Boolean(glossary || desk || pendingDelete)}>
         {developerTools && <div className="cg-preview-tools">
           <button type="button" disabled={busy} aria-pressed={preview}

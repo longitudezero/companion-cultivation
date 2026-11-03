@@ -16,11 +16,12 @@ export function noteDrop(book, width, height, left, top) {
   return { side, x: fraction(x, pageWidth - width - 16), y: fraction(top, book.height - height - 16), tucked: false };
 }
 export function markerDrop(book, pointerX, width, pointerY, previousEdge = 'top') {
-  const pageWidth = book.width / 2, inset = Math.min(100, pageWidth * .26);
+  const pageWidth = book.width / 2, inset = markerInset(pageWidth);
   const side = pointerX < pageWidth ? 'left' : 'right';
-  const left = pointerX - (side === 'right' ? pageWidth : inset) - width / 2;
   const edge = pointerY == null ? previousEdge : pointerY > book.height * .65 ? 'bottom' : pointerY < book.height * .35 ? 'top' : previousEdge;
-  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, pageWidth - width - inset) * 100)), edge };
+  const reserve = markerCornerReserve(pageWidth, side, edge);
+  const left = pointerX - (side === 'right' ? pageWidth : 0) - inset - width / 2;
+  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, pageWidth - width - inset * 2 - reserve) * 100)), edge };
 }
 
 export function noteGeometry(note, page, ratio) {
@@ -37,7 +38,26 @@ export function noteGeometry(note, page, ratio) {
     offsetX: (boxWidth - paperWidth) / 2, offsetY: (boxHeight - paperHeight) / 2 };
 }
 
-export const markerTilt = slot => [-7, 5, -3, 8, -5, 3][slot % 6];
+
+export const markerWidth = pageWidth => Math.max(44, Math.min(150, pageWidth * .26));
+export const markerInset = pageWidth => Math.max(8, Math.min(16, pageWidth * .025));
+export const markerCornerReserve = (pageWidth, side, edge) => side === 'right' && edge === 'top' ? Math.min(68, pageWidth * .15) : 0;
+
+// Fan markers across their physical page edge. Saved x values determine their
+// order, while the display positions leave every head exposed in a full stack.
+// This is presentation only: page assignments and players' saved positions stay intact.
+export function layoutPageMarkers(markers, current) {
+  const positions = new Map();
+  for (const edge of ['top', 'bottom']) for (const left of [true, false]) {
+    const group = markers.filter(marker => marker.edge === edge && markerIsLeft(marker, current) === left)
+      .sort((a, b) => markerDisplayX(a, left) - markerDisplayX(b, left) || a.slot - b.slot);
+    group.forEach((marker, index) => positions.set(marker.slot,
+      group.length === 1 ? markerDisplayX(marker, left) : index / (group.length - 1) * 100));
+  }
+  return positions;
+}
+
+export const markerTilt = slot => [-4, 3, -2, 4, -3, 2][slot % 6];
 export function markerWritingStyle(id) {
   const light = ['ivory-bloom', 'ivory-ribbon', 'golden-tassel'].includes(id);
   return { '--marker-ink': light ? '#48301c' : '#fff0cf',
