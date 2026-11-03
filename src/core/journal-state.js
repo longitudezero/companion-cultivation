@@ -1,1 +1,1 @@
-export const createJournal = () => ({ version: 1, papers: [], markers: [], notes: {}, bookmarks: [] });
+export const createJournal = () => ({ version: 2, noteNonce: 0, papers: [], markers: [], notes: {}, bookmarks: [] });

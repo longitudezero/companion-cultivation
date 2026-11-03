@@ -3,7 +3,7 @@
   .cg-overlay { --page-w: min(645px, calc((100vw - 300px) / 2), calc((100dvh - 280px) * .704918)); }
 }
 .cg-book-stage { --note-dock: 0px; padding-bottom: calc(136px + var(--note-dock)); }
-.cg-book-stage.has-tucked-note { --note-dock: 300px; }
+.cg-book-stage.has-tucked-note { --note-dock: 360px; }
 .cg-stationery-tools { position: absolute; top: calc(100% + 48px + var(--note-dock)); left: 50%; transform: translateX(-50%);
   z-index: 15; display: flex; align-items: end; gap: 32px; }
 .cg-stationery-tools button { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0; border: 0;
@@ -12,23 +12,43 @@
 .cg-stationery-tools .cg-marker-tool img { width: 42px; }
 .cg-stationery-tools button:hover img { transform: translateY(-3px); }
 .cg-stationery-tools button:disabled { opacity: .5; cursor: wait; }
-.cg-personal-bookmarks { position: absolute; top: -76px; left: 13%; right: 15%; height: 120px; z-index: 2; pointer-events: none; }
-.cg-personal-bookmark { position: absolute; left: calc(var(--marker-slot) * 25%); top: 0; width: 56px; height: 120px;
-  padding: 0; border: 0; background: transparent; pointer-events: auto; transition: translate .2s; }
-.cg-personal-bookmark img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(2px 3px 2px #0006); }
-.cg-personal-bookmark:hover, .cg-personal-bookmark:focus-visible, .cg-personal-bookmark[aria-current="page"] { translate: 0 -6px; }
-.cg-marker-page { position: absolute; top: 39px; left: 50%; transform: translateX(-50%); color: #fff1bf;
+.cg-personal-bookmarks { position: absolute; inset: 0; pointer-events: none; }
+.cg-personal-bookmark, .cg-turn-personal-marker { --marker-w: clamp(32px, calc(var(--page-w) * .2), 110px);
+  position: absolute; left: calc(var(--marker-half) * 50% + (50% - var(--marker-w)) * var(--marker-x)); top: -62px;
+  width: var(--marker-w); height: calc(var(--marker-w) * 2.5); pointer-events: none; }
+.cg-personal-bookmark { z-index: 2; }
+.cg-personal-bookmark.is-open { z-index: 20; }
+.cg-personal-bookmark.travelling { visibility: hidden; }
+.cg-marker-body { position: absolute; inset: 0; display: block; transform-origin: 50% 31px; pointer-events: auto; }
+.cg-marker-body img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(2px 3px 2px #0006); }
+.cg-personal-bookmark.is-open .cg-marker-body { transform: rotate(180deg); animation: cg-marker-raise .65s cubic-bezier(.3,.05,.3,1) .22s both; }
+@keyframes cg-marker-raise { from { transform: rotate(0deg); } to { transform: rotate(180deg); } }
+.cg-marker-handle { position: absolute; top: 17px; left: 0; width: 100%; min-width: 32px; height: 46px; padding: 0;
+  border: 0; border-radius: 4px; background: transparent; pointer-events: auto; touch-action: none; cursor: grab !important; }
+.cg-marker-handle::after { content: ''; position: absolute; bottom: 0; left: 18%; right: 18%; height: 4px;
+  border: 1px solid #987036; border-radius: 4px; background: #bfa060; box-shadow: 0 2px 2px #0004; }
+.cg-marker-handle:hover, .cg-marker-handle:focus-visible { background: #e9cf9022; }
+.cg-personal-bookmark.is-dragging { z-index: 28; }
+.cg-personal-bookmark.is-dragging .cg-marker-body { animation: none; transform: none; }
+.cg-marker-handle:active { cursor: grabbing !important; }
+.cg-marker-page { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); color: #fff1bf;
   font: bold 12px Georgia, serif; text-shadow: 0 1px 3px #1c2218, 0 0 3px #1c2218; }
 .cg-note-layer { position: absolute; inset: 0; z-index: 16; pointer-events: none; transition: opacity .15s; }
 .cg-note-layer.is-turning { opacity: 0; }
 .cg-note-area { position: absolute; top: 0; width: 50%; height: 100%; pointer-events: none; }
 .cg-note-area.left { left: 0; }.cg-note-area.right { right: 0; }
+.cg-note-area.cg-note-drag-area { left: 0; right: auto; width: 100%; }
 .cg-loose-note { --note-w: min(280px, calc(var(--page-w) * .86)); --note-h: calc(var(--note-w) / var(--paper-ratio));
   position: absolute; left: calc((100% - var(--note-w)) * var(--note-x)); top: calc((100% - var(--note-h)) * var(--note-y));
-  width: var(--note-w); pointer-events: auto; filter: drop-shadow(2px 5px 4px #281d1844);
+  width: var(--note-w); z-index: var(--note-z); pointer-events: auto; filter: drop-shadow(2px 5px 4px #281d1844);
   transition: left .42s ease, top .42s ease, rotate .42s ease; rotate: -2deg; }
-.cg-loose-note.is-tucked { left: calc((100% - var(--note-w)) / 2); top: calc(100% + 23px); rotate: 3deg; }
-.cg-loose-note.is-dragging { transition: none; rotate: 0deg; z-index: 2; }
+.cg-loose-note.is-tucked { left: calc((100% - var(--note-w)) / 2 + var(--dock-index) * 8px); top: calc(100% + 23px + var(--dock-index) * 12px); rotate: 3deg; }
+.cg-loose-note.is-dragging { transition: none; rotate: 0deg; }
+.cg-turn-personal-markers { position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+.cg-turn-personal-marker { left: calc((100% - var(--marker-w)) * var(--marker-x)); transform-style: preserve-3d; }
+.cg-turn-marker-front, .cg-turn-marker-back { position: absolute; inset: 0; backface-visibility: hidden; }
+.cg-turn-marker-back { transform: rotateY(180deg); }
+.cg-turn-personal-marker .cg-marker-body { transform: rotate(180deg); pointer-events: none; }
 .cg-note-paper { position: relative; width: 100%; aspect-ratio: var(--paper-ratio); }
 .cg-note-paper > img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; }
 .cg-paper-writing { position: absolute; inset: var(--text-inset); overflow: auto; scrollbar-width: thin;
@@ -91,8 +111,7 @@
 @media (max-width: 600px) {
   .cg-scene { padding-top: 94px; }
   .cg-book-stage { padding-bottom: calc(460px + var(--note-dock)); }
-  .cg-personal-bookmarks { top: -66px; left: 3%; right: 17%; }
-  .cg-personal-bookmark { width: 39px; height: 110px; }.cg-marker-page { top: 34px; font-size: 10px; }
+  .cg-marker-page { top: 14px; font-size: 10px; }
   .cg-loose-note { --note-w: min(280px, calc(var(--page-w) * .95)); }
   .cg-loose-note .cg-paper-writing, .cg-note-layer .cg-edit-note { font-size: 12px; }
   .cg-note-tape { min-height: 32px; }
@@ -102,4 +121,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .cg-loose-note, .cg-stationery-tools img, .cg-personal-bookmark, .cg-note-layer { transition: none; }
+  .cg-personal-bookmark.is-open .cg-marker-body { animation: none; }
 }

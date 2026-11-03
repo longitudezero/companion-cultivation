@@ -4,9 +4,11 @@ import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPa
 import { EFFECT_DEFINITIONS } from './grimoire/effects.js';
 import { art, bookmarkStyle } from './grimoire/art.js';
 import BookSpread from './grimoire/BookSpread.jsx';
-import { createJournal, noteKey } from './core/journal.js';
+import { createJournal, pageNotes } from './core/journal.js';
 import { stationeryArt } from './grimoire/stationery-art.js';
 import { GrimoireNote, PersonalBookmarks, StationeryDesk } from './grimoire/Stationery.jsx';
+import { TurningPersonalMarkers } from './grimoire/PageMarkers.jsx';
+import { travellingMarkers } from './grimoire/stationery-model.js';
 import './grimoire.css';
 import './stationery.css';
 
@@ -28,7 +30,7 @@ function TurningBookmark({ chapter, index }) {
   </div>;
 }
 
-export function TurningLeaf({ turn, duration, page, movingTabs, onFinish }) {
+export function TurningLeaf({ turn, duration, page, movingTabs, movingMarkers = [], onFinish }) {
   const leaf = useRef(null);
   const faces = turningPages(turn);
   useLayoutEffect(() => {
@@ -41,6 +43,7 @@ export function TurningLeaf({ turn, duration, page, movingTabs, onFinish }) {
     {Object.entries(faces).map(([face, { index, side }]) => <div key={face} className={`cg-turn-face ${face}`}
       data-printed-page={BOOK_ENTRIES[index].page + (side === 'right' ? 1 : 0)} data-page-side={side}>{page(index, side)}</div>)}
     <div className="cg-turn-bookmarks">{movingTabs.map(index => <TurningBookmark key={index} chapter={CHAPTERS[index]} index={index}/>)}</div>
+    <TurningPersonalMarkers markers={movingMarkers} turn={turn}/>
   </div>;
 }
 
@@ -89,6 +92,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const preview = developerTools && previewRequested;
   const [glossary, setGlossary] = useState(null);
   const [desk, setDesk] = useState(null);
+  const [frontNote, setFrontNote] = useState(null);
   const [reduced, setReduced] = useState(() => Boolean(reducedMotionQuery()?.matches));
   const [nav, dispatch] = useReducer(bookNavigation, initialEntryKey, key => {
     const index = BOOK_ENTRIES.findIndex(entry => entry.key === key);
@@ -98,8 +102,11 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const journal = garden.journal || createJournal();
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
   const current = BOOK_ENTRIES[nav.current], turn = nav.turn;
-  const currentNotes = ['left', 'right'].map(side => ({ side, note: journal.notes[noteKey(current.key, side)] }));
-  const hasTuckedNote = currentNotes.some(({ note }) => note?.tucked);
+  const currentNotes = pageNotes(journal, current.key);
+  const hasTuckedNote = currentNotes.some(note => note.tucked);
+  const dockIndices = new Map(), dockCounts = { left: 0, right: 0 };
+  for (const note of currentNotes) if (note.tucked) dockIndices.set(note.id, dockCounts[note.side]++);
+  const movingMarkers = travellingMarkers(journal.bookmarks, turn);
   const movingTabs = turn ? CHAPTERS.map((_, index) => index).filter(index =>
     tabIsLeft(index, BOOK_ENTRIES[turn.from]) !== tabIsLeft(index, BOOK_ENTRIES[turn.to])) : [];
   const stationary = stationaryPages(nav.current, turn);
@@ -204,7 +211,8 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
           {Array.from({ length: 8 }, (_, i) => 8 - i).flatMap(depth => ['left', 'right'].map(side =>
             <div key={`${depth}-${side}`} className={`cg-under-sheet ${side}`} aria-hidden="true"
               style={{ '--sheet-depth': depth }}/>))}
-          <PersonalBookmarks journal={journal} ledger={ledger} current={current} busy={busy} navigate={navigate}/>
+          <PersonalBookmarks journal={journal} ledger={ledger} current={current} busy={busy} navigate={navigate}
+            movingMarkers={movingMarkers} onChange={onJournalChange}/>
           <nav className="cg-tabs" aria-label="Grimoire sections">{CHAPTERS.map((chapter, index) => {
             const destination = BOOK_ENTRIES.find(entry => entry.chapter === index);
             return <button key={chapter.key} type="button"
@@ -223,10 +231,12 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
           </PageSurface>
           <div className="cg-spine" aria-hidden="true"/>
           <div className={`cg-note-layer${busy ? ' is-turning' : ''}`} inert={busy} aria-hidden={busy || undefined}>
-            {currentNotes.filter(({ note }) => note).map(({ side, note }) => <GrimoireNote key={noteKey(current.key, side)}
-              note={note} side={side} entry={current} onChange={onJournalChange}
-              onEdit={() => setDesk({ tab: 'notes', side })}/>)}</div>
-          {turn && <TurningLeaf key={turn.id} turn={turn} duration={nav.duration} page={page} movingTabs={movingTabs}
+            {currentNotes.map((note, index) => <GrimoireNote key={note.id}
+              note={note} entry={current} onChange={onJournalChange} onFront={setFrontNote}
+              zIndex={frontNote === note.id ? currentNotes.length + 1 : index + 1}
+              dockIndex={dockIndices.get(note.id) || 0}
+              onEdit={() => setDesk({ tab: 'notes', side: note.side, noteId: note.id })}/>)}</div>
+          {turn && <TurningLeaf key={turn.id} turn={turn} duration={nav.duration} page={page} movingTabs={movingTabs} movingMarkers={movingMarkers}
             onFinish={id => dispatch({ type: 'finish', id })}/>}
           <button ref={closeRef} type="button" className="cg-close-tab" aria-label="Close Grimoire" title="Close Grimoire (Escape)" onClick={onClose}>
             <span className="cg-close-glyph" aria-hidden="true"><img className="cg-close-icon" src={art('icons/close')} alt="" draggable="false"/>
@@ -244,7 +254,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       </div>
       <div className="cg-sr-only" aria-live="polite" aria-atomic="true">{CHAPTERS[current.chapter].label} · pages {current.page}–{current.page + 1}{busy ? ' · Turning pages' : ''}</div>
     </div>
-    {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side}
+    {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId}
       onChange={onJournalChange} onClose={() => setDesk(null)} onShop={category => onOpenShop(category, current.key)}/>}
     {glossary && <div className="cg-glossary-backdrop"><section className="cg-glossary" role="dialog" aria-modal="true"
       aria-labelledby="cg-glossary-title">
