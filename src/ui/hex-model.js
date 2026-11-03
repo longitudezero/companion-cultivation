@@ -2,6 +2,7 @@ import { offsetOf } from '../core/grid.js';
 
 export const HEX_SIZE = 48;
 export const HEX_ROTATION_RADIUS = 68;
+export const SIMPLE_HEX_FILLS = { Dry: 'simple-dry.webp', Damp: 'simple-damp.webp', Flooded: 'simple-flooded.webp' };
 export const HEX_ART = {
   Moisture: { Dry: 'moisture-dry.webp', Damp: 'moisture-damp.webp', Flooded: 'moisture-flooded.webp' },
   Temperature: { Freezing: 'temperature-freezing.webp', Cold: 'temperature-cold.webp',

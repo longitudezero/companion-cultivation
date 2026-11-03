@@ -11,7 +11,7 @@ import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, 
   grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
-import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
+import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
 import { neighborsOf } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
@@ -163,6 +163,11 @@ test('main menu keeps system actions ordered and protects an existing planting p
   assert.match(planning, /Apply or cancel your current plan/);
   const direct = render(MainMenu, { ...props, stagingEnabled: false });
   assert.match(direct, /Confirm an amount to plant immediately/);
+  assert.match(menu, /Simplified hex fills<\/span><input type="checkbox" aria-describedby="hex-fill-setting-help"\/>/);
+  const simple = render(MainMenu, { ...props, simplifiedHexFills: true, stagedCount: 2 });
+  assert.match(simple, /Simplified hex fills<\/span><input type="checkbox" aria-describedby="hex-fill-setting-help" checked=""\/>/,
+    'terrain style remains available while plantings are staged');
+  assert.match(simple, /Simple terrain textures/);
 });
 
 test('directional planting previews show a rotation handle without changing the garden', () => {
@@ -179,17 +184,20 @@ test('directional planting previews show a rotation handle without changing the 
 });
 
 
-test('each hex presents resolved moisture, temperature and illumination simultaneously', () => {
-  for (const moisture of CONDITIONS.Moisture) for (const temperature of CONDITIONS.Temperature) for (const illumination of CONDITIONS.Illumination) {
+test('both terrain styles present resolved moisture, temperature and illumination simultaneously', () => {
+  for (const simplifiedHexFills of [false, true]) for (const moisture of CONDITIONS.Moisture) for (const temperature of CONDITIONS.Temperature) for (const illumination of CONDITIONS.Illumination) {
     let garden = createGarden(3, 3);
     for (const [property, value] of [['Moisture', moisture], ['Temperature', temperature], ['Illumination', illumination]]) {
       garden = setBaseline(garden, '0,0', property, value);
     }
     const simulation = calculateEnvironment(garden), conditions = simulation.conditions['0,0'];
-    const markup = render(HexGrid, { garden, simulation, tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
+    const markup = render(HexGrid, { garden, simulation, simplifiedHexFills, tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
     const cell = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
     assert.ok(cell.includes(`Moisture ${conditions.Moisture}; Temperature ${conditions.Temperature}; Illumination ${conditions.Illumination}`));
-    assert.ok(cell.includes(`ui/hexes/${HEX_ART.Moisture[conditions.Moisture]}`), 'resolved moisture selects the soil artwork');
+    const fills = simplifiedHexFills ? SIMPLE_HEX_FILLS : HEX_ART.Moisture;
+    assert.ok(cell.includes(`ui/hexes/${fills[conditions.Moisture]}`), 'resolved moisture selects the chosen terrain style');
+    const otherFills = simplifiedHexFills ? HEX_ART.Moisture : SIMPLE_HEX_FILLS;
+    assert.ok(!cell.includes(`ui/hexes/${otherFills[conditions.Moisture]}`), 'the other terrain style is not rendered underneath');
     assert.ok(cell.includes(`ui/hexes/${HEX_ART.Temperature[conditions.Temperature]}`), 'resolved temperature selects the rim artwork');
     assert.ok(cell.indexOf('hex-moisture-art') < cell.indexOf('hex-temperature-art'));
     assert.ok(cell.indexOf('hex-temperature-art') < cell.indexOf('hex-selection'), 'selection stays above the illustrated rim');
@@ -201,9 +209,9 @@ test('each hex presents resolved moisture, temperature and illumination simultan
   assert.notEqual(PALETTES.Temperature.Freezing, PALETTES.Temperature.Cold);
 });
 
-test('every condition has an available WebP hex asset', async () => {
-  for (const property of ['Moisture', 'Temperature']) for (const condition of CONDITIONS[property]) {
-    const file = HEX_ART[property][condition];
+test('every condition and terrain style has an available WebP hex asset', async () => {
+  for (const [property, assets] of [['Moisture', HEX_ART.Moisture], ['Moisture', SIMPLE_HEX_FILLS], ['Temperature', HEX_ART.Temperature]]) for (const condition of CONDITIONS[property]) {
+    const file = assets[condition];
     assert.ok(file, `${property}: ${condition}`);
     const bytes = await readFile(new URL(`../public/ui/hexes/${file}`, import.meta.url));
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');

@@ -2,7 +2,7 @@ import React from 'react';
 import { neighborsOf, edgeKey, isMycelial, isPlayerSource, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
 import GameArt, { CONDITION_ART } from './ui/GameArt.jsx';
-import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
+import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
@@ -20,7 +20,10 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, mycelialSupport = {}, tool, selection, plantingPreview, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, simplifiedHexFills = false, tool, selection, plantingPreview, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
+  const moistureArt = simplifiedHexFills ? SIMPLE_HEX_FILLS : HEX_ART.Moisture;
+  // The simplified artwork has wider transparent margins than the full terrain tiles.
+  const moistureWidth = HEX_WIDTH * (simplifiedHexFills ? 1.12 : 1.04);
   const keys = Object.keys(garden.hexes);
   const { width, height } = gridDimensions(garden);
   const selectedSource = selection.type === 'hex' && ['source', 'fungus'].includes(garden.objects[selection.key]?.type) ? selection.key : null;
@@ -124,8 +127,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, tool
             <title>{`Moisture: ${Moisture} · Temperature: ${Temperature} · Illumination: ${Illumination}`}</title>
             <polygon points={polygonFor(c)} fill="#182c22" stroke="#102219" strokeWidth="1.5"/>
             <polygon points={polygonFor(c, SIZE - 3.5)} fill={fill} className="hex-surface"/>
-            <image className="hex-moisture-art" href={hexArt(HEX_ART.Moisture[Moisture])}
-              x={c.x - HEX_WIDTH * .52} y={c.y - SIZE * 1.04} width={HEX_WIDTH * 1.04} height={SIZE * 2.08}
+            <image className="hex-moisture-art" href={hexArt(moistureArt[Moisture])}
+              x={c.x - moistureWidth / 2} y={c.y - SIZE * 1.04} width={moistureWidth} height={SIZE * 2.08}
               preserveAspectRatio="none" pointerEvents="none"/>
             <image className="hex-temperature-art" href={hexArt(HEX_ART.Temperature[Temperature])}
               x={c.x - HEX_WIDTH * .6} y={c.y - SIZE} width={HEX_WIDTH * 1.2} height={SIZE * 2}

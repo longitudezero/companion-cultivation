@@ -15,7 +15,7 @@ export function MainMenuIcon() {
 }
 
 export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDeveloperToggle,
-  developerTools, stagingEnabled, onStagingChange, stagedCount, onGuide, autosaveStatus, elapsed, onAdvance }) {
+  developerTools, stagingEnabled, onStagingChange, stagedCount, simplifiedHexFills = false, onHexFillChange, onGuide, autosaveStatus, elapsed, onAdvance }) {
   const modal = useRef(null);
   useEffect(() => {
     const previous = document.activeElement;
@@ -35,11 +35,16 @@ export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDevel
         <button onClick={onSave}>Save Game</button>
         <button aria-pressed={developerTools} onClick={onDeveloperToggle}>{developerTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
-      <div className="staging-setting">
+      <div className="menu-setting staging-setting">
         <label><span>Stage plantings before applying</span><input type="checkbox" checked={stagingEnabled} disabled={stagedCount > 0}
           onChange={event => onStagingChange(event.target.checked)} aria-describedby="staging-setting-help"/></label>
         <p id="staging-setting-help">{stagedCount > 0 ? 'Apply or cancel your current plan before turning staging off.'
           : stagingEnabled ? 'Plan several plantings, then Apply them together.' : 'Confirm an amount to plant immediately. Germination takes its usual time.'}</p>
+      </div>
+      <div className="menu-setting hex-fill-setting">
+        <label><span>Simplified hex fills</span><input type="checkbox" checked={simplifiedHexFills}
+          onChange={event => onHexFillChange(event.target.checked)} aria-describedby="hex-fill-setting-help"/></label>
+        <p id="hex-fill-setting-help">{simplifiedHexFills ? 'Simple terrain textures. Uncheck for full artwork.' : 'Full terrain artwork. Check for simpler textures.'}</p>
       </div>
       <div className="menu-garden-status"><span>{elapsed} elapsed</span><span role="status">{autosaveStatus}</span></div>
       {developerTools && <div className="menu-time-tools"><button onClick={() => onAdvance(1)}>+5s</button><button onClick={() => onAdvance(24)}>+2m</button></div>}

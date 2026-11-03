@@ -110,6 +110,10 @@ export default function App() {
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
   const [showMainMenu, setShowMainMenu] = useState(false);
+  const [simplifiedHexFills, setSimplifiedHexFills] = useState(() => {
+    try { return localStorage.getItem('companion-cultivation:simplified-hex-fills') === 'true'; }
+    catch { return false; }
+  });
   const [stagingEnabled, setStagingEnabled] = useState(() => {
     try { return Object.keys(garden.staged || {}).length > 0 || localStorage.getItem('companion-cultivation:staging-enabled') !== 'false'; }
     catch { return true; }
@@ -182,6 +186,7 @@ export default function App() {
   }, []);
   useEffect(() => { try { localStorage.setItem('companion-cultivation:inventory-width', String(inventoryWidth)); } catch { /* UI remains usable */ } }, [inventoryWidth]);
   useEffect(() => { try { localStorage.setItem('companion-cultivation:staging-enabled', String(stagingEnabled)); } catch { /* The current session still uses the setting. */ } }, [stagingEnabled]);
+  useEffect(() => { try { localStorage.setItem('companion-cultivation:simplified-hex-fills', String(simplifiedHexFills)); } catch { /* The current session still uses the setting. */ } }, [simplifiedHexFills]);
 
   useEffect(() => {
     if (!harvestReceipt) return;
@@ -657,7 +662,7 @@ export default function App() {
           <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/200</button></>}
             tracker={<TaskTracker garden={garden} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
               tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
-            world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} plantingPreview={quantityPrompt} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
+            world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simplifiedHexFills={simplifiedHexFills} plantingPreview={quantityPrompt} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
             onRotateHeading={rotateSelectedHex}
             onRotationStart={kind => { if (kind === 'staged') rotationSnapshot.current = gardenRef.current.staged || {}; }}
             onRotationEnd={kind => { if (kind === 'staged') { const before = rotationSnapshot.current; rotationSnapshot.current = null;
@@ -779,6 +784,7 @@ export default function App() {
 
     {showMainMenu && <MainMenu onClose={() => setShowMainMenu(false)} onNewGarden={requestTutorial} onLoad={() => fileInput.current?.click()} onSave={saveGameFile}
       onDeveloperToggle={toggleDeveloperTools} developerTools={showDeveloperTools} stagingEnabled={stagingEnabled} stagedCount={stagedCount}
+      simplifiedHexFills={simplifiedHexFills} onHexFillChange={setSimplifiedHexFills}
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
     {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}/>}
