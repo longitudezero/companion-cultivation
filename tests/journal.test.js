@@ -383,7 +383,7 @@ test('marker labels sit inside their artwork, use a page number only as the unna
   let garden = markPage(collected(), 'plant:Beanstalk', 'right', 'forest-tassel', 0, { name: 'Garden trials' });
   garden = markPage(garden, 'plant:Carrot', 'left', 'garnet-moon', 1, { edge: 'bottom' });
   const markup = render(Stationery.PersonalBookmarks, { journal: garden.journal, ledger: garden.grimoire, current: BOOK_ENTRIES[0] });
-  assert.match(markup, /class="cg-marker-body"><img[^>]*\/><strong class="cg-marker-surface-name" aria-hidden="true">Garden trials<\/strong>/);
+  assert.match(markup, /class="cg-marker-body"><svg class="cg-marker-art"[^>]*>[\s\S]*?<\/svg><strong class="cg-marker-surface-name" aria-hidden="true">Garden trials<\/strong>/);
   assert.match(markup, /class="cg-marker-surface-name" aria-hidden="true">7<\/strong>/);
   assert.doesNotMatch(markup, /cg-marker-page|cg-marker-tab-title/);
   assert.equal((markup.match(/class="cg-marker-orientation"/g) || []).length, 2);

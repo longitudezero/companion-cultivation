@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NOTE_PAPERS, PAGE_MARKERS } from '../core/stationery.js';
 import { stationeryArt } from './stationery-art.js';
-import { createJournal, pageNotes, writeNote, positionNote, removeNote, markPage, removePageMarker, NOTE_LIMIT, MARKER_LIMIT, MARKER_NAME_LIMIT, MARKER_DESCRIPTION_LIMIT } from '../core/journal.js';
+import { createJournal, pageNotes, writeNote, removeNote, markPage, removePageMarker, NOTE_LIMIT, MARKER_LIMIT, MARKER_NAME_LIMIT, MARKER_DESCRIPTION_LIMIT } from '../core/journal.js';
 import { BOOK_ENTRIES, entryName } from './book.js';
 import { Paper } from './NotePaper.jsx';
 import { MarkerPreview } from './PageMarkers.jsx';
@@ -16,7 +16,7 @@ function StylePicker({ ids, catalogue, value, onChange, label }) {
   </button>)}</div>;
 }
 
-function NoteEditor({ journal, entry, side, noteId, onChange, onClose, onShop }) {
+function NoteEditor({ journal, entry, side, noteId, onChange, onClose, onShop, onToggleTuck }) {
   const note = journal.notes[noteId];
   const [text, setText] = useState(note?.text || ''), [paperId, setPaperId] = useState(note?.paperId || journal.papers[0] || '');
   const [rotation, setRotation] = useState(note?.rotation ?? -2), [scale, setScale] = useState(note?.scale ?? 1);
@@ -41,7 +41,7 @@ function NoteEditor({ journal, entry, side, noteId, onChange, onClose, onShop })
       <p className="cg-desk-error" role="alert">{error}</p>
       <div className="cg-desk-actions"><button className="cg-desk-primary" type="submit" disabled={!text.trim()}>{note ? 'Save note' : 'Place note'}</button>
         {note && <button type="button" onClick={() => setRemoving(value => !value)}>Remove note</button>}
-        {note && <button type="button" onClick={() => apply(garden => positionNote(garden, note.id, { ...note, tucked: !note.tucked }))}>{note.tucked ? 'Return to page' : 'Tuck note away'}</button>}
+        {note && <button type="button" onClick={() => { onToggleTuck?.(note.id); onClose(); }}>{note.tucked ? 'Return to page' : 'Tuck note away'}</button>}
         <button type="button" onClick={onShop}>Browse papers in Shop</button></div>
       {removing && <div className="cg-note-remove"><p>Remove this note from the page?</p>
         <button type="button" onClick={() => apply(garden => removeNote(garden, note.id))}>Confirm removal</button>
@@ -111,8 +111,9 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
   </>;
 }
 
-export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', initialSide = 'right', initialNoteId = null, initialMarkerSlot = null, initialDrop = null, onChange, onClose, onShop }) {
-  const journal = garden.journal || createJournal(), close = useRef(null);
+export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', initialSide = 'right', initialNoteId = null, initialMarkerSlot = null, initialDrop = null, onChange, onClose, onShop, tuckedNotes = new Set(), onToggleTuck }) {
+  const savedJournal = garden.journal || createJournal(), close = useRef(null);
+  const journal = { ...savedJournal, notes: Object.fromEntries(Object.entries(savedJournal.notes).map(([id, note]) => [id, { ...note, tucked: tuckedNotes.has(id) }])) };
   const [tab, setTab] = useState(initialTab), [side, setSide] = useState(initialSide);
   const [noteId, setNoteId] = useState(initialNoteId);
   useEffect(() => { const previous = document.activeElement; close.current?.focus();
@@ -131,7 +132,7 @@ export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', in
         Note {note.id.slice(5)}{note.tucked ? ' (tucked)' : ''} · {note.text.slice(0, 45)}</option>)}
     </select></label>}
     {tab === 'notes' ? <NoteEditor key={`${entry.key}/${side}/${noteId}`} journal={journal} entry={entry} side={side} noteId={noteId}
-      onChange={onChange} onClose={onClose} onShop={() => onShop('papers')}/>
+      onChange={onChange} onClose={onClose} onShop={() => onShop('papers')} onToggleTuck={onToggleTuck}/>
       : <MarkerEditor key={`${entry.key}/${side}`} journal={journal} entry={entry} side={side} ledger={ledger} initialMarkerSlot={initialMarkerSlot} initialDrop={initialDrop}
         onChange={onChange} onClose={onClose} onShop={() => onShop('bookmarks')}/>}
   </section></div>;

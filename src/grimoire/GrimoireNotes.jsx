@@ -3,6 +3,8 @@ import { NOTE_PAPERS } from '../core/stationery.js';
 import { noteKey, pageNotes, positionNote, noteRotation, NOTE_MIN_SCALE, NOTE_MAX_SCALE } from '../core/journal.js';
 import { noteDrop, noteGeometry } from './stationery-model.js';
 import { Paper } from './NotePaper.jsx';
+import { useBookCoordinates } from './BookView.jsx';
+import { bookRectangle } from './book-view.js';
 
 function Sheet({ note, geometry, children }) {
   return <div className="cg-note-sheet" style={{ width: geometry.width, height: geometry.height,
@@ -10,8 +12,9 @@ function Sheet({ note, geometry, children }) {
     <Paper paper={NOTE_PAPERS[note.paperId]}>{children}</Paper></div>;
 }
 
-export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete, onFront, zIndex = 1, dockIndex = 0 }) {
+export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete, onFront, onToggleTuck, onUntuck, zIndex = 1, dockIndex = 0 }) {
   const frame = useRef(null), gesture = useRef(null), suppressClick = useRef(false);
+  const coordinates = useBookCoordinates();
   const [draft, setDraft] = useState(null), latest = useRef(note); latest.current = note;
   const value = draft?.note || note, side = value.side, number = note.id.slice(5), style = NOTE_PAPERS[note.paperId];
   const geometry = noteGeometry(value, pageSize, style.width / style.height);
@@ -19,23 +22,17 @@ export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete
   let left = geometry.left, top = geometry.top;
   if (value.tucked && !draft) { left = (width - geometry.boxWidth) / 2 + dockIndex % 5 * 8; top = height + 23 + dockIndex % 5 * 12; }
   if (draft?.left != null) { left = draft.left; top = draft.top; }
-  const previousTucked = useRef(note.tucked);
-  useEffect(() => {
-    const changed = previousTucked.current !== note.tucked; previousTucked.current = note.tucked;
-    if (!changed || !note.tucked) return undefined;
-    const timer = window.setTimeout(() => frame.current?.scrollIntoView?.({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }), 450);
-    return () => window.clearTimeout(timer);
-  }, [note.tucked]);
   useEffect(() => () => { gesture.current = null; }, []);
-  const save = next => onChange(garden => positionNote(garden, note.id, next));
+  const save = next => { onUntuck?.(); return onChange(garden => positionNote(garden, note.id, { ...next, tucked: false })); };
   function start(event, kind) {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || event.isPrimary === false || gesture.current) return;
     event.preventDefault(); event.stopPropagation(); onFront?.(note.id);
-    const book = frame.current.closest('.cg-book').getBoundingClientRect(), rect = frame.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    const element = frame.current.closest('.cg-book'), book = bookRectangle(coordinates.size(element));
+    const point = coordinates.point(event, element), originLeft = left + (side === 'right' ? width : 0);
+    const cx = originLeft + geometry.boxWidth / 2, cy = top + geometry.boxHeight / 2;
     gesture.current = { kind, pointerId: event.pointerId, x: event.clientX, y: event.clientY, dragged: false, book,
-      offsetX: event.clientX - rect.left, offsetY: event.clientY - rect.top, width: rect.width, height: rect.height,
-      cx, cy, angle: Math.atan2(event.clientY - cy, event.clientX - cx), distance: Math.max(1, Math.hypot(event.clientX - cx, event.clientY - cy)), initial: latest.current };
+      element, offsetX: point.x - originLeft, offsetY: point.y - top, width: geometry.boxWidth, height: geometry.boxHeight,
+      cx, cy, angle: Math.atan2(point.y - cy, point.x - cx), distance: Math.max(1, Math.hypot(point.x - cx, point.y - cy)), initial: latest.current };
     suppressClick.current = false; event.currentTarget.setPointerCapture?.(event.pointerId);
   }
   function move(event) {
@@ -44,18 +41,19 @@ export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete
     event.stopPropagation();
     if (!drag.dragged && Math.hypot(event.clientX - drag.x, event.clientY - drag.y) <= 5) return;
     drag.dragged = true;
+    const point = coordinates.point(event, drag.element);
     if (drag.kind === 'move') {
-      const left = event.clientX - drag.book.left - drag.offsetX, top = event.clientY - drag.book.top - drag.offsetY;
-      drag.next = { ...drag.initial, ...noteDrop(drag.book, drag.width, drag.height, left, top), entryKey: entry.key };
+      const left = point.x - drag.offsetX, top = point.y - drag.offsetY;
+      drag.next = { ...drag.initial, ...noteDrop(drag.book, drag.width, drag.height, left, top, drag.initial.side), entryKey: entry.key };
       setDraft({ note: drag.next, left, top });
     } else {
       const next = { ...drag.initial, tucked: false };
       if (drag.kind === 'rotate') next.rotation = noteRotation(drag.initial.rotation +
-        (Math.atan2(event.clientY - drag.cy, event.clientX - drag.cx) - drag.angle) * 180 / Math.PI);
-      else next.scale = Math.max(NOTE_MIN_SCALE, Math.min(NOTE_MAX_SCALE, drag.initial.scale * Math.hypot(event.clientX - drag.cx, event.clientY - drag.cy) / drag.distance));
+        (Math.atan2(point.y - drag.cy, point.x - drag.cx) - drag.angle) * 180 / Math.PI);
+      else next.scale = Math.max(NOTE_MIN_SCALE, Math.min(NOTE_MAX_SCALE, drag.initial.scale * Math.hypot(point.x - drag.cx, point.y - drag.cy) / drag.distance));
       const geometry = noteGeometry(next, pageSize, style.width / style.height);
       const position = noteDrop(drag.book, geometry.boxWidth, geometry.boxHeight,
-        drag.cx - drag.book.left - geometry.boxWidth / 2, drag.cy - drag.book.top - geometry.boxHeight / 2);
+        drag.cx - drag.book.left - geometry.boxWidth / 2, drag.cy - drag.book.top - geometry.boxHeight / 2, drag.initial.side);
       drag.next = { ...next, ...position };
       setDraft({ note: drag.next });
     }
@@ -77,7 +75,7 @@ export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete
       <Sheet note={value} geometry={geometry}>
         <button className="cg-note-tape" aria-label={`${note.tucked ? 'Return' : 'Tuck away'} note ${number} on ${note.side} page`}
           aria-pressed={note.tucked} title="Click to tuck or restore. Drag to move between pages." {...pointer('move')}
-          onClick={event => { event.stopPropagation(); if (event.detail > 0 && suppressClick.current) { suppressClick.current = false; return; } save({ ...latest.current, tucked: !latest.current.tucked }); }}
+          onClick={event => { event.stopPropagation(); if (event.detail > 0 && suppressClick.current) { suppressClick.current = false; return; } onToggleTuck?.(); }}
           onKeyDown={event => {
             const vector = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[event.key];
             if (!vector) return; event.preventDefault(); event.stopPropagation();
@@ -105,7 +103,7 @@ export function GrimoireNote({ note, entry, pageSize, onChange, onEdit, onDelete
 }
 
 export function StaticPageNotes({ journal, entryKey, side, pageSize }) {
-  return <div className="cg-printed-notes" aria-hidden="true">{pageNotes(journal, entryKey, side).filter(note => !note.tucked).map(note => {
+  return <div className="cg-printed-notes" aria-hidden="true">{pageNotes(journal, entryKey, side).map(note => {
     const paper = NOTE_PAPERS[note.paperId], geometry = noteGeometry(note, pageSize, paper.width / paper.height);
     return <div key={note.id} data-turning-note={note.id} className="cg-printed-note" style={{ width: geometry.boxWidth, height: geometry.boxHeight, left: geometry.left, top: geometry.top }}>
       <Sheet note={note} geometry={geometry}><div className="cg-paper-writing">{note.text}</div></Sheet></div>;
@@ -114,8 +112,8 @@ export function StaticPageNotes({ journal, entryKey, side, pageSize }) {
 
 export function NoteDeleteDialog({ note, onCancel, onConfirm }) {
   const keep = useRef(null);
-  useEffect(() => { const previous = document.activeElement; keep.current?.focus();
-    return () => { if (previous?.isConnected) previous.focus(); else document.querySelector('.cg-inkwell')?.focus(); }; }, []);
+  useEffect(() => { const previous = document.activeElement; keep.current?.focus({ preventScroll: true });
+    return () => { if (previous?.isConnected) previous.focus({ preventScroll: true }); else document.querySelector('.cg-inkwell')?.focus({ preventScroll: true }); }; }, []);
   return <div className="cg-note-confirm-backdrop"><section className="cg-note-confirm" role="alertdialog" aria-modal="true" aria-labelledby="cg-note-confirm-title">
     <h2 id="cg-note-confirm-title">Remove this note?</h2><p className="cg-confirm-note-text">{note.text}</p>
     <div className="cg-desk-actions"><button ref={keep} onClick={onCancel}>Keep note</button><button className="cg-note-confirm-delete" onClick={onConfirm}>Remove note</button></div>

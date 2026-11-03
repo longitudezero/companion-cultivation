@@ -3,14 +3,17 @@ import { createPortal } from 'react-dom';
 import { stationeryArt } from './stationery-art.js';
 import { PAGE_MARKERS } from '../core/stationery.js';
 import { markerDrop, markerWidth, withinMarkerDropArea } from './stationery-model.js';
+import { useBookCoordinates } from './BookView.jsx';
+import { bookRectangle } from './book-view.js';
 
 export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', onClick, onDrop }) {
   const gesture = useRef(null), suppress = useRef(false), [draft, setDraft] = useState(null);
+  const coordinates = useBookCoordinates();
   function start(event) {
-    if (event.button !== 0 || !bookRef.current) return;
-    event.stopPropagation(); suppress.current = false;
+    if (event.button !== 0 || event.isPrimary === false || gesture.current || !bookRef.current) return;
+    event.preventDefault(); event.stopPropagation(); suppress.current = false;
     gesture.current = { id: event.pointerId, x: event.clientX, y: event.clientY,
-      book: bookRef.current.getBoundingClientRect(), dragged: false };
+      book: bookRectangle(coordinates.size(bookRef.current)), dragged: false };
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
   function move(event) {
@@ -19,10 +22,10 @@ export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', o
     event.stopPropagation();
     if (!drag.dragged && Math.hypot(event.clientX - drag.x, event.clientY - drag.y) <= 5) return;
     drag.dragged = true;
-    drag.book = bookRef.current.getBoundingClientRect();
-    drag.drop = markerDrop(drag.book, event.clientX - drag.book.left, markerWidth(drag.book.width / 2), event.clientY - drag.book.top);
-    drag.inside = withinMarkerDropArea(drag.book, event.clientX, event.clientY);
-    setDraft({ left: event.clientX - drag.book.left - 30, top: event.clientY - drag.book.top - 25 });
+    const point = coordinates.point(event, bookRef.current);
+    drag.drop = markerDrop(drag.book, point.x, markerWidth(drag.book.width / 2), point.y);
+    drag.inside = withinMarkerDropArea(drag.book, point.x, point.y);
+    setDraft({ left: point.x - 30, top: point.y - 25 });
   }
   function finish(event, cancelled = false) {
     const drag = gesture.current;

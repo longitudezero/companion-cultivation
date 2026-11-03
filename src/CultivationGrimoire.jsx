@@ -11,9 +11,12 @@ import MarkerTool from './grimoire/MarkerTool.jsx';
 import StationeryTray from './grimoire/StationeryTray.jsx';
 import { TurningPersonalMarkers } from './grimoire/PageMarkers.jsx';
 import { travellingMarkers, layoutPageMarkers } from './grimoire/stationery-model.js';
+import { BookCoordinates, BookViewControls, useBookCoordinates, useBookView } from './grimoire/BookView.jsx';
+import { pageMarginHit } from './grimoire/book-view.js';
 import './grimoire.css';
 import './stationery.css';
 import './stationery-refinements.css';
+import './book-tabletop.css';
 
 const EMPTY_LEDGER = createGrimoire();
 const reducedMotionQuery = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -52,16 +55,20 @@ export function TurningLeaf({ turn, duration, page, movingTabs, movingMarkers = 
 
 function PageSurface({ side, disabled, busy, onTurn, children }) {
   const edge = useRef(null), pointer = useRef(null), dragged = useRef(false);
+  const coordinates = useBookCoordinates();
   const [hovered, setHovered] = useState(false);
   const protectedTarget = event => {
     if (event.target.closest('button, select, input, textarea, a, label, p, h1, h2, h3, .cg-eyebrow, .cg-small, .cg-plate, .cg-page-number, .cg-atlas')) return true;
     const scroll = event.target.closest('.cg-page-scroll');
-    return scroll && event.clientX >= scroll.getBoundingClientRect().left + scroll.clientWidth;
+    if (!scroll) return false;
+    const book = edge.current.closest('.cg-book');
+    let left = 0;
+    for (let node = scroll; node && node !== book; node = node.offsetParent) left += node.offsetLeft;
+    return coordinates.point(event, book).x >= left + scroll.clientWidth;
   };
   const inMargin = event => {
-    const rect = edge.current?.getBoundingClientRect();
-    return rect && event.clientX >= rect.left && event.clientX <= rect.right
-      && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    const book = edge.current?.closest('.cg-book');
+    return book && pageMarginHit(coordinates.point(event, book), side, coordinates.size(book), edge.current.offsetWidth || coordinates.size(book).width * .175);
   };
   const turn = event => {
     if (disabled || (event.detail > 0 && dragged.current)) return;
@@ -96,6 +103,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const preview = developerTools && previewRequested;
   const [glossary, setGlossary] = useState(null);
   const [desk, setDesk] = useState(null);
+  const [tuckedNotes, setTuckedNotes] = useState(() => new Set());
   const [frontNote, setFrontNote] = useState(null);
   const [pageSize, setPageSize] = useState(null), [pendingDelete, setPendingDelete] = useState(null), [stationeryIssue, setStationeryIssue] = useState('');
   const [reduced, setReduced] = useState(() => Boolean(reducedMotionQuery()?.matches));
@@ -106,8 +114,10 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const ledger = garden.grimoire || EMPTY_LEDGER;
   const journal = garden.journal || createJournal();
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
+  const scene = useBookView(root, Boolean(glossary || desk || pendingDelete || busy));
   const current = BOOK_ENTRIES[nav.current], turn = nav.turn;
-  const currentNotes = pageNotes(journal, current.key);
+  const currentNotes = pageNotes(journal, current.key).map(note => ({ ...note, tucked: tuckedNotes.has(note.id) }));
+  const toggleTuck = id => setTuckedNotes(previous => { const next = new Set(previous); if (!next.delete(id)) next.add(id); return next; });
   const hasTuckedNote = currentNotes.some(note => note.tucked);
   const hasBottomMarkers = journal.bookmarks.some(marker => marker.edge === 'bottom');
   const dockIndices = new Map(), dockCounts = { left: 0, right: 0 };
@@ -125,11 +135,13 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     window.getSelection()?.removeAllRanges();
     dispatch({ type: 'navigate', to, reduced: Boolean(reducedMotionQuery()?.matches) });
   }, []);
+  useLayoutEffect(() => { setTuckedNotes(new Set()); }, [nav.current]);
   const openGlossary = useCallback((kind, element) => { termRef.current = element; setGlossary(kind); }, []);
   useLayoutEffect(() => {
-    const measure = () => { const rect = bookRef.current?.getBoundingClientRect();
-      if (rect?.width) setPageSize(previous => previous?.width === rect.width / 2 && previous?.height === rect.height
-        ? previous : { width: rect.width / 2, height: rect.height }); };
+    const measure = () => { const book = bookRef.current;
+      if (book) { const size = scene.coordinates.size(book);
+        setPageSize(previous => previous?.width === size.width / 2 && previous?.height === size.height
+          ? previous : { width: size.width / 2, height: size.height }); } };
     measure();
     const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : null;
     if (bookRef.current) observer?.observe(bookRef.current);
@@ -226,18 +238,16 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     preview={viewPreview} navigate={navigate} glossary={openGlossary}/>
     {busy && <StaticPageNotes journal={journal} entryKey={BOOK_ENTRIES[index].key} side={side} pageSize={pageSize}/>}</React.Fragment>;
 
-  return <div ref={root} className="cg-overlay" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
+  return <BookCoordinates.Provider value={scene.coordinates}><div ref={root} className="cg-overlay cg-tabletop" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
     onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()} onWheel={event => event.stopPropagation()}>
-    <div className={`cg-scene${journal.bookmarks.length ? ' has-markers' : ''}`}>
-      <div className="cg-shell" inert={Boolean(glossary || desk || pendingDelete)}>
-        {developerTools && <div className="cg-preview-tools">
-          <button type="button" disabled={busy} aria-pressed={preview}
-            onClick={() => setPreviewRequested(value => !value)}>{preview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
-          <span>{preview ? 'Developer reference · Read only' : 'Garden discoveries'}</span>
-        </div>}
+    <div className="cg-scene" {...scene.panHandlers} aria-label="Book tabletop">
+      <div className="cg-shell" style={{ transform: scene.transform }} inert={Boolean(glossary || desk || pendingDelete)}>
         <div className={`cg-book-stage${hasTuckedNote ? ' has-tucked-note' : ''}${hasBottomMarkers ? ' has-bottom-markers' : ''}`}><div ref={bookRef} className={`cg-book${journal.bookmarks.length ? ' has-personal-markers' : ''}`}>
-          <div className="cg-cover" aria-hidden="true">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner =>
-            <img key={corner} className={`cg-cover-corner ${corner}`} src={art(`corners/${corner}`)} alt="" draggable="false"/>)}</div>
+          <div className="cg-cover">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner =>
+            <button key={corner} type="button" className={`cg-cover-corner ${corner}`} aria-label={`Rotate book from ${corner} cover corner`}
+              title="Drag the gold corner to rotate the book" disabled={busy} {...scene.rotationHandlers}
+              onKeyDown={event => { if (['ArrowLeft', 'ArrowRight'].includes(event.key)) { event.preventDefault(); event.stopPropagation(); scene.rotate(event.key === 'ArrowLeft' ? -5 : 5); } }}>
+              <img src={art(`corners/${corner}`)} alt="" draggable="false"/></button>)}</div>
           {Array.from({ length: 8 }, (_, i) => 8 - i).flatMap(depth => ['left', 'right'].map(side =>
             <div key={`${depth}-${side}`} className={`cg-under-sheet ${side}`} aria-hidden="true"
               style={{ '--sheet-depth': depth }}/>))}
@@ -264,6 +274,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
           <div className={`cg-note-layer${busy ? ' is-turning' : ''}`} inert={busy} aria-hidden={busy || undefined}>
             {currentNotes.map((note, index) => <GrimoireNote key={note.id}
               note={note} entry={current} pageSize={pageSize} onChange={onJournalChange} onFront={setFrontNote} onDelete={setPendingDelete}
+              onToggleTuck={() => toggleTuck(note.id)} onUntuck={() => setTuckedNotes(previous => { const next = new Set(previous); next.delete(note.id); return next; })}
               zIndex={frontNote === note.id ? currentNotes.length + 1 : index + 1}
               dockIndex={dockIndices.get(note.id) || 0}
               onEdit={() => setDesk({ tab: 'notes', side: note.side, noteId: note.id })}/>)}</div>
@@ -277,6 +288,12 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       </div>
       <div className="cg-sr-only" aria-live="polite" aria-atomic="true">{CHAPTERS[current.chapter].label} · pages {current.page}–{current.page + 1}{busy ? ' · Turning pages' : ''}</div>
     </div>
+    <BookViewControls scene={scene} disabled={Boolean(glossary || desk || pendingDelete || busy)}/>
+    {developerTools && <div className="cg-preview-tools cg-fixed-preview">
+      <button type="button" disabled={busy} aria-pressed={preview}
+        onClick={() => setPreviewRequested(value => !value)}>{preview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
+      <span>{preview ? 'Developer reference · Read only' : 'Garden discoveries'}</span>
+    </div>}
     <StationeryTray inert={Boolean(glossary || desk || pendingDelete)}>
       <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
         onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
@@ -286,6 +303,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     </StationeryTray>
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
+      tuckedNotes={tuckedNotes} onToggleTuck={toggleTuck}
       onChange={onJournalChange} onClose={() => setDesk(null)} onShop={category => onOpenShop(category, current.key)}/>}
     {pendingDelete && journal.notes[pendingDelete] && <NoteDeleteDialog note={journal.notes[pendingDelete]} onCancel={() => setPendingDelete(null)}
       onConfirm={() => { onJournalChange(garden => removeNote(garden, pendingDelete)); setPendingDelete(null); }}/>}
@@ -299,5 +317,5 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
           <h3>{effect.label}</h3><p>{effect.summary}</p><p>{effect.detail}</p>
         </section>)}</div>
     </section></div>}
-  </div>;
+  </div></BookCoordinates.Provider>;
 }

@@ -2,7 +2,7 @@
 
 Date: 3 November 2026
 
-Status: **Agreed experiment scope; implementation pending**
+Status: **Experiment implemented on branch; automated checks pass; browser visual review pending**
 
 Branch: [`experiment/grimoire-tabletop`](https://github.com/longitudezero/companion-cultivation/tree/experiment/grimoire-tabletop)
 
@@ -71,6 +71,7 @@ Exact zoom bounds, surface color, shadows, marker angles and animation easing ar
   - **Verify:** Zoom at all four book corners and near the spine. The pointed-at location stays steady. Scroll long text and an atlas to both ends without changing scene zoom, including when the scroll region has reached its boundary. Confirm the garden camera does not move.
 
 - [ ] **B2 — Pan.** Drag exposed tabletop to move the book view. Panning must not start from text, links, notes, markers, controls or page-turn margins. Keep enough of the book reachable to recover the view.
+  - **Control detail:** The explicit Move control also supports dragging and arrow keys, so panning remains available when enlarged paper fills the window. Other controls do not start a pan.
   - **Verify:** Drag in several directions at different zooms. The book follows without a jump and all attachments travel together. Selecting text and dragging stationery do not pan. A cancelled or interrupted gesture stops cleanly without applying an extra click.
 
 - [ ] **B3 — Cover-corner rotation.** Drag a gold cover corner to rotate the book around a stable book center. Make the action discoverable through cursor/focus treatment. Keep paper-edge turning distinct from cover rotation. The fixed tray, view controls and editor dialogs stay upright.
@@ -79,7 +80,7 @@ Exact zoom bounds, surface color, shadows, marker angles and animation easing ar
 - [ ] **B4 — Fit Book and Reset View.** Provide reachable, clearly labelled controls outside the transformed book. Fit Book centers/fits the current rotation. Reset View also makes it upright. Both become the newly remembered view, without changing authored notes or marker placements.
   - **Verify:** Use both controls from an enlarged, panned and rotated pose. Confirm their different rotation behavior. Compare journal data before/after; it is unchanged. Both remain accessible when much of the book is outside the window.
 
-- [ ] **B5 — Remember the view.** Save the user's final pan, zoom and rotation as a browser preference. Restore them on reopen and refresh. Missing, malformed, non-finite or unavailable storage falls back to a usable fitted view and must not prevent opening the book.
+- [x] **B5 — Remember the view.** Save the user's final pan, zoom and rotation as a browser preference. Restore them on reopen and refresh. Missing, malformed, non-finite or unavailable storage falls back to a usable fitted view and must not prevent opening the book.
   - **Verify:** Move/zoom/rotate, close, reopen, refresh and reopen again. The pose persists. Test absent, corrupt and blocked storage. Saving the view does not modify garden discoveries, stationery, simulation state or portable garden save contents.
 
 - [ ] **B6 — Window resize and recovery.** Restore the remembered pose as closely as possible at the current window size. Apply only the adjustment needed to keep the book reachable; do not refit every time an accessory or page changes. Record how the pose is represented relative to the viewport and the recovery rule.
@@ -136,7 +137,7 @@ Exact zoom bounds, surface color, shadows, marker angles and animation easing ar
 - [ ] **H1 — Keyboard, touch and reduced motion.** Keep accessible names, focus visibility, focus restoration and dialog dismissal. Provide keyboard-operable view controls so corner dragging is not the only way to recover/adjust the view. Hover interactions have a focus/touch route. Reduced motion removes decorative movement without removing functions. Editor/glossary/delete dialogs stay upright and readable at any book pose.
   - **Verify:** Complete a keyboard pass through view controls, Close, chapter tabs, marker editing, note tools and dialogs. Escape dismisses the innermost dialog before the book. Check touch-sized controls in a small viewport. With reduced motion enabled, navigate, tuck/restore and reveal markers without unwanted animation; all destinations/actions remain available.
 
-- [ ] **H2 — Save and game regressions.** Preserve existing notes, paper/marker collections, all twelve marker assignments, names/descriptions, legacy note-position mapping and half-edge placements. View changes alone do not change a garden save. Do not introduce the deferred starter kit, new task rewards or shop balance changes. Existing page numbering, hidden knowledge rules, illustrations, glossary and navigation remain intact.
+- [x] **H2 — Save and game regressions.** Preserve existing notes, paper/marker collections, all twelve marker assignments, names/descriptions, legacy note-position mapping and half-edge placements. View changes alone do not change a garden save. Do not introduce the deferred starter kit, new task rewards or shop balance changes. Existing page numbering, hidden knowledge rules, illustrations, glossary and navigation remain intact.
   - **Verify:** Load legacy and current journal fixtures, plus a backed-up real garden. Compare serialized garden data before/after view-only gestures; compare authored journal data after the allowed note/marker edits. Check unknown entries remain masked. Restore the original garden after live-fixture testing and verify the restore. Run the appropriate journal/save/navigation/knowledge tests and the full project check once the implementation settles.
 
 - [ ] **H3 — Reviewable branch result.** Provide a playable review of this branch separately from production, with the branch commit identified, the checklist updated, and remaining issues stated. Do not use the production Pages workflow as a branch-preview shortcut: it publishes to the production destination even when manually invoked from another branch.
@@ -191,14 +192,37 @@ These are checkpoints within the authorized experiment, not automatic requests f
 | Date | Item IDs | Status / evidence |
 | --- | --- | --- |
 | 3 November 2026 | Preparation | Branch created from `0b15571`. Existing Grimoire, gesture, journal, tray and deployment code inspected. Design/verification plan written. No implementation items verified yet. |
+| 3 November 2026 | A1–A3, B1–B4, B6, C1–C2 | **Implemented; browser verification pending.** Shared intrinsic scene, inverse pointer mapping, saved view, resize recovery, pan/zoom/corner rotation and controls. Ten `tests/book-view.test.js` cases pass across the four planned viewport sizes and combined poses. DOM interactions confirm pointer ownership, selection-drag suppression, scrolling protection, gesture cancellation and Fit/Reset behavior. Actual browser geometry/appearance remains unverified. |
+| 3 November 2026 | B5 | **Verified by automated state/interaction checks.** Book-view tests cover saved-pose round trips, resize and missing/malformed/non-finite/extreme preferences. `scripts/check-book-interactions.mjs` covers reopen, blocked storage and functioning fallback controls. The preference uses viewport fractions plus intrinsic zoom and flat rotation; it does not enter portable garden saves. |
+| 3 November 2026 | D1–D2, E1, F1–F4 | **Implemented; visual verification pending.** Quest pin and larger viewport-fixed tray; tools moved onto the wood; Close uses a concealed inward-facing leather end and separate upright X; marker artwork uses its own alpha bounds/aspect ratio and a page-edge pivot. DOM checks cover pin/hover state, the exact 1500ms dwell/350ms leave grace, top/bottom drops, twelve markers and page 23 crossing stacks during travel between pages 9–10 and 55–56. Clickability and visual alignment need native review. |
+| 3 November 2026 | G1–G3 | **Implemented; visual verification pending.** Tape/editor tucks are local per-spread state; old persisted tucks are ignored for presentation. Home geometry and deliberate overhang remain authored save data. Automatic follow-scroll is removed. DOM checks cover tuck/reset, editing action, transformed drag/resize/rotation, cancellation, deletion, multiple notes and turning-face copies. |
+| 3 November 2026 | H1 | **Implemented; native input review pending.** View controls and corner rotation have keyboard routes; tray/actions have click routes; dialogs remain outside the transformed book; reduced-motion behavior is retained. DOM focus/timer checks pass. Native touch, focus visibility and reduced-motion appearance still require review. |
+| 3 November 2026 | H2 | **Verified by automated regression checks.** `GITHUB_PAGES=true npm run check` passes 358 Node tests, the production build and one CommonJS smoke test. All 21 optional DOM interaction scenarios pass, including byte-equivalent serialized garden data for view-only controls using a backed-up garden. That backup was loaded only into the DOM harness; the live garden was never altered, so no live restore was necessary. Existing journal/save migration and hidden-knowledge tests pass. No core rules, task rewards or prices changed. |
+| 3 November 2026 | H3 | **Review deliverable prepared; native browser review pending.** The standalone review builder now maps both Grimoire and interface assets and records its source commit. A linked-art review boots/opens the book in DOM QA and maps all rendered images through 209 existing assets. The synthetic review save includes twelve markers, three notes and all stationery styles. See [review instructions](grimoire-tabletop-review.md). Production was not deployed. |
+| 3 November 2026 | Browser review blocker | Both `sites-preview start` and `sites-preview status` report that the preview daemon mailbox is unavailable. No native screenshots, animation recording, touch test or visual pass is claimed. All items requiring that evidence remain unchecked. |
 
 Append dated rows as work progresses. For each completed item, name the relevant test(s) and browser evidence. Keep unresolved issues beside the affected item IDs so they cannot disappear into a general “tests passed” statement.
 
+### Chosen prototype values
+
+- Intrinsic printed spread: **1120 × 794.4188** book units (560 per page); only the outer view scales/rotates.
+- Zoom: **0.18–2.25** of intrinsic size. Fit caps at 1×, uses the cover bounds and leaves room for the fixed controls. Wheel zoom is pointer-anchored unless reachability recovery is needed.
+- View storage: `companion-cultivation:book-view:v1`; center saved as viewport fractions, with zoom/rotation. Recovery brings a real point on the rotated cover into a reachable inset rather than relying only on its screen bounding box.
+- Marker width: **128.8** intrinsic units, with each supplied asset's complete visible aspect ratio; reveal is at most 132. Active attachment is 8 units from the artwork head; swing is **±165°**, with the existing slight individual tilts. Bottom orientation adds 180° relative to the book.
+- Marker dwell **1500ms**, swing **650ms**, hover-leave grace **350ms**. Reduced motion removes the swing/dwell animation while preserving access.
+- Tray: **320–420px** on desktop and **280px** on narrow windows, retaining a 44–48px edge peek. Tool rectangles leave a gap; visible-rim clearance remains a required visual check.
+- Close: full leather target **154 × 60** book units with **100** under the page and **54** exposed at the right; only its leather image rotates. The X is centered in the exposed end. Native visual confirmation remains E1's open check.
+- Existing turning faces still clip the portion of a note that extends beyond the paper. Perfect protrusion during a 3D turn is not implemented; stationary half-over-edge placement remains saved and visible. This is the optional G3 polish limitation, not a change to note ownership.
+
+### Remaining verification
+
+The unchecked items A1–A3, B1–B4, B6, C1–C2, D1–D2, E1, F1–F4, G1–G3 and H1/H3 require the native browser portion of their checks. In particular, **Close's visible notch/tuck, every marker's readable name and independent click target, hover stability, tray-rim clearance, and complete page-turn sequences have not received a visual pass**. Use the matrix above and record screenshots/recordings when the preview route is available. The separate review copy makes the branch available for user inspection in the meantime.
+
 ## Completion review
 
-- [ ] All mandatory A–H items are checked with evidence, or explicitly listed as unresolved for the user's review.
+- [x] All mandatory A–H items are checked with evidence, or explicitly listed as unresolved for the user's review.
 - [ ] The physical-book goal holds in combined interactions, not only isolated component tests.
-- [ ] Final chosen tuning values and any remaining turning-note overhang limitation are recorded.
+- [x] Final chosen tuning values and any remaining turning-note overhang limitation are recorded.
 - [ ] The user has a separate playable branch review and can choose to merge, revise or discard it.
 
 The main tabletop's final illustration and the deferred stationery starter-kit task reward are future decisions. No new starter kit is part of this branch.
