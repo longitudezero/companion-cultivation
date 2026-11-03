@@ -8,6 +8,7 @@ import { createJournal, pageNotes, removeNote, markPage, MARKER_LIMIT } from './
 import { stationeryArt } from './grimoire/stationery-art.js';
 import { GrimoireNote, PersonalBookmarks, StationeryDesk, StaticPageNotes, NoteDeleteDialog } from './grimoire/Stationery.jsx';
 import MarkerTool from './grimoire/MarkerTool.jsx';
+import StationeryTray from './grimoire/StationeryTray.jsx';
 import { TurningPersonalMarkers } from './grimoire/PageMarkers.jsx';
 import { travellingMarkers, layoutPageMarkers } from './grimoire/stationery-model.js';
 import './grimoire.css';
@@ -240,7 +241,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
           {Array.from({ length: 8 }, (_, i) => 8 - i).flatMap(depth => ['left', 'right'].map(side =>
             <div key={`${depth}-${side}`} className={`cg-under-sheet ${side}`} aria-hidden="true"
               style={{ '--sheet-depth': depth }}/>))}
-          <PersonalBookmarks journal={journal} ledger={ledger} current={current} busy={busy} navigate={navigate}
+          <PersonalBookmarks journal={journal} ledger={ledger} current={current} busy={busy} reduced={reduced} navigate={navigate}
             movingMarkers={movingMarkers} onChange={onJournalChange} onIssue={setStationeryIssue}
             onEdit={marker => setDesk({ tab: 'markers', side: marker.side, markerSlot: marker.slot })}/>
           <nav className="cg-tabs" aria-label="Grimoire sections">{CHAPTERS.map((chapter, index) => {
@@ -276,15 +277,14 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       </div>
       <div className="cg-sr-only" aria-live="polite" aria-atomic="true">{CHAPTERS[current.chapter].label} · pages {current.page}–{current.page + 1}{busy ? ' · Turning pages' : ''}</div>
     </div>
-    <div className="cg-stationery-tools" role="group" aria-label="Grimoire stationery" inert={Boolean(glossary || desk || pendingDelete)}>
-      <img className="cg-stationery-table" src={stationeryArt('cultivation-tabletop.webp')} alt="" aria-hidden="true" draggable="false"/>
+    <StationeryTray inert={Boolean(glossary || desk || pendingDelete)}>
       <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
         onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
         <img src={stationeryArt('inkwell.webp')} alt="" draggable="false"/><span>Field notes</span></button>
       <MarkerTool bookRef={bookRef} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
         onClick={() => setDesk({ tab: 'markers', side: 'right' })} onDrop={dropMarker}/>
       {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
-    </div>
+    </StationeryTray>
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
       onChange={onJournalChange} onClose={() => setDesk(null)} onShop={category => onOpenShop(category, current.key)}/>}
     {pendingDelete && journal.notes[pendingDelete] && <NoteDeleteDialog note={journal.notes[pendingDelete]} onCancel={() => setPendingDelete(null)}

@@ -1,5 +1,8 @@
 import { BOOK_ENTRIES } from './book.js';
 
+export const MARKER_REST_MS = 1500;
+export const MARKER_HOVER_LEAVE_MS = 350;
+
 const entries = new Map(BOOK_ENTRIES.map(entry => [entry.key, entry]));
 export const markerPage = marker => entries.get(marker.entryKey).page + Number(marker.side === 'right');
 export const markerIsLeft = (marker, current) => markerPage(marker) <= current.page;
