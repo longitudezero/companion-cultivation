@@ -2,6 +2,8 @@ import { FUNGI, PLANTS } from './species.js';
 import { TASKS } from './tasks.js';
 import { inventoryItems, ensureInventorySlots, INVENTORY_CAPACITY } from './inventory.js';
 import { goldBalance, withGold } from './wallet.js';
+import { NOTE_PAPERS, PAGE_MARKERS } from './stationery.js';
+import { createJournal } from './journal.js';
 
 export const SHOP_PRICES = Object.freeze({ seed: 0, spore: 2, leaf: 1 });
 
@@ -35,6 +37,9 @@ export function shopProducts(garden, mode) {
       owned: garden.inventory.seeds.Beanstalk || 0 },
     ...shopUnlockedSpores(garden).map(species => ({ id: `spore:${species}`, type: 'spore', species,
       name: `${species} Spores`, price: SHOP_PRICES.spore, owned: garden.inventory.spores[species] || 0 })),
+    ...[...Object.values(NOTE_PAPERS), ...Object.values(PAGE_MARKERS)].map(style => ({ ...style,
+      id: `${style.type}:${style.id}`, styleId: style.id, permanent: true,
+      owned: Number((garden.journal?.[style.type === 'paper' ? 'papers' : 'markers'] || []).includes(style.id)) })),
   ];
   if (mode === 'sell') return inventoryItems(garden.inventory).filter(item => item.type === 'leaf' && Object.hasOwn(PLANTS, item.species))
     .map(item => ({ ...item, price: SHOP_PRICES.leaf, owned: item.quantity })).sort((a, b) => a.name.localeCompare(b.name));
@@ -45,6 +50,8 @@ export function shopQuote(garden, mode, id, quantity) {
   if (!Number.isSafeInteger(quantity) || quantity < 1) throw new Error('Choose a whole quantity of at least 1.');
   const product = shopProducts(garden, mode).find(item => item.id === id);
   if (!product) throw new Error(mode === 'buy' ? 'This product is not unlocked.' : 'Only your currently held Leaves can be sold.');
+  if (product.permanent && quantity !== 1) throw new Error('Stationery styles are permanent unlocks. Buy one of each.');
+  if (product.permanent && product.owned) throw new Error('Already in your stationery collection.');
   const total = product.price * quantity, gold = goldBalance(garden);
   if (!Number.isSafeInteger(total) || !Number.isSafeInteger(gold) || gold < 0) throw new Error('This transaction is too large.');
   const balanceAfter = mode === 'buy' ? gold - total : gold + total;
@@ -52,7 +59,7 @@ export function shopQuote(garden, mode, id, quantity) {
   if (!Number.isSafeInteger(balanceAfter)) throw new Error('Gold balance is too large for this sale.');
   if (mode === 'sell' && quantity > product.owned) throw new Error('Not enough Leaves for this quantity.');
   if (mode === 'buy' && !Number.isSafeInteger(product.owned + quantity)) throw new Error('This stack is too large.');
-  if (mode === 'buy' && product.owned === 0 && inventoryItems(garden.inventory).length >= INVENTORY_CAPACITY) {
+  if (mode === 'buy' && !product.permanent && product.owned === 0 && inventoryItems(garden.inventory).length >= INVENTORY_CAPACITY) {
     throw new Error('Inventory is full: free a square for this item.');
   }
   return { ...product, mode, quantity, total, balanceAfter };
@@ -60,6 +67,11 @@ export function shopQuote(garden, mode, id, quantity) {
 
 export function tradeShop(garden, mode, id, quantity) {
   const quote = shopQuote(garden, mode, id, quantity);
+  if (quote.permanent) {
+    const journal = garden.journal || createJournal(), collection = quote.type === 'paper' ? 'papers' : 'markers';
+    return { garden: withGold({ ...garden, journal: { ...journal,
+      [collection]: [...journal[collection], quote.styleId] } }, quote.balanceAfter), receipt: quote };
+  }
   const key = { seed: 'seeds', spore: 'spores', leaf: 'leaves' }[quote.type];
   const stock = { ...garden.inventory[key], [quote.species]: quote.owned + (mode === 'buy' ? quantity : -quantity) };
   const next = ensureInventorySlots(withGold({ ...garden,

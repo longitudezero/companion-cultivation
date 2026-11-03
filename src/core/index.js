@@ -20,3 +20,5 @@ export * from './grimoire.js';
 export * from './tasks.js';
 export * from './wallet.js';
 export * from './shop.js';
+export * from './stationery.js';
+export * from './journal.js';

@@ -30,7 +30,7 @@ test('Beanstalk Seeds stay free at zero Gold; shop quotes do not mutate the gard
 
 test('only starter and task-awarded Spores unlock in tutorials, with recovery after depletion', () => {
   let garden = createTutorialGarden();
-  assert.deepEqual(shopProducts(garden, 'buy').map(item => item.id), ['seed:Beanstalk', 'spore:Prismorel']);
+  assert.deepEqual(shopProducts(garden, 'buy').filter(item => !item.permanent).map(item => item.id), ['seed:Beanstalk', 'spore:Prismorel']);
   garden.inventory.spores.Hushroom = 8;
   assert.throws(() => tradeShop(garden, 'buy', 'spore:Hushroom', 1), /not unlocked/);
   garden = firstClaimed();
@@ -38,7 +38,7 @@ test('only starter and task-awarded Spores unlock in tutorials, with recovery af
   assert.equal(shopProducts(garden, 'buy').some(item => item.id === 'spore:Dewmender'), true);
   garden.tasks.ready.push(CARE_TASK); garden = claimTask(garden, CARE_TASK);
   for (const species of Object.keys(garden.inventory.spores)) garden.inventory.spores[species] = 0;
-  assert.deepEqual(shopProducts(deserializeGameSave(serializeGameSave(garden)), 'buy').map(item => item.id),
+  assert.deepEqual(shopProducts(deserializeGameSave(serializeGameSave(garden)), 'buy').filter(item => !item.permanent).map(item => item.id),
     ['seed:Beanstalk', 'spore:Dewmender', 'spore:Droughtcap', 'spore:Prismorel', 'spore:Rilllace']);
 });
 

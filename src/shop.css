@@ -7,6 +7,11 @@
 .shop-tabs { flex-shrink: 0; max-width: 260px; margin-bottom: 12px; }
 .shop-tabs button { padding: 9px 14px; font-size: 14px; }
 .shop-stock-note { flex-shrink: 0; font: 13px/1.5 Georgia, serif; color: #c2c6a5; margin: 0 0 18px; }
+.shop-categories { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.shop-categories button { padding: 8px 11px; border: 1px solid #a48b54; border-radius: 3px; background: #172d22; color: #ddc794; font: 13px Georgia, serif; cursor: pointer; }
+.shop-categories button[aria-selected="true"] { background: #d9c28c; color: #243a29; }
+.shop-trade-art.stationery { width: 160px; height: 145px; }
+.shop-grimoire-link { align-self: center; margin-top: 14px; border: 0; background: none; color: #435c37; font: 14px Georgia, serif; text-decoration: underline; cursor: pointer; }
 .shop-catalogue { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); align-content: start; gap: 12px; min-height: 0; overflow-y: auto; padding: 2px 5px 8px 2px; scrollbar-color: #a18b54 #172c21; }
 .shop-product { display: flex; flex-direction: column; align-items: center; min-height: 175px; padding: 12px 7px 10px; color: #ecdcaf; background: radial-gradient(ellipse at top, #3c5633, #14291f 85%); border: 1px solid #768052; border-radius: 4px; text-align: center; cursor: pointer; }
 .shop-product.selected { border-color: #efcc7e; box-shadow: 0 0 0 1px #cfaa62, inset 0 0 22px #bda35d22; }

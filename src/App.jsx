@@ -109,6 +109,8 @@ export default function App() {
   const [bookEntry, setBookEntry] = useState(null);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
+  const [shopCategory, setShopCategory] = useState('supplies');
+  const [shopReturnEntry, setShopReturnEntry] = useState(null);
   const [showMainMenu, setShowMainMenu] = useState(false);
   const [simplifiedHexFills, setSimplifiedHexFills] = useState(() => {
     try { return localStorage.getItem('companion-cultivation:simplified-hex-fills') === 'true'; }
@@ -207,7 +209,9 @@ export default function App() {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowGrimoire(false); setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
   }
-  function openShop() {
+  function openShop(category = 'supplies', entryKey = null) {
+    setShopCategory(['papers', 'bookmarks'].includes(category) ? category : 'supplies');
+    setShopReturnEntry(entryKey);
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowGrimoire(false); setShowTaskboard(false); setShowGuide(false); setShowShop(true);
@@ -787,12 +791,14 @@ export default function App() {
       simplifiedHexFills={simplifiedHexFills} onHexFillChange={setSimplifiedHexFills}
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
-    {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}/>}
+    {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}
+      initialCategory={shopCategory} onOpenGrimoire={() => { openGrimoire(); setBookEntry(shopReturnEntry); }}/>}
     {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}
+      onJournalChange={update => { replaceGarden(update(gardenRef.current)); return true; }} onOpenShop={openShop}
       onClose={() => setShowGrimoire(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>

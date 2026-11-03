@@ -1,3 +1,5 @@
+import { createJournal } from './journal-state.js';
+
 export const CONDITIONS = Object.freeze({
   Moisture: Object.freeze(['Dry', 'Damp', 'Flooded']),
   Temperature: Object.freeze(['Freezing', 'Cold', 'Temperate', 'Hot', 'Scorching']),
@@ -49,7 +51,7 @@ export function createGarden(columns = 9, rows = 7) {
     'Moss': 16, Jadeheart: 16, Thymekeeper: 16 };
   return { schemaVersion: 8, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, itemNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
-    inventorySlots: {}, staged: {}, pending: {},
+    inventorySlots: {}, staged: {}, pending: {}, journal: createJournal(),
     grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
       environments: {}, fungalEffects: {}, hazards: {}, transformations: [] },
     inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, sourceItems: {},
@@ -72,6 +74,7 @@ export function resizeGarden(garden, columns, rows) {
   next.colonyNonce = garden.colonyNonce || 0;
   next.inventory = garden.inventory;
   next.grimoire = garden.grimoire;
+  next.journal = garden.journal || createJournal();
   if (garden.tasks) next.tasks = garden.tasks;
   if (garden.shop) next.shop = garden.shop;
   next.inventorySlots = garden.inventorySlots || {};
