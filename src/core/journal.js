@@ -49,7 +49,7 @@ export function normalizeJournal(saved) {
       || usedSlots.has(marker.slot) || !validJournalEntry(marker.entryKey) || !sides.includes(marker.side)
       || !clean.markers.includes(marker.styleId) || usedPages.has(noteKey(marker.entryKey, marker.side))) continue;
     clean.bookmarks.push({ slot: marker.slot, entryKey: marker.entryKey, side: marker.side, styleId: marker.styleId,
-      x: Number.isFinite(marker.x) ? coordinate(marker.x) : 20 + marker.slot * 20 });
+      x: Number.isFinite(marker.x) ? coordinate(marker.x) : 5 + marker.slot * 20 });
     usedSlots.add(marker.slot); usedPages.add(noteKey(marker.entryKey, marker.side));
   }
   clean.bookmarks.sort((a, b) => a.slot - b.slot);
@@ -95,7 +95,7 @@ export function markPage(garden, entryKey, side, styleId, requestedSlot = null) 
   if (existing && existing.slot !== slot) throw new Error('This page already has a marker. Choose that marker to change its style.');
   const previous = journal.bookmarks.find(marker => marker.slot === slot);
   const bookmarks = [...journal.bookmarks.filter(marker => marker.slot !== slot), { slot, entryKey, side, styleId,
-    x: previous?.x ?? 20 + slot * 20 }]
+    x: previous?.x ?? 5 + slot * 20 }]
     .sort((a, b) => a.slot - b.slot);
   return { ...garden, journal: { ...journal, bookmarks } };
 }
