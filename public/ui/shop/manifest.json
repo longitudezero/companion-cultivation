@@ -1,0 +1,29 @@
+{
+  "source": "User-supplied shop illustration and decorations, copied unchanged. Corner art is isolated with an SVG viewBox.",
+  "assets": [
+    {
+      "file": "interior.webp",
+      "source": "shop(1).webp",
+      "sha256": "189e9558bde81aa64eb0fa6e1a023f8870b2bfe259f69d829722ee3c097d9517",
+      "bytes": 268360
+    },
+    {
+      "file": "ivy-top.webp",
+      "source": "ivy-dense-top-a.webp",
+      "sha256": "8be5fcc1eb848fac7c0e68681b92d254a7a7e439390933accaf1a7b10ae202ee",
+      "bytes": 125620
+    },
+    {
+      "file": "ivy-bottom.webp",
+      "source": "ivy-dense-bottom-a.webp",
+      "sha256": "16d5e9c6ed711c2d2864dd97dca42a03920cddaead98b35009bc974ee4a7b174",
+      "bytes": 113962
+    },
+    {
+      "file": "corner-atlas.png",
+      "source": "Ornate Gold Corner Filigree Collection(2).png",
+      "sha256": "2e79ca5201c111aa9873ecd7bf5355638d6853c2cb12042d13b43d232d830fa5",
+      "bytes": 916586
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 
 // View boxes normalize the visible artwork without cropping or repainting the
-// supplied files. The two collections remain shared, unmodified sprite sheets.
+// supplied files. The collections remain shared, unmodified sprite sheets.
 export const GAME_ART = {
+  shopCornerBotanical: ['shop/corner-atlas.png', 1536, 1024, [800, 32, 330, 292]],
   completionTitle: ['task-complete.webp', 1086, 362, [0, 0, 1086, 362]],
   completionCheckmark: ['completion-checkmark.webp', 1086, 362, [0, 0, 1086, 362]],
   completionContinue: ['completion-continue.webp', 627, 627, [0, 0, 627, 627]],
