@@ -66,28 +66,31 @@
 .cg-tabletop .cg-tab.left .cg-pressed-mark, .cg-tabletop .cg-tab.left .cg-glow-mark { flex-direction: row-reverse; justify-content: flex-start; }
 .cg-tabletop .cg-tab.right .cg-pressed-mark, .cg-tabletop .cg-tab.right .cg-glow-mark { flex-direction: row; justify-content: flex-start; }
 
-/* Every asset uses its own visible aspect ratio. The root is the page-edge
-   anchor; all rotation occurs about that same point, never a translated box. */
+/* Keep the normal protruding head in place. Its hinge is 10 units above it,
+   throughout rest/raise/hover; opening never rebases the marker onto the page. */
 .cg-tabletop .cg-personal-bookmark, .cg-tabletop .cg-turn-personal-marker {
   --marker-w: 128.8px; --marker-h: calc(var(--marker-w) * var(--marker-ratio, 2));
   --marker-reveal: min(132px, calc(var(--marker-h) * .5)); --marker-orientation: 0deg;
-  --marker-pivot: var(--marker-reveal);
+  --marker-pivot: -10px; --marker-offset: calc(-1 * var(--marker-reveal));
   top: 0; height: var(--marker-h); rotate: none; transform: none; transform-origin: 50% 0; }
 .cg-tabletop .cg-personal-bookmark.edge-bottom, .cg-tabletop .cg-turn-personal-marker.edge-bottom {
-  top: 100%; --marker-orientation: 180deg; transform-origin: 50% 0; }
+  top: 100%; --marker-orientation: 180deg; --marker-offset: calc(var(--marker-reveal) + 20px); transform-origin: 50% 0; }
 .cg-tabletop .cg-marker-orientation { transform: none; }
-.cg-tabletop .cg-marker-body { top: calc(-1 * var(--marker-pivot)); bottom: auto; height: var(--marker-h);
+.cg-tabletop .cg-marker-body { top: var(--marker-offset); bottom: auto; height: var(--marker-h);
   transform-origin: 50% var(--marker-pivot);
   transform: rotate(calc(var(--marker-orientation, 0deg) + var(--marker-tilt, 0deg)));
   clip-path: none; }
 .cg-marker-art { display: block; width: 100%; height: 100%; filter: drop-shadow(2px 3px 2px #0006); overflow: visible; }
-.cg-tabletop .cg-personal-bookmark.is-open { --marker-pivot: 8px; z-index: auto; filter: none; translate: none; }
+.cg-tabletop .cg-personal-bookmark.is-open { z-index: auto; filter: none; translate: none; }
 .cg-tabletop .cg-personal-bookmark.is-open .cg-marker-body { z-index: 20;
+  /* Override the legacy .is-resting translateY rule at the same specificity
+     as the raised pose. Only the angle may change on the current spread. */
+  transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt)));
   transition: transform .65s cubic-bezier(.3,.05,.3,1), z-index 0s; }
 .cg-tabletop .cg-personal-bookmark.is-open.is-raised .cg-marker-body { z-index: 1;
   transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt) + var(--marker-open-angle)));
   transition: transform .65s cubic-bezier(.3,.05,.3,1), z-index 0s .65s; }
-.cg-tabletop .cg-marker-hover-target { z-index: 1; top: -8px; bottom: auto; height: var(--marker-h); transform-origin: 50% 8px;
+.cg-tabletop .cg-marker-hover-target { z-index: 1; top: var(--marker-offset); bottom: auto; height: var(--marker-h); transform-origin: 50% var(--marker-pivot);
   transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt) + var(--marker-open-angle))); }
 .cg-tabletop .cg-marker-hover-target > span { inset: 0; }
 .cg-tabletop .cg-marker-handle { top: calc(var(--marker-reveal) - 38px); left: 12%; right: auto; width: 76%; height: 34px; }

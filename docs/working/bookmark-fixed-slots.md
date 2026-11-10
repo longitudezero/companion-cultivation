@@ -11,6 +11,20 @@ This supersedes automatic fanning, free horizontal marker placement, and the one
 - Preserve names, descriptions, styles and ownership in older saves. Convert old horizontal placements to distinct nearest available locations, deterministically, once. Normalize attachments to the right leaf of the same spread.
 - Keep bottom orientation, slight stable tilts, hover/focus access and the existing opening animation.
 
+## Fixed hinge follow-up — 10 November
+
+Agreed after the user's down/up screenshots: the current spread's markers rotate about a fixed hinge just above their normally protruding heads. Opening, the 1.5-second dwell, raising and hover return must not change their vertical offset or pivot. Other spreads' markers retain the small vertical hover/focus lift; that lift does not apply to the currently open spread. Bottom markers mirror the same geometry below the book. Rotation and drag placement of the book itself are unaffected.
+
+Implemented; stylesheet-cascade and project checks pass. The previous CSS both moved the open marker's pivot to the page edge and allowed an older, more specific resting rule to apply a vertical translation. Both were corrected. The hinge stays 10 book units above the normal protruding head; the bottom geometry mirrors that point below the page. Resting, raising and hovering change only the angle on the open spread.
+
+- [x] Current-spread resting/raised states share one offset and hinge for top and bottom markers.
+- [x] The winning resting and raised transforms contain rotation only, including when legacy styles are loaded.
+- [x] The stationary hover target matches the raised hinge/pose, so the marker can return without chasing a moving target.
+- [x] Inactive markers retain their small vertical hover/focus lift; current markers do not inherit it.
+- [x] Existing marker, note and view checks/build pass; native visual review remains explicitly separate.
+
+Evidence: `scripts/check-marker-hinge.mjs` loads the actual stationery, refinement and tabletop styles together. It checks the computed winning transforms, offset/pivot invariance across inactive/resting/raised states on both edges, matching hover-target geometry, and the inactive-only 10px lift rules. All three groups pass. Before the correction the same resting-state inspection returned `translateY(var(--marker-reveal)) rotate(0deg)`. `GITHUB_PAGES=true npm run check` again passes 364 Node tests, the builds and one CommonJS smoke test. Native animation appearance still needs user/browser review; the preview relay remains unavailable.
+
 ## Verification checklist
 
 - [x] Sparse positions preserve gaps before/after passing spreads and when adding/removing another marker.

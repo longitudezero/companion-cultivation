@@ -38,6 +38,8 @@ The review file uses its own browser origin/storage, separate from the live game
 
 ## Focused visual checks still needed
 
+**Hinge correction:** Current-spread markers now retain their normal protruding height and rotate around a hinge just above the head. Check that they do not slide down into the text on opening or hover return. Other spreads' markers keep the small outward hover lift. Verify both edges; the stylesheet cascade checks pass, but the animation still needs native visual review.
+
 - **Solid scene:** the spine/cover stays fixed while turning pages, tucking notes and revealing the tray. Repeat after deliberate pan/zoom/rotation. Printed content and illustrations stay aligned.
 - **Close:** its attached end and inward-facing V notch are under the paper; only a small X-bearing end projects from the right. The X stays within that end. It remains above right-side chapter tabs after chapters change and is independently clickable.
 - **Markers:** review all twelve styles, both rows, names/fallback numbers, overlapping heads and the full resting → raised → hovered sequence. The visible attachment stays on the page edge. Every neighbor retains a clickable part; no chopped artwork appears when lifted. Partly off-screen raised markers are intentional.
