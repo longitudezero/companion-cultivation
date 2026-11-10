@@ -216,7 +216,7 @@ Append dated rows as work progresses. For each completed item, name the relevant
 - Marker width: **128.8** intrinsic units, with each supplied asset's complete visible aspect ratio; reveal is at most 132. Active attachment is 8 units from the artwork head; swing is **±165°**, with the existing slight individual tilts. Bottom orientation adds 180° relative to the book.
 - Marker dwell **1500ms**, swing **650ms**, hover-leave grace **350ms**. Reduced motion removes the swing/dwell animation while preserving access.
 - Tray: **320–420px** on desktop and **280px** on narrow windows, retaining a 44–48px edge peek. Tool rectangles leave a gap; visible-rim clearance remains a required visual check.
-- Close (updated 10 November): natural **154 × 102.67** horizontal leather, **−18°** upward tilt of the whole tab, with its attachment 30 units inside the right paper edge. Its outward V is exposed; the **44 × 44** X tilts with the ribbon. Placement checks sample the actual artwork rather than only the target box. Native visual confirmation remains E1's open check.
+- Close (updated 10 November after size feedback): natural **140 × 93.33** horizontal leather, **−18°** upward tilt of the whole tab, with its attachment 35 units inside the right paper edge. Its outward V is exposed; the **40 × 40** X tilts with the ribbon. Placement checks sample the actual artwork rather than only the target box. Native visual confirmation remains E1's open check.
 - Existing turning faces still clip the portion of a note that extends beyond the paper. Perfect protrusion during a 3D turn is not implemented; stationary half-over-edge placement remains saved and visible. This is the optional G3 polish limitation, not a change to note ownership.
 
 ### Remaining verification
