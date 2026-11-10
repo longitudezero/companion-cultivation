@@ -40,14 +40,18 @@
 .cg-view-controls output { width: 41px; text-align: center; font-variant-numeric: tabular-nums; }
 .cg-tabletop .cg-fixed-preview { position: absolute; z-index: 29; left: 14px; bottom: 12px; max-width: calc(100% - 28px); }
 
-/* The notch is concealed at the left; the rounded X end is exposed at the right.
-   Rotate the leather alone so the glyph and its target remain upright. */
-.cg-tabletop .cg-close-tab { left: calc(100% - 100px); right: auto; top: 8px; width: 154px; height: 60px;
-  rotate: none; transform: none; translate: none; padding: 0; z-index: 2; }
-.cg-tabletop .cg-close-tab::before { inset: auto; left: 47px; top: -47px; width: 60px; height: 154px;
-  rotate: -90deg; transform: none; clip-path: none; background-size: 100% 100%; }
-.cg-tabletop .cg-close-glyph { position: absolute; left: 106px; top: 8px; width: 40px; height: 44px; }
-.cg-tabletop .cg-close-tab:is(:hover, :focus-visible) { translate: 5px 0; rotate: none; }
+/* Outward V tip, with the rounded inner end beneath the upper-right paper.
+   Natural 900:600 horizontal art; the whole ribbon and its X tilt together. */
+.cg-tabletop .cg-close-tab { --close-width: 154px; --close-height: calc(var(--close-width) * 2 / 3);
+  left: calc(100% - 30px); right: auto; top: 5px; width: var(--close-width); height: var(--close-height);
+  rotate: -18deg; transform: none; translate: none; transform-origin: 0 50%; padding: 0; z-index: 2; }
+.cg-tabletop .cg-close-tab::before { inset: auto;
+  left: calc((var(--close-width) - var(--close-height)) / 2); top: calc((var(--close-height) - var(--close-width)) / 2);
+  width: var(--close-height); height: var(--close-width);
+  rotate: 90deg; transform: none; clip-path: none; background-size: 100% 100%; }
+.cg-tabletop .cg-close-glyph { position: absolute; left: 62px; top: calc((var(--close-height) - 52px) / 2); width: 52px; height: 52px; }
+.cg-tabletop .cg-close-icon, .cg-tabletop .cg-close-icon-glow { width: 44px; height: 44px; }
+.cg-tabletop .cg-close-tab:is(:hover, :focus-visible) { translate: 5px 0; rotate: -18deg; }
 
 /* Chapter tabs keep their physical book layout at every viewport size. */
 .cg-tabletop .cg-tabs { position: absolute; inset: 0; width: auto; display: block; transform: none; z-index: 2; }

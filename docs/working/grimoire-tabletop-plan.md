@@ -10,6 +10,8 @@ Starting commit: `0b155712242ba41ccb390be49ca77bb5664d5879`
 
 ## Purpose
 
+**Close ribbon update, 10 November:** [The new reference](close-tab-reference.md) supersedes E1's earlier inward/concealed V notch. The V now faces outward, with a slight upward tilt and the inner rounded end under the paper.
+
 **10 November follow-up:** [Fixed bookmark positions](bookmark-fixed-slots.md) supersedes free marker positioning, automatic fanning, and one-marker-per-page restrictions in this record. It records the agreed twelve global reservations, spread ownership, migration and current verification results. Earlier dated evidence below remains a historical checkpoint.
 
 Make the Grimoire feel like a solid, physical book resting on a table. The player can move their view and turn the book deliberately; pages and attached objects then behave consistently within that view. Accessories must never push the book around or cause automatic recentering.
@@ -106,8 +108,8 @@ Exact zoom bounds, surface color, shadows, marker angles and animation easing ar
 
 ### E. Close tab
 
-- [ ] **E1 — Right-side, tucked attachment.** Make Close the uppermost tab on the book's right side, above any right-side chapter tab regardless of which chapter is open. It belongs to the book, not a particular page. Most of its ribbon is concealed beneath the paper stack; a small X-bearing end extends to the right. The V/notched end points inward into the stack and is hidden. The X stays upright relative to the book and within the exposed end. Its hover/focus movement must preserve the tucked appearance.
-  - **Verify:** Inspect the actual red ribbon and X, not just its bounding box. The paper visibly covers its attached end, the notch does not project outward, and there is no floating gap. Check Ingredients with tabs on the right and a late chapter with Ingredients on the left; Close remains upper-right in both. Check no markers and twelve markers, fitted/rotated/zoomed poses, hover and focus. It remains independently clickable and does not obscure a chapter tab.
+- [ ] **E1 — Right-side, tucked attachment (updated 10 November).** Close belongs to the upper-right book edge, independent of the open spread. Follow [the new close-ribbon reference](close-tab-reference.md): the V tip faces outward, the whole tab tilts slightly upward, and the rounded inner end lies behind the paper. The X is centered on the exposed leather and tilts with it. Hover preserves that attachment.
+  - **Verify:** Inspect the actual red ribbon and X, not just element boxes. The paper masks the rounded inner end; the V stays exposed; the X is completely visible on leather. Check early and late chapters, no markers and twelve markers, fitted/rotated/zoomed poses, hover and focus. Close remains independently clickable and clear of chapter-tab labels. The earlier hidden-notch orientation is superseded.
 
 ### F. Personal bookmarks
 
@@ -214,7 +216,7 @@ Append dated rows as work progresses. For each completed item, name the relevant
 - Marker width: **128.8** intrinsic units, with each supplied asset's complete visible aspect ratio; reveal is at most 132. Active attachment is 8 units from the artwork head; swing is **±165°**, with the existing slight individual tilts. Bottom orientation adds 180° relative to the book.
 - Marker dwell **1500ms**, swing **650ms**, hover-leave grace **350ms**. Reduced motion removes the swing/dwell animation while preserving access.
 - Tray: **320–420px** on desktop and **280px** on narrow windows, retaining a 44–48px edge peek. Tool rectangles leave a gap; visible-rim clearance remains a required visual check.
-- Close: full leather target **154 × 60** book units with **100** under the page and **54** exposed at the right; only its leather image rotates. The X is centered in the exposed end. Native visual confirmation remains E1's open check.
+- Close (updated 10 November): natural **154 × 102.67** horizontal leather, **−18°** upward tilt of the whole tab, with its attachment 30 units inside the right paper edge. Its outward V is exposed; the **44 × 44** X tilts with the ribbon. Placement checks sample the actual artwork rather than only the target box. Native visual confirmation remains E1's open check.
 - Existing turning faces still clip the portion of a note that extends beyond the paper. Perfect protrusion during a 3D turn is not implemented; stationary half-over-edge placement remains saved and visible. This is the optional G3 polish limitation, not a change to note ownership.
 
 ### Remaining verification

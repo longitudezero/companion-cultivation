@@ -24,7 +24,7 @@ await build({ entryPoints: [new URL('../src/CultivationGrimoire.jsx', import.met
 const Book = (await import(pathToFileURL(`${cache}/book.js`))).default;
 const q = selector => document.querySelector(selector);
 const label = text => q(`[aria-label="${text}"]`);
-let root, current, writes = 0;
+let root, current, writes = 0, closed = 0;
 function fixture() {
   let garden = withGold(createTutorialGarden(), 1000);
   for (const id of ['paper:starlight', 'paper:moonlit', ...Object.keys(PAGE_MARKERS).map(id => `bookmark:${id}`)]) garden = tradeShop(garden, 'buy', id, 1).garden;
@@ -35,7 +35,7 @@ function fixture() {
 }
 function Harness({ garden }) {
   const [value, setValue] = useState(garden); current = value;
-  return React.createElement(Book, { garden: value, initialEntryKey: 'plant:Beanstalk', onClose() {}, onOpenShop() {},
+  return React.createElement(Book, { garden: value, initialEntryKey: 'plant:Beanstalk', onClose() { closed++; }, onOpenShop() {},
     onJournalChange(update) { const next = update(current); writes++; setValue(next); return true; } });
 }
 async function mount(garden = fixture(), motion = true) {
@@ -269,6 +269,11 @@ const cases = [
     await pointer(next, 'pointerdown', from); await pointer(next, 'pointerup', from); await click(next);
     assert.equal(tape(), null, 'deliberate next turn works despite existing selection');
   }],
+  ['the exposed close ribbon retains its close action without writing garden data', async () => {
+    await mount(); const before = serializeGameSave(current);
+    await click(label('Close Grimoire'));
+    assert.equal(closed, 1); assert.equal(writes, 0); assert.equal(serializeGameSave(current), before);
+  }],
   ['cancelled note gestures and delete confirmation preserve unrelated notes', async () => {
     await mount(); const before = serializeGameSave(current), from = paperPoint(note());
     await pointer(tape(), 'pointerdown', bookToScreen(from, pose())); await pointer(tape(), 'pointermove', bookToScreen({ x: from.x - 200, y: from.y }, pose()));
@@ -288,7 +293,7 @@ if (process.env.GRIMOIRE_QA_SAVE) cases.push(['a backed-up garden is unchanged b
 let passed = 0;
 try {
   for (const [name, run] of cases) {
-    writes = 0; localStorage.clear();
+    writes = 0; closed = 0; localStorage.clear();
     try { await run(); passed++; console.log(`PASS ${name}`); }
     finally { if (root) { await act(() => root.unmount()); root = null; } }
   }
