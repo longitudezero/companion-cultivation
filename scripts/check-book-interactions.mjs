@@ -5,7 +5,7 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import React, { act, useState } from 'react';
 import { build } from 'esbuild';
-import { BOOK_SIZE, BOOK_VIEW_KEY, bookToScreen, restoreBookView } from '../src/grimoire/book-view.js';
+import { BOOK_SIZE, BOOK_VIEW_KEY, STATIONERY_PLACEMENT, bookToScreen, tableToScreen, savedBookView, restoreBookView } from '../src/grimoire/book-view.js';
 import { noteGeometry } from '../src/grimoire/stationery-model.js';
 import { createTutorialGarden, withGold, tradeShop, writeNote, positionNote, markPage, PAGE_MARKERS, NOTE_PAPERS, deserializeGameSave, serializeGameSave as serializeGardenSave } from '../src/core/index.js';
 const serializeGameSave = garden => serializeGardenSave(garden, '2026-11-03T00:00:00.000Z');
@@ -67,7 +67,7 @@ function paperPoint(value, x = .53, y = .145) {
 }
 async function setView(view) {
   await act(() => root.unmount()); root = null;
-  localStorage.setItem(BOOK_VIEW_KEY, JSON.stringify({ version: 1, x: view.x / window.innerWidth, y: view.y / window.innerHeight, zoom: view.zoom, rotation: view.rotation }));
+  localStorage.setItem(BOOK_VIEW_KEY, JSON.stringify(savedBookView(view, { width: window.innerWidth, height: window.innerHeight })));
   await mount(current);
 }
 const near = (a, b, tolerance = .025) => assert.ok(Math.abs(a - b) < tolerance, `${a} != ${b}`);
@@ -76,14 +76,14 @@ const cases = [
     await mount(); const before = serializeGameSave(current), initial = pose();
     await click(label('Zoom book in')); assert.ok(pose().zoom > initial.zoom);
     await click(label('Rotate book clockwise')); near(pose().rotation, 5);
-    const scene = q('.cg-scene'), start = { x: 8, y: window.innerHeight - 8 };
+    const scene = q('.cg-table-surface'), start = { x: 8, y: window.innerHeight - 8 };
     await pointer(scene, 'pointerdown', start); await pointer(scene, 'pointermove', { x: 68, y: start.y - 30 }); await pointer(scene, 'pointerup', { x: 68, y: start.y - 30 });
     const moved = pose(); assert.ok(moved.x > initial.x);
     await click([...q('.cg-view-controls').querySelectorAll('button')].find(x => x.textContent === 'Fit book')); near(pose().rotation, 5);
     await click([...q('.cg-view-controls').querySelectorAll('button')].find(x => x.textContent === 'Reset view')); near(pose().rotation, 0);
     assert.equal(serializeGameSave(current), before); assert.equal(writes, 0);
   }],
-  ['cover-corner drag rotates about the book center and cancellation restores the view', async () => {
+  ['cover-corner drag rotates about the table center and cancellation restores the view', async () => {
     await mount(); const initial = pose(), corner = label('Rotate book from top-right cover corner');
     const from = bookToScreen({ x: 1145, y: -20 }, initial), dx = from.x - initial.x, dy = from.y - initial.y, a = Math.PI / 6;
     const to = { x: initial.x + dx * Math.cos(a) - dy * Math.sin(a), y: initial.y + dx * Math.sin(a) + dy * Math.cos(a) };
@@ -163,12 +163,18 @@ const cases = [
     await dragLocal(label('Rotate note 1'), start, { x: center.x + dx * Math.cos(a) - dy * Math.sin(a), y: center.y + dx * Math.sin(a) + dy * Math.cos(a) });
     near(note().rotation, original.rotation + 30); near(note().x, original.x); near(note().y, original.y);
   }],
-  ['marker tool chooses the local bottom edge when the screen-facing direction is rotated', async () => {
+  ['marker tool drops from the transformed wood onto either local paper edge', async () => {
     await mount(); await setView({ x: 650, y: 400, zoom: 1.3, rotation: 92 });
-    const tool = label('Mark a Grimoire page'); await dragLocal(tool, { x: 1200, y: -100 }, { x: 840, y: BOOK_SIZE.height + 20 });
-    const placed = current.journal.bookmarks.find(m => m.entryKey === 'plant:Beanstalk');
-    assert.ok(placed); assert.equal(placed.side, 'right'); assert.equal(placed.edge, 'bottom');
-    assert.equal(label('Marker edge').value, 'bottom');
+    const { x, y, width, height } = STATIONERY_PLACEMENT.marker;
+    const view = pose(), from = tableToScreen({ x: x + width / 2, y: y + height / 2 }, view);
+    for (const edge of ['bottom', 'top']) {
+      const tool = label('Mark a Grimoire page'), to = bookToScreen({ x: 840, y: edge === 'top' ? -20 : BOOK_SIZE.height + 20 }, view);
+      await pointer(tool, 'pointerdown', from); await pointer(tool, 'pointermove', to); await pointer(tool, 'pointerup', to);
+      const placed = current.journal.bookmarks.find(m => m.entryKey === 'plant:Beanstalk' && m.edge === edge);
+      assert.ok(placed); assert.equal(placed.side, 'right'); assert.equal(label('Marker edge').value, edge);
+      assert.deepEqual(pose(), view, 'tool drag does not pan or rotate the shared table');
+      await click(label('Close stationery'));
+    }
   }],
   ['existing marker drag rejects outside paper bounds and preserves its assignment', async () => {
     await mount(); await setView({ x: 640, y: 400, zoom: 1.6, rotation: -31 });
@@ -253,12 +259,40 @@ const cases = [
     await act(() => q('.cg-turn-leaf').dispatchEvent(new window.Event('animationend', { bubbles: true })));
     assert.equal(q('.cg-turn-leaf'), null); assert.equal(JSON.stringify(pose()), view);
   }],
-  ['stationery uses the quest pin and supports hover and pinning', async () => {
-    await mount(); const tray = q('.cg-stationery-tools'), handle = label('Stationery table');
-    assert.match(handle.querySelector('image').getAttribute('href'), /ui\/pin.webp$/);
-    await pointer(handle, 'pointerover', { x: 1000, y: 40 }); assert.ok(tray.classList.contains('is-expanded'));
-    await click(handle); await pointer(handle, 'pointerout', { x: 500, y: 400 }); assert.ok(tray.classList.contains('is-expanded'));
-    assert.equal(handle.getAttribute('aria-pressed'), 'true'); await click(handle); assert.equal(handle.getAttribute('aria-pressed'), 'false');
+  ['table, book and stationery share one scene while controls and dialogs stay outside it', async () => {
+    await mount(); const shell = q('.cg-shell'), tools = q('.cg-stationery-tools');
+    for (const node of [q('.cg-table-art'), q('.cg-book'), tools]) assert.equal(node.closest('.cg-shell'), shell);
+    assert.equal(q('.cg-view-controls').closest('.cg-shell'), null);
+    assert.equal(q('[aria-label="Stationery table"]'), null, 'separate sliding/pinnable tray is removed');
+    assert.equal(document.querySelectorAll('img[src$="cultivation-tabletop.webp"]').length, 1);
+    const before = pose();
+    await pointer(tools, 'pointerover', { x: 700, y: 150 }); await pointer(tools, 'pointerout', { x: 700, y: 500 });
+    await click(label('Write a Grimoire note'));
+    assert.equal(q('.cg-stationery-backdrop').closest('.cg-shell'), null);
+    assert.equal(shell.inert || shell.hasAttribute('inert'), true);
+    await dragLocal(q('.cg-table-surface'), { x: -100, y: 0 }, { x: 0, y: 100 });
+    assert.deepEqual(pose(), before, 'dialog blocks table gestures');
+  }],
+  ['transparent surrounding space blocks garden events and preserves the scene pose', async () => {
+    await mount(); const before = pose(), leaked = [];
+    const observer = event => leaked.push(event.type);
+    for (const type of ['pointerdown', 'click', 'wheel']) document.addEventListener(type, observer);
+    try {
+      await pointer(q('.cg-scene'), 'pointerdown', { x: 5, y: 500 });
+      await pointer(q('.cg-scene'), 'pointermove', { x: 25, y: 520 });
+      await pointer(q('.cg-scene'), 'pointerup', { x: 25, y: 520 });
+      await click(q('.cg-scene'));
+      assert.deepEqual(pose(), before, 'only exposed table or Move control pans');
+      await act(() => q('.cg-scene').dispatchEvent(new window.WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -100, clientX: 5, clientY: 500 })));
+      assert.deepEqual(leaked, []); assert.equal(closed, 0);
+    } finally { for (const type of ['pointerdown', 'click', 'wheel']) document.removeEventListener(type, observer); }
+  }],
+  ['an existing book-only pose upgrades once without shifting the paper center', async () => {
+    localStorage.setItem(BOOK_VIEW_KEY, JSON.stringify({ version: 1, x: .5, y: .5, zoom: .8, rotation: 30 }));
+    await mount(); const center = bookToScreen({ x: BOOK_SIZE.width / 2, y: BOOK_SIZE.height / 2 }, pose());
+    near(center.x, window.innerWidth / 2); near(center.y, window.innerHeight / 2);
+    assert.equal(JSON.parse(localStorage.getItem(BOOK_VIEW_KEY)).version, 2);
+    const expected = pose(); await act(() => root.unmount()); root = null; await mount(); assert.deepEqual(pose(), expected);
   }],
   ['only the selection drag suppresses a turn, and an old selection does not block the next click', async () => {
     await mount(); const page = q('.cg-page.right'), next = label('Next spread');

@@ -8,11 +8,11 @@ import { createJournal, normalizeJournal, pageNotes, removeNote, markPage, MARKE
 import { stationeryArt } from './grimoire/stationery-art.js';
 import { GrimoireNote, PersonalBookmarks, StationeryDesk, StaticPageNotes, NoteDeleteDialog } from './grimoire/Stationery.jsx';
 import MarkerTool from './grimoire/MarkerTool.jsx';
-import StationeryTray from './grimoire/StationeryTray.jsx';
+import TableStationery from './grimoire/TableStationery.jsx';
 import { TurningPersonalMarkers } from './grimoire/PageMarkers.jsx';
 import { travellingMarkers, layoutPageMarkers } from './grimoire/stationery-model.js';
 import { BookCoordinates, BookViewControls, useBookCoordinates, useBookView } from './grimoire/BookView.jsx';
-import { pageMarginHit } from './grimoire/book-view.js';
+import { pageMarginHit, TABLETOP_STYLE } from './grimoire/book-view.js';
 import './grimoire.css';
 import './stationery.css';
 import './stationery-refinements.css';
@@ -242,12 +242,22 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   return <BookCoordinates.Provider value={scene.coordinates}><div ref={root} className="cg-overlay cg-tabletop" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
     onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()} onWheel={event => event.stopPropagation()}>
-    <div className="cg-scene" {...scene.panHandlers} aria-label="Book tabletop">
-      <div className="cg-shell" style={{ transform: scene.transform }} inert={Boolean(glossary || desk || pendingDelete)}>
+    <div className="cg-scene" aria-label="Book tabletop">
+      <div className="cg-shell" style={{ ...TABLETOP_STYLE, transform: scene.transform }} inert={Boolean(glossary || desk || pendingDelete)}>
+        <div className="cg-table-surface" {...scene.panHandlers} aria-label="Drag tabletop">
+          <img className="cg-table-art" src={stationeryArt('cultivation-tabletop.webp')} alt="" draggable="false"/>
+        </div>
+        <TableStationery>
+          <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
+            onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
+            <img src={stationeryArt('inkwell.webp')} alt="" draggable="false"/><span>Field notes</span></button>
+          <MarkerTool bookRef={bookRef} journal={journal} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
+            onClick={() => setDesk({ tab: 'markers', side: 'right' })} onDrop={dropMarker}/>
+        </TableStationery>
         <div className={`cg-book-stage${hasTuckedNote ? ' has-tucked-note' : ''}${hasBottomMarkers ? ' has-bottom-markers' : ''}`}><div ref={bookRef} className={`cg-book${journal.bookmarks.length ? ' has-personal-markers' : ''}`}>
           <div className="cg-cover">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner =>
             <button key={corner} type="button" className={`cg-cover-corner ${corner}`} aria-label={`Rotate book from ${corner} cover corner`}
-              title="Drag the gold corner to rotate the book" disabled={busy} {...scene.rotationHandlers}
+              title="Drag the gold corner to rotate the table and book together" disabled={busy} {...scene.rotationHandlers}
               onKeyDown={event => { if (['ArrowLeft', 'ArrowRight'].includes(event.key)) { event.preventDefault(); event.stopPropagation(); scene.rotate(event.key === 'ArrowLeft' ? -5 : 5); } }}>
               <img src={art(`corners/${corner}`)} alt="" draggable="false"/></button>)}</div>
           {Array.from({ length: 8 }, (_, i) => 8 - i).flatMap(depth => ['left', 'right'].map(side =>
@@ -296,13 +306,6 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
         onClick={() => setPreviewRequested(value => !value)}>{preview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
       <span>{preview ? 'Developer reference · Read only' : 'Garden discoveries'}</span>
     </div>}
-    <StationeryTray inert={Boolean(glossary || desk || pendingDelete)}>
-      <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
-        onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
-        <img src={stationeryArt('inkwell.webp')} alt="" draggable="false"/><span>Field notes</span></button>
-      <MarkerTool bookRef={bookRef} journal={journal} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
-        onClick={() => setDesk({ tab: 'markers', side: 'right' })} onDrop={dropMarker}/>
-    </StationeryTray>
     {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
       tuckedNotes={tuckedNotes} onToggleTuck={toggleTuck}

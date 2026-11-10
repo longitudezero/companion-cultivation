@@ -440,12 +440,13 @@ test('a dragged marker drop preselects its new edge even when that page already 
   assert.doesNotMatch(markup, /<option value="bottom" selected=/);
 });
 
-test('a newly opened marked spread starts with its marker resting in front and a tucked stationery tray', () => {
+test('a newly opened marked spread rests its marker in front with tools on the same table', () => {
   const garden = markPage(collected(), 'plant:Beanstalk', 'right', 'forest-tassel', 0, { name: 'My field notes' });
   const markup = render(Grimoire, { garden, initialEntryKey: 'plant:Beanstalk' });
   assert.match(markup, /data-marker-phase="resting"/);
   assert.match(markup, /is-open is-resting/);
   assert.match(markup, /aria-label="Edit marker: My field notes/);
-  assert.match(markup, /aria-label="Stationery table" aria-expanded="false" aria-pressed="false"/);
-  assert.doesNotMatch(markup, /cg-stationery-tools is-expanded/);
+  assert.match(markup, /class="cg-table-art"/);
+  assert.match(markup, /aria-label="Grimoire stationery"/);
+  assert.doesNotMatch(markup, /cg-table-handle|is-expanded|cg-stationery-table/);
 });

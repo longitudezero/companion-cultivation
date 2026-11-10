@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { BOOK_SIZE, BOOK_VIEW_KEY, fitBook, flatAngle, recoverBook, restoreBookView, savedBookView, screenToBook, zoomBookAt } from './book-view.js';
+import { BOOK_SIZE, BOOK_VIEW_KEY, fitBook, fitTabletop, flatAngle, recoverBook, restoreBookView, savedBookView, screenToBook, zoomBookAt } from './book-view.js';
 
 export const BookCoordinates = createContext(null);
 const viewportSize = () => ({ width: typeof window === 'undefined' ? 1360 : window.innerWidth,
@@ -16,7 +16,7 @@ export function useBookView(root, disabled) {
   const viewport = useRef(viewportSize()), gesture = useRef(null), suppress = useRef(false);
   const [view, setView] = useState(() => {
     try { return restoreBookView(JSON.parse(localStorage.getItem(BOOK_VIEW_KEY)), viewport.current); }
-    catch { return fitBook(viewport.current); }
+    catch { return fitTabletop(viewport.current); }
   });
   const latest = useRef(view); latest.current = view;
   const inert = useRef(disabled); inert.current = disabled;
@@ -80,7 +80,7 @@ export function useBookView(root, disabled) {
     onClick: event => { if (suppress.current) { suppress.current = false; event.stopPropagation(); } } });
   const rotate = amount => setView(current => recoverBook({ ...current, rotation: flatAngle(current.rotation + amount) }, viewport.current));
   return { view, coordinates, panHandlers: handlers('pan'), rotationHandlers: handlers('rotate'),
-    rotate, fit: () => setView(fitBook(viewport.current, latest.current.rotation)), reset: () => setView(fitBook(viewport.current)),
+    rotate, fit: () => setView(fitBook(viewport.current, latest.current.rotation)), reset: () => setView(fitTabletop(viewport.current)),
     zoom: factor => setView(current => recoverBook(zoomBookAt(current, { x: current.x, y: current.y }, current.zoom * factor), viewport.current)),
     pan: (x, y) => setView(current => recoverBook({ ...current, x: current.x + x, y: current.y + y }, viewport.current)),
     transform: `translate(${view.x}px, ${view.y}px) rotate(${view.rotation}deg) scale(${view.zoom}) translate(-50%, -50%)` };
@@ -93,10 +93,10 @@ export function BookViewControls({ scene, disabled }) {
     <button type="button" onClick={() => scene.zoom(1.15)} aria-label="Zoom book in" title="Zoom in">+</button>
     <button type="button" onClick={() => scene.rotate(-5)} aria-label="Rotate book counterclockwise" title="Rotate counterclockwise">↶</button>
     <button type="button" onClick={() => scene.rotate(5)} aria-label="Rotate book clockwise" title="Rotate clockwise">↷</button>
-    <button type="button" className="cg-view-pan" aria-label="Move book" title="Drag to move the book; arrow keys also work" {...scene.panHandlers}
+    <button type="button" className="cg-view-pan" aria-label="Move book" title="Drag to move the table and book together; arrow keys also work" {...scene.panHandlers}
       onKeyDown={event => { const delta = { ArrowLeft: [-24, 0], ArrowRight: [24, 0], ArrowUp: [0, -24], ArrowDown: [0, 24] }[event.key];
         if (delta) { event.preventDefault(); event.stopPropagation(); scene.pan(...delta); } }}>✥</button>
-    <button type="button" onClick={scene.fit}>Fit book</button>
-    <button type="button" onClick={scene.reset}>Reset view</button>
+    <button type="button" onClick={scene.fit} title="Fit the book for reading; keep the current rotation">Fit book</button>
+    <button type="button" onClick={scene.reset} title="Frame the book and stationery together, upright">Reset view</button>
   </div>;
 }

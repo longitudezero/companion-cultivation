@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BOOK_SIZE, MIN_BOOK_ZOOM, MAX_BOOK_ZOOM, bookRectangle, bookToScreen, screenToBook,
-  coverBounds, fitBook, zoomBookAt, savedBookView, restoreBookView, recoverBook, pageMarginHit } from '../src/grimoire/book-view.js';
+import { BOOK_SIZE, BOOK_OFFSET, TABLE_SIZE, STATIONERY_PLACEMENT, MIN_BOOK_ZOOM, MAX_BOOK_ZOOM, bookRectangle, bookToScreen, screenToBook,
+  tableToScreen, coverBounds, fitBook, fitTabletop, zoomBookAt, savedBookView, restoreBookView, recoverBook, pageMarginHit } from '../src/grimoire/book-view.js';
 import { markerDrop, withinMarkerDropArea, noteDrop, noteGeometry, MARKER_ART, markerWritingStyle } from '../src/grimoire/stationery-model.js';
 import { PAGE_MARKERS } from '../src/core/stationery.js';
 
@@ -55,7 +55,56 @@ test('missing, non-finite, unsupported and out-of-range stored views fall back s
   for (const saved of [null, {}, { version: 2 }, { version: 1, x: 1, y: .5, zoom: NaN, rotation: 2 },
     { version: 1, x: Infinity, y: 0, zoom: 1, rotation: 0 }, { version: 1, x: 1, y: .5, zoom: 0, rotation: 2 },
     { version: 1, x: Number.MAX_VALUE, y: .5, zoom: 1, rotation: 0 },
-    { version: 1, x: '1', y: .5, zoom: 1, rotation: 2 }]) assert.deepEqual(restoreBookView(saved, viewport), fitBook(viewport));
+    { version: 1, x: '1', y: .5, zoom: 1, rotation: 2 }]) assert.deepEqual(restoreBookView(saved, viewport), fitTabletop(viewport));
+});
+
+test('table-center rotation keeps the book and tools at rigid local distances', () => {
+  for (const rotation of [-170, -90, 0, 27, 160]) for (const zoom of [.3, 1, 2]) {
+    const view = { x: 650, y: 420, zoom, rotation };
+    const pivot = tableToScreen({ x: TABLE_SIZE.width / 2, y: TABLE_SIZE.height / 2 }, view);
+    close(pivot.x, view.x); close(pivot.y, view.y);
+    const paper = bookToScreen({ x: 0, y: 0 }, view);
+    const attached = tableToScreen(BOOK_OFFSET, view);
+    close(paper.x, attached.x); close(paper.y, attached.y);
+    for (const tool of Object.values(STATIONERY_PLACEMENT)) {
+      const point = tableToScreen(tool, view);
+      close(Math.hypot(point.x - paper.x, point.y - paper.y), Math.hypot(tool.x - BOOK_OFFSET.x, tool.y - BOOK_OFFSET.y) * zoom);
+    }
+  }
+});
+
+test('legacy paper-centered preferences migrate to a table pivot without moving any paper point', () => {
+  const viewport = viewports[0];
+  for (const rotation of [-150, -40, 0, 90, 170]) {
+    const old = { version: 1, x: .5, y: .5, zoom: .8, rotation };
+    const view = restoreBookView(old, viewport), radians = rotation * Math.PI / 180;
+    for (const p of [{ x: 0, y: 0 }, { x: 560, y: 400 }, { x: 1120, y: BOOK_SIZE.height }]) {
+      const x = (p.x - BOOK_SIZE.width / 2) * old.zoom, y = (p.y - BOOK_SIZE.height / 2) * old.zoom;
+      const actual = bookToScreen(p, view);
+      close(actual.x, viewport.width * old.x + x * Math.cos(radians) - y * Math.sin(radians));
+      close(actual.y, viewport.height * old.y + x * Math.sin(radians) + y * Math.cos(radians));
+    }
+    const saved = savedBookView(view, viewport);
+    assert.equal(saved.version, 2);
+    const reopened = restoreBookView(saved, viewport);
+    close(reopened.x, view.x); close(reopened.y, view.y); // migration happens once
+  }
+});
+
+test('default framing keeps the paper and both tools visible while allowing the outer table to crop', () => {
+  for (const viewport of viewports) {
+    const view = fitTabletop(viewport), bounds = coverBounds(view);
+    assert.ok(bounds.left > 0 && bounds.right < viewport.width);
+    assert.ok(bounds.top > 56 && bounds.bottom < viewport.height);
+    for (const tool of Object.values(STATIONERY_PLACEMENT)) {
+      const angle = tool.rotation * Math.PI / 180;
+      for (const dx of [-tool.width / 2, tool.width / 2]) for (const dy of [-tool.height / 2, tool.height / 2]) {
+        const p = tableToScreen({ x: tool.x + tool.width / 2 + dx * Math.cos(angle) - dy * Math.sin(angle),
+          y: tool.y + tool.height / 2 + dx * Math.sin(angle) + dy * Math.cos(angle) }, view);
+        assert.ok(p.x > 0 && p.x < viewport.width && p.y > 56 && p.y < viewport.height);
+      }
+    }
+  }
 });
 
 test('recovery makes a real rotated cover point reachable even when its screen bounding box is misleading', () => {

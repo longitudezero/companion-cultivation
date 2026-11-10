@@ -10,6 +10,8 @@ Starting commit: `0b155712242ba41ccb390be49ca77bb5664d5879`
 
 ## Purpose
 
+**Shared table update, 10 November:** [The approved shared table plan](grimoire-shared-table.md) replaces the full-window wood backdrop and separate sliding/pinnable tray. The table, book and tools now move as one arrangement. Its checklist governs this follow-up; earlier tray evidence below is historical.
+
 **Close ribbon update, 10 November:** [The new reference](close-tab-reference.md) supersedes E1's earlier inward/concealed V notch. The V now faces outward, with a slight upward tilt and the inner rounded end under the paper.
 
 **10 November follow-up:** [Fixed bookmark positions](bookmark-fixed-slots.md) supersedes free marker positioning, automatic fanning, and one-marker-per-page restrictions in this record. It records the agreed twelve global reservations, spread ownership, migration and current verification results. Earlier dated evidence below remains a historical checkpoint.
