@@ -7,11 +7,13 @@ import React, { act } from 'react';
 import { build } from 'esbuild';
 import { createTutorialGarden, withGold, tradeShop, placeObject, makePlant } from '../src/core/index.js';
 import { BOOK_VIEW_KEY } from '../src/grimoire/book-view.js';
+import { BOOK_ENTRIES, BOOK_PAGE_KEY } from '../src/grimoire/book.js';
 
 const { JSDOM } = await import(process.env.GRIMOIRE_QA_JSDOM || 'jsdom');
 const dom = new JSDOM('<!doctype html><div id="root"></div>', { url: 'https://garden-book-qa.test/', pretendToBeVisual: true });
 Object.assign(globalThis, { window: dom.window, document: dom.window.document, localStorage: dom.window.localStorage, IS_REACT_ACT_ENVIRONMENT: true });
-window.matchMedia = () => ({ matches: true, addEventListener() {}, removeEventListener() {} });
+let reduced = true;
+window.matchMedia = () => ({ matches: reduced, addEventListener() {}, removeEventListener() {} });
 window.setInterval = () => 0; window.clearInterval = () => {}; // freeze simulation time for reproducible UI checks
 globalThis.ResizeObserver = window.ResizeObserver = class { observe() {} disconnect() {} };
 window.HTMLElement.prototype.getClientRects = function () { return [this.getBoundingClientRect()]; };
@@ -47,7 +49,16 @@ const pointer = async (element, type, x, y) => {
 const escape = async () => act(() => document.activeElement.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })));
 const hex = key => q(`[data-garden-hex="${key}"]`);
 const seed = () => q('[data-inventory-slot][aria-label^="Beanstalk Seeds"]');
+const launcher = () => q('.grimoire-launcher');
+const assertSpread = key => {
+  const entry = BOOK_ENTRIES.find(entry => entry.key === key);
+  assert.ok(q(`.cg-page.left [aria-label="Page ${entry.page} content"]`), `open spread: ${key}`);
+};
 let root;
+async function remount() {
+  await act(() => root.unmount()); root = createRoot(q('#root'));
+  await act(() => root.render(React.createElement(App)));
+}
 try {
   let initial = withGold(createTutorialGarden(), 500);
   initial = tradeShop(initial, 'buy', 'paper:starlight', 1).garden;
@@ -117,7 +128,8 @@ try {
 
   await click(hex('0,0')); const portrait = q('.portrait-entry'); assert.ok(portrait);
   for (let i = 0; i < 2; i++) {
-    await click(portrait); assert.ok(q('.cg-page.left [aria-label="Page 3 content"]'), 'requested Beanstalk spread is open');
+    await click(portrait); assertSpread('plant:Beanstalk');
+    assert.equal(localStorage.getItem(BOOK_PAGE_KEY), 'plant:Beanstalk', 'direct species links update reading memory');
     const entry = q('.cg-page.left').textContent;
     await click(label('Next spread')); assert.notEqual(q('.cg-page.left').textContent, entry);
   }
@@ -128,8 +140,48 @@ try {
   assert.equal(garden().objects['0,0'], undefined); assert.equal(book(), originalBook);
   assert.ok(q('.harvest-receipt')); assert.equal(pose(), shiftedPose);
   console.log('PASS garden organism drag to inventory harvests while the book stays open');
+
+  await click(label('Open Aquatic section')); assertSpread('family:Aquatic');
+  const savedGarden = JSON.stringify(garden()), savedPose = pose();
+  assert.equal(launcher().getAttribute('aria-expanded'), 'true');
+  assert.equal(launcher().getAttribute('aria-label'), 'Close Cultivation Grimoire');
+  await click(launcher()); assert.equal(book(), null); assert.equal(launcher().getAttribute('aria-expanded'), 'false');
+  assert.equal(launcher().getAttribute('aria-label'), 'Open Cultivation Grimoire');
+  await click(launcher()); assertSpread('family:Aquatic'); assert.equal(pose(), savedPose);
+  await click(label('Close Grimoire')); assert.equal(book(), null);
+  await click(launcher()); assertSpread('family:Aquatic');
+  await click(label('Next spread')); const remembered = localStorage.getItem(BOOK_PAGE_KEY);
+  await escape(); assert.equal(book(), null); await click(launcher()); assertSpread(remembered);
+  assert.equal(JSON.stringify(garden()), savedGarden, 'toggle/page memory never changes the garden save');
+  console.log('PASS launcher toggle, labels and all three close paths resume the last spread without moving the table or changing the garden');
+
+  await click(launcher()); await remount(); await click(launcher()); assertSpread(remembered);
+  assert.equal(pose(), savedPose, 'refresh preserves the table pose as well as the page');
+  await click(launcher()); await act(() => root.unmount()); root = null;
+  localStorage.setItem(BOOK_PAGE_KEY, 'missing:removed-page');
+  root = createRoot(q('#root')); await act(() => root.render(React.createElement(App)));
+  await click(launcher()); assertSpread('family:Ingredients');
+  const get = window.Storage.prototype.getItem, set = window.Storage.prototype.setItem;
+  await click(launcher()); await act(() => root.unmount()); root = null;
+  window.Storage.prototype.getItem = () => { throw new Error('Blocked storage'); };
+  window.Storage.prototype.setItem = () => { throw new Error('Blocked storage'); };
+  try {
+    root = createRoot(q('#root')); await act(() => root.render(React.createElement(App)));
+    await click(launcher()); assertSpread('family:Ingredients');
+    await click(label('Open Flowers section')); await click(launcher()); await click(launcher()); assertSpread('family:Flowers');
+    await click(launcher());
+  } finally { window.Storage.prototype.getItem = get; window.Storage.prototype.setItem = set; }
+  console.log('PASS App refresh, invalid saved keys and unavailable-storage fallback retain safe reading memory');
+
+  reduced = false;
+  await click(launcher()); await click(label('Open Fungi section'));
+  assert.ok(q('.cg-turn-leaf'), 'animated jump has started');
+  assert.equal(localStorage.getItem(BOOK_PAGE_KEY), 'family:Fungi');
+  await click(launcher()); await click(launcher()); assertSpread('family:Fungi');
+  assert.equal(q('.cg-turn-leaf'), null, 'reopen settles at the destination rather than an intermediate turning sheet');
+  console.log('PASS closing during an animated jump resumes at the requested destination');
   assert.deepEqual(errors, []);
-  console.log('8 integrated DOM scenario groups passed. Native hit-testing/visual review remains separate.');
+  console.log('11 integrated DOM scenario groups passed. Native hit-testing/visual review remains separate.');
 } finally {
   if (root) await act(() => root.unmount());
   dom.window.close(); await rm(cache, { recursive: true, force: true });

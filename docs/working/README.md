@@ -4,6 +4,7 @@
 
 ## Current documents
 
+- [Grimoire toggle and last spread](grimoire-toggle-memory.md) — **implemented on the experiment branch; automated checks pass; native review pending**. The launcher toggles the book and resumes its last spread, including after refresh; direct species links retain their destination.
 - [Play with the Grimoire open](grimoire-garden-input.md) — **implemented on the experiment branch; automated checks pass; native input/visual review pending**. Exposed garden remains playable, book shortcuts follow focus and only its editors/confirmations stay modal. This is the latest follow-up checklist, superseding full-window input blocking.
 - [Shared Grimoire table](grimoire-shared-table.md) — **implemented on the experiment branch; automated checks pass; user confirmed it works well**. One rigid table/book/stationery scene, shared pan/zoom/rotation and migrated view memory. Replaces the full-window backdrop and sliding corner tray; its geometry remains the accepted baseline for the garden-input follow-up.
 - [Close ribbon reference](close-tab-reference.md) — **implemented on the tabletop experiment branch; geometry/interaction checks pass; visual review pending**. Outward V-shaped end, slight upward tilt, rounded inner end behind the pages and an X that tilts with the ribbon. Supersedes the earlier concealed-notch design.

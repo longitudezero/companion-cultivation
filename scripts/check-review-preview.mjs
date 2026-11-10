@@ -19,6 +19,14 @@ try {
   launch.click();
   await until(() => document.querySelector('.cg-tabletop .cg-book'));
   assert.ok(document.querySelector('[aria-label="Book view"]'));
+  assert.equal(launch.getAttribute('aria-expanded'), 'true');
+  const initialSpread = document.querySelector('.cg-page.left').textContent;
+  document.querySelector('[aria-label="Next spread"]').click();
+  await until(() => document.querySelector('.cg-page.left')?.textContent !== initialSpread);
+  const remembered = document.querySelector('.cg-page.left').textContent;
+  launch.click(); await until(() => !document.querySelector('.cg-tabletop'));
+  assert.equal(launch.getAttribute('aria-expanded'), 'false');
+  launch.click(); await until(() => document.querySelector('.cg-page.left')?.textContent === remembered);
   assert.equal(document.querySelector('.cg-tabletop').getAttribute('aria-modal'), 'false');
   assert.equal(dom.window.getComputedStyle(document.querySelector('.cg-tabletop')).pointerEvents, 'none');
   assert.equal(dom.window.getComputedStyle(document.querySelector('.cg-book')).pointerEvents, 'auto');
@@ -30,5 +38,5 @@ try {
   const assets = dom.window.__COMPANION_REVIEW_ASSETS__;
   assert.ok(assets['ui/pin.webp']); assert.ok(assets['grimoire/stationery/forest-tassel.webp']); assert.ok(assets['grimoire/fonts/NotoSansRunic-Regular.ttf']);
   assert.deepEqual(errors.map(issue => issue.message), []);
-  globalThis.console.log(`Review boots, opens the book, and maps all rendered image URLs through ${Object.keys(assets).length} ${assetBase === 'embedded' ? 'embedded' : 'linked'} assets. Source: ${document.querySelector('meta[name="companion-review-source"]').content}. Visual verification remains pending.`);
+  globalThis.console.log(`Review boots, toggles/resumes the book, and maps all rendered image URLs through ${Object.keys(assets).length} ${assetBase === 'embedded' ? 'embedded' : 'linked'} assets. Source: ${document.querySelector('meta[name="companion-review-source"]').content}. Visual verification remains pending.`);
 } finally { dom.window.close(); }

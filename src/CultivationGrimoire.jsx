@@ -95,7 +95,7 @@ function PageSurface({ side, disabled, busy, onTurn, children }) {
   </article>;
 }
 
-export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null, onJournalChange, onOpenShop, onModalChange, suspended = false, entryRequest = 0 }) {
+export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null, onJournalChange, onOpenShop, onModalChange, suspended = false, entryRequest = 0, onEntryChange }) {
   const root = useRef(null), closeRef = useRef(null), glossaryClose = useRef(null), termRef = useRef(null);
   const active = useRef(true);
   const previousRequest = useRef(entryRequest);
@@ -138,6 +138,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     window.getSelection()?.removeAllRanges();
     dispatch({ type: 'navigate', to, reduced: Boolean(reducedMotionQuery()?.matches) });
   }, []);
+  useEffect(() => { onEntryChange?.(BOOK_ENTRIES[nav.target].key); }, [nav.target, onEntryChange]);
   useEffect(() => {
     if (previousRequest.current === entryRequest) return;
     previousRequest.current = entryRequest;

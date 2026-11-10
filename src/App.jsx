@@ -21,6 +21,7 @@ import { inventoryWidthFor } from './ui/view-model.js';
 import { HEX_SIZE, plantingPopoverPosition } from './ui/hex-model.js';
 import { restoreStagingPlan } from './ui/garden-model.js';
 import { art as grimoireArt } from './grimoire/art.js';
+import { BOOK_PAGE_KEY, restoreBookEntry } from './grimoire/book.js';
 import { DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
 import './spread.css';
 import './adjacency.css';
@@ -108,6 +109,10 @@ export default function App() {
   const [showGrimoire, setShowGrimoire] = useState(false);
   const [bookModal, setBookModal] = useState(false);
   const [bookEntry, setBookEntry] = useState(null);
+  const [lastBookEntry, setLastBookEntry] = useState(() => {
+    try { return restoreBookEntry(localStorage.getItem(BOOK_PAGE_KEY)); }
+    catch { return restoreBookEntry(null); }
+  });
   const [bookRequest, setBookRequest] = useState(0);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
@@ -202,9 +207,13 @@ export default function App() {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowMainMenu(true);
   }
-  function openGrimoire() {
+  function openGrimoire(entryKey = lastBookEntry) {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(null); setBookRequest(value => value + 1); setShowGrimoire(true);
+    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(entryKey); setBookRequest(value => value + 1); setShowGrimoire(true);
+  }
+  function toggleGrimoire() {
+    if (showGrimoire) setShowGrimoire(false);
+    else openGrimoire();
   }
   function openTaskboard(id = FIRST_TASK) {
     setShowMainMenu(false);
@@ -303,6 +312,10 @@ export default function App() {
   }, [showGuide, showTaskboard, showShop, showMainMenu]);
 
   useEffect(() => { if (bookModal) dragCleanup.current?.(); }, [bookModal]);
+  useEffect(() => {
+    try { localStorage.setItem(BOOK_PAGE_KEY, lastBookEntry); }
+    catch { /* App state still remembers the spread when storage is blocked. */ }
+  }, [lastBookEntry]);
 
   function changeGarden(fn) {
     try {
@@ -707,7 +720,8 @@ export default function App() {
         onReturnSource={() => changeGarden(previous => pickupSourceItem(previous, selection.key))}/>
       <nav className="inspector-navigation" aria-label="Garden navigation">
         <button className="main-menu-launcher" onClick={openMainMenu} title="Open main menu" aria-label="Open main menu"><MainMenuIcon/></button>
-        <button className="grimoire-launcher" onClick={openGrimoire} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire"><img src={grimoireArt('book-launcher')} alt="" draggable="false"/></button>
+        <button className="grimoire-launcher" onClick={toggleGrimoire} title={`${showGrimoire ? 'Close' : 'Open'} Cultivation Grimoire`}
+          aria-label={`${showGrimoire ? 'Close' : 'Open'} Cultivation Grimoire`} aria-expanded={showGrimoire}><img src={grimoireArt('book-launcher')} alt="" draggable="false"/></button>
         <button className="taskboard-launcher" onClick={() => openTaskboard()} title="Open Taskboard" aria-label="Open Taskboard"><TaskboardIcon/>
           {TASK_IDS.some(id => taskStatus(garden, id) === 'ready') && <span className="task-ready-badge" aria-label="Tasks ready to complete">!</span>}</button>
         <button className="shop-launcher" onClick={openShop} title="Open Shop" aria-label="Open Shop"><ShopIcon/></button>
@@ -797,13 +811,13 @@ export default function App() {
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
     {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}
-      initialCategory={shopCategory} onOpenGrimoire={() => { openGrimoire(); setBookEntry(shopReturnEntry); }}/>}
+      initialCategory={shopCategory} onOpenGrimoire={() => openGrimoire(shopReturnEntry || lastBookEntry)}/>}
     {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}
-      entryRequest={bookRequest}
+      entryRequest={bookRequest} onEntryChange={setLastBookEntry}
       onModalChange={setBookModal} suspended={showMainMenu || showGuide || showTaskboard || showShop || showTutorialReset}
       onJournalChange={update => { replaceGarden(update(gardenRef.current)); return true; }} onOpenShop={openShop}
       onClose={() => setShowGrimoire(false)}/>}

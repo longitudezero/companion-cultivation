@@ -4,6 +4,8 @@ Date: 3 November 2026
 
 Branch: `experiment/grimoire-tabletop`. The live `main` game has not been replaced.
 
+**Launcher follow-up, 10 November:** [Toggle and last spread](grimoire-toggle-memory.md) adds launcher closing and remembered reading position. The icon now opens/closes the book; reopening resumes its last spread and table pose. Ribbon/Escape closing use the same memory. Refresh restores it; missing/obsolete preferences fall back to Ingredients, with session memory when storage is blocked. Inspector links still request their species, and Shop links open/focus the book. Checks pass 367 Node tests, one CommonJS smoke test, 30 book DOM scenarios and 11 integrated App groups. Native confirmation remains pending.
+
 **Latest 10 November update:** [Play with the Grimoire open](grimoire-garden-input.md) makes the parked book nonmodal. Exposed garden supports inventory, planting, harvesting and camera input. Wood/book/attachments keep their own interactions. Page arrows and Escape follow book activity/focus; Tab may leave it. Editors, glossary and confirmations still temporarily block garden input. Main menu, Taskboard and Shop suspend the parked book and return to it without resetting its spread/pose. Repeated inspector links navigate the already-open book. Automated evidence: 367 Node tests, one CommonJS smoke test, 30 book DOM scenarios, 8 integrated App scenario groups, artwork hit-area/CSS checks and accepted hinge/Close checks. Native click-through/visual review remains pending.
 
 **Earlier shared-table checkpoint:** The [shared-table checklist](grimoire-shared-table.md) replaced the full-screen wood and separate corner tray. The supplied transparent ornate table, lower-positioned book and tools above it pan, rotate and zoom together. Gold book corners rotate the entire scene around the table center. Existing view preferences migrate without shifting the paper. The user confirmed this arrangement works well. The new input follow-up supersedes its earlier garden-click blocking.
@@ -35,6 +37,7 @@ The review file uses its own browser origin/storage, separate from the live game
 | Reset | Reset view frames the book and stationery together, upright; outer table rim may crop |
 | View toolbar | Fixed at the bottom center, leaving garden time/zoom controls at the top accessible |
 | Remember | Closing/reopening and refresh restore position, zoom and rotation in the same browser |
+| Book icon | Click to open or close; reopening resumes the last spread. Inspector links still open the requested species |
 | Play beside the book | Click or drag exposed garden normally; its camera has independent pan/zoom |
 | Keyboard focus | Click/focus the book for page arrows and book Escape; click/focus garden to release them; Tab may leave the book |
 | Editors | Note/marker editors, glossary and confirmations temporarily block the garden and retain focus |
@@ -57,6 +60,7 @@ The review file uses its own browser origin/storage, separate from the live game
 - **Page turns:** inspect forward/back and long jumps at a rotated/enlarged pose. Turning notes and markers stay with the printed face; no duplicate/mirrored copy appears. Overhanging portions of turning notes can still be clipped by the sheet edge.
 - **Small windows and access:** check typical laptop, small window and narrow/touch sizes; keyboard focus, dialog readability, reduced motion, and recovery with Fit/Reset/Move. Scroll printed content to its boundaries without zooming the scene.
 - **Focus and foreground UI:** Tab can leave the book; arrows act only while it is active; Escape handles the active surface. Editors trap focus temporarily. Try quantity popovers, main menu, guide, Taskboard and Shop while the table is parked. Check native stacking/click access and return to the same book.
+- **Launcher and memory:** navigate through pages/tabs/markers, close through icon/ribbon/Escape and reopen from the icon. Check the same spread/pose returns; repeat after refresh and while a long page jump is animating. Direct species links should override remembered position.
 
 These are open checks, not a claim that the visuals have passed.
 
