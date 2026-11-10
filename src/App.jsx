@@ -106,7 +106,9 @@ export default function App() {
   const [autosaveStatus, setAutosaveStatus] = useState('Saving…');
   const [showGuide, setShowGuide] = useState(false);
   const [showGrimoire, setShowGrimoire] = useState(false);
+  const [bookModal, setBookModal] = useState(false);
   const [bookEntry, setBookEntry] = useState(null);
+  const [bookRequest, setBookRequest] = useState(0);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
   const [shopCategory, setShopCategory] = useState('supplies');
@@ -198,23 +200,23 @@ export default function App() {
 
   function openMainMenu() {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowMainMenu(true);
+    setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowMainMenu(true);
   }
   function openGrimoire() {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(null); setShowGrimoire(true);
+    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(null); setBookRequest(value => value + 1); setShowGrimoire(true);
   }
   function openTaskboard(id = FIRST_TASK) {
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
+    setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
   }
   function openShop(category = 'supplies', entryKey = null) {
     setShopCategory(['papers', 'bookmarks'].includes(category) ? category : 'supplies');
     setShopReturnEntry(entryKey);
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setShowTaskboard(false); setShowGuide(false); setShowShop(true);
+    setShowTaskboard(false); setShowGuide(false); setShowShop(true);
   }
   function tradeInShop(mode, id, quantity) {
     const result = tradeShop(gardenRef.current, mode, id, quantity);
@@ -245,6 +247,7 @@ export default function App() {
   function openSpeciesEntry(object) {
     setShowShop(false);
     setBookEntry(`${object.type === 'fungus' ? 'fungus' : 'plant'}:${object.species}`);
+    setBookRequest(value => value + 1);
     setShowGrimoire(true);
   }
 
@@ -291,13 +294,15 @@ export default function App() {
 
   useEffect(() => {
     const escape = event => {
-      if (event.key === 'Escape' && !showGrimoire && !showGuide && !showTaskboard && !showShop && !showMainMenu) {
+      if (event.key === 'Escape' && !event.defaultPrevented && !showGuide && !showTaskboard && !showShop && !showMainMenu) {
         setHeldItem(null); setQuantityPrompt(null); setInventoryOpen(false);
       }
     };
     window.addEventListener('keydown', escape);
     return () => window.removeEventListener('keydown', escape);
-  }, [showGrimoire, showGuide, showTaskboard, showShop, showMainMenu]);
+  }, [showGuide, showTaskboard, showShop, showMainMenu]);
+
+  useEffect(() => { if (bookModal) dragCleanup.current?.(); }, [bookModal]);
 
   function changeGarden(fn) {
     try {
@@ -621,7 +626,7 @@ export default function App() {
   return <div className="app-shell" style={{ '--inventory-width': `${inventoryWidth}px` }}>
     <input ref={fileInput} type="file" accept=".ccsave,.json,application/json" hidden aria-label="Choose a game save file" onChange={importGarden}/>
 
-    <div className="workspace" inert={showMainMenu || undefined}>
+    <div className="workspace" inert={showMainMenu || bookModal || undefined}>
       <div className="layout-ornaments" aria-hidden="true">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner => <img key={corner} className={corner} src={grimoireArt(`corners/${corner}`)} alt=""/>)}</div>
       {showDeveloperTools && <aside className="sidebar sidebar-left developer-workbench">
         <SectionTitle eyebrow="TEST ONLY" title="Developer tools" />
@@ -688,7 +693,7 @@ export default function App() {
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
         <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
         <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage} stagingEnabled={stagingEnabled}
-          heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || showGrimoire || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
+          heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || bookModal || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
           onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
           onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
@@ -763,7 +768,7 @@ export default function App() {
       </aside></details>}
     </div>
 
-    {quantityPrompt && <div className="quantity-popover" role="dialog" aria-label="Choose planting quantity"
+    {quantityPrompt && <div className="quantity-popover" role="dialog" aria-label="Choose planting quantity" inert={bookModal || undefined}
       style={{ left: quantityPrompt.x, top: quantityPrompt.y }}>
       <div className="mini-heading">{stagingEnabled ? 'STAGE' : 'PLANT'} {quantityPrompt.species.toUpperCase()} {quantityPrompt.kind === 'plant' ? 'SEEDS' : 'SPORES'}</div>
       <div className="quantity-stepper"><IllustratedButton art="minus" label="Decrease quantity" disabled={quantityPrompt.quantity <= 1} onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.max(1, previous.quantity - 1) }))}/>
@@ -798,6 +803,8 @@ export default function App() {
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}
+      entryRequest={bookRequest}
+      onModalChange={setBookModal} suspended={showMainMenu || showGuide || showTaskboard || showShop || showTutorialReset}
       onJournalChange={update => { replaceGarden(update(gardenRef.current)); return true; }} onOpenShop={openShop}
       onClose={() => setShowGrimoire(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>

@@ -10,6 +10,8 @@ Starting commit: `0b155712242ba41ccb390be49ca77bb5664d5879`
 
 ## Purpose
 
+**Garden input follow-up, 10 November:** [Play with the Grimoire open](grimoire-garden-input.md) makes the parked book nonmodal. Exposed garden remains playable; shortcuts follow activity/focus; editors stay modal. It supersedes the full-window input blocking in earlier checkpoints.
+
 **Shared table update, 10 November:** [The approved shared table plan](grimoire-shared-table.md) replaces the full-window wood backdrop and separate sliding/pinnable tray. The table, book and tools now move as one arrangement. Its checklist governs this follow-up; earlier tray evidence below is historical.
 
 **Close ribbon update, 10 November:** [The new reference](close-tab-reference.md) supersedes E1's earlier inward/concealed V notch. The V now faces outward, with a slight upward tilt and the inner rounded end under the paper.

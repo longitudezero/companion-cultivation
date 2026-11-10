@@ -24,7 +24,7 @@ await build({ entryPoints: [new URL('../src/CultivationGrimoire.jsx', import.met
 const Book = (await import(pathToFileURL(`${cache}/book.js`))).default;
 const q = selector => document.querySelector(selector);
 const label = text => q(`[aria-label="${text}"]`);
-let root, current, writes = 0, closed = 0;
+let root, current, writes = 0, closed = 0, bookModal = false;
 function fixture() {
   let garden = withGold(createTutorialGarden(), 1000);
   for (const id of ['paper:starlight', 'paper:moonlit', ...Object.keys(PAGE_MARKERS).map(id => `bookmark:${id}`)]) garden = tradeShop(garden, 'buy', id, 1).garden;
@@ -33,9 +33,9 @@ function fixture() {
   garden = writeNote(garden, 'plant:Beanstalk', 'right', 'A second note.', 'moonlit');
   return markPage(garden, 'fungus:Prismorel', 'right', 'forest-tassel', 0);
 }
-function Harness({ garden }) {
+function Harness({ garden, suspended = false, entryRequest = 0, entryKey = 'plant:Beanstalk' }) {
   const [value, setValue] = useState(garden); current = value;
-  return React.createElement(Book, { garden: value, initialEntryKey: 'plant:Beanstalk', onClose() { closed++; }, onOpenShop() {},
+  return React.createElement(Book, { garden: value, initialEntryKey: entryKey, suspended, entryRequest, onModalChange(value) { bookModal = value; }, onClose() { closed++; }, onOpenShop() {},
     onJournalChange(update) { const next = update(current); writes++; setValue(next); return true; } });
 }
 async function mount(garden = fixture(), motion = true) {
@@ -71,6 +71,11 @@ async function setView(view) {
   await mount(current);
 }
 const near = (a, b, tolerance = .025) => assert.ok(Math.abs(a - b) < tolerance, `${a} != ${b}`);
+async function key(element, value, options = {}) {
+  const event = new window.KeyboardEvent('keydown', { key: value, bubbles: true, cancelable: true, ...options });
+  await act(() => element.dispatchEvent(event));
+  return event;
+}
 const cases = [
   ['view pan/zoom/rotation, Fit and Reset preserve the entire garden', async () => {
     await mount(); const before = serializeGameSave(current), initial = pose();
@@ -119,7 +124,7 @@ const cases = [
     await mount();
     const wheel = async element => { const event = new window.WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -120, clientX: 50, clientY: 80 });
       await act(() => element.dispatchEvent(event)); return event; };
-    const initial = pose().zoom; assert.equal((await wheel(q('.cg-scene'))).defaultPrevented, true); assert.ok(pose().zoom > initial);
+    const initial = pose().zoom; assert.equal((await wheel(q('.cg-table-surface'))).defaultPrevented, true); assert.ok(pose().zoom > initial);
     const zoom = pose().zoom;
     for (const target of [q('.cg-page-scroll'), q('.cg-paper-writing')]) { assert.equal((await wheel(target)).defaultPrevented, false); near(pose().zoom, zoom); }
     await click(label('Open Ingredients section')); assert.ok(q('.cg-atlas-viewport'));
@@ -273,7 +278,7 @@ const cases = [
     await dragLocal(q('.cg-table-surface'), { x: -100, y: 0 }, { x: 0, y: 100 });
     assert.deepEqual(pose(), before, 'dialog blocks table gestures');
   }],
-  ['transparent surrounding space blocks garden events and preserves the scene pose', async () => {
+  ['covered table events are contained and an empty scene container never pans', async () => {
     await mount(); const before = pose(), leaked = [];
     const observer = event => leaked.push(event.type);
     for (const type of ['pointerdown', 'click', 'wheel']) document.addEventListener(type, observer);
@@ -281,11 +286,60 @@ const cases = [
       await pointer(q('.cg-scene'), 'pointerdown', { x: 5, y: 500 });
       await pointer(q('.cg-scene'), 'pointermove', { x: 25, y: 520 });
       await pointer(q('.cg-scene'), 'pointerup', { x: 25, y: 520 });
-      await click(q('.cg-scene'));
+      await click(q('.cg-table-surface'));
       assert.deepEqual(pose(), before, 'only exposed table or Move control pans');
-      await act(() => q('.cg-scene').dispatchEvent(new window.WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -100, clientX: 5, clientY: 500 })));
+      await act(() => q('.cg-table-surface').dispatchEvent(new window.WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -100, clientX: 5, clientY: 500 })));
       assert.deepEqual(leaked, []); assert.equal(closed, 0);
     } finally { for (const type of ['pointerdown', 'click', 'wheel']) document.removeEventListener(type, observer); }
+  }],
+  ['nonmodal book releases Tab and shortcuts on garden focus or pointer activity', async () => {
+    document.body.style.overflow = 'auto';
+    await mount(); assert.equal(document.body.style.overflow, 'auto');
+    assert.equal(label('Cultivation Grimoire').getAttribute('aria-modal'), 'false');
+    const last = [...q('.cg-view-controls').querySelectorAll('button')].at(-1);
+    await act(() => last.focus()); assert.equal((await key(last, 'Tab')).defaultPrevented, false);
+    await act(() => q('#opener').focus());
+    assert.equal((await key(q('#opener'), 'ArrowRight')).defaultPrevented, false); assert.ok(tape());
+    assert.equal((await key(q('#opener'), 'Escape')).defaultPrevented, false); assert.equal(closed, 0);
+    await pointer(q('.cg-page.right'), 'pointerdown', bookToScreen({ x: 900, y: 350 }, pose()));
+    assert.equal(document.activeElement, label('Cultivation Grimoire'));
+    assert.equal((await key(document.activeElement, 'ArrowRight')).defaultPrevented, true); assert.equal(tape(), null);
+    await pointer(q('#opener'), 'pointerdown', { x: 2, y: 2 }); // releases shortcuts even if the old book element retains focus
+    assert.equal((await key(document.activeElement, 'ArrowLeft')).defaultPrevented, false); assert.equal(tape(), null);
+  }],
+  ['only editor and confirmation dialogs trap Tab and Escape stays within the book', async () => {
+    await mount(); assert.equal(bookModal, false);
+    await click(label('Write a Grimoire note')); assert.equal(bookModal, true);
+    const scope = q('.cg-stationery-desk'), controls = [...scope.querySelectorAll('button:not(:disabled), input, select, textarea')];
+    await act(() => controls.at(-1).focus());
+    assert.equal((await key(document.activeElement, 'Tab')).defaultPrevented, true); assert.equal(document.activeElement, controls[0]);
+    assert.equal((await key(document.activeElement, 'Tab', { shiftKey: true })).defaultPrevented, true); assert.equal(document.activeElement, controls.at(-1));
+    const gardenEscapes = []; const escaped = event => { if (event.key === 'Escape') gardenEscapes.push(event); };
+    window.addEventListener('keydown', escaped);
+    try { assert.equal((await key(document.activeElement, 'Escape')).defaultPrevented, true); }
+    finally { window.removeEventListener('keydown', escaped); }
+    assert.equal(q('.cg-stationery-desk'), null); assert.equal(bookModal, false); assert.equal(closed, 0); assert.deepEqual(gardenEscapes, []);
+    await click(label('Remove note 1')); assert.equal(bookModal, true);
+    await key(document.activeElement, 'Escape'); assert.equal(bookModal, false); assert.ok(note()); assert.equal(closed, 0);
+  }],
+  ['a foreground garden dialog suspends book input without losing spread or pose', async () => {
+    await mount(); const view = pose();
+    await act(() => root.render(React.createElement(Harness, { garden: current, suspended: true })));
+    assert.equal(label('Cultivation Grimoire').hasAttribute('inert'), true);
+    assert.equal((await key(document.activeElement, 'ArrowRight')).defaultPrevented, false);
+    assert.equal((await key(document.activeElement, 'Escape')).defaultPrevented, false); assert.equal(closed, 0);
+    await act(() => q('.cg-table-surface').dispatchEvent(new window.WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: -100 })));
+    assert.deepEqual(pose(), view); assert.ok(tape());
+    await act(() => root.render(React.createElement(Harness, { garden: current })));
+    assert.equal(label('Cultivation Grimoire').hasAttribute('inert'), false); assert.deepEqual(pose(), view); assert.ok(tape());
+  }],
+  ['repeated inspector requests reach an already-open spread without resetting the table', async () => {
+    await mount(); const view = pose();
+    for (const entryRequest of [1, 2]) {
+      await click(label('Next spread')); assert.equal(tape(), null);
+      await act(() => root.render(React.createElement(Harness, { garden: current, entryRequest })));
+      assert.ok(tape()); assert.deepEqual(pose(), view);
+    }
   }],
   ['an existing book-only pose upgrades once without shifting the paper center', async () => {
     localStorage.setItem(BOOK_VIEW_KEY, JSON.stringify({ version: 1, x: .5, y: .5, zoom: .8, rotation: 30 }));

@@ -4,7 +4,9 @@ Date: 3 November 2026
 
 Branch: `experiment/grimoire-tabletop`. The live `main` game has not been replaced.
 
-**Latest 10 November update:** The [shared-table checklist](grimoire-shared-table.md) replaces the full-screen wood and separate corner tray. The supplied transparent ornate table, lower-positioned book and tools above it now pan, rotate and zoom together. Gold book corners rotate the entire scene around the table center. The garden stays visible outside the table and cannot receive clicks through the overlay. Existing view preferences migrate without shifting the paper. This revision passes 367 Node tests, one CommonJS smoke test, 26 optional DOM scenarios and the hinge/Close geometry checks; native visual review remains pending.
+**Latest 10 November update:** [Play with the Grimoire open](grimoire-garden-input.md) makes the parked book nonmodal. Exposed garden supports inventory, planting, harvesting and camera input. Wood/book/attachments keep their own interactions. Page arrows and Escape follow book activity/focus; Tab may leave it. Editors, glossary and confirmations still temporarily block garden input. Main menu, Taskboard and Shop suspend the parked book and return to it without resetting its spread/pose. Repeated inspector links navigate the already-open book. Automated evidence: 367 Node tests, one CommonJS smoke test, 30 book DOM scenarios, 8 integrated App scenario groups, artwork hit-area/CSS checks and accepted hinge/Close checks. Native click-through/visual review remains pending.
+
+**Earlier shared-table checkpoint:** The [shared-table checklist](grimoire-shared-table.md) replaced the full-screen wood and separate corner tray. The supplied transparent ornate table, lower-positioned book and tools above it pan, rotate and zoom together. Gold book corners rotate the entire scene around the table center. Existing view preferences migrate without shifting the paper. The user confirmed this arrangement works well. The new input follow-up supersedes its earlier garden-click blocking.
 
 **Earlier 10 November checkpoint:** [Fixed bookmark slots](bookmark-fixed-slots.md) replaced free marker positioning and automatic fanning. Drag onto one of six top or six bottom positions on the **right leaf**. Guides appear during dragging; a reserved position stays occupied even while its marker is on the left. Several positions may mark one spread. Passing a spread mirrors its markers without closing any gaps. The editor exposes position selection; marker arrow keys move one slot at a time, with up/down choosing the edge. Occupied positions reject the move. That checkpoint passed 364 Node tests, one CommonJS smoke test and 23 optional DOM scenarios; the shared-table result above is current.
 
@@ -32,6 +34,9 @@ The review file uses its own browser origin/storage, separate from the live game
 | Fit | Fit book retains the current rotation and centers/fits the cover |
 | Reset | Reset view frames the book and stationery together, upright; outer table rim may crop |
 | Remember | Closing/reopening and refresh restore position, zoom and rotation in the same browser |
+| Play beside the book | Click or drag exposed garden normally; its camera has independent pan/zoom |
+| Keyboard focus | Click/focus the book for page arrows and book Escape; click/focus garden to release them; Tab may leave the book |
+| Editors | Note/marker editors, glossary and confirmations temporarily block the garden and retain focus |
 | Stationery | Tools rest above the book on the main table; there is no separate sliding/pinnable tray |
 | Move a note | Drag its tape; cross the spine to transfer between visible pages |
 | Temporarily clear text | Click the tape to tuck/restore; leaving the spread resets the tuck |
@@ -43,13 +48,14 @@ The review file uses its own browser origin/storage, separate from the live game
 
 **Hinge correction:** Current-spread markers now retain their normal protruding height and rotate around a hinge just above the head. Check that they do not slide down into the text on opening or hover return. Other spreads' markers keep the small outward hover lift. Verify both edges; the stylesheet cascade checks pass, but the animation still needs native visual review.
 
-- **Solid scene:** table, book and tools form one rigid arrangement while panning, zooming and rotating. Turning pages and tucking notes do not move that arrangement. Printed content and illustrations stay aligned. The garden remains visible and running behind the transparent surroundings; clicks stay blocked.
+- **Solid scene and garden:** table, book and tools form one rigid arrangement while panning, zooming and rotating. Turning pages and tucking notes do not move that arrangement. Park it to the side: plant, harvest, use inventory and pan/zoom exposed garden. Transparent corners pass input; visible wood/book/attachments retain it. Inspect after several table angles/zooms. Camera gestures must affect only their own surface.
 - **Close:** follow [the latest reference](close-tab-reference.md): a slight upward tilt, outward-facing V tip, and rounded inner end beneath the paper. The X tilts with the ribbon and remains entirely on exposed leather. Check chapter changes, hovering, zoom/rotation and independent clicking.
 - **Markers:** review all twelve styles, both rows, names/fallback numbers, overlapping heads and the full resting → raised → hovered sequence. The visible attachment stays on the page edge. Every neighbor retains a clickable part; no chopped artwork appears when lifted. Partly off-screen raised markers are intentional.
 - **Tools on wood:** the marker and inkwell lie above the book, away from the rim decorations. Inspect their spacing and click access near raised markers. Drag a new marker onto each edge after rotating and zooming. Fit book may put tools outside the reading frame; Reset brings the useful arrangement back.
 - **Notes:** tuck/return, deliberately half-over-edge placement, several notes on a page, transformed drag/resize/rotation and delete confirmation. Turn away/back and reopen. Authored placement persists while tape tucks reset.
 - **Page turns:** inspect forward/back and long jumps at a rotated/enlarged pose. Turning notes and markers stay with the printed face; no duplicate/mirrored copy appears. Overhanging portions of turning notes can still be clipped by the sheet edge.
 - **Small windows and access:** check typical laptop, small window and narrow/touch sizes; keyboard focus, dialog readability, reduced motion, and recovery with Fit/Reset/Move. Scroll printed content to its boundaries without zooming the scene.
+- **Focus and foreground UI:** Tab can leave the book; arrows act only while it is active; Escape handles the active surface. Editors trap focus temporarily. Try quantity popovers, main menu, guide, Taskboard and Shop while the table is parked. Check native stacking/click access and return to the same book.
 
 These are open checks, not a claim that the visuals have passed.
 
@@ -67,7 +73,16 @@ The optional DOM checks use jsdom supplied by a QA environment; they do not add 
 GRIMOIRE_QA_JSDOM=/absolute/path/to/jsdom/lib/api.js node scripts/check-book-interactions.mjs
 ```
 
-Set `GRIMOIRE_QA_SAVE` to a backed-up save file to include the additional view-only garden-preservation check. The harness reads it into memory without writing the file or touching the live game. The latest run passes 26 scenarios, including that check. `tests/book-view.test.js` supplies thirteen mathematical/data tests in the regular suite.
+Set `GRIMOIRE_QA_SAVE` to a backed-up save file to include the additional view-only garden-preservation check. The harness reads it into memory without writing the file or touching the live game. The latest run passes 30 scenarios, including that check. `tests/book-view.test.js` supplies thirteen mathematical/data tests in the regular suite.
+
+For integrated garden callbacks and actual CSS/source-alpha input geometry, also run:
+
+```sh
+GRIMOIRE_QA_JSDOM=/absolute/path/to/jsdom/lib/api.js node scripts/check-grimoire-garden.mjs
+GRIMOIRE_QA_JSDOM=/absolute/path/to/jsdom/lib/api.js node scripts/check-book-hit-area.mjs
+```
+
+The integrated harness supplies drag destinations and native dialog/capture methods. These checks do not prove native click-through at rotated artwork boundaries; the native checklist remains separate.
 
 Build the compact separate review and its synthetic save:
 

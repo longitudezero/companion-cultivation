@@ -95,8 +95,10 @@ function PageSurface({ side, disabled, busy, onTurn, children }) {
   </article>;
 }
 
-export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null, onJournalChange, onOpenShop }) {
+export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null, onJournalChange, onOpenShop, onModalChange, suspended = false, entryRequest = 0 }) {
   const root = useRef(null), closeRef = useRef(null), glossaryClose = useRef(null), termRef = useRef(null);
+  const active = useRef(true);
+  const previousRequest = useRef(entryRequest);
   const bookRef = useRef(null);
   const previousGlossary = useRef(null);
   const [previewRequested, setPreviewRequested] = useState(false);
@@ -106,6 +108,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const [tuckedNotes, setTuckedNotes] = useState(() => new Set());
   const [frontNote, setFrontNote] = useState(null);
   const [pageSize, setPageSize] = useState(null), [pendingDelete, setPendingDelete] = useState(null), [stationeryIssue, setStationeryIssue] = useState('');
+  const modal = Boolean(glossary || desk || pendingDelete);
   const [reduced, setReduced] = useState(() => Boolean(reducedMotionQuery()?.matches));
   const [nav, dispatch] = useReducer(bookNavigation, initialEntryKey, key => {
     const index = BOOK_ENTRIES.findIndex(entry => entry.key === key);
@@ -114,7 +117,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   const ledger = garden.grimoire || EMPTY_LEDGER;
   const journal = garden.journal?.version === 4 ? garden.journal : normalizeJournal(garden.journal);
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
-  const scene = useBookView(root, Boolean(glossary || desk || pendingDelete || busy));
+  const scene = useBookView(root, modal || suspended || busy);
   const current = BOOK_ENTRIES[nav.current], turn = nav.turn;
   const currentNotes = pageNotes(journal, current.key).map(note => ({ ...note, tucked: tuckedNotes.has(note.id) }));
   const toggleTuck = id => setTuckedNotes(previous => { const next = new Set(previous); if (!next.delete(id)) next.add(id); return next; });
@@ -135,6 +138,12 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     window.getSelection()?.removeAllRanges();
     dispatch({ type: 'navigate', to, reduced: Boolean(reducedMotionQuery()?.matches) });
   }, []);
+  useEffect(() => {
+    if (previousRequest.current === entryRequest) return;
+    previousRequest.current = entryRequest;
+    if (initialEntryKey) navigate(initialEntryKey);
+    if (!suspended) closeRef.current?.focus({ preventScroll: true });
+  }, [entryRequest, initialEntryKey, navigate, suspended]);
   useLayoutEffect(() => { setTuckedNotes(new Set()); }, [nav.current]);
   const openGlossary = useCallback((kind, element) => { termRef.current = element; setGlossary(kind); }, []);
   useLayoutEffect(() => {
@@ -186,14 +195,26 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   useEffect(() => {
     const previousFocus = document.activeElement;
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const scope = root.current;
     closeRef.current?.focus({ preventScroll: true });
     return () => {
-      document.body.style.overflow = overflow;
-      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
+      if (previousFocus?.isConnected && (scope?.contains(document.activeElement) || document.activeElement === document.body)) previousFocus.focus({ preventScroll: true });
     };
   }, []);
+
+  useEffect(() => {
+    const activity = event => { active.current = Boolean(root.current?.contains(event.target)); };
+    document.addEventListener('pointerdown', activity, true);
+    document.addEventListener('focusin', activity, true);
+    return () => {
+      document.removeEventListener('pointerdown', activity, true);
+      document.removeEventListener('focusin', activity, true);
+    };
+  }, []);
+  useLayoutEffect(() => {
+    onModalChange?.(modal);
+    return () => onModalChange?.(false);
+  }, [modal, onModalChange]);
 
   useEffect(() => {
     if (glossary) {
@@ -206,19 +227,21 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   useEffect(() => {
     const onKey = event => {
+      if (suspended || event.defaultPrevented || (!modal && !active.current)) return;
       if (event.key === 'Escape') {
-        event.preventDefault();
+        event.preventDefault(); event.stopPropagation();
         if (pendingDelete) setPendingDelete(null); else if (desk) setDesk(null); else if (glossary) setGlossary(null); else onClose();
         return;
       }
       if (event.key === 'Tab') {
-        const scope = root.current?.querySelector('.cg-note-confirm') || root.current;
+        if (!modal) return;
+        const scope = root.current?.querySelector('.cg-note-confirm, .cg-stationery-desk, .cg-glossary');
         const controls = [...(scope?.querySelectorAll('button:not(:disabled), select:not(:disabled), input:not(:disabled), textarea:not(:disabled), [href], [tabindex="0"]') || [])]
           .filter(element => !element.closest('[inert], [aria-hidden="true"]') && element.getClientRects().length > 0);
         const first = controls[0], last = controls.at(-1);
-        if (event.shiftKey && (document.activeElement === first || !root.current?.contains(document.activeElement))) {
+        if (event.shiftKey && (document.activeElement === first || !scope?.contains(document.activeElement))) {
           event.preventDefault(); last?.focus();
-        } else if (!event.shiftKey && (document.activeElement === last || !root.current?.contains(document.activeElement))) {
+        } else if (!event.shiftKey && (document.activeElement === last || !scope?.contains(document.activeElement))) {
           event.preventDefault(); first?.focus();
         }
         return;
@@ -234,19 +257,24 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [busy, glossary, desk, pendingDelete, nav.current, navigate, onClose]);
+  }, [busy, glossary, desk, pendingDelete, modal, suspended, nav.current, navigate, onClose]);
 
   const page = (index, side) => <React.Fragment key={`${index}-${side}`}><BookSpread entry={BOOK_ENTRIES[index]} side={side} ledger={viewLedger}
     preview={viewPreview} navigate={navigate} glossary={openGlossary}/>
     {busy && <StaticPageNotes journal={journal} entryKey={BOOK_ENTRIES[index].key} side={side} pageSize={pageSize}/>}</React.Fragment>;
 
-  return <BookCoordinates.Provider value={scene.coordinates}><div ref={root} className="cg-overlay cg-tabletop" role="dialog" aria-modal="true" aria-label="Cultivation Grimoire"
+  return <BookCoordinates.Provider value={scene.coordinates}><div ref={root} className={`cg-overlay cg-tabletop${modal ? ' has-modal' : ''}`} role="dialog" aria-modal="false" aria-label="Cultivation Grimoire"
+    tabIndex={-1} inert={suspended} aria-hidden={suspended || undefined}
+    onPointerDownCapture={event => {
+      if (suspended) return;
+      const control = event.target.closest('button, input, select, textarea, [href], [tabindex]:not([tabindex="-1"])');
+      (control || root.current)?.focus({ preventScroll: true });
+    }}
     onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()} onWheel={event => event.stopPropagation()}>
     <div className="cg-scene" aria-label="Book tabletop">
       <div className="cg-shell" style={{ ...TABLETOP_STYLE, transform: scene.transform }} inert={Boolean(glossary || desk || pendingDelete)}>
-        <div className="cg-table-surface" {...scene.panHandlers} aria-label="Drag tabletop">
-          <img className="cg-table-art" src={stationeryArt('cultivation-tabletop.webp')} alt="" draggable="false"/>
-        </div>
+        <div className="cg-table-surface" {...scene.panHandlers} aria-label="Drag tabletop"/>
+        <img className="cg-table-art" src={stationeryArt('cultivation-tabletop.webp')} alt="" draggable="false"/>
         <TableStationery>
           <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
             onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
@@ -309,7 +337,9 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
       tuckedNotes={tuckedNotes} onToggleTuck={toggleTuck}
-      onChange={onJournalChange} onClose={() => setDesk(null)} onShop={category => onOpenShop(category, current.key)}/>}
+      onChange={onJournalChange} onClose={() => setDesk(null)}
+      onShop={category => { setDesk(null); onOpenShop(category, current.key); }}
+    />}
     {pendingDelete && journal.notes[pendingDelete] && <NoteDeleteDialog note={journal.notes[pendingDelete]} onCancel={() => setPendingDelete(null)}
       onConfirm={() => { onJournalChange(garden => removeNote(garden, pendingDelete)); setPendingDelete(null); }}/>}
     {glossary && <div className="cg-glossary-backdrop"><section className="cg-glossary" role="dialog" aria-modal="true"

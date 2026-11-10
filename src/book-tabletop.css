@@ -13,17 +13,41 @@
   overflow: hidden;
   background: transparent;
   backdrop-filter: none;
+  pointer-events: none;
+  z-index: 18;
 }
+.cg-tabletop.has-modal { pointer-events: auto; z-index: 2000; }
 .cg-tabletop .cg-scene { position: absolute; inset: 0; min-height: 0; padding: 0; display: block; overflow: visible; touch-action: none; }
 .cg-tabletop .cg-scene::before { content: none; }
 .cg-tabletop .cg-shell { position: absolute; left: 0; top: 0; width: var(--table-width); height: var(--table-height); max-width: none;
   display: block; transform-origin: 0 0; transition: none; cursor: auto; }
-.cg-tabletop .cg-table-surface { position: absolute; inset: 0; border-radius: 50%; cursor: grab; touch-action: none; }
+.cg-tabletop .cg-table-surface { position: absolute; inset: 0; cursor: grab; touch-action: none; pointer-events: auto;
+  /* Alpha silhouette of the supplied WebP, with a small outer rim allowance.
+     Clip only the input surface; the artwork and its shadows remain intact. */
+  clip-path: polygon(50.8373% 0.039872%, 54.5056% 1.95375%, 55.622% 2.35247%, 59.7687% 3.22966%, 62.799% 4.02711%,
+    66.1483% 5.22328%, 70.5343% 7.29665%, 73.8836% 9.21053%, 77.0734% 11.4434%, 79.067% 13.0383%,
+    83.134% 16.866%, 85.7656% 19.8166%, 88.4769% 23.4051%, 90.7895% 26.9936%, 92.2249% 29.5455%,
+    94.1388% 33.453%, 95.4147% 36.6427%, 96.4514% 39.992%, 96.9298% 42.1451%, 97.5678% 44.2185%,
+    99.5614% 47.6475%, 99.9601% 48.445%, 99.9601% 48.8437%, 98.126% 52.5917%, 97.5678% 54.5056%,
+    97.0893% 57.3764%, 96.0526% 61.6029%, 94.4577% 66.2281%, 92.7831% 70.0558%, 90.949% 73.4848%,
+    89.0351% 76.5152%, 86.9617% 79.3062%, 84.0112% 82.7352%, 81.1404% 85.6061%, 76.8341% 89.1946%,
+    74.362% 90.8692%, 70.8533% 92.9426%, 67.5837% 94.5375%, 64.7927% 95.6539%, 60.1675% 97.0096%,
+    54.7448% 97.9665%, 52.7512% 98.6842%, 50.1994% 99.9601%, 49.6411% 99.9601%, 47.5678% 98.9234%,
+    45.6539% 98.2057%, 40.4705% 97.4083%, 37.201% 96.6906%, 34.5694% 95.8931%, 30.7416% 94.378%,
+    26.7544% 92.3046%, 22.9266% 89.8325%, 19.1786% 86.882%, 15.1914% 83.0542%, 12.9585% 80.5024%,
+    10.0877% 76.6746%, 8.0941% 73.4848%, 5.86124% 69.0989%, 4.34609% 65.3509%, 3.07017% 61.3636%,
+    2.27273% 57.7751%, 1.55502% 52.9107%, 1.07655% 51.4753%, 0% 49.1627%, 0% 48.3652%,
+    0.99681% 46.4514%, 1.79426% 44.059%, 2.35247% 40.8692%, 2.99043% 38.2376%, 4.42584% 34.3301%,
+    5.94099% 31.0606%, 8.33333% 26.7544%, 10.6459% 23.2456%, 13.5167% 19.5774%, 16.3078% 16.547%,
+    19.4976% 13.5965%, 21.89% 11.6826%, 24.5215% 9.84849%, 28.1898% 7.69538%, 31.4593% 6.10048%,
+    36.3238% 4.26635%, 39.2743% 3.4689%, 43.1021% 2.7512%, 44.6172% 2.35247%, 49.3222% 0.039872%); }
 .cg-tabletop .cg-table-surface:active { cursor: grabbing; }
-.cg-tabletop .cg-table-art { width: 100%; height: 100%; display: block; pointer-events: none; user-select: none;
+.cg-tabletop .cg-table-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; user-select: none;
   filter: drop-shadow(0 12px 10px #06100b80) drop-shadow(0 30px 28px #06100b55); }
 .cg-tabletop .cg-book-stage { position: absolute; z-index: 2; left: var(--book-left); top: var(--book-top);
   width: calc(var(--page-w) * 2); height: var(--page-h); padding: 0; }
+.cg-tabletop .cg-book, .cg-view-controls, .cg-tabletop .cg-fixed-preview,
+.cg-tabletop .cg-stationery-backdrop, .cg-tabletop .cg-glossary-backdrop, .cg-tabletop .cg-note-confirm-backdrop { pointer-events: auto; }
 .cg-tabletop .cg-cover { inset: -15px -39px -37px; box-shadow: inset 0 0 0 2px #c39f5978, inset 0 0 0 8px #0f1e1859,
   0 6px 8px #190f0c88, 0 18px 28px #10090699, 0 28px 45px 6px #140b0766; }
 .cg-tabletop .cg-cover-corner { pointer-events: auto; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; }
@@ -118,7 +142,7 @@
 .cg-slot-guide.is-target { outline: 3px solid #fff1b1; outline-offset: 2px; }
 .cg-tabletop > .cg-stationery-issue { position: fixed; top: auto; bottom: 14px; left: 50%; right: auto; transform: translateX(-50%);
   width: min(480px, calc(100% - 28px)); margin: 0; padding: 10px 16px; border: 1px solid #c29a5a; border-radius: 6px;
-  background: #23392bf2; z-index: 35; text-align: center; }
+  background: #23392bf2; z-index: 35; text-align: center; pointer-events: none; }
 .cg-marker-preview .cg-marker-body { --marker-h: 100%; top: 0; transform: none; }
 .cg-marker-preview { height: auto; aspect-ratio: 1 / var(--marker-ratio, 2); }
 

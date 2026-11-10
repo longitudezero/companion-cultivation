@@ -19,6 +19,10 @@ try {
   launch.click();
   await until(() => document.querySelector('.cg-tabletop .cg-book'));
   assert.ok(document.querySelector('[aria-label="Book view"]'));
+  assert.equal(document.querySelector('.cg-tabletop').getAttribute('aria-modal'), 'false');
+  assert.equal(dom.window.getComputedStyle(document.querySelector('.cg-tabletop')).pointerEvents, 'none');
+  assert.equal(dom.window.getComputedStyle(document.querySelector('.cg-book')).pointerEvents, 'auto');
+  assert.match(dom.window.getComputedStyle(document.querySelector('.cg-table-surface')).clipPath, /^polygon\(/);
   for (const element of document.querySelectorAll('img[src], image[href]')) {
     const path = element.getAttribute('src') || element.getAttribute('href');
     assert.ok(path.startsWith('data:image/') || assetBase !== 'embedded' && path.startsWith(assetBase), `unmapped image: ${path.slice(0, 100)}`);

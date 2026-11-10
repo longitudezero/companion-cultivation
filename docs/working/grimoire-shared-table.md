@@ -8,6 +8,8 @@ This follows the user's table mockup and approval. It supersedes the full-window
 
 ## Agreed experience
 
+**Follow-up:** [Play with the Grimoire open](grimoire-garden-input.md) supersedes the garden-input blocking below. The rigid arrangement and its geometry remain the accepted baseline.
+
 The clean supplied ornate table image supports a live book in its lower portion, with the marker tool and inkwell resting above it. These objects form one rigid arrangement. Dragging exposed table moves everything; the book's gold corners rotate everything around the table center; zoom scales everything together. Page contents, attached notes and bookmarks retain their book-local coordinates.
 
 Outside the artwork the garden is visible, continues running as before, and cannot receive clicks or wheel input through the Grimoire. Outer table edges may crop off-screen. The former corner tray, its slide and pin are removed. View controls, notices and editing dialogs stay upright in screen space.
