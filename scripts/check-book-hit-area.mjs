@@ -23,6 +23,7 @@ try {
     assert.equal(style(selector).pointerEvents, 'auto', `${selector} retains input`);
   const z = Number(style('.cg-tabletop').zIndex);
   assert.ok(z > 12 && z < 20, 'table sits above the garden, beneath guide/planting/task/shop screens');
+  assert.equal(style('.cg-view-controls').top, 'auto'); assert.ok(parseFloat(style('.cg-view-controls').bottom) > 0, 'book controls leave garden time controls at the top accessible');
   const clip = style('.cg-table-surface').clipPath;
   assert.match(clip, /^polygon\(/); assert.ok(['', 'none'].includes(style('.cg-table-art').clipPath), 'never crop the art/shadow to an input mask');
   root.classList.add('has-modal');

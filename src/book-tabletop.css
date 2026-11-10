@@ -57,7 +57,8 @@
 .cg-tabletop .cg-cover-corner:hover img { filter: brightness(1.12); }
 .cg-tabletop .cg-page-scroll, .cg-tabletop .cg-atlas-viewport { touch-action: pan-y; overscroll-behavior: contain; }
 
-.cg-view-controls { position: absolute; z-index: 30; top: 12px; left: 14px; display: flex; align-items: center; gap: 3px;
+.cg-view-controls { position: absolute; z-index: 30; top: auto; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 3px;
+  width: max-content; max-width: calc(100% - 28px);
   padding: 5px; border: 1px solid #bd985a; border-radius: 7px; background: #19372beF; color: #f5e0af;
   box-shadow: 0 3px 10px #160c0966; font: 13px Georgia, serif; }
 .cg-view-controls button { height: 34px; min-width: 34px; padding: 0 9px; border: 0; border-radius: 3px;
@@ -66,7 +67,7 @@
 .cg-view-controls .cg-view-pan { cursor: grab; touch-action: none; }
 .cg-view-controls .cg-view-pan:active { cursor: grabbing; }
 .cg-view-controls output { width: 41px; text-align: center; font-variant-numeric: tabular-nums; }
-.cg-tabletop .cg-fixed-preview { position: absolute; z-index: 29; left: 14px; bottom: 12px; max-width: calc(100% - 28px); }
+.cg-tabletop .cg-fixed-preview { position: absolute; z-index: 29; left: 14px; bottom: 70px; max-width: calc(100% - 28px); }
 
 /* Outward V tip, with the rounded inner end beneath the upper-right paper.
    Natural 900:600 horizontal art; the whole ribbon and its X tilt together. */
@@ -174,9 +175,9 @@
 .cg-tabletop .cg-paper-writing, .cg-tabletop .cg-note-layer .cg-edit-note { font-size: 17px; }
 .cg-tabletop .cg-atlas-page h1 { font-size: 28px; }
 @media (max-width: 600px) {
-  .cg-view-controls { top: 8px; left: 8px; max-width: calc(100% - 16px); flex-wrap: wrap; gap: 1px; }
+  .cg-view-controls { top: auto; bottom: 8px; left: 50%; max-width: calc(100% - 16px); flex-wrap: wrap; gap: 1px; }
   .cg-view-controls button { min-width: 32px; padding: 0 7px; }
-  .cg-tabletop .cg-fixed-preview { bottom: 8px; left: 8px; font-size: 10px; }
+  .cg-tabletop .cg-fixed-preview { bottom: 104px; left: 8px; font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cg-tabletop .cg-marker-body, .cg-tabletop .cg-personal-bookmark.is-open .cg-marker-body,

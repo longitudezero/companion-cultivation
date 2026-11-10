@@ -33,6 +33,7 @@ The review file uses its own browser origin/storage, separate from the live game
 | Rotate | Drag an exposed gold cover corner, or use ↶/↷; the entire arrangement rotates around the table center; focused corners also accept left/right arrows |
 | Fit | Fit book retains the current rotation and centers/fits the cover |
 | Reset | Reset view frames the book and stationery together, upright; outer table rim may crop |
+| View toolbar | Fixed at the bottom center, leaving garden time/zoom controls at the top accessible |
 | Remember | Closing/reopening and refresh restore position, zoom and rotation in the same browser |
 | Play beside the book | Click or drag exposed garden normally; its camera has independent pan/zoom |
 | Keyboard focus | Click/focus the book for page arrows and book Escape; click/focus garden to release them; Tab may leave the book |
