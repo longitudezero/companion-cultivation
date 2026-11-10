@@ -4,6 +4,8 @@ Date: 3 November 2026
 
 Branch: `experiment/grimoire-tabletop`. The live `main` game has not been replaced.
 
+**10 November update:** [Fixed bookmark slots](bookmark-fixed-slots.md) replace free marker positioning and automatic fanning. Drag onto one of six top or six bottom positions on the **right leaf**. Guides appear during dragging; a reserved position stays occupied even while its marker is on the left. Several positions may mark one spread. Passing a spread mirrors its markers without closing any gaps. The editor exposes position selection; marker arrow keys move one slot at a time, with up/down choosing the edge. Occupied positions reject the move. The latest checks pass 364 Node tests, one CommonJS smoke test and 23 optional DOM scenarios; native visual review remains pending.
+
 The [design checklist](grimoire-tabletop-plan.md) distinguishes verified state/data behavior from the browser checks that remain open. The experimental code is implemented. Its visual result still needs review because the workspace's browser preview service is unavailable.
 
 ## Use the review copy

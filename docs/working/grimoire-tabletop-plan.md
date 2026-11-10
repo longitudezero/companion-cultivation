@@ -10,6 +10,8 @@ Starting commit: `0b155712242ba41ccb390be49ca77bb5664d5879`
 
 ## Purpose
 
+**10 November follow-up:** [Fixed bookmark positions](bookmark-fixed-slots.md) supersedes free marker positioning, automatic fanning, and one-marker-per-page restrictions in this record. It records the agreed twelve global reservations, spread ownership, migration and current verification results. Earlier dated evidence below remains a historical checkpoint.
+
 Make the Grimoire feel like a solid, physical book resting on a table. The player can move their view and turn the book deliberately; pages and attached objects then behave consistently within that view. Accessories must never push the book around or cause automatic recentering.
 
 This document records the agreed tabletop experiment **and the unfinished book fixes carried into it**. It supplements the [approved Grimoire design](../design/systems/cultivation-grimoire.md) and the [earlier integration plan](grimoire-implementation-plan.md). Its positioning and interaction decisions take precedence over conflicting details in the earlier integration plan for this branch. Existing knowledge, navigation, stationery ownership and game rules remain the baseline.

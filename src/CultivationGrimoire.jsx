@@ -4,7 +4,7 @@ import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPa
 import { EFFECT_DEFINITIONS } from './grimoire/effects.js';
 import { art, bookmarkStyle } from './grimoire/art.js';
 import BookSpread from './grimoire/BookSpread.jsx';
-import { createJournal, pageNotes, removeNote, markPage, MARKER_LIMIT } from './core/journal.js';
+import { createJournal, normalizeJournal, pageNotes, removeNote, markPage, MARKER_LIMIT } from './core/journal.js';
 import { stationeryArt } from './grimoire/stationery-art.js';
 import { GrimoireNote, PersonalBookmarks, StationeryDesk, StaticPageNotes, NoteDeleteDialog } from './grimoire/Stationery.jsx';
 import MarkerTool from './grimoire/MarkerTool.jsx';
@@ -112,7 +112,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     return index < 0 ? initialNavigation : { ...initialNavigation, current: index, target: index };
   });
   const ledger = garden.grimoire || EMPTY_LEDGER;
-  const journal = garden.journal || createJournal();
+  const journal = garden.journal?.version === 4 ? garden.journal : normalizeJournal(garden.journal);
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
   const scene = useBookView(root, Boolean(glossary || desk || pendingDelete || busy));
   const current = BOOK_ENTRIES[nav.current], turn = nav.turn;
@@ -149,8 +149,10 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     return () => { observer?.disconnect(); window.removeEventListener('resize', measure); };
   }, []);
   function dropMarker(drop) {
-    const existing = journal.bookmarks.find(marker => marker.entryKey === current.key && marker.side === drop.side);
-    if (existing || !journal.markers.length) { setDesk({ tab: 'markers', side: drop.side, markerSlot: existing?.slot, drop }); return; }
+    if (journal.bookmarks.some(marker => marker.edge === drop.edge && marker.position === drop.position)) {
+      setStationeryIssue(`${drop.edge === 'top' ? 'Top' : 'Bottom'} position ${drop.position + 1} is reserved. Move or remove its marker first.`); return;
+    }
+    if (!journal.markers.length) { setDesk({ tab: 'markers', side: 'right', drop }); return; }
     const slot = Array.from({ length: MARKER_LIMIT }, (_, index) => index).find(index => !journal.bookmarks.some(marker => marker.slot === index));
     try {
       if (onJournalChange(garden => markPage(garden, current.key, drop.side, journal.markers[0], null, drop)) !== false) {
@@ -298,10 +300,10 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       <button type="button" disabled={busy} className="cg-inkwell" aria-label="Write a Grimoire note" title="Write a Grimoire note"
         onClick={() => setDesk({ tab: 'notes', side: 'right' })}>
         <img src={stationeryArt('inkwell.webp')} alt="" draggable="false"/><span>Field notes</span></button>
-      <MarkerTool bookRef={bookRef} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
+      <MarkerTool bookRef={bookRef} journal={journal} busy={busy} styleId={journal.markers[0] || 'forest-tassel'}
         onClick={() => setDesk({ tab: 'markers', side: 'right' })} onDrop={dropMarker}/>
-      {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     </StationeryTray>
+    {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
       tuckedNotes={tuckedNotes} onToggleTuck={toggleTuck}
       onChange={onJournalChange} onClose={() => setDesk(null)} onShop={category => onOpenShop(category, current.key)}/>}

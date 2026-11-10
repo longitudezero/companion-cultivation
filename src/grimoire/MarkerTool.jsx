@@ -5,8 +5,9 @@ import { PAGE_MARKERS } from '../core/stationery.js';
 import { markerDrop, markerWidth, withinMarkerDropArea } from './stationery-model.js';
 import { useBookCoordinates } from './BookView.jsx';
 import { bookRectangle } from './book-view.js';
+import MarkerSlots from './MarkerSlots.jsx';
 
-export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', onClick, onDrop }) {
+export default function MarkerTool({ bookRef, journal, busy, styleId = 'forest-tassel', onClick, onDrop }) {
   const gesture = useRef(null), suppress = useRef(false), [draft, setDraft] = useState(null);
   const coordinates = useBookCoordinates();
   function start(event) {
@@ -24,8 +25,8 @@ export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', o
     drag.dragged = true;
     const point = coordinates.point(event, bookRef.current);
     drag.drop = markerDrop(drag.book, point.x, markerWidth(drag.book.width / 2), point.y);
-    drag.inside = withinMarkerDropArea(drag.book, point.x, point.y);
-    setDraft({ left: point.x - 30, top: point.y - 25 });
+    drag.inside = point.x >= drag.book.width / 2 && withinMarkerDropArea(drag.book, point.x, point.y);
+    setDraft({ left: point.x - 30, top: point.y - 25, drop: drag.inside ? drag.drop : null });
   }
   function finish(event, cancelled = false) {
     const drag = gesture.current;
@@ -40,6 +41,7 @@ export default function MarkerTool({ bookRef, busy, styleId = 'forest-tassel', o
     onPointerUp={event => finish(event)} onPointerCancel={event => finish(event, true)} onLostPointerCapture={event => finish(event, true)}
     onClick={event => { if (event.detail > 0 && suppress.current) { suppress.current = false; return; } onClick(); }}>
     <img src={stationeryArt(PAGE_MARKERS[styleId].file)} alt="" draggable="false"/><span>Mark a page</span></button>
-    {draft && bookRef.current && createPortal(<img className="cg-marker-tool-ghost" src={stationeryArt(PAGE_MARKERS[styleId].file)} alt="" style={draft}/>, bookRef.current)}
+    {draft && bookRef.current && createPortal(<><MarkerSlots journal={journal} size={coordinates.size(bookRef.current)} drop={draft.drop}/>
+      <img className="cg-marker-tool-ghost" src={stationeryArt(PAGE_MARKERS[styleId].file)} alt="" style={{ left: draft.left, top: draft.top }}/></>, bookRef.current)}
   </>;
 }

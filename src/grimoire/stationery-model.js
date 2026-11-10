@@ -6,7 +6,7 @@ export const MARKER_HOVER_LEAVE_MS = 350;
 const entries = new Map(BOOK_ENTRIES.map(entry => [entry.key, entry]));
 export const markerPage = marker => entries.get(marker.entryKey).page + Number(marker.side === 'right');
 export const markerIsLeft = (marker, current) => markerPage(marker) <= current.page;
-export const markerDisplayX = (marker, left) => (left ? 'left' : 'right') === marker.side ? marker.x : 100 - marker.x;
+export const markerDisplayX = (marker, left) => left ? 100 - marker.position * 20 : marker.position * 20;
 export const travellingMarkers = (markers, turn) => !turn ? [] : markers.filter(marker =>
   markerIsLeft(marker, BOOK_ENTRIES[turn.from]) !== markerIsLeft(marker, BOOK_ENTRIES[turn.to]));
 
@@ -21,10 +21,11 @@ export function noteDrop(book, width, height, left, top, previousSide) {
 }
 export function markerDrop(book, pointerX, width, pointerY, previousEdge = 'top') {
   const pageWidth = book.width / 2, inset = markerInset(pageWidth);
-  const side = pointerX < pageWidth ? 'left' : 'right';
+  const side = 'right';
   const edge = pointerY == null ? previousEdge : pointerY > book.height / 2 ? 'bottom' : 'top';
   const left = pointerX - (side === 'right' ? pageWidth : 0) - inset - width / 2;
-  return { side, x: Math.max(0, Math.min(100, left / Math.max(1, pageWidth - width - inset * 2) * 100)), edge };
+  const position = Math.max(0, Math.min(5, Math.round(left / Math.max(1, pageWidth - width - inset * 2) * 5)));
+  return { side, x: position * 20, position, edge };
 }
 
 export function withinMarkerDropArea(book, x, y) {
@@ -51,18 +52,9 @@ export function noteGeometry(note, page, ratio) {
 export const markerWidth = pageWidth => Math.max(44, Math.min(140, pageWidth * .23));
 export const markerInset = pageWidth => Math.max(8, Math.min(16, pageWidth * .025));
 
-// Fan markers across their physical page edge. Saved x values determine their
-// order, while the display positions leave every head exposed in a full stack.
-// This is presentation only: page assignments and players' saved positions stay intact.
+// A marker owns one global reservation. Passing pages only mirrors that slot.
 export function layoutPageMarkers(markers, current) {
-  const positions = new Map();
-  for (const edge of ['top', 'bottom']) for (const left of [true, false]) {
-    const group = markers.filter(marker => marker.edge === edge && markerIsLeft(marker, current) === left)
-      .sort((a, b) => markerDisplayX(a, left) - markerDisplayX(b, left) || a.slot - b.slot);
-    group.forEach((marker, index) => positions.set(marker.slot,
-      group.length === 1 ? markerDisplayX(marker, left) : index / (group.length - 1) * 100));
-  }
-  return positions;
+  return new Map(markers.map(marker => [marker.slot, markerDisplayX(marker, markerIsLeft(marker, current))]));
 }
 
 export const markerTilt = slot => [-4, 3, -2, 4, -3, 2][slot % 6];

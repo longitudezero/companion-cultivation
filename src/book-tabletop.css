@@ -98,6 +98,14 @@
 .cg-tabletop .cg-personal-bookmark.is-open .cg-marker-description { top: 57%; bottom: 15%; font-size: 14px; }
 .cg-tabletop .cg-turn-personal-marker .cg-marker-body { transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt))); }
 .cg-tabletop .cg-personal-bookmark.is-drag-preview .cg-marker-body { top: 0; transform: none; }
+.cg-marker-slots { position: absolute; inset: 0; z-index: 55; pointer-events: none; }
+.cg-slot-guide { position: absolute; height: 44px; display: grid; place-items: center; border: 2px dashed #d9cb92;
+  border-radius: 5px; color: #fff2ca; background: #173c2fe6; font: 11px Georgia, serif; }
+.cg-slot-guide.is-reserved { border-style: solid; color: #ffe0ce; background: #653d31ed; }
+.cg-slot-guide.is-target { outline: 3px solid #fff1b1; outline-offset: 2px; }
+.cg-tabletop > .cg-stationery-issue { position: fixed; top: auto; bottom: 14px; left: 50%; right: auto; transform: translateX(-50%);
+  width: min(480px, calc(100% - 28px)); margin: 0; padding: 10px 16px; border: 1px solid #c29a5a; border-radius: 6px;
+  background: #23392bf2; z-index: 35; text-align: center; }
 .cg-marker-preview .cg-marker-body { --marker-h: 100%; top: 0; transform: none; }
 .cg-marker-preview { height: auto; aspect-ratio: 1 / var(--marker-ratio, 2); }
 

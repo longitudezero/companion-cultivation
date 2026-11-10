@@ -89,7 +89,7 @@ test('note bounds, text limits, unknown pages and unowned stationery cannot corr
   assert.equal(JSON.stringify(garden), before);
 });
 
-test('twelve bookmarks can reuse a style and move without extra purchases or duplicate page markers', () => {
+test('twelve bookmarks can reuse a style and move without extra purchases and several can mark one spread', () => {
   let garden = collected();
   for (const [slot, entry] of BOOK_ENTRIES.slice(0, MARKER_LIMIT).entries()) garden = markPage(garden, entry.key, 'right', 'forest-tassel', slot);
   const before = JSON.stringify(garden), gold = goldBalance(garden);
@@ -97,9 +97,10 @@ test('twelve bookmarks can reuse a style and move without extra purchases or dup
   assert.equal(JSON.stringify(garden), before);
   garden = markPage(garden, 'index', 'right', 'garnet-moon', 2);
   assert.equal(garden.journal.bookmarks.length, 12); assert.equal(garden.journal.bookmarks[2].entryKey, 'index');
-  garden = markPage(garden, 'index', 'right', 'forest-tassel');
+  garden = markPage(garden, 'index', 'right', 'forest-tassel', 2);
   assert.equal(garden.journal.bookmarks[2].styleId, 'forest-tassel'); assert.equal(goldBalance(garden), gold);
-  assert.throws(() => markPage(garden, 'index', 'right', 'forest-tassel', 1), /already has a marker/);
+  garden = markPage(garden, 'index', 'right', 'forest-tassel', 1);
+  assert.equal(garden.journal.bookmarks.filter(m => m.entryKey === 'index').length, 2);
   assert.throws(() => markPage(garden, 'index', 'left', 'teal-star', 2), /your collection/);
   garden = removePageMarker(garden, 2); assert.equal(garden.journal.bookmarks.length, 11);
   assert.deepEqual(garden.journal.markers, ['forest-tassel', 'garnet-moon']);
@@ -130,7 +131,7 @@ test('journal import rejects unsupported formats and cleans invalid styles, page
   assert.deepEqual(clean.papers, ['starlight']); assert.deepEqual(clean.markers, ['forest-tassel']);
   assert.equal(clean.notes['note:1'].text.length, 250); assert.equal(clean.notes['note:1'].x, 50);
   assert.equal(clean.notes['note:1'].y, 100); assert.equal(Object.keys(clean.notes).length, 1);
-  assert.equal(clean.bookmarks.length, 1); assert.deepEqual(normalizeJournal(clean), clean);
+  assert.equal(clean.bookmarks.length, 2); assert.deepEqual(normalizeJournal(clean), clean);
 });
 
 test('every stationery style and the inkwell has its supplied WebP asset', async () => {
@@ -162,7 +163,7 @@ test('existing V1 notes upgrade without losing text, paper, position, tucked sta
     'index/left': { text: 'Index note', paperId: 'moonlit', x: 10, y: 88, tucked: false },
   }, bookmarks: [{ slot: 0, entryKey: 'plant:Beanstalk', side: 'right', styleId: 'forest-tassel' }] };
   const snapshot = JSON.stringify(old), migrated = normalizeJournal(old);
-  assert.equal(migrated.version, 3); assert.equal(migrated.noteNonce, 2);
+  assert.equal(migrated.version, 4); assert.equal(migrated.noteNonce, 2);
   assert.deepEqual(migrated.notes['note:1'], { id: 'note:1', entryKey: 'plant:Beanstalk', side: 'right', rotation: -2, scale: 1, ...old.notes['plant:Beanstalk/right'] });
   assert.equal(migrated.notes['note:2'].text, 'Index note');
   assert.deepEqual(normalizeJournal(migrated), migrated); assert.equal(JSON.stringify(old), snapshot);
@@ -177,29 +178,29 @@ test('note and marker drop geometry crosses the spine and bounds the destination
     assert.equal(noteDrop(book, width, height, -1000, -1000).x, 0);
     const outside = noteDrop(book, width, height, 10000, 10000);
     assert.equal(outside.side, 'right'); assert.equal(outside.x, 100); assert.equal(outside.y, 100);
-    assert.equal(markerDrop(book, 5, 40).side, 'left'); assert.equal(markerDrop(book, pageWidth + 10, 40).side, 'right');
+    assert.equal(markerDrop(book, 5, 40).side, 'right'); assert.equal(markerDrop(book, pageWidth + 10, 40).side, 'right');
   }
 });
 
 test('page 23 travels from the right stack to the left when jumping from page 10 to page 55, and back', () => {
-  const markedEntry = BOOK_ENTRIES.find(entry => entry.page === 23), marker = { entryKey: markedEntry.key, side: 'left', x: 30 };
+  const markedEntry = BOOK_ENTRIES.find(entry => entry.page === 23), marker = { entryKey: markedEntry.key, side: 'right', position: 1, x: 20 };
   const before = BOOK_ENTRIES.find(entry => entry.page === 9), after = BOOK_ENTRIES.find(entry => entry.page === 55);
-  assert.equal(markerPage(marker), 23); assert.equal(markerIsLeft(marker, before), false);
-  assert.equal(markerIsLeft(marker, after), true); assert.equal(markerIsLeft(marker, markedEntry), true);
+  assert.equal(markerPage(marker), 24); assert.equal(markerIsLeft(marker, before), false);
+  assert.equal(markerIsLeft(marker, after), true); assert.equal(markerIsLeft(marker, markedEntry), false);
   assert.deepEqual(travellingMarkers([marker], { from: before.index, to: after.index }), [marker]);
   assert.deepEqual(travellingMarkers([marker], { from: after.index, to: before.index }), [marker]);
-  assert.equal(markerDisplayX(marker, false), 70); assert.equal(markerDisplayX(marker, true), 30);
+  assert.equal(markerDisplayX(marker, false), 20); assert.equal(markerDisplayX(marker, true), 80);
   assert.deepEqual(travellingMarkers([marker], { from: 0, to: 1 }), []);
 });
 
-test('dragging a marker keeps its style and swaps occupied destinations without losing either marker', () => {
+test('dragging a marker keeps its style and allows a shared spread without swapping or losing either marker', () => {
   let garden = collected();
   garden = markPage(garden, 'plant:Beanstalk', 'right', 'forest-tassel', 0);
   garden = markPage(garden, 'index', 'left', 'garnet-moon', 1);
   const original = garden.journal.bookmarks;
   garden = movePageMarker(garden, 0, 'index', 'left', 84);
-  assert.equal(garden.journal.bookmarks[0].entryKey, 'index'); assert.equal(garden.journal.bookmarks[0].x, 84);
-  assert.equal(garden.journal.bookmarks[1].entryKey, 'plant:Beanstalk'); assert.equal(garden.journal.bookmarks[1].side, 'right');
+  assert.equal(garden.journal.bookmarks[0].entryKey, 'index'); assert.equal(garden.journal.bookmarks[0].x, 80);
+  assert.equal(garden.journal.bookmarks[1].entryKey, 'index'); assert.equal(garden.journal.bookmarks[1].side, 'right');
   assert.equal(garden.journal.bookmarks[0].styleId, original[0].styleId);
   assert.equal(garden.journal.bookmarks[1].styleId, original[1].styleId);
   assert.throws(() => movePageMarker(garden, 0, 'missing', 'left', 20));
@@ -265,10 +266,10 @@ test('six markers fit on each edge, and moving a seventh onto a full edge fails 
   assert.equal(garden.journal.bookmarks.filter(marker => marker.edge === 'bottom').length, 6);
   const before = JSON.stringify(garden);
   assert.throws(() => editPageMarker(garden, 6, { edge: 'top' }), /six top/);
-  assert.throws(() => movePageMarker(garden, 6, 'index', 'right', 25, 'top'), /six top/);
+  assert.throws(() => movePageMarker(garden, 6, 'index', 'right', 25, 'top'), /reserved/);
   assert.equal(JSON.stringify(garden), before);
   garden = removePageMarker(garden, 0);
-  garden = movePageMarker(garden, 6, 'index', 'right', 25, 'top');
+  garden = movePageMarker(garden, 6, 'index', 'right', 0, 'top');
   assert.equal(garden.journal.bookmarks.find(marker => marker.slot === 6).edge, 'top');
   assert.deepEqual(deserializeGameSave(serializeGameSave(garden)), garden);
 });
@@ -319,7 +320,7 @@ test('previous V2 journals upgrade with default note controls and all original m
     notes: { 'note:9': { id: 'note:9', entryKey: 'index', side: 'right', text: 'My existing note.', paperId: 'starlight', x: 75, y: 20, tucked: true } },
     bookmarks: [{ slot: 0, entryKey: 'index', side: 'right', styleId: 'forest-tassel', x: 80 }] };
   const clean = normalizeJournal(old);
-  assert.equal(clean.version, 3); assert.equal(clean.noteNonce, 9); assert.equal(clean.notes['note:9'].text, 'My existing note.');
+  assert.equal(clean.version, 4); assert.equal(clean.noteNonce, 9); assert.equal(clean.notes['note:9'].text, 'My existing note.');
   assert.equal(clean.notes['note:9'].rotation, -2); assert.equal(clean.notes['note:9'].scale, 1);
   assert.equal(clean.bookmarks[0].x, 80); assert.equal(clean.bookmarks[0].name, ''); assert.equal(clean.bookmarks[0].description, '');
   assert.equal(clean.bookmarks[0].edge, 'top');
@@ -338,37 +339,28 @@ test('note controls and read-only turning prints preserve writing without intera
 test('the marker editor exposes names, writing, edge selection and owned appearance choices', () => {
   let garden = markPage(collected(), 'index', 'right', 'forest-tassel', null, { name: 'My research', description: '<script>not executable</script>' });
   const entry = BOOK_ENTRIES.find(item => item.key === 'index');
-  const markup = render(Stationery.StationeryDesk, { garden, entry, ledger: garden.grimoire, initialTab: 'markers' });
+  const markup = render(Stationery.StationeryDesk, { garden, entry, ledger: garden.grimoire, initialTab: 'markers', initialMarkerSlot: 0 });
   for (const label of ['Marker name', 'Marker description', 'Marker edge', 'Owned page markers']) assert.ok(markup.includes(`aria-label="${label}"`));
   assert.match(markup, /My research/); assert.match(markup, /&lt;script&gt;/); assert.doesNotMatch(markup, /<script>/);
-  assert.match(markup, /Six markers above/); assert.match(markup, /Save marker/);
+  assert.match(markup, /twelve fixed positions/); assert.match(markup, /Save marker/);
 });
 
-test('crowded marker stacks fan across each physical edge without changing saved positions or page attachments', () => {
-  const markers = BOOK_ENTRIES.slice(1, 13).map((entry, slot) => ({
-    slot, entryKey: entry.key, side: 'right', edge: slot < 6 ? 'top' : 'bottom', x: 50,
-  }));
+test('fixed reservations preserve gaps and mirror without reordering other markers', () => {
+  const markers = BOOK_ENTRIES.slice(1, 13).map((entry, slot) => ({ slot, entryKey: entry.key, side: 'right', edge: slot < 6 ? 'top' : 'bottom', position: slot % 6, x: slot % 6 * 20 }));
   const before = JSON.stringify(markers);
   for (const current of [BOOK_ENTRIES[0], BOOK_ENTRIES[5], BOOK_ENTRIES[9], BOOK_ENTRIES.at(-1)]) {
-    const positions = layoutPageMarkers(markers, current);
-    assert.equal(positions.size, 12);
-    for (const edge of ['top', 'bottom']) for (const left of [true, false]) {
-      const group = markers.filter(marker => marker.edge === edge && markerIsLeft(marker, current) === left);
-      const values = group.map(marker => positions.get(marker.slot)).sort((a, b) => a - b);
-      if (group.length > 1) {
-        assert.equal(values[0], 0); assert.equal(values.at(-1), 100);
-        for (let i = 1; i < values.length; i++) assert.ok(Math.abs(values[i] - values[i - 1] - 100 / (values.length - 1)) < 1e-8);
-      } else if (group.length) assert.equal(values[0], markerDisplayX(group[0], left));
-    }
+    const full = layoutPageMarkers(markers, current), sparse = layoutPageMarkers(markers.filter(m => [0, 2, 5, 8].includes(m.slot)), current);
+    for (const marker of markers) assert.equal(full.get(marker.slot), markerIsLeft(marker, current) ? 100 - marker.position * 20 : marker.position * 20);
+    for (const [slot, x] of sparse) assert.equal(x, full.get(slot));
   }
   assert.equal(JSON.stringify(markers), before);
 });
 
 test('marker drops use the full page edge after the close ribbon moves to the side', () => {
-  for (const pageWidth of [138, 250, 460, 645]) for (const side of ['left', 'right']) for (const edge of ['top', 'bottom']) {
+  for (const pageWidth of [138, 250, 460, 645]) for (const side of ['right']) for (const edge of ['top', 'bottom']) {
     const width = markerWidth(pageWidth), inset = markerInset(pageWidth);
     const available = pageWidth - width - inset * 2;
-    for (const x of [0, 25, 50, 100]) {
+    for (const x of [0, 20, 40, 60, 80, 100]) {
       const pointer = (side === 'right' ? pageWidth : 0) + inset + available * x / 100 + width / 2;
       const drop = markerDrop({ width: pageWidth * 2, height: 600 }, pointer, width, edge === 'top' ? 0 : 600);
       assert.equal(drop.side, side); assert.equal(drop.edge, edge);
@@ -384,7 +376,7 @@ test('marker labels sit inside their artwork, use a page number only as the unna
   garden = markPage(garden, 'plant:Carrot', 'left', 'garnet-moon', 1, { edge: 'bottom' });
   const markup = render(Stationery.PersonalBookmarks, { journal: garden.journal, ledger: garden.grimoire, current: BOOK_ENTRIES[0] });
   assert.match(markup, /class="cg-marker-body"><svg class="cg-marker-art"[^>]*>[\s\S]*?<\/svg><strong class="cg-marker-surface-name" aria-hidden="true">Garden trials<\/strong>/);
-  assert.match(markup, /class="cg-marker-surface-name" aria-hidden="true">7<\/strong>/);
+  assert.match(markup, /class="cg-marker-surface-name" aria-hidden="true">8<\/strong>/);
   assert.doesNotMatch(markup, /cg-marker-page|cg-marker-tab-title/);
   assert.equal((markup.match(/class="cg-marker-orientation"/g) || []).length, 2);
   assert.equal((markup.match(/aria-label="Open marked page:/g) || []).length, 2);

@@ -36,7 +36,7 @@ function fixture() {
 function Harness({ garden }) {
   const [value, setValue] = useState(garden); current = value;
   return React.createElement(Book, { garden: value, initialEntryKey: 'plant:Beanstalk', onClose() {}, onOpenShop() {},
-    onJournalChange(update) { writes++; setValue(previous => update(previous)); return true; } });
+    onJournalChange(update) { const next = update(current); writes++; setValue(next); return true; } });
 }
 async function mount(garden = fixture(), motion = true) {
   reduced = motion;
@@ -165,9 +165,9 @@ const cases = [
   }],
   ['marker tool chooses the local bottom edge when the screen-facing direction is rotated', async () => {
     await mount(); await setView({ x: 650, y: 400, zoom: 1.3, rotation: 92 });
-    const tool = label('Mark a Grimoire page'); await dragLocal(tool, { x: 1200, y: -100 }, { x: 270, y: BOOK_SIZE.height + 20 });
+    const tool = label('Mark a Grimoire page'); await dragLocal(tool, { x: 1200, y: -100 }, { x: 840, y: BOOK_SIZE.height + 20 });
     const placed = current.journal.bookmarks.find(m => m.entryKey === 'plant:Beanstalk');
-    assert.ok(placed); assert.equal(placed.side, 'left'); assert.equal(placed.edge, 'bottom');
+    assert.ok(placed); assert.equal(placed.side, 'right'); assert.equal(placed.edge, 'bottom');
     assert.equal(label('Marker edge').value, 'bottom');
   }],
   ['existing marker drag rejects outside paper bounds and preserves its assignment', async () => {
@@ -175,7 +175,7 @@ const cases = [
     const before = JSON.stringify(current.journal.bookmarks), handle = q('.cg-marker-handle');
     await dragLocal(handle, { x: 800, y: -50 }, { x: -50, y: 400 });
     assert.equal(JSON.stringify(current.journal.bookmarks), before);
-    await dragLocal(handle, { x: 800, y: -50 }, { x: 240, y: BOOK_SIZE.height - 15 });
+    await dragLocal(handle, { x: 800, y: -50 }, { x: 800, y: BOOK_SIZE.height - 15 });
     assert.equal(current.journal.bookmarks[0].entryKey, 'plant:Beanstalk'); assert.equal(current.journal.bookmarks[0].edge, 'bottom');
   }],
   ['marker attachment dwells for 1500ms and has stable hover/focus state', async () => {
@@ -209,8 +209,40 @@ const cases = [
     await choose('plant:Onion'); assert.equal(q('[data-marker-slot="1"]').dataset.markerSide, 'right');
     const view = JSON.stringify(pose()); await click(label('Open Aquatic section')); await choose('plant:Pearlily');
     assert.equal(q('[data-marker-slot="1"]').dataset.markerSide, 'left'); assert.equal(JSON.stringify(pose()), view);
-    await click(q('[data-marker-slot="1"] button')); assert.ok(label('Find entry in Flowers')); assert.equal(q('[data-marker-slot="1"]').dataset.markedPage, '23');
+    await click(q('[data-marker-slot="1"] button')); assert.ok(label('Find entry in Flowers')); assert.equal(q('[data-marker-slot="1"]').dataset.markedPage, '24');
     await click(label('Open Ingredients section')); await choose('plant:Onion'); assert.equal(q('[data-marker-slot="1"]').dataset.markerSide, 'right');
+  }],
+  ['drag guides reserve left-stack slots and allow multiple markers on the open spread', async () => {
+    await mount(markPage(fixture(), 'family:Ingredients', 'right', 'forest-tassel', 0, { position: 0 }));
+    const tool = label('Mark a Grimoire page'), view = pose(), from = bookToScreen({ x: 1200, y: -80 }, view);
+    await pointer(tool, 'pointerdown', from);
+    await pointer(tool, 'pointermove', bookToScreen({ x: 638.4, y: 0 }, view));
+    assert.equal(document.querySelectorAll('.cg-slot-guide').length, 12);
+    assert.ok(q('[data-slot-edge="top"][data-slot-position="0"]').classList.contains('is-reserved'));
+    const before = JSON.stringify(current.journal.bookmarks);
+    await pointer(tool, 'pointerup', bookToScreen({ x: 638.4, y: 0 }, view));
+    assert.equal(JSON.stringify(current.journal.bookmarks), before);
+    assert.match(q('.cg-stationery-issue').textContent, /reserved/);
+    for (const position of [2, 5]) {
+      await dragLocal(tool, { x: 1200, y: -80 }, { x: 638.4 + 403.2 * position / 5, y: 0 });
+      assert.equal(label('Marker position').value, String(position));
+      await click(label('Close stationery'));
+    }
+    assert.equal(current.journal.bookmarks.filter(m => m.entryKey === 'plant:Beanstalk').length, 2);
+    assert.equal(current.journal.bookmarks[0].entryKey, 'family:Ingredients');
+  }],
+  ['editor and keyboard move only the selected reservation', async () => {
+    await mount(markPage(fixture(), 'plant:Beanstalk', 'right', 'teal-star', 1, { position: 2, name: 'Keep this name' }));
+    const original = JSON.stringify(current.journal.bookmarks[0]);
+    await click(q('[data-marker-slot="1"] button'));
+    assert.equal(label('Marker position').value, '2');
+    await act(() => { label('Marker position').value = '4'; label('Marker position').dispatchEvent(new window.Event('change', { bubbles: true })); });
+    await click([...q('.cg-stationery-desk').querySelectorAll('button')].find(button => button.textContent === 'Save marker'));
+    assert.equal(current.journal.bookmarks[1].position, 4);
+    const key = name => act(() => q('[data-marker-slot="1"] button').dispatchEvent(new window.KeyboardEvent('keydown', { key: name, bubbles: true, cancelable: true })));
+    await key('ArrowLeft'); assert.equal(current.journal.bookmarks[1].position, 3);
+    await key('ArrowDown'); assert.equal(current.journal.bookmarks[1].edge, 'bottom'); assert.equal(current.journal.bookmarks[1].position, 3);
+    assert.equal(current.journal.bookmarks[1].name, 'Keep this name'); assert.equal(JSON.stringify(current.journal.bookmarks[0]), original);
   }],
   ['turning-note copies stay on their printed face inside the transformed scene', async () => {
     await mount(fixture(), false); await click(label('Rotate book clockwise'));

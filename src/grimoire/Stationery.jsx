@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NOTE_PAPERS, PAGE_MARKERS } from '../core/stationery.js';
 import { stationeryArt } from './stationery-art.js';
-import { createJournal, pageNotes, writeNote, removeNote, markPage, removePageMarker, NOTE_LIMIT, MARKER_LIMIT, MARKER_NAME_LIMIT, MARKER_DESCRIPTION_LIMIT } from '../core/journal.js';
+import { createJournal, normalizeJournal, pageNotes, writeNote, removeNote, markPage, removePageMarker, NOTE_LIMIT, MARKER_LIMIT, MARKER_NAME_LIMIT, MARKER_DESCRIPTION_LIMIT } from '../core/journal.js';
 import { BOOK_ENTRIES, entryName } from './book.js';
 import { Paper } from './NotePaper.jsx';
 import { MarkerPreview } from './PageMarkers.jsx';
@@ -53,29 +53,31 @@ function NoteEditor({ journal, entry, side, noteId, onChange, onClose, onShop, o
 }
 
 function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initialDrop, onChange, onClose, onShop }) {
-  const existing = journal.bookmarks.find(marker => marker.slot === initialMarkerSlot)
-    || journal.bookmarks.find(marker => marker.entryKey === entry.key && marker.side === side);
+  const existing = journal.bookmarks.find(marker => marker.slot === initialMarkerSlot);
   const [slot, setSlot] = useState(existing?.slot ?? '');
   const [styleId, setStyleId] = useState(existing?.styleId || journal.markers[0] || '');
   const [name, setName] = useState(existing?.name || ''), [description, setDescription] = useState(existing?.description || '');
   const [edge, setEdge] = useState(initialDrop?.edge || existing?.edge || (journal.bookmarks.filter(m => m.edge === 'top').length < 6 ? 'top' : 'bottom'));
+  const freePosition = (atEdge, except) => Array.from({ length: 6 }, (_, i) => i).find(i => !journal.bookmarks.some(m => m.slot !== except && m.edge === atEdge && m.position === i));
+  const [position, setPosition] = useState(initialDrop?.position ?? (initialDrop?.x != null ? Math.round(initialDrop.x / 20) : existing?.position) ?? freePosition(edge, existing?.slot) ?? 0);
   const [error, setError] = useState(''), [status, setStatus] = useState('');
   const selected = journal.bookmarks.find(marker => marker.slot === slot);
   function chooseSlot(value) {
     const next = value === '' ? '' : Number(value), marker = journal.bookmarks.find(item => item.slot === next);
     setSlot(next); setName(marker?.name || ''); setDescription(marker?.description || '');
-    setStyleId(marker?.styleId || journal.markers[0]); setEdge(initialDrop?.edge || marker?.edge || 'top'); setError('');
+    setStyleId(marker?.styleId || journal.markers[0]); const nextEdge = initialDrop?.edge || marker?.edge || 'top'; setEdge(nextEdge);
+    setPosition(initialDrop?.position ?? marker?.position ?? freePosition(nextEdge, next) ?? 0); setError('');
   }
   function save(event) {
     event.preventDefault();
     try {
-      if (onChange(garden => markPage(garden, entry.key, side, styleId, slot === '' ? null : slot,
-        { name, description, edge, ...(initialDrop ? { x: initialDrop.x } : {}) })) !== false) onClose();
+      if (onChange(garden => markPage(garden, entry.key, 'right', styleId, slot === '' ? null : slot,
+        { name, description, edge, position })) !== false) onClose();
     } catch (issue) { setError(issue.message); }
   }
   return <>
     {journal.markers.length ? <form onSubmit={save}>
-      <p className="cg-desk-hint">Six markers above the book and six below. Click the current page’s marker to write on it; click another to turn to its page.</p>
+      <p className="cg-desk-hint">Choose one of twelve fixed positions, counted from the spine. Each position stays reserved even when its marker is on the left. Several markers can mark this spread.</p>
       <label className="cg-marker-slot">Marker<select aria-label="Marker to place" value={slot} onChange={event => chooseSlot(event.target.value)}>
         <option value="">New marker ({MARKER_LIMIT - journal.bookmarks.length} available)</option>
         {journal.bookmarks.map(marker => { const destination = BOOK_ENTRIES.find(item => item.key === marker.entryKey);
@@ -87,13 +89,16 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
         <label htmlFor="cg-marker-description">Write on the marker <span>(optional)</span></label>
         <textarea id="cg-marker-description" aria-label="Marker description" maxLength={MARKER_DESCRIPTION_LIMIT} value={description} rows={5} placeholder="Notes to keep on this page…" onChange={event => setDescription(event.target.value)}/>
         <span className="cg-note-count">{description.length}/{MARKER_DESCRIPTION_LIMIT}</span>
-        <label className="cg-marker-slot">Book edge<select aria-label="Marker edge" value={edge} onChange={event => setEdge(event.target.value)}>
+        <label className="cg-marker-slot">Book edge<select aria-label="Marker edge" value={edge} onChange={event => { const value = event.target.value; setEdge(value); setPosition(freePosition(value, slot) ?? 0); setError(''); }}>
           <option value="top">Top ({journal.bookmarks.filter(m => m.edge === 'top').length}/6)</option>
           <option value="bottom">Bottom ({journal.bookmarks.filter(m => m.edge === 'bottom').length}/6)</option></select></label>
+        <label className="cg-marker-slot">Position from spine<select aria-label="Marker position" value={position} onChange={event => { setPosition(Number(event.target.value)); setError(''); }}>
+          {Array.from({ length: 6 }, (_, index) => { const occupied = journal.bookmarks.some(m => m.slot !== slot && m.edge === edge && m.position === index);
+            return <option key={index} value={index} disabled={occupied}>{index + 1}{occupied ? ' · Reserved' : ''}</option>; })}</select></label>
       </div><MarkerPreview marker={{ styleId, name, description }}/></div>
       <h3>Choose your marker</h3><StylePicker ids={journal.markers} catalogue={PAGE_MARKERS} value={styleId} onChange={setStyleId} label="Owned page markers"/>
       <p className="cg-desk-error" role="alert">{error}</p>
-      <div className="cg-desk-actions"><button type="submit" className="cg-desk-primary">{selected ? selected.entryKey === entry.key && selected.side === side ? 'Save marker' : 'Move marker here' : 'Mark this page'}</button>
+      <div className="cg-desk-actions"><button type="submit" className="cg-desk-primary">{selected ? selected.entryKey === entry.key && selected.side === side ? 'Save marker' : 'Move marker here' : 'Mark this spread'}</button>
         <button type="button" onClick={onShop}>Browse markers in Shop</button></div>
     </form> : <div className="cg-stationery-empty"><h3>Keep a favourite page close</h3>
       <p>Page marker styles cost 10 Gold. Unlock a style once and reuse it for any of your twelve markers.</p>
@@ -112,7 +117,7 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
 }
 
 export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', initialSide = 'right', initialNoteId = null, initialMarkerSlot = null, initialDrop = null, onChange, onClose, onShop, tuckedNotes = new Set(), onToggleTuck }) {
-  const savedJournal = garden.journal || createJournal(), close = useRef(null);
+  const savedJournal = garden.journal?.version === 4 ? garden.journal : normalizeJournal(garden.journal), close = useRef(null);
   const journal = { ...savedJournal, notes: Object.fromEntries(Object.entries(savedJournal.notes).map(([id, note]) => [id, { ...note, tucked: tuckedNotes.has(id) }])) };
   const [tab, setTab] = useState(initialTab), [side, setSide] = useState(initialSide);
   const [noteId, setNoteId] = useState(initialNoteId);
@@ -125,8 +130,8 @@ export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', in
     <div className="cg-stationery-tabs" role="tablist" aria-label="Stationery tools">
       <button role="tab" aria-selected={tab === 'notes'} onClick={() => setTab('notes')}>Field notes</button>
       <button role="tab" aria-selected={tab === 'markers'} onClick={() => setTab('markers')}>Page markers</button></div>
-    <label className="cg-page-choice">Page<select aria-label="Stationery page" value={side} onChange={event => { setSide(event.target.value); setNoteId(null); }}>
-      <option value="left">Left page · {entry.page}</option><option value="right">Right page · {entry.page + 1}</option></select></label>
+    {tab === 'notes' && <label className="cg-page-choice">Page<select aria-label="Stationery page" value={side} onChange={event => { setSide(event.target.value); setNoteId(null); }}>
+      <option value="left">Left page · {entry.page}</option><option value="right">Right page · {entry.page + 1}</option></select></label>}
     {tab === 'notes' && <label className="cg-page-choice">Note<select aria-label="Note to edit" value={noteId || ''} onChange={event => setNoteId(event.target.value || null)}>
       <option value="">New note</option>{pageNotes(journal, entry.key, side).map(note => <option key={note.id} value={note.id}>
         Note {note.id.slice(5)}{note.tucked ? ' (tucked)' : ''} · {note.text.slice(0, 45)}</option>)}
