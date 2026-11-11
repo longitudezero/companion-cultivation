@@ -20,14 +20,14 @@ Teach the rule directly in the task and Inspector. Mycelial ground slows plant g
 | Placement | Objective and feedback | Reward or availability |
 | --- | --- | --- |
 | **14.1 · Something’s Growing Under There**, after Task 14 grants Mycelord Spores | Establish a living Mycelord supporting three connected Mycelial hexes, including its own. Show the colony’s footprint and warn about plant exposure as it spreads. | Keep the draft Spore and Gold rewards. Open the boost practice. |
-| **14.2 · Use a boosted fungus**, after 14.1 | Establish Emberbolete on supported Mycelial ground and apply its cultivation effect to one living Plant on uncolonized ground. Show Emberbolete’s Seed Yield effect increasing from +10% to +30% in the Inspector. | Award a small bundle of player-placeable Blockers that can stop Mycelial spread. Open Tasks 15–18 and **Contain the spread**. |
+| **14.2 · Use a boosted fungus**, after 14.1 | Establish Emberbolete on supported Mycelial ground and apply its cultivation effect to one living Plant on uncolonized ground. Show Emberbolete’s Seed Yield effect increasing from +10% to +30% in the Inspector. | Award a small bundle of [Root Barriers](player-blockers.md). Open Tasks 15–18 and **Contain the spread**. |
 | **Contain the spread**, optional side task after the boost practice | Use the rewarded Blockers to stop a supported colony’s advance toward a living crop. Keep a living Mycelord supporting part of the colony and the crop on uncolonized ground. Highlight the protected boundary and any route the colony can still use. | Available alongside the four projects. Task reward TBD. |
 
 Flooded ground can also stop spread. If the player cuts every support route to an already colonized area, show that area losing support and retreating gradually. Teach containment with a living crop and an active colony.
 
 The Woodlands project applies the boost lesson with Mistruffle reaching Charmomile. Its Siltgill reward introduces a Fungus that depends on Mycelial ground.
 
-**Next design pass** covers player-placeable Blocker items, including which kind and how many to reward, how players place them, and how they can recover from a misplaced Blocker. The [existing propagation rules](../design/systems/influences-and-responses.md) define how Blockers affect Mycelial spread and support. The **Contain the spread** task depends on a usable player item reward.
+The [player Blocker catalogue](player-blockers.md) defines the approved items and their filters. **Contain the spread** depends on the player being able to claim and place the Task 14.2 Root Barriers. Final bundle size and later availability are part of the main-task reward review.
 
 ## Leaf production after the family unlocks
 
