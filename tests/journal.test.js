@@ -49,11 +49,11 @@ test('all stationery is available as permanent styles and purchases change only 
 
 test('a full bag can still unlock paper and page markers without consuming a square', () => {
   let garden = withGold(createTutorialGarden(), 20);
-  for (let i = 0; i < 198; i++) garden = grantSourceItem(garden, 'ember-pebble');
-  assert.equal(inventoryItems(garden.inventory).length, 200);
+  for (let i = 0; i < 18; i++) garden = grantSourceItem(garden, 'ember-pebble');
+  assert.equal(inventoryItems(garden.inventory).length, 20);
   garden = tradeShop(garden, 'buy', 'paper:starlight', 1).garden;
   garden = tradeShop(garden, 'buy', 'bookmark:forest-tassel', 1).garden;
-  assert.equal(inventoryItems(garden.inventory).length, 200); assert.equal(goldBalance(garden), 5);
+  assert.equal(inventoryItems(garden.inventory).length, 20); assert.equal(goldBalance(garden), 5);
 });
 
 test('many notes can share a printed page; editing one preserves every other note and its own placement', () => {

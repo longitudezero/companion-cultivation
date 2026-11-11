@@ -1,5 +1,4 @@
-// First playable catalog. Groups are ordered for future unlock progression;
-// until a store exists, developer tools are the only way to grant items.
+// Shop groups are ordered by main-task and specialization unlocks.
 const entry = (id, name, propertyEffects, propagation, reach, minutes) => Object.freeze({
   id, name, propertyEffects: Object.freeze(propertyEffects.map(([name, strength]) => Object.freeze({ name, strength }))),
   propagation, ...(propagation === 'spread-budget' ? { budget: reach } : { range: reach }),

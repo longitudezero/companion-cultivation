@@ -1,5 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { INVENTORY_PAGES, INVENTORY_PAGE_SLOTS, formatRealDuration } from './core/index.js';
+import { INVENTORY_CAPACITY, INVENTORY_PAGE_SLOTS, formatRealDuration } from './core/index.js';
 import { itemCategory } from './ui/garden-model.js';
 import { itemArt } from './ui/item-art.js';
 import { blockerFilterText, blockerPlacementTarget } from './ui/item-details.js';
@@ -11,16 +11,18 @@ const ICON = { seed: '◌', spore: '◈', leaf: '❧', trophy: '◆', legacy: '�
 const FILTERS = { all: 'All', seed: 'Seeds', spore: 'Spores', leaf: 'Leaves', item: 'Items' };
 
 export default function InventoryGrid({ items, activePage, onPageChange, heldId, onItemPointerDown,
-  onChooseItem, onChooseSlot, onPageHover, reservedForHeld = 0, stagingEnabled = true, ledger, dragging = false }) {
+  onChooseItem, onChooseSlot, onPageHover, reservedForHeld = 0, stagingEnabled = true, ledger, dragging = false, capacity = INVENTORY_CAPACITY, onDiscard }) {
   const [filter, setFilter] = useState('all');
+  const pages = Math.ceil(capacity / INVENTORY_PAGE_SLOTS);
+  const pageSlots = page => Math.min(INVENTORY_PAGE_SLOTS, capacity - page * INVENTORY_PAGE_SLOTS);
   const [hover, setHover] = useState(null);
   const visible = useRef(null), hoverTimer = useRef(null), tooltipId = useId();
   const bagsId = useId();
   function hide() { window.clearTimeout(hoverTimer.current); visible.current = null; setHover(null); }
   function chooseBag(page) { hide(); setFilter('all'); onPageChange(page); }
   function navigateBags(event, page) {
-    const next = event.key === 'Home' ? 0 : event.key === 'End' ? INVENTORY_PAGES - 1
-      : event.key === 'ArrowRight' ? (page + 1) % INVENTORY_PAGES : event.key === 'ArrowLeft' ? (page + INVENTORY_PAGES - 1) % INVENTORY_PAGES : null;
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? pages - 1
+      : event.key === 'ArrowRight' ? (page + 1) % pages : event.key === 'ArrowLeft' ? (page + pages - 1) % pages : null;
     if (next == null) return;
     event.preventDefault(); chooseBag(next); event.currentTarget.parentElement.children[next].focus();
   }
@@ -36,14 +38,14 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
   useEffect(() => { window.addEventListener('resize', hide); return () => { window.clearTimeout(hoverTimer.current); window.removeEventListener('resize', hide); }; }, []);
   const occupied = new Map(items.map((item) => [item.slot, item]));
   const held = items.find(item => item.id === heldId);
-  const slots = filter === 'all' ? activePage == null ? [] : Array.from({ length: INVENTORY_PAGE_SLOTS }, (_, cell) => activePage * INVENTORY_PAGE_SLOTS + cell)
+  const slots = filter === 'all' ? activePage == null ? [] : Array.from({ length: pageSlots(activePage) }, (_, cell) => activePage * INVENTORY_PAGE_SLOTS + cell)
     : items.filter(item => itemCategory(item) === filter).map(item => item.slot);
-  return <section className="spatial-inventory" data-inventory-dropzone="true" aria-label="Inventory: 200 squares">
+  return <section className="spatial-inventory" data-inventory-dropzone="true" aria-label={`Inventory: ${capacity} squares`}>
     <SlotVines/>
-    <div className="inventory-heading"><div><div className="mini-heading">YOUR COLLECTION</div><h3>Inventory</h3></div><span>{items.length} / 200 slots</span></div>
+    <div className="inventory-heading"><div><div className="mini-heading">YOUR COLLECTION</div><h3>Inventory</h3></div><span>{items.length} / {capacity} slots</span></div>
     <div className="inventory-filters" role="group" aria-label="Filter inventory">{Object.entries(FILTERS).map(([key, label]) => <button key={key} data-inventory-type={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{label}</button>)}</div>
     {!!slots.length && <div className="inventory-square-grid" id={`${bagsId}-contents`} role={filter === 'all' ? 'tabpanel' : 'group'}
-      aria-labelledby={filter === 'all' ? `${bagsId}-tab-${activePage}` : undefined} aria-label={filter === 'all' ? `Bag ${activePage + 1}, 50 squares` : `${FILTERS[filter]} in inventory`}>
+      aria-labelledby={filter === 'all' ? `${bagsId}-tab-${activePage}` : undefined} aria-label={filter === 'all' ? `Bag ${activePage + 1}, ${pageSlots(activePage)} squares` : `${FILTERS[filter]} in inventory`}>
       {slots.map(slot => {
         const item = occupied.get(slot);
         const artwork = itemArt(item);
@@ -71,9 +73,10 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
     {held?.type === 'blocker-item'
       ? <p className="inventory-held-hint"><strong>{held.name}</strong> · Blocks {blockerFilterText(held.filters)}. Choose {blockerPlacementTarget(held.form)}.</p>
       : held && <p className="inventory-held-hint"><strong>{held.name}</strong> · {held.type === 'source-item' ? `${formatRealDuration(held.remainingHours)} paused. Tap an empty hex to place it` : `owned ${held.quantity}${['seed', 'spore'].includes(held.type) ? `${stagingEnabled ? ` · staged ${reservedForHeld}` : ''} · available ${Math.max(0, held.quantity - reservedForHeld)}. Tap a hex to ${stagingEnabled ? 'stage' : 'plant'} Seeds/Spores` : ''}`}, or another square to rearrange.</p>}
-    <div className="inventory-bags" role="tablist" aria-label="Inventory bags">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
+    {held && onDiscard && <button type="button" className="inventory-discard" onClick={() => onDiscard(held)}>Discard {held.name}</button>}
+    <div className="inventory-bags" role="tablist" aria-label="Inventory bags">{Array.from({ length: pages }, (_, page) =>
       <button key={page} id={`${bagsId}-tab-${page}`} role="tab" aria-controls={`${bagsId}-contents`}
-        className={filter === 'all' && activePage === page ? 'is-open' : ''} aria-label={`Bag ${page + 1}`} title={`Bag ${page + 1} · 50 squares`}
+        className={filter === 'all' && activePage === page ? 'is-open' : ''} aria-label={`Bag ${page + 1}`} title={`Bag ${page + 1} · ${pageSlots(page)} squares`}
         aria-selected={filter === 'all' && activePage === page} tabIndex={(activePage ?? 0) === page ? 0 : -1}
         onKeyDown={event => navigateBags(event, page)} onPointerEnter={() => { if (dragging) setFilter('all'); onPageHover(page); }}
         onClick={() => chooseBag(page)}>

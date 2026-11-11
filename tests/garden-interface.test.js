@@ -95,7 +95,8 @@ test('ordinary play has bottom navigation and hides empty staging and menu contr
   assert.match(markup, /Beanstalk Seeds, 36 owned, square 1/);
   assert.doesNotMatch(markup, /class="inventory-square\s+is-held"/, 'empty slots never inherit an undefined held item');
   assert.match(markup, /Beanstalk illustration|illustrations\/plants\/beanstalk.webp/);
-  for (const bag of [1, 2, 3, 4]) assert.match(markup, new RegExp(`aria-label="Bag ${bag}"`));
+  assert.match(markup, /aria-label="Bag 1"/);
+  assert.doesNotMatch(markup, /aria-label="Bag [2-4]"/);
   assert.match(markup, /role="tablist" aria-label="Inventory bags"/);
   assert.match(markup, /role="tab"[^>]*aria-label="Bag 1"[^>]*aria-selected="true"/);
   assert.ok(markup.indexOf('inventory-bags') > markup.indexOf('inventory-square-grid'));

@@ -39,7 +39,7 @@ import {
   formatRealDuration,
   calculateCultivation, plantGrowthRates, PROTOTYPE_TUNING,
   harvestPlant, harvestFungus, availableHarvest,
-  inventoryItems, ensureInventorySlots, moveInventoryStack,
+  inventoryItems, ensureInventorySlots, moveInventoryStack, inventoryCapacity, discardInventoryStack,
   stagePlanting, unstagePlanting, moveStagedPlanting, applyStaging, plantImmediately, availableToStage, reservedStock, STAGING_TUNING,
   isMycelial, mycelialContributors, calculateMycelialSupport, MYCELIAL_TUNING,
   transformationStatus, reconcileTransformationClocks,
@@ -261,9 +261,18 @@ export default function App() {
     replaceGarden(claimTask(gardenRef.current, id));
     return TASKS[id];
   }
+  function inspectTaskHex(key) {
+    setSelection({ type: 'hex', key });
+    setShowTaskboard(false);
+  }
+  function discardItem(item) {
+    if (!window.confirm(`Permanently discard ${item.name} from your Inventory?`)) return;
+    changeGarden(previous => discardInventoryStack(previous, item.id));
+    setHeldItem(null);
+  }
   function inspectCarrot() {
     const key = Object.keys(gardenRef.current.objects).find(key => gardenRef.current.objects[key].species === 'Carrot');
-    if (key) { setSelection({ type: 'hex', key }); setShowTaskboard(false); }
+    if (key) inspectTaskHex(key);
   }
 
   function openSpeciesEntry(object) {
@@ -733,8 +742,8 @@ export default function App() {
 
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
-          <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/200</button></>}
-            tracker={<TaskTracker garden={garden} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
+          <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/{inventoryCapacity(garden)}</button></>}
+            tracker={<TaskTracker garden={garden} onInspect={inspectTaskHex} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
               tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
             world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simplifiedHexFills={simplifiedHexFills} plantingPreview={quantityPrompt} blockerPlacement={blockerToPlace} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
             onStartBlockerDrag={(target, item, event) => startPointerDrag('placed-blocker', { target, name: item.name }, event)}
@@ -758,7 +767,7 @@ export default function App() {
       <aside className={`garden-inventory ${inventoryOpen ? 'is-open' : ''}`} aria-label="Garden inventory">
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
         <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
-        <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage} stagingEnabled={stagingEnabled}
+        <InventoryGrid items={items} capacity={inventoryCapacity(garden)} onDiscard={discardItem} activePage={inventoryPage} onPageChange={setInventoryPage} stagingEnabled={stagingEnabled}
           heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || bookModal || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
           onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
@@ -870,7 +879,7 @@ export default function App() {
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
     {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}
       initialCategory={shopCategory} onOpenGrimoire={() => openGrimoire(shopReturnEntry || lastBookEntry)}/>}
-    {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry}
+    {showTaskboard && <Taskboard garden={garden} onInspect={inspectTaskHex} initialTaskId={taskEntry}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}

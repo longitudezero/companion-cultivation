@@ -1,17 +1,15 @@
 # Main tasks
 
-> **TASK DESIGN · 29 October 2026.** Four opening tasks are recorded below. Tasks 3 and 4 have been reviewed in full and accepted, including Task 3's no-retroactive-credit rule and Task 4's harvest-timing warning. Reward values remain subject to later economy playtesting; fields explicitly marked **TBD** or **proposed** remain open. Tasks 1 and 2 are implemented in the first Taskboard pass (31 October 2026); Tasks 3 and 4 remain design-only.
+The opening records below describe Tasks 1–4. The complete playable roster, through the Grand Exhibition and eight independent advanced challenges, is defined in [main-task-definitions.js](../../src/core/main-task-definitions.js). See the [task progression plan](task-progression-plan.md) for the implementation checklist and [task organization](task-organization.md) for shared rules.
 
-**Early reward baseline:** 10 / 15 / 30 / 40 Gold for Tasks 1 / 2 / 3 / 4; 8 Dewmender Spores from Task 1, 8 each of Rilllace and Droughtcap from Task 2, and 8 Emberbolete Spores from Task 4. **None of these four tasks awards garden hexes or inventory slots.** Shop prices are not yet set, so these amounts are not a finalized economy.
-
-[Task organization and progression](task-organization.md) defines the fields and shared rules. [Side tasks](side-tasks.md) are maintained separately.
+**First-pass rewards.** Task 1 grants 8 Gold and 8 Dewmender Spores. Task 2 grants 8 each of Rilllace and Droughtcap Spores. Task 3 advances the chain. Task 4 grants 8 Emberbolete Spores. Each rewarded Spore species stays available in the Shop.
 
 ## M-3KJ45T
 
 **ID:** M-3KJ45T  
 **Order:** 1  
 **Name:** My First Transformation  
-**Status:** Implemented first pass. Dialogue and 10 Gold / 8 Dewmender Spores remain first-pass balance. The isolated tutorial uses the proposed 36 Seeds / 8 Spores for playtesting.\
+**Status:** Implemented first pass. Dialogue and 8 Gold / 8 Dewmender Spores remain first-pass balance. The isolated tutorial uses the proposed 36 Seeds / 8 Spores for playtesting.\
 **Prerequisites:** Start a new progression game.  
 **Speaker:** Instructor
 
@@ -37,7 +35,7 @@ A Beanstalk actually transforms into a Carrot under the approved recipe: **10 co
 
 - **A Thirsty Carrot — M-8NQ2VC.**
 - **8 Dewmender Spores when the player completes this ready task on the Taskboard**, alongside the Gold and care-task unlock. The reward receipt explicitly shows what was received (31 October revision).
-- **10 Gold**.
+- **8 Gold**.
 - **No new hexes or inventory slots.**
 
 **Completion dialogue:**
@@ -61,7 +59,7 @@ Take these Dewmender Spores. Let's fix that before the complaint becomes a funer
 **ID:** M-8NQ2VC  
 **Order:** 2  
 **Name:** A Thirsty Carrot  
-**Status:** Implemented first pass. Instructor voice and 15 Gold / 8 each of Rilllace and Droughtcap Spores remain first-pass balance.\
+**Status:** Implemented first pass. Instructor voice and 8 each of Rilllace and Droughtcap Spores remain first-pass balance.\
 **Prerequisites:** M-3KJ45T completes.  
 **Speaker:** Instructor
 
@@ -94,7 +92,6 @@ A living Carrot is on a hex with resolved **Damp** moisture reached by Dewmender
 - **Well, I'm Sure You Can Figure It Out — M-6PT9RX.**
 - **8 Rilllace Spores**.
 - **8 Droughtcap Spores**.
-- **15 Gold**.
 - **No new hexes or inventory slots.**
 
 **Completion dialogue:**
@@ -125,7 +122,7 @@ Take these Rilllace and Droughtcap Spores. Your next assignment involves a littl
 **ID:** M-6PT9RX  
 **Order:** 3  
 **Name:** Well, I'm Sure You Can Figure It Out  
-**Status:** Agreed design: Potato and Onion, loose guidance for Potato, no recipe clue for Onion, 30 Gold, and no credit for transformations completed before availability. Not implemented.  
+**Status:** Implemented. Potato has loose guidance. Both transformations must occur after availability.\
 **Prerequisites:** M-8NQ2VC completes; its Rilllace and Droughtcap Spore rewards are available.  
 **Speaker:** Instructor
 
@@ -152,7 +149,6 @@ Both actual **Beanstalk → Potato** and **Beanstalk → Onion** transformations
 
 **Unlocks:**
 
-- **30 Gold**.
 - **Leaves, Please — M-4HV7LK.**
 - **No new hexes or inventory slots.**
 - No additional Fungus reward assigned at this point.
@@ -180,7 +176,7 @@ The kitchen is delighted. Next, we'll discuss harvesting. They have specifically
 **ID:** M-4HV7LK  
 **Order:** 4  
 **Name:** Leaves, Please  
-**Status:** Agreed design, 29 October 2026, including the harvest-timing warning. Eight Carrot Leaves, 40 Gold, and 8 Emberbolete Spores are the accepted initial balance; playtesting may refine it. Not implemented.  
+**Status:** Implemented. Eight Carrot Leaves and eight Emberbolete Spores are first-pass quantities.\
 **Prerequisites:** Complete **Well, I'm Sure You Can Figure It Out — M-6PT9RX**.  
 **Speaker:** Instructor
 
@@ -216,9 +212,8 @@ Leaves already collected before this task became available can be delivered. Thi
 
 **Unlocks:**
 
-- **40 Gold.**
 - **8 Emberbolete Spores.**
-- The next introductory task: discovering **Pumpkin**, still to be designed.
+- Task 5, **A Pumpkin Problem**.
 - **No new hexes or inventory slots.**
 
 **Completion dialogue:**
@@ -233,14 +228,14 @@ Do keep an eye on the temperature. "Warm" and "on fire" are different entries on
 
 - This teaches growth, reading harvest yields, destructive harvesting, explicit Leaf delivery, and choosing harvest timing before the Leaf yield declines away.
 - **Eight Leaves** keeps the first order modest. It does not require a perfect harvest or all eight Leaves from one Plant.
-- **40 Gold and 8 Emberbolete Spores** are the accepted initial rewards, subject to later economy playtesting.
+- **8 Emberbolete Spores** are the first-pass reward and open permanent Emberbolete stock in the Shop.
 - The harvest warning describes existing falling ordinary Leaf yield as Seed yield grows. It does not add a new numerical Leaf-to-Seed conversion rule.
 - Emberbolete becomes the player's **fifth Fungus species**, adding another placement demand before the first garden expansion.
 - The next recipe would be:
 
 | Transformation | Required conditions | Required living contact | Continuous exposure |
 | --- | --- | --- | --- |
-| Beanstalk → Pumpkin | Damp, Warm | Emberbolete | 24 garden hours — **2 minutes at 1×** |
+| Beanstalk → Pumpkin | Damp, Hot | Emberbolete | 24 garden hours — **2 minutes at 1×** |
 
-- Dewmender can provide moisture. Emberbolete supplies **+2 Temperature**, while Rilllace's **−1 Temperature** can bring the result to Warm. This introduces combining opposing effects.
-- **Next milestone direction:** Task 5 asks for the Pumpkin transformation and rewards **+1 row**, expanding the garden from **4 columns × 4 rows to 4 columns × 5 rows: 20 hexes**. The full Task 5 record still needs to be drafted and reviewed in chat. Playtest that the garden feels cramped before the reward is granted.
+- Dewmender can provide moisture. Emberbolete supplies **+2 Temperature**, while Rilllace's **−1 Temperature** can bring the result to Hot. This introduces combining opposing effects.
+- **Next milestone direction:** Task 5 asks for a Pumpkin transformation and three living Pumpkins together, then rewards **+1 row**, expanding the garden from **4 columns × 4 rows to 4 columns × 5 rows: 20 hexes**. Playtest that the garden feels cramped before the reward is granted.

@@ -12,10 +12,10 @@ export function groupedTasks(garden) {
 export function initialTaskSelection(garden, requested) {
   const available = TASK_IDS.filter(id => taskStatus(garden, id) !== 'locked');
   return available.includes(requested) && taskStatus(garden, requested) !== 'completed' ? requested
-    : available.find(id => taskStatus(garden, id) !== 'completed') || available[0] || FIRST_TASK;
+    : available.find(id => !['completed', 'preview'].includes(taskStatus(garden, id))) || available[0] || FIRST_TASK;
 }
 export function taskProgress(garden, id) {
-  const delivery = TASKS[id].delivery, completed = taskStatus(garden, id) === 'completed';
+  const delivery = TASKS[id].delivery?.species ? TASKS[id].delivery : null, completed = taskStatus(garden, id) === 'completed';
   if (delivery) return { current: completed ? delivery.quantity : Math.min(delivery.quantity, garden.inventory.leaves?.[delivery.species] || 0),
     total: delivery.quantity, unit: 'Leaves' };
   const goals = taskObjectives(garden, id);
