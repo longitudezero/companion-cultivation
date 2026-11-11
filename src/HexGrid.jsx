@@ -1,5 +1,5 @@
 import React from 'react';
-import { neighborsOf, edgeKey, isMycelial, isPlayerSource, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
+import { neighborsOf, edgeKey, isMycelial, isPlayerSource, playerBlockerDefinition, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
 import GameArt, { CONDITION_ART } from './ui/GameArt.jsx';
 import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
@@ -20,7 +20,7 @@ function edgeSegment(a, b) {
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
 }
 
-export default function HexGrid({ garden, simulation, mycelialSupport = {}, simplifiedHexFills = false, tool, selection, plantingPreview, onHexClick, onEdgeClick, onStartHexDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
+export default function HexGrid({ garden, simulation, mycelialSupport = {}, simplifiedHexFills = false, tool, selection, plantingPreview, blockerPlacement, onHexClick, onEdgeClick, onStartHexDrag, onStartBlockerDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
   const moistureArt = simplifiedHexFills ? SIMPLE_HEX_FILLS : HEX_ART.Moisture;
   // The simplified artwork has wider transparent margins than the full terrain tiles.
   const moistureWidth = HEX_WIDTH * (simplifiedHexFills ? 1.12 : 1.04);
@@ -111,6 +111,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const fill = PALETTES.Moisture[Moisture];
         const border = PALETTES.Temperature[Temperature];
         const object = garden.objects[key];
+        const blocker = playerBlockerDefinition(object);
         const preview = plantingPreview?.key === key ? plantingPreview : null;
         const staged = garden.staged?.[key];
         const proposal = preview || staged;
@@ -122,8 +123,13 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const active = selection.type === 'hex' && selection.key === key;
         return (
             <g key={key} data-garden-hex={key} data-occupied={Boolean(object || proposal || pending)} className="hex-cell" style={{ '--hex-temperature-color': border }} onClick={(event) => onHexClick(key, event)}
-             onPointerDown={(event) => { if (staged || isPlayerSource(object) || ['plant', 'fungus'].includes(object?.type)) onStartHexDrag(key, staged ? 'staged' : isPlayerSource(object) ? 'placed-item' : 'organism', event); }}
-            tabIndex={0} role="button" aria-label={`Hex ${key}: Moisture ${Moisture}; Temperature ${Temperature}; Illumination ${Illumination}${mycelial ? '; Mycelial ground' : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
+            onPointerDown={(event) => {
+              if (blocker) onStartBlockerDrag?.({ type: 'hex', key }, blocker, event);
+              else if (staged || isPlayerSource(object) || ['plant', 'fungus'].includes(object?.type)) {
+                onStartHexDrag(key, staged ? 'staged' : isPlayerSource(object) ? 'placed-item' : 'organism', event);
+              }
+            }}
+            tabIndex={0} role="button" aria-label={`Hex ${key}: Moisture ${Moisture}; Temperature ${Temperature}; Illumination ${Illumination}${mycelial ? '; Mycelial ground' : ''}${blocker ? `; ${blocker.name}` : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             <title>{`Moisture: ${Moisture} · Temperature: ${Temperature} · Illumination: ${Illumination}`}</title>
             <polygon points={polygonFor(c)} fill="#182c22" stroke="#102219" strokeWidth="1.5"/>
             <polygon points={polygonFor(c, SIZE - 3.5)} fill={fill} className="hex-surface"/>
@@ -135,6 +141,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
               preserveAspectRatio="none" pointerEvents="none"/>
             {highlighted.has(key) && <polygon points={polygonFor(c, SIZE - 8)} fill="none" stroke="#efde9b" strokeWidth="2" opacity=".65" pointerEvents="none"/>}
             {active && <polygon className="hex-selection" points={polygonFor(c, SIZE - 9)} fill="none" stroke="#ffe3a0" strokeWidth="2" strokeDasharray="4 3" pointerEvents="none"/>}
+            {blockerPlacement?.form === 'hex' && !object && !proposal && !pending &&
+              <polygon className="blocker-placement-target" points={polygonFor(c, SIZE - 6)} fill="none" pointerEvents="none"/>}
             {mycelial && <g pointerEvents="none" className={`mycelial-overlay ${mycelialSupported ? '' : 'is-retreating'}`}>
               <polygon points={polygonFor(c, SIZE - 7)} fill="none" stroke={mycelialSupported ? '#dcb8ed' : '#8d7895'} strokeWidth="3.2" strokeDasharray="4 3" opacity=".95"/>
               <path d={`M${c.x-17} ${c.y+3} Q${c.x-5} ${c.y-9} ${c.x+7} ${c.y+1} L${c.x+17} ${c.y-8} M${c.x+7} ${c.y+1} L${c.x+15} ${c.y+11}`} fill="none" stroke="#563a69" strokeWidth="2" strokeLinecap="round" opacity=".85"/>
@@ -203,10 +211,25 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
       {edges.map(({ id, a, b, blocker }) => {
         const p = edgeSegment(a, b);
         const active = selection.type === 'edge' && selection.id === id;
+        const item = playerBlockerDefinition(blocker);
+        const placingEdge = blockerPlacement?.form === 'edge';
+        const keyboardTarget = item || (placingEdge && !blocker);
         return <g key={id} className={`edge-group ${blocker ? 'is-blocked' : ''}`}>
-          {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' ? '#f0ad8d' : '#cbb4e9'} strokeWidth={active ? 8 : 6} strokeLinecap="round" pointerEvents="none"/>}
+          {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' || item?.filters.includes('all') ? '#f0ad8d' : '#cbb4e9'} strokeWidth={active ? 8 : 6} strokeLinecap="round" pointerEvents="none"/>}
           {tool === 'edge' && !blocker && <line {...p} stroke="#f4e6bf" strokeWidth="2" strokeDasharray="2 5" opacity=".42" pointerEvents="none"/>}
-          <line {...p} stroke="transparent" strokeWidth="15" className="edge-hit" style={{ pointerEvents: tool === 'edge' || blocker ? 'stroke' : 'none' }} onClick={(event) => { event.stopPropagation(); onEdgeClick(a, b); }} />
+          {placingEdge && !blocker && <line {...p} className="blocker-placement-target" pointerEvents="none"/>}
+          <line {...p} stroke="transparent" strokeWidth="15" className="edge-hit"
+            data-garden-edge={id} data-edge-a={a} data-edge-b={b}
+            style={{ pointerEvents: tool === 'edge' || blocker || placingEdge ? 'stroke' : 'none' }}
+            role={keyboardTarget ? 'button' : undefined} tabIndex={keyboardTarget ? 0 : undefined}
+            aria-label={keyboardTarget ? `${item?.name || 'Place ' + blockerPlacement.name} on border ${a} to ${b}` : undefined}
+            onPointerDown={item ? event => onStartBlockerDrag?.({ type: 'edge', id, a, b }, item, event) : undefined}
+            onClick={(event) => { event.stopPropagation(); onEdgeClick(a, b); }}
+            onKeyDown={keyboardTarget ? event => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault(); event.stopPropagation(); onEdgeClick(a, b);
+              }
+            } : undefined}/>
         </g>;
       })}
     </svg>

@@ -33,7 +33,7 @@ export function applyEnvironmentalAdjacency(garden, beforeAdjacency) {
     const entries = [];
 
     function eligibleNeighbors(property) {
-      const effect = ADJACENCY_EFFECTS[property];
+      const effect = { ...ADJACENCY_EFFECTS[property], property };
       return neighbors.filter((neighbor) => canCrossAdjacency(garden, neighbor, key, effect));
     }
 

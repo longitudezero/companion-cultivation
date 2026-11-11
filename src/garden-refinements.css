@@ -96,11 +96,17 @@
 .inventory-square-grid .item-seed, :is(.inventory-filters, .shop-catalogue) [data-inventory-type="seed"] { --inventory-accent: #f4cf62; --inventory-tint: #9b7526; --inventory-edge: #5b451d; }
 .inventory-square-grid .item-leaf, :is(.inventory-filters, .shop-catalogue) [data-inventory-type="leaf"] { --inventory-accent: #a0db8e; --inventory-tint: #327f4b; --inventory-edge: #183f2b; }
 .inventory-square-grid .item-spore, :is(.inventory-filters, .shop-catalogue) [data-inventory-type="spore"] { --inventory-accent: #d4a2f0; --inventory-tint: #8050a2; --inventory-edge: #43265f; }
-.inventory-square-grid .item-source-item, .inventory-square-grid .item-trophy, .inventory-square-grid .item-legacy, .inventory-filters [data-inventory-type="item"] { --inventory-accent: #8cdcf4; --inventory-tint: #2e94b9; --inventory-edge: #174b67; }
+.inventory-square-grid :is(.item-source-item, .item-trophy, .item-legacy), .inventory-filters [data-inventory-type="item"] { --inventory-accent: #8cdcf4; --inventory-tint: #2e94b9; --inventory-edge: #174b67; }
+.inventory-square-grid .item-blocker-item { --inventory-accent: #f0a19a; --inventory-tint: #a43e43; --inventory-edge: #54232b; }
 .inventory-square-grid .inventory-square.has-item, .shop-product-art[data-inventory-type] { border-color: var(--inventory-accent); background: radial-gradient(ellipse at 50% 35%, var(--inventory-tint), var(--inventory-edge, #192e22)); box-shadow: inset 0 0 0 1px #ffffff08; }
 .inventory-square-grid .has-item .inventory-item-name { bottom: 2px; padding: 2px 3px; background: linear-gradient(90deg, transparent, #10231de6 12%, #10231de6 88%, transparent); }
 .inventory-square-grid .inventory-square.has-item:hover { box-shadow: inset 0 0 12px #ffffff15; }
 .inventory-square-grid .inventory-square.is-held { box-shadow: 0 0 12px #d6b76677; }
+.blocker-placement-target { stroke: #f4d68d; stroke-width: 3; stroke-dasharray: 4 3; opacity: .55; }
+.hex-cell:is(:hover, :focus-visible) .blocker-placement-target,
+.edge-group:is(:hover, :focus-within) .blocker-placement-target { stroke-width: 5; opacity: 1; }
+.edge-hit[role="button"] { cursor: pointer; }
+.edge-hit:focus-visible { stroke: #f4d68d; stroke-width: 5; outline: none; }
 .inventory-filters button[data-inventory-type]:not([data-inventory-type="all"]) { border-bottom: 2px solid var(--inventory-accent); }
 .inventory-square-grid .inventory-item-quantity { top: -1px; right: -1px; bottom: auto; min-width: 20px; min-height: 20px; max-width: calc(100% - 2px); padding: 3px 4px; border: 1px solid var(--inventory-accent); border-radius: 0 4px 0 7px; background: #14251f; color: #fff2d0; font: 10px/1.2 Georgia, serif; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-align: center; pointer-events: none; }
 .inventory-tooltip { position: fixed; z-index: 65; width: min(320px, calc(100vw - 16px)); max-height: calc(100dvh - 16px); overflow: hidden; pointer-events: none; border: 3px double #b69a62; border-radius: 5px; box-shadow: 0 9px 30px #06140bc4; color: #3d3320; }

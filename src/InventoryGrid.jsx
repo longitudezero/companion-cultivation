@@ -2,6 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { INVENTORY_PAGES, INVENTORY_PAGE_SLOTS, formatRealDuration } from './core/index.js';
 import { itemCategory } from './ui/garden-model.js';
 import { itemArt } from './ui/item-art.js';
+import { blockerFilterText, blockerPlacementTarget } from './ui/item-details.js';
 import InventoryTooltip from './ui/InventoryTooltip.jsx';
 import SlotVines from './ui/GoldVines.jsx';
 import GameArt from './ui/GameArt.jsx';
@@ -59,14 +60,17 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
             else if (!item) onChooseSlot(slot);
           }}>
           {item && <>
-            {artwork ? <img className="inventory-item-art" src={artwork} alt="" loading="lazy" draggable="false"/> : <span className="inventory-item-glyph">{ICON[item.type]}</span>}
+            {artwork ? <img className="inventory-item-art" src={artwork} alt="" loading="lazy" draggable="false"/>
+              : <span className="inventory-item-glyph" aria-hidden="true">{item.type === 'blocker-item' ? item.form === 'edge' ? '╱' : '▧' : ICON[item.type]}</span>}
             <span className="inventory-item-name">{item.species || item.name}</span><span className="inventory-item-quantity">{item.type === 'source-item' ? formatRealDuration(item.remainingHours) : item.quantity}</span></>}
         </button>;
       })}
     </div>}
     {filter !== 'all' && !slots.length && <p className="inventory-empty">No {FILTERS[filter].toLowerCase()} collected yet.</p>}
     {hover && !dragging && <InventoryTooltip id={tooltipId} {...hover} ledger={ledger}/>}
-    {held && <p className="inventory-held-hint"><strong>{held.name}</strong> · {held.type === 'source-item' ? `${formatRealDuration(held.remainingHours)} paused. Tap an empty hex to place it` : `owned ${held.quantity}${['seed', 'spore'].includes(held.type) ? `${stagingEnabled ? ` · staged ${reservedForHeld}` : ''} · available ${Math.max(0, held.quantity - reservedForHeld)}. Tap a hex to ${stagingEnabled ? 'stage' : 'plant'} Seeds/Spores` : ''}`}, or another square to rearrange.</p>}
+    {held?.type === 'blocker-item'
+      ? <p className="inventory-held-hint"><strong>{held.name}</strong> · Blocks {blockerFilterText(held.filters)}. Choose {blockerPlacementTarget(held.form)}.</p>
+      : held && <p className="inventory-held-hint"><strong>{held.name}</strong> · {held.type === 'source-item' ? `${formatRealDuration(held.remainingHours)} paused. Tap an empty hex to place it` : `owned ${held.quantity}${['seed', 'spore'].includes(held.type) ? `${stagingEnabled ? ` · staged ${reservedForHeld}` : ''} · available ${Math.max(0, held.quantity - reservedForHeld)}. Tap a hex to ${stagingEnabled ? 'stage' : 'plant'} Seeds/Spores` : ''}`}, or another square to rearrange.</p>}
     <div className="inventory-bags" role="tablist" aria-label="Inventory bags">{Array.from({ length: INVENTORY_PAGES }, (_, page) =>
       <button key={page} id={`${bagsId}-tab-${page}`} role="tab" aria-controls={`${bagsId}-contents`}
         className={filter === 'all' && activePage === page ? 'is-open' : ''} aria-label={`Bag ${page + 1}`} title={`Bag ${page + 1} · 50 squares`}

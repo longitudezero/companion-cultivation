@@ -4,6 +4,8 @@ export * from './save-file.js';
 export * from './influences.js';
 export * from './source-item-catalog.js';
 export * from './source-items.js';
+export * from './blocker-catalog.js';
+export * from './blocker-items.js';
 export * from './spread.js';
 export * from './simulation.js';
 export * from './adjacency.js';

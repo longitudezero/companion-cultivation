@@ -8,6 +8,7 @@
 | --- | --- |
 | [Main tasks](main-tasks.md) | Main-task records, stable IDs, authored order, descriptions, objectives, completion, and rewards/unlocks |
 | [Side tasks](side-tasks.md) | Side-task records using the same fields, without an Order field |
+| [Task progression plan](task-progression-plan.md) | Practice tasks before the family unlocks, Mycelial lessons, and later Leaf production targets |
 | **This document** | Field meanings, ID/order conventions, shared task behavior, progression, capacity rewards, and store rules |
 
 The [guild setting and task voice](../design/setting-and-task-voice.md) remains the reference for setting and writing tone. Keep individual task details in their roster files rather than duplicating them here.
@@ -96,7 +97,7 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - After the second family unlocks, offer **four independent major projects**, each unlocking one of the four remaining families. Players may complete these projects **in any order**.
 - Each project must be completable with resources and mechanics available **before** its own target family unlocks. No circular unlock requirements.
 - A newly unlocked family becomes **purchasable in the store** and grants an immediate **starter bundle**: approximately **20–30 Seeds of that family's Base Plant**, plus a small amount of useful Spores where appropriate. Additional Seeds/Spores can be purchased later. Exact contents require task-level balancing.
-- Later main tasks should increasingly require Leaf deliveries from multiple named Plant species, including mixes such as 10 from Plant A plus 20 from Plant B, and eventually lists of approximately 5–10 distinct Plants. **Challenge should emphasize variety and coordination, not simply inflated Leaf quantities.**
+- Later main tasks should increasingly require Leaf deliveries from multiple named Plant species, eventually including lists of approximately 5–10 distinct Plants. Increase quantities substantially after the four family unlocks so cultivation choices and Mycelial Leaf Yield boosts matter. Use the [task progression plan](task-progression-plan.md#leaf-production-after-the-family-unlocks) to balance quantities against harvest time.
 - Multiple independent goals may be available together once the initial linear tutorial is over. Smaller tasks continue alongside main projects and can award Gold, Seeds, Spores, and other materials.
 
 ## 4. Task semantics — agreed

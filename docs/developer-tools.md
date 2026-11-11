@@ -29,11 +29,12 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 | --- | --- |
 | Free-spawn any Plant or Fungus, without Seeds/Spores | Separate developer tools group in the left workbench |
 | Place Sources, Hex Blockers, Edge Blockers | Developer tools group |
-| Grant individual temporary Source items from all seven catalog groups | Source item dispenser; each grant adds one full-life item to inventory |
+| Grant individual temporary Source items from all seven catalog groups | Item dispenser; each grant adds one full-life item to inventory |
+| Grant a player Blocker in Edge or Hex form | Item dispenser; each grant adds one piece to its Inventory stack |
 | Remove an object or edge without harvesting | Developer Remove tool and inspector remove buttons |
 | Change local Moisture, Temperature or Illumination baseline | Hex inspector dropdowns (read-only otherwise) |
 | Configure regular or anchored Sources and their emissions | Source inspector |
-| Change Blocker filtering | Relevant inspector controls; committed Fungi retain their original heading |
+| Change developer Blocker filtering | Relevant inspector controls |
 | Inspect undiscovered recipe eligibility and clocks, full hazard thresholds, source contributions and raw Fungal cultivation magnitudes | Organism and hex inspector; hidden for ordinary players to preserve Grimoire discovery |
 | Preview every Plant, Fungus profile and all related Transformation recipes in the Grimoire | Turn on developer tools, open **❦ Cultivation Grimoire**, then select **Preview full Grimoire**. Select **Return to discoveries** to restore the normal view. The preview is read-only; it does not unlock entries or alter the saved discovery ledger. |
 | Instant time skip equivalent to 5s (one game hour) or 2m (one game day) | Buttons in the main menu beside the read-only garden clock; their labels show live real-time equivalents |
@@ -41,9 +42,9 @@ If a debug placement tool is active when the developer tools are hidden, the sel
 | Export raw garden JSON | Inspector footer; technically inspectable full state, including hidden germination outcomes |
 | Import earlier raw JSON | Inspector footer; reuses the same validated, confirmation-gated player Load Game path |
 
-## Still awaiting design
+## Testing player Blockers
 
-**Player-placeable Blockers** remain undecided. Hex and Edge Blocker placement are *both developer-only* for now; later designs may expose specific approved blocker items through different player actions. No new blocker costs, restrictions or mechanics were invented in this pass.
+Grant a piece with **Add Blocker to inventory**. Select it in Inventory and choose a highlighted border or hex, or drag it there. Use the garden Inspector to read its fixed filters and return it to Inventory. The [player Blocker catalogue](working/player-blockers.md) lists all nine designs and their filters. Task rewards and Shop stock follow the progression plan.
 
 At **1× the game advances one simulated garden hour every five real seconds**, independently of staging. The garden HUD beside zoom/Fit provides Pause, 0.5×, 1× and 2×. Pausing retains partial elapsed time and allows planning; every elapsed-time system uses the same multiplier. Grimoire durations use the 1× baseline: e.g. a 16-hour recipe is **1m 20s**. The selected Source item timer accounts for current speed. Developer `+5s` / `+2m` buttons still skip one game hour / one game day instantly, even while paused. A committed germination stays concealed for six simulated hours (**30 real seconds at 1×**); that reveal duration remains provisional. Speed and inventory width are browser preferences, separate from garden backups. No closed-page catch-up is implemented.
 
