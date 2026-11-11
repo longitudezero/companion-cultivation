@@ -29,7 +29,7 @@ Each design has an **Edge** form and a **Hex** form with the same fixed filters.
 
 ## First reward and playtest
 
-Task **14.2** awards **Root Barriers**, which the player can use in [Contain the spread](task-progression-plan.md#mycelial-ground). Claiming the reward unlocks both Root Barrier forms in the Shop. Apply the same rule to other designs when a task first rewards them. Playtest three Edge Root Barriers as the starter bundle in a layout where they close the paths toward a crop while the colony stays active. Final quantities, prices, and reward tasks for the remaining designs belong to the main-task reward and Shop balance review.
+Task **14.2** awards **Root Barriers**, which the player can use in [Contain the Spread](task-progression-plan.md#mycelial-ground). Claiming the reward unlocks both Root Barrier forms in the Shop. Apply the same rule to other designs when a task first rewards them. Playtest the four Edge Root Barriers from Task 14.2 in a layout where they close the paths toward a crop while the colony stays active. Claiming Task 14.3 awards two more. Final quantities, prices, and reward tasks for the remaining designs belong to the main-task reward and Shop balance review.
 
 ## Implementation checklist
 
@@ -39,4 +39,4 @@ Task **14.2** awards **Root Barriers**, which the player can use in [Contain the
 - [x] Add all 18 forms to the developer dispenser for playtesting. Task rewards and Shop availability follow their progression designs.
 - [x] Verify that the Root Barrier can stop a frontier or sever a supported branch, and that removing it restores the crossing.
 
-The full test suite and production build passed. The packaged game passed DOM checks for grants, selection, placement, pickup and autosave reload. Native browser hit-testing and visual review are pending. The progression plan tracks validation of the Task 14.2 reward and Contain the spread when those tasks are implemented.
+The full test suite and production build passed. The packaged game passed DOM checks for grants, selection, placement, pickup and autosave reload. Native browser hit-testing and visual review are pending. The progression test verifies the Task 14.2 reward, the containment objective, and Task 14.3’s place in the main line.

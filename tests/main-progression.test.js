@@ -7,6 +7,7 @@ import {
   shopProducts, shopQuote, tradeShop, withGold, inventoryCapacity, ensureInventorySlots, goldBalance,
   serializeGameSave, deserializeGameSave, resizeGarden, placeBlockerItem, moveInventoryStack,
 } from '../src/core/index.js';
+import { groupedTasks } from '../src/ui/taskboard-model.js';
 
 const id = order => TASK_IDS.find(key => TASKS[key].order === order);
 const claim = (garden, key) => {
@@ -151,6 +152,7 @@ test('the whole main line and all eight advanced challenges can be claimed throu
   garden = withoutEmissions(garden, '0,0', 'Mycelord');
   tick(24);
   claimOrder(14.1);
+  assert.equal(taskStatus(garden, id(14.3)), 'locked');
   assert.equal(taskStatus(garden, id(24)), 'preview');
   assert.ok(taskObjectives(garden, id(24)).some(goal => goal.text.includes('Orchiwitch')));
   assert.ok(!taskObjectives(garden, id(24)).some(goal => goal.text.includes('Starlotus')));
@@ -161,9 +163,13 @@ test('the whole main line and all eight advanced challenges can be claimed throu
   garden = updateTaskProgress(garden);
   claimOrder(14.2);
   assert.equal(garden.inventory.blockers['blocker:root-barrier:edge'], 4);
+  const containment = id(14.3);
+  const sections = groupedTasks(garden);
+  assert.ok(sections.main.includes(containment));
+  assert.ok(!sections.side.includes(containment));
+  for (const order of [14.3, 15, 16, 17, 18]) assert.equal(taskStatus(garden, id(order)), 'active');
 
   // A Root Barrier with a path around it cannot satisfy the containment task.
-  const containment = TASK_IDS.find(key => TASKS[key].title === 'Contain the Spread');
   garden = placeBlockerItem(garden, 'blocker:root-barrier:edge', { type: 'edge', a: '1,0', b: '2,0' });
   garden = updateTaskProgress(garden);
   assert.equal(taskStatus(garden, containment), 'active');
@@ -171,7 +177,7 @@ test('the whole main line and all eight advanced challenges can be claimed throu
     if (garden.hexes[key] && key !== '1,0') garden = setBaseline(garden, key, 'Moisture', 'Flooded');
   }
   garden = updateTaskProgress(garden);
-  garden = claim(garden, containment);
+  assert.equal(taskStatus(garden, containment), 'ready');
 
   // Choose Woodlands first, then complete its specialization before the other projects.
   const woodlandScene = plants(garden, [['Charmomile']]);
@@ -260,6 +266,10 @@ test('the whole main line and all eight advanced challenges can be claimed throu
   transform('Oreganoir', 'Papriking');
   garden = deliver(garden, 23.2);
 
+  assert.ok([15, 16, 17, 18].every(order => taskStatus(garden, id(order)) === 'completed'));
+  assert.equal(taskStatus(garden, id(19)), 'locked');
+  claimOrder(14.3);
+  assert.equal(taskStatus(garden, id(19)), 'active');
   garden = tradeShop(garden, 'buy', 'upgrade:inventory', 1).garden;
   garden = deliver(garden, 19);
   assert.ok(stock().some(item => item.catalogId === 'winterglass-orb'));

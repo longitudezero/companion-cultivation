@@ -29,6 +29,7 @@ const FLOWER_DISPLAY = 'M-B9F2PQ';
 const PROMOTION = 'M-U7G2ML';
 const COLONY = 'M-C8H6RD';
 const BOOST = 'M-B2W9EN';
+const CONTAINMENT = 'M-C7T2SP';
 const ORCHIWITCH = 'M-O4H6LP';
 const NIGHT_SHIFT = 'M-N7T2LS';
 const FLOWERS_FINALE = 'M-L3H6ST';
@@ -150,6 +151,13 @@ export const MAIN_TASKS = [
     instructions: ['Inspect the receiving Plant to see Emberbolete’s Seed Yield bonus rise from +10% to +30%.'],
     rewards: { blockers: blocker('root-barrier', 4) },
   }),
+  after(CONTAINMENT, 14.3, 'Contain the Spread', BOOST, {
+    description: ['Use the Root Barriers to keep a living crop out of an active Mycelial colony. Check the other paths the colony could take around the barriers.'],
+    instructions: ['Keep Mycelord and its supported colony alive. Check the Mycelial overlay and the protected crop in the Inspector.'],
+    goals: [check('Use Root Barriers to close all remaining Mycelial paths from a supported colony to a living crop', containedCrop)],
+    completion: ['A living crop, a living colony, and a boundary holding them apart. The guild calls that a very good day.'],
+    rewards: { blockers: blocker('root-barrier', 2) },
+  }),
   after(AQUATIC_TASK, 15, 'A Watershed Moment', BOOST, {
     goals: [hold('Keep two living Rice reached by Dewmender in one region of four or more Flooded hexes',
       24, floodedPlants('Rice', 2, 4))],
@@ -170,7 +178,9 @@ export const MAIN_TASKS = [
       12, simultaneous(...climateCrops))],
     rewards: { ...starter('Spices', 'Thymekeeper', { Hushroom: 8 }), blockers: blocker('climate-divider') },
   }),
-  task(BULK_ORDER_TASK, 19, 'The Quartermaster’s Grand Unified Disaster', [AQUATIC_TASK, WOODLANDS_TASK, DESERT_TASK, SPICES_TASK], {
+  task(BULK_ORDER_TASK, 19, 'The Quartermaster’s Grand Unified Disaster', [
+    CONTAINMENT, AQUATIC_TASK, WOODLANDS_TASK, DESERT_TASK, SPICES_TASK,
+  ], {
     delivery: { Algea: 24, Moss: 24, Jadeheart: 24, Thymekeeper: 24, Carrot: 28, Charmomile: 28 },
     rewards: { spores: { Rushroom: 8 }, sourceGroup: 2, sources: ['frostbell'] },
   }),
@@ -285,12 +295,3 @@ export const MAIN_TASKS = [
     rewards: { blockers: blocker('stone-wall', 4), sources: ['sandglass-fountain'] },
   }),
 ];
-
-export const CONTAINMENT_TASK = {
-  id: 'S-C7T2SP', category: 'side', speaker: 'Instructor', requires: [BOOST], title: 'Contain the Spread',
-  description: ['Use the Root Barriers to keep a living crop out of an active Mycelial colony. Check the other paths the colony could take around the barriers.'],
-  instructions: ['Keep Mycelord and its supported colony alive. Check the Mycelial overlay and the protected crop in the Inspector.'],
-  goals: [check('Use Root Barriers to close all remaining Mycelial paths from a supported colony to a living crop', containedCrop)],
-  completion: ['A living crop, a living colony, and a boundary holding them apart. The guild calls that a very good day.'],
-  rewards: { gold: 0, blockers: blocker('root-barrier', 2) },
-};

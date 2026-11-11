@@ -7,8 +7,7 @@ import { grantSourceItem } from './source-items.js';
 import { grantBlockerItem } from './blocker-items.js';
 import { PLANTS } from './species.js';
 import { goalDone, goalStatus, taskScene, updateGoal } from './task-goals.js';
-import { MAIN_TASKS, FIRST_TASK, CARE_TASK, EXHIBITION_TASK, EXHIBITION_PREVIEWS,
-  CONTAINMENT_TASK } from './main-task-definitions.js';
+import { MAIN_TASKS, FIRST_TASK, CARE_TASK, EXHIBITION_TASK, EXHIBITION_PREVIEWS } from './main-task-definitions.js';
 
 export { FIRST_TASK, CARE_TASK, DISCOVERY_TASK, LEAVES_TASK, PUMPKIN_TASK, INVENTORY_TASK, EXHIBITION_TASK }
   from './main-task-definitions.js';
@@ -50,10 +49,10 @@ export const TASKS = {
     rewards: { gold: 10, spores: {} },
     completion: ['Five Carrot Leaves. Just what the soup needed.', 'Here’s your Gold. Try not to spend it all on more soup.'],
   },
-  ...Object.fromEntries([...MAIN_TASKS, CONTAINMENT_TASK].map(task => [task.id, task])),
+  ...Object.fromEntries(MAIN_TASKS.map(task => [task.id, task])),
 };
 
-export const TASK_IDS = [FIRST_TASK, CARE_TASK, ...MAIN_TASKS.map(task => task.id), CARROT_DELIVERY_TASK, CONTAINMENT_TASK.id];
+export const TASK_IDS = [FIRST_TASK, CARE_TASK, ...MAIN_TASKS.map(task => task.id), CARROT_DELIVERY_TASK];
 
 function taskUnlocked(task, progress) {
   const requirements = typeof task.requires === 'string' ? [task.requires] : task.requires || [];
@@ -151,7 +150,7 @@ export function updateTaskProgress(garden, previous = garden) {
 
   let changed = ready.size !== tasks.ready.length
     || milestones.beanstalk !== tasks.milestones.beanstalk || milestones.prismorel !== tasks.milestones.prismorel;
-  for (const task of [...MAIN_TASKS, CONTAINMENT_TASK]) {
+  for (const task of MAIN_TASKS) {
     if (!task.goals || tasks.claimed.includes(task.id) || ready.has(task.id)
       || !taskUnlocked(task, { claimed: tasks.claimed, goals })) continue;
     const old = goals[task.id] || [];

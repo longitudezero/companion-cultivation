@@ -20,14 +20,14 @@ Teach the rule directly in the task and Inspector. Mycelial ground slows plant g
 | Placement | Objective and feedback | Reward or availability |
 | --- | --- | --- |
 | **14.1 · Something’s Growing Under There**, after Task 14 grants Mycelord Spores | Establish a living Mycelord supporting three connected Mycelial hexes, including its own. Show the colony’s footprint and warn about plant exposure as it spreads. | Award 8 Sim’mushro’dim Spores and open permanent Shop stock. Open the boost practice. |
-| **14.2 · Use a boosted fungus**, after 14.1 | Establish Emberbolete on supported Mycelial ground and apply its cultivation effect to one living Plant on uncolonized ground. Show Emberbolete’s Seed Yield effect increasing from +10% to +30% in the Inspector. | Award a small bundle of [Root Barriers](player-blockers.md). Open Tasks 15–18 and **Contain the spread**. |
-| **Contain the spread**, optional side task after the boost practice | Use the rewarded Blockers to stop a supported colony’s advance toward a living crop. Keep a living Mycelord supporting part of the colony and the crop on uncolonized ground. Highlight the protected boundary and any route the colony can still use. | Available alongside the four projects. Task reward TBD. |
+| **14.2 · Use a boosted fungus**, after 14.1 | Establish Emberbolete on supported Mycelial ground and apply its cultivation effect to one living Plant on uncolonized ground. Show Emberbolete’s Seed Yield effect increasing from +10% to +30% in the Inspector. | Award four Edge [Root Barriers](player-blockers.md). Open Tasks 15–18 and **Contain the Spread**. |
+| **14.3 · Contain the Spread**, after 14.2 | Use the rewarded Blockers to stop a supported colony’s advance toward a living crop. Keep a living Mycelord supporting part of the colony and the crop on uncolonized ground. Check the protected crop and any remaining paths. | Available alongside Tasks 15–18. Awards two more Edge Root Barriers. Task 19 requires all five claims. |
 
 Flooded ground can also stop spread. If the player cuts every support route to an already colonized area, show that area losing support and retreating gradually. Teach containment with a living crop and an active colony.
 
 The Woodlands project applies the boost lesson with Mistruffle reaching Charmomile. Its Siltgill reward introduces a Fungus that depends on Mycelial ground.
 
-The [player Blocker catalogue](player-blockers.md) defines the approved items and their filters. **Contain the spread** depends on the player being able to claim and place the Task 14.2 Root Barriers. That claim unlocks the Edge and Hex Root Barriers in the Shop. Final bundle size and the first reward tasks for other designs are part of the main-task reward review.
+The [player Blocker catalogue](player-blockers.md) defines the approved items and their filters. **Contain the Spread** depends on the player being able to claim and place the Task 14.2 Root Barriers. That claim unlocks the Edge and Hex Root Barriers in the Shop. The bundle size and later Blocker rewards are first-pass playtest values.
 
 ## Capacity and rewards
 
@@ -42,7 +42,7 @@ Use surplus Leaf sales as the main source of Gold for expansion. Playtest the fi
 
 ## Leaf production after the family unlocks
 
-Make **Task 19** the first bulk Leaf order after the four family projects. Put the higher counts on renewable crops and rebalance the draft counts against actual per-species harvests and garden layouts.
+Make **Task 19** the first bulk Leaf order after Contain the Spread and the four family projects. Put the higher counts on renewable crops and rebalance the draft counts against actual per-species harvests and garden layouts.
 
 Set quantities high enough that establishing and containing a Mycelial colony for Leaf Yield boosts becomes a serious production choice. A good boosted layout should save noticeable growing time or garden space. Playtest representative ordinary and boosted layouts at 1×, including harvest windows, and tune the orders so a player can meet them in a reasonable number of harvests without hours of repetition. Keep total quantity and species variety as separate ways to raise difficulty.
 
@@ -53,8 +53,8 @@ For **Task 24, the Grand Exhibition**, keep each seedless Plant’s quota within
 - [ ] Complete the two practice objectives with the species and supplies available at their planned unlock points.
 - [ ] Playtest fitting three living Pumpkins and their supporting Fungi in the starting 4×4 garden before awarding the first row.
 - [ ] Verify the Mycelord and Emberbolete tasks show the supported colony, the named boost, the receiving Plant and the plant hazard in the normal player UI.
-- [x] Claim the Blocker bundle, place the items, and verify **Contain the spread** distinguishes a protected crop from one the colony can still reach by another route.
-- [x] Verify that completing the boost practice opens all four projects and each can be completed independently.
+- [x] Claim the Blocker bundle, place the items, and verify **Contain the Spread** distinguishes a protected crop from one the colony can still reach by another route.
+- [x] Verify that claiming the boost practice opens all four independent projects and Contain the Spread in Main Tasks. Task 19 opens when all five are claimed.
 - [x] Check that claiming Tasks 5 and 7 opens their Shop upgrades, that land quotes count the actual hexes added, and that row and column purchases respect their separate caps.
 - [ ] Play through Task 8 with low task Gold. Track Leaf surplus, routine restocking costs, and when the first paid expansion is affordable for the planned Flowers layout.
 - [x] Complete the Aquatic specialization before the Desert project. Verify that the ready signal appears after the full Flooded preparation, that draining to Damp produces Starlotus, and that the resulting Plant can be harvested for the Exhibition.
@@ -69,8 +69,8 @@ Implement the opening and family chapters, the Grand Exhibition, and the eight i
 | --- | --- | --- |
 | 1–4 | Preserve the existing tutorial and care rules. Add witnessed Potato and Onion transformations followed by the Carrot Leaf delivery. Reconcile the opening Gold rewards to 8 Gold on Task 1 and zero on the other main tasks. | Start a new 4×4 garden. Check staged tutorial rewards, permanent Spore access, earlier Leaf credit, and the ability to sell ordinary Beanstalk Leaves to restock. |
 | 5–9 | Add the Pumpkin collection, two deliveries, Rice and Strawberry discoveries, Flooded-reach practice, and the living Ingredients inspection. Claim Task 5 for the free row and land products, Task 7 for ten Inventory slots and slot packs, and Task 9 for Flowers and Source Group 1. | Verify both purchases, exact deliveries, earlier stock credit, live collection rules, and that the first expansion is affordable from surplus after Task 8. |
-| 10–14.2 | Add Flowers discoveries, deliveries, and the two-climate practice. Teach supported Mycelial ground and boosted fungal contact. Reward Root Barriers and open the four independent family projects and optional containment task. | Observe both lessons in the Taskboard and Inspector. Check full-Inventory claim recovery and that the Shop opens both forms of each rewarded Blocker design. |
-| 15–19 | Add Flooded Rice, supported fungal cultivation, one Beanstalk’s staged Dry/Scorching rescue, and the three-climate hold. Open each family independently on claim. Task 19 starts bulk production and opens Source Group 2. | Complete the projects in different orders. Interrupt timed objectives, replace specimens, and confirm that only a valid continuous attempt or rescue succeeds. |
+| 10–14.3 | Add Flowers discoveries, deliveries, and the two-climate practice. Teach supported Mycelial ground and boosted fungal contact. Reward Root Barriers and open Contain the Spread alongside the four independent family projects. | Observe both lessons in the Taskboard and Inspector. Check full-Inventory claim recovery and that the Shop opens both forms of each rewarded Blocker design. |
+| 15–19 | Add Flooded Rice, supported fungal cultivation, one Beanstalk’s staged Dry/Scorching rescue, and the three-climate hold. Open each family independently on claim. Task 19 requires Contain the Spread and all four project claims, starts bulk production, and opens Source Group 2. | Complete the projects in different orders. Interrupt timed objectives, replace specimens, and confirm that only a valid continuous attempt or rescue succeeds. |
 | 19.1–23.2 | Add all five independent specializations. Use the dedicated Woodlands, Desert, Spices, and Flowers drafts. Aquatic makes Moonlit Lotus, prepares and drains it into Starlotus, then harvests it. Show preparation and rescue status. Each completed specialization opens the next eligible Source group once Group 2 is available. | Test route-specific transformations, phase feedback, harvest credit, and the Source-group sequence when a path finishes before Task 19. |
 | 24 | Preview each family’s Grand Exhibition order when its path opens. Require Task 19 and all five finales before delivery. Accept earlier harvests. | Preview orders early, check all prerequisites, and verify the six exact deductions. Verify seedless quotas against one ordinary successful harvest. |
 | 25–32 | Open all eight challenges together after Task 24. Track exact specimens for timed collections, specific routes for recovery and alternate recipes, and a single Dewmender footprint for the irrigation challenge. | Verify each challenge independently. Save and reload during a hold, break a hold without advancing time, and confirm that replacements restart the timer. |
