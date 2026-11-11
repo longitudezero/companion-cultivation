@@ -4,6 +4,7 @@ import { shopProducts, shopQuote } from '../core/shop.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import { stationeryArt } from '../grimoire/stationery-art.js';
 import GuildBackButton from './GuildBackButton.jsx';
+import FloatingDust from './FloatingDust.jsx';
 import GameArt from './GameArt.jsx';
 import IllustratedButton from './IllustratedButton.jsx';
 
@@ -59,18 +60,27 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
       if (mode === 'sell' && result.owned === result.quantity) setQuantity('1');
     } catch (issue) { setError(issue.message); setReceipt(null); }
   }
-  return <div className="taskboard-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
+  return <div className="taskboard-backdrop shop-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
     <div className="shop-frame-vines" aria-hidden="true">
+      <div className="shop-banner-pole"><img src={shopArt('banner-pole.png')} alt="" draggable="false"/></div>
       <img className="shop-frame-vine-top" src={shopArt('ivy-top.webp')} alt="" draggable="false"/>
       <img className="shop-frame-vine-bottom" src={shopArt('ivy-bottom.webp')} alt="" draggable="false"/>
     </div>
-    <div className="shop-illustration" aria-hidden="true"><img src={shopArt('interior.webp')} alt="" draggable="false"/></div>
+    <div className="shop-illustration" aria-hidden="true">
+      <img src={shopArt('interior.webp')} alt="" draggable="false"/>
+      <FloatingDust/>
+    </div>
     <header className="shop-header"><h2>The Garden Shop</h2>
       <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></header>
     <div className="shop-body"><section className="shop-stock" aria-label={mode === 'buy' ? 'Shop stock' : 'Leaves to sell'}>
-      <div className="shop-tabs task-tabs" role="tablist" aria-label="Shop sections">
-        <button role="tab" aria-selected={mode === 'buy'} onClick={() => selectMode('buy')}>Buy</button>
-        <button role="tab" aria-selected={mode === 'sell'} onClick={() => selectMode('sell')}>Sell</button></div>
+      <div className="shop-tabs" role="tablist" aria-label="Shop sections">
+        <button className="shop-badge-button" role="tab" aria-selected={mode === 'buy'} onClick={() => selectMode('buy')}>
+          <GameArt name="badgeBack" stretch/>Buy
+        </button>
+        <button className="shop-badge-button" role="tab" aria-selected={mode === 'sell'} onClick={() => selectMode('sell')}>
+          <GameArt name="badgeBack" stretch/>Sell
+        </button>
+      </div>
       {mode === 'buy' && <div className="shop-categories" role="tablist" aria-label="Buy categories">
         {[['supplies', 'Garden supplies'], ['papers', 'Note papers'], ['bookmarks', 'Page markers']].map(([id, label]) =>
           <button key={id} role="tab" aria-selected={category === id} onClick={() => selectCategory(id)}>{label}</button>)}
@@ -82,7 +92,9 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
         aria-pressed={product?.id === item.id} aria-label={`${item.name}, ${item.price ? `${item.price} Gold${item.permanent ? '' : ' each'}` : 'Free'}, ${item.permanent ? item.owned ? 'Unlocked' : 'Permanent style' : `${item.owned} owned`}`} onClick={() => selectProduct(item)}>
         <span className="shop-product-type" aria-hidden="true">{item.permanent ? item.type === 'paper' ? 'Paper' : 'Marker'
           : <GameArt name={item.type === 'seed' ? 'seeds' : item.type === 'spore' ? 'spores' : 'leaves'}/>}</span>
-        <img src={productArt(item)} alt="" draggable="false"/><strong>{item.name}</strong>
+        <span className="shop-product-art" data-inventory-type={item.permanent ? undefined : item.type}>
+          <img src={productArt(item)} alt="" draggable="false"/>
+        </span><strong>{item.name}</strong>
         <span className="shop-unit-price">{item.price ? <><GameArt name="gold"/>{item.price} Gold{item.permanent ? '' : ' each'}</> : 'Free'}</span><small>{item.permanent ? item.owned ? '✓ Unlocked' : 'Permanent style' : `${item.owned} owned`}</small>
       </button>)}</div>
       {!products.length && <div className="shop-empty"><span aria-hidden="true">❧</span><p>No Leaves to sell yet.</p><p>Harvest a Plant while its Inspector shows Leaves available, then bring them here.</p></div>}
@@ -108,7 +120,10 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
         <div className="shop-transaction"><div><span>{mode === 'buy' ? 'Total cost' : 'You receive'}</span><strong>{quote ? `${quote.total} Gold` : '—'}</strong></div>
           <div><span>Gold after trade</span><strong>{quote?.balanceAfter ?? '—'}</strong></div></div>
         <p className="shop-quote-error" role={error ? 'alert' : undefined}>{error || (!receipt && !(product.permanent && product.owned) && quoteError)}</p>
-        <button className="shop-trade-button" disabled={!quote} onClick={trade}>{product.permanent ? product.owned ? 'Style unlocked' : `Unlock for ${product.price} Gold` : mode === 'sell' ? 'Sell Leaves' : product.price ? 'Buy Spores' : 'Take Seeds'}</button>
+        <button className="shop-badge-button shop-trade-button" disabled={!quote} onClick={trade}>
+          <GameArt name="badgeLeaf" stretch/>
+          {product.permanent ? product.owned ? 'Style unlocked' : `Unlock for ${product.price} Gold` : mode === 'sell' ? 'Sell Leaves' : product.price ? 'Buy Spores' : 'Take Seeds'}
+        </button>
         {product.permanent && onOpenGrimoire && <button className="shop-grimoire-link" onClick={onOpenGrimoire}>Open Grimoire →</button>}
         </div>
       </> : <div className="shop-empty-detail"><h3>A place for your harvest</h3><p>Choose Leaves to see the quantity and total before selling.</p></div>}

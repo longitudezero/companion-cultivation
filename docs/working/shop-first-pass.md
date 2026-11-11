@@ -23,3 +23,13 @@ Garden/inventory expansions, Blockers, Source-item purchases, other Seed product
 ## Recovery balance still to resolve
 
 Free Beanstalk Seeds alone do not yet guarantee recovery from zero Gold and no living/available Fungi. In untouched Dry/Dark soil, current Beanstalk growth is too slow to reach Leaf production before its Dry exposure limit. The agreed free-Seed product is implemented, but a fully reliable emergency recovery route needs a separate gameplay/balance decision; this shop pass does not change species biology or give additional free Spores.
+
+## Shop buttons and catalogue colors
+
+| Change | Verification |
+|---|---|
+| [x] Use the Back badge for Buy and Sell. Give the selected tab a brighter rim and label. | Opened the Shop and checked both badges against Back and the highlight after switching modes. |
+| [x] Use the pointed leaf badge from the former Main and Side Task labels for the trade confirmation. | Checked the badge on seed, spore, leaf and stationery actions. Completed purchases and a sale and checked disabled states. |
+| [x] Give seed, spore and leaf thumbnails the same background and border colors as Inventory. | Compared the shared gradient rule and type colors in the review build. Checked that stationery renders without a type color. |
+
+The review build passed the interaction checks, and the project passed its full test and build command. Browser appearance still needs a visual pass at desktop and phone widths.

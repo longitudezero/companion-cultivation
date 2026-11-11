@@ -168,8 +168,9 @@ test('the shop exposes Buy/Sell, free recovery Seeds, current funds and only unl
   assert.match(markup, /aria-label="Guild Shop"/);
   assert.match(markup, /aria-label="Back to garden"/);
   assert.doesNotMatch(markup, /simulation-speeds|Pause simulation|Close Shop/);
-  assert.match(markup, /role="tab" aria-selected="true">Buy/);
-  assert.match(markup, />Sell<\/button>/);
+  const markupWithoutDecorations = markup.replace(/<svg\b[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/svg>/g, '');
+  assert.match(markupWithoutDecorations, /role="tab" aria-selected="true">Buy<\/button>/);
+  assert.match(markupWithoutDecorations, /role="tab" aria-selected="false">Sell<\/button>/);
   assert.match(markup, /Beanstalk Seeds, Free, 36 owned/);
   assert.match(markup, /Prismorel Spores, 2 Gold each/);
   assert.match(markup, /0 Gold/);
