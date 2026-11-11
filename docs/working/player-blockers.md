@@ -29,7 +29,7 @@ Each design has an **Edge** form and a **Hex** form with the same fixed filters.
 
 ## First reward and playtest
 
-Task **14.2** awards **Root Barriers**, which the player can use in [Contain the spread](task-progression-plan.md#mycelial-ground). Playtest three Edge Root Barriers as the starter bundle. Check a layout where they close the paths toward a crop while the colony stays active on the other side. Final quantity, prices, and availability of the remaining designs belong to the main-task reward and Shop balance review.
+Task **14.2** awards **Root Barriers**, which the player can use in [Contain the spread](task-progression-plan.md#mycelial-ground). Claiming the reward unlocks both Root Barrier forms in the Shop. Apply the same rule to other designs when a task first rewards them. Playtest three Edge Root Barriers as the starter bundle in a layout where they close the paths toward a crop while the colony stays active. Final quantities, prices, and reward tasks for the remaining designs belong to the main-task reward and Shop balance review.
 
 ## Implementation checklist
 

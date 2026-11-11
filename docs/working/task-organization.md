@@ -119,22 +119,22 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 - **Gold coins** are the currency used for store purchases.
 - **Only Leaves can be sold.** Players cannot sell Seeds or Spores (nor other possessions, absent a future explicit design change). Leaves are earned through cultivation and harvesting and retain their existing species-specific identities.
 - **Beanstalk Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Beanstalks without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted as a design goal: it still costs cultivation time and available garden hexes. The first shop pass found that current Dry/Dark Beanstalk biology prevents this zero-Gold/no-Fungi recovery route; a separate balance decision is still needed, as recorded in [shop rules](shop-first-pass.md).
-- The store sells **hex-space expansions, inventory expansions, Blockers, Seeds, Spores, and temporary Source items**. Inventory expansion packs add **10 slots** after task rewards have brought capacity to 50; exact prices and availability milestones remain to be designed.
+- The store sells **hex-space expansions, inventory expansions, Blockers, Seeds, Spores, and temporary Source items**. See [garden and Inventory capacity](#garden-and-inventory-capacity--agreed) for the first land and Inventory upgrade unlocks.
+- Claiming the first task reward for a Blocker design unlocks that design's **Edge and Hex** forms in the Shop. Prices and the task rewards for individual designs are part of the reward review.
 - Product availability grows with progression. The previously agreed **26 temporary Source items in seven groups** should be unlocked progressively rather than immediately.
 - **Temporary Source items should be relatively expensive** so they function as emergency tools/conveniences rather than replacing the central challenge of combining Fungi. Exact prices and item unlock triggers are not yet decided.
 - Seed/Spore access through the store must support recovery after early mistakes or exhausted supplies; players should not become permanently unable to make progress.
 - **First playable shop prices (31 October):** Beanstalk Seeds are free, unlocked Spores cost 2 Gold each, named Leaves sell for 1 Gold each, and stock is unlimited. Other products and final economy balance remain open. The main-task records now set initial Gold rewards for Tasks 1–4; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
 - Source-item purchases remain deferred; the existing **developer-only Source-item dispenser** remains their testing acquisition mechanism.
 
-## Garden and inventory capacity — agreed 29 October 2026
+## Garden and inventory capacity — agreed
 
 - A new progression garden starts at **4 columns × 4 rows = 16 hexes**.
-- Main-task rewards expand the garden by adding complete **rows or columns**. **The project owner and assistant choose together which task awards an expansion and whether it grants a row or a column.** Suggestions from either collaborator are welcome; the resulting reward is authored into the task.
-- Each expansion reward must specify its axis and quantity, e.g. **+1 row** or **+1 column**. A row adds one hex per current column; a column adds one hex per current row. Added land preserves the existing planted layout.
+- Claiming **Task 5, A Pumpkin Problem**, awards **+1 garden row** (4 columns × 5 rows) and unlocks the **+1 Row** and **+1 Column** Shop products. Further land expansion comes from the Shop.
+- A row adds one hex per current column. A column adds one hex per current row. Added land preserves the existing planted layout. The Shop shows the added hex count, resulting dimensions, and total Gold price. Price either product by the number of hexes added. The Gold rate per hex is open.
+- Progression gardens can grow to **18 columns × 9 rows**, or **162 hexes**. Row purchases are available up to 9 rows and column purchases up to 18 columns, with each axis checked independently.
 - The exact side/edge placement of new land remains a presentation/implementation detail. No player-selected edge mechanic has been approved.
-- The store can still offer further hex-space expansion; its exact products, pricing, and relation to task rewards remain open.
-- A new progression inventory starts at **20 slots**. Task rewards add **10 slots at a time**, for **20 → 30 → 40 → 50**. Which tasks award the three upgrades remains to be designed.
-- After the task-earned 50-slot milestone, the store sells further capacity in **packs of 10 slots**: 60, 70, and so on. Prices and the eventual maximum are not yet agreed.
+- A new progression Inventory starts at **20 slots**. Claiming **Task 7, A Little Rain, A Lot of Sunshine**, awards **+10 slots** and unlocks **+10-slot packs** in the Shop. Further capacity comes from those packs. The pack price and Inventory cap are open.
 - A slot continues to hold a stack/identity, not a single Seed, Spore, or Leaf. Existing quantity and item-identity rules remain applicable, including individually tracked temporary Source items.
 - Capacity rewards and starter bundles must be coordinated so new task resources can be accepted. Award capacity before accompanying items when needed, and keep unaccepted rewards available; do not lose resources on a full inventory.
 - These are **progression design changes, not live code changes**. The prototype currently has a fixed **200-slot** inventory. The new starting capacity and upgrade path supersede that fixed grant for the future progression mode; existing-save migration and capacity/pagination UI remain to be designed.

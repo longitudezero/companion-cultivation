@@ -27,7 +27,13 @@ Flooded ground can also stop spread. If the player cuts every support route to a
 
 The Woodlands project applies the boost lesson with Mistruffle reaching Charmomile. Its Siltgill reward introduces a Fungus that depends on Mycelial ground.
 
-The [player Blocker catalogue](player-blockers.md) defines the approved items and their filters. **Contain the spread** depends on the player being able to claim and place the Task 14.2 Root Barriers. Final bundle size and later availability are part of the main-task reward review.
+The [player Blocker catalogue](player-blockers.md) defines the approved items and their filters. **Contain the spread** depends on the player being able to claim and place the Task 14.2 Root Barriers. That claim unlocks the Edge and Hex Root Barriers in the Shop. Final bundle size and the first reward tasks for other designs are part of the main-task reward review.
+
+## Capacity and rewards
+
+Keep the first garden row at **Task 5** and the first ten Inventory slots at **Task 7**. Their claims unlock the corresponding [Shop upgrades](task-organization.md#garden-and-inventory-capacity--agreed). Move the later draft capacity rewards to Shop purchases. Use main-task reward slots for useful Blockers and temporary Source items alongside the Seeds and Spores that support the next assignment.
+
+During the reward review, revisit layouts that assumed free expansions. Playtest the space players can afford before the late Flowers tasks and the four family projects using main-task Gold after routine Seed and Spore purchases. Balance Shop prices and task Gold against those layouts.
 
 ## Leaf production after the family unlocks
 
@@ -44,4 +50,5 @@ Continue accepting earlier harvests for deliveries. Preview the Grand Exhibition
 - [ ] Verify the Mycelord and Emberbolete tasks show the supported colony, the named boost, the receiving Plant and the plant hazard in the normal player UI.
 - [ ] Claim the Blocker bundle, place the items, and verify **Contain the spread** distinguishes a protected crop from one the colony can still reach by another route.
 - [ ] Verify that completing the boost practice opens all four projects and each can be completed independently.
+- [ ] Check that claiming Tasks 5 and 7 opens their Shop upgrades, that land quotes count the actual hexes added, and that row and column purchases respect their separate caps.
 - [ ] Compare post-unlock Leaf orders with realistic harvests in ordinary and Mycelial-assisted gardens and tune quantities against the playtest.
