@@ -60,7 +60,7 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
       if (mode === 'sell' && result.owned === result.quantity) setQuantity('1');
     } catch (issue) { setError(issue.message); setReceipt(null); }
   }
-  return <div className="taskboard-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
+  return <div className="taskboard-backdrop shop-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
     <div className="shop-frame-vines" aria-hidden="true">
       <div className="shop-banner-pole"><img src={shopArt('banner-pole.png')} alt="" draggable="false"/></div>
       <img className="shop-frame-vine-top" src={shopArt('ivy-top.webp')} alt="" draggable="false"/>
