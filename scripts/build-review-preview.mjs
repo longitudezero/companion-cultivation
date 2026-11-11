@@ -10,6 +10,7 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const assetsRoot = join(root, 'public');
 const destination = resolve(process.argv[2] || join(root, 'dist/grimoire-review.html'));
 const assetBase = process.argv.find(value => value.startsWith('--asset-base='))?.slice('--asset-base='.length);
+const embeddedAssets = new Set(process.argv.filter(value => value.startsWith('--embed-asset=')).map(value => value.slice('--embed-asset='.length)));
 if (assetBase && (!assetBase.startsWith('https://') || !assetBase.endsWith('/'))) throw new Error('Asset base must be an HTTPS URL ending in /.');
 const assets = {};
 async function collect(directory) {
@@ -21,7 +22,7 @@ async function collect(directory) {
       const extension = path.split('.').pop();
       const mime = { webp: 'image/webp', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', svg: 'image/svg+xml',
         ttf: 'font/ttf', woff: 'font/woff', woff2: 'font/woff2' }[extension];
-      assets[key] = assetBase ? new URL(key, assetBase).href : `data:${mime};base64,${(await readFile(path)).toString('base64')}`;
+      assets[key] = assetBase && !embeddedAssets.has(key) ? new URL(key, assetBase).href : `data:${mime};base64,${(await readFile(path)).toString('base64')}`;
     }
   }
 }

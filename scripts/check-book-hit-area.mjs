@@ -41,8 +41,9 @@ import sys,json,re
 from PIL import Image,ImageDraw
 source=json.load(sys.stdin)
 a=Image.open(sys.argv[1]).convert('RGBA').getchannel('A')
-points=[tuple(float(n)*a.width/100 for n in re.findall(r'[\d.]+',pair)) for pair in source[8:-1].split(',')]
-assert len(points)==85
+points=[(x*a.width/100,y*a.height/100) for x,y in
+        (map(float,re.findall(r'[\d.]+',pair)) for pair in source[8:-1].split(','))]
+assert len(points)>=3
 hit=Image.new('1',a.size);ImageDraw.Draw(hit).polygon(points,fill=1)
 opaque=covered=blocked=hits=0
 for h,v in zip(hit.get_flattened_data(),a.get_flattened_data()):
@@ -50,6 +51,10 @@ for h,v in zip(hit.get_flattened_data(),a.get_flattened_data()):
 assert covered==opaque, 'visible wood allows input through'
 assert blocked/hits<.007, 'input rim allowance is too broad'
 for x,y in [(0,0),(a.width-1,0),(0,a.height-1),(a.width-1,a.height-1)]: assert not hit.getpixel((x,y))
-print(f'PASS artwork silhouette covers all {opaque} opaque wood pixels; rim allowance occupies {blocked/hits:.3%} of its input area; all four transparent corners pass through')
+for fraction in [.25,.75]:
+ x,y=int(a.width*fraction),int(a.height*.17)
+ assert a.getpixel((x,y))==0 and not hit.getpixel((x,y)), 'space beside shelf blocks the garden'
+assert hit.getpixel((a.width//2,int(a.height*.17))), 'shelf does not receive drags'
+print(f'PASS artwork outline covers all {opaque} opaque wood pixels and leaves both spaces beside the shelf open')
 `, new URL('../public/grimoire/stationery/cultivation-tabletop.webp', import.meta.url).pathname], { input: JSON.stringify(clip), encoding: 'utf8' }).trim());
 } finally { dom.window.close(); }

@@ -85,9 +85,22 @@ test('legacy paper-centered preferences migrate to a table pivot without moving 
       close(actual.y, viewport.height * old.y + x * Math.sin(radians) + y * Math.cos(radians));
     }
     const saved = savedBookView(view, viewport);
-    assert.equal(saved.version, 2);
+    assert.equal(saved.version, 3);
     const reopened = restoreBookView(saved, viewport);
     close(reopened.x, view.x); close(reopened.y, view.y); // migration happens once
+  }
+});
+
+test('round table preferences keep the paper centered at the same screen point after the artwork swap', () => {
+  const viewport = viewports[0];
+  for (const rotation of [-150, -40, 0, 90, 170]) {
+    const saved = { version: 2, x: .5, y: .5, zoom: .8, rotation };
+    const view = restoreBookView(saved, viewport);
+    const angle = rotation * Math.PI / 180;
+    const x = (296 - 896) * saved.zoom, y = (552 - 896) * saved.zoom;
+    const corner = bookToScreen({ x: 0, y: 0 }, view);
+    close(corner.x, viewport.width * saved.x + x * Math.cos(angle) - y * Math.sin(angle));
+    close(corner.y, viewport.height * saved.y + x * Math.sin(angle) + y * Math.cos(angle));
   }
 });
 

@@ -1,10 +1,10 @@
 // Paper coordinates never change. The book is offset on one rigid table scene.
 export const BOOK_SIZE = Object.freeze({ width: 1120, height: 794.4188 });
-export const TABLE_SIZE = Object.freeze({ width: 1792, height: 1792 });
-export const BOOK_OFFSET = Object.freeze({ x: 296, y: 552 });
+export const TABLE_SIZE = Object.freeze({ width: 1590, height: 1490 });
+export const BOOK_OFFSET = Object.freeze({ x: 218, y: 440 });
 export const STATIONERY_PLACEMENT = Object.freeze({
-  marker: Object.freeze({ x: 580, y: 185, width: 235, height: 290, rotation: 32 }),
-  inkwell: Object.freeze({ x: 920, y: 110, width: 290, height: 310, rotation: 0 }),
+  marker: Object.freeze({ x: 530, y: 121, width: 108, height: 162, rotation: 32 }),
+  inkwell: Object.freeze({ x: 654, y: 120, width: 168, height: 168, rotation: 0 }),
 });
 export const TABLETOP_STYLE = Object.freeze({ '--table-width': `${TABLE_SIZE.width}px`, '--table-height': `${TABLE_SIZE.height}px`,
   '--book-left': `${BOOK_OFFSET.x}px`, '--book-top': `${BOOK_OFFSET.y}px` });
@@ -57,7 +57,9 @@ function fitBounds(viewport, bounds, rotation) {
 // Frame the useful arrangement, not the entire ornamental rim. Fit book remains
 // available for a closer reading view without moving anything relative to wood.
 export function fitTabletop(viewport, rotation = 0) {
-  const points = [[160, 100], [1560, 100], [160, BOOK_OFFSET.y + BOOK_SIZE.height + 37], [1560, BOOK_OFFSET.y + BOOK_SIZE.height + 37]]
+  const left = BOOK_OFFSET.x - 136, right = BOOK_OFFSET.x + BOOK_SIZE.width + 136;
+  const top = 86, bottom = BOOK_OFFSET.y + BOOK_SIZE.height + 37;
+  const points = [[left, top], [right, top], [left, bottom], [right, bottom]]
     .map(([x, y]) => tableToScreen({ x, y }, { x: 0, y: 0, zoom: 1, rotation }));
   return fitBounds(viewport, { left: Math.min(...points.map(p => p.x)), right: Math.max(...points.map(p => p.x)),
     top: Math.min(...points.map(p => p.y)), bottom: Math.max(...points.map(p => p.y)) }, rotation);
@@ -80,19 +82,24 @@ export function recoverBook(view, viewport, size = BOOK_SIZE) {
 }
 
 export function savedBookView(view, viewport) {
-  return { version: 2, x: view.x / viewport.width, y: view.y / viewport.height, zoom: view.zoom, rotation: flatAngle(view.rotation) };
+  return { version: 3, x: view.x / viewport.width, y: view.y / viewport.height, zoom: view.zoom, rotation: flatAngle(view.rotation) };
 }
 
 export function restoreBookView(saved, viewport) {
-  if (![1, 2].includes(saved?.version) || !['x', 'y', 'zoom', 'rotation'].every(key => typeof saved[key] === 'number' && Number.isFinite(saved[key]))
+  if (![1, 2, 3].includes(saved?.version) || !['x', 'y', 'zoom', 'rotation'].every(key => typeof saved[key] === 'number' && Number.isFinite(saved[key]))
     || Math.abs(saved.x) > 1000 || Math.abs(saved.y) > 1000
     || saved.zoom < MIN_BOOK_ZOOM || saved.zoom > MAX_BOOK_ZOOM) return fitTabletop(viewport);
   let view = { x: saved.x * viewport.width, y: saved.y * viewport.height, zoom: saved.zoom, rotation: flatAngle(saved.rotation) };
-  if (saved.version === 1) {
-    // v1 stored the paper center. Move the pivot to the table center while every
-    // paper point retains its exact screen position, including at rotated poses.
-    const center = bookToScreen({ x: BOOK_SIZE.width / 2, y: BOOK_SIZE.height / 2 }, view);
-    view = { ...view, x: view.x * 2 - center.x, y: view.y * 2 - center.y };
+  if (saved.version < 3) {
+    // v1 used the paper center and v2 used the center of the round table.
+    const paperCenter = { x: BOOK_SIZE.width / 2, y: BOOK_SIZE.height / 2 };
+    const oldOffset = saved.version === 2 ? { x: 296 - 896, y: 552 - 896 } : { x: -paperCenter.x, y: -paperCenter.y };
+    const oldCenter = tableToScreen({
+      x: TABLE_SIZE.width / 2 + oldOffset.x + paperCenter.x,
+      y: TABLE_SIZE.height / 2 + oldOffset.y + paperCenter.y,
+    }, view);
+    const newCenter = bookToScreen(paperCenter, view);
+    view = { ...view, x: view.x + oldCenter.x - newCenter.x, y: view.y + oldCenter.y - newCenter.y };
   }
   return recoverBook(view, viewport);
 }

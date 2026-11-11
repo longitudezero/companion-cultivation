@@ -345,7 +345,7 @@ const cases = [
     localStorage.setItem(BOOK_VIEW_KEY, JSON.stringify({ version: 1, x: .5, y: .5, zoom: .8, rotation: 30 }));
     await mount(); const center = bookToScreen({ x: BOOK_SIZE.width / 2, y: BOOK_SIZE.height / 2 }, pose());
     near(center.x, window.innerWidth / 2); near(center.y, window.innerHeight / 2);
-    assert.equal(JSON.parse(localStorage.getItem(BOOK_VIEW_KEY)).version, 2);
+    assert.equal(JSON.parse(localStorage.getItem(BOOK_VIEW_KEY)).version, 3);
     const expected = pose(); await act(() => root.unmount()); root = null; await mount(); assert.deepEqual(pose(), expected);
   }],
   ['only the selection drag suppresses a turn, and an old selection does not block the next click', async () => {
