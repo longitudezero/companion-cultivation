@@ -95,8 +95,9 @@ function PageSurface({ side, disabled, busy, onTurn, children }) {
   </article>;
 }
 
-export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null, onJournalChange, onOpenShop, onModalChange, suspended = false, entryRequest = 0, onEntryChange }) {
+export default function CultivationGrimoire({ garden, onClose, developerTools = false, initialEntryKey = null, onJournalChange, onOpenShop, onModalChange, suspended = false, entryRequest = 0, onEntryChange, behindInspector = false }) {
   const root = useRef(null), closeRef = useRef(null), glossaryClose = useRef(null), termRef = useRef(null);
+  const viewControls = useRef(null);
   const active = useRef(true);
   const previousRequest = useRef(entryRequest);
   const bookRef = useRef(null);
@@ -197,14 +198,20 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   useEffect(() => {
     const previousFocus = document.activeElement;
     const scope = root.current;
+    const toolbar = viewControls.current;
     closeRef.current?.focus({ preventScroll: true });
     return () => {
-      if (previousFocus?.isConnected && (scope?.contains(document.activeElement) || document.activeElement === document.body)) previousFocus.focus({ preventScroll: true });
+      const focused = document.activeElement;
+      if (previousFocus?.isConnected && (scope?.contains(focused) || toolbar?.contains(focused) || focused === document.body)) {
+        previousFocus.focus({ preventScroll: true });
+      }
     };
   }, []);
 
   useEffect(() => {
-    const activity = event => { active.current = Boolean(root.current?.contains(event.target)); };
+    const activity = event => {
+      active.current = Boolean(root.current?.contains(event.target) || viewControls.current?.contains(event.target));
+    };
     document.addEventListener('pointerdown', activity, true);
     document.addEventListener('focusin', activity, true);
     return () => {
@@ -264,13 +271,15 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     preview={viewPreview} navigate={navigate} glossary={openGlossary}/>
     {busy && <StaticPageNotes journal={journal} entryKey={BOOK_ENTRIES[index].key} side={side} pageSize={pageSize}/>}</React.Fragment>;
 
-  return <BookCoordinates.Provider value={scene.coordinates}><div ref={root} className={`cg-overlay cg-tabletop${modal ? ' has-modal' : ''}`} role="dialog" aria-modal="false" aria-label="Cultivation Grimoire"
+  function focusBookControl(event) {
+    if (suspended) return;
+    const control = event.target.closest('button, input, select, textarea, [href], [tabindex]:not([tabindex="-1"])');
+    (control || root.current)?.focus({ preventScroll: true });
+  }
+
+  return <BookCoordinates.Provider value={scene.coordinates}><div ref={root} className={`cg-overlay cg-tabletop${behindInspector ? ' behind-inspector' : ''}${modal ? ' has-modal' : ''}`} role="dialog" aria-modal="false" aria-label="Cultivation Grimoire"
     tabIndex={-1} inert={suspended} aria-hidden={suspended || undefined}
-    onPointerDownCapture={event => {
-      if (suspended) return;
-      const control = event.target.closest('button, input, select, textarea, [href], [tabindex]:not([tabindex="-1"])');
-      (control || root.current)?.focus({ preventScroll: true });
-    }}
+    onPointerDownCapture={focusBookControl}
     onPointerDown={event => event.stopPropagation()} onClick={event => event.stopPropagation()} onWheel={event => event.stopPropagation()}>
     <div className="cg-scene" aria-label="Book tabletop">
       <div className="cg-shell" style={{ ...TABLETOP_STYLE, transform: scene.transform }} inert={Boolean(glossary || desk || pendingDelete)}>
@@ -329,13 +338,11 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       </div>
       <div className="cg-sr-only" aria-live="polite" aria-atomic="true">{CHAPTERS[current.chapter].label} · pages {current.page}–{current.page + 1}{busy ? ' · Turning pages' : ''}</div>
     </div>
-    <BookViewControls scene={scene} disabled={Boolean(glossary || desk || pendingDelete || busy)}/>
     {developerTools && <div className="cg-preview-tools cg-fixed-preview">
       <button type="button" disabled={busy} aria-pressed={preview}
         onClick={() => setPreviewRequested(value => !value)}>{preview ? 'Return to discoveries' : 'Preview full Grimoire'}</button>
       <span>{preview ? 'Developer reference · Read only' : 'Garden discoveries'}</span>
     </div>}
-    {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
     {desk && <StationeryDesk garden={garden} entry={current} ledger={ledger} initialTab={desk.tab} initialSide={desk.side} initialNoteId={desk.noteId} initialMarkerSlot={desk.markerSlot} initialDrop={desk.drop}
       tuckedNotes={tuckedNotes} onToggleTuck={toggleTuck}
       onChange={onJournalChange} onClose={() => setDesk(null)}
@@ -353,5 +360,9 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
           <h3>{effect.label}</h3><p>{effect.summary}</p><p>{effect.detail}</p>
         </section>)}</div>
     </section></div>}
-  </div></BookCoordinates.Provider>;
+  </div>
+  <BookViewControls ref={viewControls} scene={scene} disabled={modal || busy || suspended} onPointerDownCapture={focusBookControl}>
+    {stationeryIssue && <p className="cg-stationery-issue" role="status">{stationeryIssue}</p>}
+  </BookViewControls>
+  </BookCoordinates.Provider>;
 }

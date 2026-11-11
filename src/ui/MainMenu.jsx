@@ -15,7 +15,8 @@ export function MainMenuIcon() {
 }
 
 export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDeveloperToggle,
-  developerTools, stagingEnabled, onStagingChange, stagedCount, simplifiedHexFills = false, onHexFillChange, onGuide, autosaveStatus, elapsed, onAdvance }) {
+  developerTools, stagingEnabled, onStagingChange, stagedCount, simplifiedHexFills = false, onHexFillChange,
+  inspectorInFront = false, onInspectorLayerChange, onGuide, autosaveStatus, elapsed, onAdvance }) {
   const modal = useRef(null);
   useEffect(() => {
     const previous = document.activeElement;
@@ -45,6 +46,10 @@ export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDevel
         <label><span>Simplified hex fills</span><input type="checkbox" checked={simplifiedHexFills}
           onChange={event => onHexFillChange(event.target.checked)} aria-describedby="hex-fill-setting-help"/></label>
         <p id="hex-fill-setting-help">{simplifiedHexFills ? 'Simple terrain textures. Uncheck for full artwork.' : 'Full terrain artwork. Check for simpler textures.'}</p>
+      </div>
+      <div className="menu-setting">
+        <label><span>Keep Inspector in front of Grimoire</span><input type="checkbox" checked={inspectorInFront}
+          onChange={event => onInspectorLayerChange(event.target.checked)}/></label>
       </div>
       <div className="menu-garden-status"><span>{elapsed} elapsed</span><span role="status">{autosaveStatus}</span></div>
       {developerTools && <div className="menu-time-tools"><button onClick={() => onAdvance(1)}>+5s</button><button onClick={() => onAdvance(24)}>+2m</button></div>}

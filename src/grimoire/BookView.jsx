@@ -86,8 +86,9 @@ export function useBookView(root, disabled) {
     transform: `translate(${view.x}px, ${view.y}px) rotate(${view.rotation}deg) scale(${view.zoom}) translate(-50%, -50%)` };
 }
 
-export function BookViewControls({ scene, disabled }) {
-  return <div className="cg-view-controls" role="group" aria-label="Book view" inert={disabled}>
+export function BookViewControls({ ref, scene, disabled, onPointerDownCapture, children }) {
+  return <div ref={ref} className="cg-view-controls" role="group" aria-label="Book view" inert={disabled}
+    onPointerDownCapture={onPointerDownCapture}>
     <button type="button" onClick={() => scene.zoom(1 / 1.15)} aria-label="Zoom book out" title="Zoom out">−</button>
     <output aria-label="Book zoom">{Math.round(scene.view.zoom * 100)}%</output>
     <button type="button" onClick={() => scene.zoom(1.15)} aria-label="Zoom book in" title="Zoom in">+</button>
@@ -98,5 +99,6 @@ export function BookViewControls({ scene, disabled }) {
         if (delta) { event.preventDefault(); event.stopPropagation(); scene.pan(...delta); } }}>✥</button>
     <button type="button" onClick={scene.fit} title="Fit the book for reading; keep the current rotation">Fit book</button>
     <button type="button" onClick={scene.reset} title="Frame the book and stationery together, upright">Reset view</button>
+    {children}
   </div>;
 }

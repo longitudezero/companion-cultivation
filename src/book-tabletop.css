@@ -16,6 +16,8 @@
   pointer-events: none;
   z-index: 18;
 }
+.cg-tabletop.behind-inspector { z-index: 17; }
+.inspector-dock.above-grimoire { position: relative; z-index: 18; }
 .cg-tabletop.has-modal { pointer-events: auto; z-index: 2000; }
 .cg-tabletop .cg-scene { position: absolute; inset: 0; min-height: 0; padding: 0; display: block; overflow: visible; touch-action: none; }
 .cg-tabletop .cg-scene::before { content: none; }
@@ -57,13 +59,14 @@
 .cg-tabletop .cg-cover-corner:hover img { filter: brightness(1.12); }
 .cg-tabletop .cg-page-scroll, .cg-tabletop .cg-atlas-viewport { touch-action: pan-y; overscroll-behavior: contain; }
 
-.cg-view-controls { position: absolute; z-index: 30; top: auto; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 3px;
+.cg-view-controls { position: fixed; z-index: 19; top: auto; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 3px;
   width: max-content; max-width: calc(100% - 28px);
   padding: 5px; border: 1px solid #bd985a; border-radius: 7px; background: #19372beF; color: #f5e0af;
   box-shadow: 0 3px 10px #160c0966; font: 13px Georgia, serif; }
-.cg-view-controls button { height: 34px; min-width: 34px; padding: 0 9px; border: 0; border-radius: 3px;
+.cg-view-controls button { font: inherit; cursor: pointer; height: 34px; min-width: 34px; padding: 0 9px; border: 0; border-radius: 3px;
   color: inherit; background: transparent; white-space: nowrap; }
 .cg-view-controls button:hover { background: #e5c87526; }
+.cg-view-controls button:focus-visible { outline: 3px solid #f6dfa7; outline-offset: 4px; }
 .cg-view-controls .cg-view-pan { cursor: grab; touch-action: none; }
 .cg-view-controls .cg-view-pan:active { cursor: grabbing; }
 .cg-view-controls output { width: 41px; text-align: center; font-variant-numeric: tabular-nums; }
@@ -141,9 +144,9 @@
   border-radius: 5px; color: #fff2ca; background: #173c2fe6; font: 11px Georgia, serif; }
 .cg-slot-guide.is-reserved { border-style: solid; color: #ffe0ce; background: #653d31ed; }
 .cg-slot-guide.is-target { outline: 3px solid #fff1b1; outline-offset: 2px; }
-.cg-tabletop > .cg-stationery-issue { position: fixed; top: auto; bottom: 14px; left: 50%; right: auto; transform: translateX(-50%);
-  width: min(480px, calc(100% - 28px)); margin: 0; padding: 10px 16px; border: 1px solid #c29a5a; border-radius: 6px;
-  background: #23392bf2; z-index: 35; text-align: center; pointer-events: none; }
+.cg-view-controls > .cg-stationery-issue { top: auto; bottom: calc(100% + 8px); left: 50%; right: auto; transform: translateX(-50%);
+  box-sizing: border-box; width: min(480px, calc(100vw - 28px)); margin: 0; padding: 10px 16px;
+  border: 1px solid #c29a5a; border-radius: 6px; background: #23392bf2; text-align: center; pointer-events: none; }
 .cg-marker-preview .cg-marker-body { --marker-h: 100%; top: 0; transform: none; }
 .cg-marker-preview { height: auto; aspect-ratio: 1 / var(--marker-ratio, 2); }
 

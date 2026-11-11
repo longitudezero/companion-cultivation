@@ -5,12 +5,12 @@ import assert from 'node:assert/strict';
 const { JSDOM } = await import(process.env.GRIMOIRE_QA_JSDOM || 'jsdom');
 const css = (await Promise.all(['grimoire.css', 'stationery.css', 'stationery-refinements.css', 'book-tabletop.css']
   .map(file => readFile(new URL(`../src/${file}`, import.meta.url), 'utf8')))).join('\n');
-const dom = new JSDOM(`<style>${css}</style><div class="cg-overlay cg-tabletop"><div class="cg-scene"><div class="cg-shell">
+const dom = new JSDOM(`<style>${css}</style><div class="inspector-dock"></div><div class="cg-overlay cg-tabletop"><div class="cg-scene"><div class="cg-shell">
   <div class="cg-table-surface"></div><img class="cg-table-art"><div class="cg-book-stage"><div class="cg-book">
   <nav class="cg-tabs"><button class="cg-tab"></button></nav><div class="cg-note-layer"><div class="cg-loose-note"></div></div>
   <div class="cg-personal-bookmarks"><div class="cg-personal-bookmark"><div class="cg-marker-body"></div></div></div>
   </div></div><div class="cg-stationery-tools"><button class="cg-inkwell"></button></div></div></div>
-  <div class="cg-view-controls"></div><div class="cg-stationery-backdrop"></div><div class="cg-glossary-backdrop"></div><div class="cg-note-confirm-backdrop"></div></div>`);
+  <div class="cg-stationery-backdrop"></div><div class="cg-glossary-backdrop"></div><div class="cg-note-confirm-backdrop"></div></div><div class="cg-view-controls"></div>`);
 try {
   const root = dom.window.document.querySelector('.cg-tabletop');
   const style = selector => dom.window.getComputedStyle(dom.window.document.querySelector(selector));
@@ -26,6 +26,13 @@ try {
   assert.equal(style('.cg-view-controls').top, 'auto'); assert.ok(parseFloat(style('.cg-view-controls').bottom) > 0, 'book controls leave garden time controls at the top accessible');
   const clip = style('.cg-table-surface').clipPath;
   assert.match(clip, /^polygon\(/); assert.ok(['', 'none'].includes(style('.cg-table-art').clipPath), 'never crop the art/shadow to an input mask');
+  assert.equal(style('.inspector-dock').zIndex, 'auto');
+  root.classList.add('behind-inspector');
+  dom.window.document.querySelector('.inspector-dock').classList.add('above-grimoire');
+  const inspector = Number(style('.inspector-dock').zIndex);
+  const toolbar = Number(style('.cg-view-controls').zIndex);
+  assert.ok(Number(style('.cg-tabletop').zIndex) < inspector && inspector < toolbar && toolbar < 20);
+  assert.equal(style('.cg-view-controls').position, 'fixed');
   root.classList.add('has-modal');
   assert.equal(style('.cg-tabletop').pointerEvents, 'auto'); assert.ok(Number(style('.cg-tabletop').zIndex) > 80);
   console.log('PASS CSS: surrounding containers pass input; wood/book/overhangs/tools retain input; modal backdrops and garden-screen layering remain active');

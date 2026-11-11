@@ -180,8 +180,37 @@ try {
   await click(launcher()); await click(launcher()); assertSpread('family:Fungi');
   assert.equal(q('.cg-turn-leaf'), null, 'reopen settles at the destination rather than an intermediate turning sheet');
   console.log('PASS closing during an animated jump resumes at the requested destination');
+
+  const parkedBook = book(), parkedPose = pose();
+  const inspectorSetting = () => [...q('.main-menu').querySelectorAll('label')]
+    .find(label => label.textContent === 'Keep Inspector in front of Grimoire').querySelector('input');
+  const closeMenu = () => act(() => q('.main-menu').dispatchEvent(new window.Event('cancel', { cancelable: true })));
+  assert.equal(book().classList.contains('behind-inspector'), false);
+  await click(label('Open main menu'));
+  assert.equal(inspectorSetting().checked, false);
+  assert.ok(q('.cg-view-controls').hasAttribute('inert'));
+  await click(inspectorSetting()); await closeMenu();
+  assert.equal(book(), parkedBook); assertSpread('family:Fungi'); assert.equal(pose(), parkedPose);
+  assert.ok(book().classList.contains('behind-inspector'));
+  assert.ok(q('.inspector-dock').classList.contains('above-grimoire'));
+  assert.equal(q('.cg-view-controls').closest('.cg-tabletop'), null);
+  await click(label('Zoom book in')); assert.notEqual(pose(), parkedPose);
+  await escape(); assert.equal(book(), null, 'toolbar focus keeps Escape in the book');
+  await remount(); await click(launcher());
+  assert.ok(book().classList.contains('behind-inspector')); assertSpread('family:Fungi');
+  await click(label('Write a Grimoire note'));
+  assert.ok(book().classList.contains('has-modal'));
+  assert.ok(q('.workspace').hasAttribute('inert'));
+  assert.ok(q('.cg-view-controls').hasAttribute('inert'));
+  await escape();
+  await click(label('Open main menu'));
+  assert.equal(inspectorSetting().checked, true);
+  await click(inspectorSetting()); await closeMenu();
+  assert.equal(book().classList.contains('behind-inspector'), false);
+  assert.equal(q('.inspector-dock').classList.contains('above-grimoire'), false);
+  console.log('PASS inspector preference persists and toolbar focus and modal priority survive both layer orders');
   assert.deepEqual(errors, []);
-  console.log('11 integrated DOM scenario groups passed. Native hit-testing/visual review remains separate.');
+  console.log('12 integrated DOM scenario groups passed. Native hit-testing/visual review remains separate.');
 } finally {
   if (root) await act(() => root.unmount());
   dom.window.close(); await rm(cache, { recursive: true, force: true });

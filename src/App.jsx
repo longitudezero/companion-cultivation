@@ -123,6 +123,10 @@ export default function App() {
     try { return localStorage.getItem('companion-cultivation:simplified-hex-fills') === 'true'; }
     catch { return false; }
   });
+  const [inspectorInFront, setInspectorInFront] = useState(() => {
+    try { return localStorage.getItem('companion-cultivation:inspector-in-front') === 'true'; }
+    catch { return false; }
+  });
   const [stagingEnabled, setStagingEnabled] = useState(() => {
     try { return Object.keys(garden.staged || {}).length > 0 || localStorage.getItem('companion-cultivation:staging-enabled') !== 'false'; }
     catch { return true; }
@@ -196,6 +200,10 @@ export default function App() {
   useEffect(() => { try { localStorage.setItem('companion-cultivation:inventory-width', String(inventoryWidth)); } catch { /* UI remains usable */ } }, [inventoryWidth]);
   useEffect(() => { try { localStorage.setItem('companion-cultivation:staging-enabled', String(stagingEnabled)); } catch { /* The current session still uses the setting. */ } }, [stagingEnabled]);
   useEffect(() => { try { localStorage.setItem('companion-cultivation:simplified-hex-fills', String(simplifiedHexFills)); } catch { /* The current session still uses the setting. */ } }, [simplifiedHexFills]);
+  useEffect(() => {
+    try { localStorage.setItem('companion-cultivation:inspector-in-front', String(inspectorInFront)); }
+    catch { /* The current session still uses the setting. */ }
+  }, [inspectorInFront]);
 
   useEffect(() => {
     if (!harvestReceipt) return;
@@ -713,7 +721,7 @@ export default function App() {
           onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
       </aside>
       <RuneDivider/>
-      <div className="inspector-dock">
+      <div className={`inspector-dock${showGrimoire && inspectorInFront ? ' above-grimoire' : ''}`}>
       <GardenInspector garden={garden} selection={selection} simulation={simulation} cultivation={cultivation} mycelialHere={mycelialHere}
         onOpenEntry={openSpeciesEntry} clockFraction={clock.fraction} simulationSpeed={clock.speed} onEditStaged={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}
         onUnstage={() => changeStaging(previous => unstagePlanting(previous, selection.key))} onRotate={rotateSelectedHex}
@@ -808,6 +816,7 @@ export default function App() {
     {showMainMenu && <MainMenu onClose={() => setShowMainMenu(false)} onNewGarden={requestTutorial} onLoad={() => fileInput.current?.click()} onSave={saveGameFile}
       onDeveloperToggle={toggleDeveloperTools} developerTools={showDeveloperTools} stagingEnabled={stagingEnabled} stagedCount={stagedCount}
       simplifiedHexFills={simplifiedHexFills} onHexFillChange={setSimplifiedHexFills}
+      inspectorInFront={inspectorInFront} onInspectorLayerChange={setInspectorInFront}
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
     {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}
@@ -817,7 +826,7 @@ export default function App() {
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}
-      entryRequest={bookRequest} onEntryChange={setLastBookEntry}
+      entryRequest={bookRequest} onEntryChange={setLastBookEntry} behindInspector={inspectorInFront}
       onModalChange={setBookModal} suspended={showMainMenu || showGuide || showTaskboard || showShop || showTutorialReset}
       onJournalChange={update => { replaceGarden(update(gardenRef.current)); return true; }} onOpenShop={openShop}
       onClose={() => setShowGrimoire(false)}/>}
