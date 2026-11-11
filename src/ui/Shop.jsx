@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { goldBalance } from '../core/wallet.js';
 import { shopProducts, shopQuote } from '../core/shop.js';
-import { illustrationFor } from '../grimoire/illustrations.js';
 import { stationeryArt } from '../grimoire/stationery-art.js';
+import { itemArt } from './item-art.js';
 import GuildBackButton from './GuildBackButton.jsx';
 import FloatingDust from './FloatingDust.jsx';
 import GameArt from './GameArt.jsx';
@@ -10,7 +10,7 @@ import IllustratedButton from './IllustratedButton.jsx';
 
 export function ShopIcon() { return <GameArt name="shop"/>; }
 
-const productArt = product => product.permanent ? stationeryArt(product.file) : illustrationFor(product.species)?.src;
+const productArt = product => product.permanent ? stationeryArt(product.file) : itemArt(product);
 const shopArt = file => `${import.meta.env?.BASE_URL || '/'}ui/shop/${file}`;
 
 function ShopParchmentCorners() {

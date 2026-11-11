@@ -1,7 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { INVENTORY_PAGES, INVENTORY_PAGE_SLOTS, formatRealDuration } from './core/index.js';
-import { illustrationFor } from './grimoire/illustrations.js';
 import { itemCategory } from './ui/garden-model.js';
+import { itemArt } from './ui/item-art.js';
 import InventoryTooltip from './ui/InventoryTooltip.jsx';
 import SlotVines from './ui/GoldVines.jsx';
 import GameArt from './ui/GameArt.jsx';
@@ -45,7 +45,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
       aria-labelledby={filter === 'all' ? `${bagsId}-tab-${activePage}` : undefined} aria-label={filter === 'all' ? `Bag ${activePage + 1}, 50 squares` : `${FILTERS[filter]} in inventory`}>
       {slots.map(slot => {
         const item = occupied.get(slot);
-        const picture = item?.species ? illustrationFor(item.species) : null;
+        const artwork = itemArt(item);
         return <button key={slot} type="button" data-inventory-slot={slot}
           className={`inventory-square ${item ? `has-item item-${item.type}` : ''} ${item && heldId === item.id ? 'is-held' : ''}`}
           title={!item ? `Empty square ${slot + 1}` : undefined} aria-describedby={hover && item && hover.item.id === item.id ? tooltipId : undefined}
@@ -59,7 +59,7 @@ export default function InventoryGrid({ items, activePage, onPageChange, heldId,
             else if (!item) onChooseSlot(slot);
           }}>
           {item && <>
-            {picture ? <img className="inventory-item-art" src={picture.src} alt="" loading="lazy" draggable="false"/> : <span className="inventory-item-glyph">{ICON[item.type]}</span>}
+            {artwork ? <img className="inventory-item-art" src={artwork} alt="" loading="lazy" draggable="false"/> : <span className="inventory-item-glyph">{ICON[item.type]}</span>}
             <span className="inventory-item-name">{item.species || item.name}</span><span className="inventory-item-quantity">{item.type === 'source-item' ? formatRealDuration(item.remainingHours) : item.quantity}</span></>}
         </button>;
       })}
