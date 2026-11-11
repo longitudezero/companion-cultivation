@@ -1,7 +1,7 @@
 import { normalizeTaskProgress } from './tasks.js';
 import { normalizeShop } from './shop.js';
 import { normalizeJournal } from './journal.js';
-import { CONDITIONS, PROPERTIES, createGarden, distanceBetween, isGarden } from './grid.js';
+import { CONDITIONS, PROPERTIES, createGarden, distanceBetween, edgeKey, isGarden } from './grid.js';
 import { INFLUENCE_TYPES, KINDS, MODES, makeInfluence, makeSpreadInfluence } from './influences.js';
 import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
 import { MYCELIAL_TUNING } from './mycelial.js';
@@ -12,6 +12,7 @@ import { stagePlanting } from './staging.js';
 import { migrateGrimoire } from './grimoire.js';
 import { makePlayerSource, validItemId } from './source-items.js';
 import { SOURCE_ITEMS } from './source-item-catalog.js';
+import { BLOCKER_ITEMS, playerBlockerDefinition } from './blocker-catalog.js';
 import { renameLegacyPlant, legacyPlantName, renamePlantIdentity } from './plant-names.js';
 
 // V6 used the previous plant labels; V7 freezes the new identities. Translate
@@ -68,6 +69,8 @@ export function migrateGarden(saved) {
       spores: Object.fromEntries(Object.entries(saved.inventory.spores || {})
         .filter(([name]) => FUNGI[name]).map(([name, amount]) => [name, cleanCount(amount)])),
       sourceItems: {},
+      blockers: Object.fromEntries(Object.entries(saved.inventory.blockers || {})
+        .filter(([id, count]) => Object.hasOwn(BLOCKER_ITEMS, id) && Number.isSafeInteger(count) && count > 0)),
       trophies: { bambooSteel: cleanCount(saved.inventory.trophies?.bambooSteel) },
     };
     for (const [id, item] of Object.entries(saved.inventory.sourceItems || {})) {
@@ -91,8 +94,12 @@ export function migrateGarden(saved) {
     };
   }
 
-  function migrateBlocker(blocker) {
+  function migrateBlocker(blocker, form) {
     if (blocker?.type !== 'blocker') return null;
+    if (blocker.blockerId != null) {
+      const item = playerBlockerDefinition(blocker);
+      return item?.form === form ? { type: 'blocker', blockerId: item.id } : null;
+    }
     if (blocker.rule === 'full') return { type: 'blocker', rule: 'full', value: '' };
     if (blocker.rule === 'kind' && KINDS.includes(blocker.value)) return { type: 'blocker', rule: 'kind', value: blocker.value };
     if (blocker.rule === 'mode' && MODES.includes(blocker.value)) return { type: 'blocker', rule: 'mode', value: blocker.value };
@@ -171,7 +178,7 @@ export function migrateGarden(saved) {
       continue;
     }
     if (object?.type === 'blocker') {
-      const blocker = migrateBlocker(object);
+      const blocker = migrateBlocker(object, 'hex');
       if (blocker) garden.objects[key] = blocker;
       continue;
     }
@@ -201,8 +208,8 @@ export function migrateGarden(saved) {
   for (const [id, object] of Object.entries(saved.edges)) {
     const [a, b] = id.split('|');
     if (!garden.hexes[a] || !garden.hexes[b] || distanceBetween(a, b) !== 1) continue;
-    const blocker = migrateBlocker(object);
-    if (blocker) garden.edges[id] = blocker;
+    const blocker = migrateBlocker(object, 'edge');
+    if (blocker) garden.edges[edgeKey(a, b)] = blocker;
   }
   // Preserve separately attributed living or retiring contributions, including
   // orphaned colonies whose Mycelord died. Never regrow lost ground on import.

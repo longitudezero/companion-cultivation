@@ -3,7 +3,12 @@ import { previewFungusProfile, previewFungusEffects } from '../core/grimoire-pre
 import { harvestLandmarks } from './garden-model.js';
 
 const typeNames = { seed: 'Plant · Seeds', spore: 'Fungus · Spores', leaf: 'Plant · Leaves',
-  'source-item': 'Temporary Source item', trophy: 'Trophy', legacy: 'Legacy material' };
+  'source-item': 'Temporary Source item', 'blocker-item': 'Reusable Blocker', trophy: 'Trophy', legacy: 'Legacy material' };
+const BLOCKER_FILTER_LABELS = { all: 'all effects', airborne: 'Airborne cultivation',
+  waterborne: 'Waterborne cultivation', Mycelial: 'Mycelial spread and support' };
+export const blockerFilterText = filters => filters.map(filter => BLOCKER_FILTER_LABELS[filter] || filter).join(', ');
+export const blockerPlacementTarget = form => form === 'edge' ? 'an empty shared border' : 'an empty hex';
+
 function environmentLine(effect) {
   const type = INFLUENCE_TYPES.find(t => t.name === effect.name);
   const amount = effect.strength * (type?.direction ?? 1);
@@ -38,6 +43,9 @@ export function inventoryDetails(item, ledger) {
     result.rows = [...definition.propertyEffects.map(environmentLine),
       definition.propagation === 'spread-budget' ? `Directional Spread: ${definition.budget} shared steps` : `Area of Effect: radius ${definition.range}`,
       `Remaining active time at 1×: ${formatRealDuration(item.remainingHours)} · paused`];
+  } else if (item.type === 'blocker-item') {
+    result.description = `Place on ${blockerPlacementTarget(item.form)}. Pick it up to use it again.`;
+    result.rows.push(`Blocks ${blockerFilterText(item.filters)}.`);
   } else result.description = item.type === 'trophy' ? 'A special harvest product.' : 'Material retained from an earlier garden.';
   return result;
 }

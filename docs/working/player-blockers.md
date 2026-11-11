@@ -1,6 +1,6 @@
 # Player Blockers
 
-**Approved catalogue and filter rules · 11 November 2026.** Planned for player items in Inventory and the garden.
+**Approved catalogue and filter rules · 11 November 2026.** Implemented on the progression branch with developer test stock.
 
 ## Catalogue
 
@@ -31,9 +31,12 @@ Each design has an **Edge** form and a **Hex** form with the same fixed filters.
 
 Task **14.2** awards **Root Barriers**, which the player can use in [Contain the spread](task-progression-plan.md#mycelial-ground). Playtest three Edge Root Barriers as the starter bundle. Check a layout where they close the paths toward a crop while the colony stays active on the other side. Final quantity, prices, and availability of the remaining designs belong to the main-task reward and Shop balance review.
 
-## Verification when implemented
+## Implementation checklist
 
-- [ ] Check all nine filter sets in both forms, including alternate routes and unaffected effects.
-- [ ] Verify that a property filter matches its environmental effect and adjacency, and a cultivation mode filter matches cultivation only.
-- [ ] Verify that the Root Barrier can stop a frontier or sever a supported branch, and that removing the piece restores the crossing.
-- [ ] Check placement, pickup, and the Task 14.2 reward with the normal player controls.
+- [x] Add fixed filters for all nine designs in both forms. Environmental filters match properties, mode filters match cultivation, and Mycelial filters match spread and support. Check both forms with alternate routes and unaffected effects.
+- [x] Add reusable Inventory stacks per design and form. Verify grants, placement, pickup, full-inventory handling, save/load, and protection against losing placed pieces during plot resizing.
+- [x] Highlight valid edge and hex targets when holding or dragging a piece. Show its filters in the Inventory tooltip and placement guidance, and provide pickup in the normal Inspector.
+- [x] Add all 18 forms to the developer dispenser for playtesting. Task rewards and Shop availability follow their progression designs.
+- [x] Verify that the Root Barrier can stop a frontier or sever a supported branch, and that removing it restores the crossing.
+
+The full test suite and production build passed. The packaged game passed DOM checks for grants, selection, placement, pickup and autosave reload. Native browser hit-testing and visual review are pending. The progression plan tracks validation of the Task 14.2 reward and Contain the spread when those tasks are implemented.

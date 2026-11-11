@@ -1,4 +1,5 @@
 import { createJournal } from './journal-state.js';
+import { playerBlockerDefinition } from './blocker-catalog.js';
 
 export const CONDITIONS = Object.freeze({
   Moisture: Object.freeze(['Dry', 'Damp', 'Flooded']),
@@ -54,7 +55,7 @@ export function createGarden(columns = 9, rows = 7) {
     inventorySlots: {}, staged: {}, pending: {}, journal: createJournal(),
     grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
       environments: {}, fungalEffects: {}, hazards: {}, transformations: [] },
-    inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, sourceItems: {},
+    inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, sourceItems: {}, blockers: {},
       trophies: { bambooSteel: 0 } } };
 }
 
@@ -69,6 +70,11 @@ export function resizeGarden(garden, columns, rows) {
     object.type === 'source' && object.itemId && !next.hexes[key])) {
     throw new Error('Move deployed Source items into the new plot before resizing.');
   }
+  const cutsBlocker = Object.entries(garden.objects).some(([key, object]) =>
+    !next.hexes[key] && playerBlockerDefinition(object))
+    || Object.entries(garden.edges).some(([key, object]) =>
+      playerBlockerDefinition(object) && key.split('|').some(hex => !next.hexes[hex]));
+  if (cutsBlocker) throw new Error('Retrieve Blockers outside the new plot before resizing.');
   next.clockHours = garden.clockHours || 0;
   next.itemNonce = garden.itemNonce || 0;
   next.colonyNonce = garden.colonyNonce || 0;

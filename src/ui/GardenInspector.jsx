@@ -1,11 +1,12 @@
 import { CARE_TASK, taskStatus } from '../core/tasks.js';
 import React from 'react';
-import { PLANTS, FUNGI, PROPERTIES, CONDITIONS, SOURCE_ITEMS, isPlayerSource,
+import { PLANTS, FUNGI, PROPERTIES, CONDITIONS, SOURCE_ITEMS, isPlayerSource, playerBlockerDefinition,
   availableHarvest, stageOf, formatRealDuration, STARTING_DIRECTIONS } from '../core/index.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import { harvestLandmarks, transformationClue } from './garden-model.js';
 import { germinationProgress } from './view-model.js';
 import { inspectorInfluences } from './inspector-model.js';
+import { blockerFilterText } from './item-details.js';
 import InfluenceCards from './InfluenceCards.jsx';
 import TransformationPanel from './TransformationPanel.jsx';
 import GameArt, { CONDITION_ART } from './GameArt.jsx';
@@ -39,7 +40,7 @@ export function LifecycleBar({ object, contacts, conditions }) {
 }
 
 export default function GardenInspector({ garden, selection, simulation, cultivation, mycelialHere,
-  onOpenEntry, onEditStaged, onUnstage, onRotate, onReturnSource, clockFraction = 0, simulationSpeed = 1 }) {
+  onOpenEntry, onEditStaged, onUnstage, onRotate, onReturnSource, onReturnBlocker, clockFraction = 0, simulationSpeed = 1 }) {
   const key = selection.key;
   const object = selection.type === 'hex' ? garden.objects[key] : null;
   const staged = selection.type === 'hex' ? garden.staged?.[key] : null;
@@ -47,7 +48,9 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
   const hex = selection.type === 'hex' ? garden.hexes[key] : null;
   const organism = ['plant', 'fungus'].includes(object?.type);
   const source = isPlayerSource(object);
-  const title = organism ? object.species : source ? SOURCE_ITEMS[object.catalogId].name
+  const placedBlocker = selection.type === 'edge' ? garden.edges[selection.id] : object?.type === 'blocker' ? object : null;
+  const blocker = playerBlockerDefinition(placedBlocker);
+  const title = blocker ? blocker.name : organism ? object.species : source ? SOURCE_ITEMS[object.catalogId].name
     : staged ? staged.species : pending ? 'Awaiting germination' : object ? object.type === 'blocker' ? 'Hex Blocker' : 'Influence Source'
       : selection.type === 'edge' ? 'Shared hex edge' : `Hex ${key}`;
   const art = organism ? illustrationFor(object.species) : null;
@@ -64,7 +67,7 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     <div className="inspector-portrait">
       {organism ? <button className="portrait-entry" onClick={() => onOpenEntry(object)} title={`Read ${title} in the Grimoire`}
         aria-label={`Open ${title} Grimoire entry`}>{art ? <img src={art.src} alt={`${title} illustration`} draggable="false"/> : <span>❧</span>}</button>
-        : <div className={`portrait-symbol ${pending ? 'pending' : ''}`} aria-hidden="true">{pending ? '?' : staged ? '◌' : source ? '✧' : '⬡'}</div>}
+        : <div className={`portrait-symbol ${pending ? 'pending' : ''}`} aria-hidden="true">{blocker ? blocker.form === 'edge' ? '╱' : '▧' : pending ? '?' : staged ? '◌' : source ? '✧' : '⬡'}</div>}
       <h2>{title}</h2>
       <p>{organism ? object.type === 'plant' ? PLANTS[object.species].family : 'Fungi' : selection.type === 'edge' ? `${selection.a} ↔ ${selection.b}` : object || staged || pending ? `Hex ${key}` : 'Empty soil'}
         {organism && <span className="organism-status">{stageOf(object)}</span>}</p>
@@ -102,7 +105,9 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
         : source ? <><div className="inspector-value"><span>Active time remaining</span><strong>{simulationSpeed ? formatRealDuration(object.remainingHours / simulationSpeed) : 'Paused'}</strong></div>
           <button onClick={onReturnSource}>Return item to inventory</button>
           {directional && <div className="heading-buttons">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`} className={object.heading === heading ? 'selected' : ''} onClick={() => onRotate(key, 'item', heading)}>{heading + 1}</button>)}</div>}</>
-          : <p>{object?.type === 'blocker' ? `Blocks ${object.rule === 'full' ? 'all influences' : `${object.rule}: ${object.value}`}.`
+          : blocker ? <><p>Blocks {blockerFilterText(blocker.filters)}.</p>
+            <div className="inspector-inline-actions"><button onClick={onReturnBlocker}>Return Blocker to inventory</button></div></>
+          : <p>{placedBlocker ? `Blocks ${placedBlocker.rule === 'full' ? 'all influences' : `${placedBlocker.rule}: ${placedBlocker.value}`}.`
             : selection.type === 'edge' ? 'A shared boundary between two neighbouring hexes.' : 'Select an inventory item, then an empty hex to place it.'}</p>}
     </div>
 
