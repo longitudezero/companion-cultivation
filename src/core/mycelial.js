@@ -32,7 +32,7 @@ function passableHex(garden, environment, key) {
     && !isBlocked(garden.objects[key]?.type === 'blocker' ? garden.objects[key] : null, MYCELIAL_EFFECT);
 }
 
-function canConnect(garden, environment, from, to) {
+export function mycelialCanConnect(garden, environment, from, to) {
   return passableHex(garden, environment, from)
     && passableHex(garden, environment, to)
     && !isBlocked(garden.edges[edgeKey(from, to)], MYCELIAL_EFFECT);
@@ -44,7 +44,7 @@ function supportedCells(garden, environment, origin, cells, hasLivingSource) {
   const queue = [origin];
   for (let i = 0; i < queue.length; i += 1) {
     for (const neighbor of neighborsOf(queue[i])) {
-      if (reached.has(neighbor) || !cells[neighbor] || !canConnect(garden, environment, queue[i], neighbor)) continue;
+      if (reached.has(neighbor) || !cells[neighbor] || !mycelialCanConnect(garden, environment, queue[i], neighbor)) continue;
       reached.add(neighbor);
       queue.push(neighbor);
     }
@@ -109,7 +109,7 @@ export function advanceMycelium(garden, environment) {
     if (living && !cells[origin]) eligible.add(origin);
     for (const sourceHex of remainingSupported) {
       for (const target of neighborsOf(sourceHex)) {
-        if (!cells[target] && canConnect(garden, environment, sourceHex, target)) eligible.add(target);
+        if (!cells[target] && mycelialCanConnect(garden, environment, sourceHex, target)) eligible.add(target);
       }
     }
     const frontiers = {};

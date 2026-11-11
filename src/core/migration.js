@@ -7,7 +7,7 @@ import { FUNGI, PLANTS, makeFungus, makePlant } from './species.js';
 import { MYCELIAL_TUNING } from './mycelial.js';
 import { TRANSFORMATIONS } from './transformations.js';
 import { isDesertRecovery } from './desert-transformations.js';
-import { ensureInventorySlots } from './inventory.js';
+import { ensureInventorySlots, INVENTORY_CAPACITY } from './inventory.js';
 import { stagePlanting } from './staging.js';
 import { migrateGrimoire } from './grimoire.js';
 import { makePlayerSource, validItemId } from './source-items.js';
@@ -261,6 +261,8 @@ export function migrateGarden(saved) {
   garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects, plantName, temperatureName);
   garden.journal = normalizeJournal(saved.journal);
   if (saved.tasks != null) garden.tasks = normalizeTaskProgress(saved.tasks);
+  if (Number.isSafeInteger(saved.inventoryCapacity) && saved.inventoryCapacity >= 20
+    && saved.inventoryCapacity <= INVENTORY_CAPACITY) garden.inventoryCapacity = saved.inventoryCapacity;
   if (saved.shop != null || saved.tasks != null) garden.shop = normalizeShop(saved.shop, saved);
   return ensureInventorySlots(garden);
 }

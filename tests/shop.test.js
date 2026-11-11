@@ -45,15 +45,15 @@ test('only starter and task-awarded Spores unlock in tutorials, with recovery af
 test('purchases, sales and later task rewards use one shared Gold balance', () => {
   let garden = firstClaimed();
   garden = tradeShop(garden, 'buy', 'spore:Prismorel', 4).garden;
-  assert.equal(goldBalance(garden), 2);
+  assert.equal(goldBalance(garden), 0);
   assert.equal(garden.inventory.spores.Prismorel, 12);
   garden.tasks.ready.push(CARE_TASK); garden = claimTask(garden, CARE_TASK);
-  assert.equal(goldBalance(garden), 17);
+  assert.equal(goldBalance(garden), 0);
   garden.inventory.leaves.Carrot = 3;
   const sale = tradeShop(garden, 'sell', 'leaf:Carrot', 2);
   assert.equal(sale.receipt.total, 2);
   assert.equal(sale.garden.inventory.leaves.Carrot, 1);
-  assert.equal(goldBalance(sale.garden), 19);
+  assert.equal(goldBalance(sale.garden), 2);
   assert.equal(sale.garden.tasks.gold, undefined);
 });
 
@@ -96,16 +96,16 @@ test('invalid quantities, locked stock and unaffordable purchases leave everythi
 });
 
 test('a full inventory rejects new product stacks atomically but allows topping up an existing stack', () => {
-  let garden = firstClaimed(); garden.inventory.spores.Dewmender = 0;
-  for (let n = 0; n < 198; n++) garden = grantSourceItem(garden, 'ember-pebble');
-  assert.equal(inventoryItems(garden.inventory).length, 200);
+  let garden = withGold(firstClaimed(), 10); garden.inventory.spores.Dewmender = 0;
+  for (let n = 0; n < 18; n++) garden = grantSourceItem(garden, 'ember-pebble');
+  assert.equal(inventoryItems(garden.inventory).length, 20);
   const before = JSON.stringify(garden);
   assert.throws(() => tradeShop(garden, 'buy', 'spore:Dewmender', 4), /Inventory is full/);
   assert.equal(JSON.stringify(garden), before);
   const topup = tradeShop(garden, 'buy', 'spore:Prismorel', 4).garden;
   assert.equal(topup.inventory.spores.Prismorel, 12);
   assert.equal(goldBalance(topup), 2);
-  assert.equal(inventoryItems(topup.inventory).length, 200);
+  assert.equal(inventoryItems(topup.inventory).length, 20);
   assert.equal(tradeShop(garden, 'buy', 'seed:Beanstalk', 10).garden.inventory.seeds.Beanstalk, 46);
 });
 

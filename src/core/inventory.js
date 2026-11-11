@@ -5,6 +5,7 @@ import { BLOCKER_ITEMS } from './blocker-catalog.js';
 export const INVENTORY_PAGE_SLOTS = 50;
 export const INVENTORY_PAGES = 4;
 export const INVENTORY_CAPACITY = INVENTORY_PAGE_SLOTS * INVENTORY_PAGES;
+export const inventoryCapacity = garden => garden.inventoryCapacity ?? INVENTORY_CAPACITY;
 
 export function inventoryItems(inventory = {}) {
   const items = [];
@@ -41,19 +42,20 @@ export function inventoryItems(inventory = {}) {
 }
 
 export function ensureInventorySlots(garden) {
+  const capacity = inventoryCapacity(garden);
   const ids = new Set(inventoryItems(garden.inventory).map(({ id }) => id));
   const occupied = new Set();
   const slots = {};
   for (const [id, index] of Object.entries(garden.inventorySlots || {})) {
-    if (!ids.has(id) || !Number.isInteger(index) || index < 0 || index >= INVENTORY_CAPACITY || occupied.has(index)) continue;
+    if (!ids.has(id) || !Number.isInteger(index) || index < 0 || index >= capacity || occupied.has(index)) continue;
     slots[id] = index;
     occupied.add(index);
   }
   for (const id of ids) {
     if (slots[id] !== undefined) continue;
     let empty = 0;
-    while (occupied.has(empty) && empty < INVENTORY_CAPACITY) empty++;
-    if (empty === INVENTORY_CAPACITY) throw new Error('Inventory is full: no free square for a new item type.');
+    while (occupied.has(empty) && empty < capacity) empty++;
+    if (empty === capacity) throw new Error('Inventory is full: no free square for a new item type.');
     slots[id] = empty;
     occupied.add(empty);
   }
@@ -61,8 +63,9 @@ export function ensureInventorySlots(garden) {
 }
 
 export function moveInventoryStack(garden, id, destination) {
-  if (!Number.isInteger(destination) || destination < 0 || destination >= INVENTORY_CAPACITY) {
-    throw new Error('Inventory square must be between 1 and 200.');
+  const capacity = inventoryCapacity(garden);
+  if (!Number.isInteger(destination) || destination < 0 || destination >= capacity) {
+    throw new Error(`Inventory square must be between 1 and ${capacity}.`);
   }
   const ready = ensureInventorySlots(garden);
   if (!(id in ready.inventorySlots)) throw new Error('This item is not in the inventory.');
@@ -72,4 +75,23 @@ export function moveInventoryStack(garden, id, destination) {
   slots[id] = destination;
   if (occupant && occupant !== id) slots[occupant] = previous;
   return { ...ready, inventorySlots: slots };
+}
+
+export function discardInventoryStack(garden, id) {
+  const item = inventoryItems(garden.inventory).find(candidate => candidate.id === id);
+  if (!item) throw new Error('This item is not in the inventory.');
+  const inventory = { ...garden.inventory };
+  if (item.type === 'legacy') inventory.legacyLeaves = 0;
+  else {
+    const field = { seed: 'seeds', spore: 'spores', leaf: 'leaves', 'source-item': 'sourceItems',
+      'blocker-item': 'blockers', trophy: 'trophies' }[item.type];
+    const key = item.species || (item.type === 'trophy' ? 'bambooSteel' : id);
+    if (Object.values(garden.staged || {}).some(staged => staged.species === key
+      && staged.kind === (item.type === 'seed' ? 'plant' : item.type === 'spore' ? 'fungus' : null))) {
+      throw new Error('Remove the staged planting before discarding this stack.');
+    }
+    inventory[field] = { ...inventory[field] };
+    delete inventory[field][key];
+  }
+  return ensureInventorySlots({ ...garden, inventory });
 }

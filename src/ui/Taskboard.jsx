@@ -1,5 +1,8 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { TASKS, FIRST_TASK, CARE_TASK, taskStatus, taskObjectives } from '../core/tasks.js';
+import { TASKS, FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK, taskStatus, taskObjectives, taskDelivery } from '../core/tasks.js';
+import { SOURCE_ITEMS, SOURCE_ITEM_GROUPS } from '../core/source-item-catalog.js';
+import { BLOCKER_ITEMS } from '../core/blocker-catalog.js';
+import { itemArt } from './item-art.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import GuildBackButton from './GuildBackButton.jsx';
 import GameArt, { GAME_ART, CornerOrnaments, TaskboardWindowOrnaments } from './GameArt.jsx';
@@ -10,14 +13,36 @@ import { TASK_SECTIONS, groupedTasks, taskSection, initialTaskSelection, taskPro
 export function TaskboardIcon() { return <GameArt name="taskboard"/>; }
 
 export function TaskRewards({ rewards }) {
-  return <div className="task-rewards"><div className="task-reward"><GameArt name="gold"/>
-    <span><strong>{rewards.gold}</strong> Gold</span></div>
-    {Object.entries(rewards.spores).map(([species, quantity]) => <div className="task-reward" key={species}>
-      <img src={illustrationFor(species)?.src} alt=""/><span><strong>{quantity}</strong> {species} Spores</span></div>)}</div>;
+  const supplies = ['seeds', 'spores'].flatMap(kind => Object.entries(rewards[kind] || {})
+    .map(([species, quantity]) => ({ name: `${species} ${kind === 'seeds' ? 'Seeds' : 'Spores'}`, quantity,
+      art: illustrationFor(species)?.src })));
+  const items = [...Object.entries(rewards.blockers || {}).map(([id, quantity]) => ({ name: BLOCKER_ITEMS[id].name, quantity })),
+    ...(rewards.sources || []).map(id => ({ name: SOURCE_ITEMS[id].name, quantity: 1,
+      art: itemArt({ type: 'source-item', catalogId: id }) }))];
+  const unlocks = [
+    rewards.family && `${rewards.family} family unlocked`,
+    rewards.rows && `+${rewards.rows} garden row and land purchases`,
+    rewards.slots && `+${rewards.slots} Inventory slots and slot packs`,
+    rewards.sourceGroup && `Shop unlocks ${SOURCE_ITEM_GROUPS[rewards.sourceGroup - 1].name}`,
+    rewards.specialization && `${rewards.specialization} specialization complete`,
+    ...[...(rewards.seedStock || []), ...Object.keys(rewards.spores || {})]
+      .map(species => `Permanent Shop stock: ${species} ${rewards.seedStock?.includes(species) ? 'Seeds' : 'Spores'}`),
+    ...Object.keys(rewards.blockers || {}).map(id => `Shop stock: ${BLOCKER_ITEMS[id].name.replace(/ \(Edge\)$/, '')} (Edge and Hex)`),
+  ].filter(Boolean);
+  const awarded = rewards.gold || supplies.length || items.length || unlocks.length;
+  return <div className="task-rewards">
+    {!!rewards.gold && <div className="task-reward"><GameArt name="gold"/><span><strong>{rewards.gold}</strong> Gold</span></div>}
+    {[...supplies, ...items].map(({ name, quantity, art }) => <div className="task-reward" key={name}>
+      {art && <img src={art} alt=""/>}<span><strong>{quantity}</strong> {name}</span></div>)}
+    {unlocks.map(text => <p className="task-reward" key={text}>{text}</p>)}
+    {!awarded && <p className="task-reward">Progress toward the next assignment.</p>}
+  </div>;
 }
 
-const taskImage = id => illustrationFor(TASKS[id].delivery?.species || (id === FIRST_TASK ? 'Beanstalk' : 'Carrot'));
-const stateLabel = status => ({ ready: 'Ready to complete', completed: 'Completed', 'not-started': 'Begin your guild assignment', active: 'In progress' })[status];
+const taskImage = id => illustrationFor(taskDelivery(id)[0]?.[0] || TASKS[id].goals?.find(goal => goal.into)?.into
+  || (id === FIRST_TASK ? 'Beanstalk' : 'Carrot'));
+const stateLabel = status => ({ ready: 'Ready to complete', completed: 'Completed', 'not-started': 'Begin your guild assignment',
+  active: 'In progress', preview: 'Upcoming delivery' })[status];
 
 // Two identical fields make the reference's slow lateral glow loop seamlessly.
 function HeadingWisps() {
@@ -76,7 +101,7 @@ export function TaskCompletionReceipt({ receipt, onContinue }) {
   </section>;
 }
 
-export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onPin, onRequestTutorial, onInspectCarrot }) {
+export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onPin, onRequestTutorial, onInspectCarrot, onInspect }) {
   const [selected, setSelected] = useState(() => initialTaskSelection(garden, initialTaskId));
   const [collapsed, setCollapsed] = useState(() => ({ main: false, side: false, completed: taskSection(garden, selected) !== 'completed' }));
   const [receipt, setReceipt] = useState(null), [error, setError] = useState('');
@@ -108,6 +133,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
   }, []);
   const groups = groupedTasks(garden), id = selected, task = TASKS[id], status = taskStatus(garden, id);
   const pinned = garden.tasks?.pinned.includes(id), objectives = taskObjectives(garden, id);
+  const delivery = taskDelivery(id);
   function selectTask(candidate) {
     setSelected(candidate); setCollapsed(previous => ({ ...previous, [taskSection(garden, candidate)]: false })); setError('');
   }
@@ -158,17 +184,21 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
           </div></div>
           <div className="task-title-action">{status === 'not-started' ? <button className="task-primary" onClick={onRequestTutorial}>Begin tutorial</button>
             : status === 'completed' ? <p className="task-received">✓ Rewards received</p>
-              : <button className="task-primary task-complete-badge" disabled={status !== 'ready'} onClick={complete}><GameArt name="badgeComplete" stretch/><span>Complete task</span></button>}</div>
+              : status === 'preview' ? <p className="task-received">Upcoming delivery</p>
+              : <button className="task-primary task-complete-badge" disabled={status !== 'ready'} onClick={complete}><GameArt name="badgeComplete" stretch/><span>{delivery.length && id !== CARROT_DELIVERY_TASK ? 'Deliver Leaves' : 'Complete task'}</span></button>}</div>
         </div>
         <div className="task-detail-scroll">
           <div className="task-dialogue">{(status === 'completed' ? task.completion : task.description).map((line, index) => <p key={index}>{line}</p>)}</div>
           <h4>Objectives</h4><ul className="task-objectives">{objectives.map((objective, index) => <li key={index} className={objective.done ? 'done' : ''}>
-            <span className="objective-check" aria-hidden="true">{objective.done ? '✓' : ''}</span><span className="objective-copy"><span className="sr-only">{objective.done ? 'Complete: ' : 'Pending: '}</span>{objective.text}</span></li>)}</ul>
-          {status !== 'completed' && <><h4>Field instructions</h4><ol className="task-instructions">{task.instructions.map((line, index) => <li key={index}>{line}</li>)}</ol></>}
+            <span className="objective-check" aria-hidden="true">{objective.done ? '✓' : ''}</span><span className="objective-copy"><span className="sr-only">{objective.done ? 'Complete: ' : 'Pending: '}</span>{objective.text}{objective.key && <button onClick={() => onInspect(objective.key)}>Inspect hex</button>}</span></li>)}</ul>
+          {status !== 'completed' && !!task.instructions.length && <><h4>Field instructions</h4><ol className="task-instructions">{task.instructions.map((line, index) => <li key={index}>{line}</li>)}</ol></>}
           {id === CARE_TASK && status !== 'completed' && Object.values(garden.objects).some(object => object.species === 'Carrot') && <button onClick={onInspectCarrot}>Inspect my Carrot</button>}
         </div>
         <footer className="task-detail-footer">
-          {task.delivery && status !== 'completed' && <p className="task-delivery-note">Completing this request uses {task.delivery.quantity} {task.delivery.species} Leaves from your inventory.</p>}
+          {!!delivery.length && status !== 'completed' && <p className="task-delivery-note">{status === 'preview'
+            ? 'More requests appear as the family paths open. Complete the five specializations and the Quartermaster’s order to submit your Leaves.'
+            : delivery.length === 1 ? `Completing this request uses ${delivery[0][1]} ${delivery[0][0]} Leaves from your inventory.`
+              : 'Delivery takes the listed amounts. Earlier harvests count and surplus stays in your Inventory.'}</p>}
           {error && <p className="task-error" role="alert">{error}</p>}
           <section className="task-rewards-panel">
             <h4><button className="task-rewards-toggle" aria-expanded={rewardsExpanded} aria-controls={`${prefix}-rewards`}

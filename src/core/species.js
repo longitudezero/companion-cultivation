@@ -138,7 +138,8 @@ export const PLANTS = Object.freeze({
   Beanstalk: ingredient(4, 8, .28, 10, 100, 10, {
     moisture: [.65, 1, .55], light: [.75, .90, 1, .90], preferredTemperature: ['Temperate'],
     lightOutput: [.65, .85, 1, .85], productiveWindow: [90, 130],
-    dryDeath: 72, hotDeath: 72, freezingDeath: 72, mycelialDeath: 48, compatibility: { growthRate: 1, ripeningRate: 1, ...compat('Beanstalk') },
+    // Allow one ordinary Leaf harvest in untreated soil for Shop recovery.
+    dryDeath: 240, hotDeath: 72, freezingDeath: 72, mycelialDeath: 48, compatibility: { growthRate: 1, ripeningRate: 1, ...compat('Beanstalk') },
   }),
   Rice: ingredient(4.75, 9.5, .30, 8, 110, 22, {
     moisture: [.40, .85, 1], light: [.75, .90, 1, .90], preferredTemperature: ['Temperate', 'Hot'],

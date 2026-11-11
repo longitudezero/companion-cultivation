@@ -82,6 +82,7 @@ export function resizeGarden(garden, columns, rows) {
   next.grimoire = garden.grimoire;
   next.journal = garden.journal || createJournal();
   if (garden.tasks) next.tasks = garden.tasks;
+  if (garden.inventoryCapacity != null) next.inventoryCapacity = garden.inventoryCapacity;
   if (garden.shop) next.shop = garden.shop;
   next.inventorySlots = garden.inventorySlots || {};
   next.staged = Object.fromEntries(Object.entries(garden.staged || {}).filter(([key]) => next.hexes[key]));

@@ -1,6 +1,6 @@
 # Task organization, store and progression
 
-> **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER IN DEVELOPMENT** · 29 October 2026. This document defines task fields and shared progression/store rules agreed with the project owner. The four opening tasks are recorded separately. Unconfirmed quantities, rewards, prices, milestones, UI details, and implementation remain open. Do not treat this as an implemented feature.
+> **WORKING DESIGN · AGREED FRAMEWORK, TASK ROSTER IN DEVELOPMENT** · 29 October 2026. This document defines task fields and shared progression/store rules agreed with the project owner. See the [task progression plan](task-progression-plan.md) for the first playable main line and playtest values.
 
 ## Document organization
 
@@ -83,13 +83,13 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 3. **First task: a fully guided transformation.** Show the player how to drag Seeds out of inventory, plant the relevant Fungus so its contact reaches the Plant, and produce/maintain the resolved environmental Conditions required for transformation. The player should understand the relationship between position, Fungus reach, environmental effects, and transformation.
 4. **Immediate follow-up: A Thirsty Carrot.** After the first transformation, gift Dewmender Spores and teach the player to change their new Carrot's Dry soil to Damp so it can grow more comfortably. This is a small care objective, separate from the main discovery challenge.
 5. **Third task: discover two more transformations.** A Thirsty Carrot rewards two new Fungus species. The first-pass choice is **Rilllace and Droughtcap**, enabling **Potato and Onion** with the player's existing Dewmender. Give a loose clue for Potato and the instructor's “Well, I'm sure you can figure it out” for Onion. Do not reveal either full recipe. The player now has four Fungus species to experiment with.
-6. **Fourth task: deliver 8 Carrot Leaves.** Teach growth, Inspector harvest yields, destructive harvesting, and explicit delivery. Warn that harvesting too late leaves the player with Seeds instead of Leaves. The reward is **40 Gold + 8 Emberbolete Spores**, opening the Pumpkin recipe. No expansion is awarded yet.
+6. **Fourth task: deliver 8 Carrot Leaves.** Teach growth, Inspector harvest yields, destructive harvesting, and explicit delivery. Warn that harvesting too late leaves the player with Seeds instead of Leaves. The reward is **8 Emberbolete Spores** and permanent Emberbolete stock, opening the Pumpkin recipe.
 7. **Next milestone direction:** use the Pumpkin discovery to increase garden pressure, then reward **+1 row**. The full Task 5 record still needs a chat draft/review and layout playtesting. Continue alternating discovery and production objectives.
 8. Progressively remove step-by-step instructions; later tasks identify desired outcomes rather than prescribing every action.
 
 **Opening task records:** [My First Transformation — M-3KJ45T](main-tasks.md#m-3kj45t), followed immediately by [A Thirsty Carrot — M-8NQ2VC](main-tasks.md#m-8nq2vc), then [Well, I'm Sure You Can Figure It Out — M-6PT9RX](main-tasks.md#m-6pt9rx), and [Leaves, Please — M-4HV7LK](main-tasks.md#m-4hv7lk). These records own the first recipe, care lesson, Spore handoffs, discovery targets, and reward amounts.
 
-**First-pass early rewards:** Task 1 grants **10 Gold + 8 Dewmender Spores**, with the Spores available when the ready task is completed on the board; Task 2 grants **15 Gold + 8 Rilllace Spores + 8 Droughtcap Spores**; Task 3 grants **30 Gold**; Task 4 grants **40 Gold + 8 Emberbolete Spores**. These are working balance values to test against the future shop economy. **Tasks 1–4 grant no hex or inventory expansion.** The Potato/Onion pair replaces the earlier unfinalized Rice/Potato candidate; Rice can be introduced later. Beanstalk remains the Base Plant.
+**First-pass early rewards.** Task 1 grants **8 Gold and 8 Dewmender Spores**. Task 2 grants **8 Rilllace Spores and 8 Droughtcap Spores**. Task 3 advances the chain. Task 4 grants **8 Emberbolete Spores**. Claiming a Spore reward opens permanent Shop stock. Task 5 grants the first garden row.
 
 ## 3. Family unlock structure — agreed
 
@@ -118,32 +118,30 @@ Related current rules: [V9 transformation recipes](../design/fungi/random-roster
 
 - **Gold coins** are the currency used for store purchases.
 - **Only Leaves can be sold.** Players cannot sell Seeds or Spores (nor other possessions, absent a future explicit design change). Leaves are earned through cultivation and harvesting and retain their existing species-specific identities.
-- **Beanstalk Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Beanstalks without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted as a design goal: it still costs cultivation time and available garden hexes. The first shop pass found that current Dry/Dark Beanstalk biology prevents this zero-Gold/no-Fungi recovery route; a separate balance decision is still needed, as recorded in [shop rules](shop-first-pass.md).
+- **Beanstalk Seeds are always free in the store.** This is the permanent economic recovery mechanism: grow Beanstalks without needing purchased resources, harvest Leaves, sell them for Gold, and use the Gold to replace Seeds or Spores needed for further progress. The resulting renewable Gold loop is accepted as a design goal: it still costs cultivation time and available garden hexes. Beanstalk has 240 garden hours of continuous Dry tolerance so an untreated starter plot can produce Leaves before the crop dies.
 - The store sells **hex-space expansions, inventory expansions, Blockers, Seeds, Spores, and temporary Source items**. See [garden and Inventory capacity](#garden-and-inventory-capacity--agreed) for the first land and Inventory upgrade unlocks.
 - Claiming the first task reward for a Blocker design unlocks that design's **Edge and Hex** forms in the Shop. Prices and the task rewards for individual designs are part of the reward review.
 - Product availability grows with progression. The previously agreed **26 temporary Source items in seven groups** should be unlocked progressively rather than immediately.
 - **Temporary Source items should be relatively expensive** so they function as emergency tools/conveniences rather than replacing the central challenge of combining Fungi. Exact prices and item unlock triggers are not yet decided.
 - Seed/Spore access through the store must support recovery after early mistakes or exhausted supplies; players should not become permanently unable to make progress.
-- **First playable shop prices (31 October):** Beanstalk Seeds are free, unlocked Spores cost 2 Gold each, named Leaves sell for 1 Gold each, and stock is unlimited. Other products and final economy balance remain open. The main-task records now set initial Gold rewards for Tasks 1–4; later reward amounts and final economy balance remain open. It is reasonable to test whether more advanced Plants should produce more economically valuable Leaves, but this is **not yet a locked price table**.
-- Source-item purchases remain deferred; the existing **developer-only Source-item dispenser** remains their testing acquisition mechanism.
+- **Playtest prices.** Beanstalk Seeds are free. Other unlocked Seeds cost 1 Gold each, Spores cost 2, and named Leaves sell for 1. Blockers cost 8. Temporary Source items start at 12 Gold and increase by 4 per group. Land costs 3 Gold per added hex, and a ten-slot pack costs 20 Gold.
 
 ## Garden and inventory capacity — agreed
 
 - A new progression garden starts at **4 columns × 4 rows = 16 hexes**.
 - Claiming **Task 5, A Pumpkin Problem**, awards **+1 garden row** (4 columns × 5 rows) and unlocks the **+1 Row** and **+1 Column** Shop products. Further land expansion comes from the Shop.
-- A row adds one hex per current column. A column adds one hex per current row. Added land preserves the existing planted layout. The Shop shows the added hex count, resulting dimensions, and total Gold price. Price either product by the number of hexes added. The Gold rate per hex is open.
+- A row adds one hex per current column. A column adds one hex per current row. Added land preserves the existing planted layout. The Shop shows the added hex count, resulting dimensions, and total Gold price. Price either product by the number of hexes added. The playtest rate is 3 Gold per hex.
 - Progression gardens can grow to **18 columns × 9 rows**, or **162 hexes**. Row purchases are available up to 9 rows and column purchases up to 18 columns, with each axis checked independently.
 - The exact side/edge placement of new land remains a presentation/implementation detail. No player-selected edge mechanic has been approved.
-- A new progression Inventory starts at **20 slots**. Claiming **Task 7, A Little Rain, A Lot of Sunshine**, awards **+10 slots** and unlocks **+10-slot packs** in the Shop. Further capacity comes from those packs. The pack price and Inventory cap are open.
+- A new progression Inventory starts at **20 slots**. Claiming **Task 7, A Little Rain, A Lot of Sunshine**, awards **+10 slots** and unlocks **+10-slot packs** in the Shop. Further capacity comes from those packs. The first pass caps Inventory at 200 slots and prices each pack at 20 Gold.
 - A slot continues to hold a stack/identity, not a single Seed, Spore, or Leaf. Existing quantity and item-identity rules remain applicable, including individually tracked temporary Source items.
 - Capacity rewards and starter bundles must be coordinated so new task resources can be accepted. Award capacity before accompanying items when needed, and keep unaccepted rewards available; do not lose resources on a full inventory.
-- These are **progression design changes, not live code changes**. The prototype currently has a fixed **200-slot** inventory. The new starting capacity and upgrade path supersede that fixed grant for the future progression mode; existing-save migration and capacity/pagination UI remain to be designed.
+- Earlier saves without an explicit Inventory capacity retain their original 200 slots. New progression saves show the unlocked capacity and available bags.
 - **Tasks 1–4 award no new hexes or inventory slots.** Place capacity rewards later as the chain develops; the earlier suggestion of expanding after A Thirsty Carrot is no longer part of this opening.
 
 ## 6. Inventory cleanup — agreed
 
-- Add a way to **discard unwanted inventory contents** without selling them. This is distinct from selling Leaves for Gold.
-- Discarding is permanent and should give explicit confirmation for meaningful losses. The final controls and stack-quantity interaction are UI design details.
+- Select an Inventory stack and choose **Discard** to remove it after confirmation. Leaves can also be sold through the Shop.
 
 ## 7. Taskboard and pinned objectives — agreed direction
 
@@ -178,18 +176,16 @@ The following choices do **not** block beginning to write the task roster; resol
 5. **Player UX and persistence:** detailed Taskboard layout, pinned-objective limit and responsive behavior, hint visibility, explicit delivery/claim actions, store interface, safe handling of full inventory when awarding bundles, and saved task state.
 6. **Fairness checks:** ensure free Beanstalk Seeds plus ordinary farming can always recover Gold, and no quest requires a Fungus, space, or resource that is locked behind its own reward.
 
-**Implementation status:** The first two main tasks, one basic side delivery, Taskboard/tracker, explicit reward claims and manual time controls are implemented (31 October 2026). Basic Buy/Sell is implemented with a shared Gold wallet, free Beanstalk Seeds, unlocked Spores and Leaf sales. Later progression, expansion/Blocker/Source-item products and purchasable inventory capacity remain design-only. The agreed introductory Beanstalk → Carrot rule and Carrot Dry grace are already implemented separately, as is the completed temporary Source-item phase.
+**Implementation status.** The full main-task roster and its Shop unlocks are playable on the progression branch. The [progression plan](task-progression-plan.md) tracks verification and balance playtesting.
 
 ---
 
 [Working index](README.md) · [Current implementation status](../implementation-status.md)
 
 
-## First Taskboard pass — implemented 31 October 2026
+## Taskboard and rewards
 
-My First Transformation and A Thirsty Carrot are playable, along with A Few Carrot Leaves (S-5CRTLF), the basic side-delivery test. Objectives becoming fulfilled marks a task ready; it does not grant rewards. Complete task on the overlay awards the entire bundle once, displays a Task complete / You received receipt, and unlocks its successor. This supersedes the earlier immediate Dewmender handoff: the Spores, 10 Gold and care assignment now arrive together at the first claim. The second claim awards 15 Gold and 8 each of Rilllace and Droughtcap; no third main task is exposed. The optional side task unlocks with the care task, accepts any 5 currently held Carrot Leaves, and consumes them only when Complete task grants its provisional 10 Gold reward. Falling below five revokes readiness.
-
-Fresh browser games start an isolated 4 × 4 tutorial with 36 Beanstalk Seeds and 8 Prismorel Spores as playtest quantities. Existing saves retain their sandbox gardens; New tutorial garden beside Save/Load uses an explicit replacement confirmation. Inventory remains at the existing 200-square prototype capacity. The full family/store/capacity progression is deferred.
+Fulfilling objectives marks the task ready. Claim the task to receive its bundle and unlocks together. Delivery tasks consume the listed quantities at claim. Falling below a delivery quantity revokes readiness. Fresh progression games start with a 4 × 4 garden, 20 Inventory slots, 36 Beanstalk Seeds, and 8 Prismorel Spores.
 
 The icon beside the Grimoire opens the overlay. Stacked collapsible Main, Side and Completed groups, pin/unpin controls, a collapsible Objectives tracker in the garden’s upper-right corner, and a persistent Gold balance cover the basic flow. Up to three tasks can be pinned; the first starts pinned. If it remains pinned when claimed, its pin transfers to the care task; unpinning is respected. The board retains the selected simulation speed and exposes the same clock controls. Opening/closing it never pauses automatically.
 

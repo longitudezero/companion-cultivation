@@ -28,13 +28,13 @@ function careReady() {
   return advanceGardenTime(garden, 6).garden;
 }
 
-test('the tutorial has two main tasks and one side request, one initial pin, and its isolated starter bundle', () => {
+test('the tutorial opens one task and one pin with its isolated starter bundle', () => {
   const garden = createTutorialGarden();
   assert.equal(garden.columns * garden.rows, 16);
   assert.deepEqual(garden.inventory.seeds, { Beanstalk: 36 });
   assert.deepEqual(garden.inventory.spores, { Prismorel: 8 });
   assert.deepEqual(garden.tasks.pinned, [FIRST_TASK]);
-  assert.equal(TASK_IDS.length, 3);
+  assert.deepEqual(groupedTasks(garden).main, [FIRST_TASK]);
   assert.equal(taskStatus(garden, CARE_TASK), 'locked');
   assert.equal(taskStatus(garden, CARROT_DELIVERY_TASK), 'locked');
   const restored = deserializeGameSave(serializeGameSave(garden));
@@ -56,7 +56,7 @@ test('first-task readiness follows an actual sowing/transformation event, and re
   assert.equal(garden.inventory.spores.Dewmender, undefined);
   assert.equal(taskStatus(garden, CARE_TASK), 'locked');
   garden = claimTask(garden, FIRST_TASK);
-  assert.equal(garden.shop.gold, 10);
+  assert.equal(garden.shop.gold, 8);
   assert.equal(garden.inventory.spores.Dewmender, 8);
   assert.equal(taskStatus(garden, CARE_TASK), 'active');
   assert.deepEqual(garden.tasks.pinned, [CARE_TASK]);
@@ -82,10 +82,10 @@ test('the care task recognizes real Dewmender Wetting without requiring Waterbor
   assert.equal(calculateEnvironment(garden).conditions['1,1'].Moisture, 'Damp');
   assert.equal((calculateCultivation(garden)['1,1'] || []).some(effect => effect.species === 'Dewmender'), false);
   assert.equal(taskStatus(garden, CARE_TASK), 'ready');
-  assert.equal(garden.shop.gold, 10);
+  assert.equal(garden.shop.gold, 8);
   assert.equal(garden.inventory.spores.Rilllace, undefined);
   const completed = claimTask(garden, CARE_TASK);
-  assert.equal(completed.shop.gold, 25);
+  assert.equal(completed.shop.gold, 8);
   assert.equal(completed.inventory.spores.Rilllace, 8);
   assert.equal(completed.inventory.spores.Droughtcap, 8);
   assert.deepEqual(completed.tasks.pinned, []);
@@ -111,8 +111,8 @@ test('claims reject unfinished, locked and already claimed tasks without duplica
 
 test('a full inventory leaves the first reward, Gold and unlock pending atomically', () => {
   let garden = firstReady();
-  for (let n = 0; n < 198; n++) garden = grantSourceItem(garden, 'ember-pebble');
-  assert.equal(inventoryItems(garden.inventory).length, 200);
+  for (let n = 0; n < 18; n++) garden = grantSourceItem(garden, 'ember-pebble');
+  assert.equal(inventoryItems(garden.inventory).length, 20);
   const before = JSON.stringify(garden);
   assert.throws(() => claimTask(garden, FIRST_TASK), /Inventory is full/);
   assert.equal(JSON.stringify(garden), before);
@@ -122,12 +122,12 @@ test('a full inventory leaves the first reward, Gold and unlock pending atomical
 
 test('one free square cannot partially accept the two-species second reward', () => {
   let garden = careReady();
-  for (let n = 0; n < 196; n++) garden = grantSourceItem(garden, 'ember-pebble');
-  assert.equal(inventoryItems(garden.inventory).length, 199);
+  for (let n = 0; n < 16; n++) garden = grantSourceItem(garden, 'ember-pebble');
+  assert.equal(inventoryItems(garden.inventory).length, 19);
   const before = JSON.stringify(garden);
   assert.throws(() => claimTask(garden, CARE_TASK), /Inventory is full/);
   assert.equal(JSON.stringify(garden), before);
-  assert.equal(garden.shop.gold, 10);
+  assert.equal(garden.shop.gold, 8);
 });
 
 test('the side delivery unlocks with the care task and uses current species-specific stock', () => {
@@ -157,7 +157,7 @@ test('explicit side delivery consumes exactly five Carrot Leaves once and retain
   const before = JSON.stringify(garden);
   const delivered = claimTask(garden, CARROT_DELIVERY_TASK);
   assert.deepEqual(delivered.inventory.leaves, { Carrot: 2, Beanstalk: 3 });
-  assert.equal(delivered.shop.gold, 20);
+  assert.equal(delivered.shop.gold, 18);
   assert.deepEqual(delivered.tasks.pinned, [CARE_TASK]);
   assert.equal(taskStatus(delivered, CARE_TASK), 'active');
   assert.equal(taskStatus(delivered, CARROT_DELIVERY_TASK), 'completed');
@@ -252,10 +252,10 @@ test('completion receipts retain each reward and next action while the initial a
     const receipt = TASKS[id], before = JSON.stringify(receipt);
     const markup = renderToStaticMarkup(React.createElement(CompletionReceipt, { receipt, onContinue() {} }));
     assert.match(markup, /role="status" aria-live="polite" aria-labelledby=/);
-    assert.ok(markup.includes(receipt.title));
-    assert.ok(markup.includes(`<strong>${receipt.rewards.gold}</strong>`));
-    for (const [fungus, quantity] of Object.entries(receipt.rewards.spores)) {
-      assert.ok(markup.includes(fungus));
+    assert.ok(markup.includes(receipt.title.replaceAll("'", '&#x27;')));
+    if (receipt.rewards.gold) assert.ok(markup.includes(`<strong>${receipt.rewards.gold}</strong>`));
+    for (const [fungus, quantity] of Object.entries(receipt.rewards.spores || {})) {
+      assert.ok(markup.includes(fungus.replaceAll("'", '&#x27;')));
       assert.ok(markup.includes(`<strong>${quantity}</strong>`));
     }
     assert.match(markup, /class="task-primary receipt-continue" disabled=""/);
@@ -294,14 +294,12 @@ test('task progress shows actual objective completion and current delivery holdi
   assert.deepEqual(taskProgress(delivered, CARROT_DELIVERY_TASK), { current: 5, total: 5, unit: 'Leaves' });
 });
 
-test('a fully completed board opens its history with status checks, supplied reward art and a Back control', () => {
+test('the next main assignment opens with status checks and a Back control', () => {
   let garden = careReady(); garden.inventory.leaves.Carrot = 5;
   garden = claimTask(claimTask(garden, CARE_TASK), CARROT_DELIVERY_TASK);
   const markup = renderToStaticMarkup(React.createElement(Board, { garden, initialTaskId: FIRST_TASK, speed: 1 }));
-  assert.match(markup, /aria-expanded="true" aria-controls="[^"]*-completed"/);
+  assert.match(markup, /aria-expanded="false" aria-controls="[^"]*-completed"/);
   assert.match(markup, /aria-label="Back to garden"/);
-  assert.match(markup, /ui\/gold.webp/);
-  assert.match(markup, /grimoire\/illustrations\/fungi\/dewmender.webp/);
-  assert.match(markup, /Complete: /);
+  assert.match(markup, /Transform Beanstalk into Potato/);
   assert.doesNotMatch(markup, /role="checkbox"|type="checkbox"/);
 });

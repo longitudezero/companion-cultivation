@@ -18,7 +18,7 @@
 - The garden keeps running at the selected speed while the shop is open. Shared speed controls remain available. Escape closes the overlay, focus stays within it, and opening it clears an active garden drag/held item.
 - Browser autosave, `.ccsave` files and plot resizing preserve the wallet and remembered Spore access. Existing garden/task schemas remain readable.
 
-Garden/inventory expansions, Blockers, Source-item purchases, other Seed products, differentiated Leaf values and restock timers are deferred.
+The [progression plan](task-progression-plan.md) extends this first pass with garden and Inventory expansions, Blockers, Source items, and new Seed products.
 
 ## Recovery balance still to resolve
 
