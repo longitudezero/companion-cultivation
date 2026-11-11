@@ -143,6 +143,15 @@ Complete the negative Budget options and add one exceptional moisture Source.
 
 **First-playable Source items and staged-Fungus rotation are complete.** Preserve existing developer Source semantics and compatibility with existing gardens. This completion does **not** approve a store, automatic group unlocks, or final numerical balance.
 
+## Source item artwork
+
+| Change | Verification |
+|---|---|
+| [x] Map the 26 supplied illustrations to the existing Source item catalogue IDs and ship transparent WebP files. | Verified all catalogue IDs have a decodable WebP with the original transparency at the shipped size. All 26 files are included in the production build. |
+| [x] Render the Source illustration on each Inventory square by its catalogue ID. Use the same item artwork lookup in the Shop. | Loaded a test garden with all 26 Sources and checked each Inventory image and paused lifetime. Verified seed, spore and stationery artwork in the Shop. |
+
+The named 256px icons keep their supplied dimensions. The six larger originals ship at 384px. The Shop can resolve Source item artwork when those items are added to stock.
+
 ---
 
 [Working index](README.md) · [Active design index](../design/README.md) · [Implementation status](../implementation-status.md)
