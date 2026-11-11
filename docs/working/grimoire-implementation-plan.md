@@ -3,6 +3,8 @@
 Date: 30 October 2026  
 Status: Initial integration deployed; page-flow and readability follow-up implemented with automated checks complete
 
+**Current follow-up:** The [3 November tabletop experiment and verification plan](grimoire-tabletop-plan.md) records the newer agreed view controls, saved view, physical attachments and stationery fixes on `experiment/grimoire-tabletop`. Use its checklist for that work. Its positioning/interaction decisions supersede conflicting details below for the experiment; they are not a claim that those changes are deployed.
+
 ## Goal and working baseline
 
 Bring the approved illustrated Grimoire into the actual Companion Cultivation game, using its real species catalog, Transformations, and saved discoveries.

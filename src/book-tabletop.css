@@ -1,0 +1,189 @@
+/* One rigid table scene; paper and attached objects keep their local geometry. */
+.cg-tabletop {
+  --page-w: 560px;
+  --page-h: 794.4188px;
+  --corner-w: 134px;
+  --stack-step-x: 1.75px;
+  --stack-step-y: 2px;
+  --tab-w: 178px;
+  --tab-h: 60px;
+  --marker-w: 128.8px;
+  --marker-h: calc(var(--marker-w) * var(--marker-ratio, 2));
+  --marker-reveal: min(132px, calc(var(--marker-h) * .5));
+  overflow: hidden;
+  background: transparent;
+  backdrop-filter: none;
+  pointer-events: none;
+  z-index: 18;
+}
+.cg-tabletop.behind-inspector { z-index: 17; }
+.inspector-dock.above-grimoire { position: relative; z-index: 18; }
+.cg-tabletop.has-modal { pointer-events: auto; z-index: 2000; }
+.cg-tabletop .cg-scene { position: absolute; inset: 0; min-height: 0; padding: 0; display: block; overflow: visible; touch-action: none; }
+.cg-tabletop .cg-scene::before { content: none; }
+.cg-tabletop .cg-shell { position: absolute; left: 0; top: 0; width: var(--table-width); height: var(--table-height); max-width: none;
+  display: block; transform-origin: 0 0; transition: none; cursor: auto; }
+.cg-tabletop .cg-table-surface { position: absolute; inset: 0; cursor: grab; touch-action: none; pointer-events: auto;
+  /* Alpha silhouette of the supplied WebP, with a small outer rim allowance.
+     Clip only the input surface; the artwork and its shadows remain intact. */
+  clip-path: polygon(47.203% 7.5046%, 63.1561% 7.59668%, 64.261% 7.78085%, 65.4351% 8.24125%, 66.5401% 8.9779%,
+    67.3688% 9.89871%, 67.9213% 10.9116%, 68.4047% 12.477%, 68.4738% 14.2265%, 68.5428% 14.3186%,
+    68.5428% 20.7643%, 68.4738% 20.8564%, 68.4738% 21.9613%, 68.1285% 23.5267%, 81.25% 23.6188%,
+    83.4599% 23.8029%, 84.8412% 24.0792%, 86.6367% 24.7238%, 88.2942% 25.6446%, 90.5041% 27.4862%,
+    92.0925% 29.3278%, 93.3356% 31.3536%, 94.3715% 33.8398%, 94.924% 35.8656%, 95.3384% 38.628%,
+    95.3384% 39.733%, 95.4075% 39.825%, 95.4075% 54.7422%, 95.4765% 54.8343%, 95.4765% 56.5838%,
+    95.4075% 56.6759%, 95.4075% 57.6888%, 95.4765% 57.7808%, 95.4765% 74.0792%, 95.4075% 74.1713%,
+    95.3384% 76.4733%, 94.9931% 78.7753%, 94.4406% 80.8932%, 93.8191% 82.4586%, 92.645% 84.5764%,
+    91.3329% 86.2339%, 89.8135% 87.6151%, 88.2251% 88.628%, 87.1892% 89.0884%, 85.8771% 89.4567%,
+    83.8743% 89.733%, 37.3964% 89.825%, 16.1257% 89.825%, 14.0539% 89.6409%, 12.3273% 89.1805%,
+    10.739% 88.4438%, 8.94337% 87.1547%, 7.70028% 85.8656%, 6.66437% 84.4843%, 6.11188% 83.5635%,
+    5.55939% 82.4586%, 4.79972% 80.4328%, 4.3163% 78.407%, 4.04005% 75.9208%, 4.04005% 74.1713%,
+    3.97099% 74.0792%, 3.97099% 40.4696%, 4.04005% 40.3775%, 4.04005% 38.7201%, 4.3163% 36.5101%,
+    4.59254% 35.1289%, 5.00691% 33.7477%, 5.9047% 31.5378%, 6.87155% 29.8803%, 7.97652% 28.407%,
+    9.28867% 27.0258%, 10.5318% 26.0129%, 11.4986% 25.3683%, 13.4323% 24.4475%, 15.4351% 23.895%,
+    17.0235% 23.7109%, 32.0097% 23.6188%, 31.7334% 22.8821%, 31.5262% 21.4088%, 31.5262% 13.4899%,
+    31.6644% 12.2928%, 32.1478% 10.7274%, 33.1837% 9.25414%, 34.5649% 8.24125%, 36.2224% 7.68877%,
+    46.3052% 7.5046%); }
+.cg-tabletop .cg-table-surface:active { cursor: grabbing; }
+.cg-tabletop .cg-table-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; user-select: none;
+  filter: drop-shadow(0 12px 10px #06100b80) drop-shadow(0 30px 28px #06100b55); }
+.cg-tabletop .cg-book-stage { position: absolute; z-index: 2; left: var(--book-left); top: var(--book-top);
+  width: calc(var(--page-w) * 2); height: var(--page-h); padding: 0; }
+.cg-tabletop .cg-book, .cg-view-controls, .cg-tabletop .cg-fixed-preview,
+.cg-tabletop .cg-stationery-backdrop, .cg-tabletop .cg-glossary-backdrop, .cg-tabletop .cg-note-confirm-backdrop { pointer-events: auto; }
+.cg-tabletop .cg-cover { inset: -15px -39px -37px; box-shadow: inset 0 0 0 2px #c39f5978, inset 0 0 0 8px #0f1e1859,
+  0 6px 8px #190f0c88, 0 18px 28px #10090699, 0 28px 45px 6px #140b0766; }
+.cg-tabletop .cg-cover-corner { pointer-events: auto; padding: 0; border: 0; background: none; cursor: grab; touch-action: none; }
+.cg-tabletop .cg-cover-corner:active { cursor: grabbing; }
+.cg-tabletop .cg-cover-corner img { width: 100%; height: 100%; pointer-events: none; }
+.cg-tabletop .cg-cover-corner:focus-visible { outline: 2px dashed #f5d78a; outline-offset: -6px; }
+.cg-tabletop .cg-cover-corner:hover img { filter: brightness(1.12); }
+.cg-tabletop .cg-page-scroll, .cg-tabletop .cg-atlas-viewport { touch-action: pan-y; overscroll-behavior: contain; }
+
+.cg-view-controls { position: fixed; z-index: 19; top: auto; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 3px;
+  width: max-content; max-width: calc(100% - 28px);
+  padding: 5px; border: 1px solid #bd985a; border-radius: 7px; background: #19372beF; color: #f5e0af;
+  box-shadow: 0 3px 10px #160c0966; font: 13px Georgia, serif; }
+.cg-view-controls button { font: inherit; cursor: pointer; height: 34px; min-width: 34px; padding: 0 9px; border: 0; border-radius: 3px;
+  color: inherit; background: transparent; white-space: nowrap; }
+.cg-view-controls button:hover { background: #e5c87526; }
+.cg-view-controls button:focus-visible { outline: 3px solid #f6dfa7; outline-offset: 4px; }
+.cg-view-controls .cg-view-pan { cursor: grab; touch-action: none; }
+.cg-view-controls .cg-view-pan:active { cursor: grabbing; }
+.cg-view-controls output { width: 41px; text-align: center; font-variant-numeric: tabular-nums; }
+.cg-tabletop .cg-fixed-preview { position: absolute; z-index: 29; left: 14px; bottom: 70px; max-width: calc(100% - 28px); }
+
+/* Outward V tip, with the rounded inner end beneath the upper-right paper.
+   Natural 900:600 horizontal art; the whole ribbon and its X tilt together. */
+.cg-tabletop .cg-close-tab { --close-width: 140px; --close-height: calc(var(--close-width) * 2 / 3);
+  --close-glyph-size: calc(var(--close-width) * 26 / 77);
+  left: calc(100% - 35px); right: auto; top: 5px; width: var(--close-width); height: var(--close-height);
+  rotate: -18deg; transform: none; translate: none; transform-origin: 0 50%; padding: 0; z-index: 2; }
+.cg-tabletop .cg-close-tab::before { inset: auto;
+  left: calc((var(--close-width) - var(--close-height)) / 2); top: calc((var(--close-height) - var(--close-width)) / 2);
+  width: var(--close-height); height: var(--close-width);
+  rotate: 90deg; transform: none; clip-path: none; background-size: 100% 100%; }
+.cg-tabletop .cg-close-glyph { position: absolute; left: calc(var(--close-width) * 31 / 77);
+  top: calc((var(--close-height) - var(--close-glyph-size)) / 2); width: var(--close-glyph-size); height: var(--close-glyph-size); }
+.cg-tabletop .cg-close-icon, .cg-tabletop .cg-close-icon-glow { width: calc(var(--close-width) * 2 / 7); height: calc(var(--close-width) * 2 / 7); }
+.cg-tabletop .cg-close-tab:is(:hover, :focus-visible) { translate: 5px 0; rotate: -18deg; }
+
+/* Chapter tabs keep their physical book layout at every viewport size. */
+.cg-tabletop .cg-tabs { position: absolute; inset: 0; width: auto; display: block; transform: none; z-index: 2; }
+.cg-tabletop .cg-tab { position: absolute; top: calc(9% + var(--tab-i) * 10.7% + var(--tab-offset-y, 0px));
+  width: calc(var(--tab-w) * var(--tab-width, 1)); height: calc(var(--tab-h) * var(--tab-height, 1)); }
+.cg-tabletop .cg-tab.left { left: calc(var(--tab-overlap) + var(--tab-inset) - var(--tab-w) * var(--tab-width, 1) - var(--tab-protrusion, 0px)); right: auto;
+  rotate: calc(var(--tab-tilt, 0deg) * -1); transform-origin: calc(100% - var(--tab-overlap) - var(--tab-inset)) 50%; }
+.cg-tabletop .cg-tab.right { right: calc(var(--tab-overlap) + var(--tab-inset) - var(--tab-w) * var(--tab-width, 1) - var(--tab-protrusion, 0px)); left: auto;
+  rotate: var(--tab-tilt, 0deg); transform-origin: calc(var(--tab-overlap) + var(--tab-inset)) 50%; }
+.cg-tabletop .cg-tab.left:is(:hover, :focus-visible, [aria-current="page"]) { translate: -6px 0; }
+.cg-tabletop .cg-tab.right:is(:hover, :focus-visible, [aria-current="page"]) { translate: 6px 0; }
+.cg-tabletop .cg-tab.travelling { visibility: hidden; }
+.cg-tabletop .cg-turn-bookmarks { display: block; }
+.cg-tabletop .cg-tab.left .cg-tab-content { padding: 0 calc(var(--tab-overlap) + var(--tab-inset) - var(--tab-protrusion, 0px) + 8px) 0 12px; }
+.cg-tabletop .cg-tab.right .cg-tab-content { padding: 0 12px 0 calc(var(--tab-overlap) + var(--tab-inset) + var(--tab-protrusion, 0px) + 8px); }
+.cg-tabletop .cg-tab.left .cg-pressed-mark, .cg-tabletop .cg-tab.left .cg-glow-mark { flex-direction: row-reverse; justify-content: flex-start; }
+.cg-tabletop .cg-tab.right .cg-pressed-mark, .cg-tabletop .cg-tab.right .cg-glow-mark { flex-direction: row; justify-content: flex-start; }
+
+/* Keep the normal protruding head in place. Its hinge is 10 units above it,
+   throughout rest/raise/hover; opening never rebases the marker onto the page. */
+.cg-tabletop .cg-personal-bookmark, .cg-tabletop .cg-turn-personal-marker {
+  --marker-w: 128.8px; --marker-h: calc(var(--marker-w) * var(--marker-ratio, 2));
+  --marker-reveal: min(132px, calc(var(--marker-h) * .5)); --marker-orientation: 0deg;
+  --marker-pivot: -10px; --marker-offset: calc(-1 * var(--marker-reveal));
+  top: 0; height: var(--marker-h); rotate: none; transform: none; transform-origin: 50% 0; }
+.cg-tabletop .cg-personal-bookmark.edge-bottom, .cg-tabletop .cg-turn-personal-marker.edge-bottom {
+  top: 100%; --marker-orientation: 180deg; --marker-offset: calc(var(--marker-reveal) + 20px); transform-origin: 50% 0; }
+.cg-tabletop .cg-marker-orientation { transform: none; }
+.cg-tabletop .cg-marker-body { top: var(--marker-offset); bottom: auto; height: var(--marker-h);
+  transform-origin: 50% var(--marker-pivot);
+  transform: rotate(calc(var(--marker-orientation, 0deg) + var(--marker-tilt, 0deg)));
+  clip-path: none; }
+.cg-marker-art { display: block; width: 100%; height: 100%; filter: drop-shadow(2px 3px 2px #0006); overflow: visible; }
+.cg-tabletop .cg-personal-bookmark.is-open { z-index: auto; filter: none; translate: none; }
+.cg-tabletop .cg-personal-bookmark.is-open .cg-marker-body { z-index: 20;
+  /* Override the legacy .is-resting translateY rule at the same specificity
+     as the raised pose. Only the angle may change on the current spread. */
+  transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt)));
+  transition: transform .65s cubic-bezier(.3,.05,.3,1), z-index 0s; }
+.cg-tabletop .cg-personal-bookmark.is-open.is-raised .cg-marker-body { z-index: 1;
+  transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt) + var(--marker-open-angle)));
+  transition: transform .65s cubic-bezier(.3,.05,.3,1), z-index 0s .65s; }
+.cg-tabletop .cg-marker-hover-target { z-index: 1; top: var(--marker-offset); bottom: auto; height: var(--marker-h); transform-origin: 50% var(--marker-pivot);
+  transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt) + var(--marker-open-angle))); }
+.cg-tabletop .cg-marker-hover-target > span { inset: 0; }
+.cg-tabletop .cg-marker-handle { top: calc(var(--marker-reveal) - 38px); left: 12%; right: auto; width: 76%; height: 34px; }
+.cg-tabletop .cg-personal-bookmark.is-open .cg-marker-handle { top: 26%; left: 15%; width: 72%; height: 65%; }
+.cg-tabletop .cg-personal-bookmark .cg-marker-surface-name, .cg-tabletop .cg-turn-personal-marker .cg-marker-surface-name { top: calc(var(--marker-reveal) - 20px); max-height: 17px; color: var(--marker-ink);
+  text-shadow: 0 1px 1px #0002; font-size: 14px; }
+.cg-tabletop .cg-personal-bookmark.is-open .cg-marker-surface-name { top: 37%; max-height: 18%; }
+.cg-tabletop .cg-personal-bookmark.is-open .cg-marker-description { top: 57%; bottom: 15%; font-size: 14px; }
+.cg-tabletop .cg-turn-personal-marker .cg-marker-body { transform: rotate(calc(var(--marker-orientation) + var(--marker-tilt))); }
+.cg-tabletop .cg-personal-bookmark.is-drag-preview .cg-marker-body { top: 0; transform: none; }
+.cg-marker-slots { position: absolute; inset: 0; z-index: 55; pointer-events: none; }
+.cg-slot-guide { position: absolute; height: 44px; display: grid; place-items: center; border: 2px dashed #d9cb92;
+  border-radius: 5px; color: #fff2ca; background: #173c2fe6; font: 11px Georgia, serif; }
+.cg-slot-guide.is-reserved { border-style: solid; color: #ffe0ce; background: #653d31ed; }
+.cg-slot-guide.is-target { outline: 3px solid #fff1b1; outline-offset: 2px; }
+.cg-view-controls > .cg-stationery-issue { top: auto; bottom: calc(100% + 8px); left: 50%; right: auto; transform: translateX(-50%);
+  box-sizing: border-box; width: min(480px, calc(100vw - 28px)); margin: 0; padding: 10px 16px;
+  border: 1px solid #c29a5a; border-radius: 6px; background: #23392bf2; text-align: center; pointer-events: none; }
+.cg-marker-preview .cg-marker-body { --marker-h: 100%; top: 0; transform: none; }
+.cg-marker-preview { height: auto; aspect-ratio: 1 / var(--marker-ratio, 2); }
+
+/* Tools rest in clear wood above the book. Their placement is intrinsic, so
+   resizing the window never changes their distance from the book or table. */
+.cg-tabletop .cg-stationery-tools { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+  transform: none; translate: none; transition: none; display: block; pointer-events: none; }
+.cg-tabletop .cg-stationery-tools .cg-marker-tool { left: var(--marker-tool-x); top: var(--marker-tool-y); right: auto;
+  width: var(--marker-tool-width); height: var(--marker-tool-height); rotate: var(--marker-tool-rotation); }
+.cg-tabletop .cg-stationery-tools .cg-marker-tool img { rotate: none; }
+.cg-tabletop .cg-stationery-tools .cg-inkwell { left: var(--inkwell-tool-x); top: var(--inkwell-tool-y); right: auto;
+  width: var(--inkwell-tool-width); height: var(--inkwell-tool-height); rotate: var(--inkwell-tool-rotation); }
+
+/* Zoom handles small windows; the book's print and geometry stay intrinsic. */
+.cg-tabletop .cg-page-content { padding: 40px; overflow: hidden; }
+.cg-tabletop .cg-page-content.cg-grimoire-ornament { padding: 119px 42px 71px; }
+.cg-tabletop .cg-page-content.cg-chapter-left { padding-left: 156.8px; padding-right: 42px; }
+.cg-tabletop .cg-page-content.cg-chapter-right { padding-left: 42px; padding-right: 156.8px; }
+.cg-tabletop .cg-page-content.cg-subdued-ornament { padding: 55.6px 53.2px 43.7px; }
+.cg-tabletop .cg-entry-page .cg-plate { flex-basis: 381.32px; min-height: 180px; width: calc(100% + 52px); margin-inline: -26px; }
+.cg-tabletop .cg-entry-caption { padding-top: 24px; }
+.cg-tabletop .cg-page-content h1 { font-size: 32px; }
+.cg-tabletop .cg-page-content h2 { font-size: 19px; }
+.cg-tabletop .cg-page-content p { font-size: 15px; }
+.cg-tabletop .cg-page-content .cg-small { font-size: 13px; }
+.cg-tabletop .cg-eyebrow { font-size: 10px; }
+.cg-tabletop .cg-fact strong { font-size: 14px; }
+.cg-tabletop .cg-tab-content { font-size: 16px; }
+.cg-tabletop .cg-paper-writing, .cg-tabletop .cg-note-layer .cg-edit-note { font-size: 17px; }
+.cg-tabletop .cg-atlas-page h1 { font-size: 28px; }
+@media (max-width: 600px) {
+  .cg-view-controls { top: auto; bottom: 8px; left: 50%; max-width: calc(100% - 16px); flex-wrap: wrap; gap: 1px; }
+  .cg-view-controls button { min-width: 32px; padding: 0 7px; }
+  .cg-tabletop .cg-fixed-preview { bottom: 104px; left: 8px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cg-tabletop .cg-marker-body, .cg-tabletop .cg-personal-bookmark.is-open .cg-marker-body,
+  .cg-tabletop .cg-personal-bookmark.is-open.is-raised .cg-marker-body { transition: none; }
+}

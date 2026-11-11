@@ -11,22 +11,8 @@
 .cg-scene.has-markers { padding-top: clamp(230px, calc(var(--page-w) * .66), 410px); }
 .cg-book-stage { --marker-dock: 0px; padding-bottom: calc(40px + var(--note-dock) + var(--marker-dock)); }
 .cg-book-stage.has-bottom-markers { --marker-dock: calc(var(--marker-h) + 56px); }
-/* This tray is a direct child of the overlay, outside the scrolling book. */
-.cg-stationery-tools { --table-size: clamp(280px, 28vw, 370px); --table-crop: clamp(32px, 3.5vw, 48px); --table-peek: 48px;
-  position: fixed; top: calc(var(--table-size) * -.2); right: calc(-1 * var(--table-crop)); left: auto;
-  width: var(--table-size); height: var(--table-size); transform: none; z-index: 25; display: block; pointer-events: auto;
-  translate: calc(var(--table-size) - var(--table-crop) - var(--table-peek)) 0;
-  transition: translate .38s cubic-bezier(.22,.7,.3,1); }
-.cg-stationery-tools.is-expanded { translate: 0 0; }
-.cg-stationery-tools > .cg-stationery-table { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
-  filter: drop-shadow(-4px 7px 8px #0005); user-select: none; pointer-events: none; }
+/* The tabletop view supplies the tools' intrinsic placements. */
 .cg-stationery-tools button { position: absolute; display: grid; place-items: center; pointer-events: auto; }
-.cg-stationery-tools .cg-inkwell { top: 30%; right: 18%; width: 43%; height: 58%; }
-.cg-stationery-tools .cg-marker-tool { top: 28%; left: 12%; width: 25%; height: 57%; rotate: 15deg; }
-.cg-stationery-tools .cg-table-handle { left: 0; top: calc(50% - 22px); width: 44px; height: 44px;
-  border: 1px solid #b89954; border-radius: 50%; background: #173d2de8; color: #f4d999; font: 26px/1 Georgia,serif;
-  box-shadow: 0 2px 5px #0005; }
-.cg-stationery-tools .cg-table-handle:hover { background: #29533c; }
 .cg-stationery-tools button img, .cg-stationery-tools .cg-marker-tool img { width: 100%; height: 100%; object-fit: contain; }
 .cg-stationery-tools button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .cg-stationery-tools button:focus-visible { outline-offset: -3px; border-radius: 10px; }
@@ -131,7 +117,7 @@
   .cg-close-tab, .has-personal-markers .cg-close-tab { left: auto; right: 8px; top: -51px;
     width: 48px; height: 76px; padding: 9px 9px 28px; rotate: -4deg; }
   .cg-close-tab:is(:hover, :focus-visible) { translate: 0 -6px; rotate: -4deg; }
-  .cg-marker-description { font-size: 11px; }.cg-stationery-tools { --table-size: 240px; --table-crop: 32px; --table-peek: 44px; }
+  .cg-marker-description { font-size: 11px; }
   .cg-personal-bookmark .cg-marker-surface-name, .cg-turn-personal-marker .cg-marker-surface-name {
     top: calc(var(--marker-reveal) - 13px); max-height: 12px; white-space: nowrap; display: block; text-overflow: ellipsis; }
   .cg-note-appearance { grid-template-columns: 1fr; gap: 8px; }.cg-marker-composer { grid-template-columns: 1fr; gap: 10px; }.cg-marker-preview { width: 145px; height: 340px; }

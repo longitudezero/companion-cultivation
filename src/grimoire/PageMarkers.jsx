@@ -4,11 +4,18 @@ import { PAGE_MARKERS } from '../core/stationery.js';
 import { movePageMarker } from '../core/journal.js';
 import { stationeryArt } from './stationery-art.js';
 import { BOOK_ENTRIES, entryName } from './book.js';
-import { markerPage, markerIsLeft, markerDisplayX, markerDrop, markerTilt, markerWritingStyle, layoutPageMarkers, markerWidth, MARKER_REST_MS, MARKER_HOVER_LEAVE_MS } from './stationery-model.js';
+import { markerPage, markerIsLeft, markerDisplayX, markerDrop, markerTilt, markerWritingStyle, layoutPageMarkers, markerWidth, withinMarkerDropArea, MARKER_ART, MARKER_REST_MS, MARKER_HOVER_LEAVE_MS } from './stationery-model.js';
+import { useBookCoordinates } from './BookView.jsx';
+import { bookRectangle } from './book-view.js';
+import MarkerSlots from './MarkerSlots.jsx';
 
 function MarkerArtwork({ marker, children }) {
   const name = marker.name || (marker.entryKey ? String(markerPage(marker)) : '');
-  return <span className="cg-marker-body" aria-hidden={children ? undefined : true}><img src={stationeryArt(PAGE_MARKERS[marker.styleId].file)} alt="" draggable="false"/>
+  const source = MARKER_ART[marker.styleId];
+  return <span className="cg-marker-body" aria-hidden={children ? undefined : true}>
+    <svg className="cg-marker-art" viewBox={source.box.join(' ')} aria-hidden="true" focusable="false">
+      <image href={stationeryArt(PAGE_MARKERS[marker.styleId].file)} width={source.width} height={source.height}/>
+    </svg>
     {name && <strong className="cg-marker-surface-name" aria-hidden="true">{name}</strong>}
     {marker.description && <span className="cg-marker-description" aria-hidden="true">{marker.description}</span>}{children}</span>;
 }
@@ -16,8 +23,9 @@ export function MarkerPreview({ marker }) {
   return <div className="cg-marker-preview" style={markerWritingStyle(marker.styleId)}><MarkerArtwork marker={marker}/></div>;
 }
 
-function PageMarker({ marker, ledger, current, busy, reduced, travelling, navigate, onChange, onEdit, onIssue, displayX }) {
+function PageMarker({ marker, journal, ledger, current, busy, reduced, travelling, navigate, onChange, onEdit, onIssue, displayX }) {
   const anchor = useRef(null), gesture = useRef(null), suppress = useRef(false);
+  const coordinates = useBookCoordinates();
   const leaveTimer = useRef(null);
   const [book, setBook] = useState(null), [raised, setRaised] = useState(false), [hovered, setHovered] = useState(false), [focused, setFocused] = useState(false);
   const [draft, setDraft] = useState(null);
@@ -35,10 +43,11 @@ function PageMarker({ marker, ledger, current, busy, reduced, travelling, naviga
   }, [active, reduced, marker.entryKey, marker.side]);
   useEffect(() => () => window.clearTimeout(leaveTimer.current), []);
   function start(event) {
-    if (event.button !== 0 || busy) return;
-    event.stopPropagation(); suppress.current = false;
-    const book = anchor.current.closest('.cg-book').getBoundingClientRect();
-    gesture.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, book, width: markerWidth(book.width / 2), dragged: false };
+    if (event.button !== 0 || event.isPrimary === false || gesture.current || busy) return;
+    onIssue?.('');
+    event.preventDefault(); event.stopPropagation(); suppress.current = false;
+    const element = anchor.current.closest('.cg-book'), book = bookRectangle(coordinates.size(element));
+    gesture.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, element, book, width: markerWidth(book.width / 2), dragged: false };
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
   function move(event) {
@@ -47,14 +56,16 @@ function PageMarker({ marker, ledger, current, busy, reduced, travelling, naviga
     event.stopPropagation();
     if (!drag.dragged && Math.hypot(event.clientX - drag.x, event.clientY - drag.y) <= 5) return;
     drag.dragged = true;
-    drag.next = markerDrop(drag.book, event.clientX - drag.book.left, drag.width, event.clientY - drag.book.top, marker.edge);
-    setDraft({ left: event.clientX - drag.book.left - drag.width / 2, top: event.clientY - drag.book.top - 32 });
+    const point = coordinates.point(event, drag.element);
+    drag.next = markerDrop(drag.book, point.x, drag.width, point.y, marker.edge);
+    drag.inside = point.x >= drag.book.width / 2 && withinMarkerDropArea(drag.book, point.x, point.y);
+    setDraft({ left: point.x - drag.width / 2, top: point.y - 32, drop: drag.inside ? drag.next : null });
   }
   function finish(event, cancelled = false) {
     const drag = gesture.current;
     if (!drag || event.pointerId !== drag.pointerId) return;
     event.stopPropagation(); gesture.current = null; suppress.current = drag.dragged || cancelled;
-    if (drag.dragged && !cancelled) {
+    if (drag.dragged && !cancelled && drag.inside) {
       try { onChange(garden => movePageMarker(garden, marker.slot, current.key, drag.next.side, drag.next.x, drag.next.edge)); }
       catch (issue) { onIssue?.(issue.message); }
     }
@@ -65,7 +76,7 @@ function PageMarker({ marker, ledger, current, busy, reduced, travelling, naviga
     data-marker-phase={active ? resting ? 'resting' : 'raised' : undefined}
     className={`cg-personal-bookmark edge-${marker.edge} ${left ? 'left' : 'right'}${active ? ` is-open ${resting ? 'is-resting' : 'is-raised'}` : ''}${travelling ? ' travelling' : ''}${draft ? ' is-dragging' : ''}`}
     style={{ ...markerWritingStyle(marker.styleId), '--marker-half': Number(!left), '--marker-outer-left': Number(left), '--marker-x': displayX / 100,
-      '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-open-angle': `${(left ? -1 : 1) * 158}deg`,
+      '--marker-tilt': `${markerTilt(marker.slot)}deg`, '--marker-open-angle': `${(left ? -1 : 1) * 165}deg`,
       '--marker-rest-angle': '0deg' }}
     onPointerDown={start} onPointerMove={move} onPointerUp={event => finish(event)}
     onPointerCancel={event => finish(event, true)} onLostPointerCapture={event => finish(event, true)}
@@ -81,27 +92,28 @@ function PageMarker({ marker, ledger, current, busy, reduced, travelling, naviga
     <button className="cg-marker-handle" disabled={busy} title={`${label}. Drag onto a page to move this marker.`}
       aria-label={`${active ? 'Edit marker' : 'Open marked page'}: ${label}`} aria-current={active ? 'page' : undefined}
       onKeyDown={event => {
-        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
         event.stopPropagation(); event.preventDefault();
-        const side = event.altKey ? event.key === 'ArrowLeft' ? 'left' : 'right' : marker.side;
+        const side = 'right';
         const entryKey = event.altKey ? current.key : marker.entryKey;
-        const x = event.altKey ? marker.x : marker.x + (event.key === 'ArrowLeft' ? -2 : 2);
-        try { onChange(garden => movePageMarker(garden, marker.slot, entryKey, side, x)); }
+        const x = event.altKey || ['ArrowUp', 'ArrowDown'].includes(event.key) ? marker.x : marker.x + (event.key === 'ArrowLeft' ? -20 : 20) * (left ? -1 : 1);
+        const edge = event.key === 'ArrowUp' ? 'top' : event.key === 'ArrowDown' ? 'bottom' : marker.edge;
+        try { onChange(garden => movePageMarker(garden, marker.slot, entryKey, side, x, edge)); }
         catch (issue) { onIssue?.(issue.message); }
       }}/>
     </MarkerArtwork></span>
   </div>;
   return <>{active && book ? createPortal(content, book) : content}
-    {draft && book && createPortal(<div className="cg-personal-bookmark is-drag-preview" aria-hidden="true"
+    {draft && book && createPortal(<><MarkerSlots journal={journal} size={coordinates.size(book)} drop={draft.drop} movingSlot={marker.slot}/><div className="cg-personal-bookmark is-drag-preview" aria-hidden="true"
       style={{ ...markerWritingStyle(marker.styleId), left: draft.left, top: draft.top }}>
-      <MarkerArtwork marker={marker}/></div>, book)}
+      <MarkerArtwork marker={marker}/></div></>, book)}
   </>;
 }
 
 export function PersonalBookmarks({ journal, ledger, current, busy, reduced = false, navigate, movingMarkers = [], onChange, onEdit, onIssue }) {
   const positions = layoutPageMarkers(journal.bookmarks, current);
   return <nav className="cg-personal-bookmarks" aria-label="Marked pages">{journal.bookmarks.map(marker =>
-    <PageMarker key={marker.slot} marker={marker} ledger={ledger} current={current} busy={busy} reduced={reduced} navigate={navigate}
+    <PageMarker key={marker.slot} marker={marker} journal={journal} ledger={ledger} current={current} busy={busy} reduced={reduced} navigate={navigate}
       displayX={positions.get(marker.slot)} travelling={movingMarkers.some(item => item.slot === marker.slot)} onChange={onChange} onEdit={onEdit} onIssue={onIssue}/>)}</nav>;
 }
 

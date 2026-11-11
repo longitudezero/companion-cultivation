@@ -21,6 +21,7 @@ import { inventoryWidthFor } from './ui/view-model.js';
 import { HEX_SIZE, plantingPopoverPosition } from './ui/hex-model.js';
 import { restoreStagingPlan } from './ui/garden-model.js';
 import { art as grimoireArt } from './grimoire/art.js';
+import { BOOK_PAGE_KEY, restoreBookEntry } from './grimoire/book.js';
 import { DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
 import './spread.css';
 import './adjacency.css';
@@ -106,7 +107,13 @@ export default function App() {
   const [autosaveStatus, setAutosaveStatus] = useState('Saving…');
   const [showGuide, setShowGuide] = useState(false);
   const [showGrimoire, setShowGrimoire] = useState(false);
+  const [bookModal, setBookModal] = useState(false);
   const [bookEntry, setBookEntry] = useState(null);
+  const [lastBookEntry, setLastBookEntry] = useState(() => {
+    try { return restoreBookEntry(localStorage.getItem(BOOK_PAGE_KEY)); }
+    catch { return restoreBookEntry(null); }
+  });
+  const [bookRequest, setBookRequest] = useState(0);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
   const [shopCategory, setShopCategory] = useState('supplies');
@@ -114,6 +121,10 @@ export default function App() {
   const [showMainMenu, setShowMainMenu] = useState(false);
   const [simplifiedHexFills, setSimplifiedHexFills] = useState(() => {
     try { return localStorage.getItem('companion-cultivation:simplified-hex-fills') === 'true'; }
+    catch { return false; }
+  });
+  const [inspectorInFront, setInspectorInFront] = useState(() => {
+    try { return localStorage.getItem('companion-cultivation:inspector-in-front') === 'true'; }
     catch { return false; }
   });
   const [stagingEnabled, setStagingEnabled] = useState(() => {
@@ -189,6 +200,10 @@ export default function App() {
   useEffect(() => { try { localStorage.setItem('companion-cultivation:inventory-width', String(inventoryWidth)); } catch { /* UI remains usable */ } }, [inventoryWidth]);
   useEffect(() => { try { localStorage.setItem('companion-cultivation:staging-enabled', String(stagingEnabled)); } catch { /* The current session still uses the setting. */ } }, [stagingEnabled]);
   useEffect(() => { try { localStorage.setItem('companion-cultivation:simplified-hex-fills', String(simplifiedHexFills)); } catch { /* The current session still uses the setting. */ } }, [simplifiedHexFills]);
+  useEffect(() => {
+    try { localStorage.setItem('companion-cultivation:inspector-in-front', String(inspectorInFront)); }
+    catch { /* The current session still uses the setting. */ }
+  }, [inspectorInFront]);
 
   useEffect(() => {
     if (!harvestReceipt) return;
@@ -198,23 +213,27 @@ export default function App() {
 
   function openMainMenu() {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowMainMenu(true);
+    setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowMainMenu(true);
   }
-  function openGrimoire() {
+  function openGrimoire(entryKey = lastBookEntry) {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(null); setShowGrimoire(true);
+    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(entryKey); setBookRequest(value => value + 1); setShowGrimoire(true);
+  }
+  function toggleGrimoire() {
+    if (showGrimoire) setShowGrimoire(false);
+    else openGrimoire();
   }
   function openTaskboard(id = FIRST_TASK) {
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
+    setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
   }
   function openShop(category = 'supplies', entryKey = null) {
     setShopCategory(['papers', 'bookmarks'].includes(category) ? category : 'supplies');
     setShopReturnEntry(entryKey);
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowGrimoire(false); setShowTaskboard(false); setShowGuide(false); setShowShop(true);
+    setShowTaskboard(false); setShowGuide(false); setShowShop(true);
   }
   function tradeInShop(mode, id, quantity) {
     const result = tradeShop(gardenRef.current, mode, id, quantity);
@@ -245,6 +264,7 @@ export default function App() {
   function openSpeciesEntry(object) {
     setShowShop(false);
     setBookEntry(`${object.type === 'fungus' ? 'fungus' : 'plant'}:${object.species}`);
+    setBookRequest(value => value + 1);
     setShowGrimoire(true);
   }
 
@@ -291,13 +311,19 @@ export default function App() {
 
   useEffect(() => {
     const escape = event => {
-      if (event.key === 'Escape' && !showGrimoire && !showGuide && !showTaskboard && !showShop && !showMainMenu) {
+      if (event.key === 'Escape' && !event.defaultPrevented && !showGuide && !showTaskboard && !showShop && !showMainMenu) {
         setHeldItem(null); setQuantityPrompt(null); setInventoryOpen(false);
       }
     };
     window.addEventListener('keydown', escape);
     return () => window.removeEventListener('keydown', escape);
-  }, [showGrimoire, showGuide, showTaskboard, showShop, showMainMenu]);
+  }, [showGuide, showTaskboard, showShop, showMainMenu]);
+
+  useEffect(() => { if (bookModal) dragCleanup.current?.(); }, [bookModal]);
+  useEffect(() => {
+    try { localStorage.setItem(BOOK_PAGE_KEY, lastBookEntry); }
+    catch { /* App state still remembers the spread when storage is blocked. */ }
+  }, [lastBookEntry]);
 
   function changeGarden(fn) {
     try {
@@ -621,7 +647,7 @@ export default function App() {
   return <div className="app-shell" style={{ '--inventory-width': `${inventoryWidth}px` }}>
     <input ref={fileInput} type="file" accept=".ccsave,.json,application/json" hidden aria-label="Choose a game save file" onChange={importGarden}/>
 
-    <div className="workspace" inert={showMainMenu || undefined}>
+    <div className="workspace" inert={showMainMenu || bookModal || undefined}>
       <div className="layout-ornaments" aria-hidden="true">{['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(corner => <img key={corner} className={corner} src={grimoireArt(`corners/${corner}`)} alt=""/>)}</div>
       {showDeveloperTools && <aside className="sidebar sidebar-left developer-workbench">
         <SectionTitle eyebrow="TEST ONLY" title="Developer tools" />
@@ -688,21 +714,22 @@ export default function App() {
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
         <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
         <InventoryGrid items={items} activePage={inventoryPage} onPageChange={setInventoryPage} stagingEnabled={stagingEnabled}
-          heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || showGrimoire || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
+          heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || bookModal || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
           onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
           onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
           onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
       </aside>
       <RuneDivider/>
-      <div className="inspector-dock">
+      <div className={`inspector-dock${showGrimoire && inspectorInFront ? ' above-grimoire' : ''}`}>
       <GardenInspector garden={garden} selection={selection} simulation={simulation} cultivation={cultivation} mycelialHere={mycelialHere}
         onOpenEntry={openSpeciesEntry} clockFraction={clock.fraction} simulationSpeed={clock.speed} onEditStaged={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}
         onUnstage={() => changeStaging(previous => unstagePlanting(previous, selection.key))} onRotate={rotateSelectedHex}
         onReturnSource={() => changeGarden(previous => pickupSourceItem(previous, selection.key))}/>
       <nav className="inspector-navigation" aria-label="Garden navigation">
         <button className="main-menu-launcher" onClick={openMainMenu} title="Open main menu" aria-label="Open main menu"><MainMenuIcon/></button>
-        <button className="grimoire-launcher" onClick={openGrimoire} title="Open Cultivation Grimoire" aria-label="Open Cultivation Grimoire"><img src={grimoireArt('book-launcher')} alt="" draggable="false"/></button>
+        <button className="grimoire-launcher" onClick={toggleGrimoire} title={`${showGrimoire ? 'Close' : 'Open'} Cultivation Grimoire`}
+          aria-label={`${showGrimoire ? 'Close' : 'Open'} Cultivation Grimoire`} aria-expanded={showGrimoire}><img src={grimoireArt('book-launcher')} alt="" draggable="false"/></button>
         <button className="taskboard-launcher" onClick={() => openTaskboard()} title="Open Taskboard" aria-label="Open Taskboard"><TaskboardIcon/>
           {TASK_IDS.some(id => taskStatus(garden, id) === 'ready') && <span className="task-ready-badge" aria-label="Tasks ready to complete">!</span>}</button>
         <button className="shop-launcher" onClick={openShop} title="Open Shop" aria-label="Open Shop"><ShopIcon/></button>
@@ -763,7 +790,7 @@ export default function App() {
       </aside></details>}
     </div>
 
-    {quantityPrompt && <div className="quantity-popover" role="dialog" aria-label="Choose planting quantity"
+    {quantityPrompt && <div className="quantity-popover" role="dialog" aria-label="Choose planting quantity" inert={bookModal || undefined}
       style={{ left: quantityPrompt.x, top: quantityPrompt.y }}>
       <div className="mini-heading">{stagingEnabled ? 'STAGE' : 'PLANT'} {quantityPrompt.species.toUpperCase()} {quantityPrompt.kind === 'plant' ? 'SEEDS' : 'SPORES'}</div>
       <div className="quantity-stepper"><IllustratedButton art="minus" label="Decrease quantity" disabled={quantityPrompt.quantity <= 1} onClick={() => setQuantityPrompt(previous => ({ ...previous, quantity: Math.max(1, previous.quantity - 1) }))}/>
@@ -789,15 +816,18 @@ export default function App() {
     {showMainMenu && <MainMenu onClose={() => setShowMainMenu(false)} onNewGarden={requestTutorial} onLoad={() => fileInput.current?.click()} onSave={saveGameFile}
       onDeveloperToggle={toggleDeveloperTools} developerTools={showDeveloperTools} stagingEnabled={stagingEnabled} stagedCount={stagedCount}
       simplifiedHexFills={simplifiedHexFills} onHexFillChange={setSimplifiedHexFills}
+      inspectorInFront={inspectorInFront} onInspectorLayerChange={setInspectorInFront}
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
     {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}
-      initialCategory={shopCategory} onOpenGrimoire={() => { openGrimoire(); setBookEntry(shopReturnEntry); }}/>}
+      initialCategory={shopCategory} onOpenGrimoire={() => openGrimoire(shopReturnEntry || lastBookEntry)}/>}
     {showTaskboard && <Taskboard garden={garden} initialTaskId={taskEntry}
       onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}
+      entryRequest={bookRequest} onEntryChange={setLastBookEntry} behindInspector={inspectorInFront}
+      onModalChange={setBookModal} suspended={showMainMenu || showGuide || showTaskboard || showShop || showTutorialReset}
       onJournalChange={update => { replaceGarden(update(gardenRef.current)); return true; }} onOpenShop={openShop}
       onClose={() => setShowGrimoire(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>

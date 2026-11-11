@@ -153,10 +153,10 @@ test('Fungus Transformations render only learned destination links, with no reci
   assert.doesNotMatch(spread(helpfulOnly, 'right', ledger), /aria-label="Open Carrot/);
 });
 
-test('the integrated modal opens at a family overview with engraved controls, sixteen sheets, and no numbered-name leaks', () => {
+test('the nonmodal book opens at a family overview with engraved controls, sixteen sheets, and no numbered-name leaks', () => {
   const ledger = createGrimoire(), before = JSON.stringify(ledger);
   const rendered = renderToStaticMarkup(React.createElement(Grimoire, { garden: { grimoire: ledger }, onClose() {} }));
-  assert.match(rendered, /role="dialog" aria-modal="true"/);
+  assert.match(rendered, /role="dialog" aria-modal="false"/);
   assert.match(rendered, /cg-tab left[^>]*aria-current="page"/);
   assert.match(rendered, /Transformation Atlas/);
   assert.match(rendered, /cg-close-icon/);

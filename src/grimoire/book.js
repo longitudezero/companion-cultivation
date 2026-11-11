@@ -35,6 +35,9 @@ export const BOOK_ENTRIES = Object.freeze(CHAPTERS.flatMap((chapter, index) => {
   }))];
 }).map((entry, index) => Object.freeze({ ...entry, index, page: index * 2 + 1 })));
 
+export const BOOK_PAGE_KEY = 'companion-cultivation:book-page:v1';
+export const restoreBookEntry = key => BOOK_ENTRIES.some(entry => entry.key === key) ? key : BOOK_ENTRIES[0].key;
+
 export function entryKnown(entry, ledger, preview = false) {
   return entry.kind !== 'plant' || preview || plantKnown(ledger, entry.species);
 }
