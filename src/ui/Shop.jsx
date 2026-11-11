@@ -4,6 +4,7 @@ import { shopProducts, shopQuote } from '../core/shop.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import { stationeryArt } from '../grimoire/stationery-art.js';
 import GuildBackButton from './GuildBackButton.jsx';
+import FloatingDust from './FloatingDust.jsx';
 import GameArt from './GameArt.jsx';
 import IllustratedButton from './IllustratedButton.jsx';
 
@@ -61,10 +62,14 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
   }
   return <div className="taskboard-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
     <div className="shop-frame-vines" aria-hidden="true">
+      <div className="shop-banner-pole"><img src={shopArt('banner-pole.png')} alt="" draggable="false"/></div>
       <img className="shop-frame-vine-top" src={shopArt('ivy-top.webp')} alt="" draggable="false"/>
       <img className="shop-frame-vine-bottom" src={shopArt('ivy-bottom.webp')} alt="" draggable="false"/>
     </div>
-    <div className="shop-illustration" aria-hidden="true"><img src={shopArt('interior.webp')} alt="" draggable="false"/></div>
+    <div className="shop-illustration" aria-hidden="true">
+      <img src={shopArt('interior.webp')} alt="" draggable="false"/>
+      <FloatingDust/>
+    </div>
     <header className="shop-header"><h2>The Garden Shop</h2>
       <span className="task-wallet"><GameArt name="gold"/>{goldBalance(garden)} Gold</span><GuildBackButton onClick={onClose}/></header>
     <div className="shop-body"><section className="shop-stock" aria-label={mode === 'buy' ? 'Shop stock' : 'Leaves to sell'}>

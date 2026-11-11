@@ -24,6 +24,12 @@
       "source": "Ornate Gold Corner Filigree Collection(2).png",
       "sha256": "2e79ca5201c111aa9873ecd7bf5355638d6853c2cb12042d13b43d232d830fa5",
       "bytes": 916586
+    },
+    {
+      "file": "banner-pole.png",
+      "source": "Golden Vine-Wrapped Banner Pole.png",
+      "sha256": "0a7a929a7e0a50df09d13decc3c3237b93abe5792460809a71c1cedacb7f6240",
+      "bytes": 701297
     }
   ]
 }

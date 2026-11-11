@@ -4,6 +4,7 @@
 .shop-modal {
   --shop-ink: #3c3424; --shop-gold: #bd9c5c; --shop-forest: #102f22; --shop-parchment: #eddfbd;
   --shop-scene-width: clamp(200px, 21vw, 285px); --shop-detail-width: 330px;
+  --shop-pole-height: clamp(38px, 7vw, 96px); --shop-pole-rise: 18px;
   display: grid; grid-template-columns: var(--shop-scene-width) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr);
   width: min(1380px, calc(100vw - 44px)); height: min(920px, calc(100dvh - 44px));
   overflow: visible; border: 3px double #c6a15e; background: radial-gradient(ellipse at 65% 20%, #1d442b88, transparent 70%), #0c281d;
@@ -12,10 +13,15 @@
 .shop-illustration > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 43% center; }
 .shop-illustration::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, #102d2010 60%, #102d2070), linear-gradient(#102d2022, transparent 25% 75%, #102d2044); }
 .shop-frame-vines { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
-.shop-frame-vines img { position: absolute; display: block; height: auto; filter: drop-shadow(0 3px 3px #04190d66); }
+.shop-frame-vines > img { position: absolute; z-index: 1; display: block; height: auto; filter: drop-shadow(0 3px 3px #04190d66); }
+.shop-banner-pole { position: absolute; top: calc(-1 * var(--shop-pole-rise)); left: 18px; right: 6px;
+  height: var(--shop-pole-height); overflow: hidden; filter: drop-shadow(0 2px 2px #04190d66); }
+/* The pole occupies rows 224–510 of the supplied 724px canvas. */
+.shop-banner-pole img { position: absolute; top: calc(-224 / 286 * 100%); left: 0; width: 100%; height: calc(724 / 286 * 100%); }
 .shop-frame-vine-top { top: -20px; left: -18px; width: calc(var(--shop-scene-width) + 42px); }
 .shop-frame-vine-bottom { bottom: -12px; left: -15px; width: calc(var(--shop-scene-width) + 48px); }
-.shop-header { grid-column: 2; display: flex; align-items: center; gap: 18px; min-width: 0; padding: 16px 22px 16px 34px; border-bottom: 3px double #a78648; color: #f4dfaa; }
+.shop-header { grid-column: 2; display: flex; align-items: center; gap: 18px; min-width: 0;
+  padding: calc(var(--shop-pole-height) - var(--shop-pole-rise) + 8px) 22px 16px 34px; border-bottom: 3px double #a78648; color: #f4dfaa; }
 .shop-header h2 { margin: 0 auto 0 0; font: 34px/1.15 Georgia, serif; }
 .shop-header .task-wallet { flex-shrink: 0; gap: 7px; padding: 6px 13px; border: 1px solid #a58a4f; border-radius: 999px; font: 18px Georgia, serif; background: #142e20aa; white-space: nowrap; }
 .shop-header .task-wallet .game-art { width: 28px; height: 28px; }
@@ -99,8 +105,9 @@
   .shop-header .task-wallet .game-art { width: 23px; height: 23px; }
 }
 @media (max-width: 540px) {
-  .shop-modal { width: calc(100vw - 26px); height: calc(100dvh - 28px); }
-  .shop-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; padding: 14px 12px 12px 82px; }
+  .shop-modal { --shop-pole-rise: 10px; width: calc(100vw - 26px); height: calc(100dvh - 28px); }
+  .shop-banner-pole { left: 12px; }
+  .shop-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; padding-right: 12px; padding-bottom: 12px; padding-left: 82px; }
   .shop-header h2 { grid-column: 1 / -1; font-size: 24px; }
   .shop-header .task-wallet { justify-self: start; }
   .shop-header .guild-back { width: 92px; }
