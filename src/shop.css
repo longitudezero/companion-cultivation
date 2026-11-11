@@ -38,8 +38,18 @@
 .shop-header .guild-back { width: 120px; height: 40px; font-size: 15px; }
 .shop-body { grid-column: 2; display: grid; grid-template-columns: minmax(0, 1fr) var(--shop-detail-width); min-height: 0; min-width: 0; }
 .shop-stock { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 20px; color: #e4d1a4; }
-.shop-tabs { flex-shrink: 0; width: 190px; max-width: 100%; margin-bottom: 12px; }
-.shop-tabs button { padding: 8px 14px; font-size: 15px; }
+.shop-badge-button { position: relative; isolation: isolate; display: grid; place-items: center; min-width: 0;
+  border: 0; border-radius: 10px; background: none; color: #f4dfaa; font: 16px/1.2 Georgia, serif;
+  text-shadow: 0 1px 2px #071a12; cursor: pointer; transition: transform .2s ease; }
+.shop-badge-button > .game-art { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%;
+  filter: drop-shadow(0 2px 3px #0006); transition: filter .2s ease; }
+.shop-badge-button:enabled:is(:hover, :focus-visible) { transform: translateY(-2px); }
+.shop-badge-button:enabled:is(:hover, :focus-visible) > .game-art { filter: brightness(1.15) drop-shadow(0 0 4px #e2bb6355); }
+.shop-badge-button:enabled:active { transform: scale(.97); }
+.shop-tabs { display: flex; gap: 6px; flex-shrink: 0; width: 224px; max-width: 100%; margin-bottom: 12px; }
+.shop-tabs button { flex: 1; min-height: 36px; padding: 4px 14px; }
+.shop-tabs button[aria-selected='true'] { color: #fff2c7; font-weight: bold; }
+.shop-tabs button[aria-selected='true'] > .game-art { filter: brightness(1.24) drop-shadow(0 0 4px #e2bb6388); }
 .shop-categories { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .shop-categories button { flex: 1 1 auto; padding: 9px 10px; border: 1px solid #9a844b; border-radius: 6px; background: #153523; color: #ead7a4; font: 13px Georgia, serif; cursor: pointer; }
 .shop-categories button[aria-selected='true'] { border-color: #e5c87b; background: linear-gradient(#f6dfa5, #e4c785); color: #293c26; box-shadow: 0 1px 5px #0002; }
@@ -48,9 +58,11 @@
 .shop-product { position: relative; display: flex; flex-direction: column; align-items: center; min-height: 208px; padding: 16px 8px 12px; color: #f0dfac; background: radial-gradient(ellipse at top, #304a2b88, #102d20 85%); border: 1px solid #a28c4c; border-radius: 11px; text-align: center; cursor: pointer; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
 .shop-product.selected { border-color: #f4d990; box-shadow: 0 0 0 1px #e0bd6a, inset 0 0 24px #bda35d22; }
 .shop-product:hover { transform: translateY(-2px); border-color: #e6ca7c; background: radial-gradient(ellipse at top, #446134, #173a25 85%); }
-.shop-product > img { width: 112px; height: 112px; max-width: 100%; object-fit: contain; margin-bottom: 8px; filter: drop-shadow(0 3px 3px #0005); }
+.shop-product-art { display: block; width: 112px; height: 112px; max-width: 100%; margin-bottom: 8px; }
+.shop-product-art[data-inventory-type] { padding: 6px; border-width: 1px; border-style: solid; border-radius: 7px; }
+.shop-product-art img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 3px 3px #0005); }
 .shop-product strong { font: 15px/1.3 Georgia, serif; margin-bottom: 9px; }
-.shop-product-type { position: absolute; top: 8px; left: 8px; color: #d7c789; font: 9px Georgia, serif; letter-spacing: .04em; }
+.shop-product-type { position: absolute; z-index: 1; top: 8px; left: 8px; color: #d7c789; font: 9px Georgia, serif; letter-spacing: .04em; }
 .shop-product-type .game-art { width: 23px; height: 24px; }
 .shop-unit-price { display: flex; align-items: center; justify-content: center; gap: 3px; margin-top: auto; font: 13px Georgia, serif; color: #f3d58b; }
 .shop-unit-price .game-art { width: 21px; height: 21px; }
@@ -82,10 +94,8 @@
 .shop-transaction strong { color: #536b38; }
 .shop-quote-error { color: #953d2b; font: 12px/1.4 Georgia, serif; margin: 0 0 8px; }
 .shop-quote-error:empty { display: none; }
-.shop-trade-button { width: 100%; margin-top: 8px; padding: 12px 10px; border: 3px double #dab363; border-radius: 12px; background: linear-gradient(#375936, #173e26); box-shadow: inset 0 0 0 2px #102f20, 0 3px 4px #61462233; color: #fff0bf; font: 21px Georgia, serif; cursor: pointer; transition: transform .2s ease, filter .2s ease, box-shadow .2s ease; }
-.shop-trade-button:enabled:is(:hover, :focus-visible) { transform: translateY(-2px); filter: brightness(1.12); box-shadow: inset 0 0 0 2px #102f20, 0 0 12px #d9b15b77; }
-.shop-trade-button:enabled:active { transform: scale(.97); }
-.shop-trade-button:disabled { opacity: .55; cursor: default; }
+.shop-trade-button { align-self: center; width: min(100%, 220px); min-height: 60px; margin-top: 8px; padding: 9px 32px; font-size: 18px; }
+.shop-trade-button:disabled { opacity: .64; cursor: default; }
 .shop-grimoire-link { align-self: center; margin-top: 14px; border: 0; background: none; color: #435c37; font: 14px Georgia, serif; text-decoration: underline; cursor: pointer; }
 .shop-receipt { margin-top: 16px; padding: 11px; border: 1px solid #ad9559; background: #58784119; color: #456138; font: 12px/1.5 Georgia, serif; }
 .shop-receipt strong, .shop-receipt span { display: block; }
@@ -124,12 +134,12 @@
   .shop-frame-vine-top { width: 140px; top: -16px; left: -17px; }
   .shop-frame-vine-bottom { width: 120px; left: -16px; bottom: -11px; }
   .shop-product { min-height: 190px; }
-  .shop-product > img { width: 95px; height: 95px; }
+  .shop-product-art { width: 95px; height: 95px; }
   .shop-trade-art { height: 180px; }
   .shop-parchment-corners .shop-parchment-corner { width: 80px; height: 70px; }
   .shop-launcher, .shop-launcher svg { width: 34px; height: 38px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .shop-product, .shop-trade-button { transition: none; }
-  .shop-product:hover, .shop-trade-button:enabled:is(:hover, :focus-visible, :active) { transform: none; }
+  .shop-product, .shop-badge-button, .shop-badge-button > .game-art { transition: none; }
+  .shop-product:hover, .shop-badge-button:enabled:is(:hover, :focus-visible, :active) { transform: none; }
 }

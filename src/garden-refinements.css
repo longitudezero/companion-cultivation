@@ -93,11 +93,11 @@
 .inventory-square-grid .inventory-item-art { width: 49px; height: 49px; }
 .inventory-square-grid .inventory-item-name { position: absolute; bottom: 3px; left: 3px; right: 3px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 10px; }
 .inventory-square-grid .inventory-square { --inventory-accent: #bea26a; --inventory-tint: #3b4731; }
-.inventory-square-grid .item-seed, .inventory-filters [data-inventory-type="seed"] { --inventory-accent: #f4cf62; --inventory-tint: #9b7526; --inventory-edge: #5b451d; }
-.inventory-square-grid .item-leaf, .inventory-filters [data-inventory-type="leaf"] { --inventory-accent: #a0db8e; --inventory-tint: #327f4b; --inventory-edge: #183f2b; }
-.inventory-square-grid .item-spore, .inventory-filters [data-inventory-type="spore"] { --inventory-accent: #d4a2f0; --inventory-tint: #8050a2; --inventory-edge: #43265f; }
+.inventory-square-grid .item-seed, :is(.inventory-filters, .shop-catalogue) [data-inventory-type="seed"] { --inventory-accent: #f4cf62; --inventory-tint: #9b7526; --inventory-edge: #5b451d; }
+.inventory-square-grid .item-leaf, :is(.inventory-filters, .shop-catalogue) [data-inventory-type="leaf"] { --inventory-accent: #a0db8e; --inventory-tint: #327f4b; --inventory-edge: #183f2b; }
+.inventory-square-grid .item-spore, :is(.inventory-filters, .shop-catalogue) [data-inventory-type="spore"] { --inventory-accent: #d4a2f0; --inventory-tint: #8050a2; --inventory-edge: #43265f; }
 .inventory-square-grid .item-source-item, .inventory-square-grid .item-trophy, .inventory-square-grid .item-legacy, .inventory-filters [data-inventory-type="item"] { --inventory-accent: #8cdcf4; --inventory-tint: #2e94b9; --inventory-edge: #174b67; }
-.inventory-square-grid .inventory-square.has-item { border-color: var(--inventory-accent); background: radial-gradient(ellipse at 50% 35%, var(--inventory-tint), var(--inventory-edge, #192e22)); box-shadow: inset 0 0 0 1px #ffffff08; }
+.inventory-square-grid .inventory-square.has-item, .shop-product-art[data-inventory-type] { border-color: var(--inventory-accent); background: radial-gradient(ellipse at 50% 35%, var(--inventory-tint), var(--inventory-edge, #192e22)); box-shadow: inset 0 0 0 1px #ffffff08; }
 .inventory-square-grid .has-item .inventory-item-name { bottom: 2px; padding: 2px 3px; background: linear-gradient(90deg, transparent, #10231de6 12%, #10231de6 88%, transparent); }
 .inventory-square-grid .inventory-square.has-item:hover { box-shadow: inset 0 0 12px #ffffff15; }
 .inventory-square-grid .inventory-square.is-held { box-shadow: 0 0 12px #d6b76677; }
