@@ -8,6 +8,11 @@ export const HEX_ART = {
   Temperature: { Freezing: 'temperature-freezing.webp', Cold: 'temperature-cold.webp',
     Temperate: 'temperature-temperate.webp', Hot: 'temperature-hot.webp', Scorching: 'temperature-scorching.webp' },
 };
+export const HEX_ORGANISM_ART = new Map([
+  ['Beanstalk', 'beanstalk.webp'],
+  ['Carrot', 'carrot.webp'],
+  ['Prismorel', 'prismorel.webp'],
+]);
 const DX = Math.sqrt(3) * HEX_SIZE;
 const Y_STEP = 1.5 * HEX_SIZE;
 const ORIGIN = 90; // Leaves room for the direction handle at every plot edge.

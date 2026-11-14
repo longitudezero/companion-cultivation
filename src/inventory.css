@@ -21,7 +21,7 @@
 .inventory-item-shortname { position: absolute; bottom: 1px; left: 2px; font-size: 7px; line-height: 1; color: #c6d9bf; text-transform: uppercase; }
 .inventory-item-quantity { position: absolute; bottom: 1px; right: 2px; font-size: 9px; font-weight: 800; color: #fff4cb; padding: 0 1px; text-shadow: 1px 1px #14241d; }
 .inventory-held-hint { margin: 10px 0 0; color: #ebd296; font-size: 10px; line-height: 1.5; }
-.garden-svg .hex-cell:has(.staged-glyph),.garden-svg .hex-cell:has(.organism-glyph) { touch-action: none; }
+.garden-svg .hex-cell:has(.staged-glyph),.garden-svg .hex-cell:has(.hex-organism) { touch-action: none; }
 .garden-svg .hex-cell:has(.hex-glyph), .garden-svg .rotation-drag-handle { touch-action: none; }
 .rotation-drag-handle { cursor: grab; }
 .rotation-drag-handle:active { cursor: grabbing; }
