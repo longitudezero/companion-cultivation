@@ -2,7 +2,7 @@ import React from 'react';
 import { neighborsOf, edgeKey, isMycelial, isPlayerSource, playerBlockerDefinition, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
 import GameArt, { CONDITION_ART } from './ui/GameArt.jsx';
-import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
+import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, HEX_ORGANISM_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
@@ -111,6 +111,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const fill = PALETTES.Moisture[Moisture];
         const border = PALETTES.Temperature[Temperature];
         const object = garden.objects[key];
+        const organismArt = HEX_ORGANISM_ART.get(object?.species);
         const blocker = playerBlockerDefinition(object);
         const preview = plantingPreview?.key === key ? plantingPreview : null;
         const staged = garden.staged?.[key];
@@ -155,12 +156,16 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
               <circle cx={c.x} cy={c.y - 7} r="12" fill={isPlayerSource(object) ? '#5c452b' : '#203e31'} stroke="#e7cd88" strokeWidth="1.4"/>
               <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{isPlayerSource(object) ? '✧' : object.anchor ? '✥' : '✦'}</text>
             </>}
-            {['plant', 'fungus'].includes(object?.type) && <>
-              <circle cx={c.x} cy={c.y - 7} r="16" fill={object.type === 'plant' ? '#264d31' : '#514332'} stroke={object.type === 'plant' ? '#9cdaa1' : '#e4b98e'} strokeWidth="1.8" pointerEvents="none"/>
-              <text x={c.x} y={c.y - 2} className="hex-glyph organism-glyph" textAnchor="middle">{object.type === 'plant' ? '❧' : '♧'}</text>
+            {['plant', 'fungus'].includes(object?.type) && <g className="hex-organism">
+              {organismArt ? <image className="hex-organism-art" href={hexArt(`organisms/${organismArt}`)}
+                x={c.x - 20} y={c.y - 29} width={40} height={40} preserveAspectRatio="xMidYMax meet"
+                pointerEvents="none" aria-hidden="true"/> : <>
+                <circle cx={c.x} cy={c.y - 7} r="16" fill={object.type === 'plant' ? '#264d31' : '#514332'} stroke={object.type === 'plant' ? '#9cdaa1' : '#e4b98e'} strokeWidth="1.8" pointerEvents="none"/>
+                <text x={c.x} y={c.y - 2} className="hex-glyph organism-glyph" textAnchor="middle">{object.type === 'plant' ? '❧' : '♧'}</text>
+              </>}
               <rect x={c.x - 20} y={c.y + 13} width="40" height="4" rx="2" fill="#121c17" pointerEvents="none"/>
               <rect x={c.x - 20} y={c.y + 13} width={40 * object.progress / 200} height="4" rx="2" fill={object.type === 'plant' ? '#a5d7a6' : '#e0bb8d'} pointerEvents="none"/>
-            </>}
+            </g>}
             {object?.type === 'blocker' && <>
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.4},${c.y-4+(y-(c.y-4))*.4}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
               <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text>
