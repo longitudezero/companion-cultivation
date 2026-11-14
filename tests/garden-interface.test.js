@@ -202,12 +202,26 @@ test('both terrain styles present resolved moisture, temperature and illuminatio
     assert.ok(cell.includes(`ui/hexes/${HEX_ART.Temperature[conditions.Temperature]}`), 'resolved temperature selects the rim artwork');
     assert.ok(cell.indexOf('hex-moisture-art') < cell.indexOf('hex-temperature-art'));
     assert.ok(cell.indexOf('hex-temperature-art') < cell.indexOf('hex-selection'), 'selection stays above the illustrated rim');
-    assert.ok(cell.includes(`ui/light-${conditions.Illumination.toLowerCase()}.webp`));
-    assert.match(cell, /width="24" height="24" viewBox=/, 'nested art has an explicit viewport, independent of its source dimensions');
+    const lightLevel = { Dark: 25, Dim: 50, Lit: 75, Bright: 100 }[conditions.Illumination];
+    assert.ok(cell.includes('ui/hexes/meters/illumination-medallion.webp'));
+    assert.ok(cell.includes(`data-illumination-meter="${lightLevel}"`), 'illumination is represented by a readable stepped edge meter');
+    assert.ok(!cell.includes('class="hex-label"'), 'moisture is communicated by the terrain fill rather than repeated text');
     assert.ok(cell.includes('class="hex-selection"'), 'selection keeps a separate inset ring');
   }
   assert.equal(PALETTES.Temperature.Freezing, '#fff5e4');
   assert.notEqual(PALETTES.Temperature.Freezing, PALETTES.Temperature.Cold);
+});
+
+test('living organisms use the lower edge growth meter and the freed central space', () => {
+  const garden = placeObject(createGarden(3, 3), '0,0', { ...makePlant('Beanstalk'), progress: 136 });
+  const markup = render(HexGrid, { garden, simulation: calculateEnvironment(garden), tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
+  const occupied = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
+  const empty = markup.split('data-garden-hex="1,0"')[1].split('data-garden-hex=')[0];
+  assert.ok(occupied.includes('data-growth-meter="68"'));
+  assert.ok(occupied.includes('ui/hexes/meters/growth-medallion.webp'));
+  assert.match(occupied, /class="hex-organism-art"[^>]*width="50" height="50"/);
+  assert.ok(!empty.includes('data-growth-meter='));
+  assert.ok(!empty.includes('growth-medallion.webp'));
 });
 
 test('every condition and terrain style has an available WebP hex asset', async () => {
@@ -215,6 +229,11 @@ test('every condition and terrain style has an available WebP hex asset', async 
     const file = assets[condition];
     assert.ok(file, `${property}: ${condition}`);
     const bytes = await readFile(new URL(`../public/ui/hexes/${file}`, import.meta.url));
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+  }
+  for (const file of ['growth-medallion.webp', 'illumination-medallion.webp', 'center-clasp.webp']) {
+    const bytes = await readFile(new URL(`../public/ui/hexes/meters/${file}`, import.meta.url));
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
     assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
   }
