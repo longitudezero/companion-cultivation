@@ -1,8 +1,8 @@
 import { FUNGI, PLANTS } from './species.js';
 import { TASKS, PUMPKIN_TASK, INVENTORY_TASK } from './tasks.js';
-import { SPECIALIZATION_FINALES } from './main-task-definitions.js';
 import { resizeGarden } from './grid.js';
 import { SOURCE_ITEM_GROUPS } from './source-item-catalog.js';
+import { unlockedSourceGroup } from './source-item-progression.js';
 import { BLOCKER_ITEMS } from './blocker-catalog.js';
 import { grantSourceItem } from './source-items.js';
 import { grantBlockerItem } from './blocker-items.js';
@@ -21,8 +21,7 @@ function progressionProducts(garden) {
   const seedStock = [...new Set(rewards.flatMap(reward => reward.seedStock || []))].sort();
   const unlockedBlockers = new Set(rewards.flatMap(reward => Object.keys(reward.blockers || {}))
     .map(id => id.split(':')[1]));
-  const baseGroup = Math.max(0, ...rewards.map(reward => reward.sourceGroup || 0));
-  const group = baseGroup === 2 ? baseGroup + SPECIALIZATION_FINALES.filter(id => claimed.includes(id)).length : baseGroup;
+  const group = unlockedSourceGroup(garden);
   const upgrades = [];
   if (claimed.includes(PUMPKIN_TASK)) {
     for (const [axis, name, addedHexes] of [['rows', 'Row', garden.columns], ['columns', 'Column', garden.rows]]) {

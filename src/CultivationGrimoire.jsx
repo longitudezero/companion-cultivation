@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { createGrimoire } from './core/grimoire.js';
+import { unlockedSourceGroup } from './core/source-item-progression.js';
 import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPages, turningPages, tabIsLeft } from './grimoire/book.js';
 import { EFFECT_DEFINITIONS } from './grimoire/effects.js';
 import { art, bookmarkStyle } from './grimoire/art.js';
@@ -116,6 +117,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
     return index < 0 ? initialNavigation : { ...initialNavigation, current: index, target: index };
   });
   const ledger = garden.grimoire || EMPTY_LEDGER;
+  const sourceGroupLevel = unlockedSourceGroup(garden);
   const journal = garden.journal?.version === 4 ? garden.journal : normalizeJournal(garden.journal);
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
   const scene = useBookView(root, modal || suspended || busy);
@@ -268,7 +270,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   }, [busy, glossary, desk, pendingDelete, modal, suspended, nav.current, navigate, onClose]);
 
   const page = (index, side) => <React.Fragment key={`${index}-${side}`}><BookSpread entry={BOOK_ENTRIES[index]} side={side} ledger={viewLedger}
-    preview={viewPreview} navigate={navigate} glossary={openGlossary}/>
+    preview={viewPreview} unlockedSourceGroup={sourceGroupLevel} navigate={navigate} glossary={openGlossary}/>
     {busy && <StaticPageNotes journal={journal} entryKey={BOOK_ENTRIES[index].key} side={side} pageSize={pageSize}/>}</React.Fragment>;
 
   function focusBookControl(event) {
@@ -352,9 +354,9 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
       onConfirm={() => { onJournalChange(garden => removeNote(garden, pendingDelete)); setPendingDelete(null); }}/>}
     {glossary && <div className="cg-glossary-backdrop"><section className="cg-glossary" role="dialog" aria-modal="true"
       aria-labelledby="cg-glossary-title">
-      <header><div><span className="cg-eyebrow">A botanist’s reference</span><h2 id="cg-glossary-title">Cultivation Effects</h2></div>
+      <header><div><span className="cg-eyebrow">A botanist’s reference</span><h2 id="cg-glossary-title">Garden Effects</h2></div>
         <button ref={glossaryClose} type="button" onClick={() => setGlossary(null)} aria-label="Close effect glossary">×</button></header>
-      <p className="cg-glossary-intro">How the influences work. Each Plant’s individual responses are learned in the garden.</p>
+      <p className="cg-glossary-intro">How environmental and cultivation influences work. Each Plant’s individual responses are learned in the garden.</p>
       <div className="cg-glossary-entries">{Object.entries(EFFECT_DEFINITIONS).map(([kind, effect]) =>
         <section key={kind} data-glossary-kind={kind} className={glossary === kind ? 'selected' : ''}>
           <h3>{effect.label}</h3><p>{effect.summary}</p><p>{effect.detail}</p>

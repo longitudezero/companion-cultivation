@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { build } from 'esbuild';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGrimoire, revealPlant, observeFungalAction } from '../src/core/grimoire.js';
 import { FUNGI } from '../src/core/species.js';
+import { SOURCE_ITEM_GROUPS } from '../src/core/source-item-catalog.js';
 import { effectAmount, EFFECT_DEFINITIONS } from '../src/grimoire/effects.js';
-import { BOOK_ENTRIES, entryName } from '../src/grimoire/book.js';
+import { BOOK_ENTRIES, TOOL_SPREADS, entryName } from '../src/grimoire/book.js';
 import { illustrationFor } from '../src/grimoire/illustrations.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -27,8 +28,64 @@ try {
   await rm(cache, { recursive: true, force: true });
 }
 const text = markup => markup.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
-const spread = (entry, side, ledger, preview = false) => renderToStaticMarkup(React.createElement(BookSpread,
-  { entry, side, ledger, preview, navigate() {}, glossary() {} }));
+const spread = (entry, side, ledger, preview = false, unlockedSourceGroup = 0) => renderToStaticMarkup(React.createElement(BookSpread,
+  { entry, side, ledger, preview, unlockedSourceGroup, navigate() {}, glossary() {} }));
+
+test('Garden Tools art assets are packaged as valid WebP files', async () => {
+  for (const asset of ['unknown-tools.webp', 'tools-left-border.webp', 'tools-right-border.webp',
+    'tabs/tools.webp', 'icons/tools.webp']) {
+    const bytes = await readFile(join(root, 'public', 'grimoire', asset));
+    assert.equal(bytes.subarray(0, 4).toString(), 'RIFF', asset);
+    assert.equal(bytes.subarray(8, 12).toString(), 'WEBP', asset);
+    assert.ok(bytes.length > 1_000, asset);
+  }
+});
+
+test('locked Garden Tools groups use runes and unidentified art without leaking catalogue facts', () => {
+  const ledger = createGrimoire(), before = JSON.stringify(ledger);
+  for (const definition of TOOL_SPREADS) {
+    const entry = BOOK_ENTRIES.find(item => item.key === definition.key);
+    for (const side of ['left', 'right']) {
+      const page = definition[side];
+      if (page.kind !== 'source-group') continue;
+      const rendered = spread(entry, side, ledger), copy = text(rendered);
+      assert.match(rendered, /unknown-tools\.webp/);
+      assert.match(rendered, /cg-runes/);
+      assert.match(copy, /Guild seal has not yet been broken/);
+      assert.doesNotMatch(copy, /Influence|Reach|Duration|Item description goes here/);
+      const group = SOURCE_ITEM_GROUPS[page.group];
+      assert.ok(!copy.includes(group.name), group.name);
+      for (const item of group.items) {
+        assert.ok(!copy.includes(item.name), item.name);
+        assert.ok(!rendered.includes(`/ui/source-items/${item.id}.webp`), item.id);
+      }
+    }
+  }
+  assert.equal(JSON.stringify(ledger), before);
+});
+
+test('unlocked and developer-preview Garden Tools reveal canonical facts without changing progression', () => {
+  const ledger = createGrimoire(), before = JSON.stringify(ledger);
+  const emergency = BOOK_ENTRIES.find(entry => entry.key === 'tools:emergency-directional');
+  const revealed = spread(emergency, 'left', ledger, false, 2);
+  assert.match(text(revealed), /Emergency Measures/);
+  assert.match(revealed, /frostbell\.webp/);
+  assert.match(text(revealed), /Frostbell Item description goes here Influence Cooling/);
+  assert.match(text(revealed), /Cooling.*\+1 Reach Area · Radius 2 Duration 6m at 1×/);
+  assert.match(revealed, /class="cg-effect-term"/);
+
+  const allPages = TOOL_SPREADS.flatMap(definition => {
+    const entry = BOOK_ENTRIES.find(item => item.key === definition.key);
+    return ['left', 'right'].filter(side => definition[side].kind === 'source-group')
+      .map(side => spread(entry, side, ledger, true));
+  }).join('');
+  const allItems = SOURCE_ITEM_GROUPS.flatMap(group => group.items);
+  for (const item of allItems) {
+    assert.equal((allPages.match(new RegExp(`<img src="/ui/source-items/${item.id}\\.webp"`, 'g')) || []).length, 1, item.id);
+    assert.equal((text(allPages).match(new RegExp(`\\b${item.name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\b`, 'g')) || []).length, 1, item.name);
+  }
+  assert.equal(JSON.stringify(ledger), before);
+});
 
 test('both directions mount the correct incoming printed back page before a leaf begins turning', () => {
   const ledger = createGrimoire();

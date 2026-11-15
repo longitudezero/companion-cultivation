@@ -889,3 +889,58 @@
 }
 .cg-page-content.cg-subdued-ornament .cg-fact h2 { margin-bottom: 10px; }
 .cg-page-content.cg-subdued-ornament .cg-fact p { margin-bottom: 10px; }
+
+/* Garden Tools reads as an illustrated field catalogue rather than a UI card grid. */
+.cg-tools-page .cg-page-scroll { min-height: 0; }
+.cg-tools-opening { min-height: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.cg-tools-opening .cg-tools-frontispiece { width: min(58%, 190px); max-height: 190px; margin: 10px auto 18px; object-fit: contain; }
+.cg-tools-opening > p { max-width: 330px; }
+.cg-tools-legend { width: 100%; margin-top: auto; text-align: left; }
+.cg-tools-legend p { display: grid; grid-template-columns: 92px 1fr; gap: 13px; margin: 0; padding: 10px 0;
+  border-top: 1px solid #75603938; }
+.cg-tools-legend strong { color: #4d402b; font: 700 11px/1.35 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+.cg-tools-legend span { color: #6f624b; font: 13px/1.45 Georgia, serif; }
+.cg-tools-group { min-height: 100%; display: flex; flex-direction: column; }
+.cg-tools-group > header { flex: 0 0 auto; padding-bottom: 4px; }
+.cg-tools-group > header h1 { margin: 4px 0 6px; font-size: 25px; }
+.cg-tools-group > header p { margin: 0; color: #7a6c54; font-size: 12px; font-style: italic; }
+.cg-tool-list { flex: 1 1 auto; min-height: 0; display: grid;
+  grid-template-rows: repeat(var(--tool-count), minmax(118px, 1fr)); }
+.cg-tool-entry { min-width: 0; display: grid; grid-template-columns: 106px minmax(0, 1fr); align-items: center;
+  gap: 14px; padding: 8px 0; border-top: 1px solid #75603938; }
+.cg-chapter-right .cg-tool-entry { grid-template-columns: minmax(0, 1fr) 106px; }
+.cg-chapter-right .cg-tool-entry .cg-tool-illustration { order: 2; }
+.cg-chapter-right .cg-tool-entry .cg-tool-copy { order: 1; }
+.cg-tool-illustration { display: grid; place-items: center; width: 106px; height: 106px; }
+.cg-tool-illustration img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.cg-tool-copy { min-width: 0; }
+.cg-tool-copy h2 { margin: 0 0 4px; color: #4b3c27; font: 600 17px/1.15 Georgia, serif; }
+.cg-tool-description { margin: 0 0 7px !important; color: #76654b; font: italic 12px/1.35 Georgia, serif !important; }
+.cg-tool-properties { margin: 0; color: #5f533f; font: 11px/1.38 Georgia, serif; }
+.cg-tool-properties div { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+.cg-tool-properties dt { flex: 0 0 54px; color: #806d4d; font: 700 8px/1.5 system-ui, sans-serif;
+  letter-spacing: .08em; text-transform: uppercase; }
+.cg-tool-properties dd { min-width: 0; margin: 0; }
+.cg-tool-properties .cg-effect-term { font-size: inherit; }
+.cg-tool-entry.is-locked .cg-tool-illustration img { opacity: .72; filter: grayscale(.55) sepia(.3); }
+.cg-tool-entry.is-locked:nth-child(2n) .cg-tool-illustration img { transform: rotate(3deg) scale(.94); }
+.cg-tool-entry.is-locked:nth-child(3n) .cg-tool-illustration img { transform: rotate(-3deg) scale(.97); }
+.cg-tool-entry.is-locked .cg-tool-description { font-style: normal !important; letter-spacing: .08em; }
+.cg-tools-group.is-locked > header h1 { letter-spacing: .12em; }
+
+@media (max-width: 650px) {
+  .cg-tools-opening .cg-tools-frontispiece { width: 55%; max-height: 120px; margin-block: 4px 9px; }
+  .cg-tools-legend p { grid-template-columns: 58px 1fr; gap: 6px; padding: 5px 0; }
+  .cg-tools-legend strong { font-size: 7px; }
+  .cg-tools-legend span { font-size: 8px; }
+  .cg-tools-group > header h1 { font-size: 15px; }
+  .cg-tools-group > header p { font-size: 8px; }
+  .cg-tool-list { grid-template-rows: repeat(var(--tool-count), minmax(74px, 1fr)); }
+  .cg-tool-entry { grid-template-columns: 62px minmax(0, 1fr); gap: 7px; padding: 4px 0; }
+  .cg-chapter-right .cg-tool-entry { grid-template-columns: minmax(0, 1fr) 62px; }
+  .cg-tool-illustration { width: 62px; height: 62px; }
+  .cg-tool-copy h2 { font-size: 11px; margin-bottom: 2px; }
+  .cg-tool-description { font-size: 8px !important; margin-bottom: 3px !important; }
+  .cg-tool-properties { font-size: 7px; }
+  .cg-tool-properties dt { flex-basis: 34px; font-size: 5px; }
+}

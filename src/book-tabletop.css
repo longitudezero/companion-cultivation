@@ -90,7 +90,7 @@
 
 /* Chapter tabs keep their physical book layout at every viewport size. */
 .cg-tabletop .cg-tabs { position: absolute; inset: 0; width: auto; display: block; transform: none; z-index: 2; }
-.cg-tabletop .cg-tab { position: absolute; top: calc(9% + var(--tab-i) * 10.7% + var(--tab-offset-y, 0px));
+.cg-tabletop .cg-tab { position: absolute; top: calc(7.5% + var(--tab-i) * 8.7% + var(--tab-offset-y, 0px));
   width: calc(var(--tab-w) * var(--tab-width, 1)); height: calc(var(--tab-h) * var(--tab-height, 1)); }
 .cg-tabletop .cg-tab.left { left: calc(var(--tab-overlap) + var(--tab-inset) - var(--tab-w) * var(--tab-width, 1) - var(--tab-protrusion, 0px)); right: auto;
   rotate: calc(var(--tab-tilt, 0deg) * -1); transform-origin: calc(100% - var(--tab-overlap) - var(--tab-inset)) 50%; }

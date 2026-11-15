@@ -8,6 +8,8 @@ import {
   applyStaging, makeFungus,
   serializeGameSave, deserializeGameSave,
 } from '../src/core/index.js';
+import { unlockedSourceGroup } from '../src/core/source-item-progression.js';
+import { SPECIALIZATION_FINALES } from '../src/core/main-task-definitions.js';
 
 const A = keyAt(2, 2);
 const B = keyAt(3, 2);
@@ -31,6 +33,18 @@ test('catalog has seven ordered groups, all 26 distinct items and the agreed exc
     return [properties[effect.name], effect.name, effect.strength, item.propagation].join(':');
   }));
   assert.equal(signatures.size, 24, 'all signs, strengths and propagation options are present for each Property');
+});
+
+test('source catalogue progression reveals Guild collections without changing garden state', () => {
+  const garden = createGarden(), before = JSON.stringify(garden);
+  assert.equal(unlockedSourceGroup(garden), 0);
+  assert.equal(unlockedSourceGroup({ ...garden, tasks: { ...garden.tasks, claimed: ['M-F4L8VQ'] } }), 1);
+  assert.equal(unlockedSourceGroup({ ...garden, tasks: { ...garden.tasks, claimed: ['M-F4L8VQ', 'M-Q7D2BL'] } }), 2);
+  for (const [index, finale] of SPECIALIZATION_FINALES.entries()) {
+    const claimed = ['M-F4L8VQ', 'M-Q7D2BL', ...SPECIALIZATION_FINALES.slice(0, index + 1)];
+    assert.equal(unlockedSourceGroup({ ...garden, tasks: { ...garden.tasks, claimed } }), index + 3);
+  }
+  assert.equal(JSON.stringify(garden), before);
 });
 
 test('identical items occupy distinct slots, can be deployed and retrieved with paused time', () => {

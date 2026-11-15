@@ -1,26 +1,17 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { formatRealDuration } from '../core/game-time.js';
 import { previewPlantConditions, previewPlantHazards, previewPlantCompatibility, previewPlantRecipes,
   previewFungusProfile, previewFungusEffects } from '../core/grimoire-preview.js';
 import { BOOK_ENTRIES, CHAPTERS, entryKnown, entryName, discoveryPhrase, observedEffects, observedTransformations,
   fungusTransformationTargets } from './book.js';
-import { EFFECT_DEFINITIONS, observedEffectText } from './effects.js';
+import { observedEffectText } from './effects.js';
+import EffectText from './EffectTerm.jsx';
 import { art } from './art.js';
 import { illustrationFor } from './illustrations.js';
 import TransformationAtlas from './TransformationAtlas.jsx';
+import GardenToolsGroup, { GardenToolsOpening } from './GardenToolsPage.jsx';
 
 export function PageNumber({ number }) { return <div className="cg-page-number">{number}</div>; }
-
-function EffectText({ text, glossary }) {
-  const id = useId();
-  const match = Object.entries(EFFECT_DEFINITIONS).find(([, effect]) => text.includes(effect.label));
-  if (!match) return text;
-  const [kind, effect] = match, start = text.indexOf(effect.label);
-  return <>{text.slice(0, start)}<button type="button" className="cg-effect-term"
-    title={effect.summary} aria-describedby={id} onClick={event => glossary(kind, event.currentTarget)}>
-    {effect.label}</button><span id={id} className="cg-sr-only">{effect.summary} Open the effect glossary for details.</span>
-    {text.slice(start + effect.label.length)}</>;
-}
 
 function Fact({ title, lines, glossary, empty = 'Not yet observed', transformations = false }) {
   return <section className={`cg-fact ${transformations ? 'cg-transformations' : ''}`}>
@@ -66,8 +57,8 @@ function FungusTransformations({ species, ledger, preview, navigate }) {
 }
 
 function ChapterContents({ navigate }) {
-  return <div className="cg-index-list">{CHAPTERS.slice(0, 7).map(chapter => {
-    const entry = BOOK_ENTRIES.find(item => item.key === `family:${chapter.key}`);
+  return <div className="cg-index-list">{CHAPTERS.filter(chapter => chapter.key !== 'Index').map(chapter => {
+    const chapterIndex = CHAPTERS.indexOf(chapter), entry = BOOK_ENTRIES.find(item => item.chapter === chapterIndex);
     return <button key={entry.key} type="button" onClick={() => navigate(entry.key)}>
       <span>{chapter.label}</span><span className="cg-index-page-ref">p. {entry.page}</span>
     </button>;
@@ -79,15 +70,19 @@ function witnessText(record) {
   return `${record.from} → ${record.into}. ${conditions}.${record.fungi?.length ? ` Named contact observed: ${record.fungi.join(', ')}.` : ''}${Number.isFinite(record.hours) ? ` Exposure: ${formatRealDuration(record.hours)}.` : ''}`;
 }
 
-export default function BookSpread({ entry, side, ledger, preview = false, navigate, glossary }) {
+export default function BookSpread({ entry, side, ledger, preview = false, unlockedSourceGroup = 0, navigate, glossary }) {
   const chapter = CHAPTERS[entry.chapter], left = side === 'left';
-  const opening = entry.kind === 'overview' || entry.kind === 'index';
+  const toolPage = entry.kind === 'tools' ? entry[side] : null;
+  const opening = entry.kind === 'overview' || entry.kind === 'index' || toolPage?.kind === 'tools-opening';
   const known = entryKnown(entry, ledger, preview);
-  const illustration = known ? illustrationFor(entry.species) : null;
+  const illustration = known && entry.species ? illustrationFor(entry.species) : null;
   const pageNo = entry.page + (left ? 0 : 1);
   const name = entryName(entry, ledger, preview);
-  const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${!opening && left ? ' cg-entry-page' : ''}${entry.kind === 'overview' ? ' cg-family-opening' : ''}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}`;
+  const organismEntry = ['plant', 'fungus'].includes(entry.kind);
+  const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${organismEntry && left ? ' cg-entry-page' : ''}${entry.kind === 'overview' ? ' cg-family-opening' : ''}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}${toolPage ? ' cg-tools-page' : ''}${toolPage?.kind === 'source-group' ? ' cg-tools-catalogue-page' : ''}`;
   const content = (() => {
+    if (entry.kind === 'tools') return toolPage.kind === 'tools-opening' ? <GardenToolsOpening/>
+      : <GardenToolsGroup groupIndex={toolPage.group} unlockedGroup={unlockedSourceGroup} preview={preview} glossary={glossary}/>;
     if (entry.kind === 'overview') {
       if (left) return <>
         <h1>{chapter.label}</h1>
