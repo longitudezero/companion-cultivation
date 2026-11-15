@@ -12,6 +12,7 @@ import TransformationPanel from './TransformationPanel.jsx';
 import GameArt, { CONDITION_ART } from './GameArt.jsx';
 import RuneProgress from './RuneProgress.jsx';
 import { PALETTES } from './hex-model.js';
+import { illuminationArt } from './illumination-art.js';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const PEAK_ART = { leaf: 'leaves', seed: 'seeds', spore: 'spores' };
@@ -75,8 +76,10 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
 
     <div className="inspector-environment inspector-section"><h3>Environment</h3>
       {hex && conditions ? PROPERTIES.map(property => <div className={`compact-condition condition-${property.toLowerCase()}`} key={property}>
-        <div className="inspector-value"><span className="condition-property">{CONDITION_ART[property]?.[conditions[property]]
-          ? <GameArt name={CONDITION_ART[property][conditions[property]]}/> : <span aria-hidden="true">◈</span>} {property}</span><strong>{conditions[property]}</strong></div>
+        <div className="inspector-value"><span className="condition-property">{property === 'Illumination'
+          ? <img className="illumination-state-icon" src={illuminationArt(conditions.Illumination)} alt=""/>
+          : CONDITION_ART[property]?.[conditions[property]] ? <GameArt name={CONDITION_ART[property][conditions[property]]}/>
+            : <span aria-hidden="true">◈</span>} {property}</span><strong>{conditions[property]}</strong></div>
         <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map(name =>
           <span key={name} title={name} className={name === conditions[property] ? 'is-current' : ''} style={{ '--condition-color': PALETTES[property][name] }}/>)}</div>
       </div>) : <p>Select a hex to inspect its resolved Conditions.</p>}

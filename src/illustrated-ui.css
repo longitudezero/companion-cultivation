@@ -123,6 +123,7 @@
 .compact-condition .inspector-value { align-items: center; }
 .condition-property, .yield-property { display: inline-flex; align-items: center; gap: 5px; }
 .condition-property .game-art { width: 27px; height: 30px; }
+.condition-property .illumination-state-icon { width: 30px; height: 30px; object-fit: contain; filter: drop-shadow(0 1px 1px #4b351f55); }
 .yield-property .game-art { width: 22px; height: 22px; }
 .garden-inspector .environment-levels { height: 10px; overflow: visible; }
 .garden-inspector .environment-levels > span { position: relative; background: var(--condition-color); border-radius: 2px; box-shadow: inset 0 1px 2px #fff5; opacity: .78; }
