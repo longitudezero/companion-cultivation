@@ -50,7 +50,13 @@ function edgeSegment(a, b) {
 function edgeArtwork(segment) {
   const x = (segment.x1 + segment.x2) / 2, y = (segment.y1 + segment.y2) / 2;
   const angle = Math.atan2(segment.y2 - segment.y1, segment.x2 - segment.x1) * 180 / Math.PI;
-  return { x: -29, y: -14.5, width: 58, height: 29, transform: `translate(${x} ${y}) rotate(${angle})` };
+  // Slanted borders separate an upper and lower hex. The artwork is drawn with
+  // its attachment/base along the bottom, so mirror it toward the top of the
+  // lower hex. Vertical side borders already read correctly and stay unchanged.
+  const faceLowerHex = Math.abs(segment.x2 - segment.x1) > .01;
+  const orientation = faceLowerHex ? ' scale(1 -1)' : '';
+  return { x: -29, y: -14.5, width: 58, height: 29,
+    transform: `translate(${x} ${y}) rotate(${angle})${orientation}` };
 }
 
 export default function HexGrid({ garden, simulation, mycelialSupport = {}, simplifiedHexFills = false, tool, selection, plantingPreview, blockerPlacement, onHexClick, onEdgeClick, onStartHexDrag, onStartBlockerDrag, onRotateHeading, onRotationStart, onRotationEnd }) {

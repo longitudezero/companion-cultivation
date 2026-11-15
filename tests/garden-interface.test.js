@@ -271,6 +271,18 @@ test('every Blocker uses its matching art in the garden and Inspector', () => {
   }
 });
 
+test('edge Blockers face the top of the lower hex without flipping side borders', () => {
+  let garden = grantBlockerItem(createGarden(3, 3), 'blocker:root-barrier:edge', 2);
+  garden = placeBlockerItem(garden, 'blocker:root-barrier:edge', { type: 'edge', a: '0,0', b: '0,1' });
+  garden = placeBlockerItem(garden, 'blocker:root-barrier:edge', { type: 'edge', a: '0,0', b: '1,0' });
+  const markup = render(HexGrid, { garden, simulation: calculateEnvironment(garden), tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
+  const transforms = [...markup.matchAll(/<image[^>]*class="edge-blocker-art"[^>]*>/g)]
+    .map(match => /transform="([^"]+)"/.exec(match[0])?.[1]);
+  assert.equal(transforms.length, 2);
+  assert.equal(transforms.filter(transform => transform.includes('scale(1 -1)')).length, 1);
+  assert.equal(transforms.filter(transform => !transform.includes('scale(')).length, 1);
+});
+
 test('the inspector uses the same distinct illumination icons as the garden', () => {
   const files = { Dark: 'illumination-dark.webp', Dim: 'illumination-dim.webp', Lit: 'illumination-lit.webp', Bright: 'illumination-bright.webp' };
   for (const [illumination, file] of Object.entries(files)) {
