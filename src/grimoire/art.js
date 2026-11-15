@@ -10,10 +10,11 @@ export const BOOKMARKS = {
   spices: { tilt: 1.7, width: 1.04, height: 1.12, y: 3, reach: 2, ink: '#f7e4ff', glow: '#dba1ff', hue: 235 },
   fungi: { tilt: -2.5, width: 1.07, height: 1.08, y: -2, reach: 7, ink: '#ffe6d9', glow: '#ff89ae', hue: 295 },
   tools: { tilt: 2.2, width: 1.04, height: 1.03, y: 2, reach: 5, ink: '#e1fff4', glow: '#75e6c1', hue: 155 },
+  blockers: { tilt: -1.4, width: 1.06, height: 1.04, y: -1, reach: 9, ink: '#fff0ca', glow: '#f4bd69', hue: 25 },
   index: { tilt: 3, width: .98, height: .98, y: 2, reach: 0, ink: '#e4faff', glow: '#9fe6ff', hue: 145 },
 };
 export function bookmarkStyle(chapter, index) {
-  const p = BOOKMARKS[chapter.art], dark = ['fungi', 'woodlands', 'tools'].includes(chapter.art);
+  const p = BOOKMARKS[chapter.art], dark = ['fungi', 'woodlands', 'tools', 'blockers'].includes(chapter.art);
   return { '--tab-art': `url("${art(`tabs/${chapter.art}`)}")`, '--tab-i': index,
     '--tab-tilt': `${p.tilt}deg`, '--tab-width': p.width, '--tab-height': p.height,
     '--tab-offset-y': `${p.y}px`, '--tab-protrusion': `${p.reach}px`,

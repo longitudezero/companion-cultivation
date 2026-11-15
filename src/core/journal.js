@@ -11,10 +11,12 @@ export const MARKER_DESCRIPTION_LIMIT = 250;
 export const NOTE_MIN_SCALE = .55, NOTE_MAX_SCALE = 1.6;
 const families = ['Ingredients', 'Flowers', 'Aquatic', 'Woodlands', 'Desert', 'Spices', 'Fungi'];
 const toolSpreads = new Set(['tools:opening', 'tools:emergency-directional', 'tools:power-control', 'tools:harsh-unusual']);
+const blockerSpreads = new Set(['blockers:opening', 'blockers:boundaries', 'blockers:climate']);
 const sides = ['left', 'right'];
 const own = (object, key) => Object.hasOwn(object, key);
 export const validJournalEntry = key => typeof key === 'string' && (key === 'index'
   || toolSpreads.has(key)
+  || blockerSpreads.has(key)
   || key.startsWith('family:') && families.includes(key.slice(7))
   || key.startsWith('plant:') && own(PLANTS, key.slice(6))
   || key.startsWith('fungus:') && own(FUNGI, key.slice(7)));

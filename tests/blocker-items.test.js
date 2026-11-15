@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  BLOCKER_ITEMS, INVENTORY_CAPACITY, advanceGardenTime, calculateCultivation, calculateEnvironment,
+  BLOCKER_ITEMS, TASKS, INVENTORY_CAPACITY, advanceGardenTime, calculateCultivation, calculateEnvironment,
   calculateMycelialSupport, createGarden, deserializeGameSave, edgeKey, grantBlockerItem, grantSourceItem,
   inventoryItems, isBlocked, isMycelial, makeBlocker, makeFungus, makeInfluence, makePlant, makeSource,
   pickupBlockerItem, placeBlockerItem, placeEdgeBlocker, placeObject, placeSourceItem, resizeGarden, serializeGameSave, setBaseline,
+  unlockedBlockerDesigns,
 } from '../src/core/index.js';
 
 const hex = key => ({ type: 'hex', key });
@@ -34,6 +35,15 @@ test('all nine player filters classify effects independently in both forms', () 
       assert.deepEqual(effects.flatMap((effect, index) => isBlocked(blocker, effect) ? [index] : []), stopped, design);
     }
   }
+});
+
+test('Blocker catalogue knowledge follows claimed task unlocks without mutating the garden', () => {
+  const garden = createGarden(), before = JSON.stringify(garden);
+  assert.deepEqual([...unlockedBlockerDesigns(garden)], []);
+  const taskId = Object.keys(TASKS).find(id => TASKS[id].rewards.blockers?.['blocker:root-barrier:edge']);
+  const claimed = { ...garden, tasks: { ...garden.tasks, claimed: [taskId] } };
+  assert.deepEqual([...unlockedBlockerDesigns(claimed)], ['root-barrier']);
+  assert.equal(JSON.stringify(garden), before);
 });
 
 test('environmental properties apply to propagation and adjacency independently of mode', () => {

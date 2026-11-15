@@ -16,7 +16,8 @@ export function TaskRewards({ rewards }) {
   const supplies = ['seeds', 'spores'].flatMap(kind => Object.entries(rewards[kind] || {})
     .map(([species, quantity]) => ({ name: `${species} ${kind === 'seeds' ? 'Seeds' : 'Spores'}`, quantity,
       art: organismIcon(species) })));
-  const items = [...Object.entries(rewards.blockers || {}).map(([id, quantity]) => ({ name: BLOCKER_ITEMS[id].name, quantity })),
+  const items = [...Object.entries(rewards.blockers || {}).map(([id, quantity]) => ({ name: BLOCKER_ITEMS[id].name, quantity,
+    art: itemArt({ type: 'blocker-item', id }) })),
     ...(rewards.sources || []).map(id => ({ name: SOURCE_ITEMS[id].name, quantity: 1,
       art: itemArt({ type: 'source-item', catalogId: id }) }))];
   const unlocks = [

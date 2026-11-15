@@ -10,6 +10,7 @@ import { art } from './art.js';
 import { illustrationFor } from './illustrations.js';
 import TransformationAtlas from './TransformationAtlas.jsx';
 import GardenToolsGroup, { GardenToolsOpening } from './GardenToolsPage.jsx';
+import BlockerGroup, { BlockersOpening } from './BlockersPage.jsx';
 
 export function PageNumber({ number }) { return <div className="cg-page-number">{number}</div>; }
 
@@ -70,19 +71,24 @@ function witnessText(record) {
   return `${record.from} → ${record.into}. ${conditions}.${record.fungi?.length ? ` Named contact observed: ${record.fungi.join(', ')}.` : ''}${Number.isFinite(record.hours) ? ` Exposure: ${formatRealDuration(record.hours)}.` : ''}`;
 }
 
-export default function BookSpread({ entry, side, ledger, preview = false, unlockedSourceGroup = 0, navigate, glossary }) {
+export default function BookSpread({ entry, side, ledger, preview = false, unlockedSourceGroup = 0,
+  unlockedBlockers = new Set(), navigate, glossary }) {
   const chapter = CHAPTERS[entry.chapter], left = side === 'left';
   const toolPage = entry.kind === 'tools' ? entry[side] : null;
-  const opening = entry.kind === 'overview' || entry.kind === 'index' || toolPage?.kind === 'tools-opening';
+  const blockerPage = entry.kind === 'blockers' ? entry[side] : null;
+  const opening = entry.kind === 'overview' || entry.kind === 'index' || toolPage?.kind === 'tools-opening'
+    || blockerPage?.kind === 'blockers-opening';
   const known = entryKnown(entry, ledger, preview);
   const illustration = known && entry.species ? illustrationFor(entry.species) : null;
   const pageNo = entry.page + (left ? 0 : 1);
   const name = entryName(entry, ledger, preview);
   const organismEntry = ['plant', 'fungus'].includes(entry.kind);
-  const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${organismEntry && left ? ' cg-entry-page' : ''}${entry.kind === 'overview' ? ' cg-family-opening' : ''}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}${toolPage ? ' cg-tools-page' : ''}${toolPage?.kind === 'source-group' ? ' cg-tools-catalogue-page' : ''}`;
+  const classes = `cg-page-content cg-grimoire-ornament cg-chapter-${side}${opening ? '' : ' cg-subdued-ornament'}${organismEntry && left ? ' cg-entry-page' : ''}${entry.kind === 'overview' ? ' cg-family-opening' : ''}${entry.kind === 'overview' && !left && entry.chapter < 6 ? ' cg-atlas-page' : ''}${toolPage ? ' cg-tools-page' : ''}${toolPage?.kind === 'source-group' ? ' cg-tools-catalogue-page' : ''}${blockerPage ? ' cg-blockers-page' : ''}${blockerPage?.kind === 'blocker-group' ? ' cg-blockers-catalogue-page' : ''}`;
   const content = (() => {
     if (entry.kind === 'tools') return toolPage.kind === 'tools-opening' ? <GardenToolsOpening/>
       : <GardenToolsGroup groupIndex={toolPage.group} unlockedGroup={unlockedSourceGroup} preview={preview} glossary={glossary}/>;
+    if (entry.kind === 'blockers') return blockerPage.kind === 'blockers-opening' ? <BlockersOpening/>
+      : <BlockerGroup groupIndex={blockerPage.group} unlockedDesigns={unlockedBlockers} preview={preview}/>;
     if (entry.kind === 'overview') {
       if (left) return <>
         <h1>{chapter.label}</h1>

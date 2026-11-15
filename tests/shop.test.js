@@ -7,7 +7,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createGarden, createTutorialGarden, goldBalance, withGold, shopProducts, shopQuote, tradeShop,
-  FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK, claimTask, taskStatus, inventoryItems,
+  TASKS, FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK, claimTask, taskStatus, inventoryItems,
   grantSourceItem, ensureInventorySlots, serializeGameSave, deserializeGameSave, resizeGarden,
   makeFungus, placeObject, removeObject } from '../src/core/index.js';
 
@@ -179,4 +179,15 @@ test('the shop exposes Buy/Sell, free recovery Seeds, current funds and only unl
   assert.match(markup, /0 Gold/);
   assert.match(markup, /Shop quantity/);
   assert.doesNotMatch(markup, /Dewmender Spores|Hushroom Spores/);
+});
+
+test('unlocked Blockers use their matching Edge and Full art throughout the Shop', () => {
+  const taskId = Object.keys(TASKS).find(id => TASKS[id].rewards.blockers?.['blocker:root-barrier:edge']);
+  let garden = withGold(createTutorialGarden(), 100);
+  garden = { ...garden, tasks: { ...garden.tasks, claimed: [...garden.tasks.claimed, taskId] } };
+  const markup = renderToStaticMarkup(React.createElement(Shop, { garden, speed: 1 }));
+  assert.match(markup, /ui\/blockers\/root-barrier-edge\.webp/);
+  assert.match(markup, /ui\/blockers\/root-barrier-full\.webp/);
+  assert.match(markup, /Root Barrier \(Edge\)/);
+  assert.match(markup, /Root Barrier \(Hex\)/);
 });

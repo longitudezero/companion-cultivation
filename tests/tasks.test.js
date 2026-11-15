@@ -210,13 +210,14 @@ test('harvest receipts use actual item identities and combine only quick consecu
 });
 
 const root = fileURLToPath(new URL('../', import.meta.url)), cache = await mkdtemp(join(root, 'node_modules', '.taskboard-'));
-let Board, Tracker, Receipt, CompletionReceipt;
+let Board, Tracker, Receipt, CompletionReceipt, TaskRewards;
 try {
   await build({ entryPoints: { board: join(root, 'src/ui/Taskboard.jsx'), tracker: join(root, 'src/ui/TaskTracker.jsx'), receipt: join(root, 'src/ui/HarvestReceipt.jsx') },
     outdir: cache, bundle: true, platform: 'node', format: 'esm', packages: 'external', logLevel: 'silent' });
   const boardModule = await import(pathToFileURL(join(cache, 'board.js')));
   Board = boardModule.default;
   CompletionReceipt = boardModule.TaskCompletionReceipt;
+  TaskRewards = boardModule.TaskRewards;
   Tracker = (await import(pathToFileURL(join(cache, 'tracker.js')))).default;
   Receipt = (await import(pathToFileURL(join(cache, 'receipt.js')))).default;
 } finally { await rm(cache, { recursive: true, force: true }); }
@@ -271,6 +272,13 @@ test('completion receipts retain each reward and next action while the initial a
     assert.ok(markup.includes(id === FIRST_TASK ? '>Continue<' : '>Return to garden<'));
     assert.equal(JSON.stringify(receipt), before, 'presentation never changes the awarded receipt');
   }
+});
+
+test('Blocker task rewards use the same gameplay icons as the Inventory and Shop', () => {
+  const edge = 'blocker:root-barrier:edge';
+  const markup = renderToStaticMarkup(React.createElement(TaskRewards, { rewards: { blockers: { [edge]: 4 } } }));
+  assert.match(markup, /ui\/blockers\/root-barrier-edge\.webp/);
+  assert.match(markup, /<strong>4<\/strong> Root Barrier \(Edge\)/);
 });
 
 test('task sections keep Main then Side then Completed membership, excluding locked assignments', () => {

@@ -10,6 +10,8 @@
 .portrait-entry:hover { filter: brightness(1.08); }
 .portrait-entry:focus-visible { outline: 2px solid #987741; border-radius: 3px; }
 .portrait-symbol { width: 128px; height: 128px; margin: 0 auto; }
+.portrait-symbol.portrait-blocker img { display: block; width: 128px; height: 128px; object-fit: contain;
+  filter: drop-shadow(0 3px 3px #50391f4d); }
 .inspector-portrait h2 { font-size: 21px; margin-top: 7px; }
 .inspector-environment { width: 200px; }
 .inspector-influences { flex: 1 1 260px; min-width: 260px; grid-column: auto; display: block; max-height: none; overflow: visible; margin: 0; padding: 0 16px; border-top: 0; border-left: 1px solid #bba37677; }
@@ -103,6 +105,8 @@
 .inventory-square-grid .inventory-square.has-item:hover { box-shadow: inset 0 0 12px #ffffff15; }
 .inventory-square-grid .inventory-square.is-held { box-shadow: 0 0 12px #d6b76677; }
 .blocker-placement-target { stroke: #f4d68d; stroke-width: 3; stroke-dasharray: 4 3; opacity: .55; }
+.hex-blocker-art, .edge-blocker-art { filter: drop-shadow(0 2px 2px #07100bd6); }
+.edge-blocker-art.is-active { filter: brightness(1.08) drop-shadow(0 0 4px #ffe3a4d9) drop-shadow(0 2px 2px #07100bd6); }
 .hex-cell:is(:hover, :focus-visible) .blocker-placement-target,
 .edge-group:is(:hover, :focus-within) .blocker-placement-target { stroke-width: 5; opacity: 1; }
 .edge-hit[role="button"] { cursor: pointer; }

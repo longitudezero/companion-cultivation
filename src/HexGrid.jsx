@@ -4,6 +4,7 @@ import { neighborsOf, edgeKey, isMycelial, isPlayerSource, playerBlockerDefiniti
 import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
 import { illuminationArt } from './ui/illumination-art.js';
 import { organismIcon } from './ui/organism-art.js';
+import { blockerArt } from './ui/blocker-art.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
@@ -44,6 +45,12 @@ function edgeSegment(a, b) {
   const px = -dy / length * SIZE / 2;
   const py = dx / length * SIZE / 2;
   return { x1: cx - px, y1: cy - py, x2: cx + px, y2: cy + py };
+}
+
+function edgeArtwork(segment) {
+  const x = (segment.x1 + segment.x2) / 2, y = (segment.y1 + segment.y2) / 2;
+  const angle = Math.atan2(segment.y2 - segment.y1, segment.x2 - segment.x1) * 180 / Math.PI;
+  return { x: -29, y: -14.5, width: 58, height: 29, transform: `translate(${x} ${y}) rotate(${angle})` };
 }
 
 export default function HexGrid({ garden, simulation, mycelialSupport = {}, simplifiedHexFills = false, tool, selection, plantingPreview, blockerPlacement, onHexClick, onEdgeClick, onStartHexDrag, onStartBlockerDrag, onRotateHeading, onRotationStart, onRotationEnd }) {
@@ -142,6 +149,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const object = garden.objects[key];
         const organismArt = organismIcon(object?.species);
         const blocker = playerBlockerDefinition(object);
+        const blockerArtwork = blockerArt(blocker);
         const preview = plantingPreview?.key === key ? plantingPreview : null;
         const staged = garden.staged?.[key];
         const proposal = preview || staged;
@@ -192,10 +200,12 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
                 <text x={c.x} y={c.y - 2} className="hex-glyph organism-glyph" textAnchor="middle">{object.type === 'plant' ? '❧' : '♧'}</text>
               </>}
             </g>}
-            {object?.type === 'blocker' && <>
-              <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.4},${c.y-4+(y-(c.y-4))*.4}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
-              <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text>
-            </>}
+            {object?.type === 'blocker' && (blockerArtwork
+              ? <image className="hex-blocker-art" href={blockerArtwork}
+                x={c.x - 31} y={c.y - 35} width={62} height={62} preserveAspectRatio="xMidYMid meet"
+                pointerEvents="none" aria-hidden="true"/>
+              : <><polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.4},${c.y-4+(y-(c.y-4))*.4}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
+                <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text></>)}
             {proposal && <g className={preview ? 'planting-preview-glyph' : 'staged-glyph'} pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#354b3b" stroke="#f1d28d" strokeDasharray="3 2" strokeWidth="2"/><text x={c.x} y={c.y - 3} fontSize="15" textAnchor="middle" fill="#f2d39a">{proposal.kind === 'plant' ? '◌' : '◈'}</text><text x={c.x} y={c.y + 10} fontSize="10" textAnchor="middle" fill="#fff2cc">×{proposal.quantity}</text></g>}
             {pending && <g className="pending-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#414438" stroke="#d6c99c" strokeWidth="2"/><text x={c.x} y={c.y - 2} fontSize="19" textAnchor="middle" fill="#e7d29d">?</text></g>}
             <HexMeters center={c} illumination={Illumination} growth={object?.progress || 0}
@@ -240,10 +250,15 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const p = edgeSegment(a, b);
         const active = selection.type === 'edge' && selection.id === id;
         const item = playerBlockerDefinition(blocker);
+        const artwork = blockerArt(item);
+        const image = edgeArtwork(p);
         const placingEdge = blockerPlacement?.form === 'edge';
         const keyboardTarget = item || (placingEdge && !blocker);
         return <g key={id} className={`edge-group ${blocker ? 'is-blocked' : ''}`}>
-          {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' || item?.filters.includes('all') ? '#f0ad8d' : '#cbb4e9'} strokeWidth={active ? 8 : 6} strokeLinecap="round" pointerEvents="none"/>}
+          {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' || item?.filters.includes('all') ? '#f0ad8d' : '#cbb4e9'}
+            strokeWidth={active ? 8 : artwork ? 3 : 6} strokeLinecap="round" opacity={artwork && !active ? .28 : 1} pointerEvents="none"/>}
+          {artwork && <image {...image} className={`edge-blocker-art${active ? ' is-active' : ''}`} href={artwork}
+            preserveAspectRatio="xMidYMid meet" pointerEvents="none" aria-hidden="true"/>}
           {tool === 'edge' && !blocker && <line {...p} stroke="#f4e6bf" strokeWidth="2" strokeDasharray="2 5" opacity=".42" pointerEvents="none"/>}
           {placingEdge && !blocker && <line {...p} className="blocker-placement-target" pointerEvents="none"/>}
           <line {...p} stroke="transparent" strokeWidth="15" className="edge-hit"

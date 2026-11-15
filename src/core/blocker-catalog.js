@@ -10,11 +10,15 @@ const designs = [
   ['climate-divider', 'Climate Divider', ['Moisture', 'Temperature', 'Illumination']],
 ];
 
+export const BLOCKER_DESIGNS = Object.freeze(designs.map(([id, name, filters]) => Object.freeze({
+  id, name, filters: Object.freeze(filters),
+})));
+
 export const BLOCKER_ITEMS = Object.freeze(Object.fromEntries(
-  designs.flatMap(([design, name, filters]) => ['edge', 'hex'].map(form => {
+  BLOCKER_DESIGNS.flatMap(({ id: design, name, filters }) => ['edge', 'hex'].map(form => {
     const id = `blocker:${design}:${form}`;
-    return [id, Object.freeze({ id, form, name: `${name} (${form === 'edge' ? 'Edge' : 'Hex'})`,
-      filters: Object.freeze(filters) })];
+    return [id, Object.freeze({ id, design, form, baseName: name,
+      name: `${name} (${form === 'edge' ? 'Edge' : 'Hex'})`, filters })];
   })),
 ));
 

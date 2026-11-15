@@ -9,8 +9,9 @@ import { join } from 'node:path';
 import { createGrimoire, revealPlant, observeFungalAction } from '../src/core/grimoire.js';
 import { FUNGI } from '../src/core/species.js';
 import { SOURCE_ITEM_GROUPS } from '../src/core/source-item-catalog.js';
+import { BLOCKER_DESIGNS } from '../src/core/blocker-catalog.js';
 import { effectAmount, EFFECT_DEFINITIONS } from '../src/grimoire/effects.js';
-import { BOOK_ENTRIES, TOOL_SPREADS, entryName } from '../src/grimoire/book.js';
+import { BOOK_ENTRIES, TOOL_SPREADS, BLOCKER_SPREADS, entryName } from '../src/grimoire/book.js';
 import { illustrationFor } from '../src/grimoire/illustrations.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -28,8 +29,8 @@ try {
   await rm(cache, { recursive: true, force: true });
 }
 const text = markup => markup.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
-const spread = (entry, side, ledger, preview = false, unlockedSourceGroup = 0) => renderToStaticMarkup(React.createElement(BookSpread,
-  { entry, side, ledger, preview, unlockedSourceGroup, navigate() {}, glossary() {} }));
+const spread = (entry, side, ledger, preview = false, unlockedSourceGroup = 0, unlockedBlockers = new Set()) => renderToStaticMarkup(React.createElement(BookSpread,
+  { entry, side, ledger, preview, unlockedSourceGroup, unlockedBlockers, navigate() {}, glossary() {} }));
 
 test('Garden Tools art assets are packaged as valid WebP files', async () => {
   for (const asset of ['unknown-tools.webp', 'tools-left-border.webp', 'tools-right-border.webp',
@@ -85,6 +86,58 @@ test('unlocked and developer-preview Garden Tools reveal canonical facts without
     assert.equal((text(allPages).match(new RegExp(`\\b${item.name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\b`, 'g')) || []).length, 1, item.name);
   }
   assert.equal(JSON.stringify(ledger), before);
+});
+
+test('Blocker art and Grimoire furniture are packaged as valid WebP files', async () => {
+  const assets = BLOCKER_DESIGNS.flatMap(design => [`ui/blockers/${design.id}-edge.webp`, `ui/blockers/${design.id}-full.webp`]);
+  assets.push('grimoire/blockers-left-border.webp', 'grimoire/blockers-right-border.webp',
+    'grimoire/tabs/blockers.webp', 'grimoire/icons/blockers.webp');
+  for (const asset of assets) {
+    const bytes = await readFile(join(root, 'public', asset));
+    assert.equal(bytes.subarray(0, 4).toString(), 'RIFF', asset);
+    assert.equal(bytes.subarray(8, 12).toString(), 'WEBP', asset);
+    assert.ok(bytes.length > 1_000, asset);
+  }
+});
+
+test('locked Blocker families use runes and unidentified art without leaking their names or effects', () => {
+  const ledger = createGrimoire();
+  for (const definition of BLOCKER_SPREADS) {
+    const entry = BOOK_ENTRIES.find(item => item.key === definition.key);
+    for (const side of ['left', 'right']) {
+      const page = definition[side];
+      if (page.kind !== 'blocker-group') continue;
+      const rendered = spread(entry, side, ledger), copy = text(rendered);
+      assert.match(rendered, /unknown-tools\.webp/);
+      assert.match(rendered, /cg-runes/);
+      assert.doesNotMatch(copy, /Item description goes here|Shared edge|Reusable after retrieval|Blocks/);
+      for (const design of BLOCKER_DESIGNS) {
+        assert.ok(!copy.includes(design.name), design.name);
+        assert.ok(!rendered.includes(`/ui/blockers/${design.id}-edge.webp`), design.id);
+        assert.ok(!rendered.includes(`/ui/blockers/${design.id}-full.webp`), design.id);
+      }
+    }
+  }
+});
+
+test('task-unlocked and preview Blocker pages reveal both matching forms exactly once', () => {
+  const ledger = createGrimoire(), first = BOOK_ENTRIES.find(entry => entry.key === 'blockers:opening');
+  const partial = spread(first, 'right', ledger, false, 0, new Set(['root-barrier']));
+  assert.match(text(partial), /Root Barrier Item description goes here Blocks Mycelial/);
+  assert.match(partial, /root-barrier-edge\.webp/);
+  assert.match(partial, /root-barrier-full\.webp/);
+  assert.doesNotMatch(text(partial), /Windbreak/);
+
+  const allPages = BLOCKER_SPREADS.flatMap(definition => {
+    const entry = BOOK_ENTRIES.find(item => item.key === definition.key);
+    return ['left', 'right'].filter(side => definition[side].kind === 'blocker-group')
+      .map(side => spread(entry, side, ledger, true));
+  }).join('');
+  for (const design of BLOCKER_DESIGNS) {
+    assert.equal((allPages.match(new RegExp(`<img src="/ui/blockers/${design.id}-edge\\.webp`, 'g')) || []).length, 1, design.id);
+    assert.equal((allPages.match(new RegExp(`<img src="/ui/blockers/${design.id}-full\\.webp`, 'g')) || []).length, 1, design.id);
+    assert.equal((text(allPages).match(new RegExp(`\\b${design.name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\b`, 'g')) || []).length, 1, design.name);
+  }
 });
 
 test('both directions mount the correct incoming printed back page before a leaf begins turning', () => {

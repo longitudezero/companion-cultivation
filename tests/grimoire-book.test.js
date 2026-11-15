@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { PLANTS, FUNGI } from '../src/core/species.js';
 import { createGrimoire, revealPlant, migrateGrimoire, observeFungalAction } from '../src/core/grimoire.js';
 import { TRANSFORMATIONS } from '../src/core/transformations.js';
-import { BOOK_ENTRIES, CHAPTERS, TOOL_SPREADS, entryKnown, entryName, runeName, atlasGraph, atlasLayout,
+import { BOOK_ENTRIES, CHAPTERS, TOOL_SPREADS, BLOCKER_SPREADS, entryKnown, entryName, runeName, atlasGraph, atlasLayout,
   tabIsLeft, observedEffects, observedTransformations, fungusTransformationTargets, initialNavigation, bookNavigation,
   stationaryPages, turningPages, PAGE_TURN_DURATION, MAX_JUMP_TURNS, DISCOVERY_PHRASES, discoveryPhrase } from '../src/grimoire/book.js';
 import { previewFungusProfile, previewFungusEffects, recipeReferencesFungus } from '../src/core/grimoire-preview.js';
@@ -34,7 +34,8 @@ test('all Plant pages and references exist before discovery and keep their place
 test('a chapter bookmark is on the left from its opening overview', () => {
   for (const [chapter, definition] of CHAPTERS.entries()) {
     const start = BOOK_ENTRIES.find(entry => entry.chapter === chapter);
-    assert.equal(start.kind, definition.key === 'Index' ? 'index' : definition.key === 'Garden Tools' ? 'tools' : 'overview');
+    const expected = { Index: 'index', 'Garden Tools': 'tools', Blockers: 'blockers' }[definition.key] || 'overview';
+    assert.equal(start.kind, expected);
     assert.equal(tabIsLeft(chapter, start), true);
     for (let i = chapter + 1; i < CHAPTERS.length; i++) assert.equal(tabIsLeft(i, start), false);
     for (let i = 0; i < chapter; i++) assert.equal(tabIsLeft(i, start), true);
@@ -53,6 +54,19 @@ test('Garden Tools occupies four stable spreads after Fungi while Index remains 
   assert.equal(BOOK_ENTRIES.at(-1).key, 'index');
   assert.equal(entryName(tools[0], createGrimoire()), 'Garden Tools');
   assert.equal(entryName(tools[3], createGrimoire()), 'Harsh and Unusual Tools');
+});
+
+test('Blockers occupy three stable spreads after Garden Tools and keep Index last', () => {
+  const blockersChapter = CHAPTERS.findIndex(chapter => chapter.key === 'Blockers');
+  const toolsChapter = CHAPTERS.findIndex(chapter => chapter.key === 'Garden Tools');
+  const blockers = BOOK_ENTRIES.filter(entry => entry.chapter === blockersChapter);
+  const tools = BOOK_ENTRIES.filter(entry => entry.chapter === toolsChapter);
+  assert.deepEqual(blockers.map(entry => entry.key), BLOCKER_SPREADS.map(entry => entry.key));
+  assert.equal(blockers.length, 3);
+  assert.ok(blockers[0].index > tools.at(-1).index);
+  assert.equal(BOOK_ENTRIES.at(-1).key, 'index');
+  assert.equal(entryName(blockers[0], createGrimoire()), 'Blockers');
+  assert.equal(entryName(blockers[2], createGrimoire()), 'Climate Blockers');
 });
 
 test('every atlas keeps all canonical connections in compact, separate branches, including joins and cycles', () => {

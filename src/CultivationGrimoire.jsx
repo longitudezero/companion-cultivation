@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react';
 import { createGrimoire } from './core/grimoire.js';
 import { unlockedSourceGroup } from './core/source-item-progression.js';
+import { unlockedBlockerDesigns } from './core/blocker-progression.js';
 import { BOOK_ENTRIES, CHAPTERS, bookNavigation, initialNavigation, stationaryPages, turningPages, tabIsLeft } from './grimoire/book.js';
 import { EFFECT_DEFINITIONS } from './grimoire/effects.js';
 import { art, bookmarkStyle } from './grimoire/art.js';
@@ -118,6 +119,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   });
   const ledger = garden.grimoire || EMPTY_LEDGER;
   const sourceGroupLevel = unlockedSourceGroup(garden);
+  const blockerUnlocks = unlockedBlockerDesigns(garden);
   const journal = garden.journal?.version === 4 ? garden.journal : normalizeJournal(garden.journal);
   const busy = Boolean(nav.turn) || nav.current !== nav.target;
   const scene = useBookView(root, modal || suspended || busy);
@@ -270,7 +272,7 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
   }, [busy, glossary, desk, pendingDelete, modal, suspended, nav.current, navigate, onClose]);
 
   const page = (index, side) => <React.Fragment key={`${index}-${side}`}><BookSpread entry={BOOK_ENTRIES[index]} side={side} ledger={viewLedger}
-    preview={viewPreview} unlockedSourceGroup={sourceGroupLevel} navigate={navigate} glossary={openGlossary}/>
+    preview={viewPreview} unlockedSourceGroup={sourceGroupLevel} unlockedBlockers={blockerUnlocks} navigate={navigate} glossary={openGlossary}/>
     {busy && <StaticPageNotes journal={journal} entryKey={BOOK_ENTRIES[index].key} side={side} pageSize={pageSize}/>}</React.Fragment>;
 
   function focusBookControl(event) {

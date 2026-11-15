@@ -8,12 +8,13 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, applyStaging,
   advanceGardenTime, PLANTS, FUNGI, makePlant, makeFungus, placeObject, calculateEnvironment, calculateCultivation,
-  grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
+  grantSourceItem, placeSourceItem, grantBlockerItem, placeBlockerItem, BLOCKER_DESIGNS,
+  setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
 import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
 import { ORGANISM_ICON_FILES } from '../src/ui/organism-art.js';
-import { neighborsOf } from '../src/core/grid.js';
+import { neighborsOf, edgeKey } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
   let garden = ensureInventorySlots(createGarden());
@@ -249,6 +250,24 @@ test('every Plant and Fungus uses its packaged hex icon', async () => {
     const occupied = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
     assert.ok(occupied.includes(`ui/hexes/organisms/${file}`), name);
     assert.ok(!occupied.includes('organism-glyph'), `${name}: no fallback glyph`);
+  }
+});
+
+test('every Blocker uses its matching art in the garden and Inspector', () => {
+  for (const design of BLOCKER_DESIGNS) for (const form of ['edge', 'hex']) {
+    const id = `blocker:${design.id}:${form}`;
+    let garden = grantBlockerItem(createGarden(3, 3), id);
+    const target = form === 'edge' ? { type: 'edge', a: '0,0', b: '1,0' } : { type: 'hex', key: '0,0' };
+    garden = placeBlockerItem(garden, id, target);
+    const selection = form === 'edge' ? { ...target, id: edgeKey(target.a, target.b) } : target;
+    const file = `${design.id}-${form === 'edge' ? 'edge' : 'full'}.webp`;
+    const grid = render(HexGrid, { garden, simulation: calculateEnvironment(garden), tool: 'inspect', selection });
+    assert.ok(grid.includes(`ui/blockers/${file}`), `${design.name} ${form}: garden art`);
+    assert.ok(grid.includes(form === 'edge' ? 'edge-blocker-art' : 'hex-blocker-art'), `${design.name} ${form}: art class`);
+    const detail = render(GardenInspector, { garden, selection, simulation: calculateEnvironment(garden),
+      cultivation: calculateCultivation(garden) });
+    assert.ok(detail.includes(`ui/blockers/${file}`), `${design.name} ${form}: Inspector art`);
+    assert.ok(detail.includes('portrait-blocker'), `${design.name} ${form}: Inspector portrait`);
   }
 });
 

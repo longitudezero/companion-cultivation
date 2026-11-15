@@ -13,6 +13,7 @@ import GameArt, { CONDITION_ART } from './GameArt.jsx';
 import RuneProgress from './RuneProgress.jsx';
 import { PALETTES } from './hex-model.js';
 import { illuminationArt } from './illumination-art.js';
+import { blockerArt } from './blocker-art.js';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const PEAK_ART = { leaf: 'leaves', seed: 'seeds', spore: 'spores' };
@@ -51,6 +52,7 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
   const source = isPlayerSource(object);
   const placedBlocker = selection.type === 'edge' ? garden.edges[selection.id] : object?.type === 'blocker' ? object : null;
   const blocker = playerBlockerDefinition(placedBlocker);
+  const blockerArtwork = blockerArt(blocker);
   const title = blocker ? blocker.name : organism ? object.species : source ? SOURCE_ITEMS[object.catalogId].name
     : staged ? staged.species : pending ? 'Awaiting germination' : object ? object.type === 'blocker' ? 'Hex Blocker' : 'Influence Source'
       : selection.type === 'edge' ? 'Shared hex edge' : `Hex ${key}`;
@@ -68,6 +70,7 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     <div className="inspector-portrait">
       {organism ? <button className="portrait-entry" onClick={() => onOpenEntry(object)} title={`Read ${title} in the Grimoire`}
         aria-label={`Open ${title} Grimoire entry`}>{art ? <img src={art.src} alt={`${title} illustration`} draggable="false"/> : <span>❧</span>}</button>
+        : blockerArtwork ? <div className="portrait-symbol portrait-blocker"><img src={blockerArtwork} alt={`${title} illustration`} draggable="false"/></div>
         : <div className={`portrait-symbol ${pending ? 'pending' : ''}`} aria-hidden="true">{blocker ? blocker.form === 'edge' ? '╱' : '▧' : pending ? '?' : staged ? '◌' : source ? '✧' : '⬡'}</div>}
       <h2>{title}</h2>
       <p>{organism ? object.type === 'plant' ? PLANTS[object.species].family : 'Fungi' : selection.type === 'edge' ? `${selection.a} ↔ ${selection.b}` : object || staged || pending ? `Hex ${key}` : 'Empty soil'}

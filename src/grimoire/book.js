@@ -8,6 +8,7 @@ export const CHAPTERS = Object.freeze([
   { key: 'Aquatic', symbol: '≋' }, { key: 'Woodlands', symbol: '♣' },
   { key: 'Desert', symbol: '✧' }, { key: 'Spices', symbol: '✳' },
   { key: 'Fungi', symbol: '♧' }, { key: 'Garden Tools', symbol: '⚒', art: 'tools' },
+  { key: 'Blockers', symbol: '▧', art: 'blockers' },
   { key: 'Index', symbol: '❦' },
 ].map(chapter => Object.freeze({ ...chapter, label: chapter.key, art: chapter.art || chapter.key.toLowerCase() })));
 
@@ -16,6 +17,12 @@ export const TOOL_SPREADS = Object.freeze([
   { key: 'tools:emergency-directional', label: 'Emergency and Directional Tools', left: { kind: 'source-group', group: 1 }, right: { kind: 'source-group', group: 2 } },
   { key: 'tools:power-control', label: 'Power and Directional Control', left: { kind: 'source-group', group: 3 }, right: { kind: 'source-group', group: 4 } },
   { key: 'tools:harsh-unusual', label: 'Harsh and Unusual Tools', left: { kind: 'source-group', group: 5 }, right: { kind: 'source-group', group: 6 } },
+].map(spread => Object.freeze({ ...spread, left: Object.freeze(spread.left), right: Object.freeze(spread.right) })));
+
+export const BLOCKER_SPREADS = Object.freeze([
+  { key: 'blockers:opening', label: 'Blockers', left: { kind: 'blockers-opening' }, right: { kind: 'blocker-group', group: 0 } },
+  { key: 'blockers:boundaries', label: 'Boundary Blockers', left: { kind: 'blocker-group', group: 1 }, right: { kind: 'blocker-group', group: 2 } },
+  { key: 'blockers:climate', label: 'Climate Blockers', left: { kind: 'blocker-group', group: 3 }, right: { kind: 'blocker-group', group: 4 } },
 ].map(spread => Object.freeze({ ...spread, left: Object.freeze(spread.left), right: Object.freeze(spread.right) })));
 
 const RUNES = [...'ᚨᛒᛞᛖᚷᚺᛚᛗᛟᛈᚱᛊᛏᚢᚹᚲᛁᚴᚬᛋᛆᛓᚽᛙᛑᛔᚡᛍᚤᚪᚳᚻᛄ'];
@@ -36,6 +43,7 @@ export function runeName(identity) {
 export const BOOK_ENTRIES = Object.freeze(CHAPTERS.flatMap((chapter, index) => {
   if (chapter.key === 'Index') return [{ key: 'index', chapter: index, kind: 'index' }];
   if (chapter.key === 'Garden Tools') return TOOL_SPREADS.map(spread => ({ ...spread, chapter: index, kind: 'tools' }));
+  if (chapter.key === 'Blockers') return BLOCKER_SPREADS.map(spread => ({ ...spread, chapter: index, kind: 'blockers' }));
   const species = chapter.key === 'Fungi' ? Object.keys(FUNGI)
     : Object.keys(PLANTS).filter(name => PLANTS[name].family === chapter.key);
   return [{ key: `family:${chapter.key}`, chapter: index, kind: 'overview' }, ...species.map(name => ({
@@ -54,6 +62,7 @@ export function entryName(entry, ledger, preview = false) {
   if (entry.kind === 'index') return 'Cultivation Grimoire';
   if (entry.kind === 'overview') return CHAPTERS[entry.chapter].label;
   if (entry.kind === 'tools') return entry.label;
+  if (entry.kind === 'blockers') return entry.label;
   return entryKnown(entry, ledger, preview) ? entry.species : runeName(entry.species);
 }
 export const tabIsLeft = (chapter, entry) => chapter <= entry.chapter;
