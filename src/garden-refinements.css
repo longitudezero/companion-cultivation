@@ -107,6 +107,8 @@
 .blocker-placement-target { stroke: #f4d68d; stroke-width: 3; stroke-dasharray: 4 3; opacity: .55; }
 .hex-blocker-art, .edge-blocker-art { filter: drop-shadow(0 2px 2px #07100bd6); }
 .edge-blocker-art.is-active { filter: brightness(1.08) drop-shadow(0 0 4px #ffe3a4d9) drop-shadow(0 2px 2px #07100bd6); }
+.hex-cell.has-player-blocker, .edge-group.has-player-blocker .edge-hit { cursor: grab; }
+.hex-cell.has-player-blocker:active, .edge-group.has-player-blocker .edge-hit:active { cursor: grabbing; }
 .hex-cell:is(:hover, :focus-visible) .blocker-placement-target,
 .edge-group:is(:hover, :focus-within) .blocker-placement-target { stroke-width: 5; opacity: 1; }
 .edge-hit[role="button"] { cursor: pointer; }

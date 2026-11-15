@@ -1,6 +1,7 @@
 import { offsetOf } from '../core/grid.js';
 
 export const HEX_SIZE = 48;
+export const HEX_GAP = 12;
 export const HEX_ROTATION_RADIUS = 68;
 export const SIMPLE_HEX_FILLS = { Dry: 'simple-dry.webp', Damp: 'simple-damp.webp', Flooded: 'simple-flooded.webp' };
 export const HEX_ART = {
@@ -8,8 +9,9 @@ export const HEX_ART = {
   Temperature: { Freezing: 'temperature-freezing.webp', Cold: 'temperature-cold.webp',
     Temperate: 'temperature-temperate.webp', Hot: 'temperature-hot.webp', Scorching: 'temperature-scorching.webp' },
 };
-const DX = Math.sqrt(3) * HEX_SIZE;
-const Y_STEP = 1.5 * HEX_SIZE;
+export const HEX_CENTER_STEP = Math.sqrt(3) * HEX_SIZE + HEX_GAP;
+const DX = HEX_CENTER_STEP;
+const Y_STEP = Math.sqrt(3) / 2 * HEX_CENTER_STEP;
 const ORIGIN = 90; // Leaves room for the direction handle at every plot edge.
 
 export const gridDimensions = garden => ({

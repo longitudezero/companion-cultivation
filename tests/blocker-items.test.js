@@ -4,7 +4,7 @@ import {
   BLOCKER_ITEMS, TASKS, INVENTORY_CAPACITY, advanceGardenTime, calculateCultivation, calculateEnvironment,
   calculateMycelialSupport, createGarden, deserializeGameSave, edgeKey, grantBlockerItem, grantSourceItem,
   inventoryItems, isBlocked, isMycelial, makeBlocker, makeFungus, makeInfluence, makePlant, makeSource,
-  pickupBlockerItem, placeBlockerItem, placeEdgeBlocker, placeObject, placeSourceItem, resizeGarden, serializeGameSave, setBaseline,
+  moveBlockerItem, pickupBlockerItem, placeBlockerItem, placeEdgeBlocker, placeObject, placeSourceItem, resizeGarden, serializeGameSave, setBaseline,
   unlockedBlockerDesigns,
 } from '../src/core/index.js';
 
@@ -134,4 +134,34 @@ test('pickup preserves a deployed piece when a new Inventory stack cannot fit', 
   const restored = pickupBlockerItem(placeSourceItem(garden, item, '0,0'), target);
   assert.equal(restored.inventory.blockers[id], 1);
   assert.equal(restored.edges[edgeKey('0,0', '1,0')], undefined);
+});
+
+test('placed Blockers move directly between matching garden positions without using Inventory', () => {
+  const edgeId = itemId('windbreak', 'edge'), hexId = itemId('windbreak', 'hex');
+  const sourceEdge = edge('0,0', '1,0'), targetEdge = edge('1,0', '2,0');
+  const sourceHex = hex('0,1'), targetHex = hex('2,1');
+  let garden = deploy(deploy(createGarden(), 'windbreak', sourceEdge), 'windbreak', sourceHex);
+  const inventory = structuredClone(garden.inventory);
+
+  garden = moveBlockerItem(garden, sourceEdge, targetEdge);
+  garden = moveBlockerItem(garden, sourceHex, targetHex);
+  assert.equal(garden.edges[edgeKey(sourceEdge.a, sourceEdge.b)], undefined);
+  assert.deepEqual(garden.edges[edgeKey(targetEdge.a, targetEdge.b)], { type: 'blocker', blockerId: edgeId });
+  assert.equal(garden.objects[sourceHex.key], undefined);
+  assert.deepEqual(garden.objects[targetHex.key], { type: 'blocker', blockerId: hexId });
+  assert.deepEqual(garden.inventory, inventory);
+  assert.equal(moveBlockerItem(garden, targetHex, targetHex), garden);
+});
+
+test('invalid direct Blocker moves leave their source and destination unchanged', () => {
+  const source = hex('0,0'), occupied = hex('1,0');
+  let garden = deploy(createGarden(), 'root-barrier', source);
+  garden = placeObject(garden, occupied.key, makePlant('Beanstalk'));
+  garden = deploy(garden, 'windbreak', edge('0,1', '1,1'));
+  garden = deploy(garden, 'windbreak', edge('0,1', '0,2'));
+  const before = structuredClone(garden);
+  assert.throws(() => moveBlockerItem(garden, source, edge('0,0', '1,0')), /empty hex/);
+  assert.throws(() => moveBlockerItem(garden, source, occupied), /contains an object/);
+  assert.throws(() => moveBlockerItem(garden, edge('0,1', '1,1'), edge('0,1', '0,2')), /already has/);
+  assert.deepEqual(garden, before);
 });

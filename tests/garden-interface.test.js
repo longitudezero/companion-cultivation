@@ -12,7 +12,7 @@ import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, 
   setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
-import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
+import { HEX_SIZE, HEX_GAP, HEX_CENTER_STEP, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
 import { ORGANISM_ICON_FILES } from '../src/ui/organism-art.js';
 import { neighborsOf, edgeKey } from '../src/core/grid.js';
 
@@ -315,10 +315,23 @@ test('enlarged grid bounds contain every hex and directional handle on supported
       }
       for (const neighbor of neighborsOf(key)) {
         const other = hexCenter(neighbor);
-        assert.ok(Math.abs(Math.hypot(other.x-center.x, other.y-center.y) - Math.sqrt(3)*HEX_SIZE) < 1e-8);
+        assert.ok(Math.abs(Math.hypot(other.x-center.x, other.y-center.y) - HEX_CENTER_STEP) < 1e-8);
+        assert.equal(HEX_CENTER_STEP, Math.sqrt(3)*HEX_SIZE + HEX_GAP);
       }
     }
   }
+});
+
+test('Blocker artwork uses the added garden gap and fills an occupied hex', async () => {
+  let garden = grantBlockerItem(createGarden(), 'blocker:root-barrier:hex');
+  garden = placeBlockerItem(garden, 'blocker:root-barrier:hex', { type: 'hex', key: '1,1' });
+  const simulation = calculateEnvironment(garden);
+  const markup = renderToStaticMarkup(React.createElement(HexGrid, { garden, simulation, tool: 'inspect',
+    selection: { type: 'hex', key: '1,1' }, onHexClick() {}, onEdgeClick() {} }));
+  assert.match(markup, /class="hex-blocker-art"/);
+  assert.match(markup, /hex-cell has-player-blocker/);
+  assert.match(markup, /width="88" height="88"/);
+  assert.ok(HEX_GAP > 0);
 });
 
 test('the quantity selector clears the full rotation handle as zoom and viewport change', () => {

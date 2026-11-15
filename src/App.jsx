@@ -46,7 +46,7 @@ import {
   serializeGameSave, deserializeGameSave,
   SOURCE_ITEMS, SOURCE_ITEM_GROUPS, isPlayerSource,
   grantSourceItem, placeSourceItem, moveSourceItem, pickupSourceItem, rotateSourceItem, rotateStagedFungus,
-  BLOCKER_ITEMS, playerBlockerDefinition, grantBlockerItem, placeBlockerItem, pickupBlockerItem,
+  BLOCKER_ITEMS, playerBlockerDefinition, grantBlockerItem, placeBlockerItem, pickupBlockerItem, moveBlockerItem,
 } from './core/index.js';
 
 // Keep the autosave key so existing gardens upgrade their names and temperature
@@ -487,7 +487,8 @@ export default function App() {
       if (Math.hypot(pointer.clientX - data.startX, pointer.clientY - data.startY) > 7) data.moving = true;
       if (data.moving) setDragGhost({ x: pointer.clientX + 12, y: pointer.clientY + 10,
         title: payload.name || payload.species || (type === 'staged' ? 'Move staged planting' : 'Harvest'),
-        blocker: type === 'item' && payload.type === 'blocker-item' ? payload : null });
+        blocker: type === 'item' && payload.type === 'blocker-item' ? payload
+          : type === 'placed-blocker' ? payload.blocker : null });
     };
     const end = (pointer) => {
       const destination = document.elementFromPoint(pointer.clientX, pointer.clientY);
@@ -514,6 +515,10 @@ export default function App() {
           setSelection({ type: 'hex', key: hex });
           if (!gardenRef.current.inventory.sourceItems?.[payload.id]) setHeldItem(null);
         } else setNotice('Choose Seeds, Spores, a Source item or a Blocker to place it in the garden.');
+      } else if (type === 'placed-blocker' && (hex || edge)) {
+        const target = edge ? { type: 'edge', id: edge.gardenEdge, a: edge.edgeA, b: edge.edgeB }
+          : { type: 'hex', key: hex };
+        if (changeGarden(previous => moveBlockerItem(previous, payload.target, target))) setSelection(target);
       } else if (type === 'placed-blocker' && inventory) {
         changeGarden(previous => pickupBlockerItem(previous, payload.target));
       } else if (type === 'placed-item' && inventory) {
@@ -746,7 +751,7 @@ export default function App() {
             tracker={<TaskTracker garden={garden} onInspect={inspectTaskHex} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
               tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
             world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simplifiedHexFills={simplifiedHexFills} plantingPreview={quantityPrompt} blockerPlacement={blockerToPlace} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
-            onStartBlockerDrag={(target, item, event) => startPointerDrag('placed-blocker', { target, name: item.name }, event)}
+            onStartBlockerDrag={(target, item, event) => startPointerDrag('placed-blocker', { target, name: item.name, blocker: item }, event)}
             onRotateHeading={rotateSelectedHex}
             onRotationStart={kind => { if (kind === 'staged') rotationSnapshot.current = gardenRef.current.staged || {}; }}
             onRotationEnd={kind => { if (kind === 'staged') { const before = rotationSnapshot.current; rotationSnapshot.current = null;

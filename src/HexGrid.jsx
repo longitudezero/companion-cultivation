@@ -160,7 +160,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const c = centerFor(key);
         const active = selection.type === 'hex' && selection.key === key;
         return (
-            <g key={key} data-garden-hex={key} data-occupied={Boolean(object || proposal || pending)} className="hex-cell" style={{ '--hex-temperature-color': border }} onClick={(event) => onHexClick(key, event)}
+            <g key={key} data-garden-hex={key} data-occupied={Boolean(object || proposal || pending)}
+            className={`hex-cell${blocker ? ' has-player-blocker' : ''}`} style={{ '--hex-temperature-color': border }} onClick={(event) => onHexClick(key, event)}
             onPointerDown={(event) => {
               if (blocker) onStartBlockerDrag?.({ type: 'hex', key }, blocker, event);
               else if (staged || isPlayerSource(object) || ['plant', 'fungus'].includes(object?.type)) {
@@ -202,7 +203,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
             </g>}
             {object?.type === 'blocker' && (blockerArtwork
               ? <image className="hex-blocker-art" href={blockerArtwork}
-                x={c.x - 31} y={c.y - 35} width={62} height={62} preserveAspectRatio="xMidYMid meet"
+                x={c.x - 44} y={c.y - 48} width={88} height={88} preserveAspectRatio="xMidYMid meet"
                 pointerEvents="none" aria-hidden="true"/>
               : <><polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.4},${c.y-4+(y-(c.y-4))*.4}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
                 <text x={c.x} y={c.y + 1} className="hex-glyph" textAnchor="middle">×</text></>)}
@@ -254,9 +255,10 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const image = edgeArtwork(p);
         const placingEdge = blockerPlacement?.form === 'edge';
         const keyboardTarget = item || (placingEdge && !blocker);
-        return <g key={id} className={`edge-group ${blocker ? 'is-blocked' : ''}`}>
+        return <g key={id} className={`edge-group ${blocker ? 'is-blocked' : ''}${item ? ' has-player-blocker' : ''}`}>
           {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' || item?.filters.includes('all') ? '#f0ad8d' : '#cbb4e9'}
-            strokeWidth={active ? 8 : artwork ? 3 : 6} strokeLinecap="round" opacity={artwork && !active ? .28 : 1} pointerEvents="none"/>}
+            strokeWidth={active ? (artwork ? 5 : 8) : artwork ? 3 : 6} strokeLinecap="round"
+            opacity={artwork ? (active ? .42 : .2) : 1} pointerEvents="none"/>}
           {artwork && <image {...image} className={`edge-blocker-art${active ? ' is-active' : ''}`} href={artwork}
             preserveAspectRatio="xMidYMid meet" pointerEvents="none" aria-hidden="true"/>}
           {tool === 'edge' && !blocker && <line {...p} stroke="#f4e6bf" strokeWidth="2" strokeDasharray="2 5" opacity=".42" pointerEvents="none"/>}

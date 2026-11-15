@@ -111,7 +111,7 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
         : source ? <><div className="inspector-value"><span>Active time remaining</span><strong>{simulationSpeed ? formatRealDuration(object.remainingHours / simulationSpeed) : 'Paused'}</strong></div>
           <button onClick={onReturnSource}>Return item to inventory</button>
           {directional && <div className="heading-buttons">{STARTING_DIRECTIONS.map((label, heading) => <button key={label} aria-label={`Face ${label}`} className={object.heading === heading ? 'selected' : ''} onClick={() => onRotate(key, 'item', heading)}>{heading + 1}</button>)}</div>}</>
-          : blocker ? <><p>Blocks {blockerFilterText(blocker.filters)}.</p>
+          : blocker ? <><p>Blocks {blockerFilterText(blocker.filters)}. Drag it to another empty {blocker.form === 'edge' ? 'shared border' : 'hex'} to move it.</p>
             <div className="inspector-inline-actions"><button onClick={onReturnBlocker}>Return Blocker to inventory</button></div></>
           : <p>{placedBlocker ? `Blocks ${placedBlocker.rule === 'full' ? 'all influences' : `${placedBlocker.rule}: ${placedBlocker.value}`}.`
             : selection.type === 'edge' ? 'A shared boundary between two neighbouring hexes.' : 'Select an inventory item, then an empty hex to place it.'}</p>}

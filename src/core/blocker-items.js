@@ -42,3 +42,25 @@ export function pickupBlockerItem(garden, target) {
     : removeEdgeBlocker(garden, target.a, target.b);
   return grantBlockerItem(removed, definition.id);
 }
+
+export function moveBlockerItem(garden, from, target) {
+  const object = from?.type === 'hex' ? garden.objects[from.key]
+    : from?.type === 'edge' ? garden.edges[edgeKey(from.a, from.b)] : null;
+  const definition = playerBlockerDefinition(object);
+  if (!definition || definition.form !== from?.type) throw new Error('No placed player Blocker to move.');
+  if (target?.type !== definition.form) {
+    throw new Error(definition.form === 'edge' ? 'Choose an empty shared border.' : 'Choose an empty hex.');
+  }
+
+  const sameTarget = target.type === 'hex' ? target.key === from.key
+    : edgeKey(target.a, target.b) === edgeKey(from.a, from.b);
+  if (sameTarget) return garden;
+  if (target.type === 'edge' && garden.edges[edgeKey(target.a, target.b)]) {
+    throw new Error('This border already has a Blocker.');
+  }
+
+  const removed = from.type === 'hex' ? removeObject(garden, from.key)
+    : removeEdgeBlocker(garden, from.a, from.b);
+  return target.type === 'hex' ? placeObject(removed, target.key, object)
+    : placeEdgeBlocker(removed, target.a, target.b, object);
+}
