@@ -229,6 +229,12 @@ test('living organisms use the lower edge growth meter and the freed central spa
   const empty = markup.split('data-garden-hex="1,0"')[1].split('data-garden-hex=')[0];
   assert.ok(occupied.includes('data-growth-meter="68"'));
   assert.ok(occupied.includes('ui/hexes/meters/growth-medallion.webp'));
+  const track = /class="hex-meter-track hex-meter-growth">\s*<path d="M([\d.-]+) ([\d.-]+) L([\d.-]+) ([\d.-]+)"[^>]*stroke-width="([\d.]+)"/.exec(occupied);
+  assert.ok(track);
+  const [, x1, y1, x2, y2, width] = track.map(Number);
+  assert.ok(Math.abs((y2 - y1) / (x2 - x1) - Math.tan(Math.PI / 6)) < .002, 'growth bar is parallel to the illustrated lower-left edge');
+  assert.equal(width, 10.8, 'growth bar is twice its original thickness');
+  assert.match(occupied, /class="hex-meter-fill"[^>]*stroke-width="3.2"/);
   assert.match(occupied, /class="hex-organism-art"[^>]*width="50" height="50"/);
   assert.ok(!empty.includes('data-growth-meter='));
   assert.ok(!empty.includes('growth-medallion.webp'));

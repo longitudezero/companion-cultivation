@@ -9,22 +9,24 @@ export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
 const clampPercent = value => Math.max(0, Math.min(100, Number(value) || 0));
+const GROWTH_TRACK_PATH = 'M-41.6 21.2 L-1 44.6';
+const GROWTH_FILL_PATH = 'M-1 44.6 L-41.6 21.2';
 
 function HexMeters({ center, illumination, growth, showGrowth }) {
   const growthLevel = clampPercent(growth / 2);
   return <g className="hex-meters" transform={`translate(${center.x} ${center.y})`} pointerEvents="none" aria-hidden="true"
     data-growth-meter={showGrowth ? growthLevel : undefined} data-illumination={illumination}>
     {showGrowth && <g className="hex-meter-track hex-meter-growth">
-      <path d="M-41.6 21.2 L-1 42.4" transform="translate(0 .8)" stroke="#06100c" strokeOpacity=".78" strokeWidth="5.4"/>
-      <path d="M-41.6 21.2 L-1 42.4" stroke="#2a1b10" strokeWidth="4.6"/>
-      <path d="M-41.6 21.2 L-1 42.4" stroke="url(#growth-track-metal)" strokeWidth="3.8"/>
-      <path d="M-41.6 21.2 L-1 42.4" stroke="#6b4627" strokeWidth="2.6"/>
-      <path d="M-41.6 21.2 L-1 42.4" stroke="url(#growth-track-well)" strokeWidth="1.8"/>
-      <path d="M-41.6 20 L-1 41.2" stroke="#ffe7a0" strokeOpacity=".82" strokeWidth=".34"/>
-      <path d="M-41.6 22.4 L-1 43.6" stroke="#6f3e19" strokeOpacity=".95" strokeWidth=".3"/>
-      <path className="hex-meter-fill" d="M-1 42.4 L-41.6 21.2" pathLength="100" stroke="url(#growth-meter-fill)" strokeWidth="1.6"
+      <path d={GROWTH_TRACK_PATH} transform="translate(0 .8)" stroke="#06100c" strokeOpacity=".78" strokeWidth="10.8"/>
+      <path d={GROWTH_TRACK_PATH} stroke="#2a1b10" strokeWidth="9.2"/>
+      <path d={GROWTH_TRACK_PATH} stroke="url(#growth-track-metal)" strokeWidth="7.6"/>
+      <path d={GROWTH_TRACK_PATH} stroke="#6b4627" strokeWidth="5.2"/>
+      <path d={GROWTH_TRACK_PATH} stroke="url(#growth-track-well)" strokeWidth="3.6"/>
+      <path d={GROWTH_TRACK_PATH} transform="translate(0 -1.2)" stroke="#ffe7a0" strokeOpacity=".82" strokeWidth=".68"/>
+      <path d={GROWTH_TRACK_PATH} transform="translate(0 1.2)" stroke="#6f3e19" strokeOpacity=".95" strokeWidth=".6"/>
+      <path className="hex-meter-fill" d={GROWTH_FILL_PATH} pathLength="100" stroke="url(#growth-meter-fill)" strokeWidth="3.2"
         strokeDasharray={`${growthLevel} 100`}/>
-      <path className="hex-meter-shine" d="M-1 41.8 L-41.6 20.6" pathLength="100" stroke="#effaa0" strokeOpacity=".75" strokeWidth=".3"
+      <path className="hex-meter-shine" d={GROWTH_FILL_PATH} transform="translate(0 -.6)" pathLength="100" stroke="#effaa0" strokeOpacity=".75" strokeWidth=".6"
         strokeDasharray={`${growthLevel} 100`}/>
     </g>}
     {showGrowth && <image className="hex-meter-decoration" href={hexArt('meters/growth-medallion.webp')}
@@ -144,9 +146,9 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
       <defs>
         <pattern id="grain" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.55" fill="#f4eee0" opacity=".18"/><circle cx="9" cy="10" r=".5" fill="#17291d" opacity=".15"/></pattern>
         <marker id="route-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 z" fill="#e9f0b4"/></marker>
-        <linearGradient id="growth-track-metal" x1="-42" y1="21" x2="0" y2="43" gradientUnits="userSpaceOnUse"><stop stopColor="#6f421d"/><stop offset=".18" stopColor="#f4d58d"/><stop offset=".42" stopColor="#b87831"/><stop offset=".7" stopColor="#edbd62"/><stop offset="1" stopColor="#6b3e1a"/></linearGradient>
-        <linearGradient id="growth-track-well" x1="-42" y1="21" x2="0" y2="43" gradientUnits="userSpaceOnUse"><stop stopColor="#0b1711"/><stop offset=".55" stopColor="#233928"/><stop offset="1" stopColor="#101d16"/></linearGradient>
-        <linearGradient id="growth-meter-fill" x1="-1" y1="42" x2="-42" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#459653"/><stop offset=".5" stopColor="#82cb58"/><stop offset="1" stopColor="#e0ef78"/></linearGradient>
+        <linearGradient id="growth-track-metal" x1="-41.6" y1="21.2" x2="-1" y2="44.6" gradientUnits="userSpaceOnUse"><stop stopColor="#6f421d"/><stop offset=".18" stopColor="#f4d58d"/><stop offset=".42" stopColor="#b87831"/><stop offset=".7" stopColor="#edbd62"/><stop offset="1" stopColor="#6b3e1a"/></linearGradient>
+        <linearGradient id="growth-track-well" x1="-41.6" y1="21.2" x2="-1" y2="44.6" gradientUnits="userSpaceOnUse"><stop stopColor="#0b1711"/><stop offset=".55" stopColor="#233928"/><stop offset="1" stopColor="#101d16"/></linearGradient>
+        <linearGradient id="growth-meter-fill" x1="-1" y1="44.6" x2="-41.6" y2="21.2" gradientUnits="userSpaceOnUse"><stop stopColor="#459653"/><stop offset=".5" stopColor="#82cb58"/><stop offset="1" stopColor="#e0ef78"/></linearGradient>
       </defs>
       {keys.map((key) => {
         const { Moisture, Temperature, Illumination } = simulation.conditions[key];
