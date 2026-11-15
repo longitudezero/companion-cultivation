@@ -1,11 +1,52 @@
 import React from 'react';
 import { neighborsOf, edgeKey, isMycelial, isPlayerSource, playerBlockerDefinition, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
-import GameArt, { CONDITION_ART } from './ui/GameArt.jsx';
 import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, HEX_ORGANISM_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
+const ILLUMINATION_LEVEL = { Dark: 25, Dim: 50, Lit: 75, Bright: 100 };
+const clampPercent = value => Math.max(0, Math.min(100, Number(value) || 0));
+
+function HexMeters({ center, illumination, growth, showGrowth }) {
+  const illuminationLevel = ILLUMINATION_LEVEL[illumination] || 0;
+  const growthLevel = clampPercent(growth / 2);
+  return <g className="hex-meters" transform={`translate(${center.x} ${center.y})`} pointerEvents="none" aria-hidden="true"
+    data-growth-meter={showGrowth ? growthLevel : undefined} data-illumination-meter={illuminationLevel}>
+    {showGrowth && <g className="hex-meter-track hex-meter-growth">
+      <path d="M-41.6 21.2 L-1 42.4" transform="translate(0 .8)" stroke="#06100c" strokeOpacity=".78" strokeWidth="5.4"/>
+      <path d="M-41.6 21.2 L-1 42.4" stroke="#2a1b10" strokeWidth="4.6"/>
+      <path d="M-41.6 21.2 L-1 42.4" stroke="url(#growth-track-metal)" strokeWidth="3.8"/>
+      <path d="M-41.6 21.2 L-1 42.4" stroke="#6b4627" strokeWidth="2.6"/>
+      <path d="M-41.6 21.2 L-1 42.4" stroke="url(#growth-track-well)" strokeWidth="1.8"/>
+      <path d="M-41.6 20 L-1 41.2" stroke="#ffe7a0" strokeOpacity=".82" strokeWidth=".34"/>
+      <path d="M-41.6 22.4 L-1 43.6" stroke="#6f3e19" strokeOpacity=".95" strokeWidth=".3"/>
+      <path className="hex-meter-fill" d="M-1 42.4 L-41.6 21.2" pathLength="100" stroke="url(#growth-meter-fill)" strokeWidth="1.6"
+        strokeDasharray={`${growthLevel} 100`}/>
+      <path className="hex-meter-shine" d="M-1 41.8 L-41.6 20.6" pathLength="100" stroke="#effaa0" strokeOpacity=".75" strokeWidth=".3"
+        strokeDasharray={`${growthLevel} 100`}/>
+    </g>}
+    <g className="hex-meter-track hex-meter-light">
+      <path d="M1 42.4 L41.6 21.2" transform="translate(0 .8)" stroke="#06100c" strokeOpacity=".78" strokeWidth="5.4"/>
+      <path d="M1 42.4 L41.6 21.2" stroke="#2a1b10" strokeWidth="4.6"/>
+      <path d="M1 42.4 L41.6 21.2" stroke="url(#light-track-metal)" strokeWidth="3.8"/>
+      <path d="M1 42.4 L41.6 21.2" stroke="#6b4627" strokeWidth="2.6"/>
+      <path d="M1 42.4 L41.6 21.2" stroke="url(#light-track-well)" strokeWidth="1.8"/>
+      <path d="M1 41.2 L41.6 20" stroke="#ffe7a0" strokeOpacity=".82" strokeWidth=".34"/>
+      <path d="M1 43.6 L41.6 22.4" stroke="#6f3e19" strokeOpacity=".95" strokeWidth=".3"/>
+      <path className="hex-meter-fill" d="M1 42.4 L41.6 21.2" pathLength="100" stroke="url(#light-meter-fill)" strokeWidth="1.6"
+        strokeDasharray={`${illuminationLevel} 100`}/>
+      <path className="hex-meter-shine" d="M1 41.8 L41.6 20.6" pathLength="100" stroke="#fff6b1" strokeOpacity=".75" strokeWidth=".3"
+        strokeDasharray={`${illuminationLevel} 100`}/>
+    </g>
+    {showGrowth && <image className="hex-meter-decoration" href={hexArt('meters/growth-medallion.webp')}
+      x="-46.4" y="5.2" width="19.2" height="19.2" preserveAspectRatio="xMidYMid meet"/>}
+    <image className="hex-meter-decoration" href={hexArt('meters/illumination-medallion.webp')}
+      x="27.2" y="5.2" width="19.2" height="19.2" preserveAspectRatio="xMidYMid meet"/>
+    <image className="hex-meter-decoration hex-meter-clasp" href={hexArt('meters/center-clasp.webp')}
+      x="-12.8" y="32" width="25.6" height="19.2" preserveAspectRatio="xMidYMid meet"/>
+  </g>;
+}
 
 function edgeSegment(a, b) {
   const one = centerFor(a);
@@ -105,6 +146,12 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
       <defs>
         <pattern id="grain" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="0.55" fill="#f4eee0" opacity=".18"/><circle cx="9" cy="10" r=".5" fill="#17291d" opacity=".15"/></pattern>
         <marker id="route-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L6,3 L0,6 z" fill="#e9f0b4"/></marker>
+        <linearGradient id="growth-track-metal" x1="-42" y1="21" x2="0" y2="43" gradientUnits="userSpaceOnUse"><stop stopColor="#6f421d"/><stop offset=".18" stopColor="#f4d58d"/><stop offset=".42" stopColor="#b87831"/><stop offset=".7" stopColor="#edbd62"/><stop offset="1" stopColor="#6b3e1a"/></linearGradient>
+        <linearGradient id="light-track-metal" x1="0" y1="43" x2="42" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#6b3e1a"/><stop offset=".3" stopColor="#edbd62"/><stop offset=".58" stopColor="#b87831"/><stop offset=".82" stopColor="#f4d58d"/><stop offset="1" stopColor="#6f421d"/></linearGradient>
+        <linearGradient id="growth-track-well" x1="-42" y1="21" x2="0" y2="43" gradientUnits="userSpaceOnUse"><stop stopColor="#0b1711"/><stop offset=".55" stopColor="#233928"/><stop offset="1" stopColor="#101d16"/></linearGradient>
+        <linearGradient id="light-track-well" x1="0" y1="43" x2="42" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#18130e"/><stop offset=".52" stopColor="#392b1b"/><stop offset="1" stopColor="#17110c"/></linearGradient>
+        <linearGradient id="growth-meter-fill" x1="-1" y1="42" x2="-42" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#459653"/><stop offset=".5" stopColor="#82cb58"/><stop offset="1" stopColor="#e0ef78"/></linearGradient>
+        <linearGradient id="light-meter-fill" x1="1" y1="42" x2="42" y2="21" gradientUnits="userSpaceOnUse"><stop stopColor="#db8325"/><stop offset=".52" stopColor="#f5c54e"/><stop offset="1" stopColor="#fff09a"/></linearGradient>
       </defs>
       {keys.map((key) => {
         const { Moisture, Temperature, Illumination } = simulation.conditions[key];
@@ -150,7 +197,6 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
               <circle cx={c.x-17} cy={c.y+3} r="2.2" fill="#f0cbed"/>
               <circle cx={c.x+17} cy={c.y-8} r="2.2" fill="#f0cbed"/>
             </g>}
-            <g transform="translate(-12 4)">
             {object?.type === 'source' && <>
               {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
               <circle cx={c.x} cy={c.y - 7} r="12" fill={isPlayerSource(object) ? '#5c452b' : '#203e31'} stroke="#e7cd88" strokeWidth="1.4"/>
@@ -158,13 +204,11 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
             </>}
             {['plant', 'fungus'].includes(object?.type) && <g className="hex-organism">
               {organismArt ? <image className="hex-organism-art" href={hexArt(`organisms/${organismArt}`)}
-                x={c.x - 20} y={c.y - 29} width={40} height={40} preserveAspectRatio="xMidYMax meet"
+                x={c.x - 25} y={c.y - 32} width={50} height={50} preserveAspectRatio="xMidYMax meet"
                 pointerEvents="none" aria-hidden="true"/> : <>
                 <circle cx={c.x} cy={c.y - 7} r="16" fill={object.type === 'plant' ? '#264d31' : '#514332'} stroke={object.type === 'plant' ? '#9cdaa1' : '#e4b98e'} strokeWidth="1.8" pointerEvents="none"/>
                 <text x={c.x} y={c.y - 2} className="hex-glyph organism-glyph" textAnchor="middle">{object.type === 'plant' ? '❧' : '♧'}</text>
               </>}
-              <rect x={c.x - 20} y={c.y + 13} width="40" height="4" rx="2" fill="#121c17" pointerEvents="none"/>
-              <rect x={c.x - 20} y={c.y + 13} width={40 * object.progress / 200} height="4" rx="2" fill={object.type === 'plant' ? '#a5d7a6' : '#e0bb8d'} pointerEvents="none"/>
             </g>}
             {object?.type === 'blocker' && <>
               <polygon points={polygonFor({ x: c.x, y: c.y - 4 }).split(' ').map((p) => { const [x,y] = p.split(',').map(Number); return `${c.x + (x-c.x)*.4},${c.y-4+(y-(c.y-4))*.4}`; }).join(' ')} fill="#513e3e" stroke="#f1b4a1" strokeWidth="2"/>
@@ -172,11 +216,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
             </>}
             {proposal && <g className={preview ? 'planting-preview-glyph' : 'staged-glyph'} pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#354b3b" stroke="#f1d28d" strokeDasharray="3 2" strokeWidth="2"/><text x={c.x} y={c.y - 3} fontSize="15" textAnchor="middle" fill="#f2d39a">{proposal.kind === 'plant' ? '◌' : '◈'}</text><text x={c.x} y={c.y + 10} fontSize="10" textAnchor="middle" fill="#fff2cc">×{proposal.quantity}</text></g>}
             {pending && <g className="pending-glyph" pointerEvents="none"><circle cx={c.x} cy={c.y - 7} r="14" fill="#414438" stroke="#d6c99c" strokeWidth="2"/><text x={c.x} y={c.y - 2} fontSize="19" textAnchor="middle" fill="#e7d29d">?</text></g>}
-            </g>
-            <g className="hex-illumination" role="img" aria-label={`Illumination: ${Illumination}`} pointerEvents="none">
-              <GameArt name={CONDITION_ART.Illumination[Illumination]} x={c.x + (object || proposal || pending ? 8 : -12)} y={c.y - 27} width={24} height={24}/>
-            </g>
-            <text x={c.x} y={c.y + 25} textAnchor="middle" className="hex-label">{Moisture}</text>
+            <HexMeters center={c} illumination={Illumination} growth={object?.progress || 0}
+              showGrowth={Boolean(['plant', 'fungus'].includes(object?.type) || proposal || pending)}/>
           </g>
         );
       })}
