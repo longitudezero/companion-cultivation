@@ -7,11 +7,11 @@ import { mkdtemp, rm, readFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, applyStaging,
-  advanceGardenTime, PLANTS, makePlant, makeFungus, placeObject, calculateEnvironment, calculateCultivation,
+  advanceGardenTime, PLANTS, FUNGI, makePlant, makeFungus, placeObject, calculateEnvironment, calculateCultivation,
   grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
-import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
+import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, HEX_ORGANISM_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
 import { neighborsOf } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
@@ -223,6 +223,25 @@ test('living organisms use the lower edge growth meter and the freed central spa
   assert.match(occupied, /class="hex-organism-art"[^>]*width="50" height="50"/);
   assert.ok(!empty.includes('data-growth-meter='));
   assert.ok(!empty.includes('growth-medallion.webp'));
+});
+
+test('every Plant and Fungus uses its packaged hex icon', async () => {
+  const species = [...Object.keys(PLANTS), ...Object.keys(FUNGI)];
+  assert.equal(species.length, 73);
+  assert.equal(HEX_ORGANISM_ART.size, species.length);
+  for (const name of species) {
+    const file = HEX_ORGANISM_ART.get(name);
+    assert.ok(file, `${name}: registered icon`);
+    const bytes = await readFile(new URL(`../public/ui/hexes/organisms/${file}`, import.meta.url));
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF', name);
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP', name);
+    const object = PLANTS[name] ? makePlant(name) : makeFungus(name);
+    const garden = placeObject(createGarden(3, 3), '0,0', object);
+    const markup = render(HexGrid, { garden, simulation: calculateEnvironment(garden), tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
+    const occupied = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
+    assert.ok(occupied.includes(`ui/hexes/organisms/${file}`), name);
+    assert.ok(!occupied.includes('organism-glyph'), `${name}: no fallback glyph`);
+  }
 });
 
 test('the inspector uses the same distinct illumination icons as the garden', () => {

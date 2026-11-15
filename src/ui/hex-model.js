@@ -8,11 +8,23 @@ export const HEX_ART = {
   Temperature: { Freezing: 'temperature-freezing.webp', Cold: 'temperature-cold.webp',
     Temperate: 'temperature-temperate.webp', Hot: 'temperature-hot.webp', Scorching: 'temperature-scorching.webp' },
 };
-export const HEX_ORGANISM_ART = new Map([
-  ['Beanstalk', 'beanstalk.webp'],
-  ['Carrot', 'carrot.webp'],
-  ['Prismorel', 'prismorel.webp'],
-]);
+const HEX_ORGANISM_SPECIES = [
+  'Beanstalk', 'Rice', 'Carrot', 'Onion', 'Potato', 'Pumpkin', 'Strawberry',
+  'Daisydaze', 'Marigloom', 'Orchiwitch', 'Nightmarigold', 'Charmomile', 'Chamomeleon',
+  'Lavendream', 'Lavendread', 'Rosewraith', 'Orchidemon',
+  'Algea', 'Kelpfull', 'Kelpergeist', 'Kelpless', 'Sunken Lotus', 'Moonlit Lotus', 'Starlotus',
+  'Pearlily', 'Wild Watercress', 'Silvercress', 'Cresscent',
+  'Moss', 'Bamboom', 'Bamboozeling', 'Bamboozled', 'Tanglethorn', 'Mistlefoe', 'Mistlewoe',
+  'Branshee', 'Mandrabra', 'Mandrakadabra', 'Mandrakazam',
+  'Jadeheart', 'Aloechemist', 'Aloemancer', 'Cactastrophe', 'Moonjade', 'Jadewisp',
+  'Pearadox', 'Prickly Pearl', 'Cactopus', 'Cactacomb', 'Everjade',
+  'Thymekeeper', 'Oreganoir', 'Clovely', 'Dilly-Dally Dill', 'Cinnamancer', 'Mighty Mint',
+  'Saffrune', 'Wyrmsalt', 'Papriking', 'Phantarragon',
+  'Mycelord', 'Dewmender', 'Mistruffle', 'Emberbolete', 'Rilllace', 'Prismorel',
+  'Droughtcap', 'Hushroom', 'Rainmorel', 'Siltgill', 'Rushroom', 'Frostfolio', "Sim'mushro'dim",
+];
+const organismFilename = species => `${species.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.webp`;
+export const HEX_ORGANISM_ART = new Map(HEX_ORGANISM_SPECIES.map(species => [species, organismFilename(species)]));
 const DX = Math.sqrt(3) * HEX_SIZE;
 const Y_STEP = 1.5 * HEX_SIZE;
 const ORIGIN = 90; // Leaves room for the direction handle at every plot edge.
