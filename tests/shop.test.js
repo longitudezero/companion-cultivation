@@ -173,6 +173,9 @@ test('the shop exposes Buy/Sell, free recovery Seeds, current funds and only unl
   assert.match(markupWithoutDecorations, /role="tab" aria-selected="false">Sell<\/button>/);
   assert.match(markup, /Beanstalk Seeds, Free, 36 owned/);
   assert.match(markup, /Prismorel Spores, 2 Gold each/);
+  assert.match(markup, /ui\/hexes\/organisms\/beanstalk.webp/);
+  assert.match(markup, /ui\/hexes\/organisms\/prismorel.webp/);
+  assert.doesNotMatch(markup, /illustrations\/(?:plants\/beanstalk|fungi\/prismorel).webp/);
   assert.match(markup, /0 Gold/);
   assert.match(markup, /Shop quantity/);
   assert.doesNotMatch(markup, /Dewmender Spores|Hushroom Spores/);

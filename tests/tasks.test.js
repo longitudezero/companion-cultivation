@@ -230,6 +230,8 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.doesNotMatch(board, /simulation-speeds|Pause simulation/);
   assert.match(board, /aria-label="Unpin task"[^>]*aria-pressed="true"/);
   assert.doesNotMatch(board, /task-type-badge|task-overall-progress|task-wallet/);
+  assert.match(board, /ui\/hexes\/organisms\/beanstalk.webp/);
+  assert.doesNotMatch(board, /illustrations\/plants\/beanstalk.webp/);
   const nextBoard = renderToStaticMarkup(React.createElement(Board, { garden: careActive(), initialTaskId: FIRST_TASK, speed: 1 }));
   assert.match(nextBoard, /<h3>A Thirsty Carrot<\/h3>/);
   assert.doesNotMatch(nextBoard, /no outstanding assignments/);
@@ -245,6 +247,8 @@ test('the board and tracker expose only available tasks; receipts retain species
   assert.match(sideBoard, /aria-label="A Few Carrot Leaves, In progress, 0 of 5/);
   const receipt = renderToStaticMarkup(React.createElement(Receipt, { receipt: { id: 1, items: [{ id: 'seed:Algea', type: 'seed', species: 'Algea', name: 'Algea Seeds', quantity: 3 }] } }));
   assert.match(receipt, /Harvested!|Algea Seeds/);
+  assert.match(receipt, /ui\/hexes\/organisms\/algea.webp/);
+  assert.doesNotMatch(receipt, /illustrations\/plants\/algea.webp/);
 });
 
 test('completion receipts retain each reward and next action while the initial animated button is disabled', () => {
@@ -257,6 +261,7 @@ test('completion receipts retain each reward and next action while the initial a
     for (const [fungus, quantity] of Object.entries(receipt.rewards.spores || {})) {
       assert.ok(markup.includes(fungus.replaceAll("'", '&#x27;')));
       assert.ok(markup.includes(`<strong>${quantity}</strong>`));
+      assert.ok(markup.includes(`ui/hexes/organisms/${fungus.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.webp`));
     }
     assert.match(markup, /class="task-primary receipt-continue" disabled=""/);
     for (const art of ['task-complete.webp', 'completion-checkmark.webp', 'completion-continue.webp', 'completion-seal-stamp.webp']) {

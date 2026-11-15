@@ -11,7 +11,8 @@ import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, 
   grantSourceItem, placeSourceItem, setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
-import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, HEX_ORGANISM_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
+import { HEX_SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, hexCenter, hexPolygon, gridDimensions, plantingPopoverPosition, PALETTES } from '../src/ui/hex-model.js';
+import { ORGANISM_ICON_FILES } from '../src/ui/organism-art.js';
 import { neighborsOf } from '../src/core/grid.js';
 
 test('Undo restores proposals after live growth and spending without restoring an old garden', () => {
@@ -94,7 +95,7 @@ test('ordinary play has bottom navigation and hides empty staging and menu contr
   assert.doesNotMatch(markup, /inventory-type-badge/);
   assert.match(markup, /Beanstalk Seeds, 36 owned, square 1/);
   assert.doesNotMatch(markup, /class="inventory-square\s+is-held"/, 'empty slots never inherit an undefined held item');
-  assert.match(markup, /Beanstalk illustration|illustrations\/plants\/beanstalk.webp/);
+  assert.match(markup, /ui\/hexes\/organisms\/beanstalk.webp/);
   assert.match(markup, /aria-label="Bag 1"/);
   assert.doesNotMatch(markup, /aria-label="Bag [2-4]"/);
   assert.match(markup, /role="tablist" aria-label="Inventory bags"/);
@@ -102,6 +103,13 @@ test('ordinary play has bottom navigation and hides empty staging and menu contr
   assert.ok(markup.indexOf('inventory-bags') > markup.indexOf('inventory-square-grid'));
   assert.doesNotMatch(markup, /aria-label="Inventory pages"/);
   assert.match(markup, /aria-label="Choose a game save file"/);
+});
+
+test('the inspector keeps the full organism illustration for a close look', () => {
+  const garden = placeObject(createGarden(3, 3), '0,0', makePlant('Carrot'));
+  const markup = inspector(garden);
+  assert.match(markup, /illustrations\/plants\/carrot.webp/);
+  assert.doesNotMatch(markup, /ui\/hexes\/organisms\/carrot.webp/);
 });
 
 test('125% fills 62.5% of the whole lifecycle and displays harvest landmarks immediately', () => {
@@ -228,9 +236,9 @@ test('living organisms use the lower edge growth meter and the freed central spa
 test('every Plant and Fungus uses its packaged hex icon', async () => {
   const species = [...Object.keys(PLANTS), ...Object.keys(FUNGI)];
   assert.equal(species.length, 73);
-  assert.equal(HEX_ORGANISM_ART.size, species.length);
+  assert.equal(ORGANISM_ICON_FILES.size, species.length);
   for (const name of species) {
-    const file = HEX_ORGANISM_ART.get(name);
+    const file = ORGANISM_ICON_FILES.get(name);
     assert.ok(file, `${name}: registered icon`);
     const bytes = await readFile(new URL(`../public/ui/hexes/organisms/${file}`, import.meta.url));
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF', name);

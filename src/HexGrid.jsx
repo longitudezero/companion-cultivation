@@ -1,8 +1,9 @@
 import React from 'react';
 import { neighborsOf, edgeKey, isMycelial, isPlayerSource, playerBlockerDefinition, SOURCE_ITEMS, FUNGI, STARTING_DIRECTIONS } from './core/index.js';
 
-import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, HEX_ORGANISM_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
+import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, gridDimensions, hexCenter as centerFor, hexPolygon as polygonFor, PALETTES } from './ui/hex-model.js';
 import { illuminationArt } from './ui/illumination-art.js';
+import { organismIcon } from './ui/organism-art.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
@@ -139,7 +140,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const fill = PALETTES.Moisture[Moisture];
         const border = PALETTES.Temperature[Temperature];
         const object = garden.objects[key];
-        const organismArt = HEX_ORGANISM_ART.get(object?.species);
+        const organismArt = organismIcon(object?.species);
         const blocker = playerBlockerDefinition(object);
         const preview = plantingPreview?.key === key ? plantingPreview : null;
         const staged = garden.staged?.[key];
@@ -184,7 +185,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
               <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{isPlayerSource(object) ? '✧' : object.anchor ? '✥' : '✦'}</text>
             </>}
             {['plant', 'fungus'].includes(object?.type) && <g className="hex-organism">
-              {organismArt ? <image className="hex-organism-art" href={hexArt(`organisms/${organismArt}`)}
+              {organismArt ? <image className="hex-organism-art" href={organismArt}
                 x={c.x - 25} y={c.y - 32} width={50} height={50} preserveAspectRatio="xMidYMax meet"
                 pointerEvents="none" aria-hidden="true"/> : <>
                 <circle cx={c.x} cy={c.y - 7} r="16" fill={object.type === 'plant' ? '#264d31' : '#514332'} stroke={object.type === 'plant' ? '#9cdaa1' : '#e4b98e'} strokeWidth="1.8" pointerEvents="none"/>

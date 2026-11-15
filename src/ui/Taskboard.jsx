@@ -3,7 +3,7 @@ import { TASKS, FIRST_TASK, CARE_TASK, CARROT_DELIVERY_TASK, taskStatus, taskObj
 import { SOURCE_ITEMS, SOURCE_ITEM_GROUPS } from '../core/source-item-catalog.js';
 import { BLOCKER_ITEMS } from '../core/blocker-catalog.js';
 import { itemArt } from './item-art.js';
-import { illustrationFor } from '../grimoire/illustrations.js';
+import { organismIcon } from './organism-art.js';
 import GuildBackButton from './GuildBackButton.jsx';
 import GameArt, { GAME_ART, CornerOrnaments, TaskboardWindowOrnaments } from './GameArt.jsx';
 import GuildHeader from './GuildHeader.jsx';
@@ -15,7 +15,7 @@ export function TaskboardIcon() { return <GameArt name="taskboard"/>; }
 export function TaskRewards({ rewards }) {
   const supplies = ['seeds', 'spores'].flatMap(kind => Object.entries(rewards[kind] || {})
     .map(([species, quantity]) => ({ name: `${species} ${kind === 'seeds' ? 'Seeds' : 'Spores'}`, quantity,
-      art: illustrationFor(species)?.src })));
+      art: organismIcon(species) })));
   const items = [...Object.entries(rewards.blockers || {}).map(([id, quantity]) => ({ name: BLOCKER_ITEMS[id].name, quantity })),
     ...(rewards.sources || []).map(id => ({ name: SOURCE_ITEMS[id].name, quantity: 1,
       art: itemArt({ type: 'source-item', catalogId: id }) }))];
@@ -39,7 +39,7 @@ export function TaskRewards({ rewards }) {
   </div>;
 }
 
-const taskImage = id => illustrationFor(taskDelivery(id)[0]?.[0] || TASKS[id].goals?.find(goal => goal.into)?.into
+const taskImage = id => organismIcon(taskDelivery(id)[0]?.[0] || TASKS[id].goals?.find(goal => goal.into)?.into
   || (id === FIRST_TASK ? 'Beanstalk' : 'Carrot'));
 const stateLabel = status => ({ ready: 'Ready to complete', completed: 'Completed', 'not-started': 'Begin your guild assignment',
   active: 'In progress', preview: 'Upcoming delivery' })[status];
@@ -165,7 +165,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
               return <li key={candidate}><button className={`task-list-entry ${id === candidate ? 'selected' : ''} ${currentStatus}`}
                 aria-pressed={id === candidate} aria-label={`${TASKS[candidate].title}, ${stateLabel(currentStatus)}, ${currentProgress.current} of ${currentProgress.total}${isPinned ? ', Pinned' : ''}`}
                 onClick={() => selectTask(candidate)}>
-                <img className="task-thumbnail" src={taskImage(candidate)?.src} alt=""/>
+                <img className="task-thumbnail" src={taskImage(candidate)} alt=""/>
                 <span className="task-entry-copy"><strong>{TASKS[candidate].title}</strong><small>{stateLabel(currentStatus)}{isPinned ? ' · Pinned' : ''}</small>
                   {currentStatus !== 'completed' && <span className="task-entry-progress"><span aria-hidden="true"><i style={{ width: `${100 * currentProgress.current / currentProgress.total}%` }}/></span>
                     <span>{currentProgress.current}/{currentProgress.total}</span></span>}</span>
