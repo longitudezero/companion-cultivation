@@ -105,8 +105,8 @@
 .inventory-square-grid .inventory-square.has-item:hover { box-shadow: inset 0 0 12px #ffffff15; }
 .inventory-square-grid .inventory-square.is-held { box-shadow: 0 0 12px #d6b76677; }
 .blocker-placement-target { stroke: #f4d68d; stroke-width: 3; stroke-dasharray: 4 3; opacity: .55; }
-.hex-blocker-art, .edge-blocker-art { filter: drop-shadow(0 2px 2px #07100bd6); }
-.edge-blocker-art.is-active { filter: brightness(1.08) drop-shadow(0 0 4px #ffe3a4d9) drop-shadow(0 2px 2px #07100bd6); }
+.hex-blocker-art { filter: drop-shadow(0 2px 2px #07100bd6); }
+.edge-blocker-art.is-active { filter: brightness(1.08); }
 .hex-cell.has-player-blocker, .edge-group.has-player-blocker .edge-hit { cursor: grab; }
 .hex-cell.has-player-blocker:active, .edge-group.has-player-blocker .edge-hit:active { cursor: grabbing; }
 .hex-cell:is(:hover, :focus-visible) .blocker-placement-target,

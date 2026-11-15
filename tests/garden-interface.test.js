@@ -281,6 +281,9 @@ test('edge Blockers face the top of the lower hex without flipping side borders'
   assert.equal(transforms.length, 2);
   assert.equal(transforms.filter(transform => transform.includes('scale(1 -1)')).length, 1);
   assert.equal(transforms.filter(transform => !transform.includes('scale(')).length, 1);
+  const illustratedEdges = [...markup.matchAll(/<g class="edge-group is-blocked has-player-blocker">([\s\S]*?)<\/g>/g)];
+  assert.equal(illustratedEdges.length, 2);
+  for (const edge of illustratedEdges) assert.equal((edge[1].match(/<line/g) || []).length, 1, 'only the transparent interaction line remains');
 });
 
 test('the inspector uses the same distinct illumination icons as the garden', () => {

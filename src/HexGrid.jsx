@@ -262,9 +262,8 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const placingEdge = blockerPlacement?.form === 'edge';
         const keyboardTarget = item || (placingEdge && !blocker);
         return <g key={id} className={`edge-group ${blocker ? 'is-blocked' : ''}${item ? ' has-player-blocker' : ''}`}>
-          {blocker && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' || item?.filters.includes('all') ? '#f0ad8d' : '#cbb4e9'}
-            strokeWidth={active ? (artwork ? 5 : 8) : artwork ? 3 : 6} strokeLinecap="round"
-            opacity={artwork ? (active ? .42 : .2) : 1} pointerEvents="none"/>}
+          {blocker && !artwork && <line {...p} stroke={active ? '#ffe3a4' : blocker.rule === 'full' ? '#f0ad8d' : '#cbb4e9'}
+            strokeWidth={active ? 8 : 6} strokeLinecap="round" pointerEvents="none"/>}
           {artwork && <image {...image} className={`edge-blocker-art${active ? ' is-active' : ''}`} href={artwork}
             preserveAspectRatio="xMidYMid meet" pointerEvents="none" aria-hidden="true"/>}
           {tool === 'edge' && !blocker && <line {...p} stroke="#f4e6bf" strokeWidth="2" strokeDasharray="2 5" opacity=".42" pointerEvents="none"/>}
