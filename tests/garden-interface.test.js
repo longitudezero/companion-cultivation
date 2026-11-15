@@ -202,9 +202,10 @@ test('both terrain styles present resolved moisture, temperature and illuminatio
     assert.ok(cell.includes(`ui/hexes/${HEX_ART.Temperature[conditions.Temperature]}`), 'resolved temperature selects the rim artwork');
     assert.ok(cell.indexOf('hex-moisture-art') < cell.indexOf('hex-temperature-art'));
     assert.ok(cell.indexOf('hex-temperature-art') < cell.indexOf('hex-selection'), 'selection stays above the illustrated rim');
-    const lightLevel = { Dark: 25, Dim: 50, Lit: 75, Bright: 100 }[conditions.Illumination];
-    assert.ok(cell.includes('ui/hexes/meters/illumination-medallion.webp'));
-    assert.ok(cell.includes(`data-illumination-meter="${lightLevel}"`), 'illumination is represented by a readable stepped edge meter');
+    const lightFile = { Dark: 'illumination-dark.webp', Dim: 'illumination-dim.webp', Lit: 'illumination-lit.webp', Bright: 'illumination-bright.webp' }[conditions.Illumination];
+    assert.ok(cell.includes(`ui/illumination/${lightFile}`));
+    assert.ok(cell.includes(`data-illumination="${conditions.Illumination}"`), 'illumination is represented by its distinct state icon');
+    assert.ok(!cell.includes('hex-meter-light'), 'illumination no longer competes with growth as a second bar');
     assert.ok(!cell.includes('class="hex-label"'), 'moisture is communicated by the terrain fill rather than repeated text');
     assert.ok(cell.includes('class="hex-selection"'), 'selection keeps a separate inset ring');
   }
@@ -224,6 +225,17 @@ test('living organisms use the lower edge growth meter and the freed central spa
   assert.ok(!empty.includes('growth-medallion.webp'));
 });
 
+test('the inspector uses the same distinct illumination icons as the garden', () => {
+  const files = { Dark: 'illumination-dark.webp', Dim: 'illumination-dim.webp', Lit: 'illumination-lit.webp', Bright: 'illumination-bright.webp' };
+  for (const [illumination, file] of Object.entries(files)) {
+    let garden = createGarden(3, 3);
+    for (const key of Object.keys(garden.hexes)) garden = setBaseline(garden, key, 'Illumination', illumination);
+    const markup = inspector(garden);
+    assert.ok(markup.includes(`ui/illumination/${file}`), illumination);
+    assert.match(markup, new RegExp(`Illumination</span><strong>${illumination}</strong>`));
+  }
+});
+
 test('every condition and terrain style has an available WebP hex asset', async () => {
   for (const [property, assets] of [['Moisture', HEX_ART.Moisture], ['Moisture', SIMPLE_HEX_FILLS], ['Temperature', HEX_ART.Temperature]]) for (const condition of CONDITIONS[property]) {
     const file = assets[condition];
@@ -232,8 +244,13 @@ test('every condition and terrain style has an available WebP hex asset', async 
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
     assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
   }
-  for (const file of ['growth-medallion.webp', 'illumination-medallion.webp', 'center-clasp.webp']) {
+  for (const file of ['growth-medallion.webp']) {
     const bytes = await readFile(new URL(`../public/ui/hexes/meters/${file}`, import.meta.url));
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
+  }
+  for (const file of ['illumination-dark.webp', 'illumination-dim.webp', 'illumination-lit.webp', 'illumination-bright.webp']) {
+    const bytes = await readFile(new URL(`../public/ui/illumination/${file}`, import.meta.url));
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
     assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
   }
