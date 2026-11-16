@@ -4,6 +4,7 @@
 
 ## Current documents
 
+- [Field Manual page architecture](field-manual-page-architecture.md) — **working page plan; implementation pending**. Maps the approved manuscript into five tabs and fifteen spreads, with left/right page contents, diagrams, density targets, visual treatment, implementation boundaries, and the first in-game review checklist.
 - [Field Manual manuscript — first draft](field-manual-manuscript-first-draft.md) — **player-facing copy draft; content review pending**. Converts the mechanics inventory into exact reference wording without choosing tabs, page count, spreads, or layout. Exact balance values, species secrets, Transformation solutions, cross-navigation, and troubleshooting are omitted by design.
 - [Field Manual player-reference knowledge inventory](grimoire-player-reference-inventory.md) — **working content audit**. Inventories ordinary controls, environmental and cultivation rules, lifecycle/harvest behavior, propagation, Blockers, Mycelial ground, Transformations, progression, saving, spoiler boundaries, and likely player questions before any Field Manual layout is chosen.
 - [Grimoire toggle and last spread](grimoire-toggle-memory.md) — **implemented on the experiment branch; automated checks pass; native review pending**. The launcher toggles the book and resumes its last spread, including after refresh; direct species links retain their destination.
