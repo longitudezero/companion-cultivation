@@ -1,6 +1,13 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { influencePage } from './inspector-model.js';
 import HoverDetails from './HoverDetails.jsx';
+import GameArt from './GameArt.jsx';
+
+const growthArt = `${import.meta.env?.BASE_URL || '/'}ui/hexes/meters/growth-medallion.webp`;
+
+function EffectIcon({ art }) {
+  return art === 'growth' ? <img src={growthArt} alt="" draggable="false"/> : <GameArt name={art || 'leaves'}/>;
+}
 
 export default function InfluenceCards({ cards }) {
   const grid = useRef(null), [columns, setColumns] = useState(2), [page, setPage] = useState(0), [hover, setHover] = useState(null);
@@ -24,8 +31,8 @@ export default function InfluenceCards({ cards }) {
         aria-describedby={hover?.id === card.id ? tooltip : undefined}
         onPointerEnter={event => show(card, event.currentTarget)} onPointerLeave={() => setHover(null)}
         onFocus={event => show(card, event.currentTarget)} onBlur={() => setHover(null)}>
-        <span className="influence-card-icon" aria-hidden="true">{card.icon}</span>
-        <div><strong>{card.title}</strong><span className="influence-card-value">{card.summary}</span><small>{card.source}</small></div>
+        <span className="influence-card-icon" aria-hidden="true"><EffectIcon art={card.art}/></span>
+        <div><strong>{card.title}</strong><span className="influence-card-value">{card.summary}</span><small>From {card.source}</small></div>
       </div>)}
     </div>
     {!cards.length && <p className="influence-empty">No active influences observed.</p>}

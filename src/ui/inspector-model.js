@@ -1,11 +1,11 @@
-import { FUNGI, PROPERTIES, INFLUENCE_TYPES, formatRealDuration } from '../core/index.js';
+import { FUNGI, PROPERTIES, formatRealDuration } from '../core/index.js';
 import { observedEffects } from '../grimoire/book.js';
 import { EFFECT_DEFINITIONS, EFFECT_LABELS, observedEffectText, effectAmount } from '../grimoire/effects.js';
 import { TRANSFORMATIONS } from '../core/transformations.js';
 import { describeFullRecipe, previewFungusEffects } from '../core/grimoire-preview.js';
 
-export const FIELD_ICONS = { Moisture: '◈', Temperature: '♨', Illumination: '☼', growthRate: '❧', ripeningRate: '◷',
-  germination: '◌', leafYield: '❧', seedYield: '✥', harvestWindow: '↔', leafPeakTiming: '❧', seedTiming: '✥', hourlyLeaf: '❧', hourlySeed: '✥' };
+export const EFFECT_ART = { growthRate: 'growth', ripeningRate: 'growth', germination: 'seeds', leafYield: 'leaves',
+  seedYield: 'seeds', harvestWindow: 'growth', leafPeakTiming: 'leaves', seedTiming: 'seeds', hourlyLeaf: 'leaves', hourlySeed: 'seeds' };
 
 const conditionLine = conditions => Object.values(conditions || {}).map(value => Array.isArray(value) ? value.join(' or ') : value).join(' · ');
 
@@ -34,44 +34,41 @@ export function learnedRecipe(route, records) {
 
 const sourceName = (garden, key) => garden.objects[key]?.species || `hex ${key}`;
 
-export function inspectorInfluences(garden, key, simulation, cultivation) {
-  const object = garden.objects[key], cards = [];
-  for (const property of PROPERTIES) {
+export function inspectorEnvironmentDetails(garden, key, simulation) {
+  return Object.fromEntries(PROPERTIES.map(property => {
     const modifiers = simulation.modifiers[key]?.[property] || [];
     const adjacency = (simulation.adjacency[key] || []).filter(effect => effect.property === property);
-    const baseline = garden.hexes[key]?.baselines[property], resolved = simulation.conditions[key]?.[property];
-    if (!baseline || (!modifiers.length && !adjacency.length && baseline === resolved)) continue;
-    cards.push({ id: `environment:${property}`, icon: FIELD_ICONS[property], title: property,
-      summary: `${baseline} → ${resolved}`, source: 'Environmental influence',
-      lines: [`Baseline ${baseline} → ${resolved}`,
-        ...modifiers.map(effect => `${effect.influence} (${effect.modifier > 0 ? '+' : ''}${effect.modifier}) · ${sourceName(garden, effect.source)}`),
-        ...adjacency.map(effect => `Adjacency (${effect.modifier > 0 ? '+' : ''}${effect.modifier}) · ${effect.before} → ${effect.after}`)] });
-  }
+    const baseline = garden.hexes[key]?.baselines[property];
+    const resolved = simulation.conditions[key]?.[property];
+    const active = [
+      ...modifiers.map(effect => `${effect.influence} (${effect.modifier > 0 ? '+' : ''}${effect.modifier}) · ${sourceName(garden, effect.source)}`),
+      ...adjacency.map(effect => `Adjacency (${effect.modifier > 0 ? '+' : ''}${effect.modifier}) · ${effect.before} → ${effect.after}`),
+    ];
+    return [property, { title: property, subtitle: baseline ? `Baseline ${baseline} → ${resolved}` : `Current ${resolved}`,
+      lines: active.length ? active : ['No active environmental influences.'] }];
+  }));
+}
+
+export function inspectorInfluences(garden, key, simulation, cultivation) {
+  const object = garden.objects[key], cards = [];
   if (object?.type === 'plant') {
     const contacts = cultivation[key] || [];
     for (const fact of observedEffects(garden.grimoire, object.species).filter(fact => contacts.some(contact =>
       contact.species === fact.fungus && contact.kind === fact.kind && Math.sign(contact.amount) === fact.direction))) {
       const definition = EFFECT_DEFINITIONS[fact.kind];
-      cards.push({ id: `${fact.fungus}:${fact.kind}:${fact.direction}`, icon: FIELD_ICONS[fact.kind] || '✧',
+      cards.push({ id: `${fact.fungus}:${fact.kind}:${fact.direction}`, art: EFFECT_ART[fact.kind] || 'growth',
         title: EFFECT_LABELS[fact.kind] || fact.kind, summary: ['leafPeakTiming', 'seedTiming'].includes(fact.kind) ? fact.direction < 0 ? 'Earlier' : 'Later' : fact.direction > 0 ? 'Increased' : fact.direction < 0 ? 'Decreased' : 'Altered',
         source: fact.fungus, lines: [observedEffectText(fact), definition?.summary, definition?.detail].filter(Boolean) });
     }
   }
   if (object?.type === 'fungus') {
-    const fungus = FUNGI[object.species], environment = fungus.environment;
-    if (environment) {
-      const type = INFLUENCE_TYPES.find(type => type.name === environment.name);
-      const reach = environment.propagation === 'spread-budget' ? `${environment.budget} shared steps` : `radius ${environment.range}`;
-      cards.push({ id: 'fungus-emission', icon: FIELD_ICONS[type.property], title: `Emits ${type.property}`,
-        summary: `${type.direction > 0 ? '+' : '−'}${environment.strength} · ${reach}`, source: object.species,
-        lines: [`${environment.name} ${environment.strength}`, `${environment.mode === 'waterborne' ? 'Waterborne' : 'Airborne'} · ${reach}`] });
-    }
+    const fungus = FUNGI[object.species];
     const descriptions = previewFungusEffects(object.species);
     (fungus.cultivation?.effects || []).forEach((effect, index) => cards.push({ id: `fungus-effect:${index}`,
-      icon: FIELD_ICONS[effect.kind] || '✧', title: EFFECT_LABELS[effect.kind] || effect.kind,
+      art: EFFECT_ART[effect.kind] || 'growth', title: EFFECT_LABELS[effect.kind] || effect.kind,
       summary: effectAmount(effect), source: object.species,
       lines: [descriptions[index], EFFECT_DEFINITIONS[effect.kind]?.summary].filter(Boolean) }));
-    if (object.species === 'Mycelord') cards.push({ id: 'mycelial', icon: '✥', title: 'Mycelial ground',
+    if (object.species === 'Mycelord') cards.push({ id: 'mycelial', art: 'spores', title: 'Mycelial ground',
       summary: 'Establishes Mycelial', source: 'Mycelord', lines: ['Establishes and supports Mycelial ground. Flooded hexes block new colonization.'] });
   }
   return cards;

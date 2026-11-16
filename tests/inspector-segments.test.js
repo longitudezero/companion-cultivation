@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createGarden, makePlant, makeFungus, placeObject, advanceGardenTime,
   calculateEnvironment, calculateCultivation, FUNGI, observeFungalAction } from '../src/core/index.js';
 import { TRANSFORMATIONS } from '../src/core/transformations.js';
-import { inspectorInfluences, influencePage, learnedRecipe } from '../src/ui/inspector-model.js';
+import { inspectorEnvironmentDetails, inspectorInfluences, influencePage, learnedRecipe } from '../src/ui/inspector-model.js';
 import { transformationClue } from '../src/ui/garden-model.js';
 
 test('every Fungus has public effect cards without requiring a Plant response discovery', () => {
@@ -30,6 +30,16 @@ test('Plant cultivation cards require both a witnessed response and current reac
   assert.ok(effects().some(card => card.source === 'Prismorel' && card.summary === 'Earlier'));
   garden = { ...garden, objects: { '0,0': garden.objects['0,0'] } };
   assert.ok(!effects().some(card => card.source === 'Prismorel'));
+});
+
+test('environmental influences live on Environment details instead of cultivation cards', () => {
+  let garden = placeObject(createGarden(), '0,0', makePlant('Beanstalk'));
+  garden = placeObject(garden, '1,0', makeFungus('Prismorel', 3));
+  const simulation = calculateEnvironment(garden);
+  assert.ok(!inspectorInfluences(garden, '0,0', simulation, calculateCultivation(garden)).some(card => card.id.startsWith('environment:')));
+  const details = inspectorEnvironmentDetails(garden, '0,0', simulation);
+  assert.match(details.Illumination.subtitle, /Baseline .* → /);
+  assert.ok(details.Illumination.lines.some(line => line.includes('Brightening')));
 });
 
 test('card pages preserve all effects across column counts and clamp after effects disappear', () => {

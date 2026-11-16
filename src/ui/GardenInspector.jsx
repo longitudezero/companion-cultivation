@@ -1,11 +1,11 @@
 import { CARE_TASK, taskStatus } from '../core/tasks.js';
-import React from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { PLANTS, FUNGI, PROPERTIES, CONDITIONS, SOURCE_ITEMS, isPlayerSource, playerBlockerDefinition,
   availableHarvest, stageOf, formatRealDuration, STARTING_DIRECTIONS } from '../core/index.js';
 import { illustrationFor } from '../grimoire/illustrations.js';
 import { harvestLandmarks, transformationClue } from './garden-model.js';
 import { germinationProgress } from './view-model.js';
-import { inspectorInfluences } from './inspector-model.js';
+import { inspectorEnvironmentDetails, inspectorInfluences } from './inspector-model.js';
 import { blockerFilterText } from './item-details.js';
 import InfluenceCards from './InfluenceCards.jsx';
 import TransformationPanel from './TransformationPanel.jsx';
@@ -14,10 +14,34 @@ import RuneProgress from './RuneProgress.jsx';
 import { PALETTES } from './hex-model.js';
 import { illuminationArt } from './illumination-art.js';
 import { blockerArt } from './blocker-art.js';
+import HoverDetails from './HoverDetails.jsx';
 
 const ICONS = { leaf: '❧', seed: '◌', trophy: '◆', spore: '♧' };
 const PEAK_ART = { leaf: 'leaves', seed: 'seeds', spore: 'spores' };
 const NAMES = { leaf: 'Leaf peak', seed: 'Seed peak', trophy: 'Bamboo Steel ready', spore: 'Spore peak' };
+
+function EnvironmentCondition({ property, value, details }) {
+  const tooltip = useId(), [anchor, setAnchor] = useState(null);
+  useEffect(() => {
+    const hide = () => setAnchor(null);
+    window.addEventListener('resize', hide); window.addEventListener('scroll', hide, true);
+    return () => { window.removeEventListener('resize', hide); window.removeEventListener('scroll', hide, true); };
+  }, []);
+  const show = element => { const r = element.getBoundingClientRect(); setAnchor({ left: r.left, top: r.top, bottom: r.bottom }); };
+  return <>
+    <div className={`compact-condition condition-${property.toLowerCase()}`} tabIndex={0}
+      aria-describedby={anchor ? tooltip : undefined} onPointerEnter={event => show(event.currentTarget)}
+      onPointerLeave={() => setAnchor(null)} onFocus={event => show(event.currentTarget)} onBlur={() => setAnchor(null)}>
+      <div className="inspector-value"><span className="condition-property">{property === 'Illumination'
+        ? <img className="illumination-state-icon" src={illuminationArt(value)} alt=""/>
+        : CONDITION_ART[property]?.[value] ? <GameArt name={CONDITION_ART[property][value]}/>
+          : <span aria-hidden="true">◈</span>} {property}</span><strong>{value}</strong></div>
+      <div className="environment-levels" aria-label={`${property}: ${value}`}>{CONDITIONS[property].map(name =>
+        <span key={name} title={name} className={name === value ? 'is-current' : ''} style={{ '--condition-color': PALETTES[property][name] }}/>)}</div>
+    </div>
+    {anchor && <HoverDetails id={tooltip} title={details.title} subtitle={details.subtitle} lines={details.lines} anchor={anchor}/>}
+  </>;
+}
 
 export function LifecycleBar({ object, contacts, conditions }) {
   const markers = object.type === 'plant' ? harvestLandmarks(object.species, contacts, { ...conditions, attunement: object.attunement })
@@ -65,6 +89,7 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     : headingProfile?.environment?.propagation === 'spread-budget' || headingProfile?.cultivation?.propagation === 'spread-budget';
   const clue = organism && object.type === 'plant' ? transformationClue(garden, key, simulation, cultivation) : { active: false, learned: [] };
   const cards = inspectorInfluences(garden, key, simulation, cultivation);
+  const environmentDetails = hex && conditions ? inspectorEnvironmentDetails(garden, key, simulation) : null;
 
   return <section className={`garden-inspector${clue.active ? ' has-transformation' : ''}`} aria-label="Garden inspector">
     <div className="inspector-portrait">
@@ -78,14 +103,8 @@ export default function GardenInspector({ garden, selection, simulation, cultiva
     </div>
 
     <div className="inspector-environment inspector-section"><h3>Environment</h3>
-      {hex && conditions ? PROPERTIES.map(property => <div className={`compact-condition condition-${property.toLowerCase()}`} key={property}>
-        <div className="inspector-value"><span className="condition-property">{property === 'Illumination'
-          ? <img className="illumination-state-icon" src={illuminationArt(conditions.Illumination)} alt=""/>
-          : CONDITION_ART[property]?.[conditions[property]] ? <GameArt name={CONDITION_ART[property][conditions[property]]}/>
-            : <span aria-hidden="true">◈</span>} {property}</span><strong>{conditions[property]}</strong></div>
-        <div className="environment-levels" aria-label={`${property}: ${conditions[property]}`}>{CONDITIONS[property].map(name =>
-          <span key={name} title={name} className={name === conditions[property] ? 'is-current' : ''} style={{ '--condition-color': PALETTES[property][name] }}/>)}</div>
-      </div>) : <p>Select a hex to inspect its resolved Conditions.</p>}
+      {environmentDetails ? PROPERTIES.map(property => <EnvironmentCondition key={property} property={property}
+        value={conditions[property]} details={environmentDetails[property]}/>) : <p>Select a hex to inspect its resolved Conditions.</p>}
       {hex && <span className={`ground-status ${mycelialHere ? 'colonized' : ''}`}>{mycelialHere ? '✥ Mycelial ground' : 'Uncolonized ground'}</span>}
     </div>
 
