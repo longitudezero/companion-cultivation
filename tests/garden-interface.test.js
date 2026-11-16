@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { createGarden, ensureInventorySlots, stagePlanting, moveStagedPlanting, applyStaging,
   advanceGardenTime, PLANTS, FUNGI, makePlant, makeFungus, placeObject, calculateEnvironment, calculateCultivation,
-  grantSourceItem, placeSourceItem, grantBlockerItem, placeBlockerItem, BLOCKER_DESIGNS,
+  grantSourceItem, placeSourceItem, grantBlockerItem, placeBlockerItem, BLOCKER_DESIGNS, SOURCE_ITEMS,
   setBaseline, CONDITIONS } from '../src/core/index.js';
 import { createTutorialGarden, claimTask, FIRST_TASK } from '../src/core/tasks.js';
 import { restoreStagingPlan, harvestLandmarks, itemCategory } from '../src/ui/garden-model.js';
@@ -259,6 +259,23 @@ test('every Plant and Fungus uses its packaged hex icon', async () => {
     const occupied = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
     assert.ok(occupied.includes(`ui/hexes/organisms/${file}`), name);
     assert.ok(!occupied.includes('organism-glyph'), `${name}: no fallback glyph`);
+  }
+});
+
+test('every placed Source item uses its Inventory artwork in the hex', async () => {
+  for (const [catalogId, item] of Object.entries(SOURCE_ITEMS)) {
+    const art = new URL(`../public/ui/source-items/${catalogId}.webp`, import.meta.url);
+    const bytes = await readFile(art);
+    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF', item.name);
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP', item.name);
+    let garden = grantSourceItem(createGarden(3, 3), catalogId);
+    garden = placeSourceItem(garden, 'item:1', '0,0');
+    const markup = render(HexGrid, { garden, simulation: calculateEnvironment(garden), tool: 'inspect', selection: { type: 'hex', key: '0,0' } });
+    const occupied = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
+    assert.ok(occupied.includes('class="hex-source-item-art"'), item.name);
+    assert.ok(occupied.includes(`ui/source-items/${catalogId}.webp`), item.name);
+    assert.ok(occupied.includes(`; ${item.name}`), `${item.name}: accessible hex label`);
+    assert.ok(!occupied.includes('>✧<'), `${item.name}: no placeholder glyph`);
   }
 });
 

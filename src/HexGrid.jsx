@@ -5,6 +5,7 @@ import { HEX_SIZE as SIZE, HEX_ROTATION_RADIUS, HEX_ART, SIMPLE_HEX_FILLS, gridD
 import { illuminationArt } from './ui/illumination-art.js';
 import { organismIcon } from './ui/organism-art.js';
 import { blockerArt } from './ui/blocker-art.js';
+import { sourceItemArt } from './ui/item-art.js';
 export { gridDimensions, PALETTES } from './ui/hex-model.js';
 const HEX_WIDTH = Math.sqrt(3) * SIZE;
 const hexArt = file => `${import.meta.env?.BASE_URL || '/'}ui/hexes/${file}`;
@@ -154,6 +155,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
         const border = PALETTES.Temperature[Temperature];
         const object = garden.objects[key];
         const organismArt = organismIcon(object?.species);
+        const placedItemArt = isPlayerSource(object) ? sourceItemArt(object.catalogId) : undefined;
         const blocker = playerBlockerDefinition(object);
         const blockerArtwork = blockerArt(blocker);
         const preview = plantingPreview?.key === key ? plantingPreview : null;
@@ -174,7 +176,7 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
                 onStartHexDrag(key, staged ? 'staged' : isPlayerSource(object) ? 'placed-item' : 'organism', event);
               }
             }}
-            tabIndex={0} role="button" aria-label={`Hex ${key}: Moisture ${Moisture}; Temperature ${Temperature}; Illumination ${Illumination}${mycelial ? '; Mycelial ground' : ''}${blocker ? `; ${blocker.name}` : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
+            tabIndex={0} role="button" aria-label={`Hex ${key}: Moisture ${Moisture}; Temperature ${Temperature}; Illumination ${Illumination}${mycelial ? '; Mycelial ground' : ''}${blocker ? `; ${blocker.name}` : ''}${placedItemArt ? `; ${SOURCE_ITEMS[object.catalogId].name}` : ''}${object?.species ? `; ${object.species} ${object.progress.toFixed(1)}%` : ''}${staged ? `; staged ${staged.quantity} ${staged.species} ${staged.kind === 'plant' ? 'Seeds' : 'Spores'}` : ''}${pending ? `; ${pending.species} awaiting germination` : ''}`} onKeyDown={(event) => { if (event.key === 'Enter') onHexClick(key); }}>
             <title>{`Moisture: ${Moisture} · Temperature: ${Temperature} · Illumination: ${Illumination}`}</title>
             <polygon points={polygonFor(c)} fill="#182c22" stroke="#102219" strokeWidth="1.5"/>
             <polygon points={polygonFor(c, SIZE - 3.5)} fill={fill} className="hex-surface"/>
@@ -194,11 +196,15 @@ export default function HexGrid({ garden, simulation, mycelialSupport = {}, simp
               <circle cx={c.x-17} cy={c.y+3} r="2.2" fill="#f0cbed"/>
               <circle cx={c.x+17} cy={c.y-8} r="2.2" fill="#f0cbed"/>
             </g>}
-            {object?.type === 'source' && <>
-              {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
-              <circle cx={c.x} cy={c.y - 7} r="12" fill={isPlayerSource(object) ? '#5c452b' : '#203e31'} stroke="#e7cd88" strokeWidth="1.4"/>
-              <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{isPlayerSource(object) ? '✧' : object.anchor ? '✥' : '✦'}</text>
-            </>}
+            {object?.type === 'source' && (placedItemArt
+              ? <image className="hex-source-item-art" href={placedItemArt}
+                x={c.x - 29} y={c.y - 38} width="58" height="58" preserveAspectRatio="xMidYMid meet"
+                pointerEvents="none" aria-hidden="true"/>
+              : <>
+                {object.anchor && <circle cx={c.x} cy={c.y - 7} r="15" fill="none" stroke="#eed5a0" strokeWidth="1.3" strokeDasharray="2 2" pointerEvents="none"/>}
+                <circle cx={c.x} cy={c.y - 7} r="12" fill="#203e31" stroke="#e7cd88" strokeWidth="1.4"/>
+                <text x={c.x} y={c.y - 2} className="hex-glyph" textAnchor="middle">{object.anchor ? '✥' : '✦'}</text>
+              </>)}
             {['plant', 'fungus'].includes(object?.type) && <g className="hex-organism">
               {organismArt ? <image className="hex-organism-art" href={organismArt}
                 x={c.x - 25} y={c.y - 32} width={50} height={50} preserveAspectRatio="xMidYMax meet"
