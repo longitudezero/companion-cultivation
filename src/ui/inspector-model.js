@@ -4,8 +4,9 @@ import { EFFECT_DEFINITIONS, EFFECT_LABELS, observedEffectText, effectAmount } f
 import { TRANSFORMATIONS } from '../core/transformations.js';
 import { describeFullRecipe, previewFungusEffects } from '../core/grimoire-preview.js';
 
-export const EFFECT_ART = { growthRate: 'growth', ripeningRate: 'growth', germination: 'seeds', leafYield: 'leaves',
-  seedYield: 'seeds', harvestWindow: 'growth', leafPeakTiming: 'leaves', seedTiming: 'seeds', hourlyLeaf: 'leaves', hourlySeed: 'seeds' };
+export const EFFECT_ART = { growthRate: 'growth-rate', ripeningRate: 'ripening-rate', germination: 'germination',
+  leafYield: 'leaf-production', seedYield: 'seed-production', harvestWindow: 'harvest-window',
+  leafPeakTiming: 'leaf-peak-timing', seedTiming: 'seed-timing', hourlyLeaf: 'hourly-leaf', hourlySeed: 'hourly-seed' };
 
 const conditionLine = conditions => Object.values(conditions || {}).map(value => Array.isArray(value) ? value.join(' or ') : value).join(' · ');
 
@@ -56,7 +57,7 @@ export function inspectorInfluences(garden, key, simulation, cultivation) {
     for (const fact of observedEffects(garden.grimoire, object.species).filter(fact => contacts.some(contact =>
       contact.species === fact.fungus && contact.kind === fact.kind && Math.sign(contact.amount) === fact.direction))) {
       const definition = EFFECT_DEFINITIONS[fact.kind];
-      cards.push({ id: `${fact.fungus}:${fact.kind}:${fact.direction}`, art: EFFECT_ART[fact.kind] || 'growth',
+      cards.push({ id: `${fact.fungus}:${fact.kind}:${fact.direction}`, art: EFFECT_ART[fact.kind] || 'growth-rate',
         title: EFFECT_LABELS[fact.kind] || fact.kind, summary: ['leafPeakTiming', 'seedTiming'].includes(fact.kind) ? fact.direction < 0 ? 'Earlier' : 'Later' : fact.direction > 0 ? 'Increased' : fact.direction < 0 ? 'Decreased' : 'Altered',
         source: fact.fungus, lines: [observedEffectText(fact), definition?.summary, definition?.detail].filter(Boolean) });
     }
@@ -65,7 +66,7 @@ export function inspectorInfluences(garden, key, simulation, cultivation) {
     const fungus = FUNGI[object.species];
     const descriptions = previewFungusEffects(object.species);
     (fungus.cultivation?.effects || []).forEach((effect, index) => cards.push({ id: `fungus-effect:${index}`,
-      art: EFFECT_ART[effect.kind] || 'growth', title: EFFECT_LABELS[effect.kind] || effect.kind,
+      art: EFFECT_ART[effect.kind] || 'growth-rate', title: EFFECT_LABELS[effect.kind] || effect.kind,
       summary: effectAmount(effect), source: object.species,
       lines: [descriptions[index], EFFECT_DEFINITIONS[effect.kind]?.summary].filter(Boolean) }));
     if (object.species === 'Mycelord') cards.push({ id: 'mycelial', art: 'spores', title: 'Mycelial ground',

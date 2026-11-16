@@ -3,13 +3,13 @@ import assert from 'node:assert/strict';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { build } from 'esbuild';
-import { mkdtemp, rm } from 'node:fs/promises';
+import { access, mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createGarden, makePlant, makeFungus, placeObject, advanceGardenTime,
   calculateEnvironment, calculateCultivation, FUNGI, observeFungalAction } from '../src/core/index.js';
 import { TRANSFORMATIONS } from '../src/core/transformations.js';
-import { inspectorEnvironmentDetails, inspectorInfluences, influencePage, learnedRecipe } from '../src/ui/inspector-model.js';
+import { EFFECT_ART, inspectorEnvironmentDetails, inspectorInfluences, influencePage, learnedRecipe } from '../src/ui/inspector-model.js';
 import { transformationClue } from '../src/ui/garden-model.js';
 
 test('every Fungus has public effect cards without requiring a Plant response discovery', () => {
@@ -80,6 +80,12 @@ test('witnessing one route does not disclose another active route from the same 
 });
 
 const root = fileURLToPath(new URL('../', import.meta.url));
+
+test('every live cultivation effect has a packaged inspector icon', async () => {
+  assert.equal(new Set(Object.values(EFFECT_ART)).size, 10);
+  await Promise.all(Object.values(EFFECT_ART).map(name => access(join(root, 'public', 'ui', 'effects', `${name}.webp`))));
+});
+
 const cache = await mkdtemp(join(root, 'node_modules', '.inspector-segments-'));
 let Inspector, App;
 try {

@@ -3,10 +3,10 @@ import { influencePage } from './inspector-model.js';
 import HoverDetails from './HoverDetails.jsx';
 import GameArt from './GameArt.jsx';
 
-const growthArt = `${import.meta.env?.BASE_URL || '/'}ui/hexes/meters/growth-medallion.webp`;
+const effectArt = name => `${import.meta.env?.BASE_URL || '/'}ui/effects/${name}.webp`;
 
 function EffectIcon({ art }) {
-  return art === 'growth' ? <img src={growthArt} alt="" draggable="false"/> : <GameArt name={art || 'leaves'}/>;
+  return art === 'spores' ? <GameArt name="spores"/> : <img src={effectArt(art || 'growth-rate')} alt="" draggable="false"/>;
 }
 
 export default function InfluenceCards({ cards }) {
