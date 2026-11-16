@@ -52,7 +52,7 @@ export function createGarden(columns = 9, rows = 7) {
     'Moss': 16, Jadeheart: 16, Thymekeeper: 16 };
   return { schemaVersion: 8, columns, rows, hexes, objects: {}, edges: {}, routeNonce: 0, itemNonce: 0,
     clockHours: 0, colonyNonce: 0, mycelium: { contributions: {} },
-    inventorySlots: {}, staged: {}, pending: {}, journal: createJournal(),
+    inventorySlots: {}, staged: {}, pending: {}, journal: createJournal(), fieldManualJournal: createJournal(),
     grimoire: { plants: Object.fromEntries(Object.keys(starterSeeds).map(species => [species, true])),
       environments: {}, fungalEffects: {}, hazards: {}, transformations: [] },
     inventory: { leaves: {}, legacyLeaves: 0, seeds: starterSeeds, spores: {}, sourceItems: {}, blockers: {},
@@ -81,6 +81,7 @@ export function resizeGarden(garden, columns, rows) {
   next.inventory = garden.inventory;
   next.grimoire = garden.grimoire;
   next.journal = garden.journal || createJournal();
+  next.fieldManualJournal = garden.fieldManualJournal || createJournal();
   if (garden.tasks) next.tasks = garden.tasks;
   if (garden.inventoryCapacity != null) next.inventoryCapacity = garden.inventoryCapacity;
   if (garden.shop) next.shop = garden.shop;

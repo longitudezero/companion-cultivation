@@ -7,7 +7,7 @@ import { useBookCoordinates } from './BookView.jsx';
 import { bookRectangle } from './book-view.js';
 import MarkerSlots from './MarkerSlots.jsx';
 
-export default function MarkerTool({ bookRef, journal, busy, styleId = 'forest-tassel', onClick, onDrop }) {
+export default function MarkerTool({ bookRef, journal, busy, styleId = 'forest-tassel', onClick, onDrop, bookName = 'Grimoire' }) {
   const gesture = useRef(null), suppress = useRef(false), [draft, setDraft] = useState(null);
   const coordinates = useBookCoordinates();
   function start(event) {
@@ -36,7 +36,7 @@ export default function MarkerTool({ bookRef, journal, busy, styleId = 'forest-t
     if (!cancelled && drag.dragged && drag.inside) onDrop(drag.drop);
     if (event.currentTarget.hasPointerCapture?.(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   }
-  return <><button type="button" disabled={busy} className="cg-marker-tool" aria-label="Mark a Grimoire page"
+  return <><button type="button" disabled={busy} className="cg-marker-tool" aria-label={`Mark a ${bookName} page`}
     title="Drag onto a page to mark it, or click to choose a marker." onPointerDown={start} onPointerMove={move}
     onPointerUp={event => finish(event)} onPointerCancel={event => finish(event, true)} onLostPointerCapture={event => finish(event, true)}
     onClick={event => { if (event.detail > 0 && suppress.current) { suppress.current = false; return; } onClick(); }}>

@@ -12,10 +12,10 @@ const plainCoordinates = {
 };
 export const useBookCoordinates = () => useContext(BookCoordinates) || plainCoordinates;
 
-export function useBookView(root, disabled) {
+export function useBookView(root, disabled, storageKey = BOOK_VIEW_KEY) {
   const viewport = useRef(viewportSize()), gesture = useRef(null), suppress = useRef(false);
   const [view, setView] = useState(() => {
-    try { return restoreBookView(JSON.parse(localStorage.getItem(BOOK_VIEW_KEY)), viewport.current); }
+    try { return restoreBookView(JSON.parse(localStorage.getItem(storageKey)), viewport.current); }
     catch { return fitTabletop(viewport.current); }
   });
   const latest = useRef(view); latest.current = view;
@@ -26,9 +26,9 @@ export function useBookView(root, disabled) {
     point: event => screenToBook(clientPoint(event), latest.current) }).current;
 
   useEffect(() => {
-    try { localStorage.setItem(BOOK_VIEW_KEY, JSON.stringify(savedBookView(view, viewport.current))); }
+    try { localStorage.setItem(storageKey, JSON.stringify(savedBookView(view, viewport.current))); }
     catch { /* Keep the current view usable when browser storage is unavailable. */ }
-  }, [view]);
+  }, [view, storageKey]);
   useEffect(() => {
     const resize = () => {
       const next = viewportSize(), saved = savedBookView(latest.current, viewport.current);

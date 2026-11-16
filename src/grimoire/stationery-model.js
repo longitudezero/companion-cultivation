@@ -3,12 +3,12 @@ import { BOOK_ENTRIES } from './book.js';
 export const MARKER_REST_MS = 1500;
 export const MARKER_HOVER_LEAVE_MS = 350;
 
-const entries = new Map(BOOK_ENTRIES.map(entry => [entry.key, entry]));
-export const markerPage = marker => entries.get(marker.entryKey).page + Number(marker.side === 'right');
-export const markerIsLeft = (marker, current) => markerPage(marker) <= current.page;
+const entryMap = bookEntries => new Map(bookEntries.map(entry => [entry.key, entry]));
+export const markerPage = (marker, bookEntries = BOOK_ENTRIES) => entryMap(bookEntries).get(marker.entryKey).page + Number(marker.side === 'right');
+export const markerIsLeft = (marker, current, bookEntries = BOOK_ENTRIES) => markerPage(marker, bookEntries) <= current.page;
 export const markerDisplayX = (marker, left) => left ? 100 - marker.position * 20 : marker.position * 20;
-export const travellingMarkers = (markers, turn) => !turn ? [] : markers.filter(marker =>
-  markerIsLeft(marker, BOOK_ENTRIES[turn.from]) !== markerIsLeft(marker, BOOK_ENTRIES[turn.to]));
+export const travellingMarkers = (markers, turn, bookEntries = BOOK_ENTRIES) => !turn ? [] : markers.filter(marker =>
+  markerIsLeft(marker, bookEntries[turn.from], bookEntries) !== markerIsLeft(marker, bookEntries[turn.to], bookEntries));
 
 // New placements save the note centre as a fraction of its page. The centre
 // stays on the paper, allowing up to half the note to hang over any edge.
@@ -53,8 +53,8 @@ export const markerWidth = pageWidth => Math.max(44, Math.min(140, pageWidth * .
 export const markerInset = pageWidth => Math.max(8, Math.min(16, pageWidth * .025));
 
 // A marker owns one global reservation. Passing pages only mirrors that slot.
-export function layoutPageMarkers(markers, current) {
-  return new Map(markers.map(marker => [marker.slot, markerDisplayX(marker, markerIsLeft(marker, current))]));
+export function layoutPageMarkers(markers, current, bookEntries = BOOK_ENTRIES) {
+  return new Map(markers.map(marker => [marker.slot, markerDisplayX(marker, markerIsLeft(marker, current, bookEntries))]));
 }
 
 export const markerTilt = slot => [-4, 3, -2, 4, -3, 2][slot % 6];

@@ -52,7 +52,8 @@ function NoteEditor({ journal, entry, side, noteId, onChange, onClose, onShop, o
   </>;
 }
 
-function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initialDrop, onChange, onClose, onShop }) {
+function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initialDrop, onChange, onClose, onShop,
+  entries = BOOK_ENTRIES, entryNameResolver = entryName }) {
   const existing = journal.bookmarks.find(marker => marker.slot === initialMarkerSlot);
   const [slot, setSlot] = useState(existing?.slot ?? '');
   const [styleId, setStyleId] = useState(existing?.styleId || journal.markers[0] || '');
@@ -80,8 +81,8 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
       <p className="cg-desk-hint">Choose one of twelve fixed positions, counted from the spine. Each position stays reserved even when its marker is on the left. Several markers can mark this spread.</p>
       <label className="cg-marker-slot">Marker<select aria-label="Marker to place" value={slot} onChange={event => chooseSlot(event.target.value)}>
         <option value="">New marker ({MARKER_LIMIT - journal.bookmarks.length} available)</option>
-        {journal.bookmarks.map(marker => { const destination = BOOK_ENTRIES.find(item => item.key === marker.entryKey);
-          return <option key={marker.slot} value={marker.slot}>{marker.name || `Marker ${marker.slot + 1}`} · {entryName(destination, ledger)} · p. {destination.page + Number(marker.side === 'right')}</option>;
+        {journal.bookmarks.map(marker => { const destination = entries.find(item => item.key === marker.entryKey);
+          return <option key={marker.slot} value={marker.slot}>{marker.name || `Marker ${marker.slot + 1}`} · {entryNameResolver(destination, ledger)} · p. {destination.page + Number(marker.side === 'right')}</option>;
         })}</select></label>
       <div className="cg-marker-composer"><div className="cg-marker-fields">
         <label htmlFor="cg-marker-name">Marker name <span>(optional)</span></label>
@@ -105,8 +106,8 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
       <button className="cg-desk-primary" onClick={onShop}>Browse page markers</button></div>}
     <p className="cg-desk-status" role="status">{status}</p>
     {journal.bookmarks.length > 0 && <div className="cg-marked-list"><h3>Your marked pages</h3>{journal.bookmarks.map(marker => {
-      const destination = BOOK_ENTRIES.find(item => item.key === marker.entryKey);
-      const label = `${marker.name ? marker.name + ' · ' : ''}${entryName(destination, ledger)} · p. ${destination.page + Number(marker.side === 'right')}`;
+      const destination = entries.find(item => item.key === marker.entryKey);
+      const label = `${marker.name ? marker.name + ' · ' : ''}${entryNameResolver(destination, ledger)} · p. ${destination.page + Number(marker.side === 'right')}`;
       return <div key={marker.slot}><img src={stationeryArt(PAGE_MARKERS[marker.styleId].file)} alt=""/>
         <span>{label}</span><button type="button" aria-label={`Remove marker: ${label}`} onClick={() => {
           onChange(garden => removePageMarker(garden, marker.slot)); setStatus('Marker removed. Its style stays in your collection.');
@@ -116,7 +117,8 @@ function MarkerEditor({ journal, entry, side, ledger, initialMarkerSlot, initial
   </>;
 }
 
-export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', initialSide = 'right', initialNoteId = null, initialMarkerSlot = null, initialDrop = null, onChange, onClose, onShop, tuckedNotes = new Set(), onToggleTuck }) {
+export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', initialSide = 'right', initialNoteId = null, initialMarkerSlot = null, initialDrop = null, onChange, onClose, onShop, tuckedNotes = new Set(), onToggleTuck,
+  entries = BOOK_ENTRIES, entryNameResolver = entryName, bookName = 'Grimoire' }) {
   const savedJournal = garden.journal?.version === 4 ? garden.journal : normalizeJournal(garden.journal), close = useRef(null);
   const journal = { ...savedJournal, notes: Object.fromEntries(Object.entries(savedJournal.notes).map(([id, note]) => [id, { ...note, tucked: tuckedNotes.has(id) }])) };
   const [tab, setTab] = useState(initialTab), [side, setSide] = useState(initialSide);
@@ -124,9 +126,9 @@ export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', in
   useEffect(() => { const previous = document.activeElement; close.current?.focus();
     return () => { if (previous?.isConnected) previous.focus({ preventScroll: true }); }; }, []);
   return <div className="cg-stationery-backdrop"><section className="cg-stationery-desk" role="dialog" aria-modal="true" aria-labelledby="cg-stationery-title">
-    <header><div><span className="cg-eyebrow">Your personal Grimoire</span><h2 id="cg-stationery-title">Notes & page markers</h2></div>
+    <header><div><span className="cg-eyebrow">Your personal {bookName}</span><h2 id="cg-stationery-title">Notes & page markers</h2></div>
       <button ref={close} aria-label="Close stationery" onClick={onClose}>×</button></header>
-    <p className="cg-desk-entry">{entryName(entry, ledger)}</p>
+    <p className="cg-desk-entry">{entryNameResolver(entry, ledger)}</p>
     <div className="cg-stationery-tabs" role="tablist" aria-label="Stationery tools">
       <button role="tab" aria-selected={tab === 'notes'} onClick={() => setTab('notes')}>Field notes</button>
       <button role="tab" aria-selected={tab === 'markers'} onClick={() => setTab('markers')}>Page markers</button></div>
@@ -139,6 +141,6 @@ export function StationeryDesk({ garden, entry, ledger, initialTab = 'notes', in
     {tab === 'notes' ? <NoteEditor key={`${entry.key}/${side}/${noteId}`} journal={journal} entry={entry} side={side} noteId={noteId}
       onChange={onChange} onClose={onClose} onShop={() => onShop('papers')} onToggleTuck={onToggleTuck}/>
       : <MarkerEditor key={`${entry.key}/${side}`} journal={journal} entry={entry} side={side} ledger={ledger} initialMarkerSlot={initialMarkerSlot} initialDrop={initialDrop}
-        onChange={onChange} onClose={onClose} onShop={() => onShop('bookmarks')}/>}
+        onChange={onChange} onClose={onClose} onShop={() => onShop('bookmarks')} entries={entries} entryNameResolver={entryNameResolver}/>}
   </section></div>;
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import HexGrid, { PALETTES, gridDimensions } from './HexGrid.jsx';
 import InventoryGrid from './InventoryGrid.jsx';
 import CultivationGrimoire from './CultivationGrimoire.jsx';
+import FieldManual from './FieldManual.jsx';
 import GardenInspector from './ui/GardenInspector.jsx';
 import GardenCamera from './ui/GardenCamera.jsx';
 import SimulationControls from './ui/SimulationControls.jsx';
@@ -23,6 +24,8 @@ import { restoreStagingPlan } from './ui/garden-model.js';
 import { blockerFilterText } from './ui/item-details.js';
 import { art as grimoireArt } from './grimoire/art.js';
 import { BOOK_PAGE_KEY, restoreBookEntry } from './grimoire/book.js';
+import { FIELD_MANUAL_PAGE_KEY, restoreFieldManualEntry } from './field-manual/book.js';
+import { createJournal } from './core/journal.js';
 import { DEVELOPER_TOOLS, isDeveloperTool, toolForVisibility } from './tool-catalog.js';
 import './spread.css';
 import './adjacency.css';
@@ -52,6 +55,7 @@ import {
 // Keep the autosave key so existing gardens upgrade their names and temperature
 // levels before the first V8 autosave is written.
 const STORAGE_KEY = 'companion-cultivation:sandbox:v6';
+const FIELD_MANUAL_LAUNCHER = `${import.meta.env?.BASE_URL || '/'}field-manual/book-launcher.png`;
 const titleCase = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 function initialGarden() {
   for (const key of [STORAGE_KEY]) {
@@ -110,6 +114,7 @@ export default function App() {
   const [autosaveStatus, setAutosaveStatus] = useState('Saving…');
   const [showGuide, setShowGuide] = useState(false);
   const [showGrimoire, setShowGrimoire] = useState(false);
+  const [showFieldManual, setShowFieldManual] = useState(false);
   const [bookModal, setBookModal] = useState(false);
   const [bookEntry, setBookEntry] = useState(null);
   const [lastBookEntry, setLastBookEntry] = useState(() => {
@@ -117,6 +122,12 @@ export default function App() {
     catch { return restoreBookEntry(null); }
   });
   const [bookRequest, setBookRequest] = useState(0);
+  const [manualEntry, setManualEntry] = useState(null);
+  const [lastManualEntry, setLastManualEntry] = useState(() => {
+    try { return restoreFieldManualEntry(localStorage.getItem(FIELD_MANUAL_PAGE_KEY)); }
+    catch { return restoreFieldManualEntry(null); }
+  });
+  const [manualRequest, setManualRequest] = useState(0);
   const [showTaskboard, setShowTaskboard] = useState(false), [taskEntry, setTaskEntry] = useState(FIRST_TASK);
   const [showShop, setShowShop] = useState(false);
   const [shopCategory, setShopCategory] = useState('supplies');
@@ -222,11 +233,21 @@ export default function App() {
   }
   function openGrimoire(entryKey = lastBookEntry) {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setBookEntry(entryKey); setBookRequest(value => value + 1); setShowGrimoire(true);
+    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowFieldManual(false);
+    setBookEntry(entryKey); setBookRequest(value => value + 1); setShowGrimoire(true);
   }
   function toggleGrimoire() {
     if (showGrimoire) setShowGrimoire(false);
     else openGrimoire();
+  }
+  function openFieldManual(entryKey = lastManualEntry) {
+    dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
+    setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowGrimoire(false);
+    setManualEntry(entryKey); setManualRequest(value => value + 1); setShowFieldManual(true);
+  }
+  function toggleFieldManual() {
+    if (showFieldManual) setShowFieldManual(false);
+    else openFieldManual();
   }
   function openTaskboard(id = FIRST_TASK) {
     setShowMainMenu(false);
@@ -254,7 +275,7 @@ export default function App() {
   }
   function requestTutorial() {
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
-    setShowTaskboard(false); setShowShop(false); setShowGrimoire(false); setShowGuide(false);
+    setShowTaskboard(false); setShowShop(false); setShowGrimoire(false); setShowFieldManual(false); setShowGuide(false);
     setShowMainMenu(false); setShowTutorialReset(true);
   }
   function completeTask(id) {
@@ -277,6 +298,7 @@ export default function App() {
 
   function openSpeciesEntry(object) {
     setShowShop(false);
+    setShowFieldManual(false);
     setBookEntry(`${object.type === 'fungus' ? 'fungus' : 'plant'}:${object.species}`);
     setBookRequest(value => value + 1);
     setShowGrimoire(true);
@@ -338,6 +360,10 @@ export default function App() {
     try { localStorage.setItem(BOOK_PAGE_KEY, lastBookEntry); }
     catch { /* App state still remembers the spread when storage is blocked. */ }
   }, [lastBookEntry]);
+  useEffect(() => {
+    try { localStorage.setItem(FIELD_MANUAL_PAGE_KEY, lastManualEntry); }
+    catch { /* App state still remembers the spread when storage is blocked. */ }
+  }, [lastManualEntry]);
 
   function changeGarden(fn) {
     try {
@@ -780,7 +806,7 @@ export default function App() {
           onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
       </aside>
       <RuneDivider/>
-      <div className={`inspector-dock${showGrimoire && inspectorInFront ? ' above-grimoire' : ''}`}>
+      <div className={`inspector-dock${(showGrimoire || showFieldManual) && inspectorInFront ? ' above-grimoire' : ''}`}>
       <GardenInspector garden={garden} selection={selection} simulation={simulation} cultivation={cultivation} mycelialHere={mycelialHere}
         onOpenEntry={openSpeciesEntry} clockFraction={clock.fraction} simulationSpeed={clock.speed} onEditStaged={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}
         onUnstage={() => changeStaging(previous => unstagePlanting(previous, selection.key))} onRotate={rotateSelectedHex}
@@ -793,6 +819,8 @@ export default function App() {
         <button className="taskboard-launcher" onClick={() => openTaskboard()} title="Open Taskboard" aria-label="Open Taskboard"><TaskboardIcon/>
           {TASK_IDS.some(id => taskStatus(garden, id) === 'ready') && <span className="task-ready-badge" aria-label="Tasks ready to complete">!</span>}</button>
         <button className="shop-launcher" onClick={openShop} title="Open Shop" aria-label="Open Shop"><ShopIcon/></button>
+        <button className="field-manual-launcher" onClick={toggleFieldManual} title={`${showFieldManual ? 'Close' : 'Open'} Field Manual`}
+          aria-label={`${showFieldManual ? 'Close' : 'Open'} Field Manual`} aria-expanded={showFieldManual}><img src={FIELD_MANUAL_LAUNCHER} alt="" draggable="false"/></button>
       </nav></div>
       {showDeveloperTools && <details className="developer-field-notes"><summary>Developer field notes · advanced controls</summary><aside className="sidebar sidebar-right">
         <SectionTitle eyebrow="FIELD NOTES" title="Inspector" right={<span className="inspector-tag">{selection.type === 'hex' ? 'HEX' : 'EDGE'}</span>}/>
@@ -893,6 +921,19 @@ export default function App() {
       onModalChange={setBookModal} suspended={showMainMenu || showGuide || showTaskboard || showShop || showTutorialReset}
       onJournalChange={update => { replaceGarden(update(gardenRef.current)); return true; }} onOpenShop={openShop}
       onClose={() => setShowGrimoire(false)}/>}
+    {showFieldManual && <FieldManual garden={{ ...garden, journal: { ...(garden.fieldManualJournal || createJournal()),
+      papers: garden.journal?.papers || [], markers: garden.journal?.markers || [] } }} initialEntryKey={manualEntry}
+      entryRequest={manualRequest} onEntryChange={setLastManualEntry} behindInspector={inspectorInFront}
+      onModalChange={setBookModal} suspended={showMainMenu || showGuide || showTaskboard || showShop || showTutorialReset}
+      onJournalChange={update => {
+        const actual = gardenRef.current;
+        const proxy = { ...actual, journal: { ...(actual.fieldManualJournal || createJournal()),
+          papers: actual.journal?.papers || [], markers: actual.journal?.markers || [] } };
+        const changed = update(proxy);
+        replaceGarden({ ...changed, journal: actual.journal, fieldManualJournal: { ...changed.journal,
+          papers: actual.journal?.papers || [], markers: actual.journal?.markers || [] } });
+        return true;
+      }} onOpenShop={(category) => openShop(category)} onClose={() => setShowFieldManual(false)}/>}
     {showGuide && <div className="modal-backdrop" onMouseDown={() => setShowGuide(false)}><div className="guide-modal" role="dialog" aria-modal="true" aria-label="How the garden works" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setShowGuide(false)}>×</button>
       <span className="eyebrow">FIELD GUIDE · PROTOTYPE 16</span><h2>A garden of changing forms</h2>

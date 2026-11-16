@@ -12,9 +12,13 @@ export const NOTE_MIN_SCALE = .55, NOTE_MAX_SCALE = 1.6;
 const families = ['Ingredients', 'Flowers', 'Aquatic', 'Woodlands', 'Desert', 'Spices', 'Fungi'];
 const toolSpreads = new Set(['tools:opening', 'tools:emergency-directional', 'tools:power-control', 'tools:harsh-unusual']);
 const blockerSpreads = new Set(['blockers:opening', 'blockers:boundaries', 'blockers:climate']);
+const manualSpreads = new Set(['front-matter', 'garden-hexes', 'conditions', 'influences', 'propagation', 'blockers',
+  'planting-time', 'plants-harvest', 'fungi-affinity', 'mycelial', 'transformations', 'inventory-tools',
+  'guild-progress', 'garden-controls', 'books-saving'].map(slug => `manual:${slug}`));
 const sides = ['left', 'right'];
 const own = (object, key) => Object.hasOwn(object, key);
 export const validJournalEntry = key => typeof key === 'string' && (key === 'index'
+  || manualSpreads.has(key)
   || toolSpreads.has(key)
   || blockerSpreads.has(key)
   || key.startsWith('family:') && families.includes(key.slice(7))

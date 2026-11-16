@@ -260,6 +260,7 @@ export function migrateGarden(saved) {
   }
   garden.grimoire = migrateGrimoire(saved.grimoire, garden.objects, plantName, temperatureName);
   garden.journal = normalizeJournal(saved.journal);
+  garden.fieldManualJournal = normalizeJournal(saved.fieldManualJournal);
   if (saved.tasks != null) garden.tasks = normalizeTaskProgress(saved.tasks);
   if (Number.isSafeInteger(saved.inventoryCapacity) && saved.inventoryCapacity >= 20
     && saved.inventoryCapacity <= INVENTORY_CAPACITY) garden.inventoryCapacity = saved.inventoryCapacity;
