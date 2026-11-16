@@ -233,8 +233,11 @@ test('living organisms use the lower edge growth meter and the freed central spa
   assert.ok(track);
   const [, x1, y1, x2, y2, width] = track.map(Number);
   assert.ok(Math.abs((y2 - y1) / (x2 - x1) - Math.tan(Math.PI / 6)) < .002, 'growth bar is parallel to the illustrated lower-left edge');
-  assert.equal(width, 10.8, 'growth bar is twice its original thickness');
-  assert.match(occupied, /class="hex-meter-fill"[^>]*stroke-width="3.2"/);
+  assert.equal(width, 14.4, 'growth bar remains readable when the garden is zoomed out');
+  const illustratedEdgeY = x1 / Math.sqrt(3) + 48;
+  const perpendicularInset = (illustratedEdgeY - y1 - .8) * Math.cos(Math.PI / 6);
+  assert.ok(perpendicularInset >= width / 2, 'growth bar sits inside rather than across the illustrated rim');
+  assert.match(occupied, /class="hex-meter-fill"[^>]*stroke-width="4.3"/);
   assert.match(occupied, /class="hex-organism-art"[^>]*width="50" height="50"/);
   assert.ok(!empty.includes('data-growth-meter='));
   assert.ok(!empty.includes('growth-medallion.webp'));
