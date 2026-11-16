@@ -103,15 +103,25 @@
 .inspector-value strong { font-weight: 600; color: #3e422b; text-align: right; }
 .inspector-caption, .inspector-section p.inspector-caption { color: #77694e; font: italic 11px/1.5 Georgia, serif; }
 .lifecycle-guide { margin-top: 10px; }
-.harvest-timeline { position: relative; height: 50px; margin: 8px 12px 0; }
-.lifecycle-track { position: absolute; top: 20px; width: 100%; height: 10px; border: 1px solid #a29262; border-radius: 5px; overflow: hidden; background: #d3c09a; box-shadow: inset 0 1px 2px #6c573333; }
-.lifecycle-track > div { height: 100%; background: linear-gradient(90deg, #6c8f52, #a7b875); border-radius: 4px; transition: width .2s; }
+.harvest-timeline { position: relative; height: 51px; margin: 8px 12px 0; }
+.lifecycle-track { --meter-metal-dark: #43260f; --meter-metal-mid: #b87831; --meter-metal-light: #f4d58d;
+  position: absolute; top: 18px; width: 100%; height: 14px; padding: 3px; border: 1px solid var(--meter-metal-dark);
+  border-radius: 7px; overflow: hidden;
+  background: linear-gradient(180deg, #6f421d 0%, var(--meter-metal-light) 20%, var(--meter-metal-mid) 47%, #edbd62 68%, #6b3e1a 100%);
+  box-shadow: 0 1px 1px #50361c66, inset 0 1px .5px #ffe7a0d9, inset 0 -1px .5px #321708; }
+.lifecycle-track::before { content: ''; position: absolute; inset: 3px; border-radius: 3px;
+  background: linear-gradient(180deg, #0b1711, #233928 54%, #101d16);
+  box-shadow: inset 0 1px 2px #050b08cc, 0 0 0 1px #6b4627; }
+.lifecycle-track > div { position: relative; z-index: 1; height: 100%;
+  background: linear-gradient(180deg, #dce983 0%, #91c65a 34%, #4a914a 68%, #2b5d37 100%);
+  border-radius: 3px; box-shadow: inset 0 1px #effaa0c7, inset 0 -1px #153824cc;
+  transition: width .2s; }
 .harvest-marker { position: absolute; top: -3px; font: 21px/24px Georgia, serif; transform: translateX(-50%); color: #486139; z-index: 2; cursor: help; }
-.harvest-marker.seed, .harvest-marker.spore { top: 32px; font-size: 19px; color: #80622e; line-height: 17px; }
+.harvest-marker.seed, .harvest-marker.spore { top: 33px; font-size: 19px; color: #80622e; line-height: 17px; }
 .harvest-marker.trophy { color: #927433; }
 .harvest-marker::after { content: ''; position: absolute; width: 1px; height: 6px; background: currentColor; top: 20px; left: 50%; }
 .harvest-marker.seed::after, .harvest-marker.spore::after { top: -5px; }
-.peak-band { position: absolute; top: 17px; height: 16px; border: 1px solid #708748; background: #a6b96c55; border-radius: 3px; pointer-events: none; }
+.peak-band { position: absolute; z-index: 2; top: 20px; height: 10px; border: 1px solid #708748; background: #a6b96c77; border-radius: 2px; pointer-events: none; }
 .peak-band.seed { border-color: #ad8a49; background: #ba914344; }
 .peak-tooltip { display: none; position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); min-width: 100px; white-space: nowrap; font: 11px/1.4 Georgia, serif; padding: 6px 8px; background: #23382a; border: 1px solid #b69c64; color: #f8e8be; border-radius: 3px; z-index: 5; }
 .harvest-marker:hover .peak-tooltip, .harvest-marker:focus .peak-tooltip { display: block; }
