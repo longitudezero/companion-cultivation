@@ -3,7 +3,6 @@
 .garden-hud { left: 66px; }
 .hex-meter-track { fill: none; stroke-linecap: round; }
 .hex-meter-fill, .hex-meter-shine { transition: stroke-dasharray .24s ease; }
-.hex-meter-decoration { filter: drop-shadow(0 1px 1.5px #07100bcc); }
 .hex-illumination-icon { filter: drop-shadow(0 1px 1.5px #07100be0); }
 .hex-cell:hover .hex-moisture-art, .hex-cell:focus-visible .hex-moisture-art { filter: brightness(1.08); }
 .hex-selection { filter: drop-shadow(0 0 2px #ffe4a766); }

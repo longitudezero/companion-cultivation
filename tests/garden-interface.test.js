@@ -228,7 +228,7 @@ test('living organisms use the lower edge growth meter and the freed central spa
   const occupied = markup.split('data-garden-hex="0,0"')[1].split('data-garden-hex=')[0];
   const empty = markup.split('data-garden-hex="1,0"')[1].split('data-garden-hex=')[0];
   assert.ok(occupied.includes('data-growth-meter="68"'));
-  assert.ok(occupied.includes('ui/hexes/meters/growth-medallion.webp'));
+  assert.ok(!occupied.includes('growth-medallion.webp'));
   const track = /class="hex-meter-track hex-meter-growth">\s*<path d="M([\d.-]+) ([\d.-]+) L([\d.-]+) ([\d.-]+)"[^>]*stroke-width="([\d.]+)"/.exec(occupied);
   assert.ok(track);
   const [, x1, y1, x2, y2, width] = track.map(Number);
@@ -237,10 +237,10 @@ test('living organisms use the lower edge growth meter and the freed central spa
   const illustratedEdgeY = x1 / Math.sqrt(3) + 48;
   const perpendicularInset = (illustratedEdgeY - y1 - .8) * Math.cos(Math.PI / 6);
   assert.ok(perpendicularInset >= width / 2, 'growth bar sits inside rather than across the illustrated rim');
+  assert.ok(x1 - width / 2 >= -Math.sqrt(3) * 24, 'rounded outer tip stays inside the left hex side');
   assert.match(occupied, /class="hex-meter-fill"[^>]*stroke-width="4.3"/);
   assert.match(occupied, /class="hex-organism-art"[^>]*width="50" height="50"/);
   assert.ok(!empty.includes('data-growth-meter='));
-  assert.ok(!empty.includes('growth-medallion.webp'));
 });
 
 test('every Plant and Fungus uses its packaged hex icon', async () => {
@@ -311,11 +311,6 @@ test('every condition and terrain style has an available WebP hex asset', async 
     const file = assets[condition];
     assert.ok(file, `${property}: ${condition}`);
     const bytes = await readFile(new URL(`../public/ui/hexes/${file}`, import.meta.url));
-    assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
-    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
-  }
-  for (const file of ['growth-medallion.webp']) {
-    const bytes = await readFile(new URL(`../public/ui/hexes/meters/${file}`, import.meta.url));
     assert.equal(bytes.toString('ascii', 0, 4), 'RIFF');
     assert.equal(bytes.toString('ascii', 8, 12), 'WEBP');
   }
