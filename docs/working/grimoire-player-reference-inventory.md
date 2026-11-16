@@ -1,10 +1,10 @@
-# Grimoire player-reference knowledge inventory
+# Field Manual player-reference knowledge inventory
 
-> **WORKING CONTENT AUDIT · NOT A PAGE PLAN · 16 November 2026.** This document inventories what an ordinary player may need to learn, look up, or troubleshoot. It does not decide chapter length, spread order, final prose, illustrations, or which facts appear on the same page. It follows the current implementation on `main` and separates stable rules from provisional balance and discovery-gated information.
+> **WORKING CONTENT AUDIT · NOT A PAGE PLAN · 16 November 2026.** This document inventories what an ordinary player may need to learn, look up, or troubleshoot in the separate Field Manual. It does not decide chapter length, spread order, final prose, illustrations, or which facts appear on the same page. It follows the current implementation on `main` and separates stable rules from provisional balance and discovery-gated information.
 
 ## Purpose
 
-The proposed Grimoire chapter is a permanent reference after the guided tutorial has ended. It should help a player answer three kinds of question:
+The Field Manual is a permanent reference during and after the guided tutorial. It should help a player answer three kinds of question:
 
 1. **How do I operate the garden?** Planting, staging, time controls, harvesting, moving tools, reading the interface, saving, and navigation.
 2. **Why did the garden behave that way?** Resolved Conditions, propagation, Blockers, cultivation Effects, Mycelial support, lifecycle production, hazards, and Transformations.
@@ -718,20 +718,20 @@ The mechanics chapter should explain how these records relate, then provide link
 - Anchored Sources and unrestricted baseline editing exist for developer testing, not ordinary play.
 - Raw simulation ordering, save-schema versions, migration rules, and deterministic route seeds are verification details rather than player mechanics.
 
-## 21. Open content decisions before page planning
+## 21. Resolved content decisions before page planning
 
-1. **Chapter name:** Mechanics, Gardencraft, Field Manual, Cultivation Principles, or another in-world title.
-2. **Visibility:** whether the entire chapter is available immediately or advanced spreads unlock alongside the mechanics they describe. The safest default is always-available general rules with discovery-sensitive examples omitted.
-3. **Depth of arithmetic:** conceptual ladders and diagrams only, or explicit formulas for germination, stacking, production, and Allocation.
-4. **Provisional values:** whether current test durations appear dynamically, are labelled “current field estimate,” or are omitted until balanced.
-5. **Duplication:** whether the Blocker filter table appears here as a quick reference or only points to the Blockers tab.
-6. **Cross-navigation:** which words should jump to a species, Fungus, Garden Tool, Blocker, glossary term, or another mechanics spread.
-7. **Troubleshooting format:** integrated sidebars beside each rule versus a dedicated “Why didn't this work?” spread.
-8. **Controls:** whether camera, Inventory, save/load, and book-operation instructions belong in this chapter, a front-of-book help spread, or the main menu's How It Works panel.
-9. **Discovery pedagogy:** how much generic Transformation guidance can be shown without making the experimental discovery loop feel solved in advance.
-10. **Input completeness:** perform a keyboard/touch/accessibility audit before promising a definitive control reference.
-11. **Existing How It Works panel:** keep it as a short onboarding summary, replace it with a direct link to this chapter, or do both.
-12. **Indexing:** decide whether common questions such as “Waterborne,” “hazard,” and “pending germination” link directly to the relevant spread from the existing Index/glossary.
+1. The reference will be a separate book named **Field Manual**. The existing Cultivation Grimoire remains unchanged.
+2. The complete Field Manual is available from the beginning. Discovery-sensitive examples and solutions remain omitted.
+3. Explanations stay conceptual. The manual may use ladders, diagrams, and plain-language relationships, but it does not expose formulas for germination, stacking, production, or Allocation.
+4. Exact provisional tuning values are omitted. The manual explains how each system works without presenting experimental solutions or unfinished balance as permanent law.
+5. The Blocker filter table appears in the Field Manual as a quick reference.
+6. The first pass has no cross-navigation to species, Fungi, Garden Tools, Blockers, glossary terms, or other spreads.
+7. The first pass has no troubleshooting sidebars or dedicated troubleshooting spread.
+8. Camera, Inventory, save/load, and book-operation controls belong in the Field Manual.
+9. Transformation guidance is deliberately narrow: a Transformation changes one living Plant into another; its circumstances must remain satisfied for some time; the resulting Plant begins at 0% Growth; successfully witnessed routes are recorded in the Grimoire; and Fungi and Garden Tools do not transform. Inspector guidance, ingredients, Conditions, Fungi, sequences, timings, destinations, and alternative routes are omitted.
+10. Controls are audited against the implementation before definitive keyboard, pointer, or touch instructions are included.
+11. The existing **How It Works** panel remains unchanged for now.
+12. The first pass does not add common-question links from the existing Index or glossary.
 
 ## 22. Source audit
 
