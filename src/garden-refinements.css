@@ -75,6 +75,30 @@
 .garden-camera-viewport::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(#d6e3c41c 1px, transparent 1px); background-size: 22px 22px; pointer-events: none; }
 .garden-camera-world { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
 .garden-camera-world .garden-svg { display: block; width: 100%; height: 100%; max-height: none; }
+.harvest-burst { position: absolute; z-index: 5; width: 0; height: 0; pointer-events: none; }
+.harvest-particle { position: absolute; left: 0; top: 0; display: block; opacity: 0; will-change: transform, opacity; }
+.harvest-leaf { width: 14px; height: 23px; margin: -11px -7px; border: 1px solid #36592e; border-radius: 90% 12% 90% 12%; background: linear-gradient(145deg, #d1df82 0%, #79b850 46%, #2e7447 100%); box-shadow: inset 1px 1px 2px #eff2a599, 0 3px 3px #07150c88; transform-origin: 50% 78%; animation: harvest-leaf-flight var(--particle-duration) cubic-bezier(.22,.65,.3,1) var(--particle-delay) both; }
+.harvest-leaf::after { content: ''; position: absolute; left: 48%; top: 7%; width: 1px; height: 88%; background: #e3e69acc; transform: rotate(31deg); transform-origin: center; }
+.harvest-sparkle { margin: -12px; width: 24px; height: 24px; color: #fff8bd; font: 24px/24px Georgia, serif; text-align: center; text-shadow: 0 0 4px #fff6c8, 0 0 9px #f4cf6f, 0 0 15px #b9d26b; animation: harvest-sparkle-flight var(--particle-duration) ease-out var(--particle-delay) both; }
+.harvest-yield-flyout { position: absolute; left: 53px; top: -30px; width: max-content; max-width: 180px; overflow: hidden; text-overflow: ellipsis; padding: 8px 13px; color: #e8dea5; background: #102a1fe8; border: 1px solid #9c8653; border-radius: 7px; box-shadow: 0 4px 18px #0008; white-space: nowrap; font: 14px/1.2 Georgia, serif; animation: harvest-yield-flyout 1450ms ease-out 260ms both; }
+.harvest-burst-left .harvest-yield-flyout { left: auto; right: 53px; }
+.harvest-yield-flyout b { color: #d2ec8c; }
+@keyframes harvest-leaf-flight {
+  0% { opacity: 0; transform: translate(var(--particle-x), var(--particle-y)) rotate(0deg) scale(.3); }
+  20% { opacity: 1; transform: translate(var(--particle-mid-x), var(--particle-mid-y)) rotate(var(--particle-mid-rotation)) scale(var(--particle-burst-scale)); }
+  58% { opacity: 1; transform: translate(var(--particle-late-x), var(--particle-late-y)) rotate(var(--particle-late-rotation)) scale(var(--particle-scale)); }
+  100% { opacity: 0; transform: translate(var(--particle-end-x), var(--particle-end-y)) rotate(var(--particle-rotation)) scale(.42); }
+}
+@keyframes harvest-sparkle-flight {
+  0% { opacity: 0; transform: translate(var(--particle-x), var(--particle-y)) rotate(0deg) scale(.1); }
+  28% { opacity: 1; transform: translate(var(--particle-mid-x), var(--particle-mid-y)) rotate(28deg) scale(var(--particle-burst-scale)); }
+  100% { opacity: 0; transform: translate(var(--particle-end-x), var(--particle-end-y)) rotate(var(--particle-rotation)) scale(0); }
+}
+@keyframes harvest-yield-flyout {
+  0% { opacity: 0; transform: translateY(11px) scale(.94); }
+  18%, 67% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-19px) scale(.98); }
+}
 .garden-hud { position: absolute; left: 10px; right: 10px; top: 9px; z-index: 4; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; pointer-events: none; }
 .garden-hud > * { pointer-events: auto; }
 .garden-view-controls { display: flex; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; flex: 0 1 330px; gap: 6px; }
@@ -148,4 +172,9 @@
   .portrait-entry, .portrait-symbol { width: 128px; height: 128px; margin: 0 auto; }
 }
 @media (max-width: 360px) { .inspector-portrait { width: 144px; } }
-@media (prefers-reduced-motion: reduce) { .germination-bar > div { transition: none; } .transformation-arc { animation: none; stroke-dasharray: none; opacity: .45; } }
+@media (prefers-reduced-motion: reduce) {
+  .harvest-particle { display: none; }
+  .harvest-yield-flyout { animation: none; opacity: 1; }
+  .germination-bar > div { transition: none; }
+  .transformation-arc { animation: none; stroke-dasharray: none; opacity: .45; }
+}

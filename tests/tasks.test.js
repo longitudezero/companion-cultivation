@@ -11,7 +11,7 @@ import { createGarden, createDemoGarden, createTutorialGarden, FIRST_TASK, CARE_
   stagePlanting, applyStaging, advanceGardenTime, makePlant, placeObject, makeSource, makeInfluence,
   setBaseline, calculateEnvironment, calculateCultivation, grantSourceItem, inventoryItems, ensureInventorySlots,
   serializeGameSave, deserializeGameSave, resizeGarden } from '../src/core/index.js';
-import { harvestItems, mergeHarvestReceipt } from '../src/ui/harvest-receipts.js';
+import { harvestCropName, harvestItems, mergeHarvestReceipt } from '../src/ui/harvest-receipts.js';
 import { groupedTasks, initialTaskSelection, taskProgress } from '../src/ui/taskboard-model.js';
 
 function planted() {
@@ -207,6 +207,14 @@ test('harvest receipts use actual item identities and combine only quick consecu
   assert.equal(merged.items[0].quantity, 6);
   assert.equal(first.items[0].quantity, 3);
   assert.equal(mergeHarvestReceipt(merged, [items[0]], 5000, 3).items[0].quantity, 3);
+});
+
+test('harvest flyouts name the harvested crop rather than its Leaf inventory item', () => {
+  assert.equal(harvestCropName('Carrot', 8), 'Carrots');
+  assert.equal(harvestCropName('Potato', 3), 'Potatoes');
+  assert.equal(harvestCropName('Strawberry', 4), 'Strawberries');
+  assert.equal(harvestCropName('Rice', 9), 'Rice');
+  assert.equal(harvestCropName('Beanstalk', 1), 'Beanstalk');
 });
 
 const root = fileURLToPath(new URL('../', import.meta.url)), cache = await mkdtemp(join(root, 'node_modules', '.taskboard-'));

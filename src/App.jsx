@@ -146,7 +146,7 @@ export default function App() {
     catch { return true; }
   });
   const [showTutorialReset, setShowTutorialReset] = useState(false);
-  const [harvestReceipt, setHarvestReceipt] = useState(null), [cameraRevision, setCameraRevision] = useState(0);
+  const [harvestReceipt, setHarvestReceipt] = useState(null), [harvestBursts, setHarvestBursts] = useState([]), [cameraRevision, setCameraRevision] = useState(0);
   const harvestSequence = useRef(0);
   const fileInput = useRef(null);
   const simulation = useMemo(() => calculateEnvironment(garden), [garden]);
@@ -270,7 +270,7 @@ export default function App() {
     replaceGarden(createTutorialGarden()); clock.reset(); setCameraRevision(value => value + 1);
     clearPlanHistory(); setSelection({ type: 'hex', key: '0,0' }); setTool('inspect');
     setHeldItem(null); setQuantityPrompt(null); setInventoryPage(0); setShowDeveloperTools(false);
-    setHarvestReceipt(null); setNoticeState(null);
+    setHarvestReceipt(null); setHarvestBursts([]); setNoticeState(null);
     setShowTutorialReset(false);
   }
   function requestTutorial() {
@@ -488,6 +488,10 @@ export default function App() {
       replaceGarden(next);
       const collected = harvestItems(current, next), id = ++harvestSequence.current, now = performance.now();
       setHarvestReceipt(previous => mergeHarvestReceipt(previous, collected, now, id));
+      if (object.type === 'plant') {
+        const leafYield = collected.find(item => item.type === 'leaf' && item.species === object.species)?.quantity || 0;
+        setHarvestBursts(previous => [...previous, { id, key, species: object.species, quantity: leafYield }].slice(-4));
+      }
 
       return true;
     } catch (error) { setNotice(error.message); return false; }
@@ -642,7 +646,7 @@ export default function App() {
   function loadDemo() {
     if (window.confirm('Replace your current garden with the example layout?')) {
       replaceGarden(ensureInventorySlots(createDemoGarden()));
-      clock.reset(); setCameraRevision(value => value + 1); setHarvestReceipt(null);
+      clock.reset(); setCameraRevision(value => value + 1); setHarvestReceipt(null); setHarvestBursts([]);
       clearPlanHistory();
       setSelection({ type: 'hex', key: keyAt(3, 3) });
       setNotice('Example layout restored. Try selecting the Waterborne Source near the channel.');
@@ -652,7 +656,7 @@ export default function App() {
   function newGarden() {
     if (window.confirm('Start a blank garden? Your current layout will be replaced.')) {
       replaceGarden(ensureInventorySlots(createGarden(garden.columns, garden.rows)));
-      clock.reset(); setCameraRevision(value => value + 1); setHarvestReceipt(null);
+      clock.reset(); setCameraRevision(value => value + 1); setHarvestReceipt(null); setHarvestBursts([]);
       clearPlanHistory();
       setSelection({ type: 'hex', key: keyAt(0, 0) });
       setNotice('New garden created. Use the placement tools to experiment.');
@@ -697,7 +701,7 @@ export default function App() {
       replaceGarden(upgraded);
       if (Object.keys(upgraded.staged || {}).length) setStagingEnabled(true);
       setShowMainMenu(false);
-      clock.reset(); setCameraRevision(value => value + 1); setHarvestReceipt(null);
+      clock.reset(); setCameraRevision(value => value + 1); setHarvestReceipt(null); setHarvestBursts([]);
       clearPlanHistory();
       setSelection({ type: 'hex', key: Object.keys(upgraded.hexes)[0] });
       setHeldItem(null);
@@ -773,7 +777,9 @@ export default function App() {
 
 
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
-          <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/{inventoryCapacity(garden)}</button></>}
+          <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} harvestBursts={harvestBursts}
+            onHarvestBurstComplete={id => setHarvestBursts(previous => previous.filter(burst => burst.id !== id))}
+            controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/{inventoryCapacity(garden)}</button></>}
             tracker={<TaskTracker garden={garden} onInspect={inspectTaskHex} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
               tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
             world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simplifiedHexFills={simplifiedHexFills} plantingPreview={quantityPrompt} blockerPlacement={blockerToPlace} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}

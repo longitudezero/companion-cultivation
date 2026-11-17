@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import HarvestBurst from './HarvestBurst.jsx';
 import HarvestReceipt from './HarvestReceipt.jsx';
 import IllustratedButton from './IllustratedButton.jsx';
 import { beginsPan, fitCamera, zoomAt } from './view-model.js';
 
-export default function GardenCamera({ world, children, notice, onInterruptDrag, controls, tracker, harvestReceipt }) {
+export default function GardenCamera({ world, children, notice, onInterruptDrag, controls, tracker, harvestReceipt, harvestBursts = [], onHarvestBurstComplete }) {
   const viewport = useRef(null), initialized = useRef(false), cameraRef = useRef({ x: 0, y: 0, zoom: 1 });
   const [camera, setCamera] = useState(cameraRef.current);
   const size = useRef({ width: 0, height: 0 }), pan = useRef(null), touches = useRef(new Map()), pinch = useRef(null);
@@ -88,6 +89,7 @@ export default function GardenCamera({ world, children, notice, onInterruptDrag,
     onAuxClickCapture={event => { if (event.button === 1) { event.preventDefault(); event.stopPropagation(); } }}>
     <div className="garden-camera-world" style={{ width: world.width, height: world.height,
       transform: `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})` }}>{children}</div>
+    {harvestBursts.map(burst => <HarvestBurst key={burst.id} burst={burst} viewportRef={viewport} onComplete={onHarvestBurstComplete}/>)}
     <div className="garden-hud"><div className="garden-view-controls">{controls}<div className="camera-controls" aria-label="Garden zoom controls"><IllustratedButton art="minus" label="Zoom out" onClick={() => stepZoom(1 / 1.2)}/>
       <span aria-label="Garden zoom">{Math.round(camera.zoom * 100)}%</span><IllustratedButton art="plus" label="Zoom in" onClick={() => stepZoom(1.2)}/>
       <IllustratedButton art="fit" label="Fit garden" onClick={() => update(fitCamera(world, size.current))}/></div></div>{tracker}</div>

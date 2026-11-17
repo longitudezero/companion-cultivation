@@ -1,5 +1,16 @@
 import { inventoryItems } from '../core/inventory.js';
 
+const INVARIANT_CROP_NAMES = new Set(['Rice', 'Moss', 'Wild Watercress', 'Silvercress']);
+
+export function harvestCropName(species, quantity) {
+  if (quantity === 1 || INVARIANT_CROP_NAMES.has(species)) return species;
+  const words = species.split(' '), word = words.pop();
+  const plural = /[^aeiou]y$/i.test(word) ? `${word.slice(0, -1)}ies`
+    : /(s|x|z|ch|sh)$/i.test(word) ? `${word}es`
+      : /potato$/i.test(word) ? `${word}es` : `${word}s`;
+  return [...words, plural].join(' ');
+}
+
 export function harvestItems(before, after) {
   const stock = new Map(inventoryItems(before.inventory).map(item => [item.id, item.quantity]));
   return inventoryItems(after.inventory).filter(item => item.type !== 'source-item')
