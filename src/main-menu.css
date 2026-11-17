@@ -30,6 +30,13 @@
 .menu-setting label { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 14px/1.4 Georgia, serif; color: #e8d7aa; cursor: pointer; }
 .menu-setting input { width: 18px; height: 18px; flex-shrink: 0; accent-color: #b9a463; }
 .menu-setting p { margin-top: 7px; font: 12px/1.5 Georgia, serif; color: #c4bb99; }
+.audio-settings { min-inline-size: 0; margin-inline: 0; padding-inline: 0; border-right: 0; border-bottom: 0; border-left: 0; }
+.audio-settings legend { float: left; width: 100%; margin: 0 0 3px; padding: 0; color: #f1dda8; font: 16px/1.3 Georgia, serif; }
+.audio-settings .audio-settings-help { clear: both; margin: 0 0 11px; color: #aaa485; }
+.audio-slider { margin-top: 9px; }
+.audio-slider label { font-size: 13px; }
+.audio-slider output { min-width: 38px; color: #d8c58f; font-variant-numeric: tabular-nums; text-align: right; }
+.audio-slider input[type="range"] { display: block; width: 100%; height: 18px; margin: 2px 0 0; accent-color: #d2b866; cursor: pointer; }
 .menu-garden-status { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; font-size: 9px; color: #bdb896; }
 .menu-time-tools { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
 .menu-time-tools button { padding: 5px 10px; border: 1px solid #a9915e; background: #29422f; color: #ead7a7; border-radius: 3px; }

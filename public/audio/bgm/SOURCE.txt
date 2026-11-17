@@ -1,0 +1,33 @@
+Companion Cultivation background music
+=======================================
+
+Source
+------
+These five recordings were supplied directly by the project owner in:
+H:\Downloads\Longitude Zero\DungeonLand\Farming minigame\sound\BGM
+
+Their use in Companion Cultivation was requested in the project conversation
+on 2026-11-17. No separate licence file was supplied in the source folder.
+
+Processing
+----------
+The game copies preserve the full recordings and were transcoded from the
+supplied 256 kb/s MP3 files to 48 kHz Ogg Vorbis (quality 3). The originals
+remain untouched. Only the currently playing track is requested by the game.
+
+Source integrity
+----------------
+denis-pavlov-music-easy-cozy-morning-jazz-coffee-podcast-192585.mp3
+EEF38C2471188A2035E6B8CEDA2DE4B8D9F3CD841A8F671066141E717672CB5C
+
+guzheng-soundtrack-guzheng-and-japanese-bamboo-flute-10-471685.mp3
+F42DA6A77B7C5368A8F1EB8197E5A30C53F09B952CF97FE6F67E34426A792B57
+
+music_and_wallpaper-relaxing-calm-acoustic-music-background-596250.mp3
+2500673B1EEB8AFFC3605F4C07F49D929F338B6E03C755854C7346DA73854CD1
+
+otomotive-music-content-cinematic-rally-forest-4-475844.mp3
+F5DEA0378767E523811ADBA401215C2ED35A5BA020212B919638F8803062B0B5
+
+twisterium-fun-music-406410.mp3
+5F36CBD9FC9655CE3491EA50208897CB410CA94C3F1C1754B012D0762D2AC344

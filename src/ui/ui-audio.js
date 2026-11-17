@@ -1,3 +1,5 @@
+import { getAudioChannelVolume, onAudioSettingsChange } from './audio-settings.js';
+
 const numbered = (stem, count) => Array.from({ length: count }, (_, index) =>
   `${stem}-${String(index + 1).padStart(2, '0')}.ogg`);
 
@@ -24,6 +26,29 @@ export const UI_SOUND_FILES = Object.freeze({
   'taskboard-open': numbered('taskboard-open', 11),
 });
 
+export const UI_SOUND_CHANNELS = Object.freeze({
+  buy: 'action',
+  'click-bad': 'click',
+  'click-good': 'click',
+  'grimoire-open': 'navigation',
+  harvest: 'action',
+  'inventory-move': 'action',
+  'note-save': 'action',
+  notification: 'action',
+  'page-turn': 'navigation',
+  'pages-many': 'navigation',
+  'place-on-hex': 'action',
+  pop: 'navigation',
+  'remove-from-hex': 'action',
+  sell: 'action',
+  'shop-close': 'navigation',
+  'shop-open': 'navigation',
+  stamp: 'action',
+  'task-complete': 'action',
+  'taskboard-close': 'navigation',
+  'taskboard-open': 'navigation',
+});
+
 const DEFAULT_VOLUME = Object.freeze({
   'click-good': .14,
   'click-bad': .24,
@@ -36,7 +61,13 @@ const DEFAULT_VOLUME = Object.freeze({
 });
 
 const previousVariants = new Map();
-const activeSounds = new Set();
+const activeSounds = new Map();
+
+onAudioSettingsChange(settings => {
+  for (const [sound, { channel, baseVolume }] of activeSounds) {
+    sound.volume = baseVolume * (settings[channel] ?? 1);
+  }
+});
 
 function rootUrl(baseUrl) {
   const root = baseUrl || '/';
@@ -62,11 +93,15 @@ function randomVariant(name) {
 
 export function playUiSound(name, options = {}) {
   if (typeof window === 'undefined' || typeof window.Audio !== 'function') return null;
+  const channel = options.channel || UI_SOUND_CHANNELS[name] || 'action';
+  const channelVolume = getAudioChannelVolume(channel);
+  if (channelVolume <= 0) return null;
   const variant = Number.isInteger(options.variant) ? options.variant : randomVariant(name);
   const sound = new window.Audio(uiSoundPath(name, variant, import.meta.env?.BASE_URL || '/'));
   sound.preload = 'auto';
-  sound.volume = options.volume ?? DEFAULT_VOLUME[name] ?? .46;
-  activeSounds.add(sound);
+  const baseVolume = options.volume ?? DEFAULT_VOLUME[name] ?? .46;
+  sound.volume = baseVolume * channelVolume;
+  activeSounds.set(sound, { channel, baseVolume });
   const release = () => activeSounds.delete(sound);
   sound.addEventListener('ended', release, { once: true });
   sound.addEventListener('error', release, { once: true });

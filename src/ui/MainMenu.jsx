@@ -14,9 +14,18 @@ export function MainMenuIcon() {
   </svg>;
 }
 
+const AUDIO_CONTROLS = [
+  ['action', 'Action effects', 'Placement, harvesting, trades, notes, rewards, and similar garden actions.'],
+  ['navigation', 'Navigation effects', 'Books, pages, Inventory, Shop, and Taskboard movement.'],
+  ['bgm', 'BGM', 'Background music playlist.'],
+  ['rune', 'Rune effects', 'Sounds made by hovering individual runes.'],
+  ['click', 'Click', 'Ordinary button confirmation and error clicks.'],
+];
+
 export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDeveloperToggle,
   developerTools, stagingEnabled, onStagingChange, stagedCount, simplifiedHexFills = false, onHexFillChange,
-  inspectorInFront = false, onInspectorLayerChange, onGuide, autosaveStatus, elapsed, onAdvance }) {
+  inspectorInFront = false, onInspectorLayerChange, audioSettings, onAudioChange,
+  onGuide, autosaveStatus, elapsed, onAdvance }) {
   const modal = useRef(null);
   useEffect(() => {
     const previous = document.activeElement;
@@ -36,6 +45,18 @@ export default function MainMenu({ onClose, onNewGarden, onLoad, onSave, onDevel
         <button onClick={onSave}>Save Game</button>
         <button aria-pressed={developerTools} onClick={onDeveloperToggle}>{developerTools ? 'Hide developer tools' : 'Display developer tools'}</button>
       </div>
+      <fieldset className="menu-setting audio-settings">
+        <legend>Sound</legend>
+        <p className="audio-settings-help">Each slider can be set to zero to mute that group.</p>
+        {AUDIO_CONTROLS.map(([id, label, hint]) => {
+          const percent = Math.round((audioSettings?.[id] ?? 1) * 100);
+          return <div className="audio-slider" key={id} title={hint}>
+            <label htmlFor={`audio-${id}`}><span>{label}</span><output htmlFor={`audio-${id}`}>{percent}%</output></label>
+            <input id={`audio-${id}`} type="range" min="0" max="100" step="5" value={percent}
+              aria-label={`${label} volume`} onChange={event => onAudioChange(id, Number(event.target.value) / 100)}/>
+          </div>;
+        })}
+      </fieldset>
       <div className="menu-setting staging-setting">
         <label><span>Stage plantings before applying</span><input type="checkbox" checked={stagingEnabled} disabled={stagedCount > 0}
           onChange={event => onStagingChange(event.target.checked)} aria-describedby="staging-setting-help"/></label>

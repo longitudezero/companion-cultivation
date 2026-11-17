@@ -23,6 +23,8 @@ import { HEX_SIZE, plantingPopoverPosition } from './ui/hex-model.js';
 import { restoreStagingPlan } from './ui/garden-model.js';
 import { blockerFilterText } from './ui/item-details.js';
 import { playUiSound } from './ui/ui-audio.js';
+import BgmPlayer from './ui/BgmPlayer.jsx';
+import { loadAudioSettings, updateAudioSettings } from './ui/audio-settings.js';
 import { art as grimoireArt } from './grimoire/art.js';
 import { BOOK_PAGE_KEY, restoreBookEntry } from './grimoire/book.js';
 import { FIELD_MANUAL_PAGE_KEY, restoreFieldManualEntry } from './field-manual/book.js';
@@ -134,6 +136,7 @@ export default function App() {
   const [shopCategory, setShopCategory] = useState('supplies');
   const [shopReturnEntry, setShopReturnEntry] = useState(null);
   const [showMainMenu, setShowMainMenu] = useState(false);
+  const [audioSettings, setAudioSettings] = useState(loadAudioSettings);
   const [simplifiedHexFills, setSimplifiedHexFills] = useState(() => {
     try { return localStorage.getItem('companion-cultivation:simplified-hex-fills') === 'true'; }
     catch { return false; }
@@ -205,6 +208,9 @@ export default function App() {
     const error = /cannot|invalid|not enough|full|failed|already|must|requires|choose/i.test(text);
     if (error) playUiSound('click-bad');
     setNoticeState({ text, id: ++noticeSerial.current, error });
+  }
+  function changeAudioVolume(channel, volume) {
+    setAudioSettings(previous => updateAudioSettings({ ...previous, [channel]: volume }));
   }
   useEffect(() => {
     if (!notice) return;
@@ -764,6 +770,7 @@ export default function App() {
   }
 
   return <div className="app-shell" style={{ '--inventory-width': `${inventoryWidth}px` }}>
+    <BgmPlayer volume={audioSettings.bgm}/>
     <input ref={fileInput} type="file" accept=".ccsave,.json,application/json" hidden aria-label="Choose a game save file" onChange={importGarden}/>
 
     <div className="workspace" inert={showMainMenu || bookModal || undefined}>
@@ -955,6 +962,7 @@ export default function App() {
       onDeveloperToggle={toggleDeveloperTools} developerTools={showDeveloperTools} stagingEnabled={stagingEnabled} stagedCount={stagedCount}
       simplifiedHexFills={simplifiedHexFills} onHexFillChange={setSimplifiedHexFills}
       inspectorInFront={inspectorInFront} onInspectorLayerChange={setInspectorInFront}
+      audioSettings={audioSettings} onAudioChange={changeAudioVolume}
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
     {showShop && <Shop garden={garden} onClose={closeShop} onTrade={tradeInShop}

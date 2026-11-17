@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "format": "Ogg Vorbis",
+  "sampleRate": 48000,
+  "playback": "random non-repeating playlist",
+  "tracks": [
+    { "file": "cozy-morning.ogg", "title": "Easy Cozy Morning", "durationSeconds": 596.72 },
+    { "file": "bamboo-flute.ogg", "title": "Guzheng and Bamboo Flute", "durationSeconds": 480.00 },
+    { "file": "calm-acoustic.ogg", "title": "Relaxing Calm Acoustic", "durationSeconds": 502.91 },
+    { "file": "rally-forest.ogg", "title": "Cinematic Rally Forest", "durationSeconds": 480.00 },
+    { "file": "fun-music.ogg", "title": "Fun Music", "durationSeconds": 547.74 }
+  ]
+}

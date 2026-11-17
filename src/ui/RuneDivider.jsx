@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { RUNE_DIVIDER_GLYPHS, runeHoverSound } from './rune-divider-audio.js';
+import { getAudioChannelVolume } from './audio-settings.js';
 
 const SOUND_VOLUME = .4;
 
@@ -22,9 +23,11 @@ export default function RuneDivider() {
 
   function playRune(event, index) {
     if (event.pointerType && event.pointerType !== 'mouse') return;
+    const channelVolume = getAudioChannelVolume('rune');
+    if (channelVolume <= 0) return;
     const sound = new Audio(runeHoverSound(index, import.meta.env?.BASE_URL || '/'));
     sound.preload = 'auto';
-    sound.volume = SOUND_VOLUME;
+    sound.volume = SOUND_VOLUME * channelVolume;
     activeSounds.current.add(sound);
     const release = () => activeSounds.current.delete(sound);
     sound.addEventListener('ended', release, { once: true });
