@@ -9,6 +9,7 @@ import GameArt, { GAME_ART, CornerOrnaments, TaskboardWindowOrnaments } from './
 import GuildHeader from './GuildHeader.jsx';
 import FloatingDust from './FloatingDust.jsx';
 import { TASK_SECTIONS, groupedTasks, taskSection, initialTaskSelection, taskProgress } from './taskboard-model.js';
+import { playUiSound } from './ui-audio.js';
 
 export function TaskboardIcon() { return <GameArt name="taskboard"/>; }
 
@@ -57,6 +58,11 @@ const reducedReceiptMotion = () => typeof window !== 'undefined'
   && Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
 
 function SealStamp({ onFinish }) {
+  useEffect(() => {
+    if (reducedReceiptMotion()) return undefined;
+    const timer = window.setTimeout(() => playUiSound('stamp'), 1180);
+    return () => window.clearTimeout(timer);
+  }, []);
   return <span className="receipt-stamp" aria-hidden="true"
     onAnimationEnd={event => { if (event.target === event.currentTarget) onFinish(); }}>
     <GameArt name="completionSealStamp"/>
@@ -140,7 +146,7 @@ export default function Taskboard({ garden, initialTaskId, onClose, onClaim, onP
   }
   function complete() {
     try { const awarded = onClaim(id); setReceipt(awarded); setError(''); }
-    catch (issue) { setError(issue.message); }
+    catch (issue) { playUiSound('click-bad'); setError(issue.message); }
   }
   function continueFromReceipt() {
     setReceipt(null);

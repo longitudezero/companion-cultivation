@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "format": "Ogg Vorbis",
+  "sampleRate": 48000,
+  "single": {
+    "buy": "buy.ogg",
+    "click-bad": "click-bad.ogg",
+    "click-good": "click-good.ogg",
+    "grimoire-open": "grimoire-open.ogg",
+    "harvest": "harvest.ogg",
+    "inventory-move": "inventory-move.ogg",
+    "note-save": "note-save.ogg",
+    "notification": "notification.ogg",
+    "pages-many": "pages-many.ogg",
+    "place-on-hex": "place-on-hex.ogg",
+    "pop": "pop.ogg",
+    "remove-from-hex": "remove-from-hex.ogg",
+    "sell": "sell.ogg",
+    "shop-close": "shop-close.ogg",
+    "shop-open": "shop-open.ogg",
+    "stamp": "stamp.ogg",
+    "task-complete": "task-complete.ogg"
+  },
+  "pools": {
+    "page-turn": [
+      "page-turn-01.ogg", "page-turn-02.ogg", "page-turn-03.ogg", "page-turn-04.ogg", "page-turn-05.ogg",
+      "page-turn-06.ogg", "page-turn-07.ogg", "page-turn-08.ogg", "page-turn-09.ogg", "page-turn-10.ogg"
+    ],
+    "taskboard-open": [
+      "taskboard-open-01.ogg", "taskboard-open-02.ogg", "taskboard-open-03.ogg", "taskboard-open-04.ogg",
+      "taskboard-open-05.ogg", "taskboard-open-06.ogg", "taskboard-open-07.ogg", "taskboard-open-08.ogg",
+      "taskboard-open-09.ogg", "taskboard-open-10.ogg", "taskboard-open-11.ogg"
+    ],
+    "taskboard-close": [
+      "taskboard-close-01.ogg", "taskboard-close-02.ogg", "taskboard-close-03.ogg", "taskboard-close-04.ogg",
+      "taskboard-close-05.ogg", "taskboard-close-06.ogg", "taskboard-close-07.ogg", "taskboard-close-08.ogg",
+      "taskboard-close-09.ogg", "taskboard-close-10.ogg"
+    ]
+  }
+}

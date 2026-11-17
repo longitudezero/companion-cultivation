@@ -7,6 +7,7 @@ import GuildBackButton from './GuildBackButton.jsx';
 import FloatingDust from './FloatingDust.jsx';
 import GameArt from './GameArt.jsx';
 import IllustratedButton from './IllustratedButton.jsx';
+import { playUiSound } from './ui-audio.js';
 
 export function ShopIcon() { return <GameArt name="shop"/>; }
 
@@ -60,7 +61,7 @@ export default function Shop({ garden, onClose, onTrade, initialCategory = 'supp
     try {
       const result = onTrade(mode, product.id, fixedQuantity(product) ? 1 : Number(quantity)); setReceipt(result); setError('');
       if (mode === 'sell' && result.owned === result.quantity) setQuantity('1');
-    } catch (issue) { setError(issue.message); setReceipt(null); }
+    } catch (issue) { playUiSound('click-bad'); setError(issue.message); setReceipt(null); }
   }
   return <div className="taskboard-backdrop shop-backdrop"><section className="taskboard-modal shop-modal" role="dialog" aria-modal="true" aria-label="Guild Shop" ref={modal}>
     <div className="shop-frame-vines" aria-hidden="true">

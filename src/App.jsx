@@ -22,6 +22,7 @@ import { inventoryWidthFor } from './ui/view-model.js';
 import { HEX_SIZE, plantingPopoverPosition } from './ui/hex-model.js';
 import { restoreStagingPlan } from './ui/garden-model.js';
 import { blockerFilterText } from './ui/item-details.js';
+import { playUiSound } from './ui/ui-audio.js';
 import { art as grimoireArt } from './grimoire/art.js';
 import { BOOK_PAGE_KEY, restoreBookEntry } from './grimoire/book.js';
 import { FIELD_MANUAL_PAGE_KEY, restoreFieldManualEntry } from './field-manual/book.js';
@@ -148,6 +149,7 @@ export default function App() {
   const [showTutorialReset, setShowTutorialReset] = useState(false);
   const [harvestReceipt, setHarvestReceipt] = useState(null), [harvestBursts, setHarvestBursts] = useState([]), [cameraRevision, setCameraRevision] = useState(0);
   const harvestSequence = useRef(0);
+  const previousReadyTasks = useRef(null);
   const fileInput = useRef(null);
   const simulation = useMemo(() => calculateEnvironment(garden), [garden]);
   const cultivation = useMemo(() => calculateCultivation(garden, simulation), [garden, simulation]);
@@ -200,8 +202,9 @@ export default function App() {
   });
 
   function setNotice(text) {
-    setNoticeState({ text, id: ++noticeSerial.current,
-      error: /cannot|invalid|not enough|full|failed|already|must|requires|choose/i.test(text) });
+    const error = /cannot|invalid|not enough|full|failed|already|must|requires|choose/i.test(text);
+    if (error) playUiSound('click-bad');
+    setNoticeState({ text, id: ++noticeSerial.current, error });
   }
   useEffect(() => {
     if (!notice) return;
@@ -222,6 +225,24 @@ export default function App() {
   }, [inspectorInFront]);
 
   useEffect(() => {
+    const click = event => {
+      const control = event.target.closest?.('button, [role="button"]');
+      if (!control || control.disabled || control.getAttribute('aria-disabled') === 'true') return;
+      playUiSound('click-good');
+    };
+    document.addEventListener('click', click, true);
+    return () => document.removeEventListener('click', click, true);
+  }, []);
+
+  useEffect(() => {
+    const ready = new Set(TASK_IDS.filter(id => taskStatus(garden, id) === 'ready'));
+    if (previousReadyTasks.current && [...ready].some(id => !previousReadyTasks.current.has(id))) {
+      playUiSound('notification');
+    }
+    previousReadyTasks.current = ready;
+  }, [garden.tasks]);
+
+  useEffect(() => {
     if (!harvestReceipt) return;
     const timer = window.setTimeout(() => setHarvestReceipt(null), 4000);
     return () => window.clearTimeout(timer);
@@ -232,6 +253,7 @@ export default function App() {
     setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowMainMenu(true);
   }
   function openGrimoire(entryKey = lastBookEntry) {
+    if (!showGrimoire) playUiSound('grimoire-open');
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowFieldManual(false);
     setBookEntry(entryKey); setBookRequest(value => value + 1); setShowGrimoire(true);
@@ -241,6 +263,7 @@ export default function App() {
     else openGrimoire();
   }
   function openFieldManual(entryKey = lastManualEntry) {
+    if (!showFieldManual) playUiSound('grimoire-open');
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowMainMenu(false); setShowTaskboard(false); setShowShop(false); setShowGuide(false); setShowGrimoire(false);
     setManualEntry(entryKey); setManualRequest(value => value + 1); setShowFieldManual(true);
@@ -250,20 +273,31 @@ export default function App() {
     else openFieldManual();
   }
   function openTaskboard(id = FIRST_TASK) {
+    if (!showTaskboard) playUiSound('taskboard-open');
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowShop(false); setTaskEntry(id); setShowTaskboard(true);
   }
+  function closeTaskboard() {
+    if (showTaskboard) playUiSound('taskboard-close');
+    setShowTaskboard(false);
+  }
   function openShop(category = 'supplies', entryKey = null) {
+    if (!showShop) playUiSound('shop-open');
     setShopCategory(['papers', 'bookmarks'].includes(category) ? category : 'supplies');
     setShopReturnEntry(entryKey);
     setShowMainMenu(false);
     dragCleanup.current?.(); setHeldItem(null); setQuantityPrompt(null);
     setShowTaskboard(false); setShowGuide(false); setShowShop(true);
   }
+  function closeShop() {
+    if (showShop) playUiSound('shop-close');
+    setShowShop(false);
+  }
   function tradeInShop(mode, id, quantity) {
     const result = tradeShop(gardenRef.current, mode, id, quantity);
     replaceGarden(result.garden);
+    playUiSound(mode === 'buy' ? 'buy' : 'sell');
     return result.receipt;
   }
   function startTutorial() {
@@ -280,11 +314,12 @@ export default function App() {
   }
   function completeTask(id) {
     replaceGarden(claimTask(gardenRef.current, id));
+    playUiSound('task-complete');
     return TASKS[id];
   }
   function inspectTaskHex(key) {
     setSelection({ type: 'hex', key });
-    setShowTaskboard(false);
+    closeTaskboard();
   }
   function discardItem(item) {
     if (!window.confirm(`Permanently discard ${item.name} from your Inventory?`)) return;
@@ -403,9 +438,11 @@ export default function App() {
         const next = stagePlanting(gardenRef.current, key, kind, species, quantity, heading);
         if (JSON.stringify(next.staged) !== JSON.stringify(gardenRef.current.staged || {})) rememberStaging(gardenRef.current.staged);
         replaceGarden(next);
+        playUiSound('place-on-hex');
         setNotice(`Staged ${quantity} ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} on hex ${key}. Press Apply when ready; no items spent yet.`);
       } else {
         if (!changeGarden(current => plantImmediately(current, key, kind, species, quantity, heading).garden)) return;
+        playUiSound('place-on-hex');
         setHeldItem(null);
         setNotice(`Planted ${quantity} ${species} ${kind === 'plant' ? 'Seeds' : 'Spores'} on hex ${key}. Germination has begun.`);
       }
@@ -425,6 +462,7 @@ export default function App() {
 
   function placePlayerBlocker(item, target) {
     if (!changeGarden(previous => placeBlockerItem(previous, item.id, target))) return;
+    playUiSound('place-on-hex');
     setSelection(target);
     setQuantityPrompt(null);
     if (!gardenRef.current.inventory.blockers[item.id]) {
@@ -440,7 +478,7 @@ export default function App() {
       return;
     }
     if (heldItem?.type === 'source-item') {
-      changeGarden(previous => placeSourceItem(previous, heldItem.id, key));
+      if (changeGarden(previous => placeSourceItem(previous, heldItem.id, key))) playUiSound('place-on-hex');
       if (!gardenRef.current.inventory.sourceItems?.[heldItem.id]) setHeldItem(null);
       return;
     }
@@ -460,12 +498,12 @@ export default function App() {
       openQuantityPrompt(key, isPlant ? 'plant' : 'fungus', isPlant ? chosenPlantSpecies : fungusSpecies, event);
       return;
     }
-    if (tool === 'plant') changeGarden((previous) => placeObject(previous, key, makePlant(plantSpecies)));
-    if (tool === 'fungus') changeGarden((previous) => placeObject(previous, key, makeFungus(fungusSpecies)));
-    if (tool === 'source') changeGarden((previous) => placeObject(previous, key, makeSource()));
-    if (tool === 'hex') changeGarden((previous) => placeObject(previous, key, makeBlocker()));
+    if (tool === 'plant' && changeGarden((previous) => placeObject(previous, key, makePlant(plantSpecies)))) playUiSound('place-on-hex');
+    if (tool === 'fungus' && changeGarden((previous) => placeObject(previous, key, makeFungus(fungusSpecies)))) playUiSound('place-on-hex');
+    if (tool === 'source' && changeGarden((previous) => placeObject(previous, key, makeSource()))) playUiSound('place-on-hex');
+    if (tool === 'hex' && changeGarden((previous) => placeObject(previous, key, makeBlocker()))) playUiSound('place-on-hex');
     if (tool === 'erase' && !playerBlockerDefinition(garden.objects[key])) {
-      changeGarden((previous) => removeObject(previous, key));
+      if (changeGarden((previous) => removeObject(previous, key))) playUiSound('remove-from-hex');
     }
   }
 
@@ -486,6 +524,7 @@ export default function App() {
       const harvested = object.type === 'plant' ? harvestPlant(current, key) : harvestFungus(current, key);
       const next = updateTaskProgress(reconcileTransformationClocks(harvested, current), current);
       replaceGarden(next);
+      playUiSound('harvest');
       const collected = harvestItems(current, next), id = ++harvestSequence.current, now = performance.now();
       setHarvestReceipt(previous => mergeHarvestReceipt(previous, collected, now, id));
       if (object.type === 'plant') {
@@ -532,7 +571,7 @@ export default function App() {
         return;
       }
       if (type === 'item' && slot != null) {
-        changeGarden(previous => moveInventoryStack(previous, payload.id, Number(slot)));
+        if (changeGarden(previous => moveInventoryStack(previous, payload.id, Number(slot)))) playUiSound('inventory-move');
       } else if (type === 'item' && payload.type === 'blocker-item' && (hex || edge)) {
         placePlayerBlocker(payload, edge ? { type: 'edge', id: edge.gardenEdge, a: edge.edgeA, b: edge.edgeB }
           : { type: 'hex', key: hex });
@@ -541,20 +580,22 @@ export default function App() {
           setSelection({ type: 'hex', key: hex });
           openQuantityPrompt(hex, payload.type === 'seed' ? 'plant' : 'fungus', payload.species, pointer);
         } else if (payload.type === 'source-item') {
-          changeGarden(previous => placeSourceItem(previous, payload.id, hex));
+          if (changeGarden(previous => placeSourceItem(previous, payload.id, hex))) playUiSound('place-on-hex');
           setSelection({ type: 'hex', key: hex });
           if (!gardenRef.current.inventory.sourceItems?.[payload.id]) setHeldItem(null);
         } else setNotice('Choose Seeds, Spores, a Source item or a Blocker to place it in the garden.');
       } else if (type === 'placed-blocker' && (hex || edge)) {
         const target = edge ? { type: 'edge', id: edge.gardenEdge, a: edge.edgeA, b: edge.edgeB }
           : { type: 'hex', key: hex };
-        if (changeGarden(previous => moveBlockerItem(previous, payload.target, target))) setSelection(target);
+        if (changeGarden(previous => moveBlockerItem(previous, payload.target, target))) {
+          playUiSound('place-on-hex'); setSelection(target);
+        }
       } else if (type === 'placed-blocker' && inventory) {
-        changeGarden(previous => pickupBlockerItem(previous, payload.target));
+        if (changeGarden(previous => pickupBlockerItem(previous, payload.target))) playUiSound('remove-from-hex');
       } else if (type === 'placed-item' && inventory) {
-        changeGarden(previous => pickupSourceItem(previous, payload.key));
+        if (changeGarden(previous => pickupSourceItem(previous, payload.key))) playUiSound('remove-from-hex');
       } else if (type === 'placed-item' && hex && hex !== payload.key) {
-        changeGarden(previous => moveSourceItem(previous, payload.key, hex));
+        if (changeGarden(previous => moveSourceItem(previous, payload.key, hex))) playUiSound('place-on-hex');
         if (gardenRef.current.objects[hex]?.itemId === payload.itemId) setSelection({ type: 'hex', key: hex });
       } else if (type === 'organism' && inventory) {
         harvestAt(payload.key);
@@ -779,7 +820,7 @@ export default function App() {
         <div className="garden-surface"><div className="surface-topline"><span><span className="surface-led"/> LIVE SIMULATION</span><span>{garden.columns * garden.rows} HEXES <span className="separator">·</span> 6 NEIGHBORS / HEX</span></div>
           <GardenCamera key={cameraRevision} harvestReceipt={harvestReceipt} harvestBursts={harvestBursts}
             onHarvestBurstComplete={id => setHarvestBursts(previous => previous.filter(burst => burst.id !== id))}
-            controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => setInventoryOpen(value => !value)}>Inventory · {items.length}/{inventoryCapacity(garden)}</button></>}
+            controls={<><SimulationControls speed={clock.speed} onChange={clock.setSpeed}/><button className="inventory-toggle" aria-expanded={inventoryOpen} onClick={() => { playUiSound('pop'); setInventoryOpen(value => !value); }}>Inventory · {items.length}/{inventoryCapacity(garden)}</button></>}
             tracker={<TaskTracker garden={garden} onInspect={inspectTaskHex} onOpen={openTaskboard} onToggleCollapsed={() => changeGarden(previous => ({ ...previous,
               tasks: { ...previous.tasks, trackerCollapsed: !previous.tasks.trackerCollapsed } }))}/>}
             world={gridDimensions(garden)} notice={notice} onInterruptDrag={() => dragCleanup.current?.()}><HexGrid garden={garden} simplifiedHexFills={simplifiedHexFills} plantingPreview={quantityPrompt} blockerPlacement={blockerToPlace} simulation={simulation} mycelialSupport={mycelialSupport} tool={tool} selection={selection} onHexClick={onHexClick} onEdgeClick={onEdgeClick}
@@ -803,12 +844,12 @@ export default function App() {
 
       <aside className={`garden-inventory ${inventoryOpen ? 'is-open' : ''}`} aria-label="Garden inventory">
         <InventoryResizer width={inventoryWidth} onResize={setInventoryWidth}/>
-        <button className="inventory-close" onClick={() => setInventoryOpen(false)}>Close inventory</button>
+        <button className="inventory-close" onClick={() => { playUiSound('pop'); setInventoryOpen(false); }}>Close inventory</button>
         <InventoryGrid items={items} capacity={inventoryCapacity(garden)} onDiscard={discardItem} activePage={inventoryPage} onPageChange={setInventoryPage} stagingEnabled={stagingEnabled}
           heldId={heldItem?.id} ledger={garden.grimoire} dragging={Boolean(dragGhost) || bookModal || showGuide || showTaskboard || showShop || showMainMenu} onItemPointerDown={(item, event) => startPointerDrag('item', item, event)}
           reservedForHeld={heldItem && ['seed', 'spore'].includes(heldItem.type) ? reservedStock(garden, heldItem.type === 'seed' ? 'plant' : 'fungus', heldItem.species) : 0}
           onChooseItem={(item) => setHeldItem(heldItem?.id === item.id ? null : item)}
-          onChooseSlot={(slot) => { if (heldItem) changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot)); }}
+          onChooseSlot={(slot) => { if (heldItem && changeGarden(previous => moveInventoryStack(previous, heldItem.id, slot))) playUiSound('inventory-move'); }}
           onPageHover={(page) => { if (dragRef.current?.type === 'item' && dragRef.current.moving) setInventoryPage(page); }}/>
       </aside>
       <RuneDivider/>
@@ -816,8 +857,8 @@ export default function App() {
       <GardenInspector garden={garden} selection={selection} simulation={simulation} cultivation={cultivation} mycelialHere={mycelialHere}
         onOpenEntry={openSpeciesEntry} clockFraction={clock.fraction} simulationSpeed={clock.speed} onEditStaged={() => openQuantityPrompt(selection.key, selectedStaged.kind, selectedStaged.species, null, selectedStaged.quantity)}
         onUnstage={() => changeStaging(previous => unstagePlanting(previous, selection.key))} onRotate={rotateSelectedHex}
-        onReturnSource={() => changeGarden(previous => pickupSourceItem(previous, selection.key))}
-        onReturnBlocker={() => changeGarden(previous => pickupBlockerItem(previous, selection))}/>
+        onReturnSource={() => { if (changeGarden(previous => pickupSourceItem(previous, selection.key))) playUiSound('remove-from-hex'); }}
+        onReturnBlocker={() => { if (changeGarden(previous => pickupBlockerItem(previous, selection))) playUiSound('remove-from-hex'); }}/>
       <nav className="inspector-navigation" aria-label="Garden navigation">
         <button className="main-menu-launcher" onClick={openMainMenu} title="Open main menu" aria-label="Open main menu"><MainMenuIcon/></button>
         <button className="grimoire-launcher" onClick={toggleGrimoire} title={`${showGrimoire ? 'Close' : 'Open'} Cultivation Grimoire`}
@@ -850,7 +891,7 @@ export default function App() {
                   <div className="heading-buttons">{STARTING_DIRECTIONS.map((direction, heading) => <button key={direction} aria-label={`Face ${direction}`}
                     className={selectedObject.heading === heading ? 'selected' : ''} onClick={() => rotateSelectedHex(selection.key, 'item', heading)}>{heading + 1}</button>)}</div>
                 </>}
-                <button onClick={() => changeGarden(previous => pickupSourceItem(previous, selection.key))}>↧ Return item to inventory</button>
+                <button onClick={() => { if (changeGarden(previous => pickupSourceItem(previous, selection.key))) playUiSound('remove-from-hex'); }}>↧ Return item to inventory</button>
               </div> : showDeveloperTools ? <><div className="source-config"><label>Source type<select aria-label="Source type" value={selectedObject.anchor ? 'anchored' : 'regular'} onChange={(event) => updateSourceType(event.target.value)}><option value="regular">Regular Source</option><option value="anchored">Anchored Source</option></select></label>
                 {selectedObject.anchor && <><div className="field-pair"><label>Anchored Property<select aria-label="Anchored Property" value={selectedObject.anchor.property} onChange={(event) => updateSourceAnchor('property', event.target.value)}>{PROPERTIES.map((property) => <option key={property}>{property}</option>)}</select></label><label>Anchored Condition<select aria-label="Anchored Condition" value={selectedObject.anchor.condition} onChange={(event) => updateSourceAnchor('condition', event.target.value)}>{CONDITIONS[selectedObject.anchor.property].map((condition) => <option key={condition}>{condition}</option>)}</select></label></div><div className="anchor-summary">◆ {selectedObject.anchor.property} stays {selectedObject.anchor.condition} on this hex.</div></>}
               </div>
@@ -916,10 +957,10 @@ export default function App() {
       inspectorInFront={inspectorInFront} onInspectorLayerChange={setInspectorInFront}
       onStagingChange={setStagingEnabled} onGuide={() => { setShowMainMenu(false); setShowGuide(true); }} autosaveStatus={autosaveStatus}
       elapsed={formatRealDuration(garden.clockHours || 0)} onAdvance={advanceTime}/>}
-    {showShop && <Shop garden={garden} onClose={() => setShowShop(false)} onTrade={tradeInShop}
+    {showShop && <Shop garden={garden} onClose={closeShop} onTrade={tradeInShop}
       initialCategory={shopCategory} onOpenGrimoire={() => openGrimoire(shopReturnEntry || lastBookEntry)}/>}
     {showTaskboard && <Taskboard garden={garden} onInspect={inspectTaskHex} initialTaskId={taskEntry}
-      onClose={() => setShowTaskboard(false)} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
+      onClose={closeTaskboard} onClaim={completeTask} onPin={id => changeGarden(previous => toggleTaskPin(previous, id))}
       onRequestTutorial={requestTutorial} onInspectCarrot={inspectCarrot}/>}
     {showTutorialReset && <TutorialResetDialog onCancel={() => setShowTutorialReset(false)} onConfirm={startTutorial}/>}
     {showGrimoire && <CultivationGrimoire garden={garden} developerTools={showDeveloperTools} initialEntryKey={bookEntry}

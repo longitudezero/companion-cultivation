@@ -1,0 +1,57 @@
+Companion Cultivation UI audio
+================================
+
+Source
+------
+These recordings were supplied directly by the project owner in:
+H:\Downloads\Longitude Zero\DungeonLand\Farming minigame\sound\UI
+
+Their use in Companion Cultivation and the edits below were explicitly approved
+in the project conversation on 2026-11-17. No separate licence file was supplied.
+
+Processing
+----------
+All game copies are 48 kHz Ogg Vorbis (quality 5). Short fades were added at
+clip boundaries to prevent clicks. Original recordings remain untouched.
+
+- buying.mp3: retained the first event only (0.00-1.35 s).
+- page-turning.wav: split into ten independent page turns at
+  0.000-0.400, 1.390-2.020, 2.520-3.200, 3.820-4.450,
+  5.140-5.880, 7.230-7.840, 8.410-8.990, 9.820-10.370,
+  11.220-11.780, and 12.240-12.736 s.
+- pencil writing.wav: retained seconds 2, 3, and 4 (2.00-5.00 s).
+- shop open and close.wav: opening is 0.52-3.18 s; closing is 5.50-8.20 s.
+- remove item from hex.flac: resampled from 11.025 kHz and given a 0.04 s
+  silent fade tail so its unusually short stream closes cleanly in browsers.
+- taskboard.mp3: split into all 21 events in source order. Odd events are the
+  eleven opening variants; even events are the ten closing variants.
+
+Taskboard event ranges in source order:
+0.08-0.70, 1.38-2.08, 2.80-3.55, 4.23-4.55, 5.20-5.87,
+6.80-7.60, 8.64-8.95, 9.45-10.14, 11.01-11.66, 12.88-13.55,
+14.51-15.30, 17.18-17.87, 19.25-19.88, 21.77-22.45,
+24.04-24.69, 27.03-27.80, 29.88-30.58, 32.94-33.68,
+34.83-36.10, 37.35-38.10, and 39.99-40.85 s.
+
+Source integrity
+----------------
+The original source SHA-256 values are recorded below.
+
+buying.mp3  EBBA3064809E96000A5CC0BC161A905FF8DDA9041852427AD3FE43259A012463
+click-bad.wav  463D3A206172EB0646869BC49AA67C9A16D0A259CE6F275A5DCF4787E3B92E6C
+click-good.wav  140ADB8F7597FA1B01A0144D975821A5E2B4D1D07B65663578DD8B81CF0A82E8
+harvest.wav  6AB5C6A03F73C7056DE01E63894053F2BFEB2F6A971EC6A9F5B3035A38720D8C
+move item in inventory - from one slot to another.wav  213075F9AFFEE1E263B39C675CFF5BEC5287135CEF2010EB0A99ABCCEF188A70
+notification.mp3  FB8BFB7BCB1773F02F00C913DBF6FBEB12F49D3C6AAD81D448F634672AAB8830
+open grimoire.mp3  E10F1CC51317CB6B635510CA6A8FCAAAEDE438D4DABE219218BBAA1EDC1BC69F
+page-turning.wav  3C835E2C9C49DA576406A3164DF889D2E2C1481106CB340C3132C6082FD56912
+pages many.mp3  2AF7A226F6F03D35314C045C24564C02CF78F7315D9D11BA39AC1F47A6995044
+pencil writing.wav  6E372FC226097613C5557BEE74550F6DB9B83C2E5B56E7982FD82907A3072581
+place on hex.wav  0B0B30D8B415BB4FA049AB422276371B07EA0273482F2D4186D3736FF968CF75
+pop.ogg  BFBD551569A14E60728C91E4B5B5100A2B33F3BB647C71407C84EA5C7F17F362
+remove item from hex.flac  80B06C0F2660A79609E106809D0FB459B3BC7F44B03AB872FEA1529878D64C0E
+selling.wav  5CD95FAF43060644ECE933D4E5A51CBAF0874734906C76548273C77DAB897747
+shop open and close.wav  0D26EC6E7D75C220623D86D05A0D9B6BB7C01C417EDAFDB0D61F1B4BDD3918E0
+stamp.wav  3BEB601BF5D37A06A240B87222B09A17026093B5AC40216783C9AD0D53EC2650
+task complete.wav  DBF3172AA77C9CF383F9FECA69FB6D824037A6CBFB60950E54577814FA78A25A
+taskboard.mp3  B2DCADD2D176DABF8B8D8AA266815E1D42132F74E0B0E10D07D4B9A77D0006A4

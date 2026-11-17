@@ -5,6 +5,7 @@ import { createJournal, normalizeJournal, pageNotes, writeNote, removeNote, mark
 import { BOOK_ENTRIES, entryName } from './book.js';
 import { Paper } from './NotePaper.jsx';
 import { MarkerPreview } from './PageMarkers.jsx';
+import { playUiSound } from '../ui/ui-audio.js';
 export { Paper, paperStyle } from './NotePaper.jsx';
 export { GrimoireNote, StaticPageNotes, NoteDeleteDialog } from './GrimoireNotes.jsx';
 export { PersonalBookmarks } from './PageMarkers.jsx';
@@ -21,9 +22,16 @@ function NoteEditor({ journal, entry, side, noteId, onChange, onClose, onShop, o
   const [text, setText] = useState(note?.text || ''), [paperId, setPaperId] = useState(note?.paperId || journal.papers[0] || '');
   const [rotation, setRotation] = useState(note?.rotation ?? -2), [scale, setScale] = useState(note?.scale ?? 1);
   const [error, setError] = useState(''), [removing, setRemoving] = useState(false);
-  function apply(fn) { try { if (onChange(fn) !== false) onClose(); } catch (issue) { setError(issue.message); } }
+  function apply(fn, sound = null) {
+    try {
+      if (onChange(fn) !== false) {
+        if (sound) playUiSound(sound);
+        onClose();
+      }
+    } catch (issue) { playUiSound('click-bad'); setError(issue.message); }
+  }
   return <>
-    {journal.papers.length ? <form onSubmit={event => { event.preventDefault(); apply(garden => writeNote(garden, entry.key, side, text, paperId, noteId, { rotation, scale })); }}>
+    {journal.papers.length ? <form onSubmit={event => { event.preventDefault(); apply(garden => writeNote(garden, entry.key, side, text, paperId, noteId, { rotation, scale }), 'note-save'); }}>
       <div className="cg-note-composer">
         <div className="cg-note-fields"><label htmlFor="cg-note-text">Your field note</label>
           <textarea id="cg-note-text" value={text} maxLength={NOTE_LIMIT} rows={6} placeholder="What have you discovered?"

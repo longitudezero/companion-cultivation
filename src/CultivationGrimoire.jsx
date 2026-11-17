@@ -15,6 +15,7 @@ import { TurningPersonalMarkers } from './grimoire/PageMarkers.jsx';
 import { travellingMarkers, layoutPageMarkers } from './grimoire/stationery-model.js';
 import { BookCoordinates, BookViewControls, useBookCoordinates, useBookView } from './grimoire/BookView.jsx';
 import { BOOK_VIEW_KEY, pageMarginHit, TABLETOP_STYLE } from './grimoire/book-view.js';
+import { playUiSound } from './ui/ui-audio.js';
 import './grimoire.css';
 import './stationery.css';
 import './stationery-refinements.css';
@@ -146,9 +147,11 @@ export default function CultivationGrimoire({ garden, onClose, developerTools = 
 
   const navigate = useCallback(key => {
     const to = entries.findIndex(entry => entry.key === key);
+    if (busy || to < 0 || to === nav.current) return;
     window.getSelection()?.removeAllRanges();
+    playUiSound(Math.abs(to - nav.current) === 1 ? 'page-turn' : 'pages-many');
     dispatch({ type: 'navigate', to, reduced: Boolean(reducedMotionQuery()?.matches) });
-  }, [entries]);
+  }, [busy, entries, nav.current]);
   useEffect(() => { onEntryChange?.(entries[nav.target].key); }, [nav.target, onEntryChange, entries]);
   useEffect(() => {
     if (previousRequest.current === entryRequest) return;
