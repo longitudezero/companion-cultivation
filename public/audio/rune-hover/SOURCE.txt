@@ -1,0 +1,6 @@
+Source archive: rune_hover_OGG.zip
+Archive SHA-256: 4B92ECDCD324BB97FBBE4643E4AFED1FAD829D7CDBE34E44E42AC733A70B1F24
+Admitted: 2026-11-17
+Provenance: supplied directly by the project owner for inclusion in Companion Cultivation.
+Archive contents verified: 352 numbered OGG one-shots, README.txt, and a matching 352-row manifest.csv.
+License note: the supplied archive contains no separate license file.
